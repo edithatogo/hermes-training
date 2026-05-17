@@ -102,3 +102,5 @@ hermes-training/                          # Hub — orchestrator docs live here
 | `REQUIREMENTS.md` | Complete MoSCoW requirements specification |
 | `DESIGN.md` | Architecture with Mermaid diagrams |
 | `CONTRACTS.md` | Interface contracts between pipeline stages |
+| `NEW_MODEL_WORKFLOW.md` | Step-by-step guide for adding new models |
+| `FUTURE_MODELS.md` | Research notes on subquadratic/long-context model candidates |
