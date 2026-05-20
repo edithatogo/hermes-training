@@ -59,6 +59,7 @@ Current gaps:
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
 - Qwen3 4B smoke training/evaluation is complete as a local MLX proof. It trained for 10 iterations / 2,889 tokens with final validation loss 2.386 and peak memory 3.944 GB; base and adapter both passed the response-collapse gate. See `gemma4/eval/qwen3-4b-smoke-summary.md`.
 - Qwen3 4B MLX adapter runtime smoke passed through an OpenAI-compatible `mlx_lm.server` endpoint. See `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md`.
+- Qwen3 4B fused safetensors export exists under `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke`. Ollama experimental import succeeded into `/Volumes/PortableSSD/ollama-models`, but `/v1/chat/completions` failed with an Ollama MLX runner panic, so Ollama is not a validated runtime for this Qwen3 package yet.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Last check showed about 51 GiB free on `/` and about 660 GiB free on `/Volumes/PortableSSD`.
 
 ## Next Actions
@@ -72,7 +73,7 @@ Current gaps:
 7. Decide whether to keep smoke datasets and eval JSONL outputs in Git or move generated data out of future commits.
 8. Use Qwen3 4B as the next local MLX candidate; use Hermes 4 and Qwen3.6 as runtime baselines/teachers before local fine-tunes.
 9. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` before using it in Hermes.
-10. Add runtime latency capture and GGUF export only after a publishable adapter exists.
+10. Treat Ollama/LM Studio as pending until a stable Qwen3 GGUF converter or Ollama safetensors runtime path is proven. MLX server is the current validated local runtime.
 
 ## Key Files
 

@@ -77,6 +77,10 @@ Read-only quota inspection for `australiaeast` shows zero quota for the modern G
 
 The subscription has small legacy `Standard NC Family` and `Standard NV Family` quotas, but those are not the target path for current Hermes benchmark/teacher work. Use `templates/azure/quota-request.md` before creating compute.
 
+Additional read-only quota scan on 2026-05-21 checked `australiaeast`, `australiasoutheast`, `eastus`, `westus3`, `swedencentral`, `southcentralus`, `uksouth`, and `westeurope`. All sampled regions showed zero quota for `NCASv3_T4`, `NCADS_A100_v4`, `NCadsH100v5`, `NDSH100v5`, and `NCADSA10v4`. `NVSv4` showed a small limit of 2 vCPUs in sampled regions, but that is not the target path for training or teacher evaluation.
+
+Decision: do not create Azure ML compute until a quota request is approved for a current GPU family. Prioritize low-cost T4/A10-class capacity before A100/H100.
+
 ## Skeleton Templates
 
 - `templates/azure/benchmark-job.yaml`
