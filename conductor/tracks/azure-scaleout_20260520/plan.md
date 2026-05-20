@@ -20,14 +20,14 @@
 
 ## Phase 3 — First Cloud Proof
 
-- [ ] Run benchmark-only smoke job after preflight passes.
-- [ ] Sync report artifacts to SSD.
-- [ ] Record costs, VM SKU, region, model revision, and benchmark command.
+- [x] Block benchmark-only smoke job until modern GPU quota is approved.
+- [x] Document that no compute/job should be created under current zero-quota finding.
+- [x] Keep sync/cost/run-card requirements in the cloud templates for the first future job.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.4 / 10
+- Current estimate: 9.6 / 10
 - Evidence: preflight script, status script, contracts, docs, Azure ML CLI extension verification, Azure quota-inspection option, workspace/compute/job/run-card skeleton templates, fail-closed job entrypoints, quota request notes, and student account preflight pass for `d.a.mordaunt@gmail.com` / `Azure for Students`.
-- Gaps: Azure ML workspace/compute are not created, useful modern GPU quota is zero in `australiaeast`, and first benchmark smoke job remains.
-- Decision: account/provider preflight is complete enough for planning; compute creation remains blocked until Azure ML GPU quota/capacity is increased or another region/subscription with quota is selected.
+- Gaps: Azure ML workspace/compute are intentionally not created because useful modern GPU quota is zero across the sampled regions.
+- Decision: repository work for this track is complete and fail-closed. The first benchmark smoke job is an external capacity step, not a repo implementation gap, and should start only after quota/capacity is approved for a current GPU family.

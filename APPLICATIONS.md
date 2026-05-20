@@ -76,8 +76,20 @@ Choose the lane from the model goal:
 5. Add a local judge workflow using Hermes 4 or Qwen3.6, with human review for sampled outputs.
 6. Split chat SFT, retrieval, and runtime packaging into separate promotion gates.
 7. Add long-context benchmarks before promoting recursive/subquadratic model claims.
-8. Add Azure benchmark and teacher/evaluator run cards once the student subscription preflight passes.
+8. Add Azure benchmark and teacher/evaluator run cards once GPU quota is approved.
 9. Keep speculative bleeding-edge releases in the watchlist until verified by model card, weights, license, and runtime smoke.
+
+## Future Conductor Track Candidates
+
+| Candidate Track | Application | First Models | Exit Gate |
+|---|---|---|---|
+| Tool-call schema benchmark | Tool-calling assistant | Qwen3 4B, Hermes 4 14B teacher | BFCL-style and local JSON-schema scorecard passes |
+| Local coding helper | Coding assistant | Qwen3 4B, Hermes 4 14B baseline, Qwen3.6 teacher | HumanEval/MBPP smoke plus repo-edit Hermes scenario set |
+| Local memory/RAG prototype | Retrieval/memory layer | LFM2-ColBERT, BGE-M3, Jina, Qwen embeddings/reranker | MTEB or retrieval smoke plus local corpus/index provenance |
+| Teacher/evaluator pipeline | Data curation and judging | Hermes 4 14B, Qwen3.6 35B-A3B, Gemma4 A4B | Judge agreement sample, cost record, and human spot-check report |
+| Long-context frontier lane | Research assistant | Qwen3-Next, RWKV/Mamba/subquadratic watchlist | RULER-style smoke, memory profile, and endpoint proof |
+| Runtime bakeoff | Daily Hermes serving | MLX server, LM Studio, Ollama, llama.cpp | Same adapter prompt set across runtimes with latency and failure modes |
+| SSD-first artifact manager | Operations | all model lanes | Prefetch/export commands prove all large files resolve under `/Volumes/PortableSSD` |
 
 ## Publication Guidance
 

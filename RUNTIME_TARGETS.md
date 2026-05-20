@@ -18,6 +18,7 @@ The project should not bet on one serving tool. The acceptance target is: a fine
    - Most portable local path.
    - Required when LM Studio compatibility matters.
    - Use `Q4_K_M` by default for 8B-ish models on 32GB; consider `Q5_K_M` only after memory checks.
+   - For Qwen3 MLX adapters, use a dequantized fused export before llama.cpp conversion when the source model is an MLX 4-bit checkpoint.
 
 4. **MLX server**
    - Fastest Mac-first fallback for MLX-compatible models and adapters.
@@ -44,6 +45,22 @@ The local `/Users/doughnut/GitHub/ollama` tree includes newer support that shoul
 ## Runtime Card Template
 
 Use [`templates/runtime/runtime-card.md`](./templates/runtime/runtime-card.md) for every runtime or model run card. The card should capture the exact runtime, model, command, endpoint, smoke prompt, result, and limitations.
+
+## Current Qwen3 Runtime Finding
+
+The Qwen3 4B smoke adapter now has three distinct runtime findings:
+
+- MLX server is validated through the OpenAI-compatible `/v1/models` and `/v1/chat/completions` endpoints.
+- A dequantized fused export converted successfully to GGUF with llama.cpp, and the `Q4_K_M` GGUF responds correctly through `llama-completion`.
+- Ollama is not yet validated for this Qwen3 package. Experimental safetensors import crashes at chat time, and GGUF import drops the Ollama daemon during model creation on this machine.
+
+Artifacts stay on the external SSD:
+
+- Fused dequantized model: `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/merged-dequantized`
+- F16 GGUF: `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf`
+- Q4_K_M GGUF: `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`
+
+Use LM Studio or direct llama.cpp as the next GGUF validation path before treating Ollama as ready for Qwen3.
 
 ## Endpoint Smoke Matrix
 

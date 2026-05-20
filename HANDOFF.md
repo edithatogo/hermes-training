@@ -18,12 +18,14 @@ The hub root tracks the model repos as Git submodules. `.gitmodules` has been ad
 
 ## Repo Hygiene Status
 
-Current working trees are dirty in the hub root and nested track repos. The current verified state is:
+The hub and nested repos were cleaned, committed, and pushed before the latest runtime/documentation pass. Treat the current working tree as the source of truth and check status before committing:
 
-- Hub root: dirty, with maintenance docs and repo-structure files added or edited.
-- `gemma4/`: dirty; tracked edits in `.gitignore`, `CONDUCTOR.md`, `README.md`, `scripts/build_dataset.py`, `scripts/run_train.sh`, `scripts/train.py`; untracked `conductor/`, `data/splits/valid.jsonl`, `scripts/train_config.gemma4-26b-a4b.experimental.yaml`, `scripts/train_config.hermes4-14b.experimental.yaml`, `scripts/train_config.qwen3-4b.smoke.yaml`, `scripts/train_config.qwen3.6-35b-a3b.experimental.yaml`.
-- `lfm2/`: dirty; tracked edits in `.gitignore`, `CONDUCTOR.md`, `README.md`, `scripts/build_dataset.py`, `scripts/run_train.sh`, `scripts/train.py`; untracked `conductor/`, `data/splits/valid.jsonl`, `scripts/train_config.lfm25-1.2b-instruct.smoke.yaml`, `scripts/train_config.lfm25-1.2b-instruct.yaml`, `scripts/train_config.lfm25-1.2b-thinking.yaml`.
-- `ollama-pack/`: dirty; tracked edits in `CONDUCTOR.md`, `README.md`; untracked `conductor/`, `modelfiles/LFM-Hermes.Modelfile`, `modelfiles/Qwen3-Hermes.Modelfile`, `scripts/create_experimental_safetensors.sh`, `scripts/runtime_smoke.sh`.
+```bash
+git status --short
+git -C gemma4 status --short
+git -C lfm2 status --short
+git -C ollama-pack status --short
+```
 
 Do not modify nested repos just to clean the hub. Treat these as separate commit/push units and record pointer changes only after the nested commit exists on the remote.
 
@@ -45,7 +47,7 @@ Complete:
 - Runtime docs cover Ollama launcher, experimental safetensors, GGUF, MLX, LM Studio, and KTransformers.
 - Model radar includes Qwen3.6, Hermes 4, Gemma 4 A4B, LFM2.5, LFM2-ColBERT, Qwen3-Next, BitNet, BGE-M3, Jina embeddings, and watchlist entries for RWKV/Mamba-style families.
 - Platform abstraction is now explicit: Mac/MLX is the local lane, Azure is the scale-out lane, retrieval is separate from chat SFT, and specialist runtimes require proof.
-- Azure preflight exists at `scripts/azure_preflight.py`; it now passes for `d.a.mordaunt@gmail.com` on `Azure for Students`.
+- Azure preflight exists at `scripts/azure_preflight.py`; it now passes for `d.a.mordaunt@gmail.com` on `Azure for Students`. Modern GPU quota is zero across sampled regions, so the Azure track is fail-closed until quota is approved.
 
 Current gaps:
 
@@ -60,20 +62,24 @@ Current gaps:
 - Qwen3 4B smoke training/evaluation is complete as a local MLX proof. It trained for 10 iterations / 2,889 tokens with final validation loss 2.386 and peak memory 3.944 GB; base and adapter both passed the response-collapse gate. See `gemma4/eval/qwen3-4b-smoke-summary.md`.
 - Qwen3 4B MLX adapter runtime smoke passed through an OpenAI-compatible `mlx_lm.server` endpoint. See `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md`.
 - Qwen3 4B fused safetensors export exists under `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke`. Ollama experimental import succeeded into `/Volumes/PortableSSD/ollama-models`, but `/v1/chat/completions` failed with an Ollama MLX runner panic, so Ollama is not a validated runtime for this Qwen3 package yet.
+- Qwen3 4B dequantized fused export and GGUF conversion are complete on the SSD:
+  - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/merged-dequantized`
+  - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf`
+  - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`
+- The Q4_K_M GGUF passed direct `llama-completion` validation and returned `{"ok": true}`. Ollama GGUF import failed because the daemon dropped during model creation, so LM Studio/direct llama.cpp is the next GGUF runtime path.
+- Populated publication drafts for the Qwen3 smoke run exist in `reports/publication/qwen3-4b-smoke/`.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Last check showed about 51 GiB free on `/` and about 660 GiB free on `/Volumes/PortableSSD`.
 
 ## Next Actions
 
-1. Commit/push the nested track repos in this order: `gemma4`, `lfm2`, then `ollama-pack`.
-2. Update the hub root only after the nested repo commits are pushed, so the submodule pointers reference remote-visible SHAs.
-3. Retry Qwen3 4B with a valid `HF_TOKEN` or prefetch the model into `/Volumes/PortableSSD/huggingface`.
-4. Confirm Azure ML GPU quota/capacity for the target region before creating compute.
-5. Use the non-spending Azure job templates for a benchmark-only smoke job only after quota/capacity is confirmed.
-6. Start a safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
-7. Decide whether to keep smoke datasets and eval JSONL outputs in Git or move generated data out of future commits.
-8. Use Qwen3 4B as the next local MLX candidate; use Hermes 4 and Qwen3.6 as runtime baselines/teachers before local fine-tunes.
-9. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` before using it in Hermes.
-10. Treat Ollama/LM Studio as pending until a stable Qwen3 GGUF converter or Ollama safetensors runtime path is proven. MLX server is the current validated local runtime.
+1. Validate the Qwen3 Q4_K_M GGUF in LM Studio and record the OpenAI-compatible smoke result.
+2. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
+3. Confirm Azure ML GPU quota/capacity before creating any workspace compute or submitting benchmark jobs.
+4. Use the non-spending Azure job templates for a benchmark-only smoke job only after quota/capacity is confirmed.
+5. Start a safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
+6. Use Qwen3 4B as the next local MLX candidate; use Hermes 4 and Qwen3.6 as runtime baselines/teachers before local fine-tunes.
+7. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` before using it in Hermes.
+8. Do not publish the Qwen3 smoke adapter as a quality artifact; the publication drafts exist to show provenance shape only.
 
 ## Key Files
 

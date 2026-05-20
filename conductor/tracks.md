@@ -10,7 +10,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Azure scale-out preflight and benchmark lane
+## [x] Track: Azure scale-out preflight and benchmark lane
 *Link: [./tracks/azure-scaleout_20260520/](./tracks/azure-scaleout_20260520/)*
 
 ---
@@ -25,7 +25,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Benchmark and publication hardening
+## [x] Track: Benchmark and publication hardening
 *Link: [./tracks/benchmark-publication_20260520/](./tracks/benchmark-publication_20260520/)*
 
 ---
@@ -40,10 +40,10 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Runtime packaging and Hermes validation
+## [x] Track: Runtime packaging and Hermes validation
 *Link: [./tracks/runtime-packaging_20260520/](./tracks/runtime-packaging_20260520/)*
 
 ---
 
-## [ ] Track: Applications roadmap and model-use expansion
+## [x] Track: Applications roadmap and model-use expansion
 *Link: [./tracks/applications-roadmap_20260520/](./tracks/applications-roadmap_20260520/)*
