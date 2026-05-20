@@ -1,0 +1,9 @@
+[submodule "gemma4"]
+	path = gemma4
+	url = https://github.com/edithatogo/hermes-gemma-lab.git
+[submodule "lfm2"]
+	path = lfm2
+	url = https://github.com/edithatogo/hermes-lfm2-lab.git
+[submodule "ollama-pack"]
+	path = ollama-pack
+	url = https://github.com/edithatogo/hermes-ollama-pack.git

@@ -111,6 +111,56 @@ seed: integer                    # Random seed (default: 42)
 
 ---
 
+## Contract 3A: Model Radar Platform Entry
+
+**Producer:** `MODEL_CANDIDATES.yaml`
+**Consumer:** Conductor tracks, benchmark plans, runtime packaging
+
+Every model entry must declare `role`, `environment`, and `feasibility` so local Mac work remains constrained and cloud/specialist work is explicit.
+
+Allowed roles:
+
+- `local-finetune`
+- `local-runtime`
+- `cloud-teacher`
+- `cloud-finetune`
+- `retrieval`
+- `research-runtime`
+- `watchlist`
+
+Allowed environments:
+
+- `mac-mlx`
+- `mac-ollama`
+- `mac-lmstudio`
+- `azure-cuda`
+- `hf-transformers`
+- `retrieval`
+- `specialist-runtime`
+
+Watchlist or speculative entries cannot be used for training or publication claims until promoted.
+
+**Contract ID:** MODEL-RADAR-001
+
+---
+
+## Contract 3B: Azure Scale-Out Preflight
+
+**Producer:** `scripts/azure_preflight.py`
+**Consumer:** Azure benchmark/training tracks
+
+Before any Azure compute or job submission:
+
+- active user must match the intended Azure account unless overridden
+- subscription must be enabled
+- Azure ML CLI extension must be present
+- SSD artifact root must exist
+- cost policy must be recorded as Spot/low-priority, max one GPU job, scale to zero by default
+
+**Contract ID:** AZURE-PREFLIGHT-001
+
+---
+
 ## Contract 4: LoRA Adapter Output
 
 **Producer:** `train.py`
@@ -178,6 +228,213 @@ seed: integer                    # Random seed (default: 42)
 - `latency_s` must be measured from model call to response received (not including tokenization)
 
 **Contract ID:** EVAL-001
+
+---
+
+## Contract 5A: Retrieval Contrastive JSONL
+
+**Producer:** retrieval dataset curation or retriever mining jobs
+**Consumer:** retriever training, hard-negative mining, offline similarity checks
+
+**Schema:**
+```json
+{
+  "id": "string (unique identifier)",
+  "anchor": {
+    "id": "string",
+    "text": "string",
+    "source_id": "string",
+    "chunk_id": "string (optional)"
+  },
+  "positive": {
+    "id": "string",
+    "text": "string",
+    "source_id": "string",
+    "chunk_id": "string (optional)"
+  },
+  "negatives": [
+    {
+      "id": "string",
+      "text": "string",
+      "source_id": "string",
+      "chunk_id": "string (optional)",
+      "hard_negative": "boolean (optional, default: true)"
+    }
+  ],
+  "metadata": {
+    "domain": "string",
+    "scenario": "string",
+    "split": "string (one of: train, val, test)",
+    "language": "string (optional)"
+  }
+}
+```
+
+**Constraints:**
+- Each JSONL line is exactly one triplet-style retrieval example
+- `anchor.text` and `positive.text` must not be identical
+- `negatives` must contain at least 1 item
+- At least one negative SHOULD be a hard negative when available
+- Anchors must be query-like; positives must be the retrieved target passage or passage span
+- Do not include chat-role transcripts or assistant turns in this file
+- Do not mix labels from different retrieval tasks in a single line unless the `metadata.scenario` explicitly describes a multi-task example
+- Examples must be chunked before serialization if the source passage exceeds the model context window
+
+**File location:** `data/retrieval/{train,val,test}.jsonl`
+
+**Contract ID:** RETRIEVAL-JSONL-001
+
+---
+
+## Contract 5B: Hermes Memory and RAG Eval Scenarios
+
+**Producer:** benchmark curation, manual test authoring, or scenario synthesis jobs
+**Consumer:** retriever eval harnesses, Hermes memory regression tests, run cards
+
+**Schema:**
+```json
+{
+  "id": "string (unique identifier)",
+  "scenario": "string (one of: memory_recall, doc_grounded_qa, multi_hop_retrieval, preference_update, recency_conflict, source_attribution, tool_state_recall, distractor_resistance)",
+  "query": "string",
+  "context": [
+    {
+      "id": "string",
+      "text": "string",
+      "kind": "string (one of: gold, distractor, hard_negative, prior_memory)"
+    }
+  ],
+  "expected": {
+    "answer_summary": "string",
+    "required_citations": ["string"],
+    "must_use_context": "boolean"
+  },
+  "metadata": {
+    "split": "string (one of: train, val, test)",
+    "source": "string",
+    "language": "string (optional)"
+  }
+}
+```
+
+**Constraints:**
+- Each scenario must test retrieval or memory grounding, not open-ended chat fluency
+- Every scenario must include at least 1 gold context item and at least 1 distractor or hard negative when relevant
+- `required_citations` must name the source ids expected in a grounded answer
+- `must_use_context` SHOULD be true for grounded memory and RAG checks
+- Scenario sets must include recency-sensitive cases where a newer memory overrides an older one
+- Scenario sets must include at least one multi-hop case and one source-attribution case before publication claims are made
+
+**Contract ID:** RETRIEVAL-EVAL-001
+
+---
+
+## Contract 5C: MTEB and Retrieval Benchmark Command Shape
+
+**Producer:** benchmark scripts or run-card generation
+**Consumer:** local evaluation runs, publication reports, model cards
+
+**Shape:**
+```bash
+source scripts/env.sh
+mteb run \
+  -m <model_id_or_path> \
+  -t "<retrieval_task_or_benchmark>" \
+  --output-folder "$HERMES_EVAL_ROOT/mteb/<run-id>"
+```
+
+**Constraints:**
+- The command must target retrieval or embedding tasks only when run for the retrieval lane
+- Record the exact `mteb` version, model revision, task list, and output folder in the run card
+- Limited-sample or engineering runs must be labeled as such and must not be published as benchmark scores
+- If a custom task filter is needed, the Python API may use `mteb.get_tasks(task_types=["Retrieval"])`
+
+**Contract ID:** RETRIEVAL-MTEB-001
+
+---
+
+## Contract 5D: Local Vector Store and Retriever Serving Shape
+
+**Producer:** retriever indexing jobs and local serving wrappers
+**Consumer:** Hermes runtime, local memory/RAG tests, publication run cards
+
+**Decision:**
+- Default local store: SSD-backed FAISS index for dense retrieval plus SQLite metadata for corpus lineage and chunk provenance
+- Late-interaction models such as ColBERT may use their own on-disk index artifacts, but they MUST present the same retriever API
+- Indexes must be rebuildable from the corpus manifest and model hash
+
+**Service shape:**
+```http
+GET /health
+POST /retrieve
+```
+
+**`POST /retrieve` request:**
+```json
+{
+  "query": "string",
+  "top_k": 5,
+  "mode": "string (one of: dense, hybrid, late_interaction)",
+  "filters": {
+    "source_ids": ["string"]
+  }
+}
+```
+
+**`POST /retrieve` response:**
+```json
+{
+  "query": "string",
+  "index_id": "string",
+  "model_id": "string",
+  "latency_ms": 0,
+  "results": [
+    {
+      "rank": 1,
+      "doc_id": "string",
+      "chunk_id": "string",
+      "source_id": "string",
+      "score": 0.0,
+      "text": "string",
+      "citation": "string"
+    }
+  ]
+}
+```
+
+**Constraints:**
+- The service MUST return citation-ready ids for every retrieved item
+- The service MUST be deterministic for a fixed corpus manifest, model hash, and index hash
+- Hermes must call retrieval as a separate tool/service step, not through chat SFT adapters
+- The retriever MUST expose a simple health check so smoke tests can verify the index is loaded
+
+**Contract ID:** RETRIEVER-SERVICE-001
+
+---
+
+## Contract 5E: Retriever Card Publication Guidance
+
+**Producer:** model cards, dataset cards, run cards, and release notes
+**Consumer:** GitHub release pages, Hugging Face cards, human reviewers
+
+**Required publication fields:**
+- retriever role and lane
+- model family and revision
+- index type and rebuild command
+- corpus provenance and license notes
+- benchmark commands and task list
+- retrieval metrics such as Recall@k, nDCG@10, and MRR@10 where applicable
+- latency and throughput notes
+- known limitations and unsupported corpus types
+
+**Constraints:**
+- Publish code, configs, benchmark definitions, run cards, and small summary tables
+- Do not publish raw private corpora, user prompts, or proprietary embeddings
+- Do not claim chat SFT gains from a retriever card
+- State clearly whether the artifact is a dense encoder, reranker, or late-interaction retriever
+- The card must match the corpus digest and index hash used for the published numbers
+
+**Contract ID:** RETRIEVER-CARD-001
 
 ---
 

@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/amlCompute.schema.json
+name: hermes-lowpri-t4
+type: amlcompute
+size: STANDARD_NC4AS_T4_V3
+min_instances: 0
+max_instances: 1
+idle_time_before_scale_down: 120
+tier: low_priority
+description: >-
+  Cost-first single-node T4 Azure ML compute for Hermes benchmark smoke runs.
+  Create only after Azure ML quota/capacity is confirmed.
+tags:
+  project: hermes-training
+  lane: azure-cuda
+  cost_policy: spot-low-priority
+  max_instances: "1"

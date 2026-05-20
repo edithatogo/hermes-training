@@ -1,0 +1,215 @@
+# Machine-readable model radar for Hermes-agent model lanes.
+# Update with: python3 scripts/check_model_candidates.py
+
+updated: "2026-05-21"
+project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
+local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
+
+candidates:
+  - id: Qwen/Qwen3.6-35B-A3B
+    family: qwen
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "35B total / 3B active"
+    architecture: "Sparse MoE, multimodal, Qwen3.5 MoE family"
+    license: apache-2.0
+    first_runtime: "LM Studio or Ollama GGUF; KTransformers only after local proof"
+    first_finetune: "defer; smoke adapter only after memory proof"
+    notes: "Use as teacher/evaluator before attempting local training; keep LM Studio/Ollama/GGUF paths as needs-runtime-proof until a Mac smoke exists."
+
+  - id: NousResearch/Hermes-4-14B
+    family: hermes
+    tier: baseline-teacher
+    role: cloud-teacher
+    environment: mac-ollama
+    feasibility: needs-runtime-proof
+    parameters: "14B dense"
+    architecture: "Qwen3 14B fine-tune, hybrid reasoning/tool mode"
+    license: "check model card before derivative publishing"
+    first_runtime: "Ollama or LM Studio GGUF if available; Transformers fallback"
+    first_finetune: "defer"
+    notes: "Primary baseline for Hermes-style behavior; treat GGUF/FP8/community quant paths as needs-runtime-proof until a smoke result exists."
+
+  - id: google/gemma-4-26B-A4B-it
+    family: gemma
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "26B total / 4B active"
+    architecture: "Sparse MoE, multimodal Gemma 4"
+    license: apache-2.0
+    first_runtime: "Ollama/LM Studio GGUF or Transformers"
+    first_finetune: "experimental smoke only"
+    notes: "Validate memory and tool-call stability before training; keep any on-device quant path as needs-runtime-proof."
+
+  - id: Qwen/Qwen3-4B-MLX-4bit
+    family: qwen
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: needs-auth
+    parameters: "4B"
+    architecture: "Dense transformer, MLX quantized"
+    license: "check model card"
+    first_runtime: "MLX server"
+    first_finetune: "MLX-LM LoRA"
+    notes: "Best first local Hermes adapter target."
+
+  - id: LiquidAI/LFM2.5-1.2B-Instruct
+    family: lfm
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: ready
+    parameters: "1.2B"
+    architecture: "LFM2 hybrid architecture"
+    license: "check model card"
+    first_runtime: "MLX or GGUF"
+    first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
+    notes: "Low-latency Hermes helper candidate; official card already points to MLX and GGUF-style local paths."
+
+  - id: LiquidAI/LFM2.5-1.2B-Thinking
+    family: lfm
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: ready
+    parameters: "1.2B"
+    architecture: "LFM2 hybrid architecture"
+    license: "check model card"
+    first_runtime: "MLX or GGUF"
+    first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
+    notes: "Reasoning helper candidate; official card already points to MLX and GGUF-style local paths."
+
+  - id: LiquidAI/LFM2-8B-A1B
+    family: lfm
+    tier: experimental-finetune
+    role: local-runtime
+    environment: mac-ollama
+    feasibility: needs-runtime-proof
+    parameters: "8B-ish / low active parameter count"
+    architecture: "LFM2 hybrid/MoE-style architecture"
+    license: "check model card"
+    first_runtime: "Ollama/GGUF"
+    first_finetune: "MLX or LEAP after runtime proof"
+    notes: "Local Ollama tree has LFM2 converter work."
+
+  - id: LiquidAI/LFM2-ColBERT-350M
+    family: embeddings
+    tier: retrieval
+    role: retrieval
+    environment: retrieval
+    feasibility: needs-runtime-proof
+    parameters: "350M"
+    architecture: "LFM2 ColBERT late-interaction retriever"
+    license: "check model card"
+    first_runtime: "PyLate / sentence-transformers path"
+    first_finetune: "contrastive retriever tuning, not SFT"
+    notes: "Use for Hermes memory/RAG rather than chat generation; retrieval smoke should come before any benchmark claim."
+
+  - id: Qwen/Qwen3-Next-80B-A3B-Instruct
+    family: qwen-next
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "80B total / 3B active"
+    architecture: "Qwen3-Next hybrid attention + linear attention MoE"
+    license: apache-2.0
+    first_runtime: "runtime proof only"
+    first_finetune: "defer"
+    notes: "Important subquadratic watchlist item, not a 32GB fine-tune target; runtime experiment only until a Mac or specialist-runtime proof exists."
+
+  - id: microsoft/bitnet-b1.58-2B-4T
+    family: bitnet
+    tier: research-finetune
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "1.58-bit ternary transformer"
+    license: mit
+    first_runtime: "BitNet runtime"
+    first_finetune: "BitLoRA/QVAC-style path after proof"
+    notes: "Promising memory direction; not core Hermes track yet. Keep native BitNet runtime support as needs-runtime-proof."
+
+  - id: jinaai/jina-embeddings-v4
+    family: embeddings
+    tier: retrieval
+    role: retrieval
+    environment: retrieval
+    feasibility: needs-runtime-proof
+    parameters: "embedding model"
+    architecture: "Multilingual multimodal embedding/reranking family"
+    license: "check model card"
+    first_runtime: "sentence-transformers or Transformers"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Candidate for Hermes memory/RAG lane, not chat SFT; keep retrieval runtime proof on the FlagEmbedding/sentence-transformers path."
+
+  - id: Qwen/Qwen3-Embedding-4B
+    family: embeddings
+    tier: retrieval
+    role: retrieval
+    environment: retrieval
+    feasibility: needs-runtime-proof
+    parameters: "4B"
+    architecture: "Qwen3 embedding model for text retrieval"
+    license: "check model card"
+    first_runtime: "sentence-transformers or Transformers embedding path"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Practical Qwen retrieval candidate for 32GB-class local evaluation; verify batching/runtime before making retrieval claims."
+
+  - id: Qwen/Qwen3-Reranker-4B
+    family: reranker
+    tier: retrieval
+    role: retrieval
+    environment: retrieval
+    feasibility: needs-runtime-proof
+    parameters: "4B"
+    architecture: "Qwen3 cross-encoder reranker"
+    license: "check model card"
+    first_runtime: "sentence-transformers CrossEncoder or Transformers"
+    first_finetune: "reranker fine-tuning only"
+    notes: "Use after dense retrieval to improve Hermes memory precision; do not treat as a chat model."
+
+  - id: BAAI/bge-m3
+    family: embeddings
+    tier: retrieval
+    role: retrieval
+    environment: retrieval
+    feasibility: ready
+    parameters: "568M"
+    architecture: "Dense/sparse/multi-vector embedding model"
+    license: mit
+    first_runtime: "FlagEmbedding or sentence-transformers"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Strong practical baseline for retrieval before riskier frontier embedding models; treat as retrieval-only, not a chat quantization target."
+
+  - id: BlinkDL/rwkv-7-world
+    family: rwkv
+    tier: research-runtime
+    role: watchlist
+    environment: specialist-runtime
+    feasibility: speculative
+    parameters: "varies by checkpoint"
+    architecture: "Recurrent/linear-time language model family"
+    license: "check checkpoint"
+    first_runtime: "RWKV runtime"
+    first_finetune: "defer"
+    notes: "Track recurrent long-context potential; promote only after checkpoint/runtime verification."
+
+  - id: state-spaces/mamba-3-watchlist
+    family: mamba
+    tier: research-runtime
+    role: watchlist
+    environment: specialist-runtime
+    feasibility: speculative
+    parameters: "varies"
+    architecture: "State-space/subquadratic language model family"
+    license: "check release"
+    first_runtime: "native Mamba-family runtime"
+    first_finetune: "defer"
+    notes: "Placeholder for verified Mamba-3 or subquadratic releases; do not train until weights and runtime are verified."

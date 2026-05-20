@@ -9,6 +9,21 @@
 ## 1. Pipeline Architecture
 
 ```mermaid
+flowchart TD
+    GOAL[Hermes-agent model capability] --> MAC[Mac local lane]
+    GOAL --> AZURE[Azure scale-out lane]
+    GOAL --> RETR[Retrieval memory lane]
+    GOAL --> SPEC[Specialist runtime lane]
+
+    MAC --> MLX[MLX LoRA / MLX server]
+    MAC --> OLL[Ollama / LM Studio]
+    AZURE --> BENCH[standard benchmarks]
+    AZURE --> TEACH[teacher and evaluator runs]
+    RETR --> MTEB[MTEB / ColBERT evals]
+    SPEC --> RULER[RULER and runtime proof]
+```
+
+```mermaid
 flowchart LR
     subgraph Data["Data Layer (SSD)"]
         HF[(HuggingFace Hub)]

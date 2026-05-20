@@ -1,0 +1,9 @@
+mlx
+mlx-lm
+huggingface_hub
+transformers
+datasets
+pyyaml
+requests
+safetensors
+numpy

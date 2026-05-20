@@ -1,0 +1,19 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv
+.venv/
+venv/
+
+# Local-only model artifacts.
+*.gguf
+*.safetensors
+models/
+outputs/
+checkpoints/
+
+# Training/eval output should be published intentionally, not accidentally.
+**/experiments/
+**/exports/ollama/
+**/eval/results/
+**/eval/*.html

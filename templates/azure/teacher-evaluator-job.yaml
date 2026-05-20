@@ -1,0 +1,46 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+
+name: azure-teacher-evaluator-skeleton
+display_name: Azure teacher/evaluator skeleton
+experiment_name: hermes-azure-scaleout
+description: >-
+  Skeleton teacher/evaluator job for Azure scale-out. Keep the target compute
+  pre-created, Spot/low-priority, min_instances: 0, max_instances: 1, and keep
+  artifacts staged for later download to /Volumes/PortableSSD.
+
+tags:
+  lane: azure-cuda
+  cost_policy: spot-low-priority
+  min_instances: "0"
+  max_instances: "1"
+  local_artifact_root: /Volumes/PortableSSD
+  teacher_models: "Hermes 4, Qwen3.6, Gemma"
+
+code: ../../
+command: >-
+  python scripts/run_teacher_evaluator.py
+  --reference_model "${{inputs.reference_model}}"
+  --candidate_model "${{inputs.candidate_model}}"
+  --task_set "${{inputs.task_set}}"
+  --dry-run
+  --output_dir "${{outputs.results}}"
+
+environment: azureml:<precreated-teacher-environment@latest>
+compute: azureml:<precreated-spot-or-low-priority-gpu-compute>
+
+inputs:
+  reference_model:
+    type: string
+    default: NousResearch/Hermes-4-14B
+  candidate_model:
+    type: string
+    default: Qwen/Qwen3.6-35B-A3B
+  task_set:
+    type: string
+    default: teacher-evaluator
+
+outputs:
+  results:
+    type: uri_folder
+    mode: rw_mount

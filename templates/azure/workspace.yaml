@@ -1,0 +1,12 @@
+$schema: https://azuremlschemas.azureedge.net/latest/workspace.schema.json
+name: hermes-ml-lab
+display_name: Hermes ML Lab
+description: >-
+  Azure ML workspace for Hermes-agent benchmark and teacher/evaluator scale-out.
+  Create only after provider registration and cost review.
+location: australiaeast
+tags:
+  project: hermes-training
+  lane: azure-cuda
+  cost_policy: preflight-required
+  owner: d.a.mordaunt@gmail.com

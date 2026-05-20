@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/amlCompute.schema.json
+name: hermes-lowpri-a100
+type: amlcompute
+size: STANDARD_NC24ADS_A100_V4
+min_instances: 0
+max_instances: 1
+idle_time_before_scale_down: 120
+tier: low_priority
+description: >-
+  Optional A100 Azure ML compute for larger teacher/evaluator runs.
+  Create only after explicit quota/capacity confirmation and cost review.
+tags:
+  project: hermes-training
+  lane: azure-cuda
+  cost_policy: spot-low-priority
+  max_instances: "1"

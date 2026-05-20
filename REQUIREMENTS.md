@@ -1,96 +1,67 @@
 # Requirements — Hermes Training Hub
 
-> **Method:** MoSCoW (Must, Should, Could, Won't)
-> **Scope:** Multi-model Hermes-style fine-tuning on MacBook Pro M1 Max (32GB RAM)
-> **Status:** Active
+> **Scope:** Adapt, benchmark, serve, and publish Hermes-ready bleeding-edge models across local Mac, cloud, retrieval, and specialist-runtime lanes.
+> **Status:** Active scaffold. GitHub exists; Hugging Face publication and trained adapters are not complete yet.
 
----
-
-## M — Must Have
-
-These are non-negotiable. The system is incomplete without them.
+## Must Have
 
 | ID | Requirement | Track | Verification |
-|----|-------------|-------|-------------|
-| M1 | Reproducible MLX LoRA training pipeline | gemma4, lfm2 | `train.py --dry-run` exits 0 |
-| M2 | Download real Hermes datasets from Nous Research | gemma4, lfm2 | `download_hermes_dataset.py` produces non-empty `data/splits/` |
-| M3 | Train on Hermes-3-Dataset + hermes-function-calling-v1 | gemma4, lfm2 | Training completes without error |
-| M4 | Save LoRA adapter weights to `experiments/{model}/lora_adapter/` | gemma4, lfm2 | `adapters.safetensors` and `adapter_config.json` exist |
-| M5 | Export trained model to Ollama (GGUF format) | ollama-pack | `ollama list` shows the model |
-| M6 | Model is selectable in Hermes model picker | ollama-pack | Hermes config resolves custom:ollama provider |
-| M7 | All code lives in GitHub repos with clean git history | hub | `git push` succeeds, `git log` shows commits |
-| M8 | Dataset pipeline deduplicates conversations by hash | gemma4, lfm2 | `build_dataset.py --dedup` removes exact duplicates |
-| M9 | Training runs on Apple Silicon via MLX | gemma4, lfm2 | Script uses `mlx` backend, not CUDA |
-| M10 | Models/datasets download to portable SSD | hub | `HF_HOME=/Volumes/PortableSSD/...` set on all downloads |
-| M11 | Conductor system documents tracks, requirements, design, contracts | hub | Files exist: CONDUCTOR.md, REQUIREMENTS.md, DESIGN.md, CONTRACTS.md |
+|---|---|---|---|
+| M1 | Reproducible Apple Silicon environment | hub, all tracks | `python -c "import mlx, mlx_lm"` succeeds inside `.venv` |
+| M2 | Real Hermes dataset downloader with configurable size profiles | all training tracks | smoke/pilot/full profile produces non-empty splits |
+| M3 | MLX LoRA training pipeline | all training tracks | `scripts/train.py --config ... --dry-run` and a smoke train pass |
+| M4 | Adapter artifacts saved outside Git history | all training tracks | `adapters.safetensors` and `adapter_config.json` exist under `experiments/` |
+| M5 | Evaluation gate before publish | all training tracks | base-vs-adapter report covers tool calls, JSON, multi-turn, coding, refusal |
+| M6 | Hugging Face publication path | all training tracks | `hf upload` publishes adapter card + adapter files to private repo |
+| M7 | Tool-agnostic runtime packaging | ollama-pack | at least one path works: MLX server, Ollama safetensors, Ollama GGUF, LM Studio GGUF |
+| M8 | Hermes launch validation | ollama-pack | `ollama launch hermes` sees the model through `/v1/models` |
+| M9 | GitHub remotes are current | hub, all tracks | `git status -sb` clean and `main...origin/main` has no ahead commits |
+| M10 | Model cache uses external SSD | all tracks | `HF_HOME` and `HF_HUB_CACHE` point at `/Volumes/PortableSSD/huggingface` |
+| M11 | Platform lanes separate purpose from environment | hub | `PLATFORM_LANES.md` and Conductor docs classify every model path |
+| M12 | Azure preflight gates cloud work | hub | `scripts/azure_preflight.py` passes before compute or job submission |
 
-## S — Should Have
-
-Important but not blocking. The system works without these but is significantly better with them.
+## Should Have
 
 | ID | Requirement | Track | Priority |
-|----|-------------|-------|----------|
-| S1 | Side-by-side eval comparison (base vs fine-tuned) | gemma4, lfm2 | HIGH |
-| S2 | Bakeoff harness for pre-training model selection | gemma4 | HIGH |
-| S3 | Push adapter + dataset to HuggingFace Hub | gemma4, lfm2 | MEDIUM |
-| S4 | HTML report generation from eval results | gemma4, lfm2 | MEDIUM |
-| S5 | Training on both Hermes datasets (instruction + function-calling) | gemma4, lfm2 | MEDIUM |
-| S6 | At least 500 training conversations per model | gemma4, lfm2 | MEDIUM |
-| S7 | llama.cpp built and ready for GGUF conversion | ollama-pack | HIGH (done) |
-| S8 | Training runs at least 20 iterations as smoke test | gemma4, lfm2 | HIGH (in progress) |
-| S9 | Gemma 4 E4B-it model cached on SSD | gemma4 | HIGH (in progress) |
-| S10 | LFM2-8B-A1B model cached on SSD | lfm2 | HIGH (in progress) |
+|---|---|---|---|
+| S1 | Qwen3 4B Hermes track | future/qwen | HIGH |
+| S2 | Qwen3.6 35B-A3B runtime track | future/qwen36 | HIGH |
+| S3 | Hermes 4 14B baseline/evaluator track | future/hermes4 | HIGH |
+| S4 | Gemma 4 26B-A4B runtime track | future/gemma4-26b | HIGH |
+| S5 | LFM2/LFM2.5 Hermes track | lfm2 | HIGH |
+| S6 | Automated runtime smoke tests for OpenAI-compatible `/v1/chat/completions` | ollama-pack | HIGH |
+| S7 | Dataset quality filters for tool-call XML/JSON validity | all training tracks | HIGH |
+| S8 | Leaderboard across base vs fine-tuned vs runtime target | hub | MEDIUM |
+| S9 | Model cards include exact base revision, dataset profile, commit SHA, eval summary | all training tracks | HIGH |
+| S10 | Multiple quantization outputs where runtime supports them | ollama-pack | MEDIUM |
+| S11 | KTransformers/LEAP/Unsloth feasibility notes with local smoke results | hub | MEDIUM |
+| S12 | Qwen3-Next, Mamba-3, RWKV-7, BitNet research watchlist | future/subquadratic | MEDIUM |
+| S13 | Retrieval/memory lane for embedding and reranker models | future/retrieval | HIGH |
 
-## C — Could Have
-
-Desirable but not essential. Only pursue after all M and S requirements are met.
+## Could Have
 
 | ID | Requirement | Track | Value |
-|----|-------------|-------|-------|
-| C1 | Train more models (Ministral 3 8B, Qwen3 4B, Qwen2.5 7B, Llama 3.1 8B) | future | HIGH |
-| C2 | Automated eval leaderboard across all trained models | hub | MEDIUM |
-| C3 | Multi-run training with different hyperparameters | gemma4, lfm2 | MEDIUM |
-| C4 | Preference tuning (DPO/ORPO) on top of LoRA SFT | gemma4, lfm2 | HIGH |
-| C5 | Quantization-aware training (Q-LoRA) | gemma4, lfm2 | MEDIUM |
-| C6 | CI pipeline for training on GitHub Actions | hub | LOW |
-| C7 | Docker image with pre-built environment | hub | LOW |
-| C8 | Web dashboard for training progress | hub | LOW |
-| C9 | Periodic re-training on updated Hermes datasets | gemma4, lfm2 | MEDIUM |
-| C10 | Export to multiple quantization levels (Q4_K_M, Q5_K_M, Q8_0) | ollama-pack | MEDIUM |
+|---|---|---|---|
+| C1 | Preference tuning after SFT | future | HIGH |
+| C2 | DFlash/speculative decoding runtime notes where Ollama MLX supports them | ollama-pack | MEDIUM |
+| C3 | LM Studio import metadata for GGUF builds | ollama-pack | MEDIUM |
+| C4 | Private HF dataset version tags per dataset profile | hub | MEDIUM |
+| C5 | Automated nightly model radar from Hugging Face API | hub | LOW |
 
-## W — Won't Have (this iteration)
-
-Explicitly out of scope. Keeps the project focused.
+## Won't Have For This Iteration
 
 | ID | Requirement | Reason |
-|----|-------------|--------|
-| W1 | Full model pre-training from scratch | Requires 100+ GPUs. Not feasible on Mac. |
-| W2 | CUDA/ROCm-based training | Apple Silicon only. MLX is the right backend. |
-| W3 | Distributed/multi-node training | Single MacBook Pro. No network of machines. |
-| W4 | Custom dataset collection/generation | Rely on existing Hermes datasets. |
-| W5 | Web UI for the training pipeline | CLI-first. Terminal tools are sufficient. |
-| W6 | Fine-tuning models larger than 10B params | M1 Max 32GB cannot load 16B+ models for training. |
-| W7 | Real-time training metrics dashboard | Logs + checkpoint files are sufficient. |
-| W8 | A/B testing framework for model variants | Manual comparison via compare.py is enough. |
+|---|---|---|
+| W1 | Full pretraining from scratch | Not feasible on one M1 Max. |
+| W2 | Unguarded CUDA/ROCm training | Use Azure/CUDA only after account, quota, and cost preflight. |
+| W3 | Treating large models as local fine-tune targets by default | Use runtime, teacher, or cloud lanes until memory proof exists. |
+| W4 | Treat smoke-test adapters as publishable models | They validate plumbing only. |
+| W5 | Assume every experimental architecture is Ollama/LM Studio ready | Runtime support must be verified per architecture. |
 
-## Requirements Traceability Matrix
+## Current Gap Summary
 
-```
-┌──────────────────────┬──────────┬──────────┬──────────────┐
-│ Requirement          │ gemma4   │ lfm2     │ ollama-pack  │
-├──────────────────────┼──────────┼──────────┼──────────────┤
-│ M1 MLX LoRA pipeline │ ✅ done  │ ✅ done  │              │
-│ M2 Download dataset  │ 🔄 active│ ✅ done  │              │
-│ M3 Train on Hermes   │ 🔄 queue │ 📋 planned│              │
-│ M4 Save adapter      │ 🔄 queue │ 📋 planned│              │
-│ M5 Export to Ollama  │          │          │ ✅ script    │
-│ M6 Hermes picker     │          │          │ 📋 planned   │
-│ M7 GitHub repos      │ ✅ done  │ ✅ done  │ ✅ done      │
-│ M8 Dataset dedup     │ ✅ done  │ ✅ done  │              │
-│ M9 Apple Silicon MLX │ ✅ done  │ ✅ done  │              │
-│ M10 SSD caching      │ 🔄 active│ 🔄 active│              │
-│ M11 Conductor system │ 🔄 active│ 📋 planned│ 📋 planned  │
-└──────────────────────┴──────────┴──────────┴──────────────┘
-
-Legend: ✅ complete | 🔄 in progress | 📋 planned
-```
+- `mlx_lm` is not installed in the current shell, so training dry-runs fail until the environment is bootstrapped.
+- Current data splits are smoke scale, roughly 460 training conversations per model.
+- No local adapter artifacts were found under `experiments/`.
+- Hugging Face repos are not created yet.
+- The hub has nested Git repos but no `.gitmodules`; do not rely on `git submodule` until this is resolved.

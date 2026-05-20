@@ -1,0 +1,41 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+
+name: azure-benchmark-skeleton
+display_name: Azure benchmark skeleton
+experiment_name: hermes-azure-scaleout
+description: >-
+  Skeleton benchmark job for Azure scale-out. Keep the target compute
+  pre-created, Spot/low-priority, min_instances: 0, max_instances: 1, and
+  treat /Volumes/PortableSSD as the local artifact root for downloaded results.
+
+tags:
+  lane: azure-cuda
+  cost_policy: spot-low-priority
+  min_instances: "0"
+  max_instances: "1"
+  local_artifact_root: /Volumes/PortableSSD
+
+code: ../../
+command: >-
+  python scripts/run_benchmark.py
+  --model_id "${{inputs.model_id}}"
+  --suite "${{inputs.benchmark_suite}}"
+  --dry-run
+  --output_dir "${{outputs.results}}"
+
+environment: azureml:<precreated-benchmark-environment@latest>
+compute: azureml:<precreated-spot-or-low-priority-gpu-compute>
+
+inputs:
+  model_id:
+    type: string
+    default: NousResearch/Hermes-4-14B
+  benchmark_suite:
+    type: string
+    default: lm-eval-harness
+
+outputs:
+  results:
+    type: uri_folder
+    mode: rw_mount
