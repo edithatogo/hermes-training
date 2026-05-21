@@ -55,7 +55,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist
+## [x] Track: Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist
 *Link: [./tracks/qwen36-runtime-proof_20260522/](./tracks/qwen36-runtime-proof_20260522/)*
 
 ---

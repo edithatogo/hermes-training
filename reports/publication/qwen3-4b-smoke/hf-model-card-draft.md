@@ -69,10 +69,10 @@
 
 - GitHub commit: pending next hub commit
 - Hugging Face repo: not created
-- Human review status: blocked until strict local tool-call benchmark passes
+- Human review status: blocked until `benchmarks/tool_call_local/heldout_suite.json` passes at `1.000`
 - Publication gate status: BLOCKED
 - Publish-readiness checklist: [publish-readiness-checklist.md](./publish-readiness-checklist.md)
-- Tool-call benchmark blocker: the current smoke adapter is not eligible for publication until the strict local tool-call benchmark passes
+- Tool-call benchmark blocker: the current smoke adapter is not eligible for publication until the held-out strict local tool-call benchmark passes at `1.000`
 
 ## Citation
 

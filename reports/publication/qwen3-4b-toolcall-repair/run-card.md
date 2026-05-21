@@ -46,4 +46,4 @@
 
 This run demonstrates that the model can learn the target tool arguments from a tiny strict set, but it is not publishable. The strict gate still fails because Qwen emits an empty thinking wrapper and one multi-call case emits malformed tags.
 
-Next implementation should add a Hermes runtime normalizer that removes only empty leading thinking wrappers before tool-call parsing, then train against the richer `gemma4/data/strict_tool_call` lane and evaluate on held-out examples that do not overlap the benchmark.
+Next implementation should add a Hermes runtime normalizer that removes only empty leading thinking wrappers before tool-call parsing, then train against the richer `gemma4/data/strict_tool_call` lane and evaluate on `benchmarks/tool_call_local/heldout_suite.json`.

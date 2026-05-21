@@ -9,7 +9,7 @@ Each adapter candidate needs:
 - Evaluation report: Hermes-local benchmark, standardized benchmark suite, raw outputs, scores, manual review notes, score provenance for every published number
 - Runtime card: MLX, Ollama, and LM Studio instructions where supported
 - Publishing card: GitHub commit, Hugging Face repo, license and redistribution notes
-- Publish-readiness checklist: explicit gate status, exact tool-call benchmark result, and the blocker that prevents adapter publication until the gate passes
+- Publish-readiness checklist: explicit gate status, exact mirrored and held-out tool-call benchmark results, and the blocker that prevents adapter publication until the held-out strict gate passes
 
 ## Repo-Level Docs
 
@@ -60,7 +60,7 @@ Publish only after benchmark promotion:
 
 Each Hugging Face model card should include the training config, dataset card link, evaluation table, runtime commands, intended use, limitations, and license notes.
 When a card cites benchmark numbers, include the exact command, model revision, harness version, prompt-set revision or hash, and the raw artifact location that produced the number.
-Adapter publication stays blocked until the strict local tool-call benchmark passes and the publish-readiness checklist is marked READY.
+Adapter publication stays blocked until `benchmarks/tool_call_local/heldout_suite.json` passes strictly at `1.000` and the publish-readiness checklist is marked READY. The mirrored `benchmarks/tool_call_local/suite.json` can support regression notes but cannot satisfy the held-out publication gate.
 
 Publish benchmark artifacts as either:
 
@@ -76,6 +76,6 @@ As of 2026-05-22:
 - Hugging Face dataset: defer until strict tool-call target examples are added, licensed, audited, and documented with a dataset card.
 - Hugging Face adapter: do not publish the Qwen3 candidate adapter. It passed the response-collapse gate but failed the strict local tool-call benchmark, so publishing it would imply quality that the evidence does not support.
 - Hugging Face GGUF/merged weights: do not publish merged Qwen3 artifacts unless the upstream license and redistribution path are explicitly reviewed and a runtime card passes.
-- Publish-readiness checklist: keep adapter publication blocked until the strict local tool-call benchmark passes; the checklist must record that blocker status directly.
+- Publish-readiness checklist: keep adapter publication blocked until the held-out strict local tool-call benchmark passes; the checklist must record that blocker status directly.
 
-Next publishable HF artifact should be either a cleaned tool-call dataset with a dataset card, or an adapter that beats base on the local tool-call benchmark and has at least pilot-level standard benchmark results.
+Next publishable HF artifact should be either a cleaned tool-call dataset with a dataset card, or an adapter that beats base on the held-out local tool-call benchmark and has at least pilot-level standard benchmark results.

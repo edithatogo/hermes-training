@@ -50,6 +50,8 @@
 ## Evaluation Summary
 
 - Hermes-local benchmark:
+- Mirrored tool-call regression suite:
+- Held-out strict tool-call suite:
 - Standard benchmark suite:
 - Base-vs-adapter comparison:
 - Benchmark command:

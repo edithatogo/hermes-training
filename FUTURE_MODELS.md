@@ -87,7 +87,14 @@ Do not immediately fine-tune Hermes 4 locally. First compare Qwen3 4B/LFM2.5 ada
 
 ## Qwen3.6 / Hermes 4 Runtime Proof Track
 
-`Qwen/Qwen3.6-35B-A3B` and `NousResearch/Hermes-4-14B` are the next concrete runtime-proof targets, but this pass must stay SSD-first and avoid large downloads.
+`Qwen/Qwen3.6-35B-A3B` and `NousResearch/Hermes-4-14B` remain the next concrete runtime-proof targets. The 2026-05-22 no-download pass found no compatible local artifact or active endpoint, so both stay `needs-runtime-proof`.
+
+Recorded result:
+
+- No Qwen3.6 or Hermes 4 GGUF, MLX, safetensors, Ollama, or KTransformers-ready artifact was found on `/Volumes/PortableSSD`.
+- Ollama (`127.0.0.1:11434`), MLX server (`127.0.0.1:8080`), and LM Studio (`127.0.0.1:1234`) endpoints were not listening.
+- The only related local files were experimental config placeholders, not runnable model artifacts.
+- Runtime evidence is recorded in `reports/runtime/qwen36-hermes4-runtime-proof/run-card.md`.
 
 Recommended path:
 

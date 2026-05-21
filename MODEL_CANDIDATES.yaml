@@ -43,7 +43,7 @@ candidates:
     license: apache-2.0
     first_runtime: "LM Studio or Ollama GGUF; KTransformers only after local proof"
     first_finetune: "defer; smoke adapter only after memory proof"
-    notes: "Use as teacher/evaluator before attempting local training; keep LM Studio/Ollama/GGUF paths as needs-runtime-proof until a Mac smoke exists."
+    notes: "Use as teacher/evaluator before attempting local training. The 2026-05-22 SSD-only pass found no local Qwen3.6 artifact and no active default endpoint, so LM Studio/Ollama/GGUF/KTransformers paths remain needs-runtime-proof."
 
   - id: NousResearch/Hermes-4-14B
     family: hermes
@@ -56,7 +56,7 @@ candidates:
     license: "check model card before derivative publishing"
     first_runtime: "Ollama or LM Studio GGUF if available; Transformers fallback"
     first_finetune: "defer"
-    notes: "Primary baseline for Hermes-style behavior; treat GGUF/FP8/community quant paths as needs-runtime-proof until a smoke result exists."
+    notes: "Primary baseline for Hermes-style behavior. The 2026-05-22 SSD-only pass found no local Hermes 4 artifact and no active default endpoint, so GGUF/FP8/community quant paths remain needs-runtime-proof until a smoke result exists."
 
   - id: google/gemma-4-26B-A4B-it
     family: gemma

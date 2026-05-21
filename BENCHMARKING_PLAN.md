@@ -39,7 +39,7 @@ The completed `Qwen/Qwen3-4B-MLX-4bit` tool-call repair proof is a targeted nega
 - Strict tool-call benchmark: still failed at 1/6 cases
 - Diagnostic empty-think-stripped rescore: 5/6 cases
 
-This proves the adapter learned most tool arguments, but Qwen's empty `<think></think>` wrapper and one malformed multi-call output still block publication. The next implementation should add runtime normalization for empty leading thinking wrappers, retrain on the richer `gemma4/data/strict_tool_call` lane, and evaluate on a held-out benchmark that does not overlap the seed.
+This proves the adapter learned most tool arguments, but Qwen's empty `<think></think>` wrapper and one malformed multi-call output still block publication. The next implementation should add runtime normalization for empty leading thinking wrappers, retrain on the richer `gemma4/data/strict_tool_call` lane, and evaluate on `benchmarks/tool_call_local/heldout_suite.json`, which does not overlap the benchmark-mirrored training seed.
 
 ## Dataset Audit
 
@@ -138,14 +138,26 @@ Do not publish or package an adapter for Hermes unless it passes:
 2. Dataset audit recorded in docs or run notes
 3. Base-vs-adapter comparison on the expanded eval set
 4. Response-collapse gate on generated eval output
-5. Standard benchmark gate appropriate to the release stage:
+5. Strict local held-out tool-call gate: `benchmarks/tool_call_local/heldout_suite.json` must pass at `1.000`
+6. Standard benchmark gate appropriate to the release stage:
    - smoke: Hermes-local only
    - pilot: Hermes-local, IFEval, BFCL subset, HumanEval/MBPP, selected `lm-eval`
    - candidate: broader standardized suite from `STANDARD_BENCHMARKS.md`
-6. Runtime smoke through MLX, then Ollama or LM Studio path
-7. License check for base model and dataset
+7. Runtime smoke through MLX, then Ollama or LM Studio path
+8. License check for base model and dataset
 
-For local Hermes releases, the tool-call benchmark runner should be executed against `benchmarks/tool_call_local/suite.json` and the output directory should remain under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`.
+For local Hermes engineering checks, the tool-call benchmark runner may be executed against `benchmarks/tool_call_local/suite.json`, but that suite overlaps the strict training seed and is not held-out evidence. For publication checks, run the held-out suite:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_tool_call_benchmark.py \
+  --model <model_id_or_path> \
+  --adapter <optional_adapter_path> \
+  --suite benchmarks/tool_call_local/heldout_suite.json \
+  --user-prefix /no_think
+```
+
+The output directory should remain under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`.
 
 Publication-quality benchmark claims should also retain exact command lines, model revisions, harness versions, prompt-set revisions or hashes, and raw output locations for every score that appears in a model card or run card.
 

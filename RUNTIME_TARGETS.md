@@ -77,14 +77,16 @@ Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets. K
 
 Do not download these large artifacts into the repo. Use `source scripts/env.sh` first so model caches and GGUFs resolve under `/Volumes/PortableSSD`.
 
-## Next Conductor Track
+## Qwen3.6 / Hermes 4 No-Download Result
 
-The next concrete track is `qwen36-runtime-proof_20260522`:
+Track `qwen36-runtime-proof_20260522` completed the SSD-only runtime proof pass:
 
-- prove Qwen3.6 and Hermes 4 runtime paths using existing SSD-backed artifacts only
-- keep Qwen3.7 in hosted-preview watchlist status
-- avoid any large model download or new cache fill in this pass
-- write any runtime notes and run cards to SSD-backed paths only
+- no Qwen3.6 or Hermes 4 local artifact was found on `/Volumes/PortableSSD`
+- Ollama, MLX server, and LM Studio default OpenAI-compatible endpoints were not listening
+- no runtime smoke was run because doing so would have required a new large model download or an externally provided endpoint
+- Qwen3.7 remains hosted-preview watchlist only
+
+The no-download proof is documented in `reports/runtime/qwen36-hermes4-runtime-proof/run-card.md`. The next pass should start from an explicit SSD-backed artifact path or an already-running endpoint, then run the endpoint smoke matrix below.
 
 ## Endpoint Smoke Matrix
 

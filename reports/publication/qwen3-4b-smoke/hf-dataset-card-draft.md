@@ -51,14 +51,14 @@ tags:
 - Audit result: smoke proof passed, but it is not a publishable dataset release
 - Known limitations: too small for quality claims and missing a publish-ready strict tool-call audit
 - Missing coverage: strict tool-call target examples and publication audit trail
-- Publication blocker: adapter publication remains blocked until the strict local tool-call benchmark passes
+- Publication blocker: adapter publication remains blocked until the held-out strict local tool-call benchmark passes at `1.000`
 
 ## Publication Notes
 
 - Associated model card: [hf-model-card-draft.md](./hf-model-card-draft.md)
 - Hugging Face dataset repo: not created
 - GitHub commit: pending next hub commit
-- Human review status: blocked until strict local tool-call benchmark passes
+- Human review status: blocked until `benchmarks/tool_call_local/heldout_suite.json` passes at `1.000`
 
 ## Citation
 

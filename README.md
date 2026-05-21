@@ -128,6 +128,8 @@ Fallbacks:
 
 GitHub remotes exist for the hub and current tracks. Hugging Face repos are planned and should be created by the updated `push_to_hf.sh` scripts only after adapters and dataset cards exist.
 
+Adapter publication also requires a strict `1.000` pass on the held-out local tool-call suite at `benchmarks/tool_call_local/heldout_suite.json`. The mirrored suite at `benchmarks/tool_call_local/suite.json` overlaps the current strict seed and is only a regression check.
+
 Planned Hugging Face repos:
 
 | Repo | Contents |

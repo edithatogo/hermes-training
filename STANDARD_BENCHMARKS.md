@@ -84,7 +84,7 @@ Track at minimum:
 - multiple and parallel tool calls
 - latency and retry rate
 
-Run the local schema/tool-call benchmark with:
+Run the local schema/tool-call benchmark with the mirrored engineering suite:
 
 ```bash
 source scripts/env.sh
@@ -96,6 +96,19 @@ source scripts/env.sh
 ```
 
 The runner writes raw outputs, scorecards, and summaries to `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`. Use the checked-in suite as the local BFCL-style subset for engineering runs; keep those outputs off Git and on the SSD-backed eval root.
+
+For publication gating, run the held-out strict suite:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_tool_call_benchmark.py \
+  --model <model_id_or_path> \
+  --adapter <optional_adapter_path> \
+  --suite benchmarks/tool_call_local/heldout_suite.json \
+  --user-prefix /no_think
+```
+
+Publication requires a strict pass rate of `1.000` on `heldout_suite.json`. The mirrored `suite.json` may be reported as a regression check, but it overlaps the seed used by the current strict tool-call training data and must not be cited as held-out evidence.
 
 This local harness is not a substitute for the full BFCL suite. It is the fast Hermes-specific gate that should run before the broader BFCL subset.
 

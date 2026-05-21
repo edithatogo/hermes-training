@@ -1,0 +1,273 @@
+[
+  {
+    "id": "heldout-json-validity-inventory",
+    "category": "json_validity",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"check_inventory_level\",\"description\":\"Check available inventory for a warehouse SKU.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"sku\":{\"type\":\"string\"},\"warehouse_id\":{\"type\":\"string\"}},\"required\":[\"sku\",\"warehouse_id\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"reserve_inventory\",\"description\":\"Reserve inventory for an order.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"sku\":{\"type\":\"string\"},\"warehouse_id\":{\"type\":\"string\"},\"quantity\":{\"type\":\"integer\"},\"order_id\":{\"type\":\"string\"}},\"required\":[\"sku\",\"warehouse_id\",\"quantity\",\"order_id\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Check inventory for SKU GLV-884 in warehouse WH-SYD-02."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "check_inventory_level",
+          "arguments": {
+            "sku": "GLV-884",
+            "warehouse_id": "WH-SYD-02"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "heldout-json-validity-parallel-logistics",
+    "category": "json_validity",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"quote_freight_route\",\"description\":\"Quote a freight route.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"origin\":{\"type\":\"string\"},\"destination\":{\"type\":\"string\"},\"weight_kg\":{\"type\":\"number\"}},\"required\":[\"origin\",\"destination\",\"weight_kg\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"book_freight_pickup\",\"description\":\"Book a freight pickup window.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"origin\":{\"type\":\"string\"},\"pickup_date\":{\"type\":\"string\"},\"contact_email\":{\"type\":\"string\"}},\"required\":[\"origin\",\"pickup_date\",\"contact_email\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Quote freight from MEL-DC1 to BNE-DC4 for 742.5 kg, then book pickup at MEL-DC1 on 2026-06-03 with ops@example.test as the contact."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "quote_freight_route",
+          "arguments": {
+            "origin": "MEL-DC1",
+            "destination": "BNE-DC4",
+            "weight_kg": 742.5
+          }
+        },
+        {
+          "name": "book_freight_pickup",
+          "arguments": {
+            "origin": "MEL-DC1",
+            "pickup_date": "2026-06-03",
+            "contact_email": "ops@example.test"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "heldout-argument-correctness-lab-order",
+    "category": "argument_correctness",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"create_lab_order\",\"description\":\"Create a laboratory order.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"patient_id\":{\"type\":\"string\"},\"tests\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"priority\":{\"type\":\"string\"},\"collection_site\":{\"type\":\"string\"}},\"required\":[\"patient_id\",\"tests\",\"priority\",\"collection_site\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"notify_care_team\",\"description\":\"Notify a care team about a patient update.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"patient_id\":{\"type\":\"string\"},\"team\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}},\"required\":[\"patient_id\",\"team\",\"message\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Create a priority lab order for patient PT-7742 for CBC, CMP, and ferritin at North Clinic, then notify hematology that the order is ready for review."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "create_lab_order",
+          "arguments": {
+            "patient_id": "PT-7742",
+            "tests": [
+              "CBC",
+              "CMP",
+              "ferritin"
+            ],
+            "priority": "priority",
+            "collection_site": "North Clinic"
+          }
+        },
+        {
+          "name": "notify_care_team",
+          "arguments": {
+            "patient_id": "PT-7742",
+            "team": "hematology",
+            "message": "order is ready for review"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "heldout-argument-correctness-billing",
+    "category": "argument_correctness",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"apply_account_credit\",\"description\":\"Apply a credit to a customer account.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"account_id\":{\"type\":\"string\"},\"amount_cents\":{\"type\":\"integer\"},\"currency\":{\"type\":\"string\"},\"reason_code\":{\"type\":\"string\"}},\"required\":[\"account_id\",\"amount_cents\",\"currency\",\"reason_code\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"email_billing_receipt\",\"description\":\"Email a billing receipt.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"account_id\":{\"type\":\"string\"},\"recipient\":{\"type\":\"string\"},\"include_adjustments\":{\"type\":\"boolean\"}},\"required\":[\"account_id\",\"recipient\",\"include_adjustments\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Apply a 2599 cent AUD credit to account ACC-918 for reason duplicate_charge and email the receipt to finance@example.test with adjustments included."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "apply_account_credit",
+          "arguments": {
+            "account_id": "ACC-918",
+            "amount_cents": 2599,
+            "currency": "AUD",
+            "reason_code": "duplicate_charge"
+          }
+        },
+        {
+          "name": "email_billing_receipt",
+          "arguments": {
+            "account_id": "ACC-918",
+            "recipient": "finance@example.test",
+            "include_adjustments": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "heldout-invalid-tool-handling-payroll",
+    "category": "invalid_tool_handling",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags when a valid tool exists. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"lookup_employee_profile\",\"description\":\"Look up an employee profile.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"employee_id\":{\"type\":\"string\"}},\"required\":[\"employee_id\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"create_hr_case\",\"description\":\"Create an HR support case.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"employee_id\":{\"type\":\"string\"},\"case_type\":{\"type\":\"string\"}},\"required\":[\"employee_id\",\"case_type\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Use reset_payroll_direct_deposit to replace bank details for employee E-4107."
+      }
+    ],
+    "expected": {
+      "mode": "text",
+      "must_not_have_tool_calls": true,
+      "must_contain_any": [
+        "cannot",
+        "not available",
+        "unable",
+        "do not have"
+      ]
+    }
+  },
+  {
+    "id": "heldout-invalid-tool-handling-security",
+    "category": "invalid_tool_handling",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags when a valid tool exists. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"list_security_alerts\",\"description\":\"List security alerts for a tenant.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"tenant_id\":{\"type\":\"string\"},\"severity\":{\"type\":\"string\"}},\"required\":[\"tenant_id\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"open_security_incident\",\"description\":\"Open a security incident.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"tenant_id\":{\"type\":\"string\"},\"alert_ids\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"tenant_id\",\"alert_ids\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Run disable_user_login for user maria@example.test in tenant TEN-55."
+      }
+    ],
+    "expected": {
+      "mode": "text",
+      "must_not_have_tool_calls": true,
+      "must_contain_any": [
+        "cannot",
+        "not available",
+        "unable",
+        "do not have"
+      ]
+    }
+  },
+  {
+    "id": "heldout-multi-turn-repair-purchase-order",
+    "category": "multi_turn_repair",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"create_purchase_order\",\"description\":\"Create a purchase order.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"vendor_id\":{\"type\":\"string\"},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"sku\":{\"type\":\"string\"},\"quantity\":{\"type\":\"integer\"}},\"required\":[\"sku\",\"quantity\"]}},\"ship_to\":{\"type\":\"string\"},\"needed_by\":{\"type\":\"string\"}},\"required\":[\"vendor_id\",\"items\",\"ship_to\",\"needed_by\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Create a purchase order for vendor VEND-77 with 12 units of FILTER-9 and 4 units of BELT-2, ship to Plant 3, needed by 2026-06-18."
+      },
+      {
+        "role": "assistant",
+        "content": "<tool_call>{\"name\":\"create_purchase_order\",\"arguments\":{\"vendor_id\":\"VEND-77\",\"items\":[{\"sku\":\"FILTER-9\",\"quantity\":12}]}}</tool_call>"
+      },
+      {
+        "role": "user",
+        "content": "That left out BELT-2 plus the shipping and needed-by fields. Re-issue only the corrected purchase order tool call."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "create_purchase_order",
+          "arguments": {
+            "vendor_id": "VEND-77",
+            "items": [
+              {
+                "sku": "FILTER-9",
+                "quantity": 12
+              },
+              {
+                "sku": "BELT-2",
+                "quantity": 4
+              }
+            ],
+            "ship_to": "Plant 3",
+            "needed_by": "2026-06-18"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "heldout-multi-turn-repair-weather-alert",
+    "category": "multi_turn_repair",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a function calling AI model. Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"create_weather_alert\",\"description\":\"Create a weather alert subscription.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"region\":{\"type\":\"string\"},\"thresholds\":{\"type\":\"object\",\"properties\":{\"wind_kph\":{\"type\":\"integer\"},\"rain_mm\":{\"type\":\"integer\"}},\"required\":[\"wind_kph\",\"rain_mm\"]},\"channels\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"region\",\"thresholds\",\"channels\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Create a weather alert for Hunter Valley when wind exceeds 80 kph or rain exceeds 60 mm, and send it to sms and email."
+      },
+      {
+        "role": "assistant",
+        "content": "<tool_call>{\"name\":\"create_weather_alert\",\"arguments\":{\"region\":\"Hunter Valley\",\"thresholds\":{\"wind_kph\":80}}}</tool_call>"
+      },
+      {
+        "role": "user",
+        "content": "Correct it with both thresholds and both channels. Return only the fixed tool call."
+      }
+    ],
+    "expected": {
+      "mode": "tool_calls",
+      "tool_calls": [
+        {
+          "name": "create_weather_alert",
+          "arguments": {
+            "region": "Hunter Valley",
+            "thresholds": {
+              "wind_kph": 80,
+              "rain_mm": 60
+            },
+            "channels": [
+              "sms",
+              "email"
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

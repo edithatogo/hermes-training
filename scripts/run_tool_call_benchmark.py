@@ -13,10 +13,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from normalize_tool_response import strip_empty_think_prefix
+
 
 TOOLS_RE = re.compile(r"<tools>\s*(.*?)\s*</tools>", re.DOTALL | re.IGNORECASE)
 TOOL_CALL_RE = re.compile(r"<tool_call>\s*(.*?)\s*</tool_call>", re.DOTALL | re.IGNORECASE)
-EMPTY_THINK_RE = re.compile(r"^\s*<think>\s*</think>\s*", re.DOTALL | re.IGNORECASE)
 REFUSAL_MARKERS = (
     "cannot",
     "can't",
@@ -136,11 +137,6 @@ def extract_tool_calls(text: str) -> tuple[list[dict[str, Any]], list[str], str]
             errors.append(str(exc))
 
     return calls, errors, clean_text
-
-
-def strip_empty_think_prefix(text: str) -> str:
-    """Remove Qwen-style empty thinking wrappers for diagnostics only."""
-    return EMPTY_THINK_RE.sub("", text, count=1).strip()
 
 
 def build_prompt(messages: list[dict[str, Any]], tokenizer: Any | None) -> str:

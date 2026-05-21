@@ -475,7 +475,7 @@ POST /retrieve
 
 ## Contract 5F: Local Tool-Call Benchmark Suite and Scorecard
 
-**Producer:** `benchmarks/tool_call_local/suite.json`, `scripts/run_tool_call_benchmark.py`
+**Producer:** `benchmarks/tool_call_local/suite.json`, `benchmarks/tool_call_local/heldout_suite.json`, `scripts/run_tool_call_benchmark.py`
 **Consumer:** Hermes-local benchmark runs, run cards, publication notes
 
 **Suite schema:**
@@ -508,8 +508,11 @@ POST /retrieve
 - Tool-call cases must use exact JSON tool-call expectations
 - Invalid-tool handling cases must not hallucinate unavailable tools and should contain a refusal or clarification marker
 - Multi-turn repair cases must include prior malformed assistant context or an explicit correction turn
+- `suite.json` may overlap strict training seed data and is a regression suite only
+- `heldout_suite.json` must not overlap the benchmark-mirrored strict training seed and is the strict local publication gate
 - The runner must write raw outputs and summaries under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>` unless an explicit `--output-dir` is supplied
 - Published scores must retain the exact suite revision, model revision, and runner command used to produce them
+- Adapter publication requires strict `1.000` pass rate on `heldout_suite.json`; diagnostic normalization metrics cannot replace this gate
 
 **Results schema:**
 ```json
