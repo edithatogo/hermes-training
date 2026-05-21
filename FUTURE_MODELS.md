@@ -85,16 +85,17 @@ Use cases:
 
 Do not immediately fine-tune Hermes 4 locally. First compare Qwen3 4B/LFM2.5 adapters against it on Hermes tool-use prompts.
 
-## Qwen3.6 Track
+## Qwen3.6 / Hermes 4 Runtime Proof Track
 
-`Qwen/Qwen3.6-35B-A3B` is the top frontier candidate, but it is not the first local fine-tune target.
+`Qwen/Qwen3.6-35B-A3B` and `NousResearch/Hermes-4-14B` are the next concrete runtime-proof targets, but this pass must stay SSD-first and avoid large downloads.
 
 Recommended path:
 
-1. Run quantized inference through LM Studio or Ollama if a compatible GGUF exists.
-2. Validate KTransformers on Mac only if Apple Silicon support is real in the chosen branch/build.
-3. Use it as a teacher/evaluator for Qwen3 4B and LFM2.5 adapters.
-4. Attempt local adapter training only after smoke-testing memory with 1K context, batch 1, low LoRA layer count.
+1. Reuse only existing SSD-backed artifacts or documented local runtime paths.
+2. Validate Qwen3.6 quantized inference through LM Studio or Ollama if a compatible artifact is already present.
+3. Validate Hermes 4 through Ollama, LM Studio, or Transformers if the artifact is already available locally.
+4. Record the exact command, endpoint, and smoke result under `/Volumes/PortableSSD`.
+5. Treat missing artifacts as a tracking gap, not a download request.
 
 ## Qwen3.7 Watchlist
 
@@ -103,6 +104,7 @@ As of 2026-05-22, Qwen3.7 should be tracked as a hosted/API watchlist item, not 
 - Alibaba/Qwen announced Qwen3.7-Max and preview variants for agentic coding, reasoning, and long-horizon tool execution.
 - No official Hugging Face open-weight repositories were available under `Qwen/Qwen3.7-*` during local `huggingface_hub` checks.
 - Until weights, license, and runtime artifacts exist, Qwen3.7 can only be considered for hosted teacher/evaluator experiments, not local MLX/Ollama/LM Studio training.
+- The concrete next track keeps `Qwen/Qwen3.7-Max` and `Qwen/Qwen3.7-Plus-Preview` on the watchlist as hosted-preview-only entries with no local download plan.
 
 Promotion trigger: add a local track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.
 

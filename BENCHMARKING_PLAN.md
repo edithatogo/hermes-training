@@ -29,6 +29,18 @@ The completed `Qwen/Qwen3-4B-MLX-4bit` candidate run is a larger local proof:
 
 This proves the Qwen3 local MLX lane can scale beyond the first smoke run without response collapse. It does not yet prove Hermes tool-calling quality; the next dataset needs explicit strict tool-call targets.
 
+The completed `Qwen/Qwen3-4B-MLX-4bit` tool-call repair proof is a targeted negative/diagnostic result:
+
+- Config: `gemma4/scripts/train_config.qwen3-4b.toolcall-repair.yaml`
+- Iterations: 40
+- Effective trained tokens logged by MLX: 10,603
+- Peak memory: 3.417 GB
+- Output: `gemma4/experiments/qwen3-4b-toolcall-repair/lora_adapter`
+- Strict tool-call benchmark: still failed at 1/6 cases
+- Diagnostic empty-think-stripped rescore: 5/6 cases
+
+This proves the adapter learned most tool arguments, but Qwen's empty `<think></think>` wrapper and one malformed multi-call output still block publication. The next implementation should add runtime normalization for empty leading thinking wrappers, retrain on the richer `gemma4/data/strict_tool_call` lane, and evaluate on a held-out benchmark that does not overlap the seed.
+
 ## Dataset Audit
 
 Run:
@@ -116,6 +128,7 @@ Record these for base model, smoke adapter, and each promoted adapter:
 - Latency, tokens/sec, peak memory
 - Validation loss on held-out split
 - Local tool-call benchmark scorecard: JSON validity, argument correctness, invalid-tool handling, and multi-turn repair
+- Diagnostic empty-think-stripped tool-call score for Qwen-family models; this is informational only and never replaces the strict pass gate
 
 ## Promotion Rule
 

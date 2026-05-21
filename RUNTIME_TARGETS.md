@@ -64,7 +64,7 @@ Use LM Studio or direct llama.cpp as the next GGUF validation path before treati
 
 ## Next Frontier Runtime Candidate
 
-Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets:
+Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets. Keep artifacts and notes on `/Volumes/PortableSSD`, and do not add large downloads to this pass:
 
 | Repo | SHA Prefix | Access | Runtime Role |
 |---|---|---|---|
@@ -72,8 +72,19 @@ Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets:
 | `lmstudio-community/Qwen3.6-35B-A3B-GGUF` | `68a34855558a` | public, ungated, GGUF | First Mac GGUF runtime proof candidate once LM Studio or llama.cpp server is available |
 | `unsloth/Qwen3.6-35B-A3B-GGUF` | `a483e9e6cbd5` | public, ungated, GGUF | Alternate quant source; verify exact quant file before download |
 | `NousResearch/Hermes-4-14B` | `d6ce765c8b83` | public, ungated | Hermes-aligned baseline/teacher; compare before larger local training |
+| `Qwen/Qwen3.7-Max` | hosted preview | hosted API | Hosted-preview watchlist only; no local download or fine-tune lane |
+| `Qwen/Qwen3.7-Plus-Preview` | hosted preview | hosted API | Hosted-preview watchlist alias for the same no-download guardrail |
 
 Do not download these large artifacts into the repo. Use `source scripts/env.sh` first so model caches and GGUFs resolve under `/Volumes/PortableSSD`.
+
+## Next Conductor Track
+
+The next concrete track is `qwen36-runtime-proof_20260522`:
+
+- prove Qwen3.6 and Hermes 4 runtime paths using existing SSD-backed artifacts only
+- keep Qwen3.7 in hosted-preview watchlist status
+- avoid any large model download or new cache fill in this pass
+- write any runtime notes and run cards to SSD-backed paths only
 
 ## Endpoint Smoke Matrix
 
@@ -92,6 +103,7 @@ Do not download these large artifacts into the repo. Use `source scripts/env.sh`
 | Qwen3.6-35B-A3B | LM Studio/Ollama GGUF or KTransformers | Transformers on CPU/MPS for smoke only | Verify memory at realistic context before using with Hermes. |
 | Hermes-4-14B | Ollama/LM Studio GGUF | Transformers | Use as baseline/teacher before local LoRA. |
 | Gemma-4-26B-A4B | Ollama/LM Studio GGUF | Transformers | Validate tool-call stability; MoE quant support is moving quickly. |
+| Qwen3.7-Max / Plus-Preview | Hosted API only | None | Hosted-preview watchlist; do not create a local runtime lane until open weights exist. |
 | LFM2.5-1.2B | MLX/GGUF | LEAP/Unsloth/TRL for training | Best low-latency helper model track. |
 | Mamba-3/RWKV/BitNet | Native family runtime | None | Research only until OpenAI-compatible serving is proven. |
 

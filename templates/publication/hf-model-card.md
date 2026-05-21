@@ -68,6 +68,9 @@
 - GitHub commit:
 - Hugging Face repo:
 - Human review status:
+- Publication gate status:
+- Publish-readiness checklist:
+- Tool-call benchmark blocker:
 
 ## Citation
 

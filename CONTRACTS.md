@@ -72,6 +72,41 @@
 
 ---
 
+## Contract 2A: Strict Tool-Call Seed Lane
+
+**Producer:** manual curation, benchmark mirroring, or lane-specific build jobs
+**Consumer:** strict tool-call training runs, validation splits, local benchmark alignment
+
+**Schema:**
+```json
+{
+  "id": "string (unique identifier)",
+  "messages": [
+    {
+      "role": "string (one of: system, user, assistant)",
+      "content": "string (message text)"
+    }
+  ]
+}
+```
+
+**Constraints:**
+- The seed lane is a curated subset of chat JSONL examples, isolated from the general `data/raw/` and `data/splits/` corpora
+- The system prompt must define the candidate tools and instruct the model to return only `<tool_call>` blocks for valid cases
+- Valid tool targets must contain only exact `<tool_call>` blocks, one per tool call, with no surrounding prose
+- Invalid-tool examples may use plain text refusal or clarification and must not fabricate an unavailable tool
+- Multi-turn repair examples may include a malformed assistant turn followed by a correction turn
+- Split policy is deterministic: sort by `id`, take 80% for train, 10% for val, and the remainder for test
+- For the checked-in 10-example seed, that yields 8 train examples, 1 validation example, and 1 test example
+- Generated training, evaluation, and export artifacts MUST live on SSD-backed storage under `$HERMES_STORAGE_ROOT`, `$HERMES_EVAL_ROOT`, or `$HERMES_EXPORT_ROOT`
+- Only the tiny seed JSONL and documentation/contracts are checked in; build outputs and caches must not be committed
+
+**File location:** `gemma4/data/strict_tool_call/{raw,splits}/...`
+
+**Contract ID:** DATA-STRICT-TOOLCALL-001
+
+---
+
 ## Contract 3: Training Configuration
 
 **Producer:** `train_config.yaml` (manual)

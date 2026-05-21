@@ -16,6 +16,7 @@ from typing import Any
 
 TOOLS_RE = re.compile(r"<tools>\s*(.*?)\s*</tools>", re.DOTALL | re.IGNORECASE)
 TOOL_CALL_RE = re.compile(r"<tool_call>\s*(.*?)\s*</tool_call>", re.DOTALL | re.IGNORECASE)
+EMPTY_THINK_RE = re.compile(r"^\s*<think>\s*</think>\s*", re.DOTALL | re.IGNORECASE)
 REFUSAL_MARKERS = (
     "cannot",
     "can't",
@@ -137,6 +138,11 @@ def extract_tool_calls(text: str) -> tuple[list[dict[str, Any]], list[str], str]
     return calls, errors, clean_text
 
 
+def strip_empty_think_prefix(text: str) -> str:
+    """Remove Qwen-style empty thinking wrappers for diagnostics only."""
+    return EMPTY_THINK_RE.sub("", text, count=1).strip()
+
+
 def build_prompt(messages: list[dict[str, Any]], tokenizer: Any | None) -> str:
     if tokenizer is not None and hasattr(tokenizer, "apply_chat_template"):
         try:
@@ -184,11 +190,20 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
     expected = example["expected"]
     allowed_tools = extract_allowed_tools(example["messages"])
     calls, parse_errors, leftover = extract_tool_calls(response)
+    normalized_response = strip_empty_think_prefix(response)
+    normalized_calls, normalized_parse_errors, normalized_leftover = extract_tool_calls(normalized_response)
     response_lc = response.lower()
 
     tool_names = [str(call["name"]) for call in calls]
     tool_names_valid = all(name in allowed_tools for name in tool_names) if allowed_tools else True
     json_valid = bool(calls) and not parse_errors and not leftover.strip()
+    normalized_tool_names = [str(call["name"]) for call in normalized_calls]
+    normalized_tool_names_valid = (
+        all(name in allowed_tools for name in normalized_tool_names) if allowed_tools else True
+    )
+    normalized_json_valid = (
+        bool(normalized_calls) and not normalized_parse_errors and not normalized_leftover.strip()
+    )
 
     result: dict[str, Any] = {
         "json_valid": json_valid,
@@ -198,6 +213,10 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
         "parsed_tool_calls": calls,
         "parse_errors": parse_errors,
         "leftover": leftover,
+        "empty_think_stripped_response": normalized_response if normalized_response != response.strip() else "",
+        "json_valid_after_empty_think_strip": normalized_json_valid,
+        "parsed_tool_calls_after_empty_think_strip": normalized_calls,
+        "leftover_after_empty_think_strip": normalized_leftover,
         "pass": False,
         "reason": "",
     }
@@ -206,7 +225,12 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
     if mode == "tool_calls":
         expected_calls = expected.get("tool_calls", [])
         exact_calls = calls == expected_calls
+        normalized_exact_calls = normalized_calls == expected_calls
         result["arguments_correct"] = exact_calls
+        result["arguments_correct_after_empty_think_strip"] = normalized_exact_calls
+        result["pass_after_empty_think_strip"] = (
+            normalized_json_valid and normalized_tool_names_valid and normalized_exact_calls
+        )
         result["pass"] = json_valid and tool_names_valid and exact_calls
         if not result["pass"]:
             result["reason"] = expected.get("fail_reason", "tool-call output did not match the expected JSON schema")
@@ -228,6 +252,7 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
                 text_ok = False
                 result["reason"] = expected.get("fail_reason", "response contained a forbidden marker")
         result["pass"] = text_ok
+        result["pass_after_empty_think_strip"] = text_ok
         return result
 
     raise ValueError(f"{example['id']}: unsupported expected.mode={mode!r}")
@@ -259,8 +284,13 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
         f"- Pass rate: `{summary['pass_rate']:.3f}`",
         f"- JSON validity rate: `{summary['json_valid_rate']:.3f}`",
         f"- Argument correctness rate: `{summary['argument_accuracy_rate']:.3f}`",
+        f"- Diagnostic pass rate after empty-think stripping: `{summary['empty_think_stripped_pass_rate']:.3f}`",
+        f"- Diagnostic JSON validity after empty-think stripping: `{summary['empty_think_stripped_json_valid_rate']:.3f}`",
+        f"- Diagnostic argument correctness after empty-think stripping: `{summary['empty_think_stripped_argument_accuracy_rate']:.3f}`",
         f"- Invalid-tool handling rate: `{summary['invalid_tool_handling_rate']:.3f}`",
         f"- Multi-turn repair rate: `{summary['multi_turn_repair_rate']:.3f}`",
+        "",
+        "Diagnostic empty-think stripping is reported only to separate Qwen-style wrapper noise from malformed tool calls. It does not change the strict pass/fail gate.",
         "",
         "## Category Breakdown",
         "",
@@ -410,6 +440,13 @@ def main() -> int:
     tool_call_rows = [row for row in rows if row["category"] != "invalid_tool_handling"]
     json_valid_count = sum(1 for row in tool_call_rows if row["json_valid"])
     arg_correct_count = sum(1 for row in tool_call_rows if row.get("arguments_correct"))
+    normalized_passed = sum(1 for row in rows if row.get("pass_after_empty_think_strip"))
+    normalized_json_valid_count = sum(
+        1 for row in tool_call_rows if row.get("json_valid_after_empty_think_strip")
+    )
+    normalized_arg_correct_count = sum(
+        1 for row in tool_call_rows if row.get("arguments_correct_after_empty_think_strip")
+    )
     invalid_tool_rows = [row for row in rows if row["category"] == "invalid_tool_handling"]
     invalid_tool_ok_count = sum(1 for row in invalid_tool_rows if row["pass"])
     repair_rows = [row for row in rows if row["category"] == "multi_turn_repair"]
@@ -428,6 +465,9 @@ def main() -> int:
         "pass_rate": passed / cases,
         "json_valid_rate": json_valid_count / max(1, len(tool_call_rows)),
         "argument_accuracy_rate": arg_correct_count / max(1, len(tool_call_rows)),
+        "empty_think_stripped_pass_rate": normalized_passed / cases,
+        "empty_think_stripped_json_valid_rate": normalized_json_valid_count / max(1, len(tool_call_rows)),
+        "empty_think_stripped_argument_accuracy_rate": normalized_arg_correct_count / max(1, len(tool_call_rows)),
         "invalid_tool_handling_rate": invalid_tool_ok_count / max(1, len(invalid_tool_rows)),
         "multi_turn_repair_rate": repair_ok_count / max(1, len(repair_rows)),
     }

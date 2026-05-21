@@ -106,6 +106,11 @@ Completed:
 - LFM2.5 1.2B smoke adapter trained and saved locally.
 - Dataset token audit script added.
 - Benchmark and documentation plans added.
+- Qwen3 tool-call repair proof completed and documented. Strict benchmark remains blocked at 1/6, but diagnostic empty-think stripping identifies the next runtime-normalization fix.
+
+Next queued track:
+
+- Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist, with SSD-first outputs and no large downloads.
 
 Known constraints:
 

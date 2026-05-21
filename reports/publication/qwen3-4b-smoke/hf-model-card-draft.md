@@ -15,7 +15,7 @@
 ## Training Summary
 
 - Training config: `gemma4/scripts/train_config.qwen3-4b.smoke.yaml`
-- Dataset card: pending
+- Dataset card: [hf-dataset-card-draft.md](./hf-dataset-card-draft.md)
 - Dataset revision: repo-local smoke splits
 - Train tokens: 2,889
 - Iterations: 10
@@ -69,7 +69,10 @@
 
 - GitHub commit: pending next hub commit
 - Hugging Face repo: not created
-- Human review status: pending
+- Human review status: blocked until strict local tool-call benchmark passes
+- Publication gate status: BLOCKED
+- Publish-readiness checklist: [publish-readiness-checklist.md](./publish-readiness-checklist.md)
+- Tool-call benchmark blocker: the current smoke adapter is not eligible for publication until the strict local tool-call benchmark passes
 
 ## Citation
 

@@ -52,3 +52,13 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 candidate training and tool-call gate
 *Link: [./tracks/qwen3-candidate-toolcall_20260522/](./tracks/qwen3-candidate-toolcall_20260522/)*
+
+---
+
+## [ ] Track: Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist
+*Link: [./tracks/qwen36-runtime-proof_20260522/](./tracks/qwen36-runtime-proof_20260522/)*
+
+---
+
+## [x] Track: Qwen3 tool-call repair proof and runtime normalization gate
+*Link: [./tracks/qwen3-toolcall-repair_20260522/](./tracks/qwen3-toolcall-repair_20260522/)*
