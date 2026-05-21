@@ -62,6 +62,8 @@ Each Hugging Face model card should include the training config, dataset card li
 When a card cites benchmark numbers, include the exact command, model revision, harness version, prompt-set revision or hash, and the raw artifact location that produced the number.
 Adapter publication stays blocked until `benchmarks/tool_call_local/heldout_suite.json` passes strictly at `1.000` and the publish-readiness checklist is marked READY. The mirrored `benchmarks/tool_call_local/suite.json` can support regression notes but cannot satisfy the held-out publication gate.
 
+For the Qwen3 strict-tool-call heldout promotion track, the publication folder is `reports/publication/qwen3-4b-strict-toolcall/`. Its checklist must stay BLOCKED until retraining on `gemma4/data/strict_tool_call` is complete and the heldout suite reports strict pass rate `1.000`.
+
 Publish benchmark artifacts as either:
 
 - files in the model repo under `eval/`, when small enough and license-compatible

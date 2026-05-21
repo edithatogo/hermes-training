@@ -41,6 +41,28 @@ The completed `Qwen/Qwen3-4B-MLX-4bit` tool-call repair proof is a targeted nega
 
 This proves the adapter learned most tool arguments, but Qwen's empty `<think></think>` wrapper and one malformed multi-call output still block publication. The next implementation should add runtime normalization for empty leading thinking wrappers, retrain on the richer `gemma4/data/strict_tool_call` lane, and evaluate on `benchmarks/tool_call_local/heldout_suite.json`, which does not overlap the benchmark-mirrored training seed.
 
+The completed `qwen3-4b-strict-toolcall` run is a held-out promotion failure:
+
+- Config: `gemma4/scripts/train_config.qwen3-4b.strict-toolcall.yaml`
+- Iterations: 80
+- Effective trained tokens logged by MLX: 28,020
+- Peak memory: 3.785 GB
+- Output: `gemma4/experiments/qwen3-4b-strict-toolcall/lora_adapter`
+- Mirrored regression suite: strict 0.167, diagnostic empty-think-stripped 1.000
+- Held-out publication gate: strict 0.250, diagnostic empty-think-stripped 0.750
+
+This proves the current strict seed is too small for publication-quality generalization. Keep publication blocked and expand strict data before another promotion attempt.
+
+The planned `Qwen/Qwen3-4B-MLX-4bit` strict tool-call heldout promotion pass is the next publishability gate:
+
+- Training data: `gemma4/data/strict_tool_call`
+- Required evaluation suite: `benchmarks/tool_call_local/heldout_suite.json`
+- Required user prefix: `/no_think`
+- Required publication score: strict heldout pass rate `1.000`
+- Publication status until that score exists: blocked
+
+Do not substitute mirrored-suite results, diagnostic empty-think-stripped scores, or non-heldout local checks for this gate.
+
 ## Dataset Audit
 
 Run:
@@ -158,6 +180,8 @@ source scripts/env.sh
 ```
 
 The output directory should remain under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`.
+
+For the Qwen3 strict-tool-call promotion track, the model card and publish-readiness checklist must quote the exact heldout pass rate from this command shape. Any value below `1.000` keeps Hugging Face publication blocked.
 
 Publication-quality benchmark claims should also retain exact command lines, model revisions, harness versions, prompt-set revisions or hashes, and raw output locations for every score that appears in a model card or run card.
 

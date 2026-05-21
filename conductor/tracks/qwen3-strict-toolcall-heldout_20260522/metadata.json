@@ -1,0 +1,9 @@
+{
+  "id": "qwen3-strict-toolcall-heldout_20260522",
+  "title": "Qwen3 strict tool-call heldout promotion",
+  "status": "implemented",
+  "created": "2026-05-22T00:00:00+10:00",
+  "owner": "hub",
+  "lane": "mac-mlx-hermes-toolcall",
+  "health": 9.7
+}

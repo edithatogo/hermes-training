@@ -62,3 +62,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 tool-call repair proof and runtime normalization gate
 *Link: [./tracks/qwen3-toolcall-repair_20260522/](./tracks/qwen3-toolcall-repair_20260522/)*
+
+---
+
+## [x] Track: Qwen3 strict tool-call heldout promotion
+*Link: [./tracks/qwen3-strict-toolcall-heldout_20260522/](./tracks/qwen3-strict-toolcall-heldout_20260522/)*

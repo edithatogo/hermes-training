@@ -29,6 +29,14 @@ REFUSAL_MARKERS = (
     "refuse",
     "clarify",
 )
+REQUIRED_CATEGORIES = {
+    "json_validity",
+    "argument_correctness",
+    "invalid_tool_handling",
+    "multi_turn_repair",
+}
+VALID_ROLES = {"system", "user", "assistant"}
+VALID_EXPECTED_MODES = {"tool_calls", "text"}
 
 
 def load_json(path: Path) -> Any:
@@ -79,6 +87,98 @@ def extract_allowed_tools(messages: list[dict[str, Any]]) -> list[str]:
             names.append(str(name))
         return names
     return []
+
+
+def validate_suite(suite: list[Any], suite_path: Path) -> None:
+    """Validate suite shape and scorer-relevant invariants."""
+    if not suite:
+        raise ValueError(f"{suite_path}: empty benchmark suite")
+
+    seen_ids: set[str] = set()
+    categories: set[str] = set()
+    for index, case in enumerate(suite, 1):
+        if not isinstance(case, dict):
+            raise ValueError(f"{suite_path}:{index}: every case must be an object")
+
+        missing_keys = {"id", "category", "messages", "expected"} - set(case)
+        if missing_keys:
+            raise ValueError(f"{suite_path}:{index}: missing required keys {sorted(missing_keys)}")
+
+        case_id = case["id"]
+        if not isinstance(case_id, str) or not case_id:
+            raise ValueError(f"{suite_path}:{index}: id must be a non-empty string")
+        if case_id in seen_ids:
+            raise ValueError(f"{suite_path}: duplicate case id {case_id}")
+        seen_ids.add(case_id)
+
+        category = case["category"]
+        if category not in REQUIRED_CATEGORIES:
+            raise ValueError(f"{case_id}: unsupported category {category!r}")
+        categories.add(category)
+
+        messages = case["messages"]
+        if not isinstance(messages, list) or not messages:
+            raise ValueError(f"{case_id}: messages must be a non-empty list")
+        for message_index, message in enumerate(messages, 1):
+            if not isinstance(message, dict):
+                raise ValueError(f"{case_id}: message {message_index} must be an object")
+            role = message.get("role")
+            if role not in VALID_ROLES:
+                raise ValueError(f"{case_id}: message {message_index} has unsupported role {role!r}")
+            if not isinstance(message.get("content"), str):
+                raise ValueError(f"{case_id}: message {message_index} content must be a string")
+
+        allowed_tools = extract_allowed_tools(messages)
+        expected = case["expected"]
+        if not isinstance(expected, dict):
+            raise ValueError(f"{case_id}: expected must be an object")
+        mode = expected.get("mode")
+        if mode not in VALID_EXPECTED_MODES:
+            raise ValueError(f"{case_id}: unsupported expected.mode={mode!r}")
+
+        if category == "invalid_tool_handling" and mode != "text":
+            raise ValueError(f"{case_id}: invalid_tool_handling cases must use expected.mode='text'")
+        if category != "invalid_tool_handling" and mode != "tool_calls":
+            raise ValueError(f"{case_id}: {category} cases must use expected.mode='tool_calls'")
+
+        if mode == "tool_calls":
+            expected_calls = expected.get("tool_calls")
+            if not isinstance(expected_calls, list) or not expected_calls:
+                raise ValueError(f"{case_id}: tool-call cases must contain at least one expected tool call")
+            for call_index, call in enumerate(expected_calls, 1):
+                if not isinstance(call, dict):
+                    raise ValueError(f"{case_id}: expected tool call {call_index} must be an object")
+                if not isinstance(call.get("name"), str) or not call.get("name"):
+                    raise ValueError(f"{case_id}: expected tool call {call_index} must have a non-empty name")
+                if allowed_tools and call["name"] not in allowed_tools:
+                    raise ValueError(
+                        f"{case_id}: expected tool {call['name']!r} is not declared in the <tools> block"
+                    )
+                if not isinstance(call.get("arguments"), dict):
+                    raise ValueError(f"{case_id}: expected tool call {call_index} arguments must be an object")
+        else:
+            if expected.get("must_not_have_tool_calls", True) is not True:
+                raise ValueError(f"{case_id}: text-mode cases must require no tool calls")
+            markers = expected.get("must_contain_any")
+            if not isinstance(markers, list) or not all(isinstance(marker, str) and marker for marker in markers):
+                raise ValueError(f"{case_id}: text-mode cases must define non-empty must_contain_any strings")
+
+        if category == "multi_turn_repair":
+            has_assistant_context = any(message.get("role") == "assistant" for message in messages[:-1])
+            has_correction_turn = any(
+                message.get("role") == "user"
+                and any(
+                    marker in message.get("content", "").lower()
+                    for marker in ("correct", "re-issue", "incomplete", "left out")
+                )
+                for message in messages
+            )
+            if not has_assistant_context and not has_correction_turn:
+                raise ValueError(f"{case_id}: multi_turn_repair cases need malformed assistant context or a correction turn")
+
+    missing_categories = REQUIRED_CATEGORIES - categories
+    if missing_categories:
+        raise ValueError(f"{suite_path}: missing required categories {sorted(missing_categories)}")
 
 
 def strip_code_fences(text: str) -> str:
@@ -202,6 +302,7 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
     )
 
     result: dict[str, Any] = {
+        "expected_mode": expected.get("mode"),
         "json_valid": json_valid,
         "tool_name_valid": tool_names_valid,
         "tool_call_count": len(calls),
@@ -211,9 +312,12 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
         "leftover": leftover,
         "empty_think_stripped_response": normalized_response if normalized_response != response.strip() else "",
         "json_valid_after_empty_think_strip": normalized_json_valid,
+        "tool_name_valid_after_empty_think_strip": normalized_tool_names_valid,
         "parsed_tool_calls_after_empty_think_strip": normalized_calls,
+        "parse_errors_after_empty_think_strip": normalized_parse_errors,
         "leftover_after_empty_think_strip": normalized_leftover,
         "pass": False,
+        "strict_failure_rescued_by_empty_think_strip": False,
         "reason": "",
     }
 
@@ -228,6 +332,9 @@ def score_case(example: dict[str, Any], response: str) -> dict[str, Any]:
             normalized_json_valid and normalized_tool_names_valid and normalized_exact_calls
         )
         result["pass"] = json_valid and tool_names_valid and exact_calls
+        result["strict_failure_rescued_by_empty_think_strip"] = (
+            not result["pass"] and bool(result["pass_after_empty_think_strip"])
+        )
         if not result["pass"]:
             result["reason"] = expected.get("fail_reason", "tool-call output did not match the expected JSON schema")
         return result
@@ -283,6 +390,8 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
         f"- Diagnostic pass rate after empty-think stripping: `{summary['empty_think_stripped_pass_rate']:.3f}`",
         f"- Diagnostic JSON validity after empty-think stripping: `{summary['empty_think_stripped_json_valid_rate']:.3f}`",
         f"- Diagnostic argument correctness after empty-think stripping: `{summary['empty_think_stripped_argument_accuracy_rate']:.3f}`",
+        f"- Responses with leading empty-think wrapper: `{summary['empty_think_prefix_cases']}`",
+        f"- Strict failures rescued only by empty-think stripping: `{summary['strict_failures_rescued_by_empty_think_strip']}`",
         f"- Invalid-tool handling rate: `{summary['invalid_tool_handling_rate']:.3f}`",
         f"- Multi-turn repair rate: `{summary['multi_turn_repair_rate']:.3f}`",
         "",
@@ -343,17 +452,7 @@ def main() -> int:
     suite = load_json(args.suite)
     if not isinstance(suite, list):
         raise ValueError(f"{args.suite}: expected a JSON array of benchmark cases")
-    if not suite:
-        raise ValueError(f"{args.suite}: empty benchmark suite")
-    for case in suite:
-        if not isinstance(case, dict):
-            raise ValueError(f"{args.suite}: every case must be an object")
-        if "id" not in case or "category" not in case or "messages" not in case or "expected" not in case:
-            raise ValueError(f"{args.suite}: each case must contain id, category, messages, and expected")
-        if not isinstance(case["messages"], list):
-            raise ValueError(f"{case['id']}: messages must be a list")
-        if not isinstance(case["expected"], dict):
-            raise ValueError(f"{case['id']}: expected must be an object")
+    validate_suite(suite, args.suite)
 
     run_id = args.run_id or f"toolcall-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"
     output_dir = args.output_dir or (resolve_default_output_root() / "tool-call-benchmark" / run_id)
@@ -433,7 +532,7 @@ def main() -> int:
 
     cases = len(rows)
     passed = sum(1 for row in rows if row["pass"])
-    tool_call_rows = [row for row in rows if row["category"] != "invalid_tool_handling"]
+    tool_call_rows = [row for row in rows if row.get("expected_mode") == "tool_calls"]
     json_valid_count = sum(1 for row in tool_call_rows if row["json_valid"])
     arg_correct_count = sum(1 for row in tool_call_rows if row.get("arguments_correct"))
     normalized_passed = sum(1 for row in rows if row.get("pass_after_empty_think_strip"))
@@ -447,6 +546,8 @@ def main() -> int:
     invalid_tool_ok_count = sum(1 for row in invalid_tool_rows if row["pass"])
     repair_rows = [row for row in rows if row["category"] == "multi_turn_repair"]
     repair_ok_count = sum(1 for row in repair_rows if row["pass"])
+    empty_think_prefix_rows = [row for row in rows if row.get("empty_think_stripped_response")]
+    empty_think_rescued_rows = [row for row in rows if row.get("strict_failure_rescued_by_empty_think_strip")]
 
     summary = {
         "run_id": run_id,
@@ -462,8 +563,13 @@ def main() -> int:
         "json_valid_rate": json_valid_count / max(1, len(tool_call_rows)),
         "argument_accuracy_rate": arg_correct_count / max(1, len(tool_call_rows)),
         "empty_think_stripped_pass_rate": normalized_passed / cases,
-        "empty_think_stripped_json_valid_rate": normalized_json_valid_count / max(1, len(tool_call_rows)),
-        "empty_think_stripped_argument_accuracy_rate": normalized_arg_correct_count / max(1, len(tool_call_rows)),
+        "empty_think_stripped_json_valid_rate": normalized_json_valid_count
+        / max(1, len(tool_call_rows)),
+        "empty_think_stripped_argument_accuracy_rate": normalized_arg_correct_count
+        / max(1, len(tool_call_rows)),
+        "empty_think_prefix_cases": len(empty_think_prefix_rows),
+        "strict_failures_rescued_by_empty_think_strip": len(empty_think_rescued_rows),
+        "strict_failures_rescued_by_empty_think_strip_ids": [row["id"] for row in empty_think_rescued_rows],
         "invalid_tool_handling_rate": invalid_tool_ok_count / max(1, len(invalid_tool_rows)),
         "multi_turn_repair_rate": repair_ok_count / max(1, len(repair_rows)),
     }
