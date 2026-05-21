@@ -25,9 +25,9 @@
 ## Health Check
 
 - [x] Task: Estimate track health using hub `conductor/health-score.md`.
-- [ ] Task: Close or document all gaps below health 9.5.
-- [ ] Task: Run hub readiness validation and attach result to the track notes.
-- [ ] Task: Confirm health >= 9.5 before marking this track complete.
+- [x] Task: Close or document all gaps below health 9.5.
+- [x] Task: Run hub readiness validation and attach result to the track notes.
+- [x] Task: Confirm health >= 9.5 before marking this track complete.
 
 - Target: >= 9.5 / 10
 - Current estimate: 9.7 / 10

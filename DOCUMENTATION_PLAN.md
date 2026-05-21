@@ -66,6 +66,8 @@ For the completed Qwen3 strict-tool-call heldout promotion attempt, the publicat
 
 For the completed expanded-data retrain attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-expanded/`. Its checklist remains BLOCKED because the heldout suite reported strict pass rate `0.250`, below the required `1.000`. Dataset token audit and license review are recorded, but the license review keeps Hugging Face publication blocked pending upstream and mirrored-seed redistribution approval.
 
+For the completed v2/v3 strict format-guard attempts, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v2-v3/`. Its checklist remains BLOCKED because both v2 and v3 heldout suites reported strict pass rate `0.250`, below the required `1.000`. The v3 diagnostic empty-think-stripped score improved to `0.875`, but diagnostic normalization is integration evidence only and cannot replace the strict publication gate.
+
 Publish benchmark artifacts as either:
 
 - files in the model repo under `eval/`, when small enough and license-compatible

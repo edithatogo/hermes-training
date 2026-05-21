@@ -110,7 +110,7 @@ Completed:
 
 Next queued track:
 
-- Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist, with SSD-first outputs and no large downloads.
+- Qwen3.6 and Hermes runtime proof from explicit SSD-backed artifacts or live endpoints. Qwen3.7 remains unsupported as a local lane until official public weights and runtime artifacts exist.
 
 Known constraints:
 

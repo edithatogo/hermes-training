@@ -82,3 +82,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Frontier radar corrections
 *Link: [./tracks/frontier-radar-corrections_20260522/](./tracks/frontier-radar-corrections_20260522/)*
+
+---
+
+## [x] Track: Qwen3 strict format guard v2
+*Link: [./tracks/qwen3-format-guard-v2_20260522/](./tracks/qwen3-format-guard-v2_20260522/)*

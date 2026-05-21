@@ -22,7 +22,8 @@ The project should not bet on one serving tool. The acceptance target is: a fine
 
 4. **MLX server**
    - Fastest Mac-first fallback for MLX-compatible models and adapters.
-   - Start with `mlx_lm.server --model <path_to_model_or_hf_repo>` and point Hermes at `http://127.0.0.1:8080/v1`.
+   - Start with `mlx_lm.server --model <path_to_model_or_hf_repo>` and point Hermes at the selected OpenAI-compatible port.
+   - Default examples often use `http://127.0.0.1:8080/v1`; the recorded Qwen3 smoke proof used `http://127.0.0.1:8088/v1`.
 
 5. **LM Studio**
    - Use GGUF exports.
@@ -60,7 +61,7 @@ Artifacts stay on the external SSD:
 - F16 GGUF: `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf`
 - Q4_K_M GGUF: `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`
 
-Use LM Studio or direct llama.cpp as the next GGUF validation path before treating Ollama as ready for Qwen3.
+Use LM Studio as the remaining desktop GGUF validation path before treating the Qwen3 GGUF package as fully proven. Direct llama.cpp already passed for the Q4_K_M artifact.
 
 ## Next Frontier Runtime Candidate
 
@@ -97,7 +98,7 @@ This proves the local Ollama endpoint remains usable for already-installed Herme
 
 | Runtime | Start Command | Endpoint | Smoke Check |
 |---|---|---|---|
-| MLX server | `mlx_lm.server --model <path_to_model_or_hf_repo>` | `http://127.0.0.1:8080/v1` | `GET /v1/models` plus a parseable `POST /v1/chat/completions` response |
+| MLX server | `mlx_lm.server --model <path_to_model_or_hf_repo> --port <port>` | `http://127.0.0.1:<port>/v1` | `GET /v1/models` plus a parseable `POST /v1/chat/completions` response; Qwen3 proof used port `8088` |
 | Ollama | `ollama launch hermes` | `http://127.0.0.1:11434/v1` | Hermes picker sees the model and the OpenAI-compatible chat endpoint responds |
 | LM Studio | `lms server start --port 1234` | `http://localhost:1234/v1` | OpenAI-compatible chat endpoint responds from the active desktop server |
 | Ollama experimental safetensors | `ollama create --experimental -f <Modelfile>` then `ollama launch hermes` | `http://127.0.0.1:11434/v1` | Experimental create succeeds and Hermes can call the model |

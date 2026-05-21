@@ -71,6 +71,19 @@ This proves expanded coverage improved the documented evidence base but did not 
 
 Dataset-token evidence for this run is now recorded at `reports/publication/qwen3-4b-strict-toolcall-expanded/dataset-token-audit.json`. Runtime normalization of empty leading `<think></think>` wrappers is documented separately at `reports/runtime/qwen3-runtime-normalization/run-card.md`; it is a Hermes integration aid, not a benchmark promotion rule.
 
+The completed v2/v3 strict format-guard attempts are negative but useful evidence:
+
+- V2 config: `gemma4/scripts/train_config.qwen3-4b.strict-toolcall-v2.yaml`
+- V2 data: audited `gemma4/data/strict_tool_call/expanded_splits_v2`
+- V2 held-out publication gate: strict `0.250`, diagnostic empty-think-stripped `0.625`
+- V3 config: `gemma4/scripts/train_config.qwen3-4b.strict-toolcall-v3-no-think.yaml`
+- V3 data: audited `gemma4/data/strict_tool_call/expanded_splits_v3_no_think`
+- V3 held-out publication gate: strict `0.250`, diagnostic empty-think-stripped `0.875`
+- V3 residual after empty-think stripping: one semantic argument mismatch in `heldout-argument-correctness-lab-order`
+- Publication scaffold: `reports/publication/qwen3-4b-strict-toolcall-v2-v3/`
+
+This proves that prompt-shape augmentation improved recoverable tool-call behavior but did not satisfy strict Hermes output requirements. Keep Hugging Face publication blocked and prioritize either a runtime that can suppress Qwen thinking wrappers before Hermes sees them, or a base model that obeys no-thinking mode without wrapper leakage.
+
 ## Dataset Audit
 
 Run:

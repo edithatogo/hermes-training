@@ -1,0 +1,38 @@
+{
+  "data": "gemma4/data/strict_tool_call/expanded_splits_v3_no_think",
+  "model": "Qwen/Qwen3-4B-MLX-4bit",
+  "splits": {
+    "test": {
+      "avg_tokens": 262.8,
+      "max": 311,
+      "p50": 247,
+      "p95": 264,
+      "rows": 5,
+      "tokens": 1314
+    },
+    "train": {
+      "avg_tokens": 258.2,
+      "max": 755,
+      "p50": 246,
+      "p95": 440,
+      "rows": 80,
+      "tokens": 20655
+    },
+    "val": {
+      "avg_tokens": 267.4,
+      "max": 311,
+      "p50": 244,
+      "p95": 288,
+      "rows": 5,
+      "tokens": 1337
+    },
+    "valid": {
+      "avg_tokens": 267.4,
+      "max": 311,
+      "p50": 244,
+      "p95": 288,
+      "rows": 5,
+      "tokens": 1337
+    }
+  }
+}
