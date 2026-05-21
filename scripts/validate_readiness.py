@@ -118,6 +118,7 @@ def check_ollama_pack(failures: list[str]) -> None:
         "scripts/export_ollama.sh",
         "scripts/create_experimental_safetensors.sh",
         "scripts/runtime_smoke.sh",
+        "scripts/runtime_smoke_lmstudio.sh",
     ):
         path = root / rel
         if path.exists():
@@ -171,6 +172,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "ollama-pack/scripts/export_ollama.sh",
         ROOT / "ollama-pack/scripts/create_experimental_safetensors.sh",
         ROOT / "ollama-pack/scripts/runtime_smoke.sh",
+        ROOT / "ollama-pack/scripts/runtime_smoke_lmstudio.sh",
         ROOT / "scripts/env.sh",
         ROOT / "scripts/repo_status.sh",
         ROOT / "templates/benchmark/lm-evaluation-harness-smoke.sh",
@@ -188,6 +190,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/dataset_token_audit.py",
         ROOT / "scripts/eval_prompt_audit.py",
         ROOT / "scripts/eval_response_gate.py",
+        ROOT / "scripts/run_tool_call_benchmark.py",
         ROOT / "scripts/run_benchmark.py",
         ROOT / "scripts/run_teacher_evaluator.py",
         ROOT / "scripts/validate_readiness.py",

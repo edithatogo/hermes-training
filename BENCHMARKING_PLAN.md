@@ -17,6 +17,18 @@ The completed `LiquidAI/LFM2.5-1.2B-Instruct` run is a smoke test:
 
 This proves that model loading, dataset processing, LoRA injection, training, and adapter saving work on the M1 Max. It is not enough training to claim improved Hermes behavior.
 
+The completed `Qwen/Qwen3-4B-MLX-4bit` candidate run is a larger local proof:
+
+- Config: `gemma4/scripts/train_config.qwen3-4b.candidate.yaml`
+- Iterations: 60
+- Effective trained tokens logged by MLX: 25,094
+- Peak memory: 3.962 GB
+- Output: `gemma4/experiments/qwen3-4b-candidate/lora_adapter`
+- Hermes-local response gate: passed on 100 prompts
+- Tool-call benchmark: failed strict local tool-call shape at 1/6 cases
+
+This proves the Qwen3 local MLX lane can scale beyond the first smoke run without response collapse. It does not yet prove Hermes tool-calling quality; the next dataset needs explicit strict tool-call targets.
+
 ## Dataset Audit
 
 Run:
@@ -103,6 +115,7 @@ Record these for base model, smoke adapter, and each promoted adapter:
 - Response length and verbosity drift
 - Latency, tokens/sec, peak memory
 - Validation loss on held-out split
+- Local tool-call benchmark scorecard: JSON validity, argument correctness, invalid-tool handling, and multi-turn repair
 
 ## Promotion Rule
 
@@ -118,6 +131,8 @@ Do not publish or package an adapter for Hermes unless it passes:
    - candidate: broader standardized suite from `STANDARD_BENCHMARKS.md`
 6. Runtime smoke through MLX, then Ollama or LM Studio path
 7. License check for base model and dataset
+
+For local Hermes releases, the tool-call benchmark runner should be executed against `benchmarks/tool_call_local/suite.json` and the output directory should remain under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`.
 
 Publication-quality benchmark claims should also retain exact command lines, model revisions, harness versions, prompt-set revisions or hashes, and raw output locations for every score that appears in a model card or run card.
 

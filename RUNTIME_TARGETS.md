@@ -62,6 +62,19 @@ Artifacts stay on the external SSD:
 
 Use LM Studio or direct llama.cpp as the next GGUF validation path before treating Ollama as ready for Qwen3.
 
+## Next Frontier Runtime Candidate
+
+Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets:
+
+| Repo | SHA Prefix | Access | Runtime Role |
+|---|---|---|---|
+| `Qwen/Qwen3.6-35B-A3B` | `995ad96eacd9` | public, ungated, Apache-2.0 tag | Frontier teacher/runtime target; do not local fine-tune first |
+| `lmstudio-community/Qwen3.6-35B-A3B-GGUF` | `68a34855558a` | public, ungated, GGUF | First Mac GGUF runtime proof candidate once LM Studio or llama.cpp server is available |
+| `unsloth/Qwen3.6-35B-A3B-GGUF` | `a483e9e6cbd5` | public, ungated, GGUF | Alternate quant source; verify exact quant file before download |
+| `NousResearch/Hermes-4-14B` | `d6ce765c8b83` | public, ungated | Hermes-aligned baseline/teacher; compare before larger local training |
+
+Do not download these large artifacts into the repo. Use `source scripts/env.sh` first so model caches and GGUFs resolve under `/Volumes/PortableSSD`.
+
 ## Endpoint Smoke Matrix
 
 | Runtime | Start Command | Endpoint | Smoke Check |

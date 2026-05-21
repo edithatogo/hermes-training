@@ -47,3 +47,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Applications roadmap and model-use expansion
 *Link: [./tracks/applications-roadmap_20260520/](./tracks/applications-roadmap_20260520/)*
+
+---
+
+## [x] Track: Qwen3 candidate training and tool-call gate
+*Link: [./tracks/qwen3-candidate-toolcall_20260522/](./tracks/qwen3-candidate-toolcall_20260522/)*

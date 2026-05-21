@@ -84,6 +84,21 @@ Track at minimum:
 - multiple and parallel tool calls
 - latency and retry rate
 
+Run the local schema/tool-call benchmark with:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_tool_call_benchmark.py \
+  --model <model_id_or_path> \
+  --adapter <optional_adapter_path> \
+  --suite benchmarks/tool_call_local/suite.json \
+  --user-prefix /no_think
+```
+
+The runner writes raw outputs, scorecards, and summaries to `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`. Use the checked-in suite as the local BFCL-style subset for engineering runs; keep those outputs off Git and on the SSD-backed eval root.
+
+This local harness is not a substitute for the full BFCL suite. It is the fast Hermes-specific gate that should run before the broader BFCL subset.
+
 ## Retrieval Benchmark
 
 Retrieval publication claims need the retrieval lane metrics, not chat metrics.

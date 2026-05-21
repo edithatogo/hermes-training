@@ -438,6 +438,62 @@ POST /retrieve
 
 ---
 
+## Contract 5F: Local Tool-Call Benchmark Suite and Scorecard
+
+**Producer:** `benchmarks/tool_call_local/suite.json`, `scripts/run_tool_call_benchmark.py`
+**Consumer:** Hermes-local benchmark runs, run cards, publication notes
+
+**Suite schema:**
+```json
+{
+  "id": "string (unique identifier)",
+  "category": "string (one of: json_validity, argument_correctness, invalid_tool_handling, multi_turn_repair)",
+  "messages": [
+    {
+      "role": "string (one of: system, user, assistant)",
+      "content": "string"
+    }
+  ],
+  "expected": {
+    "mode": "string (one of: tool_calls, text)",
+    "tool_calls": [
+      {
+        "name": "string",
+        "arguments": {}
+      }
+    ],
+    "must_contain_any": ["string"],
+    "must_not_have_tool_calls": "boolean"
+  }
+}
+```
+
+**Constraints:**
+- The suite must contain at least one case for each required category: JSON validity, argument correctness, invalid-tool handling, and multi-turn repair
+- Tool-call cases must use exact JSON tool-call expectations
+- Invalid-tool handling cases must not hallucinate unavailable tools and should contain a refusal or clarification marker
+- Multi-turn repair cases must include prior malformed assistant context or an explicit correction turn
+- The runner must write raw outputs and summaries under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>` unless an explicit `--output-dir` is supplied
+- Published scores must retain the exact suite revision, model revision, and runner command used to produce them
+
+**Results schema:**
+```json
+{
+  "id": "string",
+  "category": "string",
+  "response": "string",
+  "latency_s": "float|null",
+  "json_valid": "boolean",
+  "tool_name_valid": "boolean",
+  "arguments_correct": "boolean|null",
+  "pass": "boolean"
+}
+```
+
+**Contract ID:** TOOLCALL-BENCH-001
+
+---
+
 ## Contract 6: Ollama Modelfile
 
 **Producer:** `export_ollama.sh`, manual editing
