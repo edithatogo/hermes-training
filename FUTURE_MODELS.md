@@ -28,10 +28,11 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 
 | Rank | Family | Candidate | Params | Fit | Role | Notes |
 |---|---|---:|---:|---|---|---|
-| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary frontier runtime target | Official card lists Transformers, vLLM, SGLang, KTransformers compatibility and 262K native context. |
+| Watch | Qwen | `Qwen3.7-Max` / `Qwen3.7-Plus-Preview` | not open-weight | Hosted only | Hosted teacher/watchlist | Announced as a new agentic model, but no official Qwen Hugging Face open-weight repo exists yet. Do not build a local track until weights or a supported API workflow are available. |
+| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo exists and community GGUF/MLX quants exist; prove runtime on Mac before using as teacher. |
 | 2 | Hermes | `NousResearch/Hermes-4-14B` | 14B dense | Inference yes, local LoRA possible but tight | Baseline and calibration target | Already Hermes-style; compare our adapters against this before training larger experiments. |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
-| 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Best low-risk way to produce a Hermes-specific adapter locally. |
+| 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
 | 5 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
 | 6 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
 | 7 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
@@ -94,6 +95,16 @@ Recommended path:
 2. Validate KTransformers on Mac only if Apple Silicon support is real in the chosen branch/build.
 3. Use it as a teacher/evaluator for Qwen3 4B and LFM2.5 adapters.
 4. Attempt local adapter training only after smoke-testing memory with 1K context, batch 1, low LoRA layer count.
+
+## Qwen3.7 Watchlist
+
+As of 2026-05-22, Qwen3.7 should be tracked as a hosted/API watchlist item, not a local model lane:
+
+- Alibaba/Qwen announced Qwen3.7-Max and preview variants for agentic coding, reasoning, and long-horizon tool execution.
+- No official Hugging Face open-weight repositories were available under `Qwen/Qwen3.7-*` during local `huggingface_hub` checks.
+- Until weights, license, and runtime artifacts exist, Qwen3.7 can only be considered for hosted teacher/evaluator experiments, not local MLX/Ollama/LM Studio training.
+
+Promotion trigger: add a local track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.
 
 ## Recurrent And Subquadratic Track
 

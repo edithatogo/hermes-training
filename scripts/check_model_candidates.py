@@ -30,6 +30,7 @@ ROLES = {
     "local-runtime",
     "cloud-teacher",
     "cloud-finetune",
+    "hosted-teacher",
     "retrieval",
     "research-runtime",
     "watchlist",
@@ -40,6 +41,7 @@ ENVIRONMENTS = {
     "mac-lmstudio",
     "azure-cuda",
     "hf-transformers",
+    "hosted-api",
     "retrieval",
     "specialist-runtime",
 }
@@ -48,6 +50,7 @@ FEASIBILITY = {
     "needs-auth",
     "needs-runtime-proof",
     "cloud-only",
+    "hosted-preview-only",
     "speculative",
 }
 
@@ -92,6 +95,9 @@ def main() -> int:
         role = item.get("role", "")
         feasibility = item.get("feasibility", "")
         print(f"\n== {repo_id}")
+        if feasibility == "hosted-preview-only":
+            print("skipped: hosted preview without open weights")
+            continue
         if role == "watchlist" or feasibility == "speculative":
             print("skipped: watchlist/speculative entry")
             continue

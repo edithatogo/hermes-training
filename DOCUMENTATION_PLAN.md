@@ -65,3 +65,14 @@ Publish benchmark artifacts as either:
 - files in the model repo under `eval/`, when small enough and license-compatible
 - a separate Hugging Face dataset repo for larger raw generations/logs
 - GitHub release artifacts when they are useful for reproducibility but too bulky for source control
+
+## Current Publication Decision
+
+As of 2026-05-22:
+
+- GitHub: publish code, Conductor tracks, benchmark harnesses, run cards, model radar updates, and negative benchmark results. This work is reproducibility infrastructure and should be versioned now.
+- Hugging Face dataset: defer until strict tool-call target examples are added, licensed, audited, and documented with a dataset card.
+- Hugging Face adapter: do not publish the Qwen3 candidate adapter. It passed the response-collapse gate but failed the strict local tool-call benchmark, so publishing it would imply quality that the evidence does not support.
+- Hugging Face GGUF/merged weights: do not publish merged Qwen3 artifacts unless the upstream license and redistribution path are explicitly reviewed and a runtime card passes.
+
+Next publishable HF artifact should be either a cleaned tool-call dataset with a dataset card, or an adapter that beats base on the local tool-call benchmark and has at least pilot-level standard benchmark results.
