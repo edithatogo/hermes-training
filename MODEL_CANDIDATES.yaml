@@ -17,7 +17,7 @@ candidates:
     license: "not applicable until open weights exist"
     first_runtime: "hosted Qwen/Alibaba API only"
     first_finetune: "not available"
-    notes: "Announced as a hosted preview for agentic coding and long-horizon tasks. No official Hugging Face open-weight repo was available under Qwen/Qwen3.7-* when checked on 2026-05-22, so this remains a hosted-preview watchlist candidate only."
+    notes: "Watchlist only. Web check on 2026-05-22 found no official Hugging Face open-weight repo under Qwen/Qwen3.7-*; do not create a local Mac/MLX or Hugging Face publication lane until official weights and license exist."
 
   - id: Qwen/Qwen3.7-Plus-Preview
     family: qwen
@@ -30,7 +30,7 @@ candidates:
     license: "not applicable until open weights exist"
     first_runtime: "hosted Qwen/Alibaba API only"
     first_finetune: "not available"
-    notes: "Hosted preview alias to keep the Qwen3.7 watchlist concrete without implying a local download or open-weight lane."
+    notes: "Watchlist only. Keep this as hosted-preview context for teacher/evaluator planning; do not treat it as runnable local hardware target until official weights exist."
 
   - id: Qwen/Qwen3.6-35B-A3B
     family: qwen
@@ -43,7 +43,7 @@ candidates:
     license: apache-2.0
     first_runtime: "LM Studio or Ollama GGUF; KTransformers only after local proof"
     first_finetune: "defer; smoke adapter only after memory proof"
-    notes: "Use as teacher/evaluator before attempting local training. The 2026-05-22 SSD-only pass found no local Qwen3.6 artifact and no active default endpoint, so LM Studio/Ollama/GGUF/KTransformers paths remain needs-runtime-proof."
+    notes: "Official Hugging Face model exists and reports 35B total / 3B active, 262k native context, Gated DeltaNet plus attention MoE layout, Apache-2.0, and Qwen-Agent/tool-calling support. Use as teacher/evaluator before attempting local training. The 2026-05-22 SSD-only pass found no local Qwen3.6 artifact and no active default endpoint, so LM Studio/Ollama/GGUF/KTransformers paths remain needs-runtime-proof."
 
   - id: NousResearch/Hermes-4-14B
     family: hermes
@@ -56,7 +56,7 @@ candidates:
     license: "check model card before derivative publishing"
     first_runtime: "Ollama or LM Studio GGUF if available; Transformers fallback"
     first_finetune: "defer"
-    notes: "Primary baseline for Hermes-style behavior. The 2026-05-22 SSD-only pass found no local Hermes 4 artifact and no active default endpoint, so GGUF/FP8/community quant paths remain needs-runtime-proof until a smoke result exists."
+    notes: "Official NousResearch/Hermes-4-14B Hugging Face model exists and is based on Qwen3-14B with hybrid reasoning/tool mode. Treat as the primary Hermes-style baseline, but the 2026-05-22 SSD-only pass found no local Hermes 4 artifact and no active default endpoint, so GGUF/FP8/community quant paths remain needs-runtime-proof until a smoke result exists."
 
   - id: google/gemma-4-26B-A4B-it
     family: gemma
@@ -95,7 +95,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF"
     first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
-    notes: "Low-latency Hermes helper candidate; official card already points to MLX and GGUF-style local paths."
+    notes: "Low-latency Hermes helper candidate. Liquid's January 2026 LFM2.5 release describes native support across llama.cpp, NexaSDK, MLX, vLLM, ONNX, and LEAP; local fine-tuning still needs a safer recipe because the prior full-smoke run showed response collapse."
 
   - id: LiquidAI/LFM2.5-1.2B-Thinking
     family: lfm
@@ -108,7 +108,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF"
     first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
-    notes: "Reasoning helper candidate; official card already points to MLX and GGUF-style local paths."
+    notes: "Reasoning helper candidate. Liquid's January 2026 LFM2.5 Thinking release says it is available on Hugging Face, LEAP, and local inference stacks including llama.cpp, MLX, vLLM, and ONNX Runtime; validate on Hermes prompts before any adapter claim."
 
   - id: LiquidAI/LFM2-8B-A1B
     family: lfm

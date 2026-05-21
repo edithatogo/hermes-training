@@ -53,15 +53,21 @@ The completed `qwen3-4b-strict-toolcall` run is a held-out promotion failure:
 
 This proves the current strict seed is too small for publication-quality generalization. Keep publication blocked and expand strict data before another promotion attempt.
 
-The planned `Qwen/Qwen3-4B-MLX-4bit` strict tool-call heldout promotion pass is the next publishability gate:
+The completed `Qwen/Qwen3-4B-MLX-4bit` strict tool-call expanded-data retrain is another held-out promotion failure:
 
-- Training data: `gemma4/data/strict_tool_call`
-- Required evaluation suite: `benchmarks/tool_call_local/heldout_suite.json`
-- Required user prefix: `/no_think`
-- Required publication score: strict heldout pass rate `1.000`
-- Publication status until that score exists: blocked
+- Config: `gemma4/scripts/train_config.qwen3-4b.strict-toolcall-expanded.yaml`
+- Training data: expanded and audited `gemma4/data/strict_tool_call/expanded_splits_v1`
+- Iterations: 120
+- Effective trained tokens logged by MLX: 33,133
+- Peak memory: 3.785 GB
+- Output: `gemma4/experiments/qwen3-4b-strict-toolcall-expanded/lora_adapter`
+- Mirrored regression suite: strict 0.167, diagnostic empty-think-stripped 0.833
+- Held-out publication gate: strict 0.250, diagnostic empty-think-stripped 0.750
+- Strict JSON validity: 0.000
+- Multi-turn repair: 0.000
+- Publication scaffold: `reports/publication/qwen3-4b-strict-toolcall-expanded/`
 
-Do not substitute mirrored-suite results, diagnostic empty-think-stripped scores, or non-heldout local checks for this gate.
+This proves expanded coverage improved the documented evidence base but did not solve strict output formatting. Keep Hugging Face publication blocked and do not substitute mirrored-suite results, diagnostic empty-think-stripped scores, non-heldout local checks, or unaudited expanded data for the held-out gate.
 
 ## Dataset Audit
 
@@ -181,7 +187,7 @@ source scripts/env.sh
 
 The output directory should remain under `$HERMES_EVAL_ROOT/tool-call-benchmark/<run-id>`.
 
-For the Qwen3 strict-tool-call promotion track, the model card and publish-readiness checklist must quote the exact heldout pass rate from this command shape. Any value below `1.000` keeps Hugging Face publication blocked.
+For the Qwen3 strict-tool-call expanded-data retrain track, the run card, model card, and publish-readiness checklist must quote the exact heldout pass rate from this command shape. Any value below `1.000` keeps Hugging Face publication blocked.
 
 Publication-quality benchmark claims should also retain exact command lines, model revisions, harness versions, prompt-set revisions or hashes, and raw output locations for every score that appears in a model card or run card.
 
