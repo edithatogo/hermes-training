@@ -55,7 +55,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [x] Track: Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist
+## [x] Track: Qwen3.6 and Hermes runtime proof with unsupported Qwen3.7 guardrail
 *Link: [./tracks/qwen36-runtime-proof_20260522/](./tracks/qwen36-runtime-proof_20260522/)*
 
 ---
@@ -72,3 +72,13 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 strict tool-call expanded data retrain
 *Link: [./tracks/qwen3-strict-toolcall-expanded_20260522/](./tracks/qwen3-strict-toolcall-expanded_20260522/)*
+
+---
+
+## [x] Track: Qwen3 publication evidence and runtime normalization
+*Link: [./tracks/qwen3-publication-evidence-runtime-normalization_20260522/](./tracks/qwen3-publication-evidence-runtime-normalization_20260522/)*
+
+---
+
+## [x] Track: Frontier radar corrections
+*Link: [./tracks/frontier-radar-corrections_20260522/](./tracks/frontier-radar-corrections_20260522/)*

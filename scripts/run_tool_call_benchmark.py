@@ -548,6 +548,11 @@ def main() -> int:
     repair_ok_count = sum(1 for row in repair_rows if row["pass"])
     empty_think_prefix_rows = [row for row in rows if row.get("empty_think_stripped_response")]
     empty_think_rescued_rows = [row for row in rows if row.get("strict_failure_rescued_by_empty_think_strip")]
+    residual_failure_rows = [
+        row
+        for row in rows
+        if not row["pass"] and not row.get("strict_failure_rescued_by_empty_think_strip")
+    ]
 
     summary = {
         "run_id": run_id,
@@ -570,6 +575,11 @@ def main() -> int:
         "empty_think_prefix_cases": len(empty_think_prefix_rows),
         "strict_failures_rescued_by_empty_think_strip": len(empty_think_rescued_rows),
         "strict_failures_rescued_by_empty_think_strip_ids": [row["id"] for row in empty_think_rescued_rows],
+        "residual_strict_failure_count": len(residual_failure_rows),
+        "residual_strict_failure_ids": [row["id"] for row in residual_failure_rows],
+        "residual_strict_failure_reasons": {
+            row["id"]: row.get("reason", "") for row in residual_failure_rows
+        },
         "invalid_tool_handling_rate": invalid_tool_ok_count / max(1, len(invalid_tool_rows)),
         "multi_turn_repair_rate": repair_ok_count / max(1, len(repair_rows)),
     }

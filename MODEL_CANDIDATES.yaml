@@ -6,32 +6,6 @@ project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and spe
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
 
 candidates:
-  - id: Qwen/Qwen3.7-Max
-    family: qwen
-    tier: hosted-preview-watchlist
-    role: hosted-teacher
-    environment: hosted-api
-    feasibility: hosted-preview-only
-    parameters: "not published as open weights"
-    architecture: "Qwen3.7 hosted flagship agent model"
-    license: "not applicable until open weights exist"
-    first_runtime: "hosted Qwen/Alibaba API only"
-    first_finetune: "not available"
-    notes: "Watchlist only. Web check on 2026-05-22 found no official Hugging Face open-weight repo under Qwen/Qwen3.7-*; do not create a local Mac/MLX or Hugging Face publication lane until official weights and license exist."
-
-  - id: Qwen/Qwen3.7-Plus-Preview
-    family: qwen
-    tier: hosted-preview-watchlist
-    role: hosted-teacher
-    environment: hosted-api
-    feasibility: hosted-preview-only
-    parameters: "not published as open weights"
-    architecture: "Qwen3.7 hosted preview agent model"
-    license: "not applicable until open weights exist"
-    first_runtime: "hosted Qwen/Alibaba API only"
-    first_finetune: "not available"
-    notes: "Watchlist only. Keep this as hosted-preview context for teacher/evaluator planning; do not treat it as runnable local hardware target until official weights exist."
-
   - id: Qwen/Qwen3.6-35B-A3B
     family: qwen
     tier: frontier-runtime
@@ -57,6 +31,19 @@ candidates:
     first_runtime: "Ollama or LM Studio GGUF if available; Transformers fallback"
     first_finetune: "defer"
     notes: "Official NousResearch/Hermes-4-14B Hugging Face model exists and is based on Qwen3-14B with hybrid reasoning/tool mode. Treat as the primary Hermes-style baseline, but the 2026-05-22 SSD-only pass found no local Hermes 4 artifact and no active default endpoint, so GGUF/FP8/community quant paths remain needs-runtime-proof until a smoke result exists."
+
+  - id: NousResearch/Hermes-4.3-36B
+    family: hermes
+    tier: baseline-teacher
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "36B"
+    architecture: "Hermes 4.3 public release"
+    license: "check model card before derivative publishing"
+    first_runtime: "Transformers or GGUF if compatible quant exists"
+    first_finetune: "defer"
+    notes: "Newer public Hermes release than Hermes-4-14B. Treat as a teacher/baseline and runtime target only until license, quantization, and Mac endpoint proof are recorded."
 
   - id: google/gemma-4-26B-A4B-it
     family: gemma
@@ -109,6 +96,45 @@ candidates:
     first_runtime: "MLX or GGUF"
     first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
     notes: "Reasoning helper candidate. Liquid's January 2026 LFM2.5 Thinking release says it is available on Hugging Face, LEAP, and local inference stacks including llama.cpp, MLX, vLLM, and ONNX Runtime; validate on Hermes prompts before any adapter claim."
+
+  - id: LiquidAI/LFM2.5-350M
+    family: lfm
+    tier: edge-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "350M"
+    architecture: "LFM2.5 hybrid edge model"
+    license: "check model card"
+    first_runtime: "MLX or GGUF"
+    first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after runtime proof"
+    notes: "Concrete small LFM2.5 public checkpoint; useful for ultra-low-latency helper and smoke tests, not a replacement for larger quality candidates."
+
+  - id: LiquidAI/LFM2.5-VL-450M
+    family: lfm
+    tier: edge-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "450M"
+    architecture: "LFM2.5 vision-language edge model"
+    license: "check model card"
+    first_runtime: "MLX, ONNX, or GGUF when available"
+    first_finetune: "defer until vision Hermes use case exists"
+    notes: "Vision-language edge candidate for UI/screenshot workflows; not a chat/tool-call SFT target."
+
+  - id: LiquidAI/LFM2.5-Audio-1.5B
+    family: lfm
+    tier: edge-runtime
+    role: local-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "1.5B"
+    architecture: "LFM2.5 audio-language edge model"
+    license: "check model card"
+    first_runtime: "LEAP or ONNX-style path after proof"
+    first_finetune: "defer"
+    notes: "Audio-language candidate for future Hermes voice workflows; not part of current text tool-call adapter path."
 
   - id: LiquidAI/LFM2-8B-A1B
     family: lfm
@@ -214,7 +240,7 @@ candidates:
     first_finetune: "contrastive retrieval tuning only"
     notes: "Strong practical baseline for retrieval before riskier frontier embedding models; treat as retrieval-only, not a chat quantization target."
 
-  - id: BlinkDL/rwkv-7-world
+  - id: BlinkDL/rwkv7-g1
     family: rwkv
     tier: research-runtime
     role: watchlist
@@ -225,7 +251,20 @@ candidates:
     license: "check checkpoint"
     first_runtime: "RWKV runtime"
     first_finetune: "defer"
-    notes: "Track recurrent long-context potential; promote only after checkpoint/runtime verification."
+    notes: "Concrete RWKV7 family entry. Track recurrent long-context potential; promote only after checkpoint/runtime verification."
+
+  - id: BlinkDL/rwkv-7-world
+    family: rwkv
+    tier: research-runtime
+    role: watchlist
+    environment: specialist-runtime
+    feasibility: speculative
+    parameters: "public checkpoints around 0.1B, 0.4B, 1.5B, and 2.9B"
+    architecture: "Recurrent/linear-time language model family"
+    license: "check checkpoint"
+    first_runtime: "RWKV runtime"
+    first_finetune: "defer"
+    notes: "No official 7B World checkpoint was verified on 2026-05-22; use exact checkpoint sizes only."
 
   - id: state-spaces/mamba-3-watchlist
     family: mamba
@@ -238,4 +277,17 @@ candidates:
     license: "check release"
     first_runtime: "native Mamba-family runtime"
     first_finetune: "defer"
-    notes: "Placeholder for verified Mamba-3 or subquadratic releases; do not train until weights and runtime are verified."
+    notes: "Architecture/research family entry. Treat subquadratic as a class description, not a model name; do not train until weights and runtime are verified."
+
+  - id: mit-oasys/rlm-qwen3-8b-v0.1
+    family: recursive
+    tier: research-runtime
+    role: watchlist
+    environment: specialist-runtime
+    feasibility: speculative
+    parameters: "8B"
+    architecture: "Recursive Language Model checkpoint based on Qwen3"
+    license: "check model card"
+    first_runtime: "Transformers or custom RLM harness after proof"
+    first_finetune: "defer"
+    notes: "Real experimental recursive checkpoint. Treat as research evidence, not a mature local Hermes model family."

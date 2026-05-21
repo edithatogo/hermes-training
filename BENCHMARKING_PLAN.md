@@ -69,6 +69,8 @@ The completed `Qwen/Qwen3-4B-MLX-4bit` strict tool-call expanded-data retrain is
 
 This proves expanded coverage improved the documented evidence base but did not solve strict output formatting. Keep Hugging Face publication blocked and do not substitute mirrored-suite results, diagnostic empty-think-stripped scores, non-heldout local checks, or unaudited expanded data for the held-out gate.
 
+Dataset-token evidence for this run is now recorded at `reports/publication/qwen3-4b-strict-toolcall-expanded/dataset-token-audit.json`. Runtime normalization of empty leading `<think></think>` wrappers is documented separately at `reports/runtime/qwen3-runtime-normalization/run-card.md`; it is a Hermes integration aid, not a benchmark promotion rule.
+
 ## Dataset Audit
 
 Run:

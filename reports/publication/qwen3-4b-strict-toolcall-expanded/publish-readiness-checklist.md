@@ -14,10 +14,10 @@
 - [x] Expanded strict data source policy recorded.
 - [x] Expanded split generation command and seed recorded.
 - [x] Dataset row counts recorded.
-- [ ] Dataset token audit recorded.
+- [x] Dataset token audit recorded.
 - [x] Tool and behavior-bucket coverage audit recorded.
 - [x] Held-out contamination check recorded.
-- [ ] License and redistribution review recorded.
+- [x] License and redistribution review recorded.
 - [x] Training config path recorded.
 - [x] Exact training command recorded.
 - [x] Adapter path recorded.
@@ -38,4 +38,4 @@ The benchmark-overlapping `benchmarks/tool_call_local/suite.json` may be used fo
 
 ## Current Decision
 
-BLOCKED. Expanded training completed, but held-out strict pass rate was `0.250`, below the required `1.000`. Standalone dataset token audit and license/redistribution review are also still missing publication evidence.
+BLOCKED. Expanded training completed, but held-out strict pass rate was `0.250`, below the required `1.000`. The dataset token audit and license review are now recorded, but the license review keeps Hugging Face publication blocked until upstream and mirrored-seed redistribution scope is explicitly approved.

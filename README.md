@@ -8,7 +8,7 @@ The MacBook Pro M1 Max/MLX setup is the first constrained local lane, not the pr
 - **Scale when useful:** Azure GPU for benchmarks, teacher/evaluator runs, and selected larger experiments after preflight.
 - **Serve fast on Mac:** MLX runtime or Ollama's experimental safetensors/MLX path when the local Ollama build supports it.
 - **Serve broadly:** GGUF export for Ollama and LM Studio.
-- **Explore specialist runtimes:** KTransformers, RWKV, BitNet, Mamba/subquadratic, and recursive wrappers only after runtime proof.
+- **Explore specialist runtimes:** KTransformers, RWKV7, BitNet, Mamba-family SSMs, and experimental recursive checkpoints only after runtime proof.
 - **Use with Hermes:** prefer `ollama launch hermes`, which configures Hermes against Ollama's OpenAI-compatible endpoint.
 - **Publish:** GitHub for code, Hugging Face for datasets/adapters/model cards.
 
@@ -36,11 +36,11 @@ Conductor planning now lives in structured `conductor/` directories:
 | Priority | Family | Candidate | Why | Preferred runtime |
 |---|---|---|---|---|
 | 1 | Qwen | `Qwen/Qwen3.6-35B-A3B` | Current open-weight frontier agent/coder; 35B total, 3B active | KTransformers, Ollama/LM Studio GGUF, Transformers |
-| 2 | Hermes | `NousResearch/Hermes-4-14B` | Already Hermes-aligned; best calibration target before training our own adapters | Ollama/LM Studio GGUF, Transformers |
+| 2 | Hermes | `NousResearch/Hermes-4-14B`, `NousResearch/Hermes-4.3-36B` | Hermes-aligned baselines; 4.3-36B is newer public Hermes, 14B is the smaller first baseline | Ollama/LM Studio GGUF, Transformers |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B MoE, 4B active, multimodal and agentic | Ollama/LM Studio GGUF, MLX if supported |
 | 4 | Qwen small | `Qwen/Qwen3-4B-MLX-4bit` | Strong low-risk fine-tune target that fits 32GB comfortably | MLX, Ollama experimental, GGUF |
-| 5 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct`, `LiquidAI/LFM2-8B-A1B` | Hybrid/on-device models, fast active parameter count | LEAP/Unsloth/TRL for LFM2.5, Ollama/GGUF |
-| 6 | Subquadratic | Qwen3-Next, Mamba-3, RWKV-7 | Linear/recurrent/SSM architecture experiments | Experimental; validate runtime support first |
+| 5 | LFM | `LiquidAI/LFM2.5-350M`, `LiquidAI/LFM2.5-1.2B-Instruct`, `LiquidAI/LFM2.5-1.2B-Thinking`, `LiquidAI/LFM2-8B-A1B` | Hybrid/on-device models, fast active parameter count | LEAP/Unsloth/TRL for LFM2.5, Ollama/GGUF |
+| 6 | Research runtime | Qwen3-Next, Mamba-3, `BlinkDL/rwkv7-g1`, `microsoft/bitnet-b1.58-2B-4T`, `mit-oasys/rlm-qwen3-8b-v0.1` | Linear/recurrent/ternary/recursive architecture experiments | Experimental; validate runtime support first |
 
 See [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable radar, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) for tool-specific deployment rules.
 

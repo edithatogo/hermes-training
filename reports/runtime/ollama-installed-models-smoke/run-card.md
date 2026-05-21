@@ -46,8 +46,8 @@ Return exactly this JSON object and nothing else: {"ok": true}
 
 | Model | Command | Result | Chat Latency |
 |---|---|---:|---:|
-| `hermes3:8b` | `SMOKE_PROMPT='Return exactly this JSON object and nothing else: {"ok": true}' ollama-pack/scripts/runtime_smoke.sh 'hermes3:8b' http://127.0.0.1:11434/v1` | Passed | 33083 ms |
-| `sam860/LFM2:2.6b` | `SMOKE_PROMPT='Return exactly this JSON object and nothing else: {"ok": true}' ollama-pack/scripts/runtime_smoke.sh 'sam860/LFM2:2.6b' http://127.0.0.1:11434/v1` | Passed | 6008 ms |
+| `hermes3:8b` | `source scripts/env.sh && SMOKE_PROMPT='Return exactly this JSON object and nothing else: {"ok": true}' bash ollama-pack/scripts/runtime_smoke.sh 'hermes3:8b' http://127.0.0.1:11434/v1` | Passed | 11776 ms |
+| `sam860/LFM2:2.6b` | `source scripts/env.sh && SMOKE_PROMPT='Return exactly this JSON object and nothing else: {"ok": true}' bash ollama-pack/scripts/runtime_smoke.sh 'sam860/LFM2:2.6b' http://127.0.0.1:11434/v1` | Passed | 3261 ms |
 
 The script validated both `/v1/models` visibility and `/v1/chat/completions` assistant content as strict JSON with `ok=true`.
 

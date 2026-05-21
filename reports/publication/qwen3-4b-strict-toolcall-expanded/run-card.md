@@ -21,17 +21,18 @@
 
 - Data path: `gemma4/data/strict_tool_call`
 - Split generation command: `cd gemma4 && python3 data/strict_tool_call/tools/materialize_expanded_splits.py`
-- Data revision or commit: pending next GitHub commit
+- Data revision or commit: `d242265` in `hermes-gemma-lab`
 - Train rows: 33
 - Validation rows: 4
 - Test rows: 5
-- Dataset token audit command: not run
-- Dataset token audit output: not available
+- Dataset token audit command: `source scripts/env.sh && HF_HUB_OFFLINE=1 ./.venv/bin/python scripts/dataset_token_audit.py --model Qwen/Qwen3-4B-MLX-4bit --data gemma4/data/strict_tool_call/expanded_splits_v1 --splits train val valid test --output reports/publication/qwen3-4b-strict-toolcall-expanded/dataset-token-audit.json`
+- Dataset token audit output: `reports/publication/qwen3-4b-strict-toolcall-expanded/dataset-token-audit.json`
+- Dataset token summary: train 9,081; val 1,026; valid 1,026; test 1,314
 - Training token evidence: MLX training run recorded 33,133 effective tokens
 - Tool coverage summary: 78 declared tool names across expanded split audit
 - Behavior buckets covered: `json_validity`, `argument_correctness`, `invalid_tool_handling`, `multi_turn_repair`
 - Held-out overlap check against `benchmarks/tool_call_local/heldout_suite.json`: 0 user prompt overlap, 0 declared tool-name overlap, 0 assistant tool-name overlap for `raw/expansion_seed_v1.jsonl`
-- License and redistribution notes: hand-authored synthetic examples for local training only; dataset publication still requires review
+- License and redistribution notes: `reports/publication/qwen3-4b-strict-toolcall-expanded/license-review.md`
 - Audit decision: passed for local retraining
 
 ## Training Setup
@@ -78,5 +79,5 @@ Primary blockers:
 - Strict JSON validity is still 0.000 because empty thinking wrappers remain in tool-call outputs.
 - Multi-turn repair remains 0.000.
 - Held-out strict pass rate is below the required `1.000`.
-- Dataset token audit has not been recorded as a standalone artifact.
-- License and redistribution review has not been recorded.
+- Dataset publication scope is not approved.
+- License and redistribution review blocks Hugging Face publication pending upstream and mirrored-seed review.

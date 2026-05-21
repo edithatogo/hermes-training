@@ -64,7 +64,7 @@ Adapter publication stays blocked until `benchmarks/tool_call_local/heldout_suit
 
 For the completed Qwen3 strict-tool-call heldout promotion attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall/` and remains BLOCKED because strict held-out pass rate was below `1.000`.
 
-For the completed expanded-data retrain attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-expanded/`. Its checklist remains BLOCKED because the heldout suite reported strict pass rate `0.250`, below the required `1.000`; a real dataset token audit and license/redistribution review are also still unrecorded publication evidence.
+For the completed expanded-data retrain attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-expanded/`. Its checklist remains BLOCKED because the heldout suite reported strict pass rate `0.250`, below the required `1.000`. Dataset token audit and license review are recorded, but the license review keeps Hugging Face publication blocked pending upstream and mirrored-seed redistribution approval.
 
 Publish benchmark artifacts as either:
 
@@ -77,7 +77,7 @@ Publish benchmark artifacts as either:
 As of 2026-05-22:
 
 - GitHub: publish code, Conductor tracks, benchmark harnesses, run cards, model radar updates, and negative benchmark results. This work is reproducibility infrastructure and should be versioned now.
-- Hugging Face dataset: defer until the expanded strict tool-call target examples have a dataset card, explicit license/redistribution review, recorded dataset token audit, and accepted publication scope.
+- Hugging Face dataset: defer until the expanded strict tool-call target examples have accepted publication scope and final redistribution approval; the draft dataset card, token audit, and license review are now recorded for the expanded attempt.
 - Hugging Face adapter: do not publish the Qwen3 candidate adapter. It passed the response-collapse gate but failed the strict local tool-call benchmark, so publishing it would imply quality that the evidence does not support.
 - Hugging Face GGUF/merged weights: do not publish merged Qwen3 artifacts unless the upstream license and redistribution path are explicitly reviewed and a runtime card passes.
 - Publish-readiness checklist: keep adapter publication blocked until the held-out strict local tool-call benchmark passes; the checklist must record that blocker status directly.

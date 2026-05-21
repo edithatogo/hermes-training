@@ -28,9 +28,8 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 
 | Rank | Family | Candidate | Params | Fit | Role | Notes |
 |---|---|---:|---:|---|---|---|
-| Watch | Qwen | `Qwen3.7-Max` / `Qwen3.7-Plus-Preview` | not open-weight | Hosted only | Hosted teacher/watchlist | Announced as a new agentic model, but no official Qwen Hugging Face open-weight repo exists yet. Do not build a local track until weights or a supported API workflow are available. |
 | 1 | Qwen | `Qwen/Qwen3.6-35B-A3B` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo exists and community GGUF/MLX quants exist; prove runtime on Mac before using as teacher. |
-| 2 | Hermes | `NousResearch/Hermes-4-14B` | 14B dense | Inference yes, local LoRA possible but tight | Baseline and calibration target | Already Hermes-style; compare our adapters against this before training larger experiments. |
+| 2 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
 | 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
 | 5 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
@@ -42,10 +41,10 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | Family | Candidate | Status | How to Treat It |
 |---|---|---|---|
 | Qwen3-Next | `Qwen/Qwen3-Next-80B-A3B-Instruct`, Qwen3-Coder-Next | Real HF models/reports exist; local repo has Qwen3Next converter support | Runtime experiment first. Too large for first local fine-tune, but important for subquadratic/linear-attention roadmap. |
-| Mamba-3 | Paper/research implementation | Current paper, not a drop-in Hermes model track yet | Watchlist. Add only after weights + Mac runtime + tokenizer are real. |
-| RWKV-7 | RWKV-7 Goose / World variants | Real recurrent family with Apache-licensed code/models | Runtime experiment. Tool-calling chat quality must be tested. |
+| Mamba-3 | State-space / selective SSM family | Current architecture family, not a drop-in Hermes model track yet | Watchlist. Add only after weights + Mac runtime + tokenizer are real. |
+| RWKV-7 | `BlinkDL/rwkv7-g1`, `BlinkDL/rwkv-7-world` exact checkpoints | Real recurrent family with public checkpoints; no official 7B World checkpoint verified | Runtime experiment. Tool-calling chat quality must be tested. |
 | BitNet b1.58 | Microsoft BitNet / QVAC BitLoRA ecosystem | Real inference ecosystem; fine-tune path emerging | Research track. Do not block core Hermes work on it. |
-| Recursive wrappers | RLM-Qwen-style recursive harnesses | Architecture/harness idea more than a simple model checkpoint | Build only after a clear repo and reproducible dataset objective exist. |
+| Recursive wrappers | `mit-oasys/rlm-qwen3-8b-v0.1` and RLM-style harnesses | Real experimental checkpoint plus architecture/harness idea | Build only after a clear runtime harness and reproducible dataset objective exist. |
 
 ## Claims To Treat Carefully
 
@@ -56,7 +55,7 @@ These may be promising, but should not be promoted until verified with an actual
 - `DeepSeek-V4-Flash`
 - `SubQ 1M-Preview`
 - `LFM 3 Preview`
-- `RLM-Qwen3-8B` unless a concrete checkpoint/harness is selected
+- generic `RLM-Qwen3-8B` unless using the concrete `mit-oasys/rlm-qwen3-8b-v0.1` checkpoint and recording the harness
 
 ## LFM Track
 
@@ -104,16 +103,15 @@ Recommended path:
 4. Record the exact command, endpoint, and smoke result under `/Volumes/PortableSSD`.
 5. Treat missing artifacts as a tracking gap, not a download request.
 
-## Qwen3.7 Watchlist
+## Unsupported Qwen3.7 Rumor Guardrail
 
-As of 2026-05-22, Qwen3.7 should be tracked as a hosted/API watchlist item, not a local model lane:
+As of 2026-05-22, Qwen3.7 should not be treated as a current public local model lane:
 
-- Alibaba/Qwen announced Qwen3.7-Max and preview variants for agentic coding, reasoning, and long-horizon tool execution.
-- No official Hugging Face open-weight repositories were available under `Qwen/Qwen3.7-*` during local `huggingface_hub` checks.
-- Until weights, license, and runtime artifacts exist, Qwen3.7 can only be considered for hosted teacher/evaluator experiments, not local MLX/Ollama/LM Studio training.
-- The concrete next track keeps `Qwen/Qwen3.7-Max` and `Qwen/Qwen3.7-Plus-Preview` on the watchlist as hosted-preview-only entries with no local download plan.
+- No official Hugging Face open-weight repositories were verified under `Qwen/Qwen3.7-*`.
+- No official Qwen source was verified that supersedes Qwen3.6 as a public open-weight local target.
+- Do not create MLX, Ollama, LM Studio, Azure fine-tune, GitHub publication, or Hugging Face publication tracks for Qwen3.7 until official weights, license, and runtime artifacts exist.
 
-Promotion trigger: add a local track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.
+Promotion trigger: add a track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.
 
 ## Recurrent And Subquadratic Track
 
@@ -122,8 +120,8 @@ These are not just "long context" models. The point is lower memory growth and f
 Candidate families:
 
 - **Qwen3.6 / Qwen3-Next:** hybrid Gated DeltaNet, MoE, and attention style architectures.
-- **Mamba-3:** SSM/MIMO research direction with improved state tracking.
-- **RWKV-7:** recurrent/RNN-style language model family.
+- **Mamba-3:** SSM/MIMO research direction with improved state tracking; treat as an architecture family until exact weights/runtime are verified.
+- **RWKV-7:** recurrent/RNN-style language model family; use exact checkpoint names such as `BlinkDL/rwkv7-g1`.
 - **RecurrentGemma / Griffin:** fixed-size recurrent state plus local attention.
 - **BitNet b1.58:** ternary-weight frontier that can radically reduce memory pressure.
 
@@ -145,8 +143,8 @@ Acceptance bar:
 | Qwen3 4B | Strong | Not needed | Likely | Strong | Strong | Best first local fine-tune. |
 | LFM2.5 1.2B | Strong per official card | Not needed | Check | Strong | Strong | Best low-latency helper fine-tune. |
 | LFM2 8B-A1B | Check per build | Not needed | Local Ollama has converter work | Improving | Check | Good Hermes agent target. |
-| Mamba-3 | Research | No | No | No | No | Watchlist until weights/runtime mature. |
-| RWKV-7 | Limited | No | Check | Mixed | Mixed | Tool-call quality must be tested. |
+| Mamba-3 | Research | No | No | No | No | Architecture watchlist until weights/runtime mature. |
+| RWKV7 / rwkv-7-world | Limited | No | Check | Mixed | Mixed | Use exact public checkpoint sizes; tool-call quality must be tested. |
 | BitNet | No | No | No | Check separate runtimes | No | Research track, not core pipeline. |
 
 ## Quantization And Runtime Notes

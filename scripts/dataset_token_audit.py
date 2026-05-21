@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import Any
 
 from mlx_lm import load
 
@@ -43,16 +44,28 @@ def main() -> int:
     parser.add_argument("--model", required=True, help="Model or local path used for tokenization.")
     parser.add_argument("--data", type=Path, required=True, help="Directory with train/valid/test JSONL files.")
     parser.add_argument("--splits", nargs="+", default=["train", "valid", "test"])
+    parser.add_argument("--output", type=Path, help="Optional JSON output path for reproducible run cards.")
     args = parser.parse_args()
 
     _, tokenizer = load(args.model)
+    report: dict[str, Any] = {
+        "model": args.model,
+        "data": str(args.data),
+        "splits": {},
+    }
     for split in args.splits:
         path = args.data / f"{split}.jsonl"
         if not path.exists():
             print(f"{split}: missing {path}")
+            report["splits"][split] = {"missing": str(path)}
             continue
         result = audit_split(path, tokenizer)
+        report["splits"][split] = result
         print(f"{split}: {json.dumps(result, sort_keys=True)}")
+
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     return 0
 

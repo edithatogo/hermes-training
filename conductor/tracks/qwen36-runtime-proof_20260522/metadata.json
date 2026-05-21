@@ -1,6 +1,6 @@
 {
   "id": "qwen36-runtime-proof_20260522",
-  "title": "Qwen3.6 runtime proof and Qwen3.7 hosted-preview watchlist",
+  "title": "Qwen3.6 runtime proof and unsupported Qwen3.7 guardrail",
   "status": "implemented",
   "created": "2026-05-21T16:10:58Z",
   "owner": "hub",

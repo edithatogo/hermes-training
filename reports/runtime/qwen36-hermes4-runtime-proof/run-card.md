@@ -14,8 +14,7 @@
 |---|---|---|---|
 | `Qwen/Qwen3.6-35B-A3B` | frontier MoE runtime/teacher candidate | LM Studio/Ollama GGUF or KTransformers if supported | no local artifact found |
 | `NousResearch/Hermes-4-14B` | Hermes-aligned baseline/teacher | LM Studio/Ollama GGUF or Transformers | no local artifact found |
-| `Qwen/Qwen3.7-Max` | hosted-preview watchlist | hosted API only | no local lane |
-| `Qwen/Qwen3.7-Plus-Preview` | hosted-preview watchlist | hosted API only | no local lane |
+| `NousResearch/Hermes-4.3-36B` | newer public Hermes baseline/teacher | Transformers or compatible GGUF after proof | no local artifact found |
 
 ## Local Artifact Scan
 
@@ -50,7 +49,7 @@ Additional targeted scans:
 
 ```bash
 find /Volumes/PortableSSD/huggingface/hub -maxdepth 2 -type d \
-  \( -name 'models--Qwen--Qwen3.6*' -o -name 'models--lmstudio-community--Qwen3.6*' -o -name 'models--unsloth--Qwen3.6*' -o -name 'models--NousResearch--Hermes-4*' -o -name 'models--Qwen--Qwen3.7*' \) \
+  \( -name 'models--Qwen--Qwen3.6*' -o -name 'models--lmstudio-community--Qwen3.6*' -o -name 'models--unsloth--Qwen3.6*' -o -name 'models--NousResearch--Hermes-4*' \) \
   -print
 
 find /Volumes/PortableSSD/hermes-exports /Volumes/PortableSSD/huggingface/hub /Volumes/PortableSSD/GitHub/hermes-training -maxdepth 6 -type f \
@@ -58,7 +57,7 @@ find /Volumes/PortableSSD/hermes-exports /Volumes/PortableSSD/huggingface/hub /V
   rg -i 'qwen3\.6|qwen3-6|qwen36|hermes-4|hermes4|qwen3\.7|qwen37'
 ```
 
-Both targeted scans returned no Qwen3.6, Hermes 4, or Qwen3.7 runnable model artifact.
+Both targeted scans returned no Qwen3.6 or Hermes 4 runnable model artifact.
 
 ## Endpoint Checks
 

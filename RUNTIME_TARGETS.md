@@ -72,8 +72,7 @@ Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets. K
 | `lmstudio-community/Qwen3.6-35B-A3B-GGUF` | `68a34855558a` | public, ungated, GGUF | First Mac GGUF runtime proof candidate once LM Studio or llama.cpp server is available |
 | `unsloth/Qwen3.6-35B-A3B-GGUF` | `a483e9e6cbd5` | public, ungated, GGUF | Alternate quant source; verify exact quant file before download |
 | `NousResearch/Hermes-4-14B` | `d6ce765c8b83` | public, ungated | Hermes-aligned baseline/teacher; compare before larger local training |
-| `Qwen/Qwen3.7-Max` | hosted preview | hosted API | Hosted-preview watchlist only; no local download or fine-tune lane |
-| `Qwen/Qwen3.7-Plus-Preview` | hosted preview | hosted API | Hosted-preview watchlist alias for the same no-download guardrail |
+| `NousResearch/Hermes-4.3-36B` | verify exact repo revision before use | public model card, no local artifact found | Newer Hermes baseline/teacher candidate; runtime proof needed |
 
 Do not download these large artifacts into the repo. Use `source scripts/env.sh` first so model caches and GGUFs resolve under `/Volumes/PortableSSD`.
 
@@ -84,9 +83,15 @@ Track `qwen36-runtime-proof_20260522` completed the SSD-only runtime proof pass:
 - no Qwen3.6 or Hermes 4 local artifact was found on `/Volumes/PortableSSD`
 - Ollama, MLX server, and LM Studio default OpenAI-compatible endpoints were not listening
 - no runtime smoke was run because doing so would have required a new large model download or an externally provided endpoint
-- Qwen3.7 remains hosted-preview watchlist only
+- Qwen3.7 was not verified in official public sources and has no local lane
 
 The no-download proof is documented in `reports/runtime/qwen36-hermes4-runtime-proof/run-card.md`. The next pass should start from an explicit SSD-backed artifact path or an already-running endpoint, then run the endpoint smoke matrix below.
+
+## Installed Ollama Smoke
+
+The installed Ollama models `hermes3:8b` and `sam860/LFM2:2.6b` passed the OpenAI-compatible JSON smoke on 2026-05-22 with no downloads. The run card is `reports/runtime/ollama-installed-models-smoke/run-card.md`.
+
+This proves the local Ollama endpoint remains usable for already-installed Hermes-style and LFM-family models. It does not validate the Qwen3 adapter package, which still needs LM Studio or Ollama import proof from the SSD-backed GGUF.
 
 ## Endpoint Smoke Matrix
 
@@ -105,9 +110,9 @@ The no-download proof is documented in `reports/runtime/qwen36-hermes4-runtime-p
 | Qwen3.6-35B-A3B | LM Studio/Ollama GGUF or KTransformers | Transformers on CPU/MPS for smoke only | Verify memory at realistic context before using with Hermes. |
 | Hermes-4-14B | Ollama/LM Studio GGUF | Transformers | Use as baseline/teacher before local LoRA. |
 | Gemma-4-26B-A4B | Ollama/LM Studio GGUF | Transformers | Validate tool-call stability; MoE quant support is moving quickly. |
-| Qwen3.7-Max / Plus-Preview | Hosted API only | None | Hosted-preview watchlist; do not create a local runtime lane until open weights exist. |
 | LFM2.5-1.2B | MLX/GGUF | LEAP/Unsloth/TRL for training | Best low-latency helper model track. |
-| Mamba-3/RWKV/BitNet | Native family runtime | None | Research only until OpenAI-compatible serving is proven. |
+| LFM2.5-350M / VL-450M / Audio-1.5B | MLX/GGUF/ONNX/LEAP depending on modality | Defer until use case proof | Verified public LFM2.5 family entries; separate chat, vision, and audio lanes. |
+| Mamba-3/RWKV7/BitNet/RLM | Native family runtime | None | Research only until OpenAI-compatible serving is proven. |
 
 ## Runtime Acceptance Tests
 
