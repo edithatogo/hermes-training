@@ -1,0 +1,8 @@
+{
+  "track_id": "azure-execution-readiness_20260524",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-05-23T16:13:59Z",
+  "updated_at": "2026-05-23T16:13:59Z",
+  "description": "Azure scale-out execution readiness covering quota confirmation, no-spend/fail-closed checks, gated Azure ML workspace and compute setup, benchmark dry-runs, teacher/evaluator runs, SSD sync, and publication evidence."
+}

@@ -1,10 +1,10 @@
 # Machine-readable model radar for Hermes-agent model lanes.
 # Update with: python3 scripts/check_model_candidates.py
 
-updated: "2026-05-22"
+updated: "2026-05-24"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-05-22: Hugging Face/GitHub search found official Qwen3.6 and Hermes-4-14B artifacts, but no official Qwen3.7 open-weight local lane. Treat Qwen3.7 as unsupported until Qwen publishes an official model card or repository."
+latest_release_recheck: "2026-05-24: parallel web search found refreshed Qwen3.6 27B/35B, Unsloth MLX/GGUF/MTP Qwen3.6 variants, Gemma 4 26B A4B GGUF/NVFP4 paths, Hermes 4.3 36B/GGUF, and RWKV7 entries. No official Qwen3.7 open-weight local lane was verified."
 
 candidates:
   - id: Qwen/Qwen3.6-35B-A3B
@@ -46,6 +46,19 @@ candidates:
     first_finetune: "defer"
     notes: "Newer public Hermes release than Hermes-4-14B. Treat as a teacher/baseline and runtime target only until license, quantization, and Mac endpoint proof are recorded."
 
+  - id: NousResearch/Hermes-4.3-36B-GGUF
+    family: hermes
+    tier: baseline-teacher
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "36B"
+    architecture: "Hermes 4.3 public release, GGUF packaging"
+    license: "check model card before derivative publishing"
+    first_runtime: "LM Studio or llama.cpp smoke only"
+    first_finetune: "defer"
+    notes: "Recent NousResearch GGUF packaging for Hermes 4.3 36B. Treat as a runtime proof candidate, not a local fine-tune target on 32GB."
+
   - id: google/gemma-4-26B-A4B-it
     family: gemma
     tier: frontier-runtime
@@ -59,6 +72,32 @@ candidates:
     first_finetune: "experimental smoke only"
     notes: "Validate memory and tool-call stability before training; keep any on-device quant path as needs-runtime-proof."
 
+  - id: unsloth/gemma-4-26B-A4B-it-GGUF
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "26B total / 4B active"
+    architecture: "Sparse MoE, multimodal Gemma 4, GGUF packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or Ollama GGUF smoke"
+    first_finetune: "defer"
+    notes: "Recent Unsloth GGUF path for Gemma 4 26B A4B. Candidate for runtime proof and tool-call comparison only."
+
+  - id: nvidia/Gemma-4-26B-A4B-NVFP4
+    family: gemma
+    tier: frontier-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "26B total / 4B active"
+    architecture: "Sparse MoE, multimodal Gemma 4, NVFP4 quantization"
+    license: "check model card"
+    first_runtime: "NVIDIA/cloud or specialist runtime proof"
+    first_finetune: "defer"
+    notes: "Quantized Gemma 4 path surfaced in the 2026-05-24 scan; likely not a Mac-first path."
+
   - id: Qwen/Qwen3-4B-MLX-4bit
     family: qwen
     tier: practical-finetune
@@ -71,6 +110,58 @@ candidates:
     first_runtime: "MLX server"
     first_finetune: "MLX-LM LoRA"
     notes: "Best first local Hermes adapter target."
+
+  - id: Qwen/Qwen3.6-27B
+    family: qwen
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "27B"
+    architecture: "Qwen3.6 multimodal family"
+    license: "check model card"
+    first_runtime: "LM Studio/GGUF, MLX quant, or Transformers after proof"
+    first_finetune: "defer"
+    notes: "Smaller Qwen3.6 official candidate than 35B-A3B. Runtime proof and license check first."
+
+  - id: unsloth/Qwen3.6-27B-UD-MLX-4bit
+    family: qwen
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "27B"
+    architecture: "Qwen3.6, MLX 4-bit packaging"
+    license: apache-2.0
+    first_runtime: "MLX server smoke with Hermes Agent/OpenAI-compatible endpoint"
+    first_finetune: "defer"
+    notes: "Model card includes MLX and Hermes Agent setup examples. Size is tight for a 32GB Mac; runtime proof only before any benchmark claims."
+
+  - id: unsloth/Qwen3.6-27B-MTP-GGUF
+    family: qwen
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "27B"
+    architecture: "Qwen3.6, GGUF with multi-token prediction packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or Ollama GGUF smoke"
+    first_finetune: "defer"
+    notes: "Recent Unsloth MTP GGUF packaging. Candidate for runtime latency and tool-call smoke, not local training."
+
+  - id: unsloth/Qwen3.6-35B-A3B-MTP-GGUF
+    family: qwen
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "35B total / 3B active"
+    architecture: "Sparse MoE Qwen3.6, GGUF with multi-token prediction packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or Ollama GGUF smoke"
+    first_finetune: "defer"
+    notes: "Recent Unsloth MTP GGUF path for the priority Qwen3.6 MoE candidate. Runtime proof first."
 
   - id: LiquidAI/LFM2.5-1.2B-Instruct
     family: lfm

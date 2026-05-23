@@ -44,6 +44,8 @@ Conductor planning now lives in structured `conductor/` directories:
 
 See [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable radar, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) for tool-specific deployment rules.
 
+The remaining work is now split into parallel Conductor lanes in [PARALLEL_ROADMAP.md](./PARALLEL_ROADMAP.md). The current model-release scan is recorded at [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md).
+
 Use [BENCHMARKING_PLAN.md](./BENCHMARKING_PLAN.md) to decide whether an adapter is actually better than the base model. Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for standardized benchmarks that should accompany GitHub/Hugging Face publication. Use [DOCUMENTATION_PLAN.md](./DOCUMENTATION_PLAN.md) before publishing adapters or datasets. Use [APPLICATIONS.md](./APPLICATIONS.md) to decide which model family fits each downstream use.
 
 ## Pipeline

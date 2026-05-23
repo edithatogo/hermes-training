@@ -1,0 +1,212 @@
+
+== Qwen/Qwen3.6-35B-A3B
+exists: yes
+private: False
+downloads: 6011835
+likes: 1873
+modified: 2026-04-24 02:53:42+00:00
+tags: transformers,safetensors,qwen3_5_moe,image-text-to-text,conversational,license:apache-2.0,eval-results,endpoints_compatible,deploy:azure,region:us
+
+== NousResearch/Hermes-4-14B
+exists: yes
+private: False
+downloads: 2778
+likes: 146
+modified: 2026-01-09 12:26:18+00:00
+tags: transformers,safetensors,qwen3,text-generation,Qwen-3-14B,instruct,finetune,reasoning,hybrid-mode,chatml,function calling,tool use
+
+== NousResearch/Hermes-4.3-36B
+exists: yes
+private: False
+downloads: 6287
+likes: 209
+modified: 2025-12-06 15:04:17+00:00
+tags: transformers,safetensors,seed_oss,text-generation,Bytedance Seed,instruct,finetune,reasoning,hybrid-mode,chatml,function calling,tool use
+
+== NousResearch/Hermes-4.3-36B-GGUF
+exists: yes
+private: False
+downloads: 4520
+likes: 52
+modified: 2025-12-03 18:34:51+00:00
+tags: transformers,gguf,Bytedance Seed,instruct,finetune,reasoning,hybrid-mode,chatml,function calling,tool use,json mode,structured outputs
+
+== google/gemma-4-26B-A4B-it
+exists: yes
+private: False
+downloads: 9929454
+likes: 992
+modified: 2026-05-18 16:25:07+00:00
+tags: transformers,safetensors,gemma4,image-text-to-text,conversational,base_model:google/gemma-4-26B-A4B,base_model:finetune:google/gemma-4-26B-A4B,license:apache-2.0,eval-results,endpoints_compatible,deploy:azure,region:us
+
+== unsloth/gemma-4-26B-A4B-it-GGUF
+exists: yes
+private: False
+downloads: 3049058
+likes: 770
+modified: 2026-05-04 09:45:46+00:00
+tags: gguf,gemma4,unsloth,gemma,google,image-text-to-text,base_model:google/gemma-4-26B-A4B-it,base_model:quantized:google/gemma-4-26B-A4B-it,license:apache-2.0,endpoints_compatible,region:us,imatrix
+
+== nvidia/Gemma-4-26B-A4B-NVFP4
+exists: yes
+private: False
+downloads: 974726
+likes: 59
+modified: 2026-05-11 15:58:52+00:00
+tags: Model Optimizer,safetensors,gemma4,nvidia,ModelOpt,quantized,NVFP4,nvfp4,gemma4-26b-A4B-it,text-generation,conversational,base_model:google/gemma-4-26B-A4B-it
+
+== Qwen/Qwen3-4B-MLX-4bit
+exists: yes
+private: False
+downloads: 75135
+likes: 29
+modified: 2025-08-29 08:19:39+00:00
+tags: mlx,safetensors,qwen3,text-generation,conversational,arxiv:2309.00071,arxiv:2505.09388,license:apache-2.0,4-bit,region:us
+
+== Qwen/Qwen3.6-27B
+exists: yes
+private: False
+downloads: 4115906
+likes: 1399
+modified: 2026-04-24 02:39:16+00:00
+tags: transformers,safetensors,qwen3_5,image-text-to-text,conversational,license:apache-2.0,eval-results,endpoints_compatible,deploy:azure,region:us
+
+== unsloth/Qwen3.6-27B-UD-MLX-4bit
+exists: yes
+private: False
+downloads: 93605
+likes: 51
+modified: 2026-04-22 14:12:35+00:00
+tags: mlx,safetensors,qwen3_5,unsloth,qwen,image-text-to-text,conversational,base_model:Qwen/Qwen3.6-27B,base_model:quantized:Qwen/Qwen3.6-27B,license:apache-2.0,4-bit,region:us
+
+== unsloth/Qwen3.6-27B-MTP-GGUF
+exists: yes
+private: False
+downloads: 597584
+likes: 432
+modified: 2026-05-20 08:48:34+00:00
+tags: transformers,gguf,unsloth,qwen,qwen3_5,image-text-to-text,base_model:Qwen/Qwen3.6-27B,base_model:quantized:Qwen/Qwen3.6-27B,license:apache-2.0,endpoints_compatible,region:us,imatrix
+
+== unsloth/Qwen3.6-35B-A3B-MTP-GGUF
+exists: yes
+private: False
+downloads: 507644
+likes: 340
+modified: 2026-05-20 08:48:17+00:00
+tags: transformers,gguf,unsloth,qwen,qwen3_5_moe,image-text-to-text,base_model:Qwen/Qwen3.6-35B-A3B,base_model:quantized:Qwen/Qwen3.6-35B-A3B,license:apache-2.0,endpoints_compatible,region:us,imatrix
+
+== LiquidAI/LFM2.5-1.2B-Instruct
+exists: yes
+private: False
+downloads: 438464
+likes: 588
+modified: 2026-03-30 12:48:13+00:00
+tags: transformers,safetensors,lfm2,text-generation,liquid,lfm2.5,edge,conversational,en,ar,zh,fr
+
+== LiquidAI/LFM2.5-1.2B-Thinking
+exists: yes
+private: False
+downloads: 31777
+likes: 349
+modified: 2026-03-30 13:21:58+00:00
+tags: transformers,safetensors,lfm2,text-generation,liquid,lfm2.5,edge,conversational,en,ar,zh,fr
+
+== LiquidAI/LFM2.5-350M
+exists: yes
+private: False
+downloads: 136840
+likes: 305
+modified: 2026-04-01 19:39:31+00:00
+tags: transformers,safetensors,lfm2,text-generation,liquid,lfm2.5,edge,conversational,en,ar,zh,fr
+
+== LiquidAI/LFM2.5-VL-450M
+exists: yes
+private: False
+downloads: 50027
+likes: 174
+modified: 2026-04-08 19:38:36+00:00
+tags: transformers,safetensors,lfm2_vl,image-text-to-text,liquid,lfm2,lfm2-vl,edge,lfm2.5-vl,lfm2.5,conversational,en
+
+== LiquidAI/LFM2.5-Audio-1.5B
+exists: yes
+private: False
+downloads: 1012
+likes: 407
+modified: 2026-03-30 14:43:52+00:00
+tags: liquid-audio,safetensors,liquid,lfm2,audio,lfm2-audio,speech-to-speech,audio-to-audio,en,arxiv:2511.23404,base_model:LiquidAI/LFM2-1.2B,base_model:finetune:LiquidAI/LFM2-1.2B
+
+== LiquidAI/LFM2-8B-A1B
+exists: yes
+private: False
+downloads: 69813
+likes: 358
+modified: 2026-03-30 12:53:52+00:00
+tags: transformers,safetensors,lfm2_moe,text-generation,liquid,lfm2,edge,moe,conversational,en,ar,zh
+
+== LiquidAI/LFM2-ColBERT-350M
+exists: yes
+private: False
+downloads: 88889
+likes: 131
+modified: 2026-05-05 07:24:21+00:00
+tags: PyLate,safetensors,lfm2,liquid,edge,ColBERT,sentence-transformers,sentence-similarity,feature-extraction,en,ar,zh
+
+== Qwen/Qwen3-Next-80B-A3B-Instruct
+exists: yes
+private: False
+downloads: 394823
+likes: 1021
+modified: 2025-09-17 06:57:40+00:00
+tags: transformers,safetensors,qwen3_next,text-generation,conversational,arxiv:2309.00071,arxiv:2404.06654,arxiv:2505.09388,arxiv:2501.15383,license:apache-2.0,eval-results,endpoints_compatible
+
+== microsoft/bitnet-b1.58-2B-4T
+exists: yes
+private: False
+downloads: 15217
+likes: 1450
+modified: 2025-12-17 18:13:05+00:00
+tags: transformers,safetensors,bitnet,text-generation,chat,large-language-model,conversational,custom_code,en,arxiv:2504.12285,license:mit,endpoints_compatible
+
+== jinaai/jina-embeddings-v4
+exists: yes
+private: False
+downloads: 566831
+likes: 520
+modified: 2026-04-08 14:29:59+00:00
+tags: transformers,safetensors,feature-extraction,vidore,colpali,multimodal-embedding,multilingual-embedding,Text-to-Visual Document (T→VD) retrieval,sentence-similarity,mteb,sentence-transformers,vllm
+
+== Qwen/Qwen3-Embedding-4B
+exists: yes
+private: False
+downloads: 2730510
+likes: 268
+modified: 2025-06-20 09:30:56+00:00
+tags: sentence-transformers,safetensors,qwen3,text-generation,transformers,sentence-similarity,feature-extraction,text-embeddings-inference,arxiv:2506.05176,base_model:Qwen/Qwen3-4B-Base,base_model:finetune:Qwen/Qwen3-4B-Base,license:apache-2.0
+
+== Qwen/Qwen3-Reranker-4B
+exists: yes
+private: False
+downloads: 1138535
+likes: 139
+modified: 2026-04-16 08:56:07+00:00
+tags: transformers,safetensors,qwen3,text-generation,sentence-transformers,text-ranking,arxiv:2506.05176,base_model:Qwen/Qwen3-4B-Base,base_model:finetune:Qwen/Qwen3-4B-Base,license:apache-2.0,endpoints_compatible,region:us
+
+== BAAI/bge-m3
+exists: yes
+private: False
+downloads: 28726979
+likes: 3031
+modified: 2024-07-03 14:50:10+00:00
+tags: sentence-transformers,pytorch,onnx,xlm-roberta,feature-extraction,sentence-similarity,arxiv:2402.03216,arxiv:2004.04906,arxiv:2106.14807,arxiv:2107.05720,arxiv:2004.12832,license:mit
+
+== BlinkDL/rwkv7-g1
+skipped: watchlist/speculative entry
+
+== BlinkDL/rwkv-7-world
+skipped: watchlist/speculative entry
+
+== state-spaces/mamba-3-watchlist
+skipped: watchlist/speculative entry
+
+== mit-oasys/rlm-qwen3-8b-v0.1
+skipped: watchlist/speculative entry

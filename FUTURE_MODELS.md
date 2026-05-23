@@ -2,6 +2,8 @@
 
 This file is the model-selection radar for Hermes fine-tunes on a MacBook Pro M1 Max with 32GB RAM. Refresh it before starting a new track because model availability, MLX support, Ollama converter support, and quantized releases move quickly.
 
+Latest scan: [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md). No official Qwen3.7 open-weight local lane was verified in that scan.
+
 ## Selection Rules
 
 - Prefer models with **a real open-weight repository** and a Mac-usable runtime path.

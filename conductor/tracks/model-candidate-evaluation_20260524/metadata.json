@@ -1,0 +1,8 @@
+{
+  "track_id": "model-candidate-evaluation_20260524",
+  "type": "research-evaluation",
+  "status": "new",
+  "created_at": "2026-05-23T16:14:11Z",
+  "updated_at": "2026-05-23T16:14:11Z",
+  "description": "Set up parallel evaluation lanes for model-candidate selection, teacher baselines, retrieval candidates, research runtimes, and publish/no-publish decisions."
+}
