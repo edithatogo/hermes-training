@@ -92,3 +92,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Runtime-normalized tool-call report
 *Link: [./tracks/runtime-normalized-toolcall-report_20260524/](./tracks/runtime-normalized-toolcall-report_20260524/)*
+
+---
+
+## [x] Track: OpenAI normalizing proxy
+*Link: [./tracks/openai-normalizing-proxy_20260524/](./tracks/openai-normalizing-proxy_20260524/)*

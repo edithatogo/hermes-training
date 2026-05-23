@@ -104,6 +104,32 @@ This proves the local Ollama endpoint remains usable for already-installed Herme
 | Ollama experimental safetensors | `ollama create --experimental -f <Modelfile>` then `ollama launch hermes` | `http://127.0.0.1:11434/v1` | Experimental create succeeds and Hermes can call the model |
 | Specialist runtime | `<runtime-specific launcher>` | `<OpenAI-compatible endpoint>` | Record a lane-specific launcher and still require parseable `/v1/models` plus chat completion output |
 
+## Normalizing Proxy
+
+For local Hermes use, `scripts/openai_normalizing_proxy.py` can sit in front of any non-streaming OpenAI-compatible endpoint and remove only empty leading Qwen `<think></think>` wrappers from `choices[].message.content`.
+
+Examples:
+
+```bash
+# Ollama upstream
+source scripts/env.sh
+./.venv/bin/python scripts/openai_normalizing_proxy.py \
+  --upstream http://127.0.0.1:11434/v1 \
+  --listen-port 8099
+
+# MLX server upstream, matching the recorded Qwen3 proof port
+./.venv/bin/python scripts/openai_normalizing_proxy.py \
+  --upstream http://127.0.0.1:8088/v1 \
+  --listen-port 8099
+
+# LM Studio upstream
+./.venv/bin/python scripts/openai_normalizing_proxy.py \
+  --upstream http://127.0.0.1:1234/v1 \
+  --listen-port 8099
+```
+
+Point Hermes at `http://127.0.0.1:8099/v1`. Streaming chat completions are rejected until SSE normalization has its own contract. This proxy is runtime integration infrastructure; it does not change strict benchmark scoring or Hugging Face publication gates.
+
 ## Frontier Runtime Candidates
 
 | Model | First Try | Fallback | Notes |

@@ -22,6 +22,7 @@ Strict benchmark results remain the model-quality gate. The diagnostic empty-thi
 ## Implemented Helpers
 
 - `scripts/normalize_tool_response.py`
+- `scripts/openai_normalizing_proxy.py`
 - `ollama-pack/scripts/normalize_runtime_json.py`
 
 ## Validation
@@ -29,8 +30,25 @@ Strict benchmark results remain the model-quality gate. The diagnostic empty-thi
 ```bash
 source scripts/env.sh
 ./.venv/bin/python scripts/normalize_tool_response.py --self-test
+./.venv/bin/python scripts/openai_normalizing_proxy.py --self-test
 ./.venv/bin/python ollama-pack/scripts/normalize_runtime_json.py --self-test
 ```
+
+Proxy usage:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/openai_normalizing_proxy.py \
+  --upstream http://127.0.0.1:11434/v1 \
+  --listen-port 8099
+```
+
+Point Hermes at `http://127.0.0.1:8099/v1`. Use a different upstream for MLX server or LM Studio as needed.
+
+Live proxy smoke evidence:
+
+- `reports/runtime/openai-normalizing-proxy-ollama-smoke/run-card.md`
+- Upstream `http://127.0.0.1:11434/v1`, proxy `http://127.0.0.1:8099/v1`, model `hermes3:8b`, passed `/v1/models` and `/v1/chat/completions`.
 
 The V3 held-out runtime-normalized report is recorded at:
 

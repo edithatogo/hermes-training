@@ -123,6 +123,7 @@ Fallbacks:
 - MLX server: `mlx_lm.server --model <model-or-adapter>` then point Hermes at that OpenAI-compatible endpoint.
 - Ollama GGUF: create a model from a `Modelfile`, then launch Hermes through Ollama.
 - LM Studio: load the GGUF and point Hermes at LM Studio's OpenAI-compatible local server.
+- Normalizing proxy: for Qwen-family outputs, point Hermes at `http://127.0.0.1:8099/v1` after starting `scripts/openai_normalizing_proxy.py` in front of Ollama, MLX server, or LM Studio. The proxy removes only empty leading `<think></think>` wrappers and rejects streaming responses.
 
 ## Publication Status
 

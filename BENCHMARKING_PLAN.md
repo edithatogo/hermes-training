@@ -86,6 +86,8 @@ This proves that prompt-shape augmentation improved recoverable tool-call behavi
 
 A first-class runtime-normalized report for the V3 held-out scorecard is now generated under `/Volumes/PortableSSD/hermes-evals/runtime-normalized-tool-call/qwen3-4b-strict-toolcall-v3-heldout-20260524/`. It reports strict `0.250` and runtime-normalized `0.875`. This is Hermes integration evidence only; it does not satisfy the held-out publication gate.
 
+`scripts/openai_normalizing_proxy.py` implements the corresponding local integration path for non-streaming OpenAI-compatible endpoints. It may be used by Hermes for local development, but benchmark reports must continue to quote raw strict scores and any runtime-normalized score as diagnostic only.
+
 ## Dataset Audit
 
 Run:
