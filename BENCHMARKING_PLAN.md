@@ -84,6 +84,8 @@ The completed v2/v3 strict format-guard attempts are negative but useful evidenc
 
 This proves that prompt-shape augmentation improved recoverable tool-call behavior but did not satisfy strict Hermes output requirements. Keep Hugging Face publication blocked and prioritize either a runtime that can suppress Qwen thinking wrappers before Hermes sees them, or a base model that obeys no-thinking mode without wrapper leakage.
 
+A first-class runtime-normalized report for the V3 held-out scorecard is now generated under `/Volumes/PortableSSD/hermes-evals/runtime-normalized-tool-call/qwen3-4b-strict-toolcall-v3-heldout-20260524/`. It reports strict `0.250` and runtime-normalized `0.875`. This is Hermes integration evidence only; it does not satisfy the held-out publication gate.
+
 ## Dataset Audit
 
 Run:

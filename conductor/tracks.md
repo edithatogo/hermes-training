@@ -87,3 +87,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 strict format guard v2
 *Link: [./tracks/qwen3-format-guard-v2_20260522/](./tracks/qwen3-format-guard-v2_20260522/)*
+
+---
+
+## [x] Track: Runtime-normalized tool-call report
+*Link: [./tracks/runtime-normalized-toolcall-report_20260524/](./tracks/runtime-normalized-toolcall-report_20260524/)*

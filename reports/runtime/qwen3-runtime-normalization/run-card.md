@@ -32,6 +32,13 @@ source scripts/env.sh
 ./.venv/bin/python ollama-pack/scripts/normalize_runtime_json.py --self-test
 ```
 
+The V3 held-out runtime-normalized report is recorded at:
+
+- `/Volumes/PortableSSD/hermes-evals/runtime-normalized-tool-call/qwen3-4b-strict-toolcall-v3-heldout-20260524/summary.md`
+- `reports/runtime/qwen3-runtime-normalized-toolcall-v3-heldout/run-card.md`
+
+Result: strict held-out pass `0.250`; runtime-normalized pass `0.875`; residual runtime failure `heldout-argument-correctness-lab-order`.
+
 ## Next Runtime Proof
 
 Run an endpoint smoke against an already available local model or SSD-backed artifact:
