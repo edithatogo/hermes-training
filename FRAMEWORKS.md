@@ -2,6 +2,8 @@
 
 This workspace is Hermes-agent-first. Mac/MLX is the constrained local lane, but framework choice follows model role, platform lane, and runtime proof.
 
+The source of truth for runtime and training format lanes is `RUNTIME_FORMAT_LANES.yaml`. GGUF is a serving and portability target, not the default training artifact.
+
 ## Decision Matrix
 
 | Framework / SDK | Use For | Mac M1 Max Fit | Status In This Project | Notes |

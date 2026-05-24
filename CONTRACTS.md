@@ -707,6 +707,26 @@ POST /retrieve
 
 ---
 
+## Contract 5G: Runtime And Training Format Ladder
+
+Every candidate must declare a primary runtime/training format lane before it is used for training, benchmarking, runtime proof, or publication. The lane definitions are maintained in `RUNTIME_FORMAT_LANES.yaml` and validated by `scripts/validate_runtime_format_lanes.py`.
+
+Required lanes:
+
+- `mlx-native`
+- `gguf-portability`
+- `unsloth-cloud`
+- `ktransformers-moe`
+- `liquid-leap-lfm`
+- `recurrent-ssm-bitnet`
+- `hosted-frontier-api`
+
+GGUF is a runtime portability artifact. It is valid evidence for local serving only after endpoint smoke and benchmark outputs are recorded. It is not valid evidence that a fine-tune improved behavior.
+
+**Contract ID:** FORMAT-001
+
+---
+
 ## Contract 6: Ollama Modelfile
 
 **Producer:** `export_ollama.sh`, manual editing

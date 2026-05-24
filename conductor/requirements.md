@@ -18,6 +18,7 @@ Organize, train, benchmark, package, and publish Hermes-ready model adapters and
 | M8 | GitHub/Hugging Face publication plan | hub | `DOCUMENTATION_PLAN.md` and track release docs |
 | M9 | Platform lanes separate purpose from environment | hub | docs and model radar classify Mac, Azure, runtime, retrieval, and research lanes |
 | M10 | Azure preflight before cloud work | hub | account, subscription, region, quota, extension, and cost policy checked before compute |
+| M11 | Runtime/training formats are explicit and GGUF is only one portability lane | hub | `RUNTIME_FORMAT_LANES.yaml` plus `scripts/validate_runtime_format_lanes.py` |
 
 ## Should Have
 
@@ -32,6 +33,7 @@ Organize, train, benchmark, package, and publish Hermes-ready model adapters and
 | S7 | Retrieval track plan for LFM2-ColBERT | future | Medium |
 | S8 | Frontier model radar with role/platform/feasibility fields | hub | High |
 | S9 | Cloud teacher/evaluator workflow for Hermes 4/Qwen3.6/Gemma | hub | High |
+| S10 | Format-specific promotion gates for MLX, GGUF, Unsloth, KTransformers, LEAP/LFM, recurrent/SSM/BitNet, and hosted APIs | hub | High |
 
 ## Could Have
 
@@ -43,6 +45,7 @@ Organize, train, benchmark, package, and publish Hermes-ready model adapters and
 | C4 | MTEB/retrieval benchmark track | future retrieval repo | Medium |
 | C5 | Runtime bakeoff across MLX/Ollama/LM Studio | `ollama-pack` | Medium |
 | C6 | Watchlist for speculative recursive/subquadratic/MTP/MoE releases | hub | Medium |
+| C7 | Runtime bakeoff across native MLX, GGUF, KTransformers, LEAP/LFM, and hosted teacher APIs | hub | Medium |
 
 ## Won't Have For Current Iteration
 
@@ -53,3 +56,4 @@ Organize, train, benchmark, package, and publish Hermes-ready model adapters and
 | W3 | Local fine-tuning large MoE frontier models by default | Runtime/teacher first until memory proof exists |
 | W4 | Large artifacts committed to Git | Use SSD/Hugging Face release paths |
 | W5 | Cloud spend without explicit preflight and cost caps | Azure hours do not guarantee GPU quota or capacity |
+| W6 | Treating GGUF conversion as training evidence | GGUF is a serving/portability artifact; training evidence must come from native adapter or training logs |

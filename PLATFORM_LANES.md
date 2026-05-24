@@ -13,6 +13,8 @@ Hermes Training Hub is organized around Hermes-agent model capability, not one m
 | Retrieval | Hermes memory and RAG | LFM2-ColBERT, BGE-M3, Jina/Qwen embeddings | MTEB/retrieval eval, not chat SFT eval |
 | Specialist Runtime | Research architectures | RWKV, BitNet, Mamba/subquadratic, recursive wrappers | weights/license/runtime verified, endpoint smoke |
 
+Format-specific rules live in `RUNTIME_FORMAT_LANES.yaml`. A model can be in a Mac or specialist platform lane while still using MLX, PEFT/safetensors, KTransformers, LEAP/LFM, native recurrent/SSM/BitNet, hosted API, or GGUF as its primary format lane.
+
 ## Rules
 
 - Local Mac work is constrained to what fits the 32GB M1 Max without swap-heavy runs.

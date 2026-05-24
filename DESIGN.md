@@ -24,6 +24,28 @@ flowchart TD
 ```
 
 ```mermaid
+flowchart TD
+    MODEL[Candidate model] --> FORMAT{Primary format lane}
+    FORMAT --> MLX[MLX native: Mac LoRA + MLX server]
+    FORMAT --> PEFT[PEFT/safetensors: Unsloth or TRL on Azure]
+    FORMAT --> LFM[LEAP/LFM: Liquid edge deployment]
+    FORMAT --> KTRANS[KTransformers: sparse MoE runtime]
+    FORMAT --> NATIVE[Native research: RWKV / BitNet / Mamba / RLM]
+    FORMAT --> GGUF[GGUF portability: llama.cpp / LM Studio / Ollama]
+    FORMAT --> API[Hosted frontier API: teacher only]
+
+    MLX --> BENCH[Hermes benchmark gate]
+    PEFT --> BENCH
+    LFM --> BENCH
+    KTRANS --> WRAP[Endpoint or invocation contract]
+    NATIVE --> WRAP
+    GGUF --> RUNTIME[Runtime proof]
+    API --> TEACHER[Teacher/evaluator evidence]
+    WRAP --> RUNTIME
+    RUNTIME --> HERMES[Hermes integration]
+```
+
+```mermaid
 flowchart LR
     subgraph Data["Data Layer (SSD)"]
         HF[(HuggingFace Hub)]

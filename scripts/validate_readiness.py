@@ -228,6 +228,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/run_benchmark.py",
         ROOT / "scripts/run_teacher_evaluator.py",
         ROOT / "scripts/check_storage_layout.py",
+        ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
     ]
     result = subprocess.run(
@@ -262,6 +263,18 @@ def check_storage_layout(failures: list[str]) -> None:
         ok("storage layout")
 
 
+def check_runtime_format_lanes(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_runtime_format_lanes.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"runtime format lanes: {result.stderr.strip() or result.stdout.strip()}", failures)
+    else:
+        ok(result.stdout.strip())
+
+
 def main() -> int:
     failures: list[str] = []
     check_imports(failures)
@@ -271,6 +284,7 @@ def main() -> int:
     check_endpoint_pilots(failures)
     check_conductor(failures)
     check_shell_syntax(failures)
+    check_runtime_format_lanes(failures)
     check_storage_layout(failures)
 
     if failures:

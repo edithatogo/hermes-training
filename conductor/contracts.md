@@ -113,6 +113,37 @@ Every runnable model or benchmark track must declare exactly one primary platfor
 
 Secondary lanes are allowed only after the primary lane has a smoke result.
 
+## FORMAT-001: Runtime And Training Format Ladder
+
+Every model track must declare its primary format lane before training, benchmark, runtime proof, or publication work begins.
+
+Required lane definitions live in:
+
+```text
+RUNTIME_FORMAT_LANES.yaml
+```
+
+The minimum required lanes are:
+
+- `mlx-native`: Mac-local training/runtime for MLX checkpoints and adapters.
+- `gguf-portability`: runtime and packaging for llama.cpp, LM Studio, and Ollama compatibility.
+- `unsloth-cloud`: CUDA-backed Unsloth/TRL/PEFT training and distillation.
+- `ktransformers-moe`: specialist sparse-MoE runtime or LoRA experiments.
+- `liquid-leap-lfm`: Liquid/LFM-specific edge runtime and tuning paths.
+- `recurrent-ssm-bitnet`: RWKV, Mamba/SSM, BitNet, and recursive/RLM research runtimes.
+- `hosted-frontier-api`: API-only teacher/evaluator use.
+
+GGUF artifacts must not be treated as training evidence. A GGUF proof can show that a model runs through a local endpoint, but it cannot prove that a fine-tune improved behavior.
+
+Publication claims require:
+
+- native training or adapter evidence where training occurred
+- runtime proof in the claimed serving lane
+- benchmark evidence in the claimed behavior lane
+- storage proof that large artifacts and outputs stayed on `/Volumes/PortableSSD`
+
+Hosted API outputs are teacher/evaluator evidence only unless the published claim is explicitly about hosted evaluation.
+
 ## ART-001: Adapter Output
 
 Adapter directories must contain:

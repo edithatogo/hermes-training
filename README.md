@@ -8,6 +8,7 @@ The MacBook Pro M1 Max/MLX setup is the first constrained local lane, not the pr
 - **Scale when useful:** Azure GPU for benchmarks, teacher/evaluator runs, and selected larger experiments after preflight.
 - **Serve fast on Mac:** MLX runtime or Ollama's experimental safetensors/MLX path when the local Ollama build supports it.
 - **Serve broadly:** GGUF export for Ollama and LM Studio.
+- **Avoid format lock-in:** GGUF is a portability/runtime lane, while MLX, safetensors/PEFT, Unsloth, LEAP/LFM, KTransformers, and native recurrent/SSM/BitNet runtimes stay first-class when they are the stronger path.
 - **Explore specialist runtimes:** KTransformers, RWKV7, BitNet, Mamba-family SSMs, and experimental recursive checkpoints only after runtime proof.
 - **Use with Hermes:** prefer `ollama launch hermes`, which configures Hermes against Ollama's OpenAI-compatible endpoint.
 - **Publish:** GitHub for code, Hugging Face for datasets/adapters/model cards.
@@ -44,7 +45,7 @@ Conductor planning now lives in structured `conductor/` directories:
 | 5 | LFM | `LiquidAI/LFM2.5-350M`, `LiquidAI/LFM2.5-1.2B-Instruct`, `LiquidAI/LFM2.5-1.2B-Thinking`, `LiquidAI/LFM2-8B-A1B` | Hybrid/on-device models, fast active parameter count | LEAP/Unsloth/TRL for LFM2.5, Ollama/GGUF |
 | 6 | Research runtime | Qwen3-Next, Mamba-3, `BlinkDL/rwkv7-g1`, `microsoft/bitnet-b1.58-2B-4T`, `mit-oasys/rlm-qwen3-8b-v0.1` | Linear/recurrent/ternary/recursive architecture experiments | Experimental; validate runtime support first |
 
-See [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md) for the high-level lane map, [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable Hermes/chat radar, [mem0/MODEL_CANDIDATES.yaml](./mem0/MODEL_CANDIDATES.yaml) for memory/extraction/embedding candidates, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) plus [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md) for runtime rules.
+See [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md) for the high-level lane map, [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [RUNTIME_FORMAT_LANES.yaml](./RUNTIME_FORMAT_LANES.yaml) for the format/runtime ladder, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable Hermes/chat radar, [mem0/MODEL_CANDIDATES.yaml](./mem0/MODEL_CANDIDATES.yaml) for memory/extraction/embedding candidates, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) plus [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md) for runtime rules.
 
 The remaining work is now split into parallel Conductor lanes in [PARALLEL_ROADMAP.md](./PARALLEL_ROADMAP.md). The current model-release scan is recorded at [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md).
 

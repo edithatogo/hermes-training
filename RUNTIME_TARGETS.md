@@ -4,6 +4,8 @@ The project should not bet on one serving tool. The acceptance target is: a fine
 
 mem0 has its own runtime rules in [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md). In short: chat/extraction models can use OpenAI-compatible chat endpoints, but embedding and retriever candidates also need embedding, reranking, or `POST /retrieve` APIs. Do not assume a Hermes chat runtime is automatically a mem0 embedding runtime.
 
+The format ladder lives in [RUNTIME_FORMAT_LANES.yaml](./RUNTIME_FORMAT_LANES.yaml). GGUF is the portability lane for llama.cpp, LM Studio, and Ollama compatibility; it is not the canonical training format. Train and adapt in MLX, PEFT/safetensors, Unsloth, LEAP/LFM, or a native specialist runtime when that is the stronger path, then export to GGUF only when broad local serving is the goal.
+
 ## Preferred Order
 
 1. **Ollama via `ollama launch hermes`**
@@ -34,6 +36,10 @@ mem0 has its own runtime rules in [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGE
 6. **KTransformers**
    - Candidate runtime for large sparse Qwen MoE models such as Qwen3.6.
    - Treat as experimental on Apple Silicon until the selected branch/build passes a local prompt and OpenAI-compatible endpoint smoke test.
+
+7. **Native specialist runtimes**
+   - Use RWKV, BitNet, Mamba/SSM, recursive/RLM, LEAP/LFM, or KTransformers-native launchers when the model family depends on them.
+   - Record an invocation or endpoint wrapper contract before treating the runtime as Hermes-compatible.
 
 ## Ollama Notes From Local Repo
 

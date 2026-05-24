@@ -1,0 +1,177 @@
+# Runtime and training format ladder for Hermes Training Hub.
+# GGUF is a portability/runtime lane, not the canonical training format.
+
+updated: "2026-05-24"
+storage_root: "/Volumes/PortableSSD"
+policy: "Train in native/adaptation formats, prove runtime through the best available endpoint, export to GGUF only when desktop/Ollama/llama.cpp compatibility is the target."
+
+lanes:
+  - id: mlx-native
+    kind: training-and-runtime
+    primary_environment: mac-mlx
+    tools:
+      - MLX
+      - MLX-LM
+      - mlx_lm.server
+    best_for:
+      - Apple Silicon LoRA and adapter experiments
+      - Mac-local smoke training
+      - native MLX runtime proof before export
+    artifact_formats:
+      - safetensors
+      - adapter_config.json
+      - MLX quantized model directory
+    proof_required:
+      - MLX load or dry-run
+      - adapter save for training lanes
+      - OpenAI-compatible smoke when serving through mlx_lm.server
+      - held-out Hermes tool-call benchmark before promotion
+    not_for:
+      - treating GGUF conversion as training evidence
+      - large MoE fine-tuning without memory proof
+
+  - id: gguf-portability
+    kind: runtime-and-packaging
+    primary_environment: mac-lmstudio
+    tools:
+      - llama.cpp
+      - LM Studio
+      - Ollama GGUF import
+    best_for:
+      - desktop runtime proof
+      - broad local serving compatibility
+      - final Hermes usability checks
+    artifact_formats:
+      - GGUF
+      - Modelfile
+      - runtime card
+    proof_required:
+      - final byte-size validation for downloaded artifacts
+      - llama.cpp, LM Studio, or Ollama endpoint smoke
+      - exact runtime command and model path
+      - benchmark outputs under /Volumes/PortableSSD/hermes-evals
+    not_for:
+      - primary fine-tuning
+      - publication claims without benchmark evidence
+
+  - id: unsloth-cloud
+    kind: training
+    primary_environment: azure-cuda
+    tools:
+      - Unsloth
+      - TRL
+      - PEFT
+      - bitsandbytes where supported
+    best_for:
+      - CUDA-backed LoRA or QLoRA
+      - larger MoE experiments that exceed local Mac training limits
+      - teacher/student distillation runs
+    artifact_formats:
+      - safetensors
+      - PEFT adapter
+      - training logs
+    proof_required:
+      - Azure preflight and quota/cost gate
+      - pinned base model revision
+      - dataset token audit
+      - train/eval run card
+      - adapter license review
+    not_for:
+      - unbounded cloud spending
+      - assuming CUDA success implies Mac runtime success
+
+  - id: ktransformers-moe
+    kind: specialist-runtime-and-training
+    primary_environment: specialist-runtime
+    tools:
+      - KTransformers
+    best_for:
+      - large sparse MoE inference
+      - Qwen/MoE LoRA experiments where the runtime supports the exact architecture
+      - CPU/GPU heterogeneous serving experiments
+    artifact_formats:
+      - prepared BF16, INT8, INT4, or FP8 weights
+      - LoRA adapter where supported
+      - runtime manifest
+    proof_required:
+      - supported model family and weight preparation record
+      - reproducible launch command
+      - prompt smoke
+      - endpoint wrapper or invocation contract
+    not_for:
+      - default MacBook M1 path before local proof
+      - treating specialist invocation as OpenAI-compatible without an adapter layer
+
+  - id: liquid-leap-lfm
+    kind: edge-runtime-and-training
+    primary_environment: specialist-runtime
+    tools:
+      - LEAP
+      - MLX
+      - ONNX Runtime
+      - llama.cpp
+    best_for:
+      - Liquid LFM/LFM2/LFM2.5 edge deployment
+      - low-latency helper models
+      - multimodal edge experiments
+    artifact_formats:
+      - LEAP package
+      - MLX checkpoint
+      - ONNX
+      - GGUF
+    proof_required:
+      - model-family-specific runtime card
+      - task-specific smoke, not generic chat only
+      - no response-collapse regression for fine-tunes
+      - Hermes integration note when used as a chat helper
+    not_for:
+      - assuming all LFM variants are chat SFT targets
+      - promoting vision/audio models through text-only gates
+
+  - id: recurrent-ssm-bitnet
+    kind: research-runtime
+    primary_environment: specialist-runtime
+    tools:
+      - RWKV runtime
+      - BitNet runtime
+      - Mamba-family runtime
+      - custom recursive/RLM harness
+    best_for:
+      - recurrent, ternary, recursive, and subquadratic research
+      - long-context or low-memory experiments
+      - architecture watchlist validation
+    artifact_formats:
+      - native runtime checkpoint
+      - harness config
+      - reproducibility note
+    proof_required:
+      - verified weights and license
+      - native runtime installation record
+      - invocation contract
+      - benchmark comparability caveat
+    not_for:
+      - default Hermes product lane
+      - publication claims before comparable benchmark gates
+
+  - id: hosted-frontier-api
+    kind: teacher-and-evaluator
+    primary_environment: hosted-api
+    tools:
+      - OpenAI-compatible hosted endpoint
+      - Anthropic-compatible hosted endpoint where available
+    best_for:
+      - API-only frontier models such as Qwen3.7-Max while open weights are absent
+      - teacher grading
+      - dataset critique
+      - gap analysis against local candidates
+    artifact_formats:
+      - prompt manifest
+      - response JSONL
+      - cost and terms note
+    proof_required:
+      - provider, model id, date, and terms
+      - prompt and sampling settings
+      - clear label that output is teacher evidence, not local runtime proof
+    not_for:
+      - local model claims
+      - adapter publication without independent benchmarks

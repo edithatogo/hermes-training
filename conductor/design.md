@@ -37,6 +37,30 @@ flowchart LR
     RESEARCH --> SUBQ[subquadratic / recursive / RWKV / BitNet]
 ```
 
+```mermaid
+flowchart TD
+    GOAL[Hermes-agent model goal] --> TRAINFMT{Best training/adaptation format}
+    TRAINFMT --> MLX[MLX-native LoRA on Mac]
+    TRAINFMT --> UNSLOTH[Unsloth / TRL / PEFT on Azure CUDA]
+    TRAINFMT --> LEAP[LEAP / LFM family-specific tuning]
+    TRAINFMT --> NATIVE[Native recurrent / SSM / BitNet / RLM harness]
+
+    MLX --> PROOF{Runtime proof}
+    UNSLOTH --> PROOF
+    LEAP --> PROOF
+    NATIVE --> PROOF
+
+    PROOF --> MLXRT[MLX server]
+    PROOF --> KTRANS[KTransformers MoE runtime]
+    PROOF --> GGUF[GGUF portability: llama.cpp / LM Studio / Ollama]
+    PROOF --> HOSTED[Hosted frontier API teacher only]
+
+    GGUF --> HERMES[Hermes OpenAI-compatible endpoint]
+    MLXRT --> HERMES
+    KTRANS --> WRAP[Endpoint wrapper if needed]
+    WRAP --> HERMES
+```
+
 ## Training and Evaluation Flow
 
 ```mermaid

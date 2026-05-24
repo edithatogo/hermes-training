@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-format-ladder_20260524",
+  "type": "architecture-hardening",
+  "status": "completed",
+  "created_at": "2026-05-24T00:00:00Z",
+  "updated_at": "2026-05-24T00:00:00Z",
+  "description": "Make GGUF one runtime lane in a broader bleeding-edge format ladder covering MLX, Unsloth, KTransformers, LEAP/LFM, recurrent/SSM/BitNet, and hosted frontier APIs."
+}

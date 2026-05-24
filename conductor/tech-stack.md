@@ -17,7 +17,9 @@
 - LM Studio/GGUF for broad local serving fallback.
 - Azure CLI and Azure ML CLI v2 for cloud-assisted benchmark, teacher, and larger experiment lanes.
 - CUDA-oriented frameworks such as Unsloth/TRL/PEFT are cloud-lane tools unless a Mac-native backend is proven.
-- Specialist runtimes such as KTransformers, RWKV-LM, BitNet, and Mamba-family runtimes require runtime proof before promotion.
+- KTransformers for sparse-MoE specialist runtime and LoRA experiments after model-family proof.
+- Liquid LEAP/LFM tooling, MLX, ONNX Runtime, and llama.cpp for LFM-family edge deployment.
+- Specialist runtimes such as RWKV-LM, BitNet, Mamba-family runtimes, and recursive/RLM harnesses require native runtime proof before promotion.
 
 ## Benchmark Stack
 
@@ -42,3 +44,9 @@
 | Azure/CUDA | Benchmarks, teacher/evaluator runs, and larger experiments | Preflight, quota check, Spot/low-priority, max one GPU job |
 | Retrieval | Hermes memory/RAG with embedding/reranker models | Contrastive/retrieval evals, not chat SFT gates |
 | Research runtime | Recursive, subquadratic, RWKV, BitNet, Mamba-family exploration | Verify weights, license, runtime, and endpoint before track promotion |
+
+## Runtime And Training Format Lanes
+
+`RUNTIME_FORMAT_LANES.yaml` is the source of truth for when to use MLX, GGUF, Unsloth, KTransformers, LEAP/LFM, recurrent/SSM/BitNet runtimes, and hosted frontier APIs.
+
+GGUF is the portability lane for local serving. It is not the training format and cannot by itself prove model evolution.

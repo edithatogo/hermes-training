@@ -19,6 +19,7 @@
 | M10 | Model cache uses external SSD | all tracks | `HF_HOME` and `HF_HUB_CACHE` point at `/Volumes/PortableSSD/huggingface` |
 | M11 | Platform lanes separate purpose from environment | hub | `PLATFORM_LANES.md` and Conductor docs classify every model path |
 | M12 | Azure preflight gates cloud work | hub | `scripts/azure_preflight.py` passes before compute or job submission |
+| M13 | Runtime/training format lanes avoid GGUF lock-in | hub | `RUNTIME_FORMAT_LANES.yaml` validates and readiness checks call its validator |
 
 ## Should Have
 
@@ -37,6 +38,7 @@
 | S11 | KTransformers/LEAP/Unsloth feasibility notes with local smoke results | hub | MEDIUM |
 | S12 | Qwen3-Next, Mamba-3, RWKV-7, BitNet research watchlist | future/subquadratic | MEDIUM |
 | S13 | Retrieval/memory lane for embedding and reranker models | future/retrieval | HIGH |
+| S14 | Native MLX, Unsloth, KTransformers, LEAP/LFM, recurrent/SSM/BitNet, and hosted API lane gates | hub | HIGH |
 
 ## Could Have
 
@@ -57,6 +59,7 @@
 | W3 | Treating large models as local fine-tune targets by default | Use runtime, teacher, or cloud lanes until memory proof exists. |
 | W4 | Treat smoke-test adapters as publishable models | They validate plumbing only. |
 | W5 | Assume every experimental architecture is Ollama/LM Studio ready | Runtime support must be verified per architecture. |
+| W6 | Treat GGUF export as proof that training improved a model | GGUF is serving evidence; training evidence must come from native adapter/training artifacts and benchmarks. |
 
 ## Current Gap Summary
 

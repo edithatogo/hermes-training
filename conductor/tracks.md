@@ -105,6 +105,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Runtime format ladder beyond GGUF
+*Link: [./tracks/runtime-format-ladder_20260524/](./tracks/runtime-format-ladder_20260524/)*
+
+---
+
 ## [ ] Track: Runtime proof completion
 *Link: [./tracks/runtime-proof-completion_20260524/](./tracks/runtime-proof-completion_20260524/)*
 
