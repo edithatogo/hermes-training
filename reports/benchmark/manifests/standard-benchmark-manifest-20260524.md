@@ -49,3 +49,12 @@ This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs
 - `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
 - `reports/benchmark/manifests/lm-eval-smoke-command-20260524.md`
 - `reports/benchmark/manifests/retrieval-smoke-command-20260524.md`
+
+## First Endpoint Baseline
+
+The endpoint harness ran against installed Ollama model `hermes3:8b` on 2026-05-24:
+
+- Report: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md`
+- Raw output root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/hermes3-8b-ollama-heldout-20260524`
+- Strict held-out pass: `0.250`
+- Decision: baseline evidence only, not publishable.

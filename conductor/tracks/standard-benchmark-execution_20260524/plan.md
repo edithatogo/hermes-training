@@ -120,3 +120,5 @@
 - Current estimate: 9.1 / 10
 - Evidence: `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md` defines suite tiers, SSD roots, required run records, and no-run guardrails. Health remains below completion threshold until suite-specific manifests and real benchmark evidence are produced.
 - Additional evidence: local held-out, lm-eval smoke, and retrieval smoke command manifests now exist under `reports/benchmark/manifests/`.
+- Endpoint harness: `scripts/run_endpoint_tool_call_benchmark.py` now allows the same strict suite to run against Ollama, LM Studio, MLX server, or the normalizing proxy through OpenAI-compatible endpoints.
+- First endpoint baseline: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md` records `hermes3:8b` via Ollama at strict held-out `0.250`.

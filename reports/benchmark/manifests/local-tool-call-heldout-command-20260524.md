@@ -8,6 +8,8 @@ Run the strict Hermes local held-out gate for any agent-positioned candidate.
 
 ## Command
 
+MLX/local model path:
+
 ```bash
 source scripts/env.sh
 ./.venv/bin/python scripts/run_tool_call_benchmark.py \
@@ -16,6 +18,18 @@ source scripts/env.sh
   --suite benchmarks/tool_call_local/heldout_suite.json \
   --user-prefix /no_think \
   --run-id <model>-heldout-<date>
+```
+
+OpenAI-compatible endpoint path:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_endpoint_tool_call_benchmark.py \
+  --base-url http://127.0.0.1:11434/v1 \
+  --model <runtime_model_id> \
+  --suite benchmarks/tool_call_local/heldout_suite.json \
+  --user-prefix /no_think \
+  --run-id <model>-endpoint-heldout-<date>
 ```
 
 ## Artifact Root
