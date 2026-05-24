@@ -65,8 +65,8 @@ active session: qwen36_download
 Most recent live check on 2026-05-24 shows the transfer continuing:
 
 ```text
-chunks complete: 112 / 316
-partial root size: 8.0G
+chunks complete: 115 / 316
+partial root size: 8.2G
 active session: qwen36_download
 ```
 

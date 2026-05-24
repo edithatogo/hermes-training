@@ -60,7 +60,7 @@ tmux attach -t qwen36_download
 
 Status and follow-up steps are recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
 
-Latest live check: Qwen3.6 ranged acquisition is still progressing on the external SSD at `112/316` chunks and about `8.0G` staged.
+Latest live check: Qwen3.6 ranged acquisition is still progressing on the external SSD at `115/316` chunks and about `8.2G` staged.
 
 The post-download proof is now wired to an optional watcher:
 
