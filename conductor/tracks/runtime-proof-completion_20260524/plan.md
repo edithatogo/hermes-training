@@ -32,50 +32,63 @@
 ## Phase 2A - LM Studio Proof For Existing Qwen3 Q4_K_M GGUF
 
 - [ ] Task: Validate the existing Qwen3 GGUF through LM Studio.
-    - [ ] Start LM Studio server on `http://localhost:1234/v1` or record the active LM Studio endpoint.
+    - [x] Record whether LM Studio server is active on `http://localhost:1234/v1`.
     - [ ] Load `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`.
     - [ ] Run `GET /v1/models` and one non-streaming `POST /v1/chat/completions`.
-    - [ ] Capture response shape, model ID, and any Qwen empty-think behavior.
-    - [ ] Write the LM Studio Qwen3 run card under the SSD runtime-proof-completion root.
+    - [x] Capture the endpoint absence and resulting blocked response state.
+    - [x] Write the LM Studio Qwen3 blocker card under the SSD runtime-proof-completion root.
+    - [x] Blocker recorded: `lms` was not on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'LM Studio Proof For Existing Qwen3 Q4_K_M GGUF' (Protocol in workflow.md)
+
+## Phase 2A.1 - llama.cpp Proof For Existing Qwen3 Q4_K_M GGUF
+
+- [x] Task: Validate the existing Qwen3 GGUF through llama.cpp.
+    - [x] Build `/Volumes/PortableSSD/GitHub/llama.cpp/build/bin/llama-server`.
+    - [x] Record the external llama.cpp local include patch required for the build.
+    - [x] Serve `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf` on `http://127.0.0.1:8091/v1`.
+    - [x] Run `GET /v1/models` and one non-streaming `POST /v1/chat/completions`.
+    - [x] Capture runtime evidence in `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md`.
+    - [x] Run the held-out endpoint benchmark and record `reports/benchmark/endpoint-tool-call/qwen3-q4km-llamacpp-heldout-20260524.md`.
 
 ## Phase 2B - Hermes 4 14B Runtime Proof
 
-- [ ] Task: Prove or block Hermes 4 14B runtime without large downloads.
-    - [ ] Check for an existing Hermes 4 14B local artifact under SSD-backed model, GGUF, Ollama, LM Studio, or cache roots.
-    - [ ] Check for an already-running OpenAI-compatible endpoint that serves a Hermes 4 14B model.
-    - [ ] If a local artifact or endpoint exists, run one Hermes-style non-streaming chat smoke.
-    - [ ] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
-    - [ ] Write the Hermes 4 14B run card under the SSD runtime-proof-completion root.
+- [x] Task: Prove or block Hermes 4 14B runtime without large downloads.
+    - [x] Check for an existing Hermes 4 14B local artifact under SSD-backed model, GGUF, Ollama, LM Studio, or cache roots.
+    - [x] Check for an already-running OpenAI-compatible endpoint that serves a Hermes 4 14B model.
+    - [x] If a local artifact or endpoint exists, run one Hermes-style non-streaming chat smoke.
+    - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
+    - [x] Write the Hermes 4 14B run card under the SSD runtime-proof-completion root.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Hermes 4 14B Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 2C - Qwen3.6 Runtime Proof
 
-- [ ] Task: Prove or block Qwen3.6 runtime without large downloads.
-    - [ ] Check for an existing Qwen3.6 local artifact under SSD-backed model, GGUF, Ollama, LM Studio, KTransformers, or cache roots.
-    - [ ] Check for an already-running OpenAI-compatible endpoint that serves Qwen3.6.
-    - [ ] If a local artifact or endpoint exists, run one non-streaming chat smoke with a realistic short context.
-    - [ ] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
-    - [ ] Write the Qwen3.6 run card under the SSD runtime-proof-completion root.
+- [x] Task: Prove or block Qwen3.6 runtime without large downloads.
+    - [x] Check for an existing Qwen3.6 local artifact under SSD-backed model, GGUF, Ollama, LM Studio, KTransformers, or cache roots.
+    - [x] Check for an already-running OpenAI-compatible endpoint that serves Qwen3.6.
+    - [x] If a local artifact or endpoint exists, run one non-streaming chat smoke with a realistic short context.
+    - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
+    - [x] Write the Qwen3.6 run card under the SSD runtime-proof-completion root.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 3 - OpenAI Normalizing Proxy Route
 
-- [ ] Task: Route a validated runtime through the OpenAI normalizing proxy.
-    - [ ] Select the first successful upstream from Phase 2A, Phase 2B, or Phase 2C.
-    - [ ] Start `scripts/openai_normalizing_proxy.py` against that upstream on a free local port.
-    - [ ] Run `GET /v1/models` through the proxy.
-    - [ ] Run one non-streaming `POST /v1/chat/completions` through the proxy.
-    - [ ] Confirm streaming requests remain rejected unless the proxy contract changes in a separate track.
-    - [ ] Record that proxy-normalized output is runtime integration evidence only.
+- [x] Task: Route a validated runtime through the OpenAI normalizing proxy.
+    - [x] Select the first successful upstream from Phase 2A, Phase 2B, or Phase 2C.
+    - [x] Start `scripts/openai_normalizing_proxy.py` against that upstream on a free local port.
+    - [x] Run `GET /v1/models` through the proxy.
+    - [x] Run one non-streaming `POST /v1/chat/completions` through the proxy.
+    - [x] Confirm streaming requests remain rejected unless the proxy contract changes in a separate track.
+    - [x] Record that proxy-normalized output is runtime integration evidence only.
+    - [x] Evidence exists in `reports/runtime/openai-normalizing-proxy-ollama-smoke/run-card.md`; llama.cpp direct OpenAI compatibility now also passes without the proxy.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'OpenAI Normalizing Proxy Route' (Protocol in workflow.md)
 
 ## Phase 4 - Deferred Ollama Retest After Runtime Upgrade
 
-- [ ] Task: Gate the Ollama Qwen3 retest on a concrete runtime upgrade.
-    - [ ] Check and record current Ollama version and installation source.
-    - [ ] Proceed only if a runtime upgrade, rebuild, or installation change occurred after the earlier Qwen3 GGUF import failure.
-    - [ ] If no upgrade occurred, mark the Ollama retest blocked and do not rerun the failing import.
+- [x] Task: Gate the Ollama Qwen3 retest on a concrete runtime upgrade.
+    - [x] Check and record current Ollama version and installation source.
+    - [x] Proceed only if a runtime upgrade, rebuild, or installation change occurred after the earlier Qwen3 GGUF import failure.
+    - [x] If no upgrade occurred, mark the Ollama retest blocked and do not rerun the failing import.
+    - [x] Current check: `/opt/homebrew/bin/ollama`, version `0.24.0`; no post-failure upgrade evidence was recorded.
 - [ ] Task: Retest Qwen3 GGUF in Ollama only after the gate passes.
     - [ ] Reuse the existing SSD-backed Qwen3 `Q4_K_M` GGUF.
     - [ ] Run the smallest Ollama create/import command needed for the current runtime.
@@ -85,19 +98,19 @@
 
 ## Phase 5 - Documentation, Registry, And Closeout
 
-- [ ] Task: Update minimal runtime documentation only where needed.
-    - [ ] Point `RUNTIME_TARGETS.md` or a run-card index at the new SSD-backed run cards if runtime evidence changed.
-    - [ ] Preserve the no-large-download policy and the strict benchmark versus runtime integration boundary.
-    - [ ] Avoid duplicating large logs in Git.
+- [x] Task: Update minimal runtime documentation only where needed.
+    - [x] Point `RUNTIME_TARGETS.md` or a run-card index at the new SSD-backed run cards if runtime evidence changed.
+    - [x] Preserve the no-large-download policy and the strict benchmark versus runtime integration boundary.
+    - [x] Avoid duplicating large logs in Git.
 - [ ] Task: Run validation.
-    - [ ] Run `./.venv/bin/python scripts/validate_readiness.py`.
-    - [ ] Run any syntax checks touched by the track.
-    - [ ] Update this plan with completed statuses and remaining blockers.
+    - [x] Run `./.venv/bin/python scripts/validate_readiness.py`.
+    - [x] Run any syntax checks touched by the track.
+    - [x] Update this plan with completed statuses and remaining blockers.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Documentation, Registry, And Closeout' (Protocol in workflow.md)
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.1 / 10
-- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. LM Studio and MLX endpoint proof remain blocked because those servers are not listening.
-- Blocker: `lms` was not found on `PATH`; LM Studio proof requires the desktop server or CLI to be available.
+- Current estimate: 9.6 / 10
+- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF.
+- Blocker: LM Studio remains blocked because `lms` was not found on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening. Hermes 4 14B and Qwen3.6 remain blocked by absent local artifacts/endpoints under the no-large-download policy.

@@ -47,10 +47,14 @@ This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs
 ## Command Manifests
 
 - `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
+- `reports/benchmark/manifests/bfcl-pilot-command-20260524.md`
+- `reports/benchmark/manifests/ifeval-pilot-command-20260524.md`
+- `reports/benchmark/manifests/coding-pilot-command-20260524.md`
 - `reports/benchmark/manifests/lm-eval-smoke-command-20260524.md`
+- `reports/benchmark/manifests/lm-eval-candidate-command-20260524.md`
 - `reports/benchmark/manifests/retrieval-smoke-command-20260524.md`
 
-## First Endpoint Baseline
+## Endpoint Baselines
 
 The endpoint harness ran against installed Ollama model `hermes3:8b` on 2026-05-24:
 
@@ -58,3 +62,17 @@ The endpoint harness ran against installed Ollama model `hermes3:8b` on 2026-05-
 - Raw output root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/hermes3-8b-ollama-heldout-20260524`
 - Strict held-out pass: `0.250`
 - Decision: baseline evidence only, not publishable.
+
+The same endpoint harness also ran against installed Ollama model `sam860/LFM2:2.6b` on 2026-05-24:
+
+- Report: `reports/benchmark/endpoint-tool-call/lfm2-2-6b-ollama-heldout-20260524.md`
+- Raw output root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/lfm2-2-6b-ollama-heldout-20260524`
+- Strict held-out pass: `0.250`
+- Decision: Liquid/LFM baseline evidence only, not publishable.
+
+The current strongest local endpoint proof is the SSD-backed Qwen3 4B Q4_K_M GGUF served through llama.cpp:
+
+- Report: `reports/benchmark/endpoint-tool-call/qwen3-q4km-llamacpp-heldout-20260524.md`
+- Raw output root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/qwen3-q4km-llamacpp-heldout-20260524`
+- Strict held-out pass: `0.375`
+- Decision: strongest local evidence so far, but still below the publication gate.

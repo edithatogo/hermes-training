@@ -24,9 +24,10 @@
     - [ ] Distinguish raw strict scores from runtime-normalized scores.
     - [ ] Define minimum evidence for runtime proof versus publication-ready benchmark evidence.
 - [ ] Task: Define local runtime matrix.
-    - [ ] Include Hermes-compatible local runtime, OpenAI-compatible endpoint, normalization wrapper, prompt format, context length, and sampling settings.
-    - [ ] Record command manifests and environment variables without launching expensive runs.
-    - [ ] Require SSD output roots for raw completions, normalized completions, parser diagnostics, and scorecards.
+    - [x] Include Hermes-compatible local runtime, OpenAI-compatible endpoint, normalization wrapper, prompt format, context length, and sampling settings.
+    - [x] Record command manifests and environment variables without launching expensive runs.
+    - [x] Require SSD output roots for raw completions, normalized completions, parser diagnostics, and scorecards.
+    - [x] Record first endpoint baselines for Ollama Hermes3, Ollama LFM2, and llama.cpp Qwen3 Q4_K_M.
 - [ ] Task: Define local pass/fail gates.
     - [ ] Fail publication if strict tool-call behavior is materially broken for an agent-positioned model.
     - [ ] Require failure examples and parser diagnostics for any residual failures.
@@ -36,14 +37,14 @@
 ## Phase 3 - Lane B IFEval, BFCL, Coding, And lm-eval
 
 - [ ] Task: Define standardized suite manifests.
-    - [ ] Create manifest expectations for IFEval, BFCL, coding benchmarks, and lm-eval tasks.
-    - [ ] Capture dataset version, task subset, prompt format, scoring command, output schema, and expected artifacts for each suite.
-    - [ ] Mark full execution as a future gated action, not a setup action.
+    - [x] Create manifest expectations for IFEval, BFCL, coding benchmarks, and lm-eval tasks.
+    - [x] Capture dataset version, task subset, prompt format, scoring command, output schema, and expected artifacts for each suite.
+    - [x] Mark full execution as a future gated action, not a setup action.
 - [ ] Task: Define cheap per-suite readiness checks.
-    - [ ] IFEval: validate config, prompt template, output schema, and score parser availability.
-    - [ ] BFCL: validate tool schema sources, generation format, parser expectations, and result-card schema.
-    - [ ] Coding: validate task source, sandbox assumptions, timeout policy, and result normalization fields.
-    - [ ] lm-eval: validate task list, model adapter invocation, batch-size policy, and output path.
+    - [x] IFEval: validate config, prompt template, output schema, and score parser availability.
+    - [x] BFCL: validate tool schema sources, generation format, parser expectations, and result-card schema.
+    - [x] Coding: validate task source, sandbox assumptions, timeout policy, and result normalization fields.
+    - [x] lm-eval: validate task list, model adapter invocation, batch-size policy, and output path.
 - [ ] Task: Define score normalization and comparability rules.
     - [ ] Preserve raw suite outputs alongside normalized summaries.
     - [ ] Record benchmark harness version and repository commit for every future run.
@@ -117,8 +118,9 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.1 / 10
-- Evidence: `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md` defines suite tiers, SSD roots, required run records, and no-run guardrails. Health remains below completion threshold until suite-specific manifests and real benchmark evidence are produced.
+- Current estimate: 9.6 / 10
+- Evidence: `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md` defines suite tiers, SSD roots, required run records, no-run guardrails, suite-specific pilot manifests, and the current endpoint benchmark evidence.
 - Additional evidence: local held-out, lm-eval smoke, and retrieval smoke command manifests now exist under `reports/benchmark/manifests/`.
 - Endpoint harness: `scripts/run_endpoint_tool_call_benchmark.py` now allows the same strict suite to run against Ollama, LM Studio, MLX server, or the normalizing proxy through OpenAI-compatible endpoints.
-- First endpoint baseline: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md` records `hermes3:8b` via Ollama at strict held-out `0.250`.
+- Endpoint baselines: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md` records `hermes3:8b` via Ollama at strict held-out `0.250`; `reports/benchmark/endpoint-tool-call/lfm2-2-6b-ollama-heldout-20260524.md` records `sam860/LFM2:2.6b` via Ollama at `0.250`; `reports/benchmark/endpoint-tool-call/qwen3-q4km-llamacpp-heldout-20260524.md` records the SSD-backed Qwen3 Q4_K_M GGUF via llama.cpp at `0.375`.
+- Remaining gap: full execution remains gated on runtime stability, local/SSD artifacts, and explicit approval for any paid or long-running jobs. The setup plan itself now clears the 9.5 health target.
