@@ -50,6 +50,28 @@ For extraction models:
 - unsafe or secret-like memory rejection
 - write latency
 
+## Benchmark Index
+
+Generate the current mem0 benchmark index:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/summarize_mem0_benchmarks.py \
+  /Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/embedding-benchmark/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/*/summary.json \
+  --output reports/benchmark/mem0/index.md
+```
+
+Generate a run card from any saved mem0 benchmark summary:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/create_mem0_run_card.py \
+  /Volumes/PortableSSD/hermes-evals/<benchmark-kind>/<run-id>/summary.json \
+  --output reports/benchmark/mem0/run-cards/<run-id>.md
+```
+
 ## Local Command
 
 Dry-run validation:
@@ -71,6 +93,18 @@ source scripts/env.sh
 
 The runner prefixes temporary memories with the run id and deletes added memory ids at the end unless `--keep-memories` is provided.
 
+Run the expanded recency suite:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_memory_benchmark.py \
+  --tool cmd \
+  --suite benchmarks/mem0_memory/recency_suite.json \
+  --rerank-strategy score_plus_created_at_rank \
+  --recency-weight 0.20 \
+  --run-id mem0-current-nomic-recency-reranked-$(date +%Y%m%d-%H%M%S)
+```
+
 Run a lower-level Ollama embedding retrieval check:
 
 ```bash
@@ -82,6 +116,35 @@ source scripts/env.sh
 ```
 
 Use this before changing mem0 collections. It tests whether the embedding model ranks relevant memory documents above close distractors without involving extraction or Qdrant write behavior.
+
+Run the same embedding suite through an OpenAI-compatible endpoint:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_openai_embedding_benchmark.py \
+  --base-url http://127.0.0.1:11434/v1 \
+  --model nomic-embed-text:latest \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-nomic-openai-$(date +%Y%m%d-%H%M%S)
+```
+
+Use this path for LM Studio, `llama-server`, Ollama `/v1`, and any other local server that presents OpenAI-compatible embeddings.
+
+Run a local `sentence-transformers` embedding candidate:
+
+```bash
+source scripts/env.sh
+python -m pip install -r requirements-mem0-embeddings.txt
+./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device mps \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-bge-m3-$(date +%Y%m%d-%H%M%S)
+```
+
+This optional path is for BGE-M3, Jina, Qwen embedding, and other Hugging Face
+retrieval candidates that are not already available through Ollama, LM Studio,
+or `llama-server`.
 
 Validate contrastive seed data for future embedding/retriever fine-tunes:
 
@@ -102,6 +165,51 @@ source scripts/env.sh
 
 Use reranking reports to decide whether a failure needs a better embedder, a reranker, or memory-update metadata.
 
+Run fixed-candidate reranking baselines before testing a learned reranker:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy vector \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy score_plus_created_at_rank \
+  --recency-weight 0.20 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+```
+
+For a CrossEncoder-style reranker such as `Qwen/Qwen3-Reranker-4B`, install the
+optional reranker deps first and use:
+
+```bash
+source scripts/env.sh
+python -m pip install -r requirements-mem0-rerankers.txt
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy cross_encoder \
+  --model Qwen/Qwen3-Reranker-4B \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+```
+
+Current expanded fixed-suite reranker scores:
+
+| Strategy | Top-1 | Recency conflict | Distractor resistance |
+|---|---:|---:|---:|
+| `vector` | 0.667 | 0.000 | 1.000 |
+| `score_plus_created_at_rank` | 1.000 | 1.000 | 1.000 |
+| `lexical_overlap` | 0.833 | 0.500 | 1.000 |
+
+Run a read-only reranked search against the live mem0 store:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_rerank_search.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --strategy score_plus_created_at_rank \
+  --recency-weight 0.20
+```
+
 Run an Ollama memory-extraction smoke test:
 
 ```bash
@@ -112,6 +220,24 @@ source scripts/env.sh
 ```
 
 Extractor scores are separate from embedding scores. A good extractor must produce valid memory JSON, avoid transient noise, and preserve durable project/tool facts.
+
+Current expanded extraction scores:
+
+| Model | Pass | JSON valid | Forbidden hit | Empty-case pass |
+|---|---:|---:|---:|---:|
+| `sam860/LFM2:2.6b` with `mem0/extraction/system_prompt.md` | 1.000 | 1.000 | 0.000 | 1.000 |
+| `hermes3:8b` | 0.571 | 0.714 | 0.143 | 0.857 |
+
+The extraction benchmark uses an OpenAI-compatible chat-completions endpoint.
+For non-Ollama servers, use the generic wrapper and set `--base-url`:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_openai_memory_extraction_benchmark.py \
+  --base-url http://127.0.0.1:1234/v1 \
+  --model local-model-id \
+  --suite benchmarks/mem0_extraction/smoke_suite.json
+```
 
 ## Promotion Rule
 

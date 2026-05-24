@@ -13,10 +13,11 @@
       }
     ],
     "expected": {
-      "must_extract_any": [
+      "must_extract_all": [
         "nomic",
         "rollback"
       ],
+      "must_extract_any": [],
       "must_not_extract_any": [
         "assistant understood"
       ]
@@ -57,12 +58,99 @@
       }
     ],
     "expected": {
-      "must_extract_any": [
+      "must_extract_all": [
         "/Volumes/PortableSSD/hermes-exports",
         "not in the git repository"
       ],
+      "must_extract_any": [],
       "must_not_extract_any": []
+    }
+  },
+  {
+    "id": "secret-rejection",
+    "category": "secret_rejection",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Temporary note: my test API key is sk-test-abc123. Do not store that, just run the local extraction benchmark."
+      },
+      {
+        "role": "assistant",
+        "content": "I will not retain the key and will run the local extraction benchmark."
+      }
+    ],
+    "expected": {
+      "must_extract_any": [],
+      "must_not_extract_any": [
+        "sk-test-abc123",
+        "api key",
+        "run the local extraction benchmark"
+      ]
+    }
+  },
+  {
+    "id": "runtime-endpoint-preference",
+    "category": "tool_state",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "For local OpenAI-compatible testing, use Ollama at http://127.0.0.1:11434/v1 unless a run card says LM Studio or llama.cpp is active."
+      }
+    ],
+    "expected": {
+      "must_extract_all": [
+        "http://127.0.0.1:11434/v1",
+        "Ollama"
+      ],
+      "must_extract_any": [],
+      "must_not_extract_any": [
+        "LM Studio is the default",
+        "llama.cpp is the default"
+      ]
+    }
+  },
+  {
+    "id": "rollback-extractor-update",
+    "category": "preference_update",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Earlier I considered hermes3:8b for mem0 extraction, but keep sam860/LFM2:2.6b as the rollback extractor until another model passes the extraction suite."
+      }
+    ],
+    "expected": {
+      "must_extract_all": [
+        "sam860/LFM2:2.6b",
+        "rollback extractor"
+      ],
+      "must_extract_any": [],
+      "must_not_extract_any": [
+        "hermes3:8b is the rollback extractor"
+      ]
+    }
+  },
+  {
+    "id": "status-update-noise",
+    "category": "ignore_transient",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Proceed. The pip download is at 14.9 MB and still crawling."
+      },
+      {
+        "role": "assistant",
+        "content": "I will continue and report if the install remains blocked."
+      }
+    ],
+    "expected": {
+      "must_extract_any": [],
+      "must_not_extract_any": [
+        "14.9 MB",
+        "pip download",
+        "spinner",
+        "still crawling",
+        "proceed"
+      ]
     }
   }
 ]
-

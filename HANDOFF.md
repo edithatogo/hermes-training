@@ -1,6 +1,6 @@
 # Hermes Training Hub — Codex Handoff
 
-> Last updated: 2026-05-21
+> Last updated: 2026-05-24
 > Pickup agent: Codex
 
 ## What Is Here
@@ -15,6 +15,57 @@ All under `/Users/doughnut/GitHub/hermes-training/`:
 | hub root | `github.com/edithatogo/hermes-training` | Platform lanes, model radar, requirements, runtime strategy, Azure scale-out, submodule map |
 
 The hub root tracks the model repos as Git submodules. `.gitmodules` has been added to repair the previous gitlink-without-submodule metadata state.
+
+Current working root is also available at
+`/Volumes/PortableSSD/GitHub/hermes-training`.
+
+## 2026-05-24 Storage Layout Update
+
+The SSD root migration pass found that most top-level `/Volumes/PortableSSD`
+folders are intentional artifact, cache, runtime, app-state, or media roots and
+should not be moved into `GitHub`.
+
+The only misplaced Git checkout was migrated:
+
+- canonical checkout: `/Volumes/PortableSSD/GitHub/llama.cpp-convert-tool`
+- legacy compatibility path:
+  `/Volumes/PortableSSD/hermes-tools/llama.cpp ->
+  /Volumes/PortableSSD/GitHub/llama.cpp-convert-tool`
+
+Keep the legacy symlink in place because older scripts and notes refer to
+`hermes-tools/llama.cpp`.
+
+Validation added:
+
+- `scripts/check_storage_layout.py`
+- `tests/test_check_storage_layout.py`
+- `scripts/validate_readiness.py` now runs the storage check when the SSD root
+  is present.
+- `scripts/repo_status.sh` now prints a `== storage layout ==` section.
+
+The nested `ollama-pack` checkout has one related local edit:
+`ollama-pack/scripts/export_ollama.sh` now resolves llama.cpp in this order:
+
+1. `HERMES_LLAMA_CPP`
+2. `$HERMES_STORAGE_ROOT/GitHub/llama.cpp-convert-tool`
+3. `$HERMES_STORAGE_ROOT/hermes-tools/llama.cpp`
+
+Commit order if preserving this work:
+
+1. Commit/push the nested `ollama-pack` change first.
+2. Commit/push the hub root after the nested commit is available remotely.
+
+Validation commands that passed:
+
+```bash
+scripts/repo_status.sh
+./scripts/check_storage_layout.py --root /Volumes/PortableSSD
+PYTHONPATH=. python3 -m unittest discover -s tests
+./.venv/bin/python scripts/validate_readiness.py
+```
+
+The audit report is
+`reports/storage/root-migration-audit-20260524.md`.
 
 ## Repo Hygiene Status
 

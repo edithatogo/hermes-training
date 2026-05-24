@@ -14,6 +14,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from mem0_rerank_lib import rerank_results
+
 
 VALID_CATEGORIES = {"direct_recall", "recency_conflict", "distractor_resistance", "tool_state_recall"}
 
@@ -125,6 +127,13 @@ def result_memories(search_response: dict[str, Any]) -> list[str]:
     return memories
 
 
+def result_objects(search_response: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = search_response.get("results", [])
+    if not isinstance(rows, list):
+        return []
+    return [row for row in rows if isinstance(row, dict)]
+
+
 def score_case(case: dict[str, Any], memories: list[str]) -> dict[str, Any]:
     joined = "\n".join(memories).lower()
     top = memories[0].lower() if memories else ""
@@ -170,12 +179,26 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
         f"| Search latency p50 | {summary['search_latency_p50_s']:.3f}s |",
         f"| Search latency p95 | {summary['search_latency_p95_s']:.3f}s |",
         f"| Cleanup successes | {summary['cleanup_successes']} |",
-        "",
-        "## Cases",
-        "",
-        "| Case | Category | Pass | Reason |",
-        "|---|---|---:|---|",
     ]
+    if summary.get("rerank_strategy"):
+        lines.extend(
+            [
+                f"| Rerank strategy | {summary['rerank_strategy']} |",
+                f"| Rerank pass rate | {summary['rerank_pass_rate']:.3f} |",
+                f"| Rerank top-1 expected rate | {summary['rerank_top1_expected_rate']:.3f} |",
+                f"| Rerank recency conflict pass rate | {summary['rerank_recency_conflict_pass_rate']:.3f} |",
+                f"| Rerank distractor resistance pass rate | {summary['rerank_distractor_resistance_pass_rate']:.3f} |",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## Cases",
+            "",
+            "| Case | Category | Pass | Reason |",
+            "|---|---|---:|---|",
+        ]
+    )
     for row in rows:
         reason = []
         if not row["retrieved_expected"]:
@@ -184,7 +207,10 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
             reason.append("forbidden hit")
         if not row["top_result_ok"]:
             reason.append("top mismatch")
-        lines.append(f"| {row['id']} | {row['category']} | {row['pass']} | {', '.join(reason) or 'ok'} |")
+        pass_value = str(row["pass"])
+        if "rerank_pass" in row:
+            pass_value = f"{row['pass']} -> {row['rerank_pass']}"
+        lines.append(f"| {row['id']} | {row['category']} | {pass_value} | {', '.join(reason) or 'ok'} |")
     lines.append("")
     return "\n".join(lines)
 
@@ -209,6 +235,11 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--keep-memories", action="store_true")
+    parser.add_argument(
+        "--rerank-strategy",
+        choices=("vector", "score_plus_recency", "score_plus_created_at_rank", "benchmark_order"),
+    )
+    parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -227,6 +258,9 @@ def main() -> int:
         print(f"categories: {dict(categories)}")
         print(f"tool: {args.tool}")
         print(f"output_dir: {output_dir}")
+        if args.rerank_strategy:
+            print(f"rerank_strategy: {args.rerank_strategy}")
+            print(f"recency_weight: {args.recency_weight}")
         return 0
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -255,19 +289,35 @@ def main() -> int:
             search_response, search_latency, raw_search = run_mem0([args.tool, "search", query], args.timeout_s)
             search_latencies.append(search_latency)
             raw_rows.append({"id": case["id"], "operation": "search", "raw": raw_search})
+            search_result_objects = result_objects(search_response)
             memories = result_memories(search_response)
             scored = score_case(case, memories)
-            rows.append(
-                {
-                    "id": case["id"],
-                    "category": case["category"],
-                    "query": case["query"],
-                    "added_ids": case_ids,
-                    "search_latency_s": round(search_latency, 3),
-                    "results": memories,
-                    **scored,
-                }
-            )
+            row: dict[str, Any] = {
+                "id": case["id"],
+                "category": case["category"],
+                "query": case["query"],
+                "added_ids": case_ids,
+                "search_latency_s": round(search_latency, 3),
+                "results": memories,
+                **scored,
+            }
+            if args.rerank_strategy:
+                reranked = rerank_results(search_result_objects, args.rerank_strategy, args.recency_weight)
+                reranked_memories = [str(item.get("memory") or "") for item in reranked]
+                rerank_scored = score_case(case, reranked_memories)
+                row.update(
+                    {
+                        "rerank_strategy": args.rerank_strategy,
+                        "rerank_recency_weight": args.recency_weight,
+                        "reranked_results": reranked_memories,
+                        "rerank_top_result": rerank_scored["top_result"],
+                        "rerank_pass": rerank_scored["pass"],
+                        "rerank_retrieved_expected": rerank_scored["retrieved_expected"],
+                        "rerank_forbidden_hit": rerank_scored["forbidden_hit"],
+                        "rerank_top_result_ok": rerank_scored["top_result_ok"],
+                    }
+                )
+            rows.append(row)
     finally:
         if not args.keep_memories:
             for memory_id in added_ids:
@@ -306,6 +356,24 @@ def main() -> int:
         "cleanup_expected": len(added_ids) if not args.keep_memories else 0,
         "kept_memories": args.keep_memories,
     }
+    if args.rerank_strategy:
+        rerank_passed = sum(1 for row in rows if row.get("rerank_pass"))
+        rerank_top1 = sum(1 for row in rows if row.get("rerank_top_result_ok"))
+        summary.update(
+            {
+                "rerank_strategy": args.rerank_strategy,
+                "rerank_recency_weight": args.recency_weight,
+                "rerank_passed": rerank_passed,
+                "rerank_pass_rate": rerank_passed / max(1, cases),
+                "rerank_top1_expected_rate": rerank_top1 / max(1, cases),
+                "rerank_recency_conflict_pass_rate": sum(1 for row in recency_rows if row.get("rerank_pass"))
+                / max(1, len(recency_rows)),
+                "rerank_distractor_resistance_pass_rate": sum(
+                    1 for row in distractor_rows if row.get("rerank_pass")
+                )
+                / max(1, len(distractor_rows)),
+            }
+        )
 
     save_jsonl(output_dir / "results.jsonl", rows)
     save_jsonl(output_dir / "raw_mem0_outputs.jsonl", raw_rows)

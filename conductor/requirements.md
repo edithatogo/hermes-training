@@ -9,7 +9,7 @@ Organize, train, benchmark, package, and publish Hermes-ready model adapters and
 | ID | Requirement | Owner | Verification |
 |---|---|---|---|
 | M1 | Proper Conductor structure for hub and nested tracks | hub | `scripts/validate_readiness.py` checks core Conductor files |
-| M2 | SSD-first model, dataset, temp, and benchmark caches | hub | `source scripts/env.sh` points paths at `/Volumes/PortableSSD` |
+| M2 | SSD-first model, dataset, temp, benchmark caches, and source/artifact separation | hub | `source scripts/env.sh` points paths at `/Volumes/PortableSSD`; `scripts/check_storage_layout.py` validates Git checkouts stay under `GitHub` |
 | M3 | MLX LoRA training pipeline for practical local models | `lfm2`, `gemma4` | smoke training reaches adapter save |
 | M4 | Dataset token audit before training claims | hub, tracks | `scripts/dataset_token_audit.py` output recorded |
 | M5 | Benchmark gate before publishing | hub, tracks | local and standard benchmark results attached to run/model card |

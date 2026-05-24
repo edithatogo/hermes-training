@@ -1,0 +1,4 @@
+# Optional dependencies for local Hugging Face embedding candidates.
+# Keep separate from requirements.txt because these pull in heavier PyTorch stacks.
+sentence-transformers
+torch

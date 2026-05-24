@@ -1,0 +1,170 @@
+[
+  {
+    "id": "current-embedding-preference",
+    "category": "recency_conflict",
+    "query": "What is the current preferred local embedding model?",
+    "candidates": [
+      {
+        "id": "old-preference",
+        "text": "The preferred local embedding model was old-embed-1024.",
+        "score": 0.88769,
+        "created_at": "2026-05-24T05:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "current-preference",
+        "text": "The current preferred local embedding model is nomic-embed-text because it is the working baseline.",
+        "score": 0.885542,
+        "created_at": "2026-05-24T07:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "runtime-note",
+        "text": "The preferred local runtime for daily chat is Ollama.",
+        "score": 0.623261,
+        "created_at": "2026-05-24T06:00:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "metadata-store-direct",
+    "category": "direct_recall",
+    "query": "Which database stores local metadata for Project Phoenix?",
+    "candidates": [
+      {
+        "id": "target-sqlite",
+        "text": "Project Phoenix uses SQLite for local metadata and Qdrant for vector search.",
+        "score": 0.809009,
+        "created_at": "2026-05-24T05:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "distractor-qdrant",
+        "text": "Project Phoenix uses Qdrant for vector search over embedded memories.",
+        "score": 0.624997,
+        "created_at": "2026-05-24T07:30:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "distractor-runtime",
+        "text": "Project Phoenix uses llama.cpp for endpoint smoke checks.",
+        "score": 0.440146,
+        "created_at": "2026-05-24T07:45:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "benchmark-distractor",
+    "category": "distractor_resistance",
+    "query": "Which benchmark uses distractor resistance cases?",
+    "candidates": [
+      {
+        "id": "mem0-memory",
+        "text": "The mem0 memory benchmark uses direct recall, recency conflict, and distractor resistance cases.",
+        "score": 0.760836,
+        "created_at": "2026-05-24T05:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "hermes-toolcall",
+        "text": "The Hermes tool-call benchmark uses strict held-out function-call cases.",
+        "score": 0.68982,
+        "created_at": "2026-05-24T08:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "endpoint-smoke",
+        "text": "The runtime endpoint benchmark checks OpenAI-compatible model and chat endpoints.",
+        "score": 0.565824,
+        "created_at": "2026-05-24T08:30:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "artifact-path-direct",
+    "category": "direct_recall",
+    "query": "Where should Hermes export artifacts be stored?",
+    "candidates": [
+      {
+        "id": "target-exports",
+        "text": "Hermes export artifacts should stay on /Volumes/PortableSSD/hermes-exports.",
+        "score": 0.842,
+        "created_at": "2026-05-24T05:30:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "recent-source",
+        "text": "Source files, configs, benchmark fixtures, and reports should stay in Git.",
+        "score": 0.701,
+        "created_at": "2026-05-24T09:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "cache-path",
+        "text": "Model caches should stay under /Volumes/PortableSSD/huggingface.",
+        "score": 0.676,
+        "created_at": "2026-05-24T09:15:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "extractor-preference-update",
+    "category": "recency_conflict",
+    "query": "Which extractor should remain the rollback extractor?",
+    "candidates": [
+      {
+        "id": "older-hermes",
+        "text": "The rollback extractor was hermes3:8b.",
+        "score": 0.833,
+        "created_at": "2026-05-24T04:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "current-lfm2",
+        "text": "The rollback extractor is sam860/LFM2:2.6b until another extractor passes the benchmark gates.",
+        "score": 0.829,
+        "created_at": "2026-05-24T07:30:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "embedding-rollback",
+        "text": "The rollback embedder remains nomic-embed-text:latest.",
+        "score": 0.621,
+        "created_at": "2026-05-24T08:00:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "semantic-margin-beats-recency",
+    "category": "distractor_resistance",
+    "query": "Which collection stores the current mem0 vectors?",
+    "candidates": [
+      {
+        "id": "target-collection",
+        "text": "The active mem0 Qdrant collection is mem0_nomic_768.",
+        "score": 0.91,
+        "created_at": "2026-05-24T03:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "recent-candidate",
+        "text": "The planned BGE-M3 candidate collection is mem0_bge_m3_1024.",
+        "score": 0.63,
+        "created_at": "2026-05-24T10:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "recent-qwen",
+        "text": "The planned Qwen embedding candidate collection must verify dimensions before creation.",
+        "score": 0.55,
+        "created_at": "2026-05-24T10:15:00+00:00",
+        "relevant": false
+      }
+    ]
+  }
+]

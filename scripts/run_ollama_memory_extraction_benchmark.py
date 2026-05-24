@@ -16,22 +16,16 @@ from typing import Any
 import requests
 
 
-SYSTEM_PROMPT = """You extract durable user or project memories for a local agent memory store.
-
-Return JSON only, with this exact schema:
-{"memories":["short durable memory"]}
-
-Rules:
-- Store durable preferences, project constraints, tool state, paths, and stable decisions.
-- Do not store transient commands, progress updates, acknowledgements, or the assistant saying it understood.
-- Do not invent facts.
-- If there is no durable memory, return {"memories":[]}.
-"""
+DEFAULT_SYSTEM_PROMPT_FILE = Path(__file__).resolve().parents[1] / "mem0" / "extraction" / "system_prompt.md"
 
 
 def load_json(path: Path) -> Any:
     with path.open(encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
 
 
 def save_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -67,7 +61,7 @@ def validate_suite(suite: list[Any], suite_path: Path) -> None:
         expected = case["expected"]
         if not isinstance(expected, dict):
             raise ValueError(f"{case_id}: expected must be an object")
-        for key in ("must_extract_any", "must_not_extract_any"):
+        for key in ("must_extract_any", "must_extract_all", "must_not_extract_any"):
             value = expected.get(key, [])
             if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
                 raise ValueError(f"{case_id}: expected.{key} must be a list of strings")
@@ -131,11 +125,14 @@ def parse_memories(text: str) -> tuple[list[str], str | None]:
 def score_case(case: dict[str, Any], memories: list[str], parse_error: str | None) -> dict[str, Any]:
     text = "\n".join(memories).lower()
     expected = case["expected"]
-    must_extract = [item.lower() for item in expected.get("must_extract_any", [])]
+    must_extract_any = [item.lower() for item in expected.get("must_extract_any", [])]
+    must_extract_all = [item.lower() for item in expected.get("must_extract_all", [])]
     must_not = [item.lower() for item in expected.get("must_not_extract_any", [])]
-    extracted_expected = True if not must_extract else any(item in text for item in must_extract)
+    any_ok = True if not must_extract_any else any(item in text for item in must_extract_any)
+    all_ok = all(item in text for item in must_extract_all)
+    extracted_expected = any_ok and all_ok
     forbidden_hit = any(item in text for item in must_not)
-    no_memory_expected = not must_extract
+    no_memory_expected = not must_extract_any and not must_extract_all
     empty_ok = True if not no_memory_expected else len(memories) == 0
     passed = parse_error is None and extracted_expected and not forbidden_hit and empty_ok
     return {
@@ -198,6 +195,7 @@ def main() -> int:
     parser.add_argument("--suite", type=Path, default=Path(__file__).resolve().parents[1] / "benchmarks" / "mem0_extraction" / "smoke_suite.json")
     parser.add_argument("--model", required=True)
     parser.add_argument("--base-url", default="http://127.0.0.1:11434/v1")
+    parser.add_argument("--system-prompt-file", type=Path, default=DEFAULT_SYSTEM_PROMPT_FILE)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
@@ -211,12 +209,14 @@ def main() -> int:
 
     run_id = args.run_id or f"memory-extraction-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"
     output_dir = args.output_dir or (resolve_default_output_root() / "mem0-extraction-benchmark" / run_id)
+    system_prompt = load_text(args.system_prompt_file)
 
     if args.dry_run:
         print(f"suite: {args.suite}")
         print(f"cases: {len(suite)}")
         print(f"model: {args.model}")
         print(f"base_url: {args.base_url}")
+        print(f"system_prompt_file: {args.system_prompt_file}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -227,7 +227,7 @@ def main() -> int:
 
     for index, case in enumerate(suite, 1):
         print(f"  [{index}/{len(suite)}] {case['id']}")
-        messages = [{"role": "system", "content": SYSTEM_PROMPT}, *case["conversation"]]
+        messages = [{"role": "system", "content": system_prompt}, *case["conversation"]]
         response, latency_s = endpoint_chat(args.base_url, args.model, messages, args.timeout_s)
         latencies.append(latency_s)
         memories, parse_error = parse_memories(response)
@@ -254,6 +254,7 @@ def main() -> int:
         "output_dir": str(output_dir),
         "model": args.model,
         "base_url": args.base_url,
+        "system_prompt_file": str(args.system_prompt_file),
         "cases": cases,
         "passed": sum(1 for row in rows if row["pass"]),
         "pass_rate": sum(1 for row in rows if row["pass"]) / max(1, cases),

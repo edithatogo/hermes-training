@@ -158,6 +158,8 @@ Planned Hugging Face repos:
 ```bash
 scripts/repo_status.sh
 ./.venv/bin/python scripts/validate_readiness.py
+./scripts/check_storage_layout.py --root /Volumes/PortableSSD
+PYTHONPATH=. python3 -m unittest discover -s tests
 python3 scripts/check_model_candidates.py
 python3 scripts/check_mem0_model_candidates.py
 ```

@@ -30,6 +30,8 @@ mem0/
 ├── MODEL_CANDIDATES.yaml      -> candidate extraction, embedding, reranker, and store models
 ├── RUNTIME_TARGETS.md         -> Ollama, llama.cpp, LM Studio, MLX, and Metal rules
 ├── data/                      -> contrastive memory/retrieval seed data
+├── extraction/                -> extractor prompt and gate evidence
+├── retrieval/                 -> late-interaction and retriever service plans
 ├── reranking/                 -> post-retrieval ranking experiments
 ├── training/                  -> future fine-tuning recipes for embedders/retrievers/rerankers
 └── embeddings/
@@ -44,6 +46,16 @@ Shared scripts live under `scripts/`, starting with:
 source scripts/env.sh
 ./.venv/bin/python scripts/run_mem0_memory_benchmark.py --dry-run
 ```
+
+The current candidate execution queue is generated from
+`mem0/MODEL_CANDIDATES.yaml`:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/build_mem0_candidate_queue.py
+```
+
+Output: `reports/model-radar/mem0-candidate-queue.md`.
 
 ## Promotion Gates
 

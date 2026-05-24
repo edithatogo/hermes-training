@@ -10,6 +10,10 @@ git -C "$ROOT" status -sb
 echo
 git -C "$ROOT" submodule status --recursive || true
 
+echo
+echo "== storage layout =="
+python3 "$ROOT/scripts/check_storage_layout.py" --root "${HERMES_STORAGE_ROOT:-/Volumes/PortableSSD}" || true
+
 for repo in gemma4 lfm2 ollama-pack; do
     echo
     echo "== $repo =="

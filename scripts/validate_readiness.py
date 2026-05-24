@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import importlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +18,7 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+STORAGE_ROOT = Path(os.environ.get("HERMES_STORAGE_ROOT", "/Volumes/PortableSSD"))
 TRAINING_TRACKS = ("gemma4", "lfm2")
 CONDUCTOR_ROOTS = (ROOT, ROOT / "gemma4", ROOT / "lfm2", ROOT / "ollama-pack")
 REQUIRED_IMPORTS = (
@@ -224,6 +226,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "ollama-pack/scripts/normalize_runtime_json.py",
         ROOT / "scripts/run_benchmark.py",
         ROOT / "scripts/run_teacher_evaluator.py",
+        ROOT / "scripts/check_storage_layout.py",
         ROOT / "scripts/validate_readiness.py",
     ]
     result = subprocess.run(
@@ -237,6 +240,27 @@ def check_shell_syntax(failures: list[str]) -> None:
         ok("python syntax")
 
 
+def check_storage_layout(failures: list[str]) -> None:
+    if not STORAGE_ROOT.exists():
+        ok(f"storage layout skipped: {STORAGE_ROOT} not present")
+        return
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/check_storage_layout.py"),
+            "--root",
+            str(STORAGE_ROOT),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"storage layout: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("storage layout")
+
+
 def main() -> int:
     failures: list[str] = []
     check_imports(failures)
@@ -246,6 +270,7 @@ def main() -> int:
     check_endpoint_pilots(failures)
     check_conductor(failures)
     check_shell_syntax(failures)
+    check_storage_layout(failures)
 
     if failures:
         print("\nnot ready:")

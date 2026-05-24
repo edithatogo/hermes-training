@@ -57,31 +57,37 @@ Current smoke datasets are small and already live in the track repos. For future
 1. Verify submodule metadata:
 
    ```bash
-   git submodule status --recursive
+   scripts/repo_status.sh
    ```
 
-2. Verify model radar:
+2. Verify storage layout directly when working on SSD organization:
+
+   ```bash
+   ./scripts/check_storage_layout.py --root /Volumes/PortableSSD
+   ```
+
+3. Verify model radar:
 
    ```bash
    python3 scripts/check_model_candidates.py
    ```
 
-3. Verify syntax:
+4. Verify syntax:
 
    ```bash
    bash -n gemma4/scripts/push_to_hf.sh lfm2/scripts/push_to_hf.sh
    python3 -m py_compile scripts/check_model_candidates.py
    ```
 
-4. Decide whether to commit smoke data updates in `gemma4` and `lfm2`.
+5. Decide whether to commit smoke data updates in `gemma4` and `lfm2`.
 
-5. Train low-risk targets before large MoE experiments:
+6. Train low-risk targets before large MoE experiments:
 
    - `LiquidAI/LFM2.5-1.2B-Instruct` (10-iteration smoke passed locally)
    - `Qwen/Qwen3-4B-MLX-4bit` (configured; retry after authenticated/prefetched HF download)
    - `LiquidAI/LFM2.5-1.2B-Thinking`
 
-6. Treat these as runtime/baseline/teacher targets first:
+7. Treat these as runtime/baseline/teacher targets first:
 
    - `Qwen/Qwen3.6-35B-A3B`
    - `NousResearch/Hermes-4-14B`

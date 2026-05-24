@@ -22,6 +22,12 @@ Keep Git for source, configs, benchmark fixtures, cards, and reports. Keep large
 | eval outputs | `/Volumes/PortableSSD/hermes-evals` |
 | exports / GGUFs | `/Volumes/PortableSSD/hermes-exports` |
 | Ollama models | `/Volumes/PortableSSD/Ollama/models` |
+| shared tool checkouts | `/Volumes/PortableSSD/GitHub/<tool-repo>` |
+
+The llama.cpp conversion checkout is canonical at
+`/Volumes/PortableSSD/GitHub/llama.cpp-convert-tool`. The legacy
+`/Volumes/PortableSSD/hermes-tools/llama.cpp` path is a compatibility symlink
+for scripts and older notes.
 
 ## Current Baselines
 
@@ -29,11 +35,10 @@ Keep Git for source, configs, benchmark fixtures, cards, and reports. Keep large
 |---|---|---|
 | Hermes local runtime | `hermes3:8b` and `sam860/LFM2:2.6b` in Ollama | Installed endpoint baseline. |
 | Hermes fine-tune lane | Qwen3 4B MLX LoRA experiments | Useful local proof; strict tool-call publication still blocked. |
-| mem0 embedder | `nomic-embed-text:latest` through Ollama | Functional baseline; recency-conflict ranking failed first mem0 benchmark. |
-| mem0 extractor | `sam860/LFM2:2.6b` through Ollama | Functional baseline; extraction quality needs its own benchmark expansion. |
+| mem0 embedder | `nomic-embed-text:latest` through Ollama native and OpenAI-compatible endpoints | Functional baseline; recency-conflict ranking still needs reranking or better model support. |
+| mem0 extractor | `sam860/LFM2:2.6b` through Ollama OpenAI-compatible chat endpoint | Functional baseline; extraction quality needs its own benchmark expansion. |
 | Runtime fallback | MLX server, llama.cpp Metal/GGUF, LM Studio | Use run cards before promotion. |
 
 ## Development Rule
 
 Do not promote a model because it is new or large. Promote only after the lane-specific benchmark and runtime gates pass.
-

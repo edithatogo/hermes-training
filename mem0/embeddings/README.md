@@ -40,4 +40,31 @@ source scripts/env.sh
   --suite benchmarks/embeddings/memory_retrieval_suite.json
 ```
 
+For OpenAI-compatible embedding servers such as Ollama `/v1`, LM Studio, or
+`llama-server` where embeddings are enabled:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_openai_embedding_benchmark.py \
+  --base-url http://127.0.0.1:11434/v1 \
+  --model nomic-embed-text:latest \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json
+```
+
+For Hugging Face embedding models that need `sentence-transformers`, install the
+optional dependency set first:
+
+```bash
+source scripts/env.sh
+python -m pip install -r requirements-mem0-embeddings.txt
+./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device mps \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json
+```
+
+BGE-M3, Jina embeddings, and Qwen embedding candidates should start on this
+path unless they are first exposed through a local OpenAI-compatible embedding
+server.
+
 This benchmark is intentionally small. It is useful for quick regression checks and candidate triage; it is not a publication-quality retrieval score.

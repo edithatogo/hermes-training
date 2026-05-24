@@ -11,13 +11,16 @@ Do not require one runtime to cover every role. The acceptance rule is that ever
 
 | Runtime | Good fit | Endpoint shape | Mac / Metal notes |
 |---|---|---|---|
-| Ollama | current embedder and extractor, GGUF chat models | `/api/embeddings`, OpenAI-compatible `/v1/chat/completions` | Best daily default. Uses SSD-backed model store on this machine. |
+| Ollama | current embedder and extractor, GGUF chat models | `/api/embeddings`, OpenAI-compatible `/v1/embeddings`, `/v1/chat/completions` | Best daily default. Uses SSD-backed model store on this machine. |
 | llama.cpp | GGUF chat models, some embedding models, server smoke | `llama-server` OpenAI-compatible endpoints where supported | Build with Metal on Apple Silicon; record commit and flags in run card. |
-| LM Studio | GGUF chat and embedding models exposed through UI/server | OpenAI-compatible local server | Good desktop validation path. Requires active app/server or `lms` CLI. |
+| LM Studio | GGUF chat and embedding models exposed through UI/server | OpenAI-compatible local server, including `/v1/embeddings` when model supports embeddings | Good desktop validation path. Requires active app/server or `lms` CLI. |
 | MLX / MLX-LM | Mac-first models and adapters | `mlx_lm.server` for chat; custom embedding wrappers where needed | Preferred for Apple Silicon fine-tune and adapter smoke. |
 | Transformers / sentence-transformers | embedding/reranker baselines | Python harness or small local service | Use when Ollama/llama.cpp do not expose embedding support for the candidate. |
 | FAISS + SQLite | retriever experiments | local Python API or `POST /retrieve` service | Good for dense retrieval experiments. Keep separate from Qdrant collections. |
 | ColBERT-style index | late-interaction retrieval | `POST /retrieve` service | Requires separate index artifacts and cannot be treated as plain dense Qdrant. |
+
+See `mem0/retrieval/COLBERT_SERVICE_PLAN.md` for the first late-interaction
+service boundary.
 
 ## Endpoint Contracts
 
@@ -30,6 +33,14 @@ Extractor candidates must support:
 - refusal to store secrets or prompt-injection payloads
 - low enough latency for interactive CLI use
 
+The current passing extraction prompt is versioned at
+`mem0/extraction/system_prompt.md`.
+
+OpenAI-compatible extractor endpoints must accept `POST /v1/chat/completions`
+with `messages`, `temperature`, `max_tokens`, and `stream: false`. This covers
+Ollama `/v1`, LM Studio, and `llama-server` when the selected model supports
+chat completions.
+
 ### Embedder
 
 Embedder candidates must record:
@@ -41,6 +52,24 @@ Embedder candidates must record:
 - collection name
 - index distance metric
 - add/search latency
+
+OpenAI-compatible embedding endpoints must accept:
+
+```http
+POST /v1/embeddings
+```
+
+with:
+
+```json
+{
+  "model": "model-id",
+  "input": "text to embed"
+}
+```
+
+and return either OpenAI-style `data[0].embedding` or a direct `embedding`
+array.
 
 ### Retriever
 
@@ -76,4 +105,3 @@ POST /retrieve
 - Record whether the runtime used CPU, Metal GPU layers, MLX, or MPS.
 - Keep first tests at small context lengths before trying long-context memory scenarios.
 - Do not assume a model is usable for mem0 just because it loads; run add/search and recency tests.
-

@@ -1,0 +1,3 @@
+# Optional dependencies for Hugging Face reranker and FlagEmbedding candidates.
+# Install only when testing reranker or BGE-specific training/eval paths.
+FlagEmbedding
