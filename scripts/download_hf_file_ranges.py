@@ -7,6 +7,7 @@ import math
 import os
 import sys
 import time
+import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -31,6 +32,10 @@ def completed_size(ranges: list[tuple[int, int, int, Path]]) -> int:
         if tmp_path.exists():
             total += tmp_path.stat().st_size
     return total
+
+
+def completed_chunks(ranges: list[tuple[int, int, int, Path]]) -> int:
+    return sum(1 for _, start, end, path in ranges if path.exists() and path.stat().st_size == end - start + 1)
 
 
 def download_chunk(
@@ -101,6 +106,7 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--timeout-s", type=float, default=300)
     parser.add_argument("--attempts", type=int, default=5)
+    parser.add_argument("--progress-seconds", type=int, default=0)
     args = parser.parse_args()
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -119,7 +125,7 @@ def main() -> int:
         end = min(total_size - 1, start + chunk_size - 1)
         ranges.append((index, start, end, part_dir / f"{index:06d}.part"))
 
-    completed_before = sum(1 for _, start, end, path in ranges if path.exists() and path.stat().st_size == end - start + 1)
+    completed_before = completed_chunks(ranges)
     print(f"file: {args.filename}", flush=True)
     print(f"size: {total_size}", flush=True)
     print(f"chunks: {len(ranges)} ({completed_before} already complete)", flush=True)
@@ -127,6 +133,24 @@ def main() -> int:
 
     started = time.time()
     done = completed_before
+    stop_event = threading.Event()
+
+    def report_progress() -> None:
+        while not stop_event.wait(args.progress_seconds):
+            elapsed = max(0.001, time.time() - started)
+            downloaded = completed_size(ranges)
+            finished = completed_chunks(ranges)
+            mib_s = downloaded / 1024 / 1024 / elapsed
+            print(
+                f"progress: {finished}/{len(ranges)} chunks; {downloaded}/{total_size} bytes; {mib_s:.2f} MiB/s",
+                flush=True,
+            )
+
+    reporter: threading.Thread | None = None
+    if args.progress_seconds > 0:
+        reporter = threading.Thread(target=report_progress, name="download-progress", daemon=True)
+        reporter.start()
+
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
             pool.submit(
@@ -150,6 +174,10 @@ def main() -> int:
             downloaded = completed_size(ranges)
             mib_s = downloaded / 1024 / 1024 / elapsed
             print(f"chunk {index} complete; {done}/{len(ranges)} chunks; {mib_s:.2f} MiB/s", flush=True)
+
+    stop_event.set()
+    if reporter is not None:
+        reporter.join(timeout=1)
 
     parts = [path for _, _, _, path in ranges]
     assemble(parts, args.output, total_size)
