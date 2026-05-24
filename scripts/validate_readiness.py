@@ -133,6 +133,32 @@ def check_ollama_pack(failures: list[str]) -> None:
         ok(str(path.relative_to(ROOT)))
 
 
+def check_endpoint_pilots(failures: list[str]) -> None:
+    pilot_root = ROOT / "benchmarks" / "endpoint_pilots"
+    for rel in ("README.md", "bfcl_pilot.json", "coding_pilot.json", "ifeval_pilot.json"):
+        path = pilot_root / rel
+        if not path.exists():
+            fail(f"missing {path.relative_to(ROOT)}", failures)
+            continue
+        if path.suffix == ".json":
+            try:
+                suite = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                fail(f"invalid JSON in {path.relative_to(ROOT)}: {exc}", failures)
+                continue
+            if not isinstance(suite, list) or not suite:
+                fail(f"{path.relative_to(ROOT)} must be a non-empty JSON array", failures)
+                continue
+            for index, case in enumerate(suite, 1):
+                if not isinstance(case, dict) or not {"id", "category", "messages", "expected"} <= set(case):
+                    fail(f"{path.relative_to(ROOT)} case {index} missing required keys", failures)
+                    break
+            else:
+                ok(f"{path.relative_to(ROOT)} ({len(suite)} cases)")
+        else:
+            ok(str(path.relative_to(ROOT)))
+
+
 def check_conductor(failures: list[str]) -> None:
     required = (
         "index.md",
@@ -191,6 +217,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/eval_prompt_audit.py",
         ROOT / "scripts/eval_response_gate.py",
         ROOT / "scripts/run_tool_call_benchmark.py",
+        ROOT / "scripts/run_endpoint_tool_call_benchmark.py",
+        ROOT / "scripts/run_endpoint_pilot_benchmark.py",
         ROOT / "scripts/build_tool_call_training_data.py",
         ROOT / "scripts/normalize_tool_response.py",
         ROOT / "ollama-pack/scripts/normalize_runtime_json.py",
@@ -215,6 +243,7 @@ def main() -> int:
     for track in TRAINING_TRACKS:
         check_training_track(track, failures)
     check_ollama_pack(failures)
+    check_endpoint_pilots(failures)
     check_conductor(failures)
     check_shell_syntax(failures)
 

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "coding-python-add-two",
+    "category": "code_contains",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Write concise Python code only. Do not include markdown fences."
+      },
+      {
+        "role": "user",
+        "content": "Define a Python function add_two(x) that returns x + 2."
+      }
+    ],
+    "expected": {
+      "contains_all": ["def add_two", "return", "+ 2"],
+      "excludes_any": ["```"]
+    }
+  },
+  {
+    "id": "coding-python-filter-even",
+    "category": "code_contains",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Write concise Python code only. Do not include markdown fences."
+      },
+      {
+        "role": "user",
+        "content": "Define a Python function evens(values) that returns a list of only even integers from values."
+      }
+    ],
+    "expected": {
+      "contains_all": ["def evens", "for", "% 2", "== 0"],
+      "excludes_any": ["```"]
+    }
+  },
+  {
+    "id": "coding-sql-basic",
+    "category": "contains_excludes",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Write SQL only. Do not include markdown fences."
+      },
+      {
+        "role": "user",
+        "content": "Write a SQL query selecting account_id and total_cents from invoices where status is 'open', ordered by total_cents descending."
+      }
+    ],
+    "expected": {
+      "contains_all": ["select", "account_id", "total_cents", "from invoices", "where", "status", "order by", "desc"],
+      "excludes_any": ["```"]
+    }
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "id": "ifeval-json-only-invoice",
+    "category": "json_exact",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Follow the user's formatting constraints exactly."
+      },
+      {
+        "role": "user",
+        "content": "Return only valid JSON with keys invoice_id, amount_cents, and currency for invoice INV-42, amount 1299, currency AUD. Do not include markdown."
+      }
+    ],
+    "expected": {
+      "json": {
+        "invoice_id": "INV-42",
+        "amount_cents": 1299,
+        "currency": "AUD"
+      }
+    }
+  },
+  {
+    "id": "ifeval-bullets-count",
+    "category": "line_count",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Follow the user's formatting constraints exactly."
+      },
+      {
+        "role": "user",
+        "content": "Give exactly three bullet lines about safe local model evaluation. Each line must start with '- '."
+      }
+    ],
+    "expected": {
+      "line_count": 3,
+      "line_prefix": "- "
+    }
+  },
+  {
+    "id": "ifeval-forbidden-word",
+    "category": "contains_excludes",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Follow the user's wording constraints exactly."
+      },
+      {
+        "role": "user",
+        "content": "In one sentence, say that the runtime smoke passed. Do not use the word benchmark."
+      }
+    ],
+    "expected": {
+      "contains_all": ["runtime", "smoke", "passed"],
+      "excludes_any": ["benchmark"]
+    }
+  }
+]

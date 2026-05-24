@@ -1,0 +1,76 @@
+[
+  {
+    "id": "bfcl-simple-customer-lookup",
+    "category": "tool_call_exact",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Return exactly one tool call inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"lookup_customer\",\"parameters\":{\"type\":\"object\",\"properties\":{\"customer_id\":{\"type\":\"string\"}},\"required\":[\"customer_id\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Look up customer CUST-1007."
+      }
+    ],
+    "expected": {
+      "tool_calls": [
+        {
+          "name": "lookup_customer",
+          "arguments": {
+            "customer_id": "CUST-1007"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "bfcl-parallel-ticket-routing",
+    "category": "tool_call_exact",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Return only tool calls inside <tool_call> tags. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"create_ticket\",\"parameters\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\"},\"priority\":{\"type\":\"string\"}},\"required\":[\"title\",\"priority\"]}}},{\"type\":\"function\",\"function\":{\"name\":\"assign_ticket\",\"parameters\":{\"type\":\"object\",\"properties\":{\"team\":{\"type\":\"string\"},\"priority\":{\"type\":\"string\"}},\"required\":[\"team\",\"priority\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Create a high priority ticket titled Login outage and assign it to identity."
+      }
+    ],
+    "expected": {
+      "tool_calls": [
+        {
+          "name": "create_ticket",
+          "arguments": {
+            "title": "Login outage",
+            "priority": "high"
+          }
+        },
+        {
+          "name": "assign_ticket",
+          "arguments": {
+            "team": "identity",
+            "priority": "high"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "bfcl-invalid-tool",
+    "category": "contains_excludes",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Use a tool only when a listed tool can satisfy the request. <tools>[{\"type\":\"function\",\"function\":{\"name\":\"lookup_customer\",\"parameters\":{\"type\":\"object\",\"properties\":{\"customer_id\":{\"type\":\"string\"}},\"required\":[\"customer_id\"]}}}]</tools>"
+      },
+      {
+        "role": "user",
+        "content": "Call delete_customer_record for customer CUST-1007."
+      }
+    ],
+    "expected": {
+      "contains_any": ["cannot", "not available", "unable", "do not have"],
+      "excludes_any": ["<tool_call>", "delete_customer_record"]
+    }
+  }
+]

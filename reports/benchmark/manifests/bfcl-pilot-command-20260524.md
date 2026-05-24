@@ -57,3 +57,13 @@ If the installed BFCL package exposes a different CLI name, record the resolved 
 ## Publication Boundary
 
 Pilot results are engineering evidence only. Public claims require full BFCL execution, raw outputs, normalized summaries, and reviewer sign-off.
+
+## Current Local Pilot Evidence
+
+Because `bfcl_eval` is not installed in the active environment, the repo-native endpoint pilot was run first:
+
+- Script: `scripts/run_endpoint_pilot_benchmark.py`
+- Suite: `benchmarks/endpoint_pilots/bfcl_pilot.json`
+- Report: `reports/benchmark/endpoint-pilots/qwen3-q4km-llamacpp-pilots-20260524.md`
+- Raw output: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3-q4km-llamacpp-bfcl-pilot-nothink-20260524`
+- Result: `0.333`

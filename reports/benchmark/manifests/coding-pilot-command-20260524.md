@@ -55,3 +55,13 @@ If code execution evaluation is unavailable locally, generate completions only a
 ## Publication Boundary
 
 Public coding claims require executed tests, pass@k methodology, sandbox configuration, and raw generated solutions.
+
+## Current Local Pilot Evidence
+
+Because `lm_eval` is not installed in the active environment, the repo-native endpoint pilot was run first:
+
+- Script: `scripts/run_endpoint_pilot_benchmark.py`
+- Suite: `benchmarks/endpoint_pilots/coding_pilot.json`
+- Report: `reports/benchmark/endpoint-pilots/qwen3-q4km-llamacpp-pilots-20260524.md`
+- Raw output: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3-q4km-llamacpp-coding-pilot-nothink-20260524`
+- Result: `1.000`

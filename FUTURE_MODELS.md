@@ -2,7 +2,12 @@
 
 This file is the model-selection radar for Hermes fine-tunes on a MacBook Pro M1 Max with 32GB RAM. Refresh it before starting a new track because model availability, MLX support, Ollama converter support, and quantized releases move quickly.
 
-Latest scan: [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md). No official Qwen3.7 open-weight local lane was verified in that scan.
+Latest scans:
+
+- [Current release scan](./reports/model-radar/current-release-scan-20260524.md)
+- [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
+
+No official Qwen3.7 open-weight local lane was verified. Qwen3.7-Max/Plus should be treated as API/preview/proprietary until official weights or a supported hosted workflow are verified.
 
 ## Selection Rules
 
@@ -30,7 +35,7 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 
 | Rank | Family | Candidate | Params | Fit | Role | Notes |
 |---|---|---:|---:|---|---|---|
-| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo exists and community GGUF/MLX quants exist; prove runtime on Mac before using as teacher. |
+| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B`, `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`, `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo and MLX-packaged candidates verified on 2026-05-24; prove runtime on Mac before using as teacher. |
 | 2 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
 | 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
@@ -107,10 +112,10 @@ Recommended path:
 
 ## Unsupported Qwen3.7 Rumor Guardrail
 
-As of 2026-05-22, Qwen3.7 should not be treated as a current public local model lane:
+As of 2026-05-24, Qwen3.7 should not be treated as a current public local model lane:
 
 - No official Hugging Face open-weight repositories were verified under `Qwen/Qwen3.7-*`.
-- No official Qwen source was verified that supersedes Qwen3.6 as a public open-weight local target.
+- Current Qwen3.7-Max/Plus reporting describes API/preview/proprietary availability, not redistributable local weights.
 - Do not create MLX, Ollama, LM Studio, Azure fine-tune, GitHub publication, or Hugging Face publication tracks for Qwen3.7 until official weights, license, and runtime artifacts exist.
 
 Promotion trigger: add a track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.

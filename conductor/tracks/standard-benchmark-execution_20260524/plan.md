@@ -20,18 +20,18 @@
 ## Phase 2 - Lane A Local Hermes Strict Tool-Call
 
 - [ ] Task: Define local strict tool-call tiers.
-    - [ ] Specify smoke, heldout, and full tiers with expected runtime, dataset path, prompts, parser settings, and output schema.
-    - [ ] Distinguish raw strict scores from runtime-normalized scores.
-    - [ ] Define minimum evidence for runtime proof versus publication-ready benchmark evidence.
+    - [x] Specify smoke, heldout, and full tiers with expected runtime, dataset path, prompts, parser settings, and output schema.
+    - [x] Distinguish raw strict scores from runtime-normalized scores.
+    - [x] Define minimum evidence for runtime proof versus publication-ready benchmark evidence.
 - [ ] Task: Define local runtime matrix.
     - [x] Include Hermes-compatible local runtime, OpenAI-compatible endpoint, normalization wrapper, prompt format, context length, and sampling settings.
     - [x] Record command manifests and environment variables without launching expensive runs.
     - [x] Require SSD output roots for raw completions, normalized completions, parser diagnostics, and scorecards.
     - [x] Record first endpoint baselines for Ollama Hermes3, Ollama LFM2, and llama.cpp Qwen3 Q4_K_M.
 - [ ] Task: Define local pass/fail gates.
-    - [ ] Fail publication if strict tool-call behavior is materially broken for an agent-positioned model.
-    - [ ] Require failure examples and parser diagnostics for any residual failures.
-    - [ ] Require reviewer sign-off before local results are used in model-card claims.
+    - [x] Fail publication if strict tool-call behavior is materially broken for an agent-positioned model.
+    - [x] Require failure examples and parser diagnostics for any residual failures.
+    - [x] Require reviewer sign-off before local results are used in model-card claims.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Lane A Local Hermes Strict Tool-Call' (Protocol in workflow.md)
 
 ## Phase 3 - Lane B IFEval, BFCL, Coding, And lm-eval
@@ -46,9 +46,9 @@
     - [x] Coding: validate task source, sandbox assumptions, timeout policy, and result normalization fields.
     - [x] lm-eval: validate task list, model adapter invocation, batch-size policy, and output path.
 - [ ] Task: Define score normalization and comparability rules.
-    - [ ] Preserve raw suite outputs alongside normalized summaries.
-    - [ ] Record benchmark harness version and repository commit for every future run.
-    - [ ] Require rerun notes when local and Azure results are compared.
+    - [x] Preserve raw suite outputs alongside normalized summaries.
+    - [x] Record benchmark harness version and repository commit for every future run.
+    - [x] Require rerun notes when local and Azure results are compared.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 3 - Lane B IFEval, BFCL, Coding, And lm-eval' (Protocol in workflow.md)
 
 ## Phase 4 - Lane C Azure Scale-Out
@@ -123,4 +123,5 @@
 - Additional evidence: local held-out, lm-eval smoke, and retrieval smoke command manifests now exist under `reports/benchmark/manifests/`.
 - Endpoint harness: `scripts/run_endpoint_tool_call_benchmark.py` now allows the same strict suite to run against Ollama, LM Studio, MLX server, or the normalizing proxy through OpenAI-compatible endpoints.
 - Endpoint baselines: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md` records `hermes3:8b` via Ollama at strict held-out `0.250`; `reports/benchmark/endpoint-tool-call/lfm2-2-6b-ollama-heldout-20260524.md` records `sam860/LFM2:2.6b` via Ollama at `0.250`; `reports/benchmark/endpoint-tool-call/qwen3-q4km-llamacpp-heldout-20260524.md` records the SSD-backed Qwen3 Q4_K_M GGUF via llama.cpp at `0.375`.
+- Endpoint pilots: `reports/benchmark/endpoint-pilots/qwen3-q4km-llamacpp-pilots-20260524.md` records BFCL-style `0.333`, IFEval-style `0.667`, and coding sanity `1.000` for the Qwen3 Q4_K_M llama.cpp endpoint with `/no_think`.
 - Remaining gap: full execution remains gated on runtime stability, local/SSD artifacts, and explicit approval for any paid or long-running jobs. The setup plan itself now clears the 9.5 health target.

@@ -70,3 +70,26 @@ Result on 2026-05-24:
 - Local templates present under `templates/azure/`
 
 This confirms that no Azure ML workspace currently exists for this project. Workspace creation remains gated behind quota and no-spend controls.
+
+## Refresh Result
+
+Commands rerun on 2026-05-24:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast \
+  | tee /Volumes/PortableSSD/hermes-evals/runtime-proof-completion/azure-preflight-australiaeast-refresh-20260524.txt
+./.venv/bin/python scripts/azure_status.py \
+  | tee /Volumes/PortableSSD/hermes-evals/runtime-proof-completion/azure-status-refresh-20260524.txt
+```
+
+Result:
+
+- Account remains `d.a.mordaunt@gmail.com`.
+- Subscription remains `Azure for Students`, `Enabled`.
+- Azure ML extension is installed.
+- Providers remain registered.
+- Azure ML workspaces: none.
+- Useful modern GPU quota in `australiaeast` remains blocked: T4, A100, H100, and A10-family rows are still zero.
+
+Decision: no live Azure jobs or workspace creation were started. Azure remains ready for templates and dry-runs only until a specific useful GPU SKU/region quota is available.

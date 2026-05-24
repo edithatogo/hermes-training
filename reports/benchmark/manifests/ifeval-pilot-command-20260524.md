@@ -52,3 +52,13 @@ The exact `lm_eval` model adapter must be resolved against the installed harness
 ## Publication Boundary
 
 Pilot results are not leaderboard evidence. Publication requires full IFEval, harness version capture, raw outputs, normalized summaries, and failure examples.
+
+## Current Local Pilot Evidence
+
+Because `lm_eval` is not installed in the active environment, the repo-native endpoint pilot was run first:
+
+- Script: `scripts/run_endpoint_pilot_benchmark.py`
+- Suite: `benchmarks/endpoint_pilots/ifeval_pilot.json`
+- Report: `reports/benchmark/endpoint-pilots/qwen3-q4km-llamacpp-pilots-20260524.md`
+- Raw output: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3-q4km-llamacpp-ifeval-pilot-nothink-20260524`
+- Result: `0.667`
