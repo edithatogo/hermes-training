@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-format-proof-harness_20260524",
+  "type": "runtime-evidence",
+  "status": "completed",
+  "created_at": "2026-05-24T00:00:00Z",
+  "updated_at": "2026-05-24T00:00:00Z",
+  "description": "Add proof-card tooling and manifests for each non-GGUF and GGUF runtime/training format lane."
+}
