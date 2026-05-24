@@ -29,6 +29,23 @@ Status at the last check:
 - Partial file: `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/.cache/huggingface/download/*.incomplete`
 - Approximate downloaded size at last check: `150MiB`
 
+The Hugging Face CLI/Xet path stalled, then the standard HTTP path progressed slowly. A resumable ranged downloader was added at `scripts/download_hf_file_ranges.py` and is now the preferred large-GGUF acquisition method for this artifact:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/download_hf_file_ranges.py \
+  --repo-id SandLogicTechnologies/Hermes-4-14B-GGUF \
+  --filename Hermes-4-14B_Q4_k_m.gguf \
+  --output /Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/Hermes-4-14B_Q4_k_m.gguf \
+  --chunk-mib 64 \
+  --workers 4 \
+  --attempts 4
+```
+
+Chunk parts are stored in:
+
+`/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/Hermes-4-14B_Q4_k_m.gguf.parts`
+
 ## Paused / Resumable
 
 The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after Hermes 4 completes:
