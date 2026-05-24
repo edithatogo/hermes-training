@@ -106,6 +106,17 @@ The same repo-native endpoint pilots also ran against LM Studio with the SSD-bac
 - Coding sanity pilot: `1.000`
 - Decision: LM Studio remains the stronger held-out strict tool-call runtime, but the pilot BFCL-style result reinforces that exact tool-call schema training is still required.
 
+Hermes 4 14B Q4_K_M is now acquired, loaded, and benchmarked through llama.cpp:
+
+- Runtime report: `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md`
+- Held-out report: `reports/benchmark/endpoint-tool-call/hermes4-14b-q4-llamacpp-heldout-20260524.md`
+- Endpoint pilot report: `reports/benchmark/endpoint-pilots/hermes4-14b-q4-llamacpp-pilots-20260524.md`
+- Strict held-out pass: `0.250`
+- BFCL-style pilot: `0.000`
+- IFEval-style pilot: `0.667`
+- Coding sanity pilot: `1.000`
+- Decision: local Hermes 4 baseline proof is complete, but it does not meet the strict Hermes agent publication gate.
+
 ## mem0 Baselines
 
 The mem0 benchmark index is:

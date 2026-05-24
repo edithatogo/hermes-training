@@ -59,7 +59,9 @@
     - [x] If a local artifact or endpoint exists, run one Hermes-style non-streaming chat smoke.
     - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
     - [x] Write the Hermes 4 14B run card under the SSD runtime-proof-completion root.
-    - [x] Follow-up acquisition started under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`; runtime proof remains pending until the GGUF completes.
+    - [x] Follow-up acquisition completed under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`.
+    - [x] Runtime proof recorded in `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md`.
+    - [x] Held-out benchmark recorded in `reports/benchmark/endpoint-tool-call/hermes4-14b-q4-llamacpp-heldout-20260524.md`.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Hermes 4 14B Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 2C - Qwen3.6 Runtime Proof
@@ -114,5 +116,5 @@
 
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
-- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF.
-- Blocker: LM Studio is cleared for the existing Qwen3 Q4_K_M artifact. Hermes 4 14B acquisition is resumable on the SSD; Qwen3.6 and Gemma 4 acquisition targets are resolved and paused/resumable until Hermes 4 completes.
+- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof.
+- Blocker: Qwen3.6 and Gemma 4 acquisition attempts are paused/resumable until selected as the next one-by-one runtime proof target. Hermes 4 14B Q4 is complete and runtime-proven.

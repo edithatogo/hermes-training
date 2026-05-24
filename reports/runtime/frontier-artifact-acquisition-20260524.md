@@ -23,11 +23,13 @@ hf download SandLogicTechnologies/Hermes-4-14B-GGUF \
   --local-dir /Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4
 ```
 
-Status at the last check:
+Final status:
 
-- Active process: yes
-- Partial file: `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/.cache/huggingface/download/*.incomplete`
-- Approximate downloaded size at last check: `150MiB`
+- Complete artifact: `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/Hermes-4-14B_Q4_k_m.gguf`
+- Size: `9001753248` bytes
+- Runtime proof: `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md`
+- Held-out benchmark: `reports/benchmark/endpoint-tool-call/hermes4-14b-q4-llamacpp-heldout-20260524.md`
+- Endpoint pilots: `reports/benchmark/endpoint-pilots/hermes4-14b-q4-llamacpp-pilots-20260524.md`
 
 The Hugging Face CLI/Xet path stalled, then the standard HTTP path progressed slowly. A resumable ranged downloader was added at `scripts/download_hf_file_ranges.py` and is now the preferred large-GGUF acquisition method for this artifact:
 
@@ -42,9 +44,11 @@ source scripts/env.sh
   --attempts 4
 ```
 
-Chunk parts are stored in:
+Chunk parts were stored in:
 
 `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4/Hermes-4-14B_Q4_k_m.gguf.parts`
+
+After the final GGUF was assembled and validated, the redundant chunk directory was removed to recover SSD space.
 
 ## Paused / Resumable
 
@@ -73,13 +77,11 @@ snapshot_download(
 
 ## Next Runtime Proof
 
-After the Hermes 4 GGUF file is complete:
+Hermes 4 is complete. The next acquisition/runtime-proof target should be resumed one at a time:
 
-1. Confirm file size and `llama-server` model load.
-2. Serve through `http://127.0.0.1:8092/v1` with alias `hermes-4-14b-q4`.
-3. Run `ollama-pack/scripts/runtime_smoke.sh`.
-4. Run `scripts/run_endpoint_tool_call_benchmark.py` on `benchmarks/tool_call_local/heldout_suite.json` with `/no_think`.
-5. Store raw outputs under `/Volumes/PortableSSD/hermes-evals`.
+1. `Infatoshi/Qwen3.6-35B-A3B-GGUF` Q4_K_M, or
+2. `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M, or
+3. `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`.
 
 ## Boundary
 
