@@ -94,8 +94,9 @@ snapshot_download(
 Hermes 4 is complete. Qwen3.6 Q4_K_M is the active acquisition/runtime-proof target. After it completes:
 
 1. Run the Qwen3.6 llama.cpp runtime proof and endpoint benchmarks.
-2. Resume `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M.
-3. Consider `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` only if the GGUF path is blocked or the MLX runtime is specifically needed.
+2. Acquire and prove `LiquidAI/LFM2-24B-A2B-GGUF` `LFM2-24B-A2B-Q4_K_M.gguf` if the LFM frontier lane should be prioritized next. Expected size is `14415473952` bytes, planned SSD path is `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`, and proof helper is `scripts/run_lfm2_24b_q4_runtime_proof.sh`.
+3. Resume `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M.
+4. Consider `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` only if the GGUF path is blocked or the MLX runtime is specifically needed.
 
 ## Boundary
 

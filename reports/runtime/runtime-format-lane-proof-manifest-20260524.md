@@ -47,7 +47,7 @@ completed SSD-side proof cards from being reset to pending state.
 | Lane | First Candidate | First Proof | Status |
 |---|---|---|---|
 | `mlx-native` | `Qwen/Qwen3-4B-MLX-4bit` | MLX load/server smoke, then held-out tool-call run | complete: smoke passed, held-out strict pass `0.250`; runtime proof only |
-| `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M` | byte-size validation, llama.cpp smoke, held-out and pilots | acquisition active |
+| `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M`; then `LiquidAI/LFM2-24B-A2B-GGUF` Q4_K_M | byte-size validation, llama.cpp smoke, held-out and pilots | Qwen3.6 acquisition active; LFM2-24B paused behind it |
 | `unsloth-cloud` | Qwen3.6 or Gemma 4 small LoRA smoke | Azure preflight, pinned revision, token audit, adapter run card | blocked by useful GPU quota |
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | weight prep record, KTransformers launch, invocation/endpoint contract | not started |
 | `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` or LFM2.5 1.2B | LEAP/MLX/ONNX task-specific smoke, no response-collapse regression | not started |
@@ -71,3 +71,13 @@ A lane proof card can promote a model only to the evidence type it actually prov
 - Smoke output: `/Volumes/PortableSSD/hermes-evals/runtime-format-lanes/mlx-native/qwen3-4b-mlx-native-smoke/smoke-20260524.txt`
 - Held-out output: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/qwen3-4b-mlx-native-heldout-nothink-20260524`
 - Decision: runtime proof only; do not promote or publish model-improvement claims.
+
+## Queued Frontier Follow-Up
+
+### `gguf-portability` / `LiquidAI/LFM2-24B-A2B-GGUF`
+
+- Target artifact: `LFM2-24B-A2B-Q4_K_M.gguf`
+- Expected size: `14415473952` bytes
+- Planned SSD path: `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`
+- Proof helper: `scripts/run_lfm2_24b_q4_runtime_proof.sh`
+- Decision: high-priority LFM runtime experiment, but paused until Qwen3.6 completes or is explicitly skipped.

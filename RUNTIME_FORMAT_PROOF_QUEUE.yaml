@@ -54,6 +54,16 @@ proofs:
     command: "leap <task-specific-command>"
     blocker: "LEAP/local LFM runtime command must be verified; task-specific smoke required."
 
+  - id: lfm2-24b-a2b-q4-gguf-proof
+    lane_id: gguf-portability
+    model: LiquidAI/LFM2-24B-A2B-GGUF
+    run_name: lfm2-24b-a2b-q4-gguf-proof-20260524
+    status: paused-after-qwen36
+    endpoint: http://127.0.0.1:8095/v1
+    artifact_path: /Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf
+    command: "bash scripts/run_lfm2_24b_q4_runtime_proof.sh"
+    blocker: "Do not start until Qwen3.6 acquisition/proof completes or is explicitly skipped; expected Q4_K_M size is 14415473952 bytes."
+
   - id: bitnet-rwkv-mamba-native-research-proof
     lane_id: recurrent-ssm-bitnet
     model: microsoft/bitnet-b1.58-2B-4T
