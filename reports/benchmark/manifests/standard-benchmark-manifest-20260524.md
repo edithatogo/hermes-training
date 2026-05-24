@@ -22,6 +22,9 @@ All generated benchmark artifacts must live under:
 | HumanEval/MBPP | Coding sanity | pilot | `coding/<run-id>` | candidate claims coding utility |
 | lm-eval selected tasks | General comparability | candidate | `lm-eval/<run-id>` | runtime is stable and artifact roots are ready |
 | Retrieval/MTEB-style | Memory/RAG quality | retrieval candidate | `retrieval/<run-id>` | retriever candidate exists |
+| mem0 memory | Local memory add/search and recency quality | required for mem0 defaults | `mem0-memory-benchmark/<run-id>` | candidate mem0 config or reranker exists |
+| mem0 embedding | Direct embedding retrieval quality | required for embedder swaps | `embedding-benchmark/<run-id>` | embedding endpoint exists |
+| mem0 extraction | Memory-writing quality | required for extractor swaps | `mem0-extraction-benchmark/<run-id>` | extractor endpoint exists |
 
 ## Required Run Record
 
@@ -53,6 +56,7 @@ This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs
 - `reports/benchmark/manifests/lm-eval-smoke-command-20260524.md`
 - `reports/benchmark/manifests/lm-eval-candidate-command-20260524.md`
 - `reports/benchmark/manifests/retrieval-smoke-command-20260524.md`
+- `reports/benchmark/manifests/mem0-benchmark-manifest-20260524.md`
 
 ## Endpoint Baselines
 
@@ -93,3 +97,24 @@ Repo-native endpoint pilots ran against the same Qwen3 4B Q4_K_M llama.cpp endpo
 - IFEval-style pilot: `0.667`
 - Coding sanity pilot: `1.000`
 - Decision: useful engineering evidence only. Full BFCL/IFEval/lm-eval remain blocked until their harnesses are installed and validated.
+
+The same repo-native endpoint pilots also ran against LM Studio with the SSD-backed Qwen3 4B Q4_K_M artifact:
+
+- Report: `reports/benchmark/endpoint-pilots/qwen3-q4km-lmstudio-pilots-20260524.md`
+- BFCL-style pilot: `0.000`
+- IFEval-style pilot: `0.667`
+- Coding sanity pilot: `1.000`
+- Decision: LM Studio remains the stronger held-out strict tool-call runtime, but the pilot BFCL-style result reinforces that exact tool-call schema training is still required.
+
+## mem0 Baselines
+
+The mem0 benchmark index is:
+
+- `reports/benchmark/mem0/index.md`
+
+Current baseline pattern:
+
+- direct `nomic-embed-text:latest` embedding retrieval has top-1 `0.667` and Recall@3 `1.000`
+- live mem0 recency suite has raw pass `0.400`
+- inline `score_plus_created_at_rank` reranking improves that same recency suite to `1.000`
+- installed extractor candidates are weak on the first extraction smoke: both `sam860/LFM2:2.6b` and `hermes3:8b` scored `0.333`
