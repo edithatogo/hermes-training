@@ -50,6 +50,7 @@ See [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md) for the high-level lane map, [PLATF
 The remaining work is now split into parallel Conductor lanes in [PARALLEL_ROADMAP.md](./PARALLEL_ROADMAP.md). The current model-release scan is recorded at [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md).
 
 Use [reports/runtime/runtime-format-lane-proof-manifest-20260524.md](./reports/runtime/runtime-format-lane-proof-manifest-20260524.md) and `scripts/create_runtime_format_lane_card.py` when starting a new non-GGUF or GGUF proof. Generated proof cards default to `/Volumes/PortableSSD/hermes-evals/runtime-format-lanes/`.
+The first executable proof queue is tracked in [RUNTIME_FORMAT_PROOF_QUEUE.yaml](./RUNTIME_FORMAT_PROOF_QUEUE.yaml) and can be materialized with `scripts/create_runtime_format_proof_queue.py`.
 
 Use [BENCHMARKING_PLAN.md](./BENCHMARKING_PLAN.md) to decide whether an adapter is actually better than the base model. Use [mem0/BENCHMARKS.md](./mem0/BENCHMARKS.md) for memory, embedding, retrieval, and reranking benchmarks. Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for standardized benchmarks that should accompany GitHub/Hugging Face publication. Use [DOCUMENTATION_PLAN.md](./DOCUMENTATION_PLAN.md) before publishing adapters or datasets. Use [APPLICATIONS.md](./APPLICATIONS.md) to decide which model family fits each downstream use.
 

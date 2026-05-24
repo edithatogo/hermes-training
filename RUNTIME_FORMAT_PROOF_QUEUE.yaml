@@ -1,0 +1,75 @@
+# First executable proof queue for runtime/training format lanes.
+
+updated: "2026-05-24"
+output_root: "/Volumes/PortableSSD/hermes-evals/runtime-format-lanes"
+
+proofs:
+  - id: qwen3-4b-mlx-native-smoke
+    lane_id: mlx-native
+    model: Qwen/Qwen3-4B-MLX-4bit
+    run_name: qwen3-4b-mlx-native-smoke-20260524
+    status: ready-when-cached
+    endpoint: http://127.0.0.1:8080/v1
+    artifact_path: ""
+    command: "mlx_lm.server --model Qwen/Qwen3-4B-MLX-4bit --port 8080"
+    blocker: "Model/cache availability and authentication must be confirmed before running."
+
+  - id: qwen36-35b-a3b-q4-gguf-proof
+    lane_id: gguf-portability
+    model: Qwen3.6-35B-A3B-Q4_K_M
+    run_name: qwen36-35b-a3b-q4-gguf-proof-20260524
+    status: acquisition-active
+    endpoint: http://127.0.0.1:8093/v1
+    artifact_path: /Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf
+    command: "bash scripts/run_qwen36_q4_runtime_proof.sh"
+    blocker: "Download is active; final GGUF must equal 21166757888 bytes before proof."
+
+  - id: qwen36-unsloth-cloud-smoke
+    lane_id: unsloth-cloud
+    model: Qwen/Qwen3.6-35B-A3B
+    run_name: qwen36-unsloth-cloud-smoke-20260524
+    status: blocked
+    endpoint: ""
+    artifact_path: ""
+    command: "az ml job create --file <unsloth-job.yaml>"
+    blocker: "Azure useful GPU quota is not available; run only after quota/cost preflight passes."
+
+  - id: qwen36-ktransformers-moe-proof
+    lane_id: ktransformers-moe
+    model: Qwen/Qwen3.6-35B-A3B
+    run_name: qwen36-ktransformers-moe-proof-20260524
+    status: not-started
+    endpoint: ""
+    artifact_path: ""
+    command: "python <ktransformers_launcher> --model Qwen/Qwen3.6-35B-A3B"
+    blocker: "KTransformers install, weight preparation, and Apple Silicon/runtime support are unproven in this repo."
+
+  - id: lfm2-8b-a1b-leap-lfm-proof
+    lane_id: liquid-leap-lfm
+    model: LiquidAI/LFM2-8B-A1B
+    run_name: lfm2-8b-a1b-leap-lfm-proof-20260524
+    status: not-started
+    endpoint: ""
+    artifact_path: ""
+    command: "leap <task-specific-command>"
+    blocker: "LEAP/local LFM runtime command must be verified; task-specific smoke required."
+
+  - id: bitnet-rwkv-mamba-native-research-proof
+    lane_id: recurrent-ssm-bitnet
+    model: microsoft/bitnet-b1.58-2B-4T
+    run_name: bitnet-rwkv-mamba-native-research-proof-20260524
+    status: watchlist
+    endpoint: ""
+    artifact_path: ""
+    command: "<native-runtime> --model <checkpoint>"
+    blocker: "Native runtime, exact checkpoint, license, and invocation contract must be verified."
+
+  - id: qwen37-max-hosted-teacher-proof
+    lane_id: hosted-frontier-api
+    model: Qwen3.7-Max
+    run_name: qwen37-max-hosted-teacher-proof-20260524
+    status: api-only-watchlist
+    endpoint: "<provider-openai-compatible-endpoint>"
+    artifact_path: ""
+    command: "python scripts/run_teacher_evaluator.py --model Qwen3.7-Max --base-url <provider>"
+    blocker: "Hosted provider, terms, API key, cost, and teacher-only labeling must be recorded."

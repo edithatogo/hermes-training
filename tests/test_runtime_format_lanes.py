@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from scripts.create_runtime_format_lane_card import load_lanes, render_card
+from scripts.create_runtime_format_proof_queue import load_queue, validate_queue
 from scripts.validate_runtime_format_lanes import main as validate_lanes
 
 
@@ -32,6 +33,13 @@ class RuntimeFormatLaneTests(unittest.TestCase):
         self.assertIn("Format lane: `mlx-native`", card)
         self.assertIn("MLX load or dry-run", card)
         self.assertIn("http://127.0.0.1:8080/v1", card)
+
+    def test_proof_queue_matches_known_lanes(self) -> None:
+        lanes = load_lanes()
+        queue = load_queue()
+
+        self.assertEqual(validate_queue(queue, set(lanes)), [])
+        self.assertGreaterEqual(len(queue["proofs"]), len(lanes))
 
 
 if __name__ == "__main__":

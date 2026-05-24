@@ -228,6 +228,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/run_benchmark.py",
         ROOT / "scripts/run_teacher_evaluator.py",
         ROOT / "scripts/create_runtime_format_lane_card.py",
+        ROOT / "scripts/create_runtime_format_proof_queue.py",
         ROOT / "scripts/check_storage_layout.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
@@ -269,6 +270,7 @@ def check_runtime_templates(failures: list[str]) -> None:
         "templates/runtime/runtime-card.md",
         "templates/runtime/format-lane-proof-card.md",
         "RUNTIME_FORMAT_LANES.yaml",
+        "RUNTIME_FORMAT_PROOF_QUEUE.yaml",
     ):
         path = ROOT / rel
         if path.exists():
@@ -285,6 +287,16 @@ def check_runtime_format_lanes(failures: list[str]) -> None:
     )
     if result.returncode:
         fail(f"runtime format lanes: {result.stderr.strip() or result.stdout.strip()}", failures)
+    else:
+        ok(result.stdout.strip())
+
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/create_runtime_format_proof_queue.py"), "--check"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"runtime format proof queue: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok(result.stdout.strip())
 
