@@ -94,11 +94,12 @@
     - [x] Proceed only if a runtime upgrade, rebuild, or installation change occurred after the earlier Qwen3 GGUF import failure.
     - [x] If no upgrade occurred, mark the Ollama retest blocked and do not rerun the failing import.
     - [x] Current check: `/opt/homebrew/bin/ollama`, version `0.24.0`; no post-failure upgrade evidence was recorded.
-- [ ] Task: Retest Qwen3 GGUF in Ollama only after the gate passes.
-    - [ ] Reuse the existing SSD-backed Qwen3 `Q4_K_M` GGUF.
-    - [ ] Run the smallest Ollama create/import command needed for the current runtime.
-    - [ ] Run one OpenAI-compatible chat smoke through `http://127.0.0.1:11434/v1` if import succeeds.
-    - [ ] Record daemon stability, model visibility, endpoint result, and rollback notes.
+- [x] Task: Retest Qwen3 GGUF in Ollama only after the gate passes.
+    - [x] Reconfirm the existing SSD-backed Qwen3 `Q4_K_M` GGUF path.
+    - [x] Skip the create/import command because the gate did not pass.
+    - [x] Skip OpenAI-compatible chat smoke because no new Ollama import was attempted.
+    - [x] Record daemon stability, model visibility, endpoint result, and rollback notes for the unchanged runtime state.
+    - [x] Retest deliberately blocked because Ollama is still `0.24.0`; gate recorded in `reports/runtime/ollama-qwen3-retest-gate-20260524.md`.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Deferred Ollama Retest After Runtime Upgrade' (Protocol in workflow.md)
 
 ## Phase 5 - Documentation, Registry, And Closeout
@@ -118,4 +119,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof.
-- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven.
+- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.

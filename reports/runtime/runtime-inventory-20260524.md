@@ -14,7 +14,7 @@ Date: 2026-05-24
 | Hermes 4 14B Q4_K_M GGUF direct llama.cpp | `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` | passed OpenAI-compatible `llama-server` smoke on port `8092` |
 | Qwen3.6 35B-A3B Q4_K_M GGUF | `reports/runtime/qwen36-q4km-acquisition-20260524.md` | acquisition active in `tmux` session `qwen36_download`; not runtime evidence until the final GGUF exists at the expected byte size |
 | MLX server current endpoint | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:8088` not listening |
-| Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | blocked by prior import/runtime instability |
+| Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md`; `reports/runtime/ollama-qwen3-retest-gate-20260524.md` | blocked by unchanged Ollama `0.24.0` runtime after prior import/runtime instability |
 
 Initial `lms` checks failed, but LM Studio `0.4.14+4` is now installed and `/opt/homebrew/bin/lms` points at the app-bundled CLI.
 
