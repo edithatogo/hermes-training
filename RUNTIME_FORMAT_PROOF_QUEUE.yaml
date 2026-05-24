@@ -8,11 +8,11 @@ proofs:
     lane_id: mlx-native
     model: Qwen/Qwen3-4B-MLX-4bit
     run_name: qwen3-4b-mlx-native-smoke-20260524
-    status: ready-when-cached
-    endpoint: http://127.0.0.1:8080/v1
-    artifact_path: ""
-    command: "mlx_lm.server --model Qwen/Qwen3-4B-MLX-4bit --port 8080"
-    blocker: "Model/cache availability and authentication must be confirmed before running."
+    status: completed-runtime-proof
+    endpoint: http://127.0.0.1:8094/v1
+    artifact_path: /Volumes/PortableSSD/huggingface/hub/models--Qwen--Qwen3-4B-MLX-4bit/snapshots/52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495
+    command: "./.venv/bin/python -m mlx_lm.server --model /Volumes/PortableSSD/huggingface/hub/models--Qwen--Qwen3-4B-MLX-4bit/snapshots/52a5ab34fa604bc8af6d3ce0cac0cab10b7eb495 --host 127.0.0.1 --port 8094"
+    blocker: "Runtime proof passed; strict held-out tool-call score was 0.250, so this remains a runtime/regression baseline and is not promoted."
 
   - id: qwen36-35b-a3b-q4-gguf-proof
     lane_id: gguf-portability

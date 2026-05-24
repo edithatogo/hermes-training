@@ -99,6 +99,7 @@ def main() -> int:
     parser.add_argument("--queue", type=Path, default=QUEUE_PATH)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--force", action="store_true")
     parser.add_argument("--print", action="store_true", dest="print_only")
     args = parser.parse_args()
 
@@ -122,6 +123,9 @@ def main() -> int:
             print(f"--- {output}")
             print(card)
         else:
+            if output.exists() and not args.force:
+                print(f"exists: {output}")
+                continue
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(card, encoding="utf-8")
 

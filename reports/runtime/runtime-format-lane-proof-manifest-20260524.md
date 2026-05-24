@@ -39,11 +39,14 @@ source scripts/env.sh
 ./.venv/bin/python scripts/create_runtime_format_proof_queue.py
 ```
 
+Existing proof cards are not overwritten unless `--force` is passed. This keeps
+completed SSD-side proof cards from being reset to pending state.
+
 ## First Proof Queue
 
 | Lane | First Candidate | First Proof | Status |
 |---|---|---|---|
-| `mlx-native` | `Qwen/Qwen3-4B-MLX-4bit` | MLX load/server smoke, then held-out tool-call run | ready to run when model/cache is present |
+| `mlx-native` | `Qwen/Qwen3-4B-MLX-4bit` | MLX load/server smoke, then held-out tool-call run | complete: smoke passed, held-out strict pass `0.250`; runtime proof only |
 | `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M` | byte-size validation, llama.cpp smoke, held-out and pilots | acquisition active |
 | `unsloth-cloud` | Qwen3.6 or Gemma 4 small LoRA smoke | Azure preflight, pinned revision, token audit, adapter run card | blocked by useful GPU quota |
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | weight prep record, KTransformers launch, invocation/endpoint contract | not started |
@@ -59,3 +62,12 @@ A lane proof card can promote a model only to the evidence type it actually prov
 - training run proves adapter production only
 - teacher API output proves teacher/evaluator evidence only
 - publication claims require benchmark and license gates in addition to runtime or training proof
+
+## Completed Proofs
+
+### `mlx-native` / `Qwen/Qwen3-4B-MLX-4bit`
+
+- Runtime proof: `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md`
+- Smoke output: `/Volumes/PortableSSD/hermes-evals/runtime-format-lanes/mlx-native/qwen3-4b-mlx-native-smoke/smoke-20260524.txt`
+- Held-out output: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/qwen3-4b-mlx-native-heldout-nothink-20260524`
+- Decision: runtime proof only; do not promote or publish model-improvement claims.

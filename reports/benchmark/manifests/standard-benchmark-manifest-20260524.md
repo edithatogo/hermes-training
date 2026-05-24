@@ -123,6 +123,13 @@ Hermes 4 14B Q4_K_M is now acquired, loaded, and benchmarked through llama.cpp:
 - Coding sanity pilot: `1.000`
 - Decision: local Hermes 4 baseline proof is complete, but it does not meet the strict Hermes agent publication gate.
 
+The MLX-native Qwen3 4B cached checkpoint now has a current runtime-format proof:
+
+- Runtime report: `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md`
+- Held-out report root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/qwen3-4b-mlx-native-heldout-nothink-20260524`
+- Strict held-out pass: `0.250`
+- Decision: valid MLX-native runtime proof and regression baseline only; no publishable improvement claim.
+
 ## mem0 Baselines
 
 The mem0 benchmark index is:

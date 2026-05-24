@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from scripts.create_runtime_format_lane_card import load_lanes, render_card
-from scripts.create_runtime_format_proof_queue import load_queue, validate_queue
+from scripts.create_runtime_format_proof_queue import load_queue, output_path_for, validate_queue
 from scripts.validate_runtime_format_lanes import main as validate_lanes
 
 
@@ -40,6 +40,13 @@ class RuntimeFormatLaneTests(unittest.TestCase):
 
         self.assertEqual(validate_queue(queue, set(lanes)), [])
         self.assertGreaterEqual(len(queue["proofs"]), len(lanes))
+
+    def test_queue_output_path_uses_lane_and_proof_id(self) -> None:
+        queue = load_queue()
+        output = output_path_for(queue["proofs"][0], Path("/tmp/runtime-format-lanes"))
+
+        self.assertIn(queue["proofs"][0]["lane_id"], output.parts)
+        self.assertIn(queue["proofs"][0]["id"], output.parts)
 
 
 if __name__ == "__main__":
