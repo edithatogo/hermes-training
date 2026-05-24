@@ -22,7 +22,26 @@ def resolve_url(repo_id: str, filename: str) -> tuple[str, int]:
     return response.url, size
 
 
-def download_chunk(url: str, part_path: Path, start: int, end: int, timeout_s: float, attempts: int) -> int:
+def completed_size(ranges: list[tuple[int, int, int, Path]]) -> int:
+    total = 0
+    for _, _start, _end, path in ranges:
+        if path.exists():
+            total += path.stat().st_size
+        tmp_path = path.with_suffix(path.suffix + ".tmp")
+        if tmp_path.exists():
+            total += tmp_path.stat().st_size
+    return total
+
+
+def download_chunk(
+    repo_id: str,
+    filename: str,
+    part_path: Path,
+    start: int,
+    end: int,
+    timeout_s: float,
+    attempts: int,
+) -> int:
     expected = end - start + 1
     if part_path.exists() and part_path.stat().st_size == expected:
         return expected
@@ -37,10 +56,11 @@ def download_chunk(url: str, part_path: Path, start: int, end: int, timeout_s: f
             tmp_path.replace(part_path)
             return expected
 
-        range_start = start + existing
-        headers = {"Range": f"bytes={range_start}-{end}"}
         try:
-            with requests.get(url, headers=headers, stream=True, timeout=timeout_s) as response:
+            signed_url, _ = resolve_url(repo_id, filename)
+            range_start = start + existing
+            headers = {"Range": f"bytes={range_start}-{end}"}
+            with requests.get(signed_url, headers=headers, stream=True, timeout=timeout_s) as response:
                 if response.status_code != 206:
                     raise RuntimeError(f"expected HTTP 206, got {response.status_code}")
                 with tmp_path.open("ab") as handle:
@@ -87,7 +107,7 @@ def main() -> int:
     part_dir = args.output.with_suffix(args.output.suffix + ".parts")
     part_dir.mkdir(parents=True, exist_ok=True)
 
-    signed_url, total_size = resolve_url(args.repo_id, args.filename)
+    _, total_size = resolve_url(args.repo_id, args.filename)
     if args.output.exists() and args.output.stat().st_size == total_size:
         print(f"already complete: {args.output}")
         return 0
@@ -109,7 +129,16 @@ def main() -> int:
     done = completed_before
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
-            pool.submit(download_chunk, signed_url, path, start, end, args.timeout_s, args.attempts): (index, start, end, path)
+            pool.submit(
+                download_chunk,
+                args.repo_id,
+                args.filename,
+                path,
+                start,
+                end,
+                args.timeout_s,
+                args.attempts,
+            ): (index, start, end, path)
             for index, start, end, path in ranges
             if not (path.exists() and path.stat().st_size == end - start + 1)
         }
@@ -118,7 +147,7 @@ def main() -> int:
             future.result()
             done += 1
             elapsed = max(0.001, time.time() - started)
-            downloaded = sum(path.stat().st_size for _, _, _, path in ranges if path.exists())
+            downloaded = completed_size(ranges)
             mib_s = downloaded / 1024 / 1024 / elapsed
             print(f"chunk {index} complete; {done}/{len(ranges)} chunks; {mib_s:.2f} MiB/s", flush=True)
 

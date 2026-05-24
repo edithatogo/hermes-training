@@ -73,6 +73,7 @@
     - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
     - [x] Write the Qwen3.6 run card under the SSD runtime-proof-completion root.
     - [x] Follow-up acquisition started in `tmux` session `qwen36_download`; status recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
+    - [x] Ranged downloader hardened to refresh Hugging Face signed URLs per chunk attempt, then restarted from existing chunk state.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 3 - OpenAI Normalizing Proxy Route

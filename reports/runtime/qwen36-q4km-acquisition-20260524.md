@@ -27,6 +27,21 @@ Chunk state:
 
 The abandoned aria2 sparse placeholder was removed. Until the final GGUF exists at the expected byte size, this target remains acquisition-only and must not be used as runtime or benchmark evidence.
 
+## Downloader Hardening
+
+The ranged downloader now refreshes the Hugging Face signed URL for each chunk
+attempt instead of relying on one long-lived URL. This matters because the
+Qwen3.6 GGUF transfer is multi-hour at the observed connection speed.
+
+The active session was restarted after this change and resumed existing chunk
+state:
+
+```text
+chunks: 316 (12 already complete)
+```
+
+The command continues to append progress to the same SSD log path listed above.
+
 ## Follow-Up After Completion
 
 1. Confirm final byte size equals `21166757888`.
