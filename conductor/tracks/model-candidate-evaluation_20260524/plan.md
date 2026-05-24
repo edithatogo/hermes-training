@@ -2,18 +2,18 @@
 
 ## Phase 1 - Candidate Matrix And Shared Gates
 
-- [ ] Task: Define the candidate matrix schema.
-    - [ ] Include model/runtime name, lane, source, version, license, serving mode, memory estimate, context length, tool-call notes, embedding/retrieval notes, storage root, decision state, evidence links, and blockers.
-    - [ ] Keep the template lightweight enough to live in Markdown or CSV without requiring benchmark artifacts.
-- [ ] Task: Define common promotion gates.
-    - [ ] Watchlist to runtime proof: source, license, weights or endpoint, runtime path, and SSD storage plan are known.
-    - [ ] Runtime proof to benchmark candidate: endpoint behavior, prompt format, context behavior, and artifact paths are reproducible.
-    - [ ] Benchmark candidate to publish candidate: benchmark evidence, license, model card, artifact review, and explicit approval are complete.
-- [ ] Task: Define no-publish gates.
-    - [ ] Block publication for missing or incompatible license evidence.
-    - [ ] Block publication for unnormalized or non-reproducible benchmarks.
-    - [ ] Block publication for failed Hermes tool-call gates when the candidate is presented as an agent model.
-    - [ ] Block publication when artifacts or caches are outside SSD-backed roots.
+- [x] Task: Define the candidate matrix schema.
+    - [x] Include model/runtime name, lane, source, version, license, serving mode, memory estimate, context length, tool-call notes, embedding/retrieval notes, storage root, decision state, evidence links, and blockers.
+    - [x] Keep the template lightweight enough to live in Markdown or CSV without requiring benchmark artifacts.
+- [x] Task: Define common promotion gates.
+    - [x] Watchlist to runtime proof: source, license, weights or endpoint, runtime path, and SSD storage plan are known.
+    - [x] Runtime proof to benchmark candidate: endpoint behavior, prompt format, context behavior, and artifact paths are reproducible.
+    - [x] Benchmark candidate to publish candidate: benchmark evidence, license, model card, artifact review, and explicit approval are complete.
+- [x] Task: Define no-publish gates.
+    - [x] Block publication for missing or incompatible license evidence.
+    - [x] Block publication for unnormalized or non-reproducible benchmarks.
+    - [x] Block publication for failed Hermes tool-call gates when the candidate is presented as an agent model.
+    - [x] Block publication when artifacts or caches are outside SSD-backed roots.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1 - Candidate Matrix And Shared Gates' (Protocol in workflow.md)
 
 ## Phase 2 - Lane A Mac-Local Candidates
@@ -114,5 +114,5 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 8.7 / 10
-- Evidence: setup track defines the required lanes, gates, and decision states. Health remains below completion threshold until candidate matrix artifacts, lane rubrics, and synthesis docs are produced by implementation work.
+- Current estimate: 9.1 / 10
+- Evidence: `reports/model-radar/candidate-matrix-20260524.md` now records candidate states and next actions. Health remains below completion threshold until lane-specific runtime evidence and final synthesis are complete.

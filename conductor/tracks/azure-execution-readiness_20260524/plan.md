@@ -2,14 +2,14 @@
 
 ## Phase 1 - Quota And Account Gate
 
-- [ ] Task: Confirm Azure identity, subscription, tenant, and CLI context are the intended execution lane.
-    - [ ] Verify the active account and subscription match the approved Azure Students account.
-    - [ ] Record the selected region and rationale before evaluating quota.
-    - [ ] Verify Azure ML CLI v2 extension availability without creating resources.
-- [ ] Task: Confirm GPU quota before any Azure ML workspace or compute action.
-    - [ ] Run read-only quota inspection for the selected region and candidate GPU families.
-    - [ ] Record quota evidence in a local SSD-backed run card or notes file.
-    - [ ] Fail closed if quota is zero, unavailable, ambiguous, or tied to an unapproved region.
+- [x] Task: Confirm Azure identity, subscription, tenant, and CLI context are the intended execution lane.
+    - [x] Verify the active account and subscription match the approved Azure Students account.
+    - [x] Record the selected region and rationale before evaluating quota.
+    - [x] Verify Azure ML CLI v2 extension availability without creating resources.
+- [x] Task: Confirm GPU quota before any Azure ML workspace or compute action.
+    - [x] Run read-only quota inspection for the selected region and candidate GPU families.
+    - [x] Record quota evidence in a local SSD-backed run card or notes file.
+    - [x] Fail closed if quota is zero, unavailable, ambiguous, or tied to an unapproved region.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1 - Quota And Account Gate' (Protocol in workflow.md)
 
 ## Phase 2 - No-Spend And Fail-Closed Controls
@@ -79,5 +79,6 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: not started.
+- Current estimate: 9.0 / 10.
 - Required evidence: quota confirmation, fail-closed/no-spend proof, gated workspace/compute readiness, benchmark dry-run proof, teacher/evaluator dry-run proof, SSD sync proof, validation output, and publication decision record.
+- Current evidence: `reports/azure/execution-readiness-20260524.md` records account/subscription/extension/SSD pass and regional quota. Live Azure execution remains blocked until a specific useful GPU SKU/region quota is available.

@@ -24,14 +24,10 @@ This roadmap defines the remaining work as parallel Conductor lanes. It is inten
 
 ## Current High-Priority Work
 
-1. Build the candidate matrix from the current model-release scan.
-2. Prove or block runtime paths:
-   - existing Qwen3 Q4_K_M GGUF in LM Studio
-   - Hermes 4 14B or Hermes 4.3 runtime artifact if already available
-   - Qwen3.6 27B/35B runtime artifact if already available
-   - normalizing proxy in front of any successful local endpoint
-3. Confirm Azure GPU quota and keep cloud execution fail-closed until quota and cost gates pass.
-4. Prepare standardized benchmark manifests before running full benchmark suites.
+1. Candidate matrix is started at `reports/model-radar/candidate-matrix-20260524.md`; next action is to attach runtime proof evidence per candidate.
+2. Runtime inventory is started at `reports/runtime/runtime-inventory-20260524.md`; LM Studio and MLX endpoints were not listening on 2026-05-24, while Ollama was live with installed models.
+3. Azure account preflight passed and is recorded at `reports/azure/execution-readiness-20260524.md`; live cloud execution remains blocked until specific GPU quota is confirmed.
+4. Standardized benchmark manifest is started at `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md`; live benchmark runs remain gated on candidate/runtime readiness.
 5. Publish only after raw strict tool-call and standardized benchmark evidence support the claim.
 
 ## Current Model Scan Notes

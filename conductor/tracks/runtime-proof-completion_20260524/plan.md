@@ -17,16 +17,16 @@
 
 ## Phase 1 - Scope, Inventory, And Shared Harness
 
-- [ ] Task: Confirm runtime proof inputs and SSD roots.
-    - [ ] Source `scripts/env.sh` before any hub-level runtime command.
-    - [ ] Create or reserve `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/`.
-    - [ ] Reconfirm the existing Qwen3 `Q4_K_M` GGUF path from `RUNTIME_TARGETS.md`.
-    - [ ] Inventory local Hermes 4 14B and Qwen3.6 artifacts or active endpoints without downloading anything.
-    - [ ] Record the artifact inventory in the track run notes.
-- [ ] Task: Confirm validation commands are ready.
-    - [ ] Run `./.venv/bin/python scripts/openai_normalizing_proxy.py --self-test`.
-    - [ ] Identify the smallest reusable non-streaming OpenAI-compatible chat smoke command.
-    - [ ] Define the run-card fields for endpoint URL, model ID, runtime version, artifact path, prompt, response shape, and pass/fail result.
+- [x] Task: Confirm runtime proof inputs and SSD roots.
+    - [x] Source `scripts/env.sh` before any hub-level runtime command.
+    - [x] Create or reserve `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/`.
+    - [x] Reconfirm the existing Qwen3 `Q4_K_M` GGUF path from `RUNTIME_TARGETS.md`.
+    - [x] Inventory local Hermes 4 14B and Qwen3.6 artifacts or active endpoints without downloading anything.
+    - [x] Record the artifact inventory in the track run notes.
+- [x] Task: Confirm validation commands are ready.
+    - [x] Run `./.venv/bin/python scripts/openai_normalizing_proxy.py --self-test`.
+    - [x] Identify the smallest reusable non-streaming OpenAI-compatible chat smoke command.
+    - [x] Define the run-card fields for endpoint URL, model ID, runtime version, artifact path, prompt, response shape, and pass/fail result.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Scope, Inventory, And Shared Harness' (Protocol in workflow.md)
 
 ## Phase 2A - LM Studio Proof For Existing Qwen3 Q4_K_M GGUF
@@ -98,5 +98,5 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 8.8 / 10
-- Risk: Runtime proof depends on locally available applications, endpoints, and artifacts. The plan is intentionally no-download; blocked proofs are acceptable when exact blocker evidence is recorded.
+- Current estimate: 9.1 / 10
+- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. LM Studio and MLX endpoint proof remain blocked because those servers are not listening.

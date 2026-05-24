@@ -2,19 +2,19 @@
 
 ## Phase 1 - Shared Benchmark Doctrine And SSD Policy
 
-- [ ] Task: Define the benchmark execution manifest.
-    - [ ] Include model identity, runtime, commit, environment, benchmark suite, dataset version, prompt template, sampling settings, command, output schema, artifact root, and reviewer.
-    - [ ] Require every future run to declare an SSD-backed artifact path under `/Volumes/PortableSSD`.
-    - [ ] Separate lightweight repo-tracked manifests from large SSD-only outputs.
-- [ ] Task: Define global no-run and no-publish guardrails.
-    - [ ] Block expensive benchmark execution during setup.
-    - [ ] Block large model, dataset, cache, or result writes into the Git working tree.
-    - [ ] Block public claims without raw outputs, normalized scores, environment capture, and review.
-    - [ ] Block publication when artifact evidence is missing from the declared SSD root.
-- [ ] Task: Define cheap readiness validation.
-    - [ ] Prefer syntax checks, manifest linting, dry-run command generation, dataset path presence checks, and output-schema validation.
-    - [ ] Record skipped expensive commands with reason and future owner.
-    - [ ] Keep validation reproducible from documented commands.
+- [x] Task: Define the benchmark execution manifest.
+    - [x] Include model identity, runtime, commit, environment, benchmark suite, dataset version, prompt template, sampling settings, command, output schema, artifact root, and reviewer.
+    - [x] Require every future run to declare an SSD-backed artifact path under `/Volumes/PortableSSD`.
+    - [x] Separate lightweight repo-tracked manifests from large SSD-only outputs.
+- [x] Task: Define global no-run and no-publish guardrails.
+    - [x] Block expensive benchmark execution during setup.
+    - [x] Block large model, dataset, cache, or result writes into the Git working tree.
+    - [x] Block public claims without raw outputs, normalized scores, environment capture, and review.
+    - [x] Block publication when artifact evidence is missing from the declared SSD root.
+- [x] Task: Define cheap readiness validation.
+    - [x] Prefer syntax checks, manifest linting, dry-run command generation, dataset path presence checks, and output-schema validation.
+    - [x] Record skipped expensive commands with reason and future owner.
+    - [x] Keep validation reproducible from documented commands.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1 - Shared Benchmark Doctrine And SSD Policy' (Protocol in workflow.md)
 
 ## Phase 2 - Lane A Local Hermes Strict Tool-Call
@@ -117,5 +117,5 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 8.8 / 10
-- Evidence: setup track defines the required parallel lanes, SSD artifact policy, no-expensive-run guardrails, Azure fail-closed gates, reporting expectations, and release gates. Health remains below completion threshold until lane manifests, validation commands, templates, and reviewed publication checklists are produced by implementation work.
+- Current estimate: 9.1 / 10
+- Evidence: `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md` defines suite tiers, SSD roots, required run records, and no-run guardrails. Health remains below completion threshold until suite-specific manifests and real benchmark evidence are produced.

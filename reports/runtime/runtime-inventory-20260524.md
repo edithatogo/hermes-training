@@ -1,0 +1,29 @@
+# Runtime Inventory
+
+Date: 2026-05-24
+
+## Existing Local Evidence
+
+| Runtime | Evidence | Status |
+|---|---|---|
+| Ollama installed models | `reports/runtime/ollama-installed-models-smoke/run-card.md`; live `/v1/models` check on 2026-05-24 | passed for `hermes3:8b` and `sam860/LFM2:2.6b`; `nomic-embed-text:latest` also visible |
+| OpenAI normalizing proxy | `reports/runtime/openai-normalizing-proxy-ollama-smoke/run-card.md` | passed in front of Ollama with `hermes3:8b` |
+| Qwen3 4B MLX server | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | passed earlier on port `8088` |
+| Qwen3 Q4_K_M GGUF direct llama.cpp | `RUNTIME_TARGETS.md` | passed direct validation |
+| Qwen3 Q4_K_M GGUF in LM Studio | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:1234` not listening |
+| MLX server current endpoint | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:8088` not listening |
+| Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | blocked by prior import/runtime instability |
+
+## Existing SSD Artifacts
+
+| Artifact | Path | Next Use |
+|---|---|---|
+| Qwen3 F16 GGUF | `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf` | fallback runtime proof |
+| Qwen3 Q4_K_M GGUF | `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf` | LM Studio proof |
+| Qwen3 merged dequantized export | `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/merged-dequantized` | export provenance only |
+
+## No-Download Frontier Runtime Blockers
+
+No local Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 runtime artifact has been recorded in this repo. The runtime-proof-completion track must either find an existing artifact/endpoint or record a blocker; it must not silently download large weights.
+
+Read-only SSD scan on 2026-05-24 found Gemma 4 tokenizer/template files and the `lmstudio-community/gemma-4-E4B-it-MLX-4bit` cache, but no runnable Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 26B A4B chat artifact was identified.
