@@ -196,6 +196,181 @@ Before any Azure compute or job submission:
 
 ---
 
+## Contract 3C: mem0 Candidate Entry
+
+**Producer:** `mem0/MODEL_CANDIDATES.yaml`
+**Consumer:** mem0 benchmark, runtime, embedding, and promotion lanes
+
+Every candidate must declare:
+
+```yaml
+id: string
+role: extractor | embedder | reranker | retriever | summarizer
+family: string
+runtime: [string]
+embedding_dims: integer | null | late-interaction | unknown
+status: working-default | installed-baseline | candidate | planned | runtime-proof-needed | rejected
+first_gate: string
+notes: string
+```
+
+Constraints:
+
+- Embedders with different dimensions must use different Qdrant collections.
+- Late-interaction retrievers must use their own index shape and service/API.
+- Working defaults must remain restorable until a candidate beats them on benchmark and latency gates.
+- Candidate notes must distinguish extraction, embedding, reranking, and retrieval roles.
+
+**Contract ID:** MEM0-CANDIDATE-001
+
+---
+
+## Contract 3D: mem0 Memory Benchmark Suite
+
+**Producer:** manual curation or generated benchmark builder
+**Consumer:** `scripts/run_mem0_memory_benchmark.py`
+
+Schema:
+
+```json
+{
+  "id": "string",
+  "category": "direct_recall | recency_conflict | distractor_resistance | tool_state_recall",
+  "setup_memories": ["string"],
+  "query": "string",
+  "expected": {
+    "must_retrieve_any": ["string"],
+    "must_not_retrieve_any": ["string"],
+    "top_result_should_contain": "string"
+  }
+}
+```
+
+Constraints:
+
+- Suites must not contain private user data if results may be published.
+- Benchmark-added memories must be prefixed with the run id and cleaned up unless intentionally retained.
+- Recency-conflict cases should include conflicting old and new facts.
+- Distractor-resistance cases should include semantically close but wrong memories.
+
+**File location:** `benchmarks/mem0_memory/*.json`
+
+**Contract ID:** MEM0-BENCH-001
+
+---
+
+## Contract 3E: Embedding Retrieval Benchmark Suite
+
+**Producer:** manual curation or generated retrieval fixture builder
+**Consumer:** `scripts/run_ollama_embedding_benchmark.py` and future embedding harnesses
+
+Schema:
+
+```json
+{
+  "id": "string",
+  "query": "string",
+  "documents": [
+    {
+      "id": "string",
+      "text": "string",
+      "relevant": true
+    }
+  ]
+}
+```
+
+Constraints:
+
+- Each case must contain at least two documents.
+- Each case must contain at least one relevant document.
+- Documents should include close distractors, not only obvious negatives.
+- This suite measures embedding similarity only; it does not replace the full mem0 add/search benchmark.
+
+**File location:** `benchmarks/embeddings/*.json`
+
+**Contract ID:** EMBED-BENCH-001
+
+---
+
+## Contract 3F: mem0 Contrastive Triplet Data
+
+**Producer:** manual curation or safe synthetic data generator
+**Consumer:** future embedding, reranker, and retriever fine-tuning recipes
+
+Schema:
+
+```json
+{
+  "id": "string",
+  "anchor": "query or lookup need",
+  "positive": "memory text that should be retrieved",
+  "negatives": ["similar but wrong memory text"],
+  "category": "direct_recall | recency_conflict | distractor_resistance | tool_state_recall | doc_grounded",
+  "metadata": {
+    "source": "string",
+    "license": "string"
+  }
+}
+```
+
+Constraints:
+
+- `positive` must not appear in `negatives`.
+- Each row must include at least one negative.
+- Publishable datasets must not include private user memories.
+- Categories should be balanced before any quality claim.
+- Training, validation, and test splits must be separated before a candidate is promoted.
+
+**File location:** `mem0/data/*.jsonl`
+
+**Contract ID:** MEM0-TRIPLET-001
+
+---
+
+## Contract 3G: mem0 Extraction Benchmark Suite
+
+**Producer:** manual curation or safe synthetic conversation generator
+**Consumer:** `scripts/run_ollama_memory_extraction_benchmark.py`
+
+Schema:
+
+```json
+{
+  "id": "string",
+  "category": "preference | ignore_transient | tool_state | safety",
+  "conversation": [
+    {
+      "role": "user | assistant | system",
+      "content": "string"
+    }
+  ],
+  "expected": {
+    "must_extract_any": ["string"],
+    "must_not_extract_any": ["string"]
+  }
+}
+```
+
+Extractor output must be JSON with this shape:
+
+```json
+{"memories":["short durable memory"]}
+```
+
+Constraints:
+
+- Empty-memory cases must return `{"memories":[]}`.
+- Transient command/status details should not be stored.
+- Durable project paths, preferences, and tool-state facts should be stored.
+- The extraction benchmark is for memory-writing quality, not vector retrieval quality.
+
+**File location:** `benchmarks/mem0_extraction/*.json`
+
+**Contract ID:** MEM0-EXTRACT-BENCH-001
+
+---
+
 ## Contract 4: LoRA Adapter Output
 
 **Producer:** `train.py`

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "direct-fact-recall",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Project Phoenix uses SQLite for local metadata and Qdrant for vector search."
+    ],
+    "query": "Which database does Project Phoenix use for local metadata?",
+    "expected": {
+      "must_retrieve_any": [
+        "SQLite for local metadata"
+      ],
+      "must_not_retrieve_any": []
+    }
+  },
+  {
+    "id": "preference-update-recency",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "The preferred local embedding model is old-embed-1024.",
+      "The preferred local embedding model is nomic-embed-text because it is the current working baseline."
+    ],
+    "query": "What is the preferred local embedding model?",
+    "expected": {
+      "must_retrieve_any": [
+        "nomic-embed-text"
+      ],
+      "must_not_retrieve_any": [
+        "old-embed-1024 is the current"
+      ],
+      "top_result_should_contain": "nomic-embed-text"
+    }
+  },
+  {
+    "id": "distractor-resistance",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "The Hermes chat benchmark uses strict tool-call heldout cases.",
+      "The mem0 benchmark uses memory recall, recency conflict, and distractor resistance cases.",
+      "The llama.cpp runtime benchmark uses endpoint smoke checks."
+    ],
+    "query": "Which benchmark uses recency conflict cases?",
+    "expected": {
+      "must_retrieve_any": [
+        "mem0 benchmark"
+      ],
+      "must_not_retrieve_any": [
+        "Hermes chat benchmark uses recency conflict"
+      ],
+      "top_result_should_contain": "mem0 benchmark"
+    }
+  }
+]

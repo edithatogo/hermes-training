@@ -3,7 +3,7 @@
 This project must distinguish pipeline proof from quality proof.
 
 Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for the broader standardized suite that should accompany GitHub and Hugging Face publication. Use [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) when benchmark breadth or teacher/evaluator runs should move to Azure.
-Use [RETRIEVAL_MEMORY.md](./RETRIEVAL_MEMORY.md) for the retrieval-specific lane decisions, serving shape, and publication rules.
+Use [RETRIEVAL_MEMORY.md](./RETRIEVAL_MEMORY.md) for the retrieval-specific lane decisions, serving shape, and publication rules. Use [mem0/BENCHMARKS.md](./mem0/BENCHMARKS.md) for mem0 add/search, recency, distractor, extraction, embedding, and reranking benchmarks.
 
 ## Current Result
 
@@ -163,6 +163,17 @@ For retrieval and Hermes memory work, use a separate scenario set that covers:
 - source attribution and distractor resistance
 - tool-state recall when memory is mediated by a retriever
 
+For mem0 specifically, the first local benchmark suite is `benchmarks/mem0_memory/smoke_suite.json` and the runner is:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_memory_benchmark.py \
+  --tool cmd \
+  --suite benchmarks/mem0_memory/smoke_suite.json
+```
+
+This is an integration benchmark against the configured mem0 CLI. It is the right first gate for extractor/embedder swaps because it tests the actual write/search path rather than an isolated model score.
+
 ## Metrics
 
 Record these for base model, smoke adapter, and each promoted adapter:
@@ -218,6 +229,7 @@ Publication-quality benchmark claims should also retain exact command lines, mod
 | Mac/Ollama/LM Studio | endpoint smoke, JSON/tool-call checks, daily runtime latency |
 | Azure/CUDA | broader `lm-eval`, coding suites, BFCL, teacher/evaluator judging, larger-model comparisons |
 | Retrieval | MTEB, ColBERT/retrieval tests, Hermes memory/RAG scenarios |
+| mem0 | add/search smoke, recency conflicts, distractor resistance, extraction quality, embedding recall |
 | Specialist runtime | runtime proof, long-context/RULER, architecture-specific stability checks |
 
 Azure benchmark outputs must be synced back to SSD-backed report roots before model-card or run-card publication.

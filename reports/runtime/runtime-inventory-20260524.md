@@ -10,11 +10,11 @@ Date: 2026-05-24
 | OpenAI normalizing proxy | `reports/runtime/openai-normalizing-proxy-ollama-smoke/run-card.md` | passed in front of Ollama with `hermes3:8b` |
 | Qwen3 4B MLX server | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | passed earlier on port `8088` |
 | Qwen3 Q4_K_M GGUF direct llama.cpp | `RUNTIME_TARGETS.md`; `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` | passed direct validation and OpenAI-compatible `llama-server` smoke |
-| Qwen3 Q4_K_M GGUF in LM Studio | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:1234` not listening |
+| Qwen3 Q4_K_M GGUF in LM Studio | `reports/runtime/lmstudio-qwen3-q4km-server-smoke-20260524.md` | passed with symbolic link to SSD artifact |
 | MLX server current endpoint | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:8088` not listening |
 | Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | blocked by prior import/runtime instability |
 
-`lms` was not found on `PATH` during the 2026-05-24 CLI check, so LM Studio validation needs either the desktop server already running or the CLI installed/available. SSD blocker card: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/lm-studio-qwen3-q4km-blocker-20260524.md`.
+Initial `lms` checks failed, but LM Studio `0.4.14+4` is now installed and `/opt/homebrew/bin/lms` points at the app-bundled CLI.
 
 `llama-server` was built on 2026-05-24 from `/Volumes/PortableSSD/GitHub/llama.cpp`. The build required a local `<unordered_map>` include patch in `tools/server/server-http.h`; that external repo already had unrelated local changes and was not committed here.
 
@@ -31,6 +31,8 @@ Date: 2026-05-24
 No local Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 runtime artifact has been recorded in this repo. The runtime-proof-completion track must either find an existing artifact/endpoint or record a blocker; it must not silently download large weights.
 
 Read-only SSD scan on 2026-05-24 found Gemma 4 tokenizer/template files and the `lmstudio-community/gemma-4-E4B-it-MLX-4bit` cache, but no runnable Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 26B A4B chat artifact was identified. SSD blocker card: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/frontier-artifact-blockers-20260524.md`.
+
+Exact GGUF acquisition targets and resumable SSD commands are recorded in `reports/runtime/frontier-gguf-acquisition-20260524.md`.
 
 ## Frontier Artifact Acquisition
 

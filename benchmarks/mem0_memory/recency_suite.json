@@ -1,0 +1,84 @@
+[
+  {
+    "id": "preference-current-embedder",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "The preferred local embedding model is old-embed-1024.",
+      "The preferred local embedding model is nomic-embed-text because it is the current working baseline."
+    ],
+    "query": "What is the preferred local embedding model?",
+    "expected": {
+      "must_retrieve_any": [
+        "nomic-embed-text"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "nomic-embed-text"
+    }
+  },
+  {
+    "id": "preference-current-runtime",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "The preferred local runtime for Hermes smoke tests is MLX server on port 8088.",
+      "The preferred local runtime for daily Hermes smoke tests is Ollama on port 11434 when the model is already installed."
+    ],
+    "query": "What is the preferred local runtime for daily Hermes smoke tests?",
+    "expected": {
+      "must_retrieve_any": [
+        "Ollama on port 11434"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Ollama on port 11434"
+    }
+  },
+  {
+    "id": "constraint-stable-old-fact",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Large GGUF exports should stay under /Volumes/PortableSSD/hermes-exports.",
+      "Short benchmark report markdown files can be committed to the git repository."
+    ],
+    "query": "Where should large GGUF exports stay?",
+    "expected": {
+      "must_retrieve_any": [
+        "/Volumes/PortableSSD/hermes-exports"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "/Volumes/PortableSSD/hermes-exports"
+    }
+  },
+  {
+    "id": "distractor-newer-but-wrong",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "The mem0 reranking benchmark evaluates recency conflict handling.",
+      "The Hermes strict tool-call benchmark evaluates JSON function-call formatting.",
+      "The endpoint smoke benchmark checks whether OpenAI-compatible servers respond."
+    ],
+    "query": "Which benchmark evaluates JSON function-call formatting?",
+    "expected": {
+      "must_retrieve_any": [
+        "Hermes strict tool-call benchmark"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Hermes strict tool-call benchmark"
+    }
+  },
+  {
+    "id": "tool-state-current-collection",
+    "category": "tool_state_recall",
+    "setup_memories": [
+      "The active mem0 Qdrant collection is mem0_legacy_1024.",
+      "The active mem0 Qdrant collection is mem0_nomic_768 with 768 dimensions."
+    ],
+    "query": "What is the active mem0 Qdrant collection?",
+    "expected": {
+      "must_retrieve_any": [
+        "mem0_nomic_768"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "mem0_nomic_768"
+    }
+  }
+]
+

@@ -77,6 +77,13 @@ The current strongest local endpoint proof is the SSD-backed Qwen3 4B Q4_K_M GGU
 - Strict held-out pass: `0.375`
 - Decision: strongest local evidence so far, but still below the publication gate.
 
+The same SSD-backed Qwen3 4B Q4_K_M GGUF now also runs through LM Studio:
+
+- Report: `reports/benchmark/endpoint-tool-call/qwen3-q4km-lmstudio-heldout-20260524.md`
+- Raw output root: `/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/qwen3-q4km-lmstudio-heldout-20260524`
+- Strict held-out pass: `0.500`
+- Decision: strongest local endpoint evidence so far, but still below the publication gate.
+
 ## Endpoint Pilot Results
 
 Repo-native endpoint pilots ran against the same Qwen3 4B Q4_K_M llama.cpp endpoint with `/no_think`:

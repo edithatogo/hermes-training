@@ -1,0 +1,66 @@
+[
+  {
+    "id": "metadata-database",
+    "query": "Which database stores local metadata for Project Phoenix?",
+    "documents": [
+      {
+        "id": "target-sqlite",
+        "text": "Project Phoenix uses SQLite for local metadata and Qdrant for vector search.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-qdrant",
+        "text": "Project Phoenix uses Qdrant for vector search over embedded memories.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-runtime",
+        "text": "Project Phoenix uses llama.cpp for endpoint smoke checks.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "recency-preference",
+    "query": "What is the current preferred local embedding model?",
+    "documents": [
+      {
+        "id": "old-preference",
+        "text": "The preferred local embedding model was old-embed-1024.",
+        "relevant": false
+      },
+      {
+        "id": "current-preference",
+        "text": "The current preferred local embedding model is nomic-embed-text because it is the working baseline.",
+        "relevant": true
+      },
+      {
+        "id": "runtime-note",
+        "text": "The preferred local runtime for daily chat is Ollama.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "benchmark-type",
+    "query": "Which benchmark uses distractor resistance cases?",
+    "documents": [
+      {
+        "id": "hermes-toolcall",
+        "text": "The Hermes tool-call benchmark uses strict held-out function-call cases.",
+        "relevant": false
+      },
+      {
+        "id": "mem0-memory",
+        "text": "The mem0 memory benchmark uses direct recall, recency conflict, and distractor resistance cases.",
+        "relevant": true
+      },
+      {
+        "id": "endpoint-smoke",
+        "text": "The runtime endpoint benchmark checks OpenAI-compatible model and chat endpoints.",
+        "relevant": false
+      }
+    ]
+  }
+]
+

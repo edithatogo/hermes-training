@@ -33,11 +33,12 @@
 
 - [ ] Task: Validate the existing Qwen3 GGUF through LM Studio.
     - [x] Record whether LM Studio server is active on `http://localhost:1234/v1`.
-    - [ ] Load `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`.
-    - [ ] Run `GET /v1/models` and one non-streaming `POST /v1/chat/completions`.
-    - [x] Capture the endpoint absence and resulting blocked response state.
-    - [x] Write the LM Studio Qwen3 blocker card under the SSD runtime-proof-completion root.
-    - [x] Blocker recorded: `lms` was not on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening.
+    - [x] Load `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`.
+    - [x] Run `GET /v1/models` and one non-streaming `POST /v1/chat/completions`.
+    - [x] Capture response shape, model ID, and Qwen empty-think behavior.
+    - [x] Write the LM Studio Qwen3 run card under the SSD runtime-proof-completion root.
+    - [x] Blocker cleared: LM Studio `0.4.14+4` installed, `lms` linked on `PATH`, server passed on `127.0.0.1:1234`, and the model is loaded via SSD symbolic link.
+    - [x] Benchmark recorded in `reports/benchmark/endpoint-tool-call/qwen3-q4km-lmstudio-heldout-20260524.md`.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'LM Studio Proof For Existing Qwen3 Q4_K_M GGUF' (Protocol in workflow.md)
 
 ## Phase 2A.1 - llama.cpp Proof For Existing Qwen3 Q4_K_M GGUF
@@ -114,4 +115,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF.
-- Blocker: LM Studio remains blocked because `lms` was not found on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening. Hermes 4 14B acquisition is in progress on the SSD; Qwen3.6 and Gemma 4 acquisition attempts are paused/resumable until Hermes 4 completes.
+- Blocker: LM Studio is cleared for the existing Qwen3 Q4_K_M artifact. Hermes 4 14B acquisition is resumable on the SSD; Qwen3.6 and Gemma 4 acquisition targets are resolved and paused/resumable until Hermes 4 completes.

@@ -2,6 +2,8 @@
 
 The project should not bet on one serving tool. The acceptance target is: a fine-tuned model can be used by Hermes through at least one local OpenAI-compatible endpoint, and preferably through both Ollama and a GGUF-compatible desktop tool.
 
+mem0 has its own runtime rules in [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md). In short: chat/extraction models can use OpenAI-compatible chat endpoints, but embedding and retriever candidates also need embedding, reranking, or `POST /retrieve` APIs. Do not assume a Hermes chat runtime is automatically a mem0 embedding runtime.
+
 ## Preferred Order
 
 1. **Ollama via `ollama launch hermes`**
@@ -103,6 +105,15 @@ This proves the local Ollama endpoint remains usable for already-installed Herme
 | LM Studio | `lms server start --port 1234` | `http://localhost:1234/v1` | OpenAI-compatible chat endpoint responds from the active desktop server |
 | Ollama experimental safetensors | `ollama create --experimental -f <Modelfile>` then `ollama launch hermes` | `http://127.0.0.1:11434/v1` | Experimental create succeeds and Hermes can call the model |
 | Specialist runtime | `<runtime-specific launcher>` | `<OpenAI-compatible endpoint>` | Record a lane-specific launcher and still require parseable `/v1/models` plus chat completion output |
+
+## Memory And Embedding Runtime Matrix
+
+| Role | Preferred local runtime | Fallback | Required proof |
+|---|---|---|---|
+| mem0 extractor | Ollama chat endpoint | LM Studio, MLX server, llama.cpp server | `mem0 status` plus add/search benchmark |
+| dense embedder | Ollama embeddings | sentence-transformers, Transformers, LM Studio embeddings if exposed | dimension-specific collection and recall benchmark |
+| reranker | Transformers or MLX wrapper | endpoint service | rerank benchmark over fixed candidate sets |
+| late-interaction retriever | dedicated ColBERT-style service | FAISS/service fallback | `GET /health`, `POST /retrieve`, Recall@k/nDCG/MRR |
 
 ## Normalizing Proxy
 

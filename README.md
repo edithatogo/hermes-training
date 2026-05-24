@@ -18,6 +18,7 @@ The MacBook Pro M1 Max/MLX setup is the first constrained local lane, not the pr
 hermes-training/
 ├── gemma4/          -> Gemma/Gemma4-family LoRA track
 ├── lfm2/            -> LFM/LFM2/Ministral experimental track
+├── mem0/            -> mem0 extraction, memory retrieval, and embedding adaptation track
 └── ollama-pack/     -> Ollama and GGUF packaging scripts
 ```
 
@@ -29,6 +30,7 @@ Conductor planning now lives in structured `conductor/` directories:
 - Health target: [conductor/health-score.md](./conductor/health-score.md)
 - LFM track: [lfm2/conductor/index.md](./lfm2/conductor/index.md)
 - Gemma/Qwen/Hermes track: [gemma4/conductor/index.md](./gemma4/conductor/index.md)
+- mem0 memory and embedding track: [mem0/README.md](./mem0/README.md)
 - Runtime track: [ollama-pack/conductor/index.md](./ollama-pack/conductor/index.md)
 
 ## Priority Roadmap
@@ -42,11 +44,11 @@ Conductor planning now lives in structured `conductor/` directories:
 | 5 | LFM | `LiquidAI/LFM2.5-350M`, `LiquidAI/LFM2.5-1.2B-Instruct`, `LiquidAI/LFM2.5-1.2B-Thinking`, `LiquidAI/LFM2-8B-A1B` | Hybrid/on-device models, fast active parameter count | LEAP/Unsloth/TRL for LFM2.5, Ollama/GGUF |
 | 6 | Research runtime | Qwen3-Next, Mamba-3, `BlinkDL/rwkv7-g1`, `microsoft/bitnet-b1.58-2B-4T`, `mit-oasys/rlm-qwen3-8b-v0.1` | Linear/recurrent/ternary/recursive architecture experiments | Experimental; validate runtime support first |
 
-See [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable radar, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) for tool-specific deployment rules.
+See [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md) for the high-level lane map, [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable Hermes/chat radar, [mem0/MODEL_CANDIDATES.yaml](./mem0/MODEL_CANDIDATES.yaml) for memory/extraction/embedding candidates, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) plus [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md) for runtime rules.
 
 The remaining work is now split into parallel Conductor lanes in [PARALLEL_ROADMAP.md](./PARALLEL_ROADMAP.md). The current model-release scan is recorded at [reports/model-radar/current-release-scan-20260524.md](./reports/model-radar/current-release-scan-20260524.md).
 
-Use [BENCHMARKING_PLAN.md](./BENCHMARKING_PLAN.md) to decide whether an adapter is actually better than the base model. Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for standardized benchmarks that should accompany GitHub/Hugging Face publication. Use [DOCUMENTATION_PLAN.md](./DOCUMENTATION_PLAN.md) before publishing adapters or datasets. Use [APPLICATIONS.md](./APPLICATIONS.md) to decide which model family fits each downstream use.
+Use [BENCHMARKING_PLAN.md](./BENCHMARKING_PLAN.md) to decide whether an adapter is actually better than the base model. Use [mem0/BENCHMARKS.md](./mem0/BENCHMARKS.md) for memory, embedding, retrieval, and reranking benchmarks. Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for standardized benchmarks that should accompany GitHub/Hugging Face publication. Use [DOCUMENTATION_PLAN.md](./DOCUMENTATION_PLAN.md) before publishing adapters or datasets. Use [APPLICATIONS.md](./APPLICATIONS.md) to decide which model family fits each downstream use.
 
 ## Pipeline
 
@@ -65,6 +67,14 @@ Recommended dataset profiles:
 | `full` | Publishable adapter candidate | 50k-150k conversations |
 
 Current checked-in data is smoke-test scale, not a publishable fine-tune.
+
+mem0 and embedding work uses a related but separate promotion pipeline:
+
+```
+candidate model -> isolated collection/index -> add/search smoke -> recency and distractor eval -> latency check -> runtime card -> optional default promotion
+```
+
+The current mem0 default remains `nomic-embed-text:latest` with Qdrant collection `mem0_nomic_768`; new embedding models must use a separate collection when dimensions or index shape differ.
 
 ## Environment
 
@@ -149,6 +159,7 @@ Planned Hugging Face repos:
 scripts/repo_status.sh
 ./.venv/bin/python scripts/validate_readiness.py
 python3 scripts/check_model_candidates.py
+python3 scripts/check_mem0_model_candidates.py
 ```
 
 See [REPO_MAINTENANCE.md](./REPO_MAINTENANCE.md) before committing or publishing.

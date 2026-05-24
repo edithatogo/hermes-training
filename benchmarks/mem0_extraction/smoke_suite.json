@@ -1,0 +1,68 @@
+[
+  {
+    "id": "durable-project-preference",
+    "category": "preference",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "For local agent memory work, keep the current working mem0 setup as the rollback path. Do not replace nomic until a candidate beats it."
+      },
+      {
+        "role": "assistant",
+        "content": "Understood. I will treat nomic as the rollback baseline while testing candidates separately."
+      }
+    ],
+    "expected": {
+      "must_extract_any": [
+        "nomic",
+        "rollback"
+      ],
+      "must_not_extract_any": [
+        "assistant understood"
+      ]
+    }
+  },
+  {
+    "id": "transient-noise",
+    "category": "ignore_transient",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Run the benchmark now, and by the way the progress spinner is still moving."
+      },
+      {
+        "role": "assistant",
+        "content": "I will wait for the benchmark to finish and report the result."
+      }
+    ],
+    "expected": {
+      "must_extract_any": [],
+      "must_not_extract_any": [
+        "progress spinner",
+        "benchmark now"
+      ]
+    }
+  },
+  {
+    "id": "tool-state",
+    "category": "tool_state",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "The Hermes training artifacts should stay on /Volumes/PortableSSD/hermes-exports, not in the git repository."
+      },
+      {
+        "role": "assistant",
+        "content": "I will keep large exports on the SSD artifact path and keep Git for source, configs, and reports."
+      }
+    ],
+    "expected": {
+      "must_extract_any": [
+        "/Volumes/PortableSSD/hermes-exports",
+        "not in the git repository"
+      ],
+      "must_not_extract_any": []
+    }
+  }
+]
+

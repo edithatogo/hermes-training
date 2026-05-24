@@ -1,0 +1,146 @@
+# Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
+project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
+latest_release_recheck: "2026-05-24: Hugging Face metadata check verified BAAI/bge-m3, jinaai/jina-embeddings-v4, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, LiquidAI/LFM2-ColBERT-350M, and NousResearch/Hermes-4-14B. Ollama-style ids were skipped by the HF check."
+current_default:
+  vector_store: qdrant
+  collection: mem0_nomic_768
+  embedder: nomic-embed-text:latest
+  embedder_runtime: ollama
+  embedding_dims: 768
+  extractor: sam860/LFM2:2.6b
+  extractor_runtime: ollama
+  status: working-default
+
+candidates:
+  - id: nomic-embed-text:latest
+    role: embedder
+    family: dense-embedding
+    runtime:
+      - ollama
+    embedding_dims: 768
+    status: working-default
+    first_gate: add-search-smoke
+    notes: "Current stable local baseline. Keep as rollback target while testing stronger embedders."
+
+  - id: BAAI/bge-m3
+    role: embedder
+    family: dense-sparse-multivector
+    runtime:
+      - sentence-transformers
+      - transformers
+      - llama.cpp-if-supported
+    embedding_dims: 1024
+    status: candidate
+    first_gate: mteb-retrieval-smoke
+    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic."
+
+  - id: jinaai/jina-embeddings-v4
+    role: embedder
+    family: multilingual-multimodal-embedding
+    runtime:
+      - sentence-transformers
+      - transformers
+      - mlx-if-supported
+    embedding_dims: variable
+    status: candidate
+    first_gate: mteb-retrieval-smoke
+    notes: "Candidate for broader document and memory retrieval. Verify local Mac runtime and dimensions before indexing."
+
+  - id: Qwen/Qwen3-Embedding-4B
+    role: embedder
+    family: qwen-embedding
+    runtime:
+      - transformers
+      - mlx-if-supported
+      - llama.cpp-if-supported
+    embedding_dims: unknown
+    status: candidate
+    first_gate: local-embedding-smoke
+    notes: "Potential high-quality local embedder. Runtime and memory footprint must be proven on the M1 Max before use."
+
+  - id: Qwen/Qwen3-Reranker-4B
+    role: reranker
+    family: cross-encoder-reranker
+    runtime:
+      - transformers
+      - mlx-if-supported
+    embedding_dims: null
+    status: candidate
+    first_gate: rerank-smoke
+    notes: "Use after dense retrieval to improve precision. Not a vector-store replacement."
+
+  - id: mem0-created-at-rank-reranker
+    role: reranker
+    family: heuristic-recency-reranker
+    runtime:
+      - local-python
+    embedding_dims: null
+    status: candidate
+    first_gate: rerank-smoke
+    notes: "Offline prototype over saved mem0 search results. score_plus_created_at_rank with weight 0.20 fixed the seed recency failure, but needs larger validation before live use."
+
+  - id: LiquidAI/LFM2-ColBERT-350M
+    role: retriever
+    family: late-interaction
+    runtime:
+      - transformers
+      - llama.cpp-after-local-patch
+      - mlx-if-supported
+    embedding_dims: late-interaction
+    status: candidate
+    first_gate: colbert-index-smoke
+    notes: "Promising mem0/RAG direction. Needs its own index shape and API; do not put ColBERT vectors in the nomic Qdrant collection."
+
+  - id: sam860/LFM2:2.6b
+    role: extractor
+    family: local-llm
+    runtime:
+      - ollama
+    embedding_dims: null
+    status: working-default
+    first_gate: extraction-smoke
+    notes: "Current extraction model in mem0 config. Benchmark duplicate and hallucinated memory rates before replacing."
+
+  - id: hermes3:8b
+    role: extractor
+    family: hermes-chat
+    runtime:
+      - ollama
+    embedding_dims: null
+    status: installed-baseline
+    first_gate: extraction-smoke
+    notes: "Installed local Hermes-style baseline. Compare extraction quality and latency against LFM2 before using daily."
+
+  - id: NousResearch/Hermes-4-14B
+    role: extractor
+    family: hermes-chat
+    runtime:
+      - ollama-gguf
+      - lm-studio-gguf
+      - transformers
+    embedding_dims: null
+    status: runtime-proof-needed
+    first_gate: endpoint-smoke
+    notes: "Teacher/baseline candidate for memory extraction once a local artifact or endpoint is available."
+
+collections:
+  - name: mem0_nomic_768
+    dims: 768
+    role: default
+    compatible_models:
+      - nomic-embed-text:latest
+    status: active
+
+  - name: mem0_bge_m3_1024
+    dims: 1024
+    role: candidate
+    compatible_models:
+      - BAAI/bge-m3
+    status: planned
+
+  - name: mem0_qwen3_embedding_4b
+    dims: verify-before-create
+    role: candidate
+    compatible_models:
+      - Qwen/Qwen3-Embedding-4B
+    status: planned
