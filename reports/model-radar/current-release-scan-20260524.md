@@ -4,9 +4,9 @@ Date: 2026-05-24
 
 ## Summary
 
-The scan found refreshed Qwen3.6, Gemma 4, Hermes 4, Unsloth, and RWKV runtime candidates. It did not find an official Qwen3.7 open-weight local model lane.
+The scan found refreshed Qwen3.6, Gemma 4, Hermes 4, Unsloth, MiMo V2 Flash, LFM2, and RWKV runtime candidates. It did not find an official Qwen3.7 open-weight local model lane.
 
-Live refresh during implementation also found no Hugging Face model results for `Qwen3.7` or `Qwen3.7-Max`. It did find additional downloadable Qwen3.6 IQ4_XS and MiMo V2 Flash GGUF candidates, which should be treated as secondary runtime experiments after the primary Qwen3.6 Q4_K_M and Gemma 4 Q3_K_M proofs.
+Live refresh during implementation also found no Hugging Face model results for `Qwen3.7` or `Qwen3.7-Max`. It did find API listings and news coverage for `Qwen3.7-Max`, but not open local weights. It also found additional downloadable Qwen3.6 IQ4_XS, MiMo V2 Flash, Hermes 4 14B, and LFM2 GGUF candidates, which should be treated as secondary runtime experiments after the primary Qwen3.6 Q4_K_M and Gemma 4 Q3_K_M proofs.
 
 ## Relevant Findings
 
@@ -23,12 +23,15 @@ Live refresh during implementation also found no Hugging Face model results for 
 | `nvidia/Gemma-4-26B-A4B-NVFP4` | Quantized Gemma 4 listing. | Cloud/specialist runtime candidate. |
 | `NousResearch/Hermes-4-14B` | Current NousResearch listing. | Primary Hermes baseline/runtime target. |
 | `NousResearch/Hermes-4.3-36B` and GGUF variants | Current NousResearch listings. | Newer Hermes baseline; likely cloud or quantized runtime target. |
+| `SandLogicTechnologies/Hermes-4-14B-GGUF` and `mradermacher/Hermes-4-14B-GGUF` | Hugging Face model cards expose Q4/Q5 or broader GGUF variants. | Alternate Hermes 4 quant sources; the current local SandLogic Q4_K_M artifact is already runtime-proven. |
 | `unsloth/MiMo-V2-Flash-GGUF` and `mradermacher/MiMo-V2-Flash-i1-GGUF` | Hugging Face API search found GGUF variants for the recursive/reasoning MiMo V2 Flash lane. | Research runtime proof candidate after Mac-local Qwen3.6/Gemma priorities. |
+| `XiaomiMiMo/MiMo-V2-Flash` | Model card describes a 309B-total, 15B-active MoE with hybrid attention and multi-token prediction. | Too large for this Mac as a first local target; keep as Azure/specialist or heavily quantized GGUF research lane. |
+| `LiquidAI/LFM2-8B-A1B-GGUF` | Hugging Face model card reports GGUF availability for an 8B-total, 1B-active LFM2 MoE-style candidate. | Stronger LFM-family runtime candidate than the 2.6B helper if the GGUF fits and serves locally. |
 | `RWKV/RWKV7-Goose-World3-2.9B-HF` | Current RWKV listing. | Research runtime proof candidate. |
 
 ## Qwen3.7 Guardrail
 
-No official `Qwen/Qwen3.7-*` open-weight model or official Qwen repository result was verified. Keep Qwen3.7 out of local runtime, training, Azure, GitHub, and Hugging Face publication lanes until an official model card or repository exists.
+No official `Qwen/Qwen3.7-*` open-weight model or official Qwen repository result was verified. Keep Qwen3.7 out of local runtime, training, Azure, GitHub, and Hugging Face publication lanes until an official model card or repository exists. Treat `Qwen3.7-Max` as API-only/watchlist for now, not as a Mac-local model.
 
 ## Sources
 
@@ -39,3 +42,4 @@ No official `Qwen/Qwen3.7-*` open-weight model or official Qwen repository resul
 - Hugging Face RWKV organization: `https://huggingface.co/RWKV/models`
 - Live Hugging Face API searches on 2026-05-24 for `Qwen3.7`, `Qwen3.7-Max`, `Qwen3.6-35B-A3B IQ4_XS GGUF`, and `MiMo-V2-Flash GGUF`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
+- Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.

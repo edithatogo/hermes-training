@@ -41,11 +41,27 @@ chunks: 316 (12 already complete)
 ```
 
 The command continues to append progress to the same SSD log path listed above.
+After increasing concurrency to 32 workers, the observed state was:
+
+```text
+chunks complete: 21 / 316
+partial root size: 1.8G
+active session: qwen36_download
+```
+
+The transfer is still acquisition-only. Do not use the partial `.parts`
+directory as runtime evidence.
 
 ## Follow-Up After Completion
 
 1. Confirm final byte size equals `21166757888`.
-2. Start llama.cpp with alias `qwen3.6-35b-a3b-q4` on a free local port.
-3. Run `ollama-pack/scripts/runtime_smoke.sh` against the OpenAI-compatible endpoint.
-4. Run `scripts/run_endpoint_tool_call_benchmark.py` on `benchmarks/tool_call_local/heldout_suite.json` with `/no_think`.
-5. Run the endpoint pilot suites and store raw outputs under `/Volumes/PortableSSD/hermes-evals`.
+2. Run the post-download proof helper:
+
+```bash
+source scripts/env.sh
+bash scripts/run_qwen36_q4_runtime_proof.sh
+```
+
+The helper starts llama.cpp with alias `qwen3.6-35b-a3b-q4`, runs the runtime
+smoke, runs the held-out strict tool-call suite with `/no_think`, runs the
+endpoint pilot suites, and stores raw outputs under `/Volumes/PortableSSD/hermes-evals`.

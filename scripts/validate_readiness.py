@@ -203,6 +203,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "ollama-pack/scripts/runtime_smoke_lmstudio.sh",
         ROOT / "scripts/env.sh",
         ROOT / "scripts/repo_status.sh",
+        ROOT / "scripts/run_qwen36_q4_runtime_proof.sh",
         ROOT / "templates/benchmark/lm-evaluation-harness-smoke.sh",
     ]
     result = subprocess.run(["bash", "-n", *map(str, scripts)], capture_output=True, text=True)

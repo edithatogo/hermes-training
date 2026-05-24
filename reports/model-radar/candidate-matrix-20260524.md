@@ -15,6 +15,7 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `unsloth/Qwen3.6-27B-MTP-GGUF` | Mac-local runtime | LM Studio / Ollama | runtime-proof candidate | LM Studio smoke candidate if artifact is acquired under SSD policy | blocked |
 | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | Mac-local runtime | LM Studio / Ollama | runtime-proof candidate | LM Studio smoke candidate; likely inference only | blocked |
 | `NousResearch/Hermes-4-14B` | Hermes baseline/teacher | Transformers / GGUF | runtime-proof candidate | Prove or block local artifact without download | blocked |
+| `SandLogicTechnologies/Hermes-4-14B-GGUF` | Hermes baseline/runtime | llama.cpp / LM Studio | runtime-proven locally | Keep as current Hermes 4 14B Q4 baseline and compare against Qwen3.6 | benchmark-only, not publication candidate |
 | `NousResearch/Hermes-4.3-36B` | Hermes baseline/teacher | Transformers / GGUF | cloud/runtime candidate | Treat as teacher baseline after runtime proof | blocked |
 | `NousResearch/Hermes-4.3-36B-GGUF` | Mac-local runtime | LM Studio / llama.cpp | runtime-proof candidate | Smoke only if local GGUF exists or user approves download | blocked |
 | `google/gemma-4-26B-A4B-it` | frontier runtime/teacher | Transformers / GGUF | runtime-proof candidate | Tool-call stability check after runtime proof | blocked |
@@ -24,6 +25,8 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `Qwen/Qwen3-Embedding-4B` | retrieval | sentence-transformers / Transformers | retrieval candidate | Batch/memory smoke before claims | no chat adapter publication |
 | `Qwen/Qwen3-Reranker-4B` | retrieval | Transformers reranker | retrieval candidate | Reranker smoke after embedding baseline | no chat adapter publication |
 | `BAAI/bge-m3` | retrieval baseline | FlagEmbedding / sentence-transformers | ready baseline | Use as practical retrieval baseline | no chat adapter publication |
+| `LiquidAI/LFM2-8B-A1B-GGUF` | efficient LFM runtime | llama.cpp / LM Studio | watchlist | Consider after Qwen3.6 proof because it is a stronger LFM-family local candidate than the current 2.6B helper | blocked |
+| `XiaomiMiMo/MiMo-V2-Flash` | large MoE research runtime | KTransformers / specialist GGUF / Azure | watchlist | Do not download locally first; test via Azure/specialist quant only after Qwen3.6 and Gemma queues clear | blocked |
 | `RWKV/RWKV7-Goose-World3-2.9B-HF` | recurrent research runtime | Transformers / specialist runtime | watchlist | Add after runtime harness proof | blocked |
 | `microsoft/bitnet-b1.58-2B-4T` | ternary research runtime | BitNet runtime | watchlist | Runtime proof before benchmark claims | blocked |
 | `mit-oasys/rlm-qwen3-8b-v0.1` | recursive research runtime | custom RLM harness | watchlist | Harness proof before Hermes claims | blocked |
