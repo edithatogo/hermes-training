@@ -36,3 +36,9 @@ Do not keep scaling Qwen3 4B micro-tuning as the next quality move. Run runtime 
 2. Prove or block Hermes 4 and Qwen3.6 local artifacts without large downloads.
 3. Use BGE-M3 as the retrieval baseline while LFM2-ColBERT and Qwen retrieval candidates are triaged.
 4. Keep research runtimes watchlisted until they can serve reproducible Hermes prompts.
+
+## Synthesis
+
+Current lane winners, no-publish decisions, and next parallel work are summarized in:
+
+`reports/model-radar/candidate-selection-synthesis-20260524.md`

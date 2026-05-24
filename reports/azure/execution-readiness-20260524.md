@@ -31,6 +31,19 @@ The first live Azure action, after quota and no-spend evidence pass, should be a
 
 Azure outputs must be synced back to `/Volumes/PortableSSD` before any GitHub or Hugging Face claims are updated.
 
+## Execution Gate
+
+The current live-execution gate is recorded in:
+
+`reports/azure/execution-gate-20260524.md`
+
+Template readiness is validated locally with:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/validate_azure_execution_readiness.py
+```
+
 ## Read-Only Preflight Result
 
 Command:

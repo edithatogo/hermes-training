@@ -14,105 +14,105 @@
     - [x] Block publication for unnormalized or non-reproducible benchmarks.
     - [x] Block publication for failed Hermes tool-call gates when the candidate is presented as an agent model.
     - [x] Block publication when artifacts or caches are outside SSD-backed roots.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1 - Candidate Matrix And Shared Gates' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 1 - Candidate Matrix And Shared Gates' (Protocol in workflow.md)
 
 ## Phase 2 - Lane A Mac-Local Candidates
 
-- [ ] Task: Inventory Mac-local candidate classes without downloading models.
-    - [ ] Capture MLX-compatible candidates.
-    - [ ] Capture Ollama and LM Studio candidates.
-    - [ ] Capture GGUF fallback candidates.
-- [ ] Task: Define Mac-local evaluation dimensions.
-    - [ ] Memory fit on M1 Max 32GB unified memory.
-    - [ ] Runtime endpoint compatibility.
-    - [ ] Context length and prompt-format behavior.
-    - [ ] Tool-call strictness and normalization requirements.
-    - [ ] Adapter-training feasibility.
-- [ ] Task: Define Mac-local evidence requirements.
-    - [ ] Runtime smoke evidence before benchmark claims.
-    - [ ] Raw and normalized output samples when wrappers or formatting repairs are involved.
-    - [ ] SSD-backed artifact paths for any future runs.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Lane A Mac-Local Candidates' (Protocol in workflow.md)
+- [x] Task: Inventory Mac-local candidate classes without downloading models.
+    - [x] Capture MLX-compatible candidates.
+    - [x] Capture Ollama and LM Studio candidates.
+    - [x] Capture GGUF fallback candidates.
+- [x] Task: Define Mac-local evaluation dimensions.
+    - [x] Memory fit on M1 Max 32GB unified memory.
+    - [x] Runtime endpoint compatibility.
+    - [x] Context length and prompt-format behavior.
+    - [x] Tool-call strictness and normalization requirements.
+    - [x] Adapter-training feasibility.
+- [x] Task: Define Mac-local evidence requirements.
+    - [x] Runtime smoke evidence before benchmark claims.
+    - [x] Raw and normalized output samples when wrappers or formatting repairs are involved.
+    - [x] SSD-backed artifact paths for any future runs.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Lane A Mac-Local Candidates' (Protocol in workflow.md)
 
 ## Phase 3 - Lane B Hermes 4 And Qwen3.6 Teacher Baselines
 
-- [ ] Task: Define teacher-baseline roles.
-    - [ ] Answer-quality comparison.
-    - [ ] Tool-call repair target.
-    - [ ] Dataset critique and filtering.
-    - [ ] Benchmark normalization reference.
-- [ ] Task: Define teacher-baseline evidence requirements.
-    - [ ] Record model family, version, endpoint or runtime, license/terms, cost assumptions, and reproducibility notes.
-    - [ ] Separate teacher output evidence from student benchmark evidence.
-    - [ ] Require prompt and sampling settings for any future teacher run.
-- [ ] Task: Define teacher-baseline stop conditions.
-    - [ ] Stop if access requires unavailable credentials or license acceptance.
-    - [ ] Stop if cost or quota guardrails are unknown.
-    - [ ] Stop if teacher output would be used as publish evidence without benchmark corroboration.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 3 - Lane B Hermes 4 And Qwen3.6 Teacher Baselines' (Protocol in workflow.md)
+- [x] Task: Define teacher-baseline roles.
+    - [x] Answer-quality comparison.
+    - [x] Tool-call repair target.
+    - [x] Dataset critique and filtering.
+    - [x] Benchmark normalization reference.
+- [x] Task: Define teacher-baseline evidence requirements.
+    - [x] Record model family, version, endpoint or runtime, license/terms, cost assumptions, and reproducibility notes.
+    - [x] Separate teacher output evidence from student benchmark evidence.
+    - [x] Require prompt and sampling settings for any future teacher run.
+- [x] Task: Define teacher-baseline stop conditions.
+    - [x] Stop if access requires unavailable credentials or license acceptance.
+    - [x] Stop if cost or quota guardrails are unknown.
+    - [x] Stop if teacher output would be used as publish evidence without benchmark corroboration.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 3 - Lane B Hermes 4 And Qwen3.6 Teacher Baselines' (Protocol in workflow.md)
 
 ## Phase 4 - Lane C Retrieval And Embedding Candidates
 
-- [ ] Task: Define retrieval candidate categories.
-    - [ ] Embedding models.
-    - [ ] Rerankers.
-    - [ ] Sparse or hybrid retrieval components.
-    - [ ] Hermes memory/RAG integration candidates.
-- [ ] Task: Define retrieval-specific gates.
-    - [ ] Retrieval quality and recall.
-    - [ ] Reranking quality.
-    - [ ] Latency and storage footprint.
-    - [ ] RAG answer grounding and citation behavior.
-    - [ ] MTEB-style or project-local retrieval evidence.
-- [ ] Task: Define boundary with chat-model evaluation.
-    - [ ] Retrieval wins do not imply chat SFT wins.
-    - [ ] Chat-model wins do not imply embedding or retrieval wins.
-    - [ ] Combined RAG promotion requires both retrieval and answer-quality evidence.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 4 - Lane C Retrieval And Embedding Candidates' (Protocol in workflow.md)
+- [x] Task: Define retrieval candidate categories.
+    - [x] Embedding models.
+    - [x] Rerankers.
+    - [x] Sparse or hybrid retrieval components.
+    - [x] Hermes memory/RAG integration candidates.
+- [x] Task: Define retrieval-specific gates.
+    - [x] Retrieval quality and recall.
+    - [x] Reranking quality.
+    - [x] Latency and storage footprint.
+    - [x] RAG answer grounding and citation behavior.
+    - [x] MTEB-style or project-local retrieval evidence.
+- [x] Task: Define boundary with chat-model evaluation.
+    - [x] Retrieval wins do not imply chat SFT wins.
+    - [x] Chat-model wins do not imply embedding or retrieval wins.
+    - [x] Combined RAG promotion requires both retrieval and answer-quality evidence.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 4 - Lane C Retrieval And Embedding Candidates' (Protocol in workflow.md)
 
 ## Phase 5 - Lane D Research Runtimes
 
-- [ ] Task: Define research-runtime categories.
-    - [ ] Subquadratic and Mamba-family runtimes.
-    - [ ] Recurrent and RWKV-family runtimes.
-    - [ ] BitNet candidates.
-    - [ ] KTransformers-style or other specialist serving paths.
-- [ ] Task: Define runtime-proof requirements.
-    - [ ] Verified weights and license.
-    - [ ] Reproducible setup path.
-    - [ ] Endpoint or invocation contract.
-    - [ ] Prompt-format compatibility.
-    - [ ] Benchmark comparability limits.
-- [ ] Task: Define promotion and watchlist rules.
-    - [ ] Promote only when runtime proof is reproducible.
-    - [ ] Keep immature runtimes on watchlist with concrete blockers.
-    - [ ] Avoid presenting research-runtime success as Hermes product readiness without agent benchmarks.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 5 - Lane D Research Runtimes' (Protocol in workflow.md)
+- [x] Task: Define research-runtime categories.
+    - [x] Subquadratic and Mamba-family runtimes.
+    - [x] Recurrent and RWKV-family runtimes.
+    - [x] BitNet candidates.
+    - [x] KTransformers-style or other specialist serving paths.
+- [x] Task: Define runtime-proof requirements.
+    - [x] Verified weights and license.
+    - [x] Reproducible setup path.
+    - [x] Endpoint or invocation contract.
+    - [x] Prompt-format compatibility.
+    - [x] Benchmark comparability limits.
+- [x] Task: Define promotion and watchlist rules.
+    - [x] Promote only when runtime proof is reproducible.
+    - [x] Keep immature runtimes on watchlist with concrete blockers.
+    - [x] Avoid presenting research-runtime success as Hermes product readiness without agent benchmarks.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 5 - Lane D Research Runtimes' (Protocol in workflow.md)
 
 ## Phase 6 - Lane E Publish / No-Publish Decisions And Synthesis
 
-- [ ] Task: Create the decision rubric.
-    - [ ] Reject.
-    - [ ] Watchlist.
-    - [ ] Runtime-proof only.
-    - [ ] Benchmark candidate.
-    - [ ] Internal adapter candidate.
-    - [ ] Publish candidate.
-- [ ] Task: Define final synthesis report structure.
-    - [ ] Candidate matrix summary.
-    - [ ] Lane winners and rejected candidates.
-    - [ ] Evidence links and gaps.
-    - [ ] Required follow-up tracks.
-    - [ ] Explicit publish/no-publish decisions.
-- [ ] Task: Validate setup-only scope.
-    - [ ] Confirm no large model downloads were performed.
-    - [ ] Confirm no benchmark artifacts were generated.
-    - [ ] Confirm future artifact paths remain SSD-backed.
-    - [ ] Run hub readiness validation if code or docs outside this track changed.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 6 - Lane E Publish / No-Publish Decisions And Synthesis' (Protocol in workflow.md)
+- [x] Task: Create the decision rubric.
+    - [x] Reject.
+    - [x] Watchlist.
+    - [x] Runtime-proof only.
+    - [x] Benchmark candidate.
+    - [x] Internal adapter candidate.
+    - [x] Publish candidate.
+- [x] Task: Define final synthesis report structure.
+    - [x] Candidate matrix summary.
+    - [x] Lane winners and rejected candidates.
+    - [x] Evidence links and gaps.
+    - [x] Required follow-up tracks.
+    - [x] Explicit publish/no-publish decisions.
+- [x] Task: Validate setup-only scope.
+    - [x] Confirm no large model downloads were performed.
+    - [x] Confirm no benchmark artifacts were generated.
+    - [x] Confirm future artifact paths remain SSD-backed.
+    - [x] Run hub readiness validation if code or docs outside this track changed.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 6 - Lane E Publish / No-Publish Decisions And Synthesis' (Protocol in workflow.md)
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.1 / 10
-- Evidence: `reports/model-radar/candidate-matrix-20260524.md` now records candidate states and next actions. Health remains below completion threshold until lane-specific runtime evidence and final synthesis are complete.
+- Current estimate: 9.6 / 10
+- Evidence: `reports/model-radar/candidate-matrix-20260524.md` records candidate states and next actions. `reports/model-radar/candidate-selection-synthesis-20260524.md` records lane winners, no-publish decisions, evidence links, and next parallel work. The track remains setup/readiness only; live runtime proofs and benchmarks are handled by separate execution tracks.

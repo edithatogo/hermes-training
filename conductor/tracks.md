@@ -100,7 +100,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Model candidate evaluation and selection
+## [x] Track: Model candidate evaluation and selection
 *Link: [./tracks/model-candidate-evaluation_20260524/](./tracks/model-candidate-evaluation_20260524/)*
 
 ---
@@ -110,10 +110,10 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Azure scale-out execution readiness
+## [x] Track: Azure scale-out execution readiness
 *Link: [./tracks/azure-execution-readiness_20260524/](./tracks/azure-execution-readiness_20260524/)*
 
 ---
 
-## [ ] Track: Standardized benchmark execution and publication readiness
+## [x] Track: Standardized benchmark execution and publication readiness
 *Link: [./tracks/standard-benchmark-execution_20260524/](./tracks/standard-benchmark-execution_20260524/)*

@@ -47,6 +47,12 @@ Each future run card must include:
 
 This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs, or new large model downloads.
 
+## Publication Gate
+
+Benchmark publication remains blocked until a candidate satisfies the full evidence pack and Hermes-agent strict tool-call gate. The current gate record is:
+
+`reports/benchmark/publication-readiness-gate-20260524.md`
+
 ## Command Manifests
 
 - `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
