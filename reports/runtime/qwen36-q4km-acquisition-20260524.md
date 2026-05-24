@@ -52,6 +52,28 @@ active session: qwen36_download
 The transfer is still acquisition-only. Do not use the partial `.parts`
 directory as runtime evidence.
 
+Later live check on 2026-05-24 confirmed the downloader was still making
+byte-level progress:
+
+```text
+chunks complete: 49 / 316
+active temp chunks: 32
+partial root size: 4.0G
+active session: qwen36_download
+```
+
+An SSD-backed watcher is now available so the runtime proof can start
+automatically as soon as the final GGUF is assembled:
+
+```bash
+tmux new-session -d -s qwen36_proof_watch \
+  "cd /Volumes/PortableSSD/GitHub/hermes-training && POLL_SECONDS=300 bash scripts/watch_qwen36_q4_runtime_proof.sh"
+```
+
+Watcher log:
+
+`/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/logs/qwen3.6-q4km-proof-watch-20260524.log`
+
 ## Follow-Up After Completion
 
 1. Confirm final byte size equals `21166757888`.

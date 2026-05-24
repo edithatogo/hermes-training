@@ -60,6 +60,16 @@ tmux attach -t qwen36_download
 
 Status and follow-up steps are recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
 
+The post-download proof is now wired to an optional watcher:
+
+```bash
+POLL_SECONDS=300 bash scripts/watch_qwen36_q4_runtime_proof.sh
+```
+
+Run it in tmux as `qwen36_proof_watch` while the downloader continues. The
+watcher does not treat partial chunks as evidence; it waits for the final GGUF
+at the exact expected byte size, then calls `scripts/run_qwen36_q4_runtime_proof.sh`.
+
 ## Paused / Resumable
 
 The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after the active Qwen3.6 acquisition completes:

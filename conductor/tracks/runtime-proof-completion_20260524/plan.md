@@ -78,8 +78,9 @@
     - [x] Follow-up acquisition started in `tmux` session `qwen36_download`; status recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
     - [x] Ranged downloader hardened to refresh Hugging Face signed URLs per chunk attempt, then restarted from existing chunk state.
     - [x] Post-download proof helper added at `scripts/run_qwen36_q4_runtime_proof.sh` so smoke, held-out, and pilot benchmarks can start immediately after byte-size validation.
+    - [x] Post-download watcher added at `scripts/watch_qwen36_q4_runtime_proof.sh` so the proof can start automatically after exact-size assembly.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
-    - [ ] Blocked until `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf` reaches `21166757888` bytes and passes `scripts/run_qwen36_q4_runtime_proof.sh`.
+    - [ ] Blocked until `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf` reaches `21166757888` bytes and passes `scripts/run_qwen36_q4_runtime_proof.sh`; watcher session `qwen36_proof_watch` can automate that handoff.
 
 ## Phase 3 - OpenAI Normalizing Proxy Route
 
@@ -128,4 +129,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.7 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof. `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md` records the current MLX-native OpenAI-compatible proof and its held-out benchmark result.
-- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; the post-download runtime/benchmark helper is ready. Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.
+- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; the post-download runtime/benchmark helper and watcher are ready. Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.
