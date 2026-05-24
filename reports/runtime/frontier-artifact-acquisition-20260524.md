@@ -50,15 +50,19 @@ Chunk parts were stored in:
 
 After the final GGUF was assembled and validated, the redundant chunk directory was removed to recover SSD space.
 
-## Paused / Resumable
+## Active Qwen3.6 Acquisition
 
-The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after Hermes 4 completes:
+Qwen3.6 35B-A3B Q4_K_M acquisition is now running one target at a time on the SSD:
 
 ```bash
-hf download Infatoshi/Qwen3.6-35B-A3B-GGUF \
-  Qwen3.6-35B-A3B-Q4_K_M.gguf README.md \
-  --local-dir /Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4
+tmux attach -t qwen36_download
 ```
+
+Status and follow-up steps are recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
+
+## Paused / Resumable
+
+The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after the active Qwen3.6 acquisition completes:
 
 ```bash
 hf download DuoNeural/Gemma-4-26B-A4B-it-GGUF \
@@ -77,11 +81,11 @@ snapshot_download(
 
 ## Next Runtime Proof
 
-Hermes 4 is complete. The next acquisition/runtime-proof target should be resumed one at a time:
+Hermes 4 is complete. Qwen3.6 Q4_K_M is the active acquisition/runtime-proof target. After it completes:
 
-1. `Infatoshi/Qwen3.6-35B-A3B-GGUF` Q4_K_M, or
-2. `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M, or
-3. `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`.
+1. Run the Qwen3.6 llama.cpp runtime proof and endpoint benchmarks.
+2. Resume `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M.
+3. Consider `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` only if the GGUF path is blocked or the MLX runtime is specifically needed.
 
 ## Boundary
 

@@ -72,6 +72,7 @@
     - [x] If a local artifact or endpoint exists, run one non-streaming chat smoke with a realistic short context.
     - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
     - [x] Write the Qwen3.6 run card under the SSD runtime-proof-completion root.
+    - [x] Follow-up acquisition started in `tmux` session `qwen36_download`; status recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 3 - OpenAI Normalizing Proxy Route
@@ -117,4 +118,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof.
-- Blocker: Qwen3.6 and Gemma 4 acquisition attempts are paused/resumable until selected as the next one-by-one runtime proof target. Hermes 4 14B Q4 is complete and runtime-proven.
+- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven.

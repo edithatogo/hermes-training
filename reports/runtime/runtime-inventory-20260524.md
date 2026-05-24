@@ -12,6 +12,7 @@ Date: 2026-05-24
 | Qwen3 Q4_K_M GGUF direct llama.cpp | `RUNTIME_TARGETS.md`; `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` | passed direct validation and OpenAI-compatible `llama-server` smoke |
 | Qwen3 Q4_K_M GGUF in LM Studio | `reports/runtime/lmstudio-qwen3-q4km-server-smoke-20260524.md` | passed with symbolic link to SSD artifact |
 | Hermes 4 14B Q4_K_M GGUF direct llama.cpp | `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` | passed OpenAI-compatible `llama-server` smoke on port `8092` |
+| Qwen3.6 35B-A3B Q4_K_M GGUF | `reports/runtime/qwen36-q4km-acquisition-20260524.md` | acquisition active in `tmux` session `qwen36_download`; not runtime evidence until the final GGUF exists at the expected byte size |
 | MLX server current endpoint | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:8088` not listening |
 | Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | blocked by prior import/runtime instability |
 
@@ -39,4 +40,4 @@ Exact GGUF acquisition targets and resumable SSD commands are recorded in `repor
 
 Artifact acquisition has now started under SSD-backed paths. Current status is tracked in `reports/runtime/frontier-artifact-acquisition-20260524.md`.
 
-The first active target, Hermes 4 14B Q4_K_M GGUF under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`, is now complete and runtime-proven. Qwen3.6 and Gemma 4 acquisition attempts remain paused/resumable.
+The first active target, Hermes 4 14B Q4_K_M GGUF under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`, is now complete and runtime-proven. Qwen3.6 Q4_K_M acquisition is active under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4`; Gemma 4 remains paused/resumable.
