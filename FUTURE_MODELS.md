@@ -149,7 +149,7 @@ Acceptance bar:
 | Gemma 4 26B-A4B | Emerging | Not primary | Check | Emerging | Emerging | Multimodal MoE; tool-call stability needs testing. |
 | Qwen3 4B | Strong | Not needed | Likely | Strong | Strong | Best first local fine-tune. |
 | LFM2.5 1.2B | Strong per official card | Not needed | Check | Strong | Strong | Best low-latency helper fine-tune. |
-| LFM2 8B-A1B | Check per build | Not needed | Local Ollama has converter work | Improving | Check | Good Hermes agent target. |
+| LFM2 8B-A1B / 24B-A2B | Check per build | Not needed | Local Ollama has converter work | Improving | Check | 8B-A1B is the safer LFM runtime target; 24B-A2B now has GGUF, ONNX, and MLX-bf16 package listings and should be treated as a runtime experiment before fine-tuning. |
 | Mamba-3 | Research | No | No | No | No | Architecture watchlist until weights/runtime mature. |
 | RWKV7 / rwkv-7-world | Limited | No | Check | Mixed | Mixed | Use exact public checkpoint sizes; tool-call quality must be tested. |
 | BitNet | No | No | No | Check separate runtimes | No | Research track, not core pipeline. |
@@ -162,6 +162,7 @@ Acceptance bar:
 | `NousResearch/Hermes-4-14B` | Official safetensors are published. Treat Transformers as the first known path and keep GGUF / FP8 / community quant paths as runtime candidates until this repo records a smoke result. | `needs-runtime-proof` |
 | `google/gemma-4-26B-A4B-it` | Official image-text-to-text safetensors exist. Community GGUF and on-device quants may exist, but Mac runtime support remains `needs-runtime-proof` here. | `needs-runtime-proof` |
 | `Qwen/Qwen3-Next-80B-A3B-Instruct` | Official HF weights and a GGUF family are published. Use it as a runtime-experiment target only; it is not a 32GB fine-tune target. | `needs-runtime-proof` |
+| `LiquidAI/LFM2-24B-A2B` | Live Hugging Face API refresh on 2026-05-24 found official base, GGUF, ONNX, and MLX-bf16 package listings plus a NexaAI GGUF. Treat as a specialist runtime experiment; do not make local fine-tune claims before endpoint and memory proofs. | `needs-runtime-proof` |
 | `LiquidAI/LFM2.5-1.2B-Instruct` / `Thinking` | Official model card lists day-one support for llama.cpp, MLX, and vLLM. This is the safest local fine-tune lane in the frontier set. | `ready` |
 | `microsoft/bitnet-b1.58-2B-4T` | Official HF weights exist, but the native BitNet runtime path still needs an actual repo-specific smoke before we treat it as supported. | `needs-runtime-proof` |
 | `BAAI/bge-m3` | Official retrieval model with FlagEmbedding / sentence-transformers usage. Treat as retrieval-only, not a chat quantization target. | `ready` |
