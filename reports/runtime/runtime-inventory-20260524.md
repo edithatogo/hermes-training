@@ -14,6 +14,8 @@ Date: 2026-05-24
 | MLX server current endpoint | live endpoint check on 2026-05-24 | blocked: `127.0.0.1:8088` not listening |
 | Qwen3 GGUF in Ollama | `ollama-pack/runtime-card.qwen3-4b-mlx-smoke.md` | blocked by prior import/runtime instability |
 
+`lms` was not found on `PATH` during the 2026-05-24 CLI check, so LM Studio validation needs either the desktop server already running or the CLI installed/available.
+
 ## Existing SSD Artifacts
 
 | Artifact | Path | Next Use |

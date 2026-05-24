@@ -52,3 +52,21 @@ Result on 2026-05-24:
 - Preflight status: account passed; quota checks still required before compute
 
 GPU-family quota rows included nonzero legacy NC/NV family limits, but modern sampled GPU families needed for useful benchmark acceleration remained zero, including `NCASv3_T4`, `NCADS_A100_v4`, `NDASv4_A100`, and `NDSH100v5`. Keep Azure live execution blocked until a specific SKU/region quota is approved.
+
+## Read-Only Status Result
+
+Command:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/azure_status.py
+```
+
+Result on 2026-05-24:
+
+- Providers registered: MachineLearningServices, Compute, Storage, KeyVault, ContainerRegistry, Insights
+- Resource groups visible: `rg-powerplatform-payg-aue`, `rg-kairos-batch-canary-20260520`
+- Azure ML workspaces: none
+- Local templates present under `templates/azure/`
+
+This confirms that no Azure ML workspace currently exists for this project. Workspace creation remains gated behind quota and no-spend controls.

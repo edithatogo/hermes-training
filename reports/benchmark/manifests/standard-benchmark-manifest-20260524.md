@@ -43,3 +43,9 @@ Each future run card must include:
 ## No-Run Guardrail
 
 This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs, or new large model downloads.
+
+## Command Manifests
+
+- `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
+- `reports/benchmark/manifests/lm-eval-smoke-command-20260524.md`
+- `reports/benchmark/manifests/retrieval-smoke-command-20260524.md`

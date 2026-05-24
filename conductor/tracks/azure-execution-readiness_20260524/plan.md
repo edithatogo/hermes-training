@@ -82,3 +82,4 @@
 - Current estimate: 9.0 / 10.
 - Required evidence: quota confirmation, fail-closed/no-spend proof, gated workspace/compute readiness, benchmark dry-run proof, teacher/evaluator dry-run proof, SSD sync proof, validation output, and publication decision record.
 - Current evidence: `reports/azure/execution-readiness-20260524.md` records account/subscription/extension/SSD pass and regional quota. Live Azure execution remains blocked until a specific useful GPU SKU/region quota is available.
+- Additional evidence: `scripts/azure_status.py` found no Azure ML workspaces, so workspace creation remains a gated future action.

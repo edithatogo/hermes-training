@@ -100,3 +100,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.1 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. LM Studio and MLX endpoint proof remain blocked because those servers are not listening.
+- Blocker: `lms` was not found on `PATH`; LM Studio proof requires the desktop server or CLI to be available.

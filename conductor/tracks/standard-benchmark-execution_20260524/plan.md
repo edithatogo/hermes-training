@@ -119,3 +119,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.1 / 10
 - Evidence: `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md` defines suite tiers, SSD roots, required run records, and no-run guardrails. Health remains below completion threshold until suite-specific manifests and real benchmark evidence are produced.
+- Additional evidence: local held-out, lm-eval smoke, and retrieval smoke command manifests now exist under `reports/benchmark/manifests/`.
