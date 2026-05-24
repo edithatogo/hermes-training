@@ -31,3 +31,9 @@ Date: 2026-05-24
 No local Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 runtime artifact has been recorded in this repo. The runtime-proof-completion track must either find an existing artifact/endpoint or record a blocker; it must not silently download large weights.
 
 Read-only SSD scan on 2026-05-24 found Gemma 4 tokenizer/template files and the `lmstudio-community/gemma-4-E4B-it-MLX-4bit` cache, but no runnable Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 26B A4B chat artifact was identified. SSD blocker card: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/frontier-artifact-blockers-20260524.md`.
+
+## Frontier Artifact Acquisition
+
+Artifact acquisition has now started under SSD-backed paths. Current status is tracked in `reports/runtime/frontier-artifact-acquisition-20260524.md`.
+
+The first active target is Hermes 4 14B Q4_K_M GGUF under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`. Runtime proof remains pending until the GGUF is fully downloaded.

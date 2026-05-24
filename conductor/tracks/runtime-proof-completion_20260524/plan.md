@@ -58,6 +58,7 @@
     - [x] If a local artifact or endpoint exists, run one Hermes-style non-streaming chat smoke.
     - [x] If no artifact or endpoint exists, record the no-download blocker with exact checked paths and endpoints.
     - [x] Write the Hermes 4 14B run card under the SSD runtime-proof-completion root.
+    - [x] Follow-up acquisition started under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4`; runtime proof remains pending until the GGUF completes.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Hermes 4 14B Runtime Proof' (Protocol in workflow.md)
 
 ## Phase 2C - Qwen3.6 Runtime Proof
@@ -113,4 +114,4 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
 - Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF.
-- Blocker: LM Studio remains blocked because `lms` was not found on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening. Hermes 4 14B and Qwen3.6 remain blocked by absent local artifacts/endpoints under the no-large-download policy.
+- Blocker: LM Studio remains blocked because `lms` was not found on `PATH`, `/Applications/LM Studio.app` was not present, and `127.0.0.1:1234` was not listening. Hermes 4 14B acquisition is in progress on the SSD; Qwen3.6 and Gemma 4 acquisition attempts are paused/resumable until Hermes 4 completes.
