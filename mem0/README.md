@@ -59,6 +59,13 @@ Output: `reports/model-radar/mem0-candidate-queue.md`.
 
 ## Promotion Gates
 
+Read-wrapper integration is not the same as default mem0 config promotion. A
+guarded read wrapper such as `scripts/mem0_read.py` may be used by agents if it
+is read-only, rollback is raw `mem0 cmd search`, and current latency plus
+fixture evidence are recorded. Changing `~/.mem0/config.json`, the default
+collection, embedder, or extractor still requires the full default-promotion
+gates below.
+
 Every mem0 candidate must pass these gates before becoming the default:
 
 | Gate | Purpose | Required evidence |
