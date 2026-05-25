@@ -1,11 +1,13 @@
 # Qwen3 4B Hermes Strict Tool-Call V4 Targeted
 
-Draft status: not yet published.
+Draft status: private Hugging Face draft upload; not a public release.
 
 ## Summary
 
 This is a LoRA adapter for `Qwen/Qwen3-4B-MLX-4bit` trained for strict local
 Hermes-style tool-call output.
+
+Private draft repo: `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`
 
 The adapter is intended for local evaluation and agent-runtime packaging. It
 requires the recorded runtime prompt condition:

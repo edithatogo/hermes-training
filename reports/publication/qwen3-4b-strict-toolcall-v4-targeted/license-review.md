@@ -27,8 +27,13 @@ Review date: 2026-05-25
 GitHub source publication is acceptable for code, configs, run cards, and small
 reproducibility artifacts.
 
+Private Hugging Face draft adapter upload is acceptable for preserving the
+artifact with caveats and audit evidence:
+`https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`.
+
 Public Hugging Face adapter publication is not yet approved in this review.
-Although the quality gate now passes, public publication still needs:
+Although the quality gate now passes and the private draft artifact is uploaded,
+public publication still needs:
 
 - final redistribution review for all materialized training rows inherited by V4
 - finalized model card with the required assistant-prefill runtime condition

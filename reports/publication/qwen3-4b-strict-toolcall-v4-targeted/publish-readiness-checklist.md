@@ -17,6 +17,7 @@ Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 - [x] Raw benchmark artifact paths recorded.
 - [x] Dataset overlap audit recorded in `dataset-overlap-audit.json`.
 - [x] Dataset token audit recorded in `dataset-token-audit.json`.
+- [x] Private Hugging Face draft adapter uploaded and hash-verified.
 - [ ] Dataset/source redistribution review complete for all materialized training rows.
 - [ ] Standard benchmark stage target is met.
 - [ ] Hugging Face model card finalized.
@@ -38,3 +39,13 @@ items above. In particular, the adapter was trained from materialized strict
 tool-call rows that include earlier mirrored seed material, so the dataset/source
 redistribution review must be completed before representing this as a public
 release artifact.
+
+Private draft upload:
+
+```text
+https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
+```
+
+The uploaded `adapters.safetensors` file was downloaded back from Hugging Face
+and matched the local SHA-256:
+`42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e`.
