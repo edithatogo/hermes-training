@@ -20,10 +20,13 @@ ROLE_ORDER = {
 
 STATUS_ORDER = {
     "working-default": 0,
-    "installed-baseline": 1,
-    "candidate": 2,
+    "working-default-clean-root-smoked": 0,
+    "live-read-wrapper-smoked": 1,
+    "benchmarked-cpu-mps-not-promoted": 2,
+    "installed-baseline": 3,
+    "candidate": 4,
     "runtime-proof-needed": 3,
-    "planned": 4,
+    "planned": 5,
     "rejected": 9,
 }
 
@@ -84,14 +87,19 @@ def command_for(candidate: dict[str, Any]) -> str:
             ]
         )
     if role == "reranker" and runtime == "local-python":
+        strategy = (
+            "score_plus_created_at_rank_close_margin"
+            if status == "live-read-wrapper-smoked"
+            else "score_plus_created_at_rank"
+        )
         return "\n".join(
             [
-                "./.venv/bin/python scripts/run_mem0_memory_benchmark.py \\",
+                "./.venv/bin/python scripts/mem0_rerank_search.py \\",
+                '  "What is the active mem0 Qdrant collection?" \\',
                 "  --tool cmd \\",
-                "  --suite benchmarks/mem0_memory/recency_suite.json \\",
-                "  --rerank-strategy score_plus_created_at_rank \\",
+                f"  --strategy {strategy} \\",
                 "  --recency-weight 0.20 \\",
-                f"  --run-id mem0-{slug}-$(date +%Y%m%d-%H%M%S)",
+                "  --timeout-s 60",
             ]
         )
     if role == "reranker":
@@ -146,6 +154,12 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     dims = candidate.get("embedding_dims")
     if status in {"working-default", "installed-baseline"}:
         return "baseline; keep as rollback and compare only"
+    if status == "working-default-clean-root-smoked":
+        return "baseline recovered in clean SSD Ollama root; keep as rollback and compare only"
+    if status == "live-read-wrapper-smoked":
+        return "live read-only wrapper smoke passed; keep read-only until broader coverage"
+    if status == "benchmarked-cpu-mps-not-promoted":
+        return "benchmarked but not promoted; keep separate collection or artifact"
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"
     if role == "embedder" and dims in {"unknown", "variable"}:

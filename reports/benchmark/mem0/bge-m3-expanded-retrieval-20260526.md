@@ -84,12 +84,16 @@ inside a close semantic margin, which preserved source-grounded older facts.
 ## Nomic Comparison
 
 The current nomic baseline remains the working default. Fresh nomic expanded
-re-run was not completed in this slice because local Ollama did not respond to
-`ollama list` within 5 seconds while the daemon was running. Existing nomic
-smoke evidence remains available in:
+re-run is now complete from the clean SSD-backed Ollama root:
 
-- `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-smoke-20260524`
-- `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-openai-ollama-smoke-20260524`
+| Model / strategy | Top-1 | Recall@3 | Recency conflict | Distractor resistance | Report |
+|---|---:|---:|---:|---:|---|
+| `nomic-embed-text:latest` vector | 0.833 | 1.000 | 0.500 | 1.000 | `reports/benchmark/mem0/nomic-expanded-retrieval-20260526.md` |
+| `nomic` + `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 | 1.000 | `reports/benchmark/mem0/nomic-expanded-retrieval-20260526.md` |
+
+BGE-M3 remains stronger as dense retrieval on this suite (`0.917` vs `0.833`),
+but nomic is faster, already live in the default 768-dimensional collection,
+and is still the rollback-safe default.
 
 ## Decision
 
@@ -100,6 +104,5 @@ reranking strategy to the next live read-only wrapper candidate instead:
   current preference case without reranking.
 - The margin-gated recency reranker reaches 1.000 on the BGE-derived expanded
   suite without the large-margin distractor regression.
-- A fresh nomic expanded comparison should be run after Ollama responsiveness is
-  restored, then the same derived-reranker replay should be applied to nomic.
-
+- The same margin-gated reranker improves the nomic-derived expanded suite from
+  `0.833` to `0.917` without changing the live mem0 collection.

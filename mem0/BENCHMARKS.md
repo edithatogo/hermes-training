@@ -199,6 +199,15 @@ Current expanded fixed-suite reranker scores:
 | `score_plus_created_at_rank` | 1.000 | 1.000 | 1.000 |
 | `lexical_overlap` | 0.833 | 0.500 | 1.000 |
 
+Current expanded embedding-derived reranker scores:
+
+| Source | Strategy | Top-1 | Recency conflict | Distractor resistance |
+|---|---|---:|---:|---:|
+| BGE-M3 | `vector` | 0.917 | 0.500 | 1.000 |
+| BGE-M3 | `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 |
+| nomic | `vector` | 0.833 | 0.500 | 1.000 |
+| nomic | `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 |
+
 Run a read-only reranked search against the live mem0 store:
 
 ```bash

@@ -87,6 +87,19 @@ read-only wrapper test. It keeps recency as a tie-breaker for close semantic
 margins instead of letting newer but semantically weaker memories override
 older source-grounded facts.
 
+Nomic expanded replay:
+
+| Strategy | Top-1 | Recency conflict | Distractor resistance |
+|---|---:|---:|---:|
+| `vector` | 0.833 | 0.500 | 1.000 |
+| `score_plus_created_at_rank` | 0.750 | 1.000 | 0.750 |
+| `lexical_overlap` | 0.917 | 0.500 | 1.000 |
+| `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 |
+
+The close-margin strategy also improves the default nomic path without touching
+`mem0_nomic_768`. It leaves one direct semantic miss (`ollama-retest`) for a
+future embedder or learned reranker.
+
 Live read-only wrapper:
 
 ```bash
@@ -100,9 +113,9 @@ source scripts/env.sh
 
 This calls `mem0 <tool> search`, reranks the returned JSON locally, and prints JSON. It does not write memories or change `~/.mem0/config.json`.
 
-2026-05-26 blocker: the wrapper exposes
-`score_plus_created_at_rank_close_margin`, but live smoke is blocked until local
-Ollama is responsive again. Current evidence is recorded in
+2026-05-26 blocker, superseded: the wrapper exposed
+`score_plus_created_at_rank_close_margin`, but live smoke was blocked until
+local Ollama recovered. Historical blocker evidence is recorded in
 `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-blocked-20260526.md`.
 
 2026-05-26 update: live read-only wrapper smoke passed after starting Ollama
@@ -116,7 +129,7 @@ scripts/start_mem0_ollama.sh
 Then run the wrapper command above. Evidence is recorded in
 `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md`.
 
-This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to expand the suite and compare:
+This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to compare:
 
 - vector-only ordering
 - `score_plus_created_at_rank_close_margin`

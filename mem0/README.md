@@ -17,7 +17,7 @@ The current working setup is:
 | Collection | `mem0_nomic_768` |
 | Embedder | `nomic-embed-text:latest` through Ollama |
 | Extraction / LLM | `sam860/LFM2:2.6b` through Ollama |
-| Storage | `~/.mem0`, with Ollama models SSD-backed under `/Volumes/PortableSSD/Ollama/models` |
+| Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
 

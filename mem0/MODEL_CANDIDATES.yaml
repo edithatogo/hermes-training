@@ -1,7 +1,7 @@
 # Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
 project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
 latest_release_recheck: "2026-05-26: Hugging Face metadata refresh found newer Mac/retrieval candidates including jinaai/jina-embeddings-v5-omni-small-mlx, Qwen3 reranker ONNX/GGUF variants, BAAI bge-reranker-v2-m3 MLX builds, and recent Qwen3.6 GGUF packages. Keep BGE-M3 and the margin-gated read wrapper as the validated local mem0 path; treat new candidates as acquisition/load-proof targets."
-latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU/MPS-smoked from the SSD cache at 1024 dims. On the expanded 12-case suite BGE-M3 CPU reached top-1 0.917 / recall@3 1.000 but still missed the current-vs-old preference case. A BGE-derived margin-gated recency reranker reached 1.000. Live read-only mem0 wrapper smoke with score_plus_created_at_rank_close_margin passed in 2.873s from the clean SSD Ollama root. The same clean root now contains sam860/LFM2:2.6b and nomic-embed-text:latest; LFM2 clean-root extraction smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
+latest_local_benchmark: "2026-05-26: BGE-M3 dense retrieval reached top-1 0.917 / recall@3 1.000 on the expanded 12-case suite; nomic reached top-1 0.833 / recall@3 1.000 from the clean SSD Ollama root. score_plus_created_at_rank_close_margin reached 1.000 on BGE-derived reranking and 0.917 on nomic-derived reranking. Keep nomic as the default rollback embedder, keep BGE-M3 side-by-side, and use the margin-gated wrapper as the validated next read path. LFM2 clean-root extraction smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
 current_default:
   vector_store: qdrant
   collection: mem0_nomic_768
@@ -21,7 +21,7 @@ candidates:
     embedding_dims: 768
     status: working-default
     first_gate: add-search-smoke
-    notes: "Current stable local baseline. Keep as rollback target while testing stronger embedders."
+    notes: "Current stable local baseline. Keep as rollback target while testing stronger embedders. 2026-05-26 expanded suite: top-1 0.833 / recall@3 1.000, p50 0.021s; close-margin rerank reached 0.917."
 
   - id: BAAI/bge-m3
     role: embedder
@@ -108,7 +108,7 @@ candidates:
     embedding_dims: null
     status: live-read-wrapper-smoked
     first_gate: rerank-smoke
-    notes: "Offline and fixed-suite prototype. score_plus_created_at_rank_close_margin with weight 0.20 reached 1.000 on the BGE-derived expanded suite by fixing close recency conflicts without over-promoting large-margin newer distractors. Use through read-only wrapper first; compare against learned rerankers before live default integration."
+    notes: "Offline and fixed-suite prototype. score_plus_created_at_rank_close_margin with weight 0.20 reached 1.000 on the BGE-derived expanded suite and 0.917 on the nomic-derived expanded suite by fixing close recency conflicts without over-promoting large-margin newer distractors. Use through read-only wrapper first; compare against learned rerankers before live default integration."
 
   - id: LiquidAI/LFM2-ColBERT-350M
     role: retriever

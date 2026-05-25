@@ -23,6 +23,11 @@ runtime endpoint against the current mem0 default.
 | [extraction-hermes3-8b-expanded-examples-20260524](./extraction-hermes3-8b-expanded-examples-20260524.md) | extractor | keep testing |
 | [extraction-lfm2-2-6b-prompt-file-20260524](./extraction-lfm2-2-6b-prompt-file-20260524.md) | extractor | keep testing |
 | [extraction-lfm2-2-6b-clean-root-20260526](./extraction-lfm2-2-6b-clean-root-20260526.md) | extractor | keep testing |
+| [embedding-nomic-expanded-20260526](./embedding-nomic-expanded-20260526.md) | embedder | keep testing |
+| [nomic-expanded-vector-rerank-20260526](./nomic-expanded-vector-rerank-20260526.md) | reranker baseline | keep testing |
+| [nomic-expanded-created-at-rank-20260526](./nomic-expanded-created-at-rank-20260526.md) | reranker baseline | keep testing |
+| [nomic-expanded-lexical-rerank-20260526](./nomic-expanded-lexical-rerank-20260526.md) | reranker baseline | keep testing |
+| [nomic-expanded-close-margin-rerank-20260526](./nomic-expanded-close-margin-rerank-20260526.md) | reranker candidate | keep testing |
 
 ## Generate
 

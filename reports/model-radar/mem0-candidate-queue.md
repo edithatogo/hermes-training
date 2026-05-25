@@ -20,18 +20,18 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | Priority | Candidate | Role | Status | First runtime | First gate | Blocker / note |
 |---:|---|---|---|---|---|---|
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
-| 2 | `sam860/LFM2:2.6b` | extractor | working-default | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 3 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | margin-gated wrapper passed live read smoke; keep read-only |
-| 5 | `BAAI/bge-m3` | embedder | benchmarked-not-promoted | sentence-transformers | mteb-retrieval-smoke | CPU/MPS smokes passed; expanded suite top-1 0.917 / recall@3 1.000 |
-| 6 | `Qwen/Qwen3-Reranker-0.6B-ONNX` | reranker | candidate | onnxruntime | rerank-smoke | smaller 2026-05-26 candidate before the 4B reranker |
-| 7 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | fresh fp16/8-bit MLX builds visible; Apple Silicon candidate |
-| 8 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 9 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | large download and memory-footprint proof required |
-| 10 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | Mac-first embedding candidate from 2026-05-26 refresh |
+| 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
+| 3 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
+| 4 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
+| 5 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
+| 6 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
+| 7 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 8 | `Qwen/Qwen3-Reranker-0.6B-ONNX` | reranker | candidate | onnxruntime | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 10 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 11 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
-| 12 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
-| 13 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
+| 12 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
+| 13 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
 
 ## Candidate Commands
 
@@ -52,8 +52,8 @@ source scripts/env.sh
 ### sam860/LFM2:2.6b
 
 - Role: `extractor`
-- Status: `working-default`
-- Blocker: baseline; keep as rollback and compare only
+- Status: `working-default-clean-root-smoked`
+- Blocker: baseline recovered in clean SSD Ollama root; keep as rollback and compare only
 
 ```bash
 source scripts/env.sh
@@ -62,6 +62,55 @@ source scripts/env.sh
   --base-url http://127.0.0.1:11434/v1 \
   --suite benchmarks/mem0_extraction/smoke_suite.json \
   --run-id extraction-sam860-lfm2-2-6b-$(date +%Y%m%d-%H%M%S)
+```
+
+### mem0-created-at-rank-reranker
+
+- Role: `reranker`
+- Status: `live-read-wrapper-smoked`
+- Blocker: live read-only wrapper smoke passed; keep read-only until broader coverage
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_rerank_search.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --strategy score_plus_created_at_rank_close_margin \
+  --recency-weight 0.20 \
+  --timeout-s 60
+```
+
+### BAAI/bge-m3
+
+- Role: `embedder`
+- Status: `benchmarked-cpu-mps-not-promoted`
+- Blocker: benchmarked but not promoted; keep separate collection or artifact
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device mps \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-baai-bge-m3-$(date +%Y%m%d-%H%M%S)
+```
+
+### NousResearch/Hermes-4-14B
+
+- Role: `extractor`
+- Status: `runtime-proof-needed`
+- Blocker: needs local artifact or endpoint proof
+
+```bash
+source scripts/env.sh
+# First create or load a local runtime artifact for this model.
+# Then expose it through an OpenAI-compatible /v1/chat/completions endpoint.
+# After endpoint proof, run:
+./.venv/bin/python scripts/run_openai_memory_extraction_benchmark.py \
+  --model <local-model-id> \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/mem0_extraction/smoke_suite.json \
+  --run-id extraction-nousresearch-hermes-4-14b-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### hermes3:8b
@@ -79,6 +128,40 @@ source scripts/env.sh
   --run-id extraction-hermes3-8b-$(date +%Y%m%d-%H%M%S)
 ```
 
+### BAAI/bge-reranker-v2-m3-mlx
+
+- Role: `reranker`
+- Status: `candidate`
+- Blocker: requires model acquisition/load proof; fixed-candidate harness is ready
+
+```bash
+source scripts/env.sh
+# First install optional reranker deps if needed.
+python -m pip install -r requirements-mem0-rerankers.txt
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy cross_encoder \
+  --model BAAI/bge-reranker-v2-m3-mlx \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-baai-bge-reranker-v2-m3-mlx-$(date +%Y%m%d-%H%M%S)
+```
+
+### Qwen/Qwen3-Reranker-0.6B-ONNX
+
+- Role: `reranker`
+- Status: `candidate`
+- Blocker: requires model acquisition/load proof; fixed-candidate harness is ready
+
+```bash
+source scripts/env.sh
+# First install optional reranker deps if needed.
+python -m pip install -r requirements-mem0-rerankers.txt
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy cross_encoder \
+  --model Qwen/Qwen3-Reranker-0.6B-ONNX \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-qwen-qwen3-reranker-0-6b-onnx-$(date +%Y%m%d-%H%M%S)
+```
+
 ### Qwen/Qwen3-Reranker-4B
 
 - Role: `reranker`
@@ -94,37 +177,6 @@ python -m pip install -r requirements-mem0-rerankers.txt
   --model Qwen/Qwen3-Reranker-4B \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
   --run-id rerank-qwen-qwen3-reranker-4b-$(date +%Y%m%d-%H%M%S)
-```
-
-### mem0-created-at-rank-reranker
-
-- Role: `reranker`
-- Status: `candidate`
-- Blocker: none recorded
-
-```bash
-source scripts/env.sh
-./.venv/bin/python scripts/run_mem0_memory_benchmark.py \
-  --tool cmd \
-  --suite benchmarks/mem0_memory/recency_suite.json \
-  --rerank-strategy score_plus_created_at_rank \
-  --recency-weight 0.20 \
-  --run-id mem0-mem0-created-at-rank-reranker-$(date +%Y%m%d-%H%M%S)
-```
-
-### BAAI/bge-m3
-
-- Role: `embedder`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof and memory-footprint check
-
-```bash
-source scripts/env.sh
-./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
-  --model BAAI/bge-m3 \
-  --device mps \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-baai-bge-m3-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### Qwen/Qwen3-Embedding-4B
@@ -157,6 +209,17 @@ source scripts/env.sh
   --run-id embedding-jinaai-jina-embeddings-v4-$(date +%Y%m%d-%H%M%S)
 ```
 
+### jinaai/jina-embeddings-v5-omni-small-mlx
+
+- Role: `embedder`
+- Status: `candidate`
+- Blocker: verify embedding dimension before creating collection
+
+```bash
+source scripts/env.sh
+# No default command yet.
+```
+
 ### LiquidAI/LFM2-ColBERT-350M
 
 - Role: `retriever`
@@ -167,22 +230,4 @@ source scripts/env.sh
 source scripts/env.sh
 # Build a separate retriever service/index before benchmarking.
 # Do not reuse the dense Qdrant collection for late-interaction vectors.
-```
-
-### NousResearch/Hermes-4-14B
-
-- Role: `extractor`
-- Status: `runtime-proof-needed`
-- Blocker: needs local artifact or endpoint proof
-
-```bash
-source scripts/env.sh
-# First create or load a local runtime artifact for this model.
-# Then expose it through an OpenAI-compatible /v1/chat/completions endpoint.
-# After endpoint proof, run:
-./.venv/bin/python scripts/run_openai_memory_extraction_benchmark.py \
-  --model <local-model-id> \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/mem0_extraction/smoke_suite.json \
-  --run-id extraction-nousresearch-hermes-4-14b-$(date +%Y%m%d-%H%M%S)
 ```

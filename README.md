@@ -143,7 +143,10 @@ Fallbacks:
 
 ## Publication Status
 
-GitHub remotes exist for the hub and current tracks. Hugging Face repos are planned and should be created by the updated `push_to_hf.sh` scripts only after adapters and dataset cards exist.
+The hub GitHub repo is public. Track repos such as `hermes-gemma-lab`,
+`hermes-lfm2-lab`, and `hermes-ollama-pack` may remain private while their
+artifacts are still experimental. Hugging Face repos should be created only
+after adapters or datasets have complete cards and approval records.
 
 Adapter publication also requires a strict `1.000` pass on the held-out local tool-call suite at `benchmarks/tool_call_local/heldout_suite.json`. The mirrored suite at `benchmarks/tool_call_local/suite.json` overlaps the current strict seed and is only a regression check.
 
@@ -151,15 +154,15 @@ Current public strict-gate adapter: `qwen3-4b-strict-toolcall-v4-targeted` passe
 
 Do not promote the follow-on `qwen3-4b-strict-toolcall-v5-pilot-polish` adapter. It improved the local BFCL-style pilot to `1.000`, but held-out strict local tool-call pass rate regressed to `0.875`; its negative result is recorded in [`reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/run-card.md`](./reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/run-card.md).
 
-Planned Hugging Face repos:
+Current and planned Hugging Face repos:
 
-| Repo | Contents |
-|---|---|
-| `edithatogo/hermes-training-data` | Shared JSONL train/val/test dataset |
-| `edithatogo/gemma4-e4b-hermes-lora` | Gemma-family LoRA adapter |
-| `edithatogo/lfm2-8b-hermes-lora` | LFM2 LoRA adapter |
-| `edithatogo/ministral-8b-hermes-lora` | Ministral LoRA adapter |
-| `edithatogo/qwen3-4b-hermes-lora` | Qwen3 LoRA adapter |
+| Repo | Contents | Status |
+|---|---|---|
+| `edithatogo/qwen3-4b-hermes-lora` | Qwen3 LoRA adapter | public experimental adapter |
+| `edithatogo/hermes-training-data` | Shared JSONL train/val/test dataset | blocked pending separate approval |
+| `edithatogo/gemma4-e4b-hermes-lora` | Gemma-family LoRA adapter | planned |
+| `edithatogo/lfm2-8b-hermes-lora` | LFM2 LoRA adapter | planned |
+| `edithatogo/ministral-8b-hermes-lora` | Ministral LoRA adapter | planned |
 
 ## Maintenance
 

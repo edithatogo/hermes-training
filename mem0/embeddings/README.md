@@ -68,3 +68,17 @@ path unless they are first exposed through a local OpenAI-compatible embedding
 server.
 
 This benchmark is intentionally small. It is useful for quick regression checks and candidate triage; it is not a publication-quality retrieval score.
+
+## Current Expanded Comparison
+
+The 2026-05-26 expanded suite keeps `nomic-embed-text:latest` as the default
+rollback embedder:
+
+| Model | Dims | Top-1 | Recall@3 | p50 latency | Decision |
+|---|---:|---:|---:|---:|---|
+| `nomic-embed-text:latest` | 768 | 0.833 | 1.000 | 0.021s | keep default |
+| `BAAI/bge-m3` | 1024 | 0.917 | 1.000 | 0.097s | side-by-side only |
+
+Do not switch the live mem0 collection from `mem0_nomic_768` until a candidate
+beats the expanded suite and has a larger live-read gate. BGE-M3 remains useful
+for comparison, but its 1024-dimensional vectors require `mem0_bge_m3_1024`.

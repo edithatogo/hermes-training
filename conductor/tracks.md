@@ -192,3 +192,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 LFM2 Clean-Root Extraction Smoke
 *Link: [./tracks/mem0-lfm2-clean-root-smoke_20260526/](./tracks/mem0-lfm2-clean-root-smoke_20260526/)*
+
+---
+
+## [x] Track: Nomic Expanded Retrieval and Reranker Replay
+*Link: [./tracks/nomic-expanded-retrieval_20260526/](./tracks/nomic-expanded-retrieval_20260526/)*
