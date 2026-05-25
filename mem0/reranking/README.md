@@ -94,11 +94,16 @@ source scripts/env.sh
 ./.venv/bin/python scripts/mem0_rerank_search.py \
   "What is the active mem0 Qdrant collection?" \
   --tool cmd \
-  --strategy score_plus_created_at_rank \
+  --strategy score_plus_created_at_rank_close_margin \
   --recency-weight 0.20
 ```
 
 This calls `mem0 <tool> search`, reranks the returned JSON locally, and prints JSON. It does not write memories or change `~/.mem0/config.json`.
+
+2026-05-26 blocker: the wrapper exposes
+`score_plus_created_at_rank_close_margin`, but live smoke is blocked until local
+Ollama is responsive again. Current evidence is recorded in
+`reports/benchmark/mem0/mem0-margin-rerank-live-smoke-blocked-20260526.md`.
 
 This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to expand the suite and compare:
 

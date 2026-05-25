@@ -40,7 +40,13 @@ def main() -> int:
     parser.add_argument("--tool", default="cmd")
     parser.add_argument(
         "--strategy",
-        choices=("vector", "score_plus_recency", "score_plus_created_at_rank", "benchmark_order"),
+        choices=(
+            "vector",
+            "score_plus_recency",
+            "score_plus_created_at_rank",
+            "score_plus_created_at_rank_close_margin",
+            "benchmark_order",
+        ),
         default="score_plus_created_at_rank",
     )
     parser.add_argument("--recency-weight", type=float, default=0.20)

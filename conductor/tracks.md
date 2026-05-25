@@ -182,3 +182,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: BGE-M3 Expanded Retrieval Benchmark
 *Link: [./tracks/bge-m3-expanded-retrieval_20260526/](./tracks/bge-m3-expanded-retrieval_20260526/)*
+
+---
+
+## [~] Track: mem0 Margin Rerank Live Smoke
+*Link: [./tracks/mem0-margin-rerank-live-smoke_20260526/](./tracks/mem0-margin-rerank-live-smoke_20260526/)*
