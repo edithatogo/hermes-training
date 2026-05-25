@@ -121,8 +121,9 @@ Nomic expanded replay:
 The close-margin strategy also improves the default nomic path without touching
 `mem0_nomic_768`. It leaves one direct semantic miss (`ollama-retest`) for a
 future embedder or learned reranker. The Qwen3 0.6B causal-LM reranker closes
-that miss in offline fixed-candidate replay, but it is not wired into live
-mem0 reads yet.
+that miss in offline fixed-candidate replay and now has a live read-only wrapper
+smoke, but it is not ready to become the default live read path because one-shot
+CLI use still pays model load time.
 
 Live read-only wrapper:
 
@@ -153,11 +154,30 @@ scripts/start_mem0_ollama.sh
 Then run the wrapper command above. Evidence is recorded in
 `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md`.
 
+Qwen3 learned reranker live wrapper:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_rerank_search.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --timeout-s 90
+```
+
+2026-05-26 result: exit code `0`, one returned memory, mem0 search latency
+`2.894s`, Qwen3 scoring latency `0.424s`, and one-shot total latency `13.413s`.
+Evidence is recorded in
+`reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md`.
+
 This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to compare:
 
 - vector-only ordering
 - `score_plus_created_at_rank_close_margin`
-- a learned/local reranker such as `Qwen/Qwen3-Reranker-4B`
+- a warm-service learned/local reranker such as `Qwen/Qwen3-Reranker-0.6B`
+  or `Qwen/Qwen3-Reranker-4B`
 - conflict-aware memory update/supersession metadata
 
 Optional reranker dependencies are intentionally separate from the base repo

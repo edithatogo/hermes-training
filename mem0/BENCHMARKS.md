@@ -234,6 +234,24 @@ source scripts/env.sh
   --recency-weight 0.20
 ```
 
+Run the learned Qwen3 0.6B reranker against the same live mem0 search output:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_rerank_search.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --timeout-s 90
+```
+
+2026-05-26 live smoke: exit code `0`, one returned memory, mem0 search latency
+`2.894s`, Qwen3 scoring latency `0.424s`, one-shot total latency `13.413s`.
+Keep this as a candidate wrapper until a warm local service removes repeated
+model-load overhead.
+
 Run an Ollama memory-extraction smoke test:
 
 ```bash
