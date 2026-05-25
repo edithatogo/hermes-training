@@ -147,3 +147,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Model radar and runtime refresh
 *Link: [./tracks/model-radar-runtime-refresh_20260526/](./tracks/model-radar-runtime-refresh_20260526/)*
+
+---
+
+## [x] Track: Official benchmark environment smoke
+*Link: [./tracks/official-benchmark-env-smoke_20260526/](./tracks/official-benchmark-env-smoke_20260526/)*

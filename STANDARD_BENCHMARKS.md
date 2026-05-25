@@ -62,6 +62,12 @@ MTEB, HumanEval, and EvalPlus. Use
 `/Volumes/PortableSSD/hermes-training-envs/bfcl-py312` for official BFCL because
 its `tree_sitter` pin conflicts with EvalPlus.
 
+The latest environment smoke report is:
+
+```text
+reports/benchmark/manifests/official-benchmark-env-smoke-20260526.md
+```
+
 ## lm-evaluation-harness Starter
 
 Use `lm-eval` for common academic baselines. Record the exact command, task names, model args, seeds, and harness commit/version.
