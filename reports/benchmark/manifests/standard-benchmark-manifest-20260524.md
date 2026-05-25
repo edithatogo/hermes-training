@@ -55,6 +55,7 @@ The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-tool
 
 ## Command Manifests
 
+- `reports/benchmark/manifests/official-benchmark-env-20260525.md`
 - `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
 - `reports/benchmark/manifests/bfcl-pilot-command-20260524.md`
 - `reports/benchmark/manifests/ifeval-pilot-command-20260524.md`
