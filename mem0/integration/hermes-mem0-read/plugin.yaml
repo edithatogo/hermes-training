@@ -1,0 +1,7 @@
+name: hermes-mem0-read
+version: 0.1.0
+description: "Register the local hermes_mem0_read tool backed by the hermes-training mem0 read wrapper."
+author: local
+kind: standalone
+provides_tools:
+  - hermes_mem0_read

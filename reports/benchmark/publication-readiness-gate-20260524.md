@@ -47,6 +47,12 @@ Before public Hugging Face publication:
 4. Azure results, if used, must be synced back to `/Volumes/PortableSSD` with job logs and artifact paths.
 5. Generated artifacts must stay out of Git unless deliberately lightweight and reviewed.
 
+The current machine-readable coverage report is
+`reports/benchmark/standard-coverage/qwen3-v4-targeted-standard-coverage-20260526.md`.
+It records the v4 adapter as local-gate ready with pilot-only benchmark support,
+while full official BFCL, lm-eval, coding, safety, and RULER candidate suites
+remain missing for broad benchmark claims.
+
 ## Report Template
 
 Each publishable benchmark report should use this structure:

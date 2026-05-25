@@ -19,16 +19,16 @@
 
 ## Phase 2 - Lane A Local Hermes Strict Tool-Call
 
-- [ ] Task: Define local strict tool-call tiers.
+- [x] Task: Define local strict tool-call tiers.
     - [x] Specify smoke, heldout, and full tiers with expected runtime, dataset path, prompts, parser settings, and output schema.
     - [x] Distinguish raw strict scores from runtime-normalized scores.
     - [x] Define minimum evidence for runtime proof versus publication-ready benchmark evidence.
-- [ ] Task: Define local runtime matrix.
+- [x] Task: Define local runtime matrix.
     - [x] Include Hermes-compatible local runtime, OpenAI-compatible endpoint, normalization wrapper, prompt format, context length, and sampling settings.
     - [x] Record command manifests and environment variables without launching expensive runs.
     - [x] Require SSD output roots for raw completions, normalized completions, parser diagnostics, and scorecards.
     - [x] Record first endpoint baselines for Ollama Hermes3, Ollama LFM2, and llama.cpp Qwen3 Q4_K_M.
-- [ ] Task: Define local pass/fail gates.
+- [x] Task: Define local pass/fail gates.
     - [x] Fail publication if strict tool-call behavior is materially broken for an agent-positioned model.
     - [x] Require failure examples and parser diagnostics for any residual failures.
     - [x] Require reviewer sign-off before local results are used in model-card claims.
@@ -36,16 +36,16 @@
 
 ## Phase 3 - Lane B IFEval, BFCL, Coding, And lm-eval
 
-- [ ] Task: Define standardized suite manifests.
+- [x] Task: Define standardized suite manifests.
     - [x] Create manifest expectations for IFEval, BFCL, coding benchmarks, and lm-eval tasks.
     - [x] Capture dataset version, task subset, prompt format, scoring command, output schema, and expected artifacts for each suite.
     - [x] Mark full execution as a future gated action, not a setup action.
-- [ ] Task: Define cheap per-suite readiness checks.
+- [x] Task: Define cheap per-suite readiness checks.
     - [x] IFEval: validate config, prompt template, output schema, and score parser availability.
     - [x] BFCL: validate tool schema sources, generation format, parser expectations, and result-card schema.
     - [x] Coding: validate task source, sandbox assumptions, timeout policy, and result normalization fields.
     - [x] lm-eval: validate task list, model adapter invocation, batch-size policy, and output path.
-- [ ] Task: Define score normalization and comparability rules.
+- [x] Task: Define score normalization and comparability rules.
     - [x] Preserve raw suite outputs alongside normalized summaries.
     - [x] Record benchmark harness version and repository commit for every future run.
     - [x] Require rerun notes when local and Azure results are compared.
@@ -125,4 +125,5 @@
 - Endpoint baselines: `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md` records `hermes3:8b` via Ollama at strict held-out `0.250`; `reports/benchmark/endpoint-tool-call/lfm2-2-6b-ollama-heldout-20260524.md` records `sam860/LFM2:2.6b` via Ollama at `0.250`; `reports/benchmark/endpoint-tool-call/qwen3-q4km-llamacpp-heldout-20260524.md` records the SSD-backed Qwen3 Q4_K_M GGUF via llama.cpp at `0.375`.
 - Endpoint pilots: `reports/benchmark/endpoint-pilots/qwen3-q4km-llamacpp-pilots-20260524.md` records BFCL-style `0.333`, IFEval-style `0.667`, and coding sanity `1.000` for the Qwen3 Q4_K_M llama.cpp endpoint with `/no_think`.
 - Publication gate: `reports/benchmark/publication-readiness-gate-20260524.md` records the evidence-pack requirement, current local scores, and no-publish decision.
+- Coverage gate: `reports/benchmark/standard-coverage/qwen3-v4-targeted-standard-coverage-20260526.md` records the current v4 adapter as local-gate ready, pilot-only for benchmark positioning, public-release blocked, and missing full official BFCL/lm-eval/coding/safety/RULER candidate suites.
 - Remaining gap: full execution remains gated on runtime stability, local/SSD artifacts, useful Azure quota, and explicit approval for any paid or long-running jobs. The setup plan itself clears the 9.5 health target.

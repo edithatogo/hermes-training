@@ -1,0 +1,122 @@
+{
+  "run_id": "qwen3-v4-targeted-standard-coverage-20260526",
+  "created_at": "2026-05-25T18:14:38.175256+00:00",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "status": "pilot-only",
+  "local_adapter_gate_ready": true,
+  "public_release_blocked": true,
+  "official_candidate_missing": [
+    "official-bfcl",
+    "lm-eval-selected",
+    "official-coding",
+    "safety-refusal",
+    "ruler-long-context"
+  ],
+  "counts": {
+    "passed": 1,
+    "present": 4,
+    "blocked": 1,
+    "missing": 5
+  },
+  "items": [
+    {
+      "suite": "local-heldout-strict-tool-call",
+      "tier": "candidate-local",
+      "status": "passed",
+      "evidence": "reports/benchmark/publication-readiness-gate-20260524.md",
+      "metric": "strict held-out pass 1.000",
+      "notes": "Required Hermes-agent publication gate under the recorded Qwen runtime prefill condition.",
+      "required_for": "local adapter publication claim"
+    },
+    {
+      "suite": "local-bfcl-style-pilot",
+      "tier": "pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md",
+      "metric": "BFCL-style pilot 0.667",
+      "notes": "Repo-native pilot only; not an official BFCL score.",
+      "required_for": "pilot-only model card positioning"
+    },
+    {
+      "suite": "local-ifeval-style-pilot",
+      "tier": "pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md",
+      "metric": "IFEval-style pilot 0.667",
+      "notes": "Repo-native prompt subset only; official IFEval is tracked separately.",
+      "required_for": "pilot-only model card positioning"
+    },
+    {
+      "suite": "local-coding-sanity-pilot",
+      "tier": "pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md",
+      "metric": "coding sanity pilot 1.000",
+      "notes": "Small local coding sanity set; not HumanEval, MBPP, BigCodeBench, or LiveCodeBench.",
+      "required_for": "pilot-only model card positioning"
+    },
+    {
+      "suite": "official-ifeval-pilot",
+      "tier": "official-pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/official-ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526.md",
+      "metric": "prompt strict 0.760",
+      "notes": "Official harness path is proven with a 25-sample limit; not a leaderboard score.",
+      "required_for": "official harness readiness"
+    },
+    {
+      "suite": "publication-bundle",
+      "tier": "release-gate",
+      "status": "blocked",
+      "evidence": "reports/publication/qwen3-4b-strict-toolcall-v4-targeted/publish-readiness-checklist.md",
+      "metric": "local quality gates checked; public release gates remain blocked",
+      "notes": "Dataset/model publication still needs explicit approval and final public-release gates.",
+      "required_for": "public Hugging Face release"
+    },
+    {
+      "suite": "official-bfcl",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "",
+      "metric": "",
+      "notes": "Official BFCL remains future work; local BFCL-style pilot is not a substitute.",
+      "required_for": "broad tool-calling benchmark claim"
+    },
+    {
+      "suite": "lm-eval-selected",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "",
+      "metric": "",
+      "notes": "No MMLU/ARC/HellaSwag/TruthfulQA/GSM8K scorecard is recorded for this adapter.",
+      "required_for": "general benchmark claim"
+    },
+    {
+      "suite": "official-coding",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "",
+      "metric": "",
+      "notes": "No HumanEval/MBPP/EvalPlus/BigCodeBench/LiveCodeBench scorecard is recorded.",
+      "required_for": "coding benchmark claim"
+    },
+    {
+      "suite": "safety-refusal",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "",
+      "metric": "",
+      "notes": "No XSTest/SimpleSafetyTests/HarmBench subset scorecard is recorded.",
+      "required_for": "safety/refusal claim"
+    },
+    {
+      "suite": "ruler-long-context",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "",
+      "metric": "",
+      "notes": "No RULER staged-context scorecard is recorded.",
+      "required_for": "long-context claim"
+    }
+  ]
+}

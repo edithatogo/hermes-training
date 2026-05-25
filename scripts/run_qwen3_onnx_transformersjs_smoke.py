@@ -205,7 +205,7 @@ def main() -> int:
     parser.add_argument("--run-id")
     parser.add_argument("--install", action="store_true")
     parser.add_argument("--npm-package", default=DEFAULT_NPM_PACKAGE)
-    parser.add_argument("--device", default="cpu", choices=("cpu", "webgpu"))
+    parser.add_argument("--device", default="cpu", choices=("cpu", "coreml", "webgpu"))
     parser.add_argument("--dtype", default="q4", choices=("q4", "q8", "fp32", "fp16"))
     parser.add_argument("--max-length", type=int, default=8192)
     parser.add_argument("--limit-cases", type=int, default=1)

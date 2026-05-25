@@ -57,6 +57,14 @@ The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-tool
 
 `reports/benchmark/publication-readiness-gate-20260524.md`
 
+The standard benchmark coverage gate for the same adapter is:
+
+`reports/benchmark/standard-coverage/qwen3-v4-targeted-standard-coverage-20260526.md`
+
+This coverage gate is machine-readable and explicitly separates local strict
+evidence, repo-native pilots, official pilot evidence, public-release blockers,
+and missing official candidate suites.
+
 ## Command Manifests
 
 - `reports/benchmark/manifests/official-benchmark-env-20260525.md`

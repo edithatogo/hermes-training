@@ -57,7 +57,7 @@ async function main() {
   const suitePath = required(args, "suite");
   const modelId = args.model_id || "onnx-community/Qwen3-Reranker-0.6B-ONNX";
   const dtype = args.dtype || "q4";
-  const device = args.device || "wasm";
+  const device = args.device || "cpu";
   const maxLength = Number.parseInt(args.max_length || "8192", 10);
   const limitCases = Number.parseInt(args.limit_cases || "1", 10);
   const instruction = args.instruction || "Retrieve relevant memory";

@@ -90,6 +90,18 @@ class Qwen3OnnxTransformersJsSmokeTests(unittest.TestCase):
         self.assertFalse(output_root.is_relative_to(REPO_ROOT), output_root)
         self.assertEqual(repo_node_modules.exists(), existed_before)
 
+    def test_dry_run_accepts_coreml_device(self) -> None:
+        result = run_runner(
+            "--dry-run",
+            "--device",
+            "coreml",
+            "--run-id",
+            "qwen3-onnx-coreml-test",
+        )
+
+        self.assertEqual(result.returncode, 0, msg=f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}")
+        self.assertIn('"device": "coreml"', result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

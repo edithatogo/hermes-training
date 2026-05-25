@@ -39,6 +39,10 @@ attempt failed because this Transformers.js Node runtime does not support
 `wasm`; the CPU retry with `max_length=512` then timed out after `180.0s`
 before completing even one fixed-suite case.
 
+The bridge wrapper now accepts `--device coreml` for a later macOS-specific
+retry if the installed Transformers.js build exposes that backend. The default
+remains `cpu` because it is the portable fail-closed path.
+
 ## Decision
 
 Do not promote the ONNX reranker. The Python source-model scorer remains the
