@@ -7,7 +7,7 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | Candidate | Lane | First Runtime | Decision State | Next Action | Publication State |
 |---|---|---|---|---|---|
 | `Qwen/Qwen3-4B-MLX-4bit` v4 targeted LoRA | Mac-local fine-tune | MLX local generation/server | publishable narrow adapter candidate | Keep v4 as current strict Hermes tool-call adapter; broader claims need official benchmarks | public adapter approved, dataset separate |
-| `LiquidAI/LFM2.5-1.2B-Instruct` | Mac-local fine-tune | MLX / llama.cpp | watchlist after response-collapse failure | Safer recipe only after candidate selection | blocked |
+| `LiquidAI/LFM2.5-1.2B-Instruct` | Mac-local fine-tune | MLX / llama.cpp | runtime/load proof only | MLX server smoke passed, but direct eval quality remains non-compliant; use safer recipe only after candidate selection | blocked |
 | `LiquidAI/LFM2.5-1.2B-Thinking` | Mac-local fine-tune | MLX / llama.cpp | runtime-proof candidate | Run local Hermes smoke before training | blocked |
 | `Qwen/Qwen3.6-27B` | frontier runtime/teacher | Transformers / GGUF / MLX quant | runtime-proof candidate | Check local artifact or approved download plan | blocked |
 | `Qwen/Qwen3.6-35B-A3B` | frontier runtime/teacher | llama.cpp GGUF / KTransformers / Transformers | runtime-proven baseline | Keep as comparison/teacher candidate; strict Hermes tool-call score is `0.000` | runtime-only |

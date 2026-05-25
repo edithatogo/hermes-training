@@ -4,7 +4,7 @@
 updated: "2026-05-26"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-05-26: refreshed official/current sources. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 gained newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF and localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF. Treat these as runtime latency experiments behind the already-proven Qwen3.6 Q4_K_M baseline, not local fine-tune targets."
+latest_release_recheck: "2026-05-26: refreshed official/current sources. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 gained newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. Treat these as runtime latency experiments behind the already-proven Qwen3.6 Q4_K_M baseline, not local fine-tune targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -229,6 +229,19 @@ candidates:
     first_finetune: "defer"
     notes: "2026-05-26 refresh found this lower-memory MTP GGUF package. Model card positions it for single-GPU 24GB inference with a patched llama.cpp path. Treat as a runtime/latency experiment only."
 
+  - id: byteshape/Qwen3.6-35B-A3B-MTP-GGUF
+    family: qwen
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "35B total / 3B active"
+    architecture: "Sparse MoE Qwen3.6 with bundled MTP speculative-decoding head"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke with MTP flags"
+    first_finetune: "defer"
+    notes: "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. Treat as a runtime latency experiment only; do not acquire until it closes a concrete Qwen3.6 latency/quality gap."
+
   - id: LiquidAI/LFM2.5-1.2B-Instruct
     family: lfm
     tier: practical-finetune
@@ -260,13 +273,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: specialist-runtime
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "24B total / ~2B active"
     architecture: "LFM2 hybrid MoE-style architecture"
     license: "check model card"
-    first_runtime: "MLX-bf16, GGUF, ONNX, or Transformers after artifact-size and endpoint proof"
+    first_runtime: "llama.cpp GGUF baseline is runtime-proven; MLX-bf16, ONNX, or Transformers remain optional future proofs"
     first_finetune: "defer"
-    notes: "Live Hugging Face API refresh on 2026-05-24 found LiquidAI/LFM2-24B-A2B, LiquidAI/LFM2-24B-A2B-GGUF, LiquidAI/LFM2-24B-A2B-ONNX, NexaAI/LFM2-24B-A2B-GGUF, and LiquidAI/LFM2-24B-A2B-MLX-bf16. Treat as a high-priority LFM runtime experiment, not a first 32GB Mac fine-tune target."
+    notes: "Live Hugging Face API refresh on 2026-05-24 found LiquidAI/LFM2-24B-A2B, LiquidAI/LFM2-24B-A2B-GGUF, LiquidAI/LFM2-24B-A2B-ONNX, NexaAI/LFM2-24B-A2B-GGUF, and LiquidAI/LFM2-24B-A2B-MLX-bf16. The local Q4_K_M GGUF artifact is now acquired and runtime-proven through llama.cpp in `reports/runtime/lfm2-24b-a2b-q4-llamacpp-proof-20260525.md`, with strict held-out pass `0.375`; keep it as an LFM comparison/runtime lane, not a first 32GB Mac fine-tune or publication target."
 
   - id: LiquidAI/LFM2.5-350M
     family: lfm

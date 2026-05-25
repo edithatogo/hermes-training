@@ -251,6 +251,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_conductor_track_consistency.py",
         ROOT / "scripts/check_mem0_benchmark_evidence.py",
         ROOT / "scripts/check_specialist_runtime_preflight.py",
+        ROOT / "scripts/validate_official_benchmark_manifests.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],
@@ -325,6 +326,18 @@ def check_publication_bundles(failures: list[str]) -> None:
         ok("publication bundle qwen3-4b-strict-toolcall-v4-targeted")
 
 
+def check_official_benchmark_manifests(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_official_benchmark_manifests.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"official benchmark manifests: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("official benchmark manifests")
+
+
 def check_runtime_templates(failures: list[str]) -> None:
     for rel in (
         "templates/runtime/runtime-card.md",
@@ -384,6 +397,7 @@ def main() -> int:
     check_runtime_templates(failures)
     check_runtime_format_lanes(failures)
     check_publication_bundles(failures)
+    check_official_benchmark_manifests(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
 

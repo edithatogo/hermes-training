@@ -18,21 +18,33 @@ Run a small Berkeley Function Calling Leaderboard-style pilot for candidate Herm
 ```bash
 source scripts/env.sh
 RUN_ID=<model>-bfcl-pilot-<date>
-MODEL_ID=<runtime_model_id>
+MODEL_ID=<bfcl_registered_model_name>
 BASE_URL=http://127.0.0.1:<port>/v1
 OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/${RUN_ID}
 mkdir -p "$OUT"
 
-python -m bfcl_eval \
+LOCAL_SERVER_ENDPOINT="$BASE_URL" \
+LOCAL_SERVER_PORT="<port>" \
+/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate \
   --model "$MODEL_ID" \
-  --base-url "$BASE_URL" \
-  --category simple,multiple,parallel \
-  --limit 25 \
+  --test-category simple_python,multiple,parallel \
   --temperature 0 \
-  --output "$OUT/results.jsonl"
+  --skip-server-setup \
+  --result-dir "$OUT/results" \
+  --include-input-log
+
+/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate \
+  --model "$MODEL_ID" \
+  --test-category simple_python,multiple,parallel \
+  --result-dir "$OUT/results" \
+  --score-dir "$OUT/scores" \
+  --partial-eval
 ```
 
-If the installed BFCL package exposes a different CLI name, record the resolved command in the run card before execution.
+The installed BFCL package exposes a `bfcl` CLI with `generate` and `evaluate`
+subcommands. Keep the endpoint variables in the run card because `--skip-server-setup`
+uses `LOCAL_SERVER_ENDPOINT` and `LOCAL_SERVER_PORT` rather than a `--base-url`
+flag.
 
 ## Result Card Schema
 
@@ -42,11 +54,10 @@ If the installed BFCL package exposes a different CLI name, record the resolved 
   "suite": "bfcl-pilot",
   "model": "<runtime_model_id>",
   "base_url": "http://127.0.0.1:<port>/v1",
-  "categories": ["simple", "multiple", "parallel"],
-  "limit": 25,
+  "categories": ["simple_python", "multiple", "parallel"],
   "temperature": 0,
-  "raw_output": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/<run-id>/results.jsonl",
-  "normalized_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/<run-id>/summary.json",
+  "raw_output": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/<run-id>/results",
+  "normalized_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/<run-id>/scores",
   "accuracy": null,
   "invalid_json_rate": null,
   "schema_error_rate": null,

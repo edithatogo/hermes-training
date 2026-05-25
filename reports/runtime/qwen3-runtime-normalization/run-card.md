@@ -25,6 +25,15 @@ Strict benchmark results remain the model-quality gate. The diagnostic empty-thi
 - `scripts/openai_normalizing_proxy.py`
 - `ollama-pack/scripts/normalize_runtime_json.py`
 
+## 2026-05-26 lm-eval Bridge Extension
+
+`scripts/openai_normalizing_proxy.py` now also passes through
+`/v1/completions` and coerces integer OpenAI `logprobs` requests to boolean
+before forwarding to `mlx_lm.server`. This is a compatibility bridge for
+`lm_eval --model local-completions`; it does not synthesize loglikelihood
+scores and does not make any benchmark claim until a live lm-eval rerun records
+raw outputs and a score card.
+
 ## Validation
 
 ```bash

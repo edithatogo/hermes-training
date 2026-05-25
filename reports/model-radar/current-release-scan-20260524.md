@@ -110,6 +110,7 @@ Qwen3.6 GGUF packages with bundled MTP/self-speculative-decoding heads.
 |---|---|---|
 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | APEX GGUF packaging bundles the MTP head and describes `--draft-mtp` support with a recent/patched llama.cpp runtime. | Add as a runtime latency experiment only. |
 | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | IQ4_XS GGUF bundles the trunk plus NextN/MTP head and is positioned for 24GB-class inference with patched llama.cpp. | Add as a lower-memory runtime experiment only. |
+| `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | ByteShape GGUF packaging describes ShapeLearn quantization with the MTP head bundled and `--spec-type draft-mtp` guidance. | Add as a runtime latency experiment only; do not treat as a fine-tune target. |
 
 No official Qwen3.7 open-weight local model lane was verified in the same
 refresh.

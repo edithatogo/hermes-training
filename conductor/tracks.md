@@ -240,6 +240,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Standard Benchmark Coverage Gate
+*Link: [./tracks/standard-benchmark-coverage-gate_20260526/](./tracks/standard-benchmark-coverage-gate_20260526/)*
+
+---
+
 ## [x] Track: mem0 Hermes Runtime Tool
 *Link: [./tracks/mem0-hermes-runtime-tool_20260526/](./tracks/mem0-hermes-runtime-tool_20260526/)*
 

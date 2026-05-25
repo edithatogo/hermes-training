@@ -61,6 +61,17 @@ def normalize_chat_completion_payload(payload: dict[str, Any]) -> tuple[dict[str
     return payload, normalized_count
 
 
+def coerce_mlx_logprobs_request(payload: dict[str, Any]) -> tuple[dict[str, Any], int]:
+    """Coerce OpenAI-style integer logprobs to mlx_lm.server's boolean shape."""
+    if "logprobs" not in payload or isinstance(payload.get("logprobs"), bool):
+        return payload, 0
+    if isinstance(payload.get("logprobs"), int):
+        updated = dict(payload)
+        updated["logprobs"] = bool(payload["logprobs"])
+        return updated, 1
+    return payload, 0
+
+
 def upstream_url(upstream_base: str, request_path: str) -> str:
     """Map incoming OpenAI-compatible paths onto the upstream base URL."""
     route = request_path.split("?", 1)[0]
@@ -89,7 +100,8 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         self.proxy_request("GET")
 
     def do_POST(self) -> None:  # noqa: N802
-        if self.path.split("?", 1)[0] not in {"/v1/chat/completions", "/chat/completions"}:
+        route = self.path.split("?", 1)[0]
+        if route not in {"/v1/chat/completions", "/chat/completions", "/v1/completions", "/completions"}:
             self.send_error(HTTPStatus.NOT_FOUND, "unsupported route")
             return
         length = int(self.headers.get("Content-Length", "0"))
@@ -102,9 +114,13 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         if request_payload.get("stream") is True:
             self.send_error(HTTPStatus.BAD_REQUEST, "streaming responses are not normalized by this proxy")
             return
-        self.proxy_request("POST", body)
+        coerced_count = 0
+        if route in {"/v1/completions", "/completions"}:
+            request_payload, coerced_count = coerce_mlx_logprobs_request(request_payload)
+            body = json.dumps(request_payload).encode("utf-8")
+        self.proxy_request("POST", body, coerced_logprobs_count=coerced_count)
 
-    def proxy_request(self, method: str, body: bytes | None = None) -> None:
+    def proxy_request(self, method: str, body: bytes | None = None, coerced_logprobs_count: int = 0) -> None:
         headers = {
             key: value
             for key, value in self.headers.items()
@@ -145,6 +161,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                 self.send_header(key, value)
         self.send_header("Content-Length", str(len(content)))
         self.send_header("X-Hermes-Normalized-Empty-Think-Count", str(normalized_count))
+        self.send_header("X-Hermes-Coerced-Logprobs-Count", str(coerced_logprobs_count))
         self.end_headers()
         self.wfile.write(content)
 
@@ -182,6 +199,28 @@ class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
         self.send_payload({"data": [{"id": "qwen-test"}]})
 
     def do_POST(self) -> None:  # noqa: N802
+        if self.path == "/v1/completions":
+            length = int(self.headers.get("Content-Length", "0"))
+            request_payload = json.loads(self.rfile.read(length).decode("utf-8"))
+            if not isinstance(request_payload.get("logprobs"), bool):
+                self.send_payload({"error": "logprobs must be boolean"}, status=HTTPStatus.BAD_REQUEST)
+                return
+            self.send_payload(
+                {
+                    "choices": [
+                        {
+                            "text": " Paris",
+                            "logprobs": {
+                                "tokens": [" Paris"],
+                                "token_logprobs": [-0.01],
+                                "top_logprobs": [{" Paris": -0.01}],
+                                "text_offset": [0],
+                            },
+                        }
+                    ]
+                }
+            )
+            return
         if self.path != "/v1/chat/completions":
             self.send_error(HTTPStatus.NOT_FOUND)
             return
@@ -248,6 +287,20 @@ def run_self_test() -> None:
         if normalized_header != "1":
             raise AssertionError(f"unexpected normalization count: {normalized_header!r}")
 
+        completions_request = urllib.request.Request(
+            f"{proxy_base}/completions",
+            data=json.dumps({"model": "qwen-test", "prompt": "The capital of France is", "logprobs": 5}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(completions_request, timeout=5) as response:
+            completion = json.loads(response.read().decode("utf-8"))
+            coerced_header = response.headers["X-Hermes-Coerced-Logprobs-Count"]
+        if completion["choices"][0]["text"] != " Paris":
+            raise AssertionError(f"unexpected completions response: {completion!r}")
+        if coerced_header != "1":
+            raise AssertionError(f"unexpected logprobs coercion count: {coerced_header!r}")
+
         stream_request = urllib.request.Request(
             f"{proxy_base}/chat/completions",
             data=json.dumps({"model": "qwen-test", "messages": [], "stream": True}).encode("utf-8"),
@@ -295,6 +348,7 @@ def main() -> int:
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")
     print(f"upstream: {args.upstream}")
     print("streaming chat completions are rejected because SSE normalization is not implemented")
+    print("integer completions logprobs are coerced to boolean for mlx_lm.server compatibility")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -24,7 +24,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertEqual(queue_priority(candidate)[0], 2)
         self.assertEqual(
             blocker_for(candidate),
-            "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof",
+            "source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof",
         )
 
     def test_verified_mlx_reranker_records_harness_gap(self) -> None:

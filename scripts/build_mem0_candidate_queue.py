@@ -209,7 +209,7 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "benchmarked but not promoted; keep separate collection or artifact"
     if status == "source-model-benchmarked":
         if candidate.get("id") == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
-            return "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof"
+            return "source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof"
         return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
     if status == "candidate-runtime-id-verified" and role == "reranker" and runtime == "mlx":
         return "model repo verified; MLX load/scoring proof is ready before live mem0 integration"
