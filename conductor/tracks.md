@@ -167,3 +167,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 V4 clean dataset materialization
 *Link: [./tracks/qwen3-v4-clean-dataset-materialization_20260526/](./tracks/qwen3-v4-clean-dataset-materialization_20260526/)*
+
+---
+
+## [x] Track: Qwen3 V4 pilot failure analysis
+*Link: [./tracks/qwen3-v4-pilot-failure-analysis_20260526/](./tracks/qwen3-v4-pilot-failure-analysis_20260526/)*

@@ -112,6 +112,7 @@ Complete:
 - Azure preflight exists at `scripts/azure_preflight.py`; it passes for `d.a.mordaunt@gmail.com` on `Azure for Students`. Modern GPU quota is zero across sampled regions, so the Azure track is fail-closed until quota is approved.
 - Qwen3 v4 targeted is the current public/recommended strict Hermes tool-call adapter. It passes the held-out strict local tool-call suite at `1.000` with `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`; publication evidence is in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
 - Qwen3 v5 pilot-polish is a documented non-promotion result. It improved the local BFCL-style pilot to `1.000`, but held-out strict pass regressed to `0.875`; keep v4 as the recommended/public adapter.
+- V4/V5 pilot failure analysis is recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/pilot-failure-analysis-20260526.md`. Any v6 attempt must start from V4 and keep held-out strict pass at `1.000`.
 - The `ollama-pack` runtime packaging Conductor track is complete. It records current MLX, Ollama, GGUF/LM Studio, and blocked retest status without promoting unvalidated runtime surfaces.
 
 Current gaps:
@@ -138,8 +139,9 @@ Current gaps:
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the official benchmark environments are installed and smoke-verified.
 4. Publish no dataset until the cleaned synthetic-only dataset scope is explicitly approved and re-audited.
 5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
-6. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
-7. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
+6. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
+7. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
+8. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
 
 ## Key Files
 

@@ -40,6 +40,7 @@ Human approval was recorded on 2026-05-25 by the user instruction:
 - Redistribution review: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/redistribution-review.md`
 - Dataset publication scope: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-publication-scope.md`
 - Dataset card draft: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/hf-dataset-card-draft.md`
+- Pilot failure analysis: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/pilot-failure-analysis-20260526.md`
 - Local pilot report: `reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md`
 
 ## Quality Evidence
@@ -119,3 +120,5 @@ Hugging Face repository visibility.
    adapter track.
 4. Publish a cleaned synthetic-only dataset only after explicit human approval
    of `dataset-publication-scope.md`.
+5. For any v6 experiment, start from V4 and require held-out strict pass to stay
+   at `1.000` before considering pilot improvements.
