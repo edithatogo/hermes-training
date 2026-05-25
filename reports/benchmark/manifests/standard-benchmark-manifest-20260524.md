@@ -47,6 +47,10 @@ Each future run card must include:
 
 This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs, or new large model downloads.
 
+The official benchmark environments were later installed and smoke-verified on
+2026-05-26. That proves harness readiness only; it does not create official
+model scores.
+
 ## Publication Gate
 
 The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-toolcall-v4-targeted` under its recorded Qwen runtime prefill condition. Public adapter publication is approved with the current evidence pack and pilot-only benchmark positioning. The current gate record is:
@@ -56,6 +60,7 @@ The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-tool
 ## Command Manifests
 
 - `reports/benchmark/manifests/official-benchmark-env-20260525.md`
+- `reports/benchmark/manifests/official-benchmark-env-smoke-20260526.md`
 - `reports/benchmark/manifests/local-tool-call-heldout-command-20260524.md`
 - `reports/benchmark/manifests/bfcl-pilot-command-20260524.md`
 - `reports/benchmark/manifests/ifeval-pilot-command-20260524.md`
@@ -103,7 +108,7 @@ Repo-native endpoint pilots ran against the same Qwen3 4B Q4_K_M llama.cpp endpo
 - BFCL-style pilot: `0.333`
 - IFEval-style pilot: `0.667`
 - Coding sanity pilot: `1.000`
-- Decision: useful engineering evidence only. Full BFCL/IFEval/lm-eval remain blocked until their harnesses are installed and validated.
+- Decision: useful engineering evidence only. Official BFCL/IFEval/lm-eval scores remain future work; the harness environments are now installed and smoke-verified.
 
 The same repo-native endpoint pilots also ran against LM Studio with the SSD-backed Qwen3 4B Q4_K_M artifact:
 

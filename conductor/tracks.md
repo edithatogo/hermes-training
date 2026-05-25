@@ -152,3 +152,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Official benchmark environment smoke
 *Link: [./tracks/official-benchmark-env-smoke_20260526/](./tracks/official-benchmark-env-smoke_20260526/)*
+
+---
+
+## [x] Track: Roadmap current state refresh
+*Link: [./tracks/roadmap-current-state-refresh_20260526/](./tracks/roadmap-current-state-refresh_20260526/)*

@@ -127,7 +127,7 @@ Current gaps:
   - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/merged-dequantized`
   - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf`
   - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`
-- The Q4_K_M GGUF passed direct `llama-completion` validation and returned `{"ok": true}`. Ollama GGUF import failed because the daemon dropped during model creation, so LM Studio/direct llama.cpp is the next GGUF runtime path.
+- The Q4_K_M GGUF passed direct `llama-completion` validation and LM Studio smoke. Ollama GGUF import failed because the daemon dropped during model creation, so direct llama.cpp and LM Studio are the validated GGUF runtime paths for now.
 - Populated publication/evidence bundles exist for Qwen3 smoke, failed Qwen3 attempts, Qwen3 v4 public adapter evidence, and Qwen3 v5 non-promotion evidence.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Last check showed about 51 GiB free on `/` and about 660 GiB free on `/Volumes/PortableSSD`.
 
@@ -135,7 +135,7 @@ Current gaps:
 
 1. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
 2. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
-3. Run broader official benchmarks for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots.
+3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the official benchmark environments are installed and smoke-verified.
 4. Prepare a cleaned dataset-publication scope and dataset card before any Hugging Face dataset release.
 5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
 6. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
