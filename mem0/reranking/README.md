@@ -200,6 +200,11 @@ This is not enough to change live mem0 behavior. It proves the failure is addres
   or `Qwen/Qwen3-Reranker-4B`
 - conflict-aware memory update/supersession metadata
 
+Current live-store caveat: on 2026-05-26, broad live probes all returned only
+one memory, so a real live multi-result comparison is blocked until there is an
+isolated fixture store or captured replay with multiple candidates. Evidence is
+recorded in `reports/benchmark/mem0/live-multiretrieval-readiness-20260526.md`.
+
 Optional reranker dependencies are intentionally separate from the base repo
 environment:
 

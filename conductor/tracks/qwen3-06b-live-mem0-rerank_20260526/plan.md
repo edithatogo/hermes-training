@@ -12,6 +12,8 @@
 - [x] Task: add unit coverage for live Qwen3 wrapper routing.
 - [x] Task: run a live mem0 smoke against the clean SSD-backed Ollama root.
 - [x] Task: prove warm-helper latency after the first service request.
+- [x] Task: probe whether the live store has enough multi-result searches for
+  a valid live reranker comparison.
 
 ## Phase 3: Documentation and Gates
 
@@ -28,5 +30,6 @@
   `3.920s` search latency, `0.216s` scoring latency, and `12.093s` one-shot
   total latency. The warm helper then reduced the second live request to
   `4.112s` total with `0.119s` Qwen scoring.
-- Gaps: ONNX/Transformers.js runtime bridge and multi-result live comparison
-  remain future work.
+- Gaps: ONNX/Transformers.js runtime bridge remains future work. Multi-result
+  live comparison needs an isolated fixture store or replay harness because the
+  current default live store returns singleton results for broad probes.
