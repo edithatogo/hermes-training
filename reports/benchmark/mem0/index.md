@@ -20,3 +20,9 @@
 | reranking | fixed-rerank-lexical-overlap-expanded-20260524 | lexical_overlap | 0.833 |  | 0.833 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-lexical-overlap-expanded-20260524` |
 | reranking | fixed-rerank-vector-20260524 | vector | 0.667 |  | 0.667 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-vector-20260524` |
 | reranking | fixed-rerank-vector-expanded-20260524 | vector | 0.667 |  | 0.667 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-vector-expanded-20260524` |
+
+## Candidate Acquisition Notes
+
+- `BAAI/bge-m3` remains the first dense embedding replacement candidate, but
+  the 2026-05-25 local check found incomplete Hugging Face weights only. Report:
+  `reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md`

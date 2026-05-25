@@ -31,9 +31,9 @@ candidates:
       - transformers
       - llama.cpp-if-supported
     embedding_dims: 1024
-    status: candidate
+    status: acquisition-incomplete
     first_gate: mteb-retrieval-smoke
-    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic."
+    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-25: local cache only had metadata and a zero-byte incomplete blob; CPU/MPS smoke did not reach case progress, so acquire full weights before benchmarking."
 
   - id: jinaai/jina-embeddings-v4
     role: embedder
