@@ -1,0 +1,119 @@
+{
+  "assistant_outputs": {
+    "refusal": 26,
+    "tool_calls": 106
+  },
+  "assistant_tool_name_count": 77,
+  "categories": {
+    "argument_correctness": 24,
+    "format_guard": 16,
+    "invalid_tool_handling": 23,
+    "json_validity": 24,
+    "multi_turn_repair": 14,
+    "strict_tool_call": 10,
+    "uncategorized": 4
+  },
+  "data_path": "gemma4/data/strict_tool_call/expanded_splits_v5_pilot_polish",
+  "declared_tool_name_count": 99,
+  "duplicate_ids_across_files": [
+    "exp-json-validity-007-meter-reading",
+    "exp-json-validity-008-course-enrollment",
+    "exp-multi-turn-repair-001-address-change",
+    "exp-multi-turn-repair-002-webhook",
+    "exp-multi-turn-repair-003-fuel-card"
+  ],
+  "duplicate_ids_within_files": {},
+  "error_count": 0,
+  "errors": [],
+  "files": {
+    "gemma4/data/strict_tool_call/expanded_splits_v5_pilot_polish/test.jsonl": {
+      "categories": {
+        "multi_turn_repair": 5
+      },
+      "rows": 5
+    },
+    "gemma4/data/strict_tool_call/expanded_splits_v5_pilot_polish/train.jsonl": {
+      "categories": {
+        "argument_correctness": 24,
+        "format_guard": 16,
+        "invalid_tool_handling": 23,
+        "json_validity": 20,
+        "multi_turn_repair": 3,
+        "strict_tool_call": 10,
+        "uncategorized": 4
+      },
+      "rows": 100
+    },
+    "gemma4/data/strict_tool_call/expanded_splits_v5_pilot_polish/val.jsonl": {
+      "categories": {
+        "json_validity": 2,
+        "multi_turn_repair": 3
+      },
+      "rows": 5
+    },
+    "gemma4/data/strict_tool_call/expanded_splits_v5_pilot_polish/valid.jsonl": {
+      "categories": {
+        "json_validity": 2,
+        "multi_turn_repair": 3
+      },
+      "rows": 5
+    }
+  },
+  "jsonl_file_count": 4,
+  "overlap": {
+    "heldout_suite": {
+      "assistant_tool_name_overlap": [
+        "notify_care_team"
+      ],
+      "assistant_tool_name_overlap_count": 1,
+      "cases": 8,
+      "path": "benchmarks/tool_call_local/heldout_suite.json",
+      "tool_name_overlap": [
+        "notify_care_team"
+      ],
+      "tool_name_overlap_count": 1,
+      "user_prompt_overlap_count": 0,
+      "user_prompt_overlap_samples": []
+    },
+    "suite": {
+      "assistant_tool_name_overlap": [
+        "create_calendar_event",
+        "create_klarna_payment_session",
+        "list_calendar_events",
+        "lookup_ticket_status",
+        "merge_duplicate_profiles",
+        "sort_records_by_category",
+        "update_contact_information"
+      ],
+      "assistant_tool_name_overlap_count": 7,
+      "cases": 6,
+      "path": "benchmarks/tool_call_local/suite.json",
+      "tool_name_overlap": [
+        "create_calendar_event",
+        "create_invoice",
+        "create_klarna_payment_session",
+        "escalate_ticket",
+        "list_calendar_events",
+        "lookup_ticket_status",
+        "merge_duplicate_profiles",
+        "send_invoice_reminder",
+        "sort_records_by_category",
+        "update_contact_information"
+      ],
+      "tool_name_overlap_count": 10,
+      "user_prompt_overlap_count": 7,
+      "user_prompt_overlap_samples": [
+        "Create a Klarna payment session for 15000 cents in USD with locale en-US and purchase country US. Use https://www.exa...",
+        "Create a team sync for 2026-05-26T10:30:00+10:00 lasting 30 minutes for sam@corp.example and lee@corp.example, then l...",
+        "Look up ticket TKT-2049 and return the status.",
+        "Organize the records at /path/to/emr/data. Sort them into diagnosis, treatment, and medication_history, merge duplica...",
+        "Schedule a team sync for 2026-05-26T10:30:00+10:00 lasting 30 minutes for sam@corp.example, lee@corp.example, and nia...",
+        "That was incomplete. Re-issue only the corrected tool call with title \"team sync\", start_time \"2026-05-26T10:30:00+10...",
+        "Use the delete_customer tool to remove customer C-1024."
+      ]
+    }
+  },
+  "rows": 115,
+  "unique_ids": 110,
+  "valid": true
+}

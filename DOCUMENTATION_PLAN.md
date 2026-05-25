@@ -70,6 +70,8 @@ For the completed v2/v3 strict format-guard attempts, the publication folder is 
 
 For the completed v4 targeted strict-tool-call attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`. Its checklist records the first local strict held-out pass at `1.000`, using the required Qwen runtime condition: `/no_think` on the first user turn plus assistant prefill `<think>\n\n</think>\n\n`. Public Hugging Face adapter publication is approved as an experimental strict Hermes tool-call LoRA with pilot-only benchmark positioning. Public dataset publication remains separate and blocked pending scope approval.
 
+For the completed v5 pilot-polish attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/`. Its run card records a negative result: final strict held-out pass rate regressed to `0.750`, the best checked checkpoints reached only `0.875`, and the coding sanity pilot regressed to `0.667`. Do not upload or promote v5; keep the public Hugging Face adapter on v4 targeted.
+
 Publish benchmark artifacts as either:
 
 - files in the model repo under `eval/`, when small enough and license-compatible
