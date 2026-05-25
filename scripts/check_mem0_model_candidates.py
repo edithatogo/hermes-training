@@ -15,7 +15,17 @@ ROOT = Path(__file__).resolve().parents[1]
 RADAR = ROOT / "mem0" / "MODEL_CANDIDATES.yaml"
 REQUIRED_FIELDS = ("id", "role", "family", "runtime", "embedding_dims", "status", "first_gate", "notes")
 ROLES = {"extractor", "embedder", "reranker", "retriever", "summarizer"}
-STATUSES = {"working-default", "installed-baseline", "candidate", "planned", "runtime-proof-needed", "rejected"}
+STATUSES = {
+    "working-default",
+    "working-default-clean-root-smoked",
+    "installed-baseline",
+    "candidate",
+    "planned",
+    "runtime-proof-needed",
+    "benchmarked-cpu-mps-not-promoted",
+    "live-read-wrapper-smoked",
+    "rejected",
+}
 
 
 def is_hf_repo(model_id: str) -> bool:
@@ -102,4 +112,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
