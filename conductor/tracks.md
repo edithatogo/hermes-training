@@ -127,3 +127,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Standardized benchmark execution and publication readiness
 *Link: [./tracks/standard-benchmark-execution_20260524/](./tracks/standard-benchmark-execution_20260524/)*
+
+---
+
+## [x] Track: Qwen3 v4 release evidence and fail-closed publication gate
+*Link: [./tracks/qwen3-v4-release-gate_20260525/](./tracks/qwen3-v4-release-gate_20260525/)*

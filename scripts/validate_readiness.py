@@ -231,6 +231,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/create_runtime_format_lane_card.py",
         ROOT / "scripts/create_runtime_format_proof_queue.py",
         ROOT / "scripts/validate_runtime_prompt_profiles.py",
+        ROOT / "scripts/validate_publication_bundle.py",
         ROOT / "scripts/check_storage_layout.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
@@ -265,6 +266,24 @@ def check_storage_layout(failures: list[str]) -> None:
         fail(f"storage layout: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("storage layout")
+
+
+def check_publication_bundles(failures: list[str]) -> None:
+    bundle = ROOT / "reports/publication/qwen3-4b-strict-toolcall-v4-targeted"
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_publication_bundle.py"),
+            str(bundle),
+            "--expect-blocked",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"publication bundle: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("publication bundle qwen3-4b-strict-toolcall-v4-targeted")
 
 
 def check_runtime_templates(failures: list[str]) -> None:
@@ -325,6 +344,7 @@ def main() -> int:
     check_shell_syntax(failures)
     check_runtime_templates(failures)
     check_runtime_format_lanes(failures)
+    check_publication_bundles(failures)
     check_storage_layout(failures)
 
     if failures:

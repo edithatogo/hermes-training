@@ -50,6 +50,14 @@ Mirrored regression:
 |---|---:|
 | `benchmarks/tool_call_local/suite.json` | 1.000 |
 
+Repo-native pilot benchmarks:
+
+| Pilot | Pass | Notes |
+|---|---:|---|
+| BFCL-style pilot | 0.667 | local pilot only, not official BFCL |
+| IFEval-style pilot | 0.667 | local pilot only, not official IFEval |
+| Coding sanity pilot | 1.000 | local pilot only, not HumanEval/MBPP |
+
 Exact held-out command:
 
 ```bash
@@ -82,3 +90,6 @@ The reusable runtime prompt contract is recorded in
   audit, but it shares one generic held-out tool name, `notify_care_team`.
 - Public publication is pending dataset/source redistribution review and human
   approval.
+- The current release decision is recorded in `release-decision.md`; the
+  publication bundle is expected to pass only in fail-closed mode until public
+  release approval is recorded.

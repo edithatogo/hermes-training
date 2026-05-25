@@ -2,6 +2,8 @@
 
 Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 
+Machine gate: BLOCKED FOR PUBLIC RELEASE
+
 ## Gates
 
 - [x] Structural readiness checks pass.
@@ -18,6 +20,9 @@ Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 - [x] Dataset overlap audit recorded in `dataset-overlap-audit.json`.
 - [x] Dataset token audit recorded in `dataset-token-audit.json`.
 - [x] Private Hugging Face draft adapter uploaded and hash-verified.
+- [x] Release decision recorded in `release-decision.md`.
+- [x] Publication bundle validator passes in fail-closed mode:
+  `./.venv/bin/python scripts/validate_publication_bundle.py reports/publication/qwen3-4b-strict-toolcall-v4-targeted --expect-blocked`
 - [ ] Dataset/source redistribution review complete for all materialized training rows.
 - [ ] Standard benchmark stage target is met.
 - [ ] Hugging Face model card finalized.
