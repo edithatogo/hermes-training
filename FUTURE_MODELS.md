@@ -7,6 +7,14 @@ Latest scans:
 - [Current release scan](./reports/model-radar/current-release-scan-20260524.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
 
+2026-05-26 refresh: no official Qwen3.7 open-weight lane was verified. The
+only new actionable delta is Qwen3.6 GGUF packaging with bundled MTP /
+self-speculative decoding heads, especially
+`mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` and
+`localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF`. Treat these as runtime latency
+experiments behind the existing Qwen3.6 Q4_K_M proof, not local fine-tune
+targets.
+
 No official Qwen3.7 open-weight local lane was verified. Qwen3.7-Max/Plus should be treated as API/preview/proprietary until official weights or a supported hosted workflow are verified.
 
 ## Selection Rules
@@ -35,7 +43,7 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 
 | Rank | Family | Candidate | Params | Fit | Role | Notes |
 |---|---|---:|---:|---|---|---|
-| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B`, `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`, `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo and MLX-packaged candidates verified on 2026-05-24; prove runtime on Mac before using as teacher. |
+| 1 | Qwen | `Qwen/Qwen3.6-35B-A3B`, `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`, `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4`, MTP GGUF packages | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo and MLX-packaged candidates verified on 2026-05-24; 2026-05-26 refresh added MTP/speculative-decoding GGUF packages for runtime latency experiments. |
 | 2 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
 | 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |

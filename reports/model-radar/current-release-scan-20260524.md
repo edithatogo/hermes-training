@@ -101,6 +101,19 @@ reranking, and Apple Silicon paths.
   candidate, but it requires a separate ColBERT index path rather than reuse of
   the dense Qdrant collections.
 
+## 2026-05-26 Qwen3.6 MTP Packaging Delta
+
+A follow-up refresh found one actionable delta after the prior radar cutoff:
+Qwen3.6 GGUF packages with bundled MTP/self-speculative-decoding heads.
+
+| Candidate | Delta | Action |
+|---|---|---|
+| `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | APEX GGUF packaging bundles the MTP head and describes `--draft-mtp` support with a recent/patched llama.cpp runtime. | Add as a runtime latency experiment only. |
+| `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | IQ4_XS GGUF bundles the trunk plus NextN/MTP head and is positioned for 24GB-class inference with patched llama.cpp. | Add as a lower-memory runtime experiment only. |
+
+No official Qwen3.7 open-weight local model lane was verified in the same
+refresh.
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -112,5 +125,6 @@ reranking, and Apple Silicon paths.
 - Live Hugging Face API searches on 2026-05-25 for `Qwen3.7`, `Qwen3.6`, `Hermes-4.3`, `LFM2-24B-A2B`, `BitNet`, and `RWKV-7`
 - Live web/Hugging Face searches on 2026-05-26 for `Qwen3.7`, `Qwen3.6`, `Hermes-4.3`, and `LFM2-24B-A2B`
 - Live Hugging Face API searches on 2026-05-26 for `Hermes 4 GGUF`, `Qwen3.6 GGUF`, `Qwen3 Embedding`, `Qwen3 Reranker`, `LFM2 GGUF`, `LFM2 ColBERT`, `embedding mlx`, and `reranker mlx`
+- Hugging Face pages checked on 2026-05-26: `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` and `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.

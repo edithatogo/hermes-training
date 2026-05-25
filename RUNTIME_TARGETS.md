@@ -80,6 +80,8 @@ Read-only Hugging Face checks on 2026-05-22 confirmed these next-lane targets. K
 | `Qwen/Qwen3.6-35B-A3B` | `995ad96eacd9` | public, ungated, Apache-2.0 tag | Frontier teacher/runtime target; do not local fine-tune first |
 | `lmstudio-community/Qwen3.6-35B-A3B-GGUF` | `68a34855558a` | public, ungated, GGUF | First Mac GGUF runtime proof candidate once LM Studio or llama.cpp server is available |
 | `unsloth/Qwen3.6-35B-A3B-GGUF` | `a483e9e6cbd5` | public, ungated, GGUF | Alternate quant source; verify exact quant file before download |
+| `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | check before use | public, GGUF, APEX/MTP | Newer MTP/speculative-decoding runtime package; requires MTP-capable llama.cpp or compatible desktop runtime |
+| `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | check before use | public, GGUF, IQ4_XS/MTP | Lower-memory MTP package; runtime/latency experiment only |
 | `NousResearch/Hermes-4-14B` | `d6ce765c8b83` | public, ungated | Hermes-aligned baseline/teacher; compare before larger local training |
 | `NousResearch/Hermes-4.3-36B` | verify exact repo revision before use | public model card, no local artifact found | Newer Hermes baseline/teacher candidate; runtime proof needed |
 
