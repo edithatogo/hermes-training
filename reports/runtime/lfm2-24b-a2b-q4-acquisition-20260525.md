@@ -46,9 +46,9 @@ active session: lfm2_24b_download
 Latest live checkpoint:
 
 ```text
-chunks complete: 159 / 215
+chunks complete: 160 / 215
 active temp chunks: 16
-partial root size: 10G
+partial root size: 11G
 active session: lfm2_24b_download
 ```
 
