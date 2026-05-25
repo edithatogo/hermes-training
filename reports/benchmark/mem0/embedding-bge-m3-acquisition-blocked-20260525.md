@@ -80,7 +80,8 @@ HF_HUB_DISABLE_XET=1 \
   --max-workers 2
 ```
 
-Local cache inspection showed that the model weights are not acquired:
+The first local cache inspection showed that the model weights were not
+acquired:
 
 ```text
 /Volumes/PortableSSD/huggingface/hub/models--BAAI--bge-m3
@@ -94,14 +95,69 @@ blobs/b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38.incomplet
 
 ## Decision
 
-No benchmark score is recorded for BGE-M3 yet. The failure mode is incomplete
-model acquisition, not retrieval quality.
+BGE-M3 acquisition is no longer blocked for the PyTorch / sentence-transformers
+path. A CPU benchmark completed on 2026-05-26:
+
+```bash
+HF_HOME=/Volumes/PortableSSD/huggingface \
+HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
+TRANSFORMERS_CACHE=/Volumes/PortableSSD/huggingface/transformers \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python \
+  scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device cpu \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-bge-m3-cpu-smoke-20260526
+```
+
+Raw output:
+
+```text
+/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-cpu-smoke-20260526
+```
+
+Result:
+
+| Metric | Value |
+|---|---:|
+| Cases | 3 |
+| Top-1 accuracy | 0.667 |
+| Recall@3 | 1.000 |
+| MRR | 0.833 |
+| nDCG@3 | 0.877 |
+| Embedding dims | 1024 |
+| Embed latency p50 | 0.098s |
+| Embed latency p95 | 0.141s |
+
+Case result:
+
+| Case | Top document | Pass |
+|---|---|---:|
+| `metadata-database` | `target-sqlite` | true |
+| `recency-preference` | `old-preference` | false |
+| `benchmark-type` | `mem0-memory` | true |
+
+Decision: do not promote BGE-M3 as the mem0 default. It matches the current
+`nomic-embed-text:latest` top-1 and recall result on this tiny suite, but it is
+slower and does not fix the recency-preference top-1 failure.
+
+Implementation notes:
+
+- `~/.mem0/config.bge-m3.json` exists for side-by-side testing with collection
+  `mem0_bge_m3_1024`.
+- Do not switch the live `mem0_nomic_768` default to BGE-M3 from this evidence.
+- The sentence-transformers benchmark wrote outputs successfully but the Python
+  process did not exit cleanly during local teardown; leftover workers were
+  terminated manually. `scripts/run_sentence_transformers_embedding_benchmark.py`
+  now has `--force-exit-after-write` for future local smoke runs.
+- The SSD cache includes a usable PyTorch snapshot plus leftover incomplete
+  blobs from interrupted auxiliary downloads. The incomplete blobs do not block
+  CPU sentence-transformers loading.
 
 Next action:
 
-1. Acquire the full BGE-M3 weights into the SSD Hugging Face cache.
-2. Re-run the CPU smoke first to verify functionality.
-3. Re-run MPS only after CPU completes, because the first MPS attempt was not
-   informative while the weights were incomplete.
-4. If BGE-M3 passes, create the `mem0_bge_m3_1024` collection and run the live
-   mem0 add/search and recency suites against that collection.
+1. Keep `nomic-embed-text:latest` as the default embedder.
+2. Compare BGE-M3 only on a larger retrieval suite or with a learned/heuristic
+   reranker before any live mem0 collection migration.
+3. If another BGE-M3 run is needed, use `--force-exit-after-write` and record
+   whether teardown is clean.

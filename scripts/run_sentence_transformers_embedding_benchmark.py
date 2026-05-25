@@ -7,6 +7,7 @@ import json
 import math
 import os
 import statistics
+import sys
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -173,6 +174,11 @@ def main() -> int:
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--force-exit-after-write",
+        action="store_true",
+        help="Force process exit after writing outputs; useful for local sentence-transformers teardown hangs.",
+    )
     args = parser.parse_args()
 
     suite = load_json(args.suite)
@@ -261,6 +267,10 @@ def main() -> int:
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     print(f"results: {output_dir / 'results.jsonl'}")
     print(f"summary: {output_dir / 'summary.md'}")
+    if args.force_exit_after_write:
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(0)
     return 0
 
 

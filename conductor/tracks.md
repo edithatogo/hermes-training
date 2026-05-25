@@ -172,3 +172,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 V4 pilot failure analysis
 *Link: [./tracks/qwen3-v4-pilot-failure-analysis_20260526/](./tracks/qwen3-v4-pilot-failure-analysis_20260526/)*
+
+---
+
+## [x] Track: BGE-M3 CPU smoke
+*Link: [./tracks/bge-m3-cpu-smoke_20260526/](./tracks/bge-m3-cpu-smoke_20260526/)*

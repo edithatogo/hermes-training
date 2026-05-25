@@ -1,7 +1,7 @@
 # Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
 project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
 latest_release_recheck: "2026-05-24: Hugging Face metadata check verified BAAI/bge-m3, jinaai/jina-embeddings-v4, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, LiquidAI/LFM2-ColBERT-350M, and NousResearch/Hermes-4-14B. Ollama-style ids were skipped by the HF check."
-latest_local_benchmark: "2026-05-24: LFM2 extractor passed expanded extraction suite at 1.000. score_plus_created_at_rank passed expanded fixed reranking suite at 1.000. torch and sentence-transformers are installed; BGE/Qwen live runs are now blocked on large model acquisition/load, not Python deps."
+latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU-smoked from the SSD cache at 1024 dims. It matched nomic on the tiny retrieval suite top-1 0.667 / recall@3 1.000 but was slower and still missed the recency case, so nomic remains the default. LFM2 extractor and score_plus_created_at_rank reranking remain the strongest mem0 improvements."
 current_default:
   vector_store: qdrant
   collection: mem0_nomic_768
@@ -31,9 +31,9 @@ candidates:
       - transformers
       - llama.cpp-if-supported
     embedding_dims: 1024
-    status: acquisition-incomplete
+    status: benchmarked-cpu-not-promoted
     first_gate: mteb-retrieval-smoke
-    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-25: local cache only had metadata and a zero-byte incomplete blob; CPU/MPS smoke did not reach case progress, so acquire full weights before benchmarking."
+    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-26: CPU sentence-transformers smoke completed from SSD cache at 1024 dims, top-1 0.667 / recall@3 1.000, matching nomic on the small suite but slower and not fixing recency top-1."
 
   - id: jinaai/jina-embeddings-v4
     role: embedder
@@ -137,7 +137,7 @@ collections:
     role: candidate
     compatible_models:
       - BAAI/bge-m3
-    status: planned
+    status: config-created-not-default
 
   - name: mem0_qwen3_embedding_4b
     dims: verify-before-create
