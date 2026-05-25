@@ -30,6 +30,8 @@ wrapper and does not satisfy the strict raw-output gate.
 - Adapter:
   `gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter`
 - Training tokens: 37,936
+- Dataset token audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-token-audit.json`
+- Dataset overlap audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-overlap-audit.json`
 - Peak memory: 3.785 GB
 
 ## Evaluation
@@ -74,5 +76,7 @@ The reusable runtime prompt contract is recorded in
 - This is a small local strict-format benchmark, not broad BFCL or production
   tool-use evidence.
 - The adapter is sensitive to runtime prompt formatting.
+- The V4 training data has no held-out user-prompt overlap in the recorded
+  audit, but it shares one generic held-out tool name, `notify_care_team`.
 - Public publication is pending dataset/source redistribution review and human
   approval.

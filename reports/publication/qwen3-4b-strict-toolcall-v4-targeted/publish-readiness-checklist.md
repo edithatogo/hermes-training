@@ -16,6 +16,7 @@ Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 - [x] Runtime condition recorded: `/no_think` plus assistant prefill.
 - [x] Raw benchmark artifact paths recorded.
 - [x] Dataset overlap audit recorded in `dataset-overlap-audit.json`.
+- [x] Dataset token audit recorded in `dataset-token-audit.json`.
 - [ ] Dataset/source redistribution review complete for all materialized training rows.
 - [ ] Standard benchmark stage target is met.
 - [ ] Hugging Face model card finalized.

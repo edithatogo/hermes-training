@@ -15,11 +15,15 @@
 V4 starts from the V3 no-think strict tool-call data and adds targeted,
 non-heldout examples for two residual failure families:
 
-- exact extraction of short `message` argument text such as `order is ready for review`
+- exact extraction of short `message` argument text, using non-heldout examples
+  such as `scan is ready for review`, `refill is ready for pickup`, and
+  `transfer is ready for review`
 - nested arrays of objects followed by trailing required fields
 
-The held-out suite values, IDs, and exact tool names were not added to the V4
-training rows.
+The held-out suite IDs, user prompts, entity values, and exact expected message
+strings were not added to the V4 training rows. The overlap audit found one
+shared generic tool name, `notify_care_team`; this is recorded below and remains
+part of the publication review rather than being hidden.
 
 ## Training
 
@@ -55,12 +59,30 @@ Dataset audit:
 
 ```bash
 ./.venv/bin/python scripts/audit_tool_call_data.py \
-  gemma4/data/strict_tool_call/expanded_splits_v4_targeted
+  gemma4/data/strict_tool_call/expanded_splits_v4_targeted \
+  --benchmark-suite benchmarks/tool_call_local/suite.json \
+  --heldout-suite benchmarks/tool_call_local/heldout_suite.json \
+  --max-errors 100 \
+  > reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-overlap-audit.json
 ```
 
 Result: valid JSONL structure, `107` rows, no held-out user-prompt overlap, one
 held-out tool-name overlap (`notify_care_team`). The recorded audit is
 `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-overlap-audit.json`.
+
+Token audit:
+
+```bash
+./.venv/bin/python scripts/dataset_token_audit.py \
+  --model Qwen/Qwen3-4B-MLX-4bit \
+  --local-files-only \
+  --data gemma4/data/strict_tool_call/expanded_splits_v4_targeted \
+  --splits train val valid test \
+  --output reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-token-audit.json
+```
+
+Result: train `24,331` tokens across `92` rows; val `1,337`, valid `1,337`,
+test `1,314`.
 
 ## Strict Held-Out Gate
 

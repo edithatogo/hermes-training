@@ -14,7 +14,7 @@ from typing import Any
 
 import requests
 
-from run_endpoint_tool_call_benchmark import apply_user_prefix
+from run_endpoint_tool_call_benchmark import apply_assistant_prefill, apply_user_prefix
 from run_tool_call_benchmark import extract_tool_calls, save_jsonl
 
 
@@ -143,6 +143,11 @@ def main() -> int:
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--timeout-s", type=float, default=120)
     parser.add_argument("--user-prefix", default="")
+    parser.add_argument(
+        "--assistant-prefill",
+        default="",
+        help="Optional assistant-side prefill appended as the final assistant message for compatible endpoints.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -157,6 +162,8 @@ def main() -> int:
         print(f"cases: {len(suite)}")
         print(f"categories: {dict(Counter(case['category'] for case in suite))}")
         print(f"output_dir: {output_dir}")
+        print(f"user_prefix: {args.user_prefix}")
+        print(f"assistant_prefill: {args.assistant_prefill!r}")
         return 0
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -167,7 +174,7 @@ def main() -> int:
         response, latency_s = chat(
             args.base_url,
             args.model,
-            apply_user_prefix(case["messages"], args.user_prefix),
+            apply_assistant_prefill(apply_user_prefix(case["messages"], args.user_prefix), args.assistant_prefill),
             args.max_tokens,
             args.timeout_s,
         )
@@ -189,6 +196,8 @@ def main() -> int:
         "suite": str(args.suite),
         "base_url": args.base_url,
         "model": args.model,
+        "user_prefix": args.user_prefix,
+        "assistant_prefill": args.assistant_prefill,
         "output_dir": str(output_dir),
         "cases": len(rows),
         "passed": passed,

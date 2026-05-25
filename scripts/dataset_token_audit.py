@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from mlx_lm import load
+from transformers import AutoTokenizer
 
 
 def percentile(values: list[int], pct: float) -> int:
@@ -39,15 +39,30 @@ def audit_split(path: Path, tokenizer) -> dict[str, int | float]:
     }
 
 
+def load_tokenizer(model: str, *, local_files_only: bool = False):
+    try:
+        return AutoTokenizer.from_pretrained(
+            model,
+            trust_remote_code=True,
+            local_files_only=local_files_only,
+        )
+    except Exception:
+        from mlx_lm import load
+
+        _, tokenizer = load(model)
+        return tokenizer
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Audit token counts for chat JSONL splits.")
     parser.add_argument("--model", required=True, help="Model or local path used for tokenization.")
     parser.add_argument("--data", type=Path, required=True, help="Directory with train/valid/test JSONL files.")
     parser.add_argument("--splits", nargs="+", default=["train", "valid", "test"])
     parser.add_argument("--output", type=Path, help="Optional JSON output path for reproducible run cards.")
+    parser.add_argument("--local-files-only", action="store_true", help="Use only locally cached tokenizer files.")
     args = parser.parse_args()
 
-    _, tokenizer = load(args.model)
+    tokenizer = load_tokenizer(args.model, local_files_only=args.local_files_only)
     report: dict[str, Any] = {
         "model": args.model,
         "data": str(args.data),

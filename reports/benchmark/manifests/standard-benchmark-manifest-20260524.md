@@ -153,6 +153,7 @@ The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-cal
 - Strict held-out pass: `1.000`
 - Mirrored regression pass: `1.000`
 - Required runtime condition: first user turn `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`
+- Endpoint benchmark harnesses now expose the same assistant-prefill flag for strict and pilot checks, so runtime-profile comparisons can stay consistent across MLX and OpenAI-compatible endpoints.
 - Decision: local strict Hermes-agent gate passed; public Hugging Face publication remains pending redistribution review, standard benchmark positioning, finalized card, and explicit approval.
 
 ## mem0 Baselines
