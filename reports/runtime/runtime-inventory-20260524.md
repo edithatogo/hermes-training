@@ -41,4 +41,4 @@ Exact GGUF acquisition targets and resumable SSD commands are recorded in `repor
 
 Artifact acquisition has now started under SSD-backed paths. Current status is tracked in `reports/runtime/frontier-artifact-acquisition-20260524.md`.
 
-Hermes 4 14B Q4_K_M GGUF under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4` is complete and runtime-proven. Qwen3.6 Q4_K_M under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4` is also complete and runtime-proven, but failed the strict Hermes-agent tool-call gate. Gemma 4 remains paused/resumable.
+Hermes 4 14B Q4_K_M GGUF under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4` is complete and runtime-proven. Qwen3.6 Q4_K_M under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4` is also complete and runtime-proven, but failed the strict Hermes-agent tool-call gate. LFM2 24B-A2B Q4_K_M under `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4` is complete and runtime-proven with strict held-out pass `0.375`, so it remains a comparison/runtime lane rather than a Hermes-agent promotion candidate. Gemma 4 remains paused/resumable.

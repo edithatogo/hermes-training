@@ -33,6 +33,7 @@ Every publish candidate must have:
 | Qwen3 4B Q4_K_M via LM Studio | `0.500` | `0.000` | `0.667` | `1.000` | Best local strict endpoint so far; not publishable. |
 | Qwen3 4B Q4_K_M via llama.cpp | `0.375` | `0.333` | `0.667` | `1.000` | Useful baseline; not publishable. |
 | Hermes 4 14B Q4_K_M via llama.cpp | `0.250` | `0.000` | `0.667` | `1.000` | Runtime proof and baseline only. |
+| LFM2 24B-A2B Q4_K_M via llama.cpp | `0.375` | `0.333` | `1.000` | `1.000` | Frontier LFM runtime proof and comparison lane only. |
 | Hermes3 8B via Ollama | `0.250` | not run | not run | not run | Baseline only. |
 | LFM2 2.6B via Ollama | `0.250` | not run | not run | not run | Baseline only. |
 

@@ -124,13 +124,15 @@
     - [x] Run `./.venv/bin/python scripts/validate_readiness.py`.
     - [x] Run any syntax checks touched by the track.
     - [x] Update this plan with completed statuses and remaining blockers.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Documentation, Registry, And Closeout' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Documentation, Registry, And Closeout' (Protocol in workflow.md)
     - [x] Validation after documentation updates and active LFM2-24B follow-up acquisition record passed on 2026-05-25: `git diff --check`, `python3 -m unittest discover -s tests`, and `./.venv/bin/python scripts/validate_readiness.py`.
-    - [ ] Final closeout remains open until the active LFM2-24B follow-up acquisition reaches exact-size proof or is explicitly deferred in the runtime queue.
+    - [x] LFM2-24B follow-up acquisition reached exact-size proof and runtime proof completed on 2026-05-25.
+    - [x] Redundant ranged chunk directory was removed after proof to recover SSD space.
+    - [x] Final validation passed on 2026-05-25: `git diff --check`, `python3 -m unittest discover -s tests`, and `./.venv/bin/python scripts/validate_readiness.py`.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
 - Current estimate: 9.8 / 10
-- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof. `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md` records the current MLX-native OpenAI-compatible proof and its held-out benchmark result. `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` records successful Qwen3.6 llama.cpp smoke and failed strict tool-call promotion gate.
-- Blocker: No remaining blocker for Qwen3.6 runtime proof. LFM2-24B Q4_K_M acquisition is active as the next GGUF portability proof candidate. Gemma 4 remains paused/resumable. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.
+- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof. `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md` records the current MLX-native OpenAI-compatible proof and its held-out benchmark result. `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` records successful Qwen3.6 llama.cpp smoke and failed strict tool-call promotion gate. `reports/runtime/lfm2-24b-a2b-q4-llamacpp-proof-20260525.md` records successful LFM2 24B-A2B llama.cpp smoke, held-out, and pilot benchmark evidence.
+- Blocker: No remaining blocker for Qwen3.6 or LFM2 runtime proof. Gemma 4 remains paused/resumable as a later optional acquisition. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.

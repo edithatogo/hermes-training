@@ -143,6 +143,20 @@ Qwen3.6 35B-A3B Q4_K_M is now acquired, loaded, and benchmarked through llama.cp
 - Coding sanity pilot: `0.333`
 - Decision: valid frontier runtime proof only; below publication and Hermes-agent promotion gates.
 
+LFM2 24B-A2B Q4_K_M is now acquired, loaded, and benchmarked through llama.cpp:
+
+- Runtime report: `reports/runtime/lfm2-24b-a2b-q4-llamacpp-proof-20260525.md`
+- Artifact: `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`
+- Held-out report root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-tool-call-benchmark/lfm2-24b-a2b-q4-llamacpp-heldout-nothink-20260524`
+- BFCL-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/lfm2-24b-a2b-q4-bfcl-pilot-nothink-20260524`
+- IFEval-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/lfm2-24b-a2b-q4-ifeval-pilot-nothink-20260524`
+- Coding sanity pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/lfm2-24b-a2b-q4-coding-pilot-nothink-20260524`
+- Strict held-out pass: `0.375`
+- BFCL-style pilot: `0.333`
+- IFEval-style pilot: `1.000`
+- Coding sanity pilot: `1.000`
+- Decision: valid frontier LFM runtime proof and comparison lane; below Hermes-agent promotion threshold without alignment work.
+
 ## Adapter Candidate
 
 The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-call gate:

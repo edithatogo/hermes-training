@@ -47,7 +47,7 @@ completed SSD-side proof cards from being reset to pending state.
 | Lane | First Candidate | First Proof | Status |
 |---|---|---|---|
 | `mlx-native` | `Qwen/Qwen3-4B-MLX-4bit` | MLX load/server smoke, then held-out tool-call run | complete: smoke passed, held-out strict pass `0.250`; runtime proof only |
-| `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M`; then `LiquidAI/LFM2-24B-A2B-GGUF` Q4_K_M | byte-size validation, llama.cpp smoke, held-out and pilots | Qwen3.6 complete as runtime proof only; LFM2-24B acquisition active |
+| `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M`; `LiquidAI/LFM2-24B-A2B-GGUF` Q4_K_M | byte-size validation, llama.cpp smoke, held-out and pilots | complete for both Qwen3.6 and LFM2-24B as runtime proofs only |
 | `unsloth-cloud` | Qwen3.6 or Gemma 4 small LoRA smoke | Azure preflight, pinned revision, token audit, adapter run card | blocked by useful GPU quota |
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | weight prep record, KTransformers launch, invocation/endpoint contract | not started |
 | `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` or LFM2.5 1.2B | LEAP/MLX/ONNX task-specific smoke, no response-collapse regression | not started |
@@ -85,7 +85,9 @@ A lane proof card can promote a model only to the evidence type it actually prov
 
 - Target artifact: `LFM2-24B-A2B-Q4_K_M.gguf`
 - Expected size: `14415473952` bytes
-- Planned SSD path: `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`
+- SSD path: `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`
 - Proof helper: `scripts/run_lfm2_24b_q4_runtime_proof.sh`
 - Acquisition status: `reports/runtime/lfm2-24b-a2b-q4-acquisition-20260525.md`
-- Decision: high-priority LFM runtime experiment; acquisition is active and proof is gated on exact-size assembly.
+- Runtime proof: `reports/runtime/lfm2-24b-a2b-q4-llamacpp-proof-20260525.md`
+- Held-out output: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-tool-call-benchmark/lfm2-24b-a2b-q4-llamacpp-heldout-nothink-20260524`
+- Decision: runtime proof only; strict held-out pass was `0.375`, so do not promote or publish model-improvement claims without additional alignment work.
