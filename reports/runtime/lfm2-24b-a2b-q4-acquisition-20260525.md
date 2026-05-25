@@ -52,6 +52,20 @@ partial root size: 11G
 active session: lfm2_24b_download
 ```
 
+Session health checkpoint:
+
+```text
+checked: 2026-05-25T22:15:01+1000
+chunks complete: 163 / 215
+active temp chunks: 16
+partial root size: 11G
+observed rate: ~1.15 MiB/s
+final GGUF: not assembled
+download session: lfm2_24b_download active
+proof watcher: lfm2_24b_proof_watch active
+remaining: 52 chunks before final assembly and exact-size proof
+```
+
 ## Post-Download Proof
 
 An SSD-backed watcher is active:
