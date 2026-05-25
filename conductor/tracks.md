@@ -187,3 +187,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 Margin Rerank Live Smoke
 *Link: [./tracks/mem0-margin-rerank-live-smoke_20260526/](./tracks/mem0-margin-rerank-live-smoke_20260526/)*
+
+---
+
+## [x] Track: mem0 LFM2 Clean-Root Extraction Smoke
+*Link: [./tracks/mem0-lfm2-clean-root-smoke_20260526/](./tracks/mem0-lfm2-clean-root-smoke_20260526/)*

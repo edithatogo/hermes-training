@@ -13,6 +13,7 @@
 | extraction | extraction-lfm2-2-6b-expanded-examples-20260524 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 1.847 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-examples-20260524` |
 | extraction | extraction-lfm2-2-6b-expanded-strict-20260524 | sam860/LFM2:2.6b | 0.571 |  |  |  | 1.000 | 0.758 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-strict-20260524` |
 | extraction | extraction-lfm2-2-6b-prompt-file-20260524 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 0.866 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-prompt-file-20260524` |
+| extraction | extraction-lfm2-2-6b-clean-root-20260526 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 0.874 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-clean-root-20260526` |
 | extraction | extraction-lfm2-2-6b-smoke-20260524 | sam860/LFM2:2.6b | 0.333 |  |  |  | 0.667 | 0.786 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-smoke-20260524` |
 | memory | mem0-current-nomic-recency-20260524 | cmd | 0.400 |  | 0.400 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-20260524` |
 | memory | mem0-current-nomic-smoke-20260524 | cmd | 0.667 |  | 0.667 | 1.000 |  | 3.388 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-smoke-20260524` |

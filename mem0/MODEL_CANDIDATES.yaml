@@ -1,7 +1,7 @@
 # Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
 project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
-latest_release_recheck: "2026-05-24: Hugging Face metadata check verified BAAI/bge-m3, jinaai/jina-embeddings-v4, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, LiquidAI/LFM2-ColBERT-350M, and NousResearch/Hermes-4-14B. Ollama-style ids were skipped by the HF check."
-latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU/MPS-smoked from the SSD cache at 1024 dims. On the expanded 12-case suite BGE-M3 CPU reached top-1 0.917 / recall@3 1.000 but still missed the current-vs-old preference case. A BGE-derived margin-gated recency reranker reached 1.000. Live read-only mem0 wrapper smoke with score_plus_created_at_rank_close_margin passed in 2.873s from the clean SSD Ollama root, so nomic remains the default embedder and the wrapper is the validated next read path."
+latest_release_recheck: "2026-05-26: Hugging Face metadata refresh found newer Mac/retrieval candidates including jinaai/jina-embeddings-v5-omni-small-mlx, Qwen3 reranker ONNX/GGUF variants, BAAI bge-reranker-v2-m3 MLX builds, and recent Qwen3.6 GGUF packages. Keep BGE-M3 and the margin-gated read wrapper as the validated local mem0 path; treat new candidates as acquisition/load-proof targets."
+latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU/MPS-smoked from the SSD cache at 1024 dims. On the expanded 12-case suite BGE-M3 CPU reached top-1 0.917 / recall@3 1.000 but still missed the current-vs-old preference case. A BGE-derived margin-gated recency reranker reached 1.000. Live read-only mem0 wrapper smoke with score_plus_created_at_rank_close_margin passed in 2.873s from the clean SSD Ollama root. The same clean root now contains sam860/LFM2:2.6b and nomic-embed-text:latest; LFM2 clean-root extraction smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
 current_default:
   vector_store: qdrant
   collection: mem0_nomic_768
@@ -43,9 +43,19 @@ candidates:
       - transformers
       - mlx-if-supported
     embedding_dims: variable
-    status: live-read-wrapper-smoked
+    status: candidate
     first_gate: mteb-retrieval-smoke
     notes: "Candidate for broader document and memory retrieval. Verify local Mac runtime and dimensions before indexing."
+
+  - id: jinaai/jina-embeddings-v5-omni-small-mlx
+    role: embedder
+    family: mlx-multimodal-embedding
+    runtime:
+      - mlx
+    embedding_dims: variable
+    status: candidate
+    first_gate: local-embedding-smoke
+    notes: "2026-05-26 Hugging Face refresh found Jina v5 omni MLX variants. Candidate for Apple Silicon embedding smoke after BGE-M3/nomic comparison."
 
   - id: Qwen/Qwen3-Embedding-4B
     role: embedder
@@ -70,13 +80,33 @@ candidates:
     first_gate: rerank-smoke
     notes: "Use after dense retrieval to improve precision. Not a vector-store replacement."
 
+  - id: Qwen/Qwen3-Reranker-0.6B-ONNX
+    role: reranker
+    family: onnx-cross-encoder-reranker
+    runtime:
+      - onnxruntime
+    embedding_dims: null
+    status: candidate
+    first_gate: rerank-smoke
+    notes: "Smaller 2026-05-26 refresh candidate for local reranking. Prefer before 4B if the goal is low-latency mem0 read rerank."
+
+  - id: BAAI/bge-reranker-v2-m3-mlx
+    role: reranker
+    family: mlx-cross-encoder-reranker
+    runtime:
+      - mlx
+    embedding_dims: null
+    status: candidate
+    first_gate: rerank-smoke
+    notes: "2026-05-26 refresh found fp16 and 8-bit MLX builds. Candidate Apple Silicon reranker against the expanded mem0 suite."
+
   - id: mem0-created-at-rank-reranker
     role: reranker
     family: heuristic-recency-reranker
     runtime:
       - local-python
     embedding_dims: null
-    status: candidate
+    status: live-read-wrapper-smoked
     first_gate: rerank-smoke
     notes: "Offline and fixed-suite prototype. score_plus_created_at_rank_close_margin with weight 0.20 reached 1.000 on the BGE-derived expanded suite by fixing close recency conflicts without over-promoting large-margin newer distractors. Use through read-only wrapper first; compare against learned rerankers before live default integration."
 
@@ -98,9 +128,9 @@ candidates:
     runtime:
       - ollama
     embedding_dims: null
-    status: working-default
+    status: working-default-clean-root-smoked
     first_gate: extraction-smoke
-    notes: "Current extraction model in mem0 config and rollback extractor. Passed expanded extraction suite at 1.000 with stricter prompt examples."
+    notes: "Current extraction model in mem0 config and rollback extractor. Passed expanded extraction suite at 1.000 with stricter prompt examples. 2026-05-26: pulled into /Volumes/PortableSSD/Ollama/mem0-clean-models and clean-root smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
 
   - id: hermes3:8b
     role: extractor

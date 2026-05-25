@@ -22,6 +22,7 @@ runtime endpoint against the current mem0 default.
 | [extraction-lfm2-2-6b-expanded-examples-20260524](./extraction-lfm2-2-6b-expanded-examples-20260524.md) | extractor | keep testing |
 | [extraction-hermes3-8b-expanded-examples-20260524](./extraction-hermes3-8b-expanded-examples-20260524.md) | extractor | keep testing |
 | [extraction-lfm2-2-6b-prompt-file-20260524](./extraction-lfm2-2-6b-prompt-file-20260524.md) | extractor | keep testing |
+| [extraction-lfm2-2-6b-clean-root-20260526](./extraction-lfm2-2-6b-clean-root-20260526.md) | extractor | keep testing |
 
 ## Generate
 

@@ -126,6 +126,16 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
             "The endpoint path is proven, but the embedding model still needs a recency or reranking fix before promotion beyond the current default.",
         )
     if kind == "extraction":
+        if (
+            summary.get("pass_rate") == 1.0
+            and summary.get("json_validity_rate") == 1.0
+            and summary.get("forbidden_hit_rate") == 0.0
+            and summary.get("empty_case_pass_rate") == 1.0
+        ):
+            return (
+                "keep testing",
+                "The extractor passed the strict JSON, durable extraction, forbidden-hit, and empty-case gates; keep it as the rollback extractor until a larger replacement suite or stronger model beats it.",
+            )
         return (
             "keep testing",
             "The extractor did not reach the JSON validity, durable extraction, and transient-noise gates needed for default promotion.",

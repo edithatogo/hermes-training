@@ -22,13 +22,16 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default | ollama | extraction-smoke | baseline; keep as rollback and compare only |
 | 3 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 4 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 5 | `mem0-created-at-rank-reranker` | reranker | candidate | local-python | rerank-smoke | none recorded |
-| 6 | `BAAI/bge-m3` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
-| 7 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
-| 8 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
-| 9 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
-| 10 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
+| 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | margin-gated wrapper passed live read smoke; keep read-only |
+| 5 | `BAAI/bge-m3` | embedder | benchmarked-not-promoted | sentence-transformers | mteb-retrieval-smoke | CPU/MPS smokes passed; expanded suite top-1 0.917 / recall@3 1.000 |
+| 6 | `Qwen/Qwen3-Reranker-0.6B-ONNX` | reranker | candidate | onnxruntime | rerank-smoke | smaller 2026-05-26 candidate before the 4B reranker |
+| 7 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | fresh fp16/8-bit MLX builds visible; Apple Silicon candidate |
+| 8 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 9 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | large download and memory-footprint proof required |
+| 10 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | Mac-first embedding candidate from 2026-05-26 refresh |
+| 11 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
+| 12 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
+| 13 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 
 ## Candidate Commands
 

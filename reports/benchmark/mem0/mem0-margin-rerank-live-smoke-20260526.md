@@ -63,5 +63,5 @@ change `~/.mem0/config.json`, the live default embedder, or the Qdrant
 collection. Keep `mem0_nomic_768` as the default and use the wrapper for
 reranked reads before considering any deeper integration.
 
-LFM2 extraction is still deferred unless `sam860/LFM2:2.6b` is pulled into the
-clean Ollama root and separately smoked.
+LFM2 extraction has now been recovered in the same clean Ollama root. See
+`reports/benchmark/mem0/extraction-lfm2-2-6b-clean-root-20260526.md`.

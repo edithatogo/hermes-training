@@ -1,6 +1,6 @@
 # Hermes Training Hub — Codex Handoff
 
-> Last updated: 2026-05-25
+> Last updated: 2026-05-26
 > Pickup agent: Codex
 
 ## What Is Here
@@ -119,7 +119,7 @@ Current gaps:
 
 - Public dataset publication remains blocked pending explicit approval. A cleaned synthetic-only candidate has been materialized and audited under `/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526`; the scope, run card, and draft dataset card are recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
 - BGE-M3 is acquired and CPU/MPS-smoked from the SSD Hugging Face cache, but it is not promoted for mem0 defaults. On the expanded 12-case suite, BGE-M3 CPU reached top-1 `0.917` / recall@3 `1.000` and still missed the current-vs-old preference case. The new `score_plus_created_at_rank_close_margin` reranker reached `1.000` on the BGE-derived expanded suite, so the next mem0 improvement is a read-only wrapper test, not a default embedder switch. See `reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md`.
-- The read-only mem0 wrapper now exposes `score_plus_created_at_rank_close_margin` and live search smoke passed from a clean SSD-backed Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models`. The stale Qdrant lock holder was stopped, `nomic-embed-text:latest` was re-pulled into the clean root, and the wrapper returned a live result in `2.873s`. No mem0 defaults were changed. See `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md`.
+- The read-only mem0 wrapper now exposes `score_plus_created_at_rank_close_margin` and live search smoke passed from a clean SSD-backed Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models`. The stale Qdrant lock holder was stopped, `nomic-embed-text:latest` was re-pulled into the clean root, and the wrapper returned a live result in `2.873s`. `sam860/LFM2:2.6b` was also pulled into the clean root; bounded `/api/generate` returned exactly `ok`, and `extraction-lfm2-2-6b-clean-root-20260526` passed 7/7 mem0 extraction cases with JSON validity `1.000`, forbidden hit rate `0.000`, empty-case pass `1.000`, p50 latency `0.874s`, and p95 latency `0.988s`. No mem0 defaults were changed. See `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md` and `reports/benchmark/mem0/extraction-lfm2-2-6b-clean-root-20260526.md`.
 - Large MoE/frontier configs are runtime/teacher experiments only; do not treat them as safe defaults for local training.
 - Azure student subscription login is complete. GPU-family quota/capacity still needs explicit Azure ML/portal confirmation before compute creation.
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
@@ -141,11 +141,10 @@ Current gaps:
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the official benchmark environments are installed and smoke-verified.
 4. Publish no dataset until the cleaned synthetic-only dataset scope is explicitly approved and re-audited.
 5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
-6. Pull and smoke `sam860/LFM2:2.6b` in `/Volumes/PortableSSD/Ollama/mem0-clean-models` before claiming LFM2 extraction recovery.
-7. Run the same expanded embedding and derived-reranker comparison for `nomic-embed-text:latest`.
-8. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
-9. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
-10. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
+6. Run the same expanded embedding and derived-reranker comparison for `nomic-embed-text:latest`.
+7. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
+8. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
+9. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
 
 ## Key Files
 

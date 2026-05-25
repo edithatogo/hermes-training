@@ -77,6 +77,30 @@ Hermes 4.3, and LFM2-24B-A2B.
   Q4_K_M proof is complete, so prefer benchmarking/alignment decisions over
   acquiring another LFM2 variant.
 
+## 2026-05-26 mem0 Retrieval Refresh
+
+Live Hugging Face API search was also refreshed for mem0-specific embedding,
+reranking, and Apple Silicon paths.
+
+- `BAAI/bge-m3` remains the validated stronger local embedding baseline. It has
+  CPU/MPS smokes and a side-by-side mem0 config; it is still not the default.
+- `jinaai/jina-embeddings-v5-omni-small-mlx` and related Jina v5 omni MLX
+  variants appeared in current MLX embedding results. Add them as Mac-first
+  acquisition/load-proof candidates after the BGE-M3/nomic comparison.
+- `Qwen/Qwen3-Embedding-4B` remains the next high-quality dense embedding
+  candidate, but its download and memory footprint are materially larger than
+  BGE-M3.
+- Smaller Qwen3 reranker packages are visible, including ONNX and GGUF
+  `Qwen3-Reranker-0.6B` variants. These should be tested before the 4B reranker
+  if the target is live mem0 latency.
+- `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` and
+  `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` appeared as fresh MLX
+  reranker builds. They are good Apple Silicon reranker candidates for the
+  expanded mem0 suite.
+- `LiquidAI/LFM2-ColBERT-350M` remains the primary late-interaction retrieval
+  candidate, but it requires a separate ColBERT index path rather than reuse of
+  the dense Qdrant collections.
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -87,5 +111,6 @@ Hermes 4.3, and LFM2-24B-A2B.
 - Live Hugging Face API searches on 2026-05-24 for `Qwen3.7`, `Qwen3.7-Max`, `Qwen3.6-35B-A3B`, `LFM2-24B-A2B`, `Hermes-4-14B`, and `MiMo-V2-Flash GGUF`
 - Live Hugging Face API searches on 2026-05-25 for `Qwen3.7`, `Qwen3.6`, `Hermes-4.3`, `LFM2-24B-A2B`, `BitNet`, and `RWKV-7`
 - Live web/Hugging Face searches on 2026-05-26 for `Qwen3.7`, `Qwen3.6`, `Hermes-4.3`, and `LFM2-24B-A2B`
+- Live Hugging Face API searches on 2026-05-26 for `Hermes 4 GGUF`, `Qwen3.6 GGUF`, `Qwen3 Embedding`, `Qwen3 Reranker`, `LFM2 GGUF`, `LFM2 ColBERT`, `embedding mlx`, and `reranker mlx`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.
