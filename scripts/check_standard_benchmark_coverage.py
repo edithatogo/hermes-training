@@ -71,6 +71,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
     publication_gate = ROOT / "reports" / "benchmark" / "publication-readiness-gate-20260524.md"
     pilots = ROOT / "reports" / "benchmark" / "local-pilots" / "qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md"
     official_ifeval = ROOT / "reports" / "benchmark" / "official-ifeval" / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md"
+    lm_eval_selected = ROOT / "reports" / "benchmark" / "lm-eval" / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md"
     bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -146,10 +147,10 @@ def build_items(candidate: str) -> list[CoverageItem]:
         CoverageItem(
             suite="lm-eval-selected",
             tier="official-candidate",
-            status="missing",
-            evidence="",
+            status="blocked" if lm_eval_selected.exists() else "missing",
+            evidence=str(lm_eval_selected.relative_to(ROOT)) if lm_eval_selected.exists() else "",
             metric="",
-            notes="No MMLU/ARC/HellaSwag/TruthfulQA/GSM8K scorecard is recorded for this adapter.",
+            notes="Selected lm-eval smoke was attempted; current mlx_lm.server endpoint is not loglikelihood-compatible for these tasks.",
             required_for="general benchmark claim",
         ),
         CoverageItem(

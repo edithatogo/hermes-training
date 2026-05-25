@@ -91,15 +91,25 @@ candidates:
     first_gate: rerank-smoke
     notes: "Smaller 2026-05-26 refresh candidate for local reranking. Public ONNX package targets Transformers.js; Python fixed-suite smoke uses the source Qwen/Qwen3-Reranker-0.6B model with the same yes/no causal-LM scoring. Source model passed fixed 6-case and BGE/nomic expanded 12-case reranking suites at top-1 1.000. Live read-only wrapper smoke passed; warm helper reduced repeat-request Qwen scoring latency to 0.119s and total wrapper latency to 4.112s on a single-result live query. Multi-result replay through the wrapper reached top-1 1.000 on fixed, BGE-derived, and nomic-derived suites with p50 scoring around 0.25s to 0.28s on expanded suites. Isolated live fixture reached only top-1 0.667, matching vector and missing a recency lane. ONNX/Transformers.js bridge failed closed: Node supports cpu/webgpu rather than wasm, and CPU q4 timed out after 180.0s on one fixed-suite case at max length 512. Do not promote ONNX until a bounded CPU/CoreML proof passes."
 
-  - id: BAAI/bge-reranker-v2-m3-mlx
+  - id: flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
     role: reranker
     family: mlx-cross-encoder-reranker
     runtime:
       - mlx
     embedding_dims: null
-    status: candidate
-    first_gate: rerank-smoke
-    notes: "2026-05-26 refresh found fp16 and 8-bit MLX builds. Candidate Apple Silicon reranker against the expanded mem0 suite."
+    status: candidate-runtime-id-verified
+    first_gate: mlx-load-smoke
+    notes: "2026-05-26 refresh verified this public 8-bit MLX build after the placeholder BAAI/bge-reranker-v2-m3-mlx repo 404ed. Candidate Apple Silicon reranker against the fixed mem0 suite, but needs an MLX reranker harness because the current fixed reranking script only supports sentence-transformers CrossEncoder for generic cross_encoder runs."
+
+  - id: flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16
+    role: reranker
+    family: mlx-cross-encoder-reranker
+    runtime:
+      - mlx
+    embedding_dims: null
+    status: candidate-runtime-id-verified
+    first_gate: mlx-load-smoke
+    notes: "2026-05-26 refresh verified this public fp16 MLX build. Use after the 8-bit build only if quality or runtime behavior requires the higher precision artifact."
 
   - id: mem0-created-at-rank-reranker
     role: reranker

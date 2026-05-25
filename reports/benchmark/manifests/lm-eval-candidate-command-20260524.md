@@ -33,7 +33,13 @@ mkdir -p "$OUT"
   --seed 0,1234,1234,1234
 ```
 
-Use the smoke manifest first with `LIMIT=10`. This candidate command is the next tier and should not run until adapter compatibility is confirmed.
+Use the smoke manifest first with `LIMIT=10`. This candidate command is the
+next tier and should not run until adapter compatibility is confirmed.
+
+Current Qwen3 v4 status: blocked with `mlx_lm.server`. The selected tasks
+require loglikelihood scoring; `local-chat-completions` cannot provide it, and
+`local-completions` currently fails against the MLX server logprobs shape. See
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`.
 
 ## Result Card Schema
 

@@ -1,13 +1,12 @@
 {
   "run_id": "qwen3-v4-targeted-standard-coverage-20260526",
-  "created_at": "2026-05-25T18:14:38.175256+00:00",
+  "created_at": "2026-05-25T18:30:41.330621+00:00",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "status": "pilot-only",
   "local_adapter_gate_ready": true,
   "public_release_blocked": true,
   "official_candidate_missing": [
     "official-bfcl",
-    "lm-eval-selected",
     "official-coding",
     "safety-refusal",
     "ruler-long-context"
@@ -15,8 +14,8 @@
   "counts": {
     "passed": 1,
     "present": 4,
-    "blocked": 1,
-    "missing": 5
+    "blocked": 2,
+    "missing": 4
   },
   "items": [
     {
@@ -85,10 +84,10 @@
     {
       "suite": "lm-eval-selected",
       "tier": "official-candidate",
-      "status": "missing",
-      "evidence": "",
+      "status": "blocked",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
       "metric": "",
-      "notes": "No MMLU/ARC/HellaSwag/TruthfulQA/GSM8K scorecard is recorded for this adapter.",
+      "notes": "Selected lm-eval smoke was attempted; current mlx_lm.server endpoint is not loglikelihood-compatible for these tasks.",
       "required_for": "general benchmark claim"
     },
     {

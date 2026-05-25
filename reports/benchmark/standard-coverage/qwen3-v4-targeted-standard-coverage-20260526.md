@@ -16,7 +16,7 @@ Public release blocked: `true`
 | `official-ifeval-pilot` | official-pilot | `present` | prompt strict 0.760 | reports/benchmark/official-ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526.md | official harness readiness |
 | `publication-bundle` | release-gate | `blocked` | local quality gates checked; public release gates remain blocked | reports/publication/qwen3-4b-strict-toolcall-v4-targeted/publish-readiness-checklist.md | public Hugging Face release |
 | `official-bfcl` | official-candidate | `missing` |  | none | broad tool-calling benchmark claim |
-| `lm-eval-selected` | official-candidate | `missing` |  | none | general benchmark claim |
+| `lm-eval-selected` | official-candidate | `blocked` |  | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md | general benchmark claim |
 | `official-coding` | official-candidate | `missing` |  | none | coding benchmark claim |
 | `safety-refusal` | official-candidate | `missing` |  | none | safety/refusal claim |
 | `ruler-long-context` | official-candidate | `missing` |  | none | long-context claim |

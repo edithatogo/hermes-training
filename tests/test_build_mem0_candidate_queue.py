@@ -27,6 +27,20 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
             "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof",
         )
 
+    def test_verified_mlx_reranker_records_harness_gap(self) -> None:
+        candidate = {
+            "id": "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "role": "reranker",
+            "runtime": ["mlx"],
+            "status": "candidate-runtime-id-verified",
+        }
+
+        self.assertEqual(queue_priority(candidate)[0], 4)
+        self.assertEqual(
+            blocker_for(candidate),
+            "model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

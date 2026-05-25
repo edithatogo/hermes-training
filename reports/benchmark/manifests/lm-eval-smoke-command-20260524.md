@@ -37,3 +37,9 @@ $HERMES_EVAL_ROOT/lm-eval/<run-id>
 ## Boundary
 
 Limited-sample results are engineering smoke only. Do not publish them as benchmark scores.
+
+Current Qwen3 v4 status: blocked with `mlx_lm.server`. The selected tasks
+require loglikelihood scoring; the chat-completions harness is generation-only
+for these purposes, and the completions route needs a logprobs-compatible shim.
+See
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`.

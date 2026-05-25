@@ -16,7 +16,9 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         self.assertTrue(summary["local_adapter_gate_ready"])
         self.assertTrue(summary["public_release_blocked"])
         self.assertIn("official-bfcl", summary["official_candidate_missing"])
-        self.assertIn("lm-eval-selected", summary["official_candidate_missing"])
+        self.assertNotIn("lm-eval-selected", summary["official_candidate_missing"])
+        statuses = {item["suite"]: item["status"] for item in summary["items"]}
+        self.assertEqual(statuses["lm-eval-selected"], "blocked")
         metrics = {item["suite"]: item["metric"] for item in summary["items"]}
         self.assertEqual(metrics["local-bfcl-style-pilot"], "BFCL-style pilot 0.667")
         self.assertEqual(metrics["official-ifeval-pilot"], "prompt strict 0.760")

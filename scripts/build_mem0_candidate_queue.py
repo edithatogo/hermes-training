@@ -25,6 +25,7 @@ STATUS_ORDER = {
     "benchmarked-cpu-mps-not-promoted": 2,
     "source-model-benchmarked": 2,
     "installed-baseline": 3,
+    "candidate-runtime-id-verified": 4,
     "candidate": 4,
     "runtime-proof-needed": 3,
     "planned": 5,
@@ -104,6 +105,14 @@ def command_for(candidate: dict[str, Any]) -> str:
             ]
         )
     if role == "reranker":
+        if "bge-reranker-v2-m3-mlx" in model_id:
+            return "\n".join(
+                [
+                    "# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.",
+                    "# First implement or select an MLX reranker load/scoring shim for query-document pairs.",
+                    "# Then run the fixed candidate suite before any live mem0 integration.",
+                ]
+            )
         if "Qwen3-Reranker" in model_id:
             if model_id == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
                 return "\n".join(
@@ -198,6 +207,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         if candidate.get("id") == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
             return "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof"
         return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
+    if status == "candidate-runtime-id-verified" and role == "reranker" and runtime == "mlx":
+        return "model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark"
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"
     if role == "embedder" and dims in {"unknown", "variable"}:

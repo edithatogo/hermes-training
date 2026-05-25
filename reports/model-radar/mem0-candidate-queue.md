@@ -26,12 +26,13 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 5 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
 | 6 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 | 7 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 8 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 10 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
-| 11 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
-| 12 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
-| 13 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
+| 8 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 9 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark |
+| 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark |
+| 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
+| 12 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
+| 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
+| 14 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
 
 ## Candidate Commands
 
@@ -144,23 +145,6 @@ source scripts/env.sh
   --run-id extraction-hermes3-8b-$(date +%Y%m%d-%H%M%S)
 ```
 
-### BAAI/bge-reranker-v2-m3-mlx
-
-- Role: `reranker`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof; fixed-candidate harness is ready
-
-```bash
-source scripts/env.sh
-# First install optional reranker deps if needed.
-python -m pip install -r requirements-mem0-rerankers.txt
-./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
-  --strategy cross_encoder \
-  --model BAAI/bge-reranker-v2-m3-mlx \
-  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-baai-bge-reranker-v2-m3-mlx-$(date +%Y%m%d-%H%M%S)
-```
-
 ### Qwen/Qwen3-Reranker-4B
 
 - Role: `reranker`
@@ -176,6 +160,32 @@ source scripts/env.sh
   --qwen3-device auto \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
   --run-id rerank-qwen-qwen3-reranker-4b-$(date +%Y%m%d-%H%M%S)
+```
+
+### flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16
+
+- Role: `reranker`
+- Status: `candidate-runtime-id-verified`
+- Blocker: model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark
+
+```bash
+source scripts/env.sh
+# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.
+# First implement or select an MLX reranker load/scoring shim for query-document pairs.
+# Then run the fixed candidate suite before any live mem0 integration.
+```
+
+### flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
+
+- Role: `reranker`
+- Status: `candidate-runtime-id-verified`
+- Blocker: model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark
+
+```bash
+source scripts/env.sh
+# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.
+# First implement or select an MLX reranker load/scoring shim for query-document pairs.
+# Then run the fixed candidate suite before any live mem0 integration.
 ```
 
 ### Qwen/Qwen3-Embedding-4B
