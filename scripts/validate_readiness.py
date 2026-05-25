@@ -276,7 +276,7 @@ def check_publication_bundles(failures: list[str]) -> None:
             sys.executable,
             str(ROOT / "scripts/validate_publication_bundle.py"),
             str(bundle),
-            "--expect-blocked",
+            "--require-ready",
         ],
         capture_output=True,
         text=True,

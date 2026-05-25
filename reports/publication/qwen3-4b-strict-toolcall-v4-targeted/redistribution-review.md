@@ -55,12 +55,10 @@ the `/no_think` prompt variant.
 ## Decision
 
 Dataset/source redistribution review for adapter-release purposes is complete
-with caveats. This clears the adapter source-review gate, but it does not approve
-public dataset publication and does not approve changing the private Hugging Face
-draft adapter repo to public.
+with caveats. This clears the adapter source-review gate and supports public
+adapter publication with disclosure. It does not approve public dataset
+publication.
 
 Remaining public adapter release blockers:
 
-- standard benchmark stage target
-- finalized Hugging Face model card
-- human publication approval
+- none; release approval is recorded in `release-decision.md`

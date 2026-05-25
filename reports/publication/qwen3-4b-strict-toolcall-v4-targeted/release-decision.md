@@ -6,25 +6,27 @@ Date: 2026-05-25
 
 GitHub evidence publication: **approved and versioned**.
 
-Private Hugging Face draft adapter: **approved as private draft evidence**.
+Hugging Face adapter publication: **approved as public experimental release**.
 
-Public Hugging Face adapter publication: **blocked**.
+Private Hugging Face draft adapter: **superseded by public release**.
 
 Dataset publication: **blocked**.
 
 Merged weights or GGUF publication: **out of scope and blocked**.
 
-## Why This Is Not Public Yet
+## Public Release Positioning
 
-The local strict quality gate is satisfied, but public release requires more
-than quality. The remaining public-release gates are:
+The local strict quality gate is satisfied. Public release is approved with
+narrow, explicit positioning:
 
-- final standard benchmark positioning with pilot scores labeled correctly
-- finalized Hugging Face model card
-- explicit human publication approval
+- This is an experimental strict Hermes tool-call LoRA adapter.
+- It requires `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`.
+- Repo-native pilot scores are disclosed as pilot-only engineering evidence.
+- It is not presented as an official BFCL, IFEval, HumanEval, MBPP, or broad
+  production tool-use benchmark winner.
 
-The release must stay fail-closed until those gates are checked in the
-publish-readiness checklist.
+Human approval was recorded on 2026-05-25 by the user instruction:
+`Address all of the issues and make it public`.
 
 ## Evidence Approved For GitHub
 
@@ -74,9 +76,9 @@ Local pilot benchmarks:
 These pilot scores are useful engineering evidence, not official benchmark
 claims.
 
-## Private Hugging Face Draft Evidence
+## Hugging Face Release Evidence
 
-Private draft repo:
+Adapter repo:
 
 ```text
 https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
@@ -87,22 +89,15 @@ Verification:
 ```text
 local adapters.safetensors sha256: 42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e
 HF downloaded adapters.safetensors sha256: 42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e
-HF main revision: bec399b04be9ba7ba67d3a58926367bf2cb930e7
+HF adapter-weight revision verified during private draft stage: bec399b04be9ba7ba67d3a58926367bf2cb930e7
 ```
 
-This verifies artifact preservation only. It is not public release approval.
+This verifies artifact preservation. The same artifact is approved for public
+release with the limitations in the final model card.
 
 ## Machine Gate
 
-Current expected gate:
-
-```bash
-./.venv/bin/python scripts/validate_publication_bundle.py \
-  reports/publication/qwen3-4b-strict-toolcall-v4-targeted \
-  --expect-blocked
-```
-
-Future public release gate:
+Public release gate:
 
 ```bash
 ./.venv/bin/python scripts/validate_publication_bundle.py \
@@ -110,13 +105,13 @@ Future public release gate:
   --require-ready
 ```
 
-The future gate must fail until the remaining public-release checklist items are
-checked with evidence.
+The public release gate must pass before or at the same commit that changes the
+Hugging Face repository visibility.
 
 ## Next Actions
 
-1. Decide whether to keep the current pilot-only standard benchmark positioning
-   or run broader official suites on Azure or another suitable runtime.
-2. Finalize the Hugging Face model card only after the release wording reflects
-   the runtime prefill requirement and pilot-only benchmark scope.
-3. Record human publication approval before changing private draft visibility.
+1. Keep the current public model card scoped to strict Hermes local tool-call
+   behavior and pilot-only benchmark evidence.
+2. Run broader official suites later before making stronger benchmark claims.
+3. Continue iterating on BFCL-style and IFEval-style pilot failures in the next
+   adapter track.

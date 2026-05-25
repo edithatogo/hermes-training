@@ -173,9 +173,9 @@ No model-card or runtime claim should omit the required assistant prefill.
 The reusable prompt contract is recorded in
 `RUNTIME_PROMPT_PROFILES.yaml` as `qwen3-no-think-assistant-prefill`.
 
-## Hugging Face Draft
+## Hugging Face Release
 
-Private draft adapter repo:
+Adapter repo:
 
 ```text
 https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
@@ -197,7 +197,8 @@ Verification:
 ```text
 local adapters.safetensors sha256: 42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e
 HF downloaded adapters.safetensors sha256: 42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e
-HF main revision: bec399b04be9ba7ba67d3a58926367bf2cb930e7
+HF adapter-weight revision verified during private draft stage: bec399b04be9ba7ba67d3a58926367bf2cb930e7
 ```
 
-This is a private draft upload, not public release approval.
+Public release approval is recorded in `release-decision.md`. The release is
+approved only with the model-card limitations and pilot-only benchmark scope.

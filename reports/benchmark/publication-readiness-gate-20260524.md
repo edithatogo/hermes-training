@@ -7,7 +7,7 @@ Updated: 2026-05-25
 
 Publication status: **partially cleared**
 
-The `qwen3-4b-strict-toolcall-v4-targeted` adapter now satisfies the local strict held-out Hermes-agent gate at `1.000` when evaluated with the required Qwen runtime condition. Public publication remains blocked pending the non-quality release gates: dataset/source redistribution review, standard benchmark positioning, finalized model card, and explicit user approval.
+The `qwen3-4b-strict-toolcall-v4-targeted` adapter now satisfies the local strict held-out Hermes-agent gate at `1.000` when evaluated with the required Qwen runtime condition. Public adapter publication is approved as an experimental strict Hermes tool-call LoRA with pilot-only benchmark positioning. Public dataset and merged-weight publication remain separate and blocked.
 
 ## Required Evidence Pack
 

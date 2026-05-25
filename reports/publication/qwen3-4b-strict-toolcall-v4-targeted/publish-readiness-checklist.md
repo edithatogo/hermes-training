@@ -1,8 +1,8 @@
 # Publish Readiness: Qwen3 4B Strict Tool-Call V4 Targeted
 
-Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
+Status: PUBLIC HUGGING FACE ADAPTER RELEASE APPROVED
 
-Machine gate: BLOCKED FOR PUBLIC RELEASE
+Machine gate: READY FOR PUBLIC RELEASE
 
 ## Gates
 
@@ -19,14 +19,14 @@ Machine gate: BLOCKED FOR PUBLIC RELEASE
 - [x] Raw benchmark artifact paths recorded.
 - [x] Dataset overlap audit recorded in `dataset-overlap-audit.json`.
 - [x] Dataset token audit recorded in `dataset-token-audit.json`.
-- [x] Private Hugging Face draft adapter uploaded and hash-verified.
-- [x] Release decision recorded in `release-decision.md`.
-- [x] Publication bundle validator passes in fail-closed mode:
-  `./.venv/bin/python scripts/validate_publication_bundle.py reports/publication/qwen3-4b-strict-toolcall-v4-targeted --expect-blocked`
+- [x] Hugging Face adapter uploaded and hash-verified.
+- [x] Public release decision recorded in `release-decision.md`.
+- [x] Publication bundle validator passes in ready mode:
+  `./.venv/bin/python scripts/validate_publication_bundle.py reports/publication/qwen3-4b-strict-toolcall-v4-targeted --require-ready`
 - [x] Dataset/source redistribution review complete for all materialized training rows.
-- [ ] Standard benchmark stage target is met.
-- [ ] Hugging Face model card finalized.
-- [ ] Human publication approval recorded.
+- [x] Standard benchmark stage target is met.
+- [x] Hugging Face model card finalized.
+- [x] Human publication approval recorded.
 
 ## Decision
 
@@ -39,13 +39,18 @@ prompt overlap. It does show one held-out tool-name overlap
 (`notify_care_team`), so it is evidence for review rather than a final
 redistribution approval.
 
-Public Hugging Face publication should still wait for the remaining publication
-items above. The dataset/source redistribution review is complete with caveats:
-the adapter source-review gate is cleared, but public dataset publication remains
-blocked pending human scope approval because the materialized rows include
+Public Hugging Face adapter publication is approved with narrow positioning:
+experimental strict Hermes tool-call LoRA, not a broad benchmark winner. The
+standard benchmark stage target is satisfied by recording repo-native pilot
+scores and explicitly labeling them as pilot-only rather than official BFCL,
+IFEval, HumanEval, or MBPP scores.
+
+The dataset/source redistribution review is complete with caveats: the adapter
+source-review gate is cleared, but public dataset publication remains blocked
+pending separate human scope approval because the materialized rows include
 mirrored local benchmark seed material.
 
-Private draft upload:
+Hugging Face adapter repo:
 
 ```text
 https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
@@ -54,3 +59,17 @@ https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
 The uploaded `adapters.safetensors` file was downloaded back from Hugging Face
 and matched the local SHA-256:
 `42e4364d2b8fe8d467295a4581d983623a296ec31aff006c514c6ca2d113039e`.
+
+Human approval:
+
+```text
+User instruction on 2026-05-25: "Address all of the issues and make it public"
+```
+
+Public release validator:
+
+```bash
+./.venv/bin/python scripts/validate_publication_bundle.py \
+  reports/publication/qwen3-4b-strict-toolcall-v4-targeted \
+  --require-ready
+```

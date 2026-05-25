@@ -49,7 +49,7 @@ This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs
 
 ## Publication Gate
 
-The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-toolcall-v4-targeted` under its recorded Qwen runtime prefill condition. Public benchmark/model publication remains blocked until the full evidence pack is complete. The current gate record is:
+The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-toolcall-v4-targeted` under its recorded Qwen runtime prefill condition. Public adapter publication is approved with the current evidence pack and pilot-only benchmark positioning. The current gate record is:
 
 `reports/benchmark/publication-readiness-gate-20260524.md`
 
@@ -175,7 +175,7 @@ The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-cal
 - Coding sanity pilot: `1.000`
 - Required runtime condition: first user turn `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`
 - Endpoint benchmark harnesses now expose the same assistant-prefill flag for strict and pilot checks, so runtime-profile comparisons can stay consistent across MLX and OpenAI-compatible endpoints.
-- Decision: local strict Hermes-agent gate passed; public Hugging Face publication remains pending redistribution review, finalized card, and explicit approval. Pilot failures should be documented rather than hidden.
+- Decision: local strict Hermes-agent gate passed; public Hugging Face adapter release approved as experimental with pilot-only benchmark scope. Pilot failures should be documented rather than hidden.
 
 ## mem0 Baselines
 

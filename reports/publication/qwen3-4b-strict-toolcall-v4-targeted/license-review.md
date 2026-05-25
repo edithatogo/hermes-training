@@ -27,16 +27,18 @@ Review date: 2026-05-25
 GitHub source publication is acceptable for code, configs, run cards, and small
 reproducibility artifacts.
 
-Private Hugging Face draft adapter upload is acceptable for preserving the
-artifact with caveats and audit evidence:
+Hugging Face adapter publication is acceptable with caveats and audit evidence:
 `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`.
 
-Public Hugging Face adapter publication is not yet approved in this review.
-Although the quality gate now passes and the private draft artifact is uploaded,
-public publication still needs:
+Public Hugging Face adapter publication is approved as an experimental adapter
+release, not as a public dataset release or merged-weights release. Required
+caveats:
 
-- final redistribution review for all materialized training rows inherited by V4
-- finalized model card with the required assistant-prefill runtime condition
-- human publication approval
+- final model card must state the required assistant-prefill runtime condition
+- local pilot scores must remain labeled as pilot-only
+- the dataset-source caveats and `notify_care_team` tool-name overlap must stay
+  disclosed
+- public dataset publication remains separate and blocked pending human scope
+  approval
 
 Merged weights and GGUF publication remain out of scope for this adapter review.

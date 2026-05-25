@@ -1,13 +1,26 @@
+---
+license: apache-2.0
+base_model: Qwen/Qwen3-4B-MLX-4bit
+tags:
+- mlx
+- lora
+- qwen3
+- tool-calling
+- hermes-agent
+- experimental
+library_name: mlx
+---
+
 # Qwen3 4B Hermes Strict Tool-Call V4 Targeted
 
-Draft status: private Hugging Face draft upload; not a public release.
+Release status: public experimental adapter release.
 
 ## Summary
 
 This is a LoRA adapter for `Qwen/Qwen3-4B-MLX-4bit` trained for strict local
 Hermes-style tool-call output.
 
-Private draft repo: `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`
+Adapter repo: `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`
 
 The adapter is intended for local evaluation and agent-runtime packaging. It
 requires the recorded runtime prompt condition:
@@ -88,8 +101,9 @@ The reusable runtime prompt contract is recorded in
 - The adapter is sensitive to runtime prompt formatting.
 - The V4 training data has no held-out user-prompt overlap in the recorded
   audit, but it shares one generic held-out tool name, `notify_care_team`.
-- Public publication is pending dataset/source redistribution review and human
-  approval.
-- The current release decision is recorded in `release-decision.md`; the
-  publication bundle is expected to pass only in fail-closed mode until public
-  release approval is recorded.
+- Dataset/source redistribution review is complete for adapter-release purposes
+  with caveats; public dataset publication remains separate and blocked pending
+  scope approval.
+- Public release approval is recorded in `release-decision.md`; the publication
+  bundle is expected to pass `scripts/validate_publication_bundle.py
+  --require-ready`.

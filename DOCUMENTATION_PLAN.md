@@ -68,7 +68,7 @@ For the completed expanded-data retrain attempt, the publication folder is `repo
 
 For the completed v2/v3 strict format-guard attempts, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v2-v3/`. Its checklist remains BLOCKED because both v2 and v3 heldout suites reported strict pass rate `0.250`, below the required `1.000`. The v3 diagnostic empty-think-stripped score improved to `0.875`, but diagnostic normalization is integration evidence only and cannot replace the strict publication gate.
 
-For the completed v4 targeted strict-tool-call attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`. Its checklist records the first local strict held-out pass at `1.000`, using the required Qwen runtime condition: `/no_think` on the first user turn plus assistant prefill `<think>\n\n</think>\n\n`. Hugging Face publication remains pending dataset/source redistribution review, broader benchmark positioning, finalized model card, and human publication approval.
+For the completed v4 targeted strict-tool-call attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`. Its checklist records the first local strict held-out pass at `1.000`, using the required Qwen runtime condition: `/no_think` on the first user turn plus assistant prefill `<think>\n\n</think>\n\n`. Public Hugging Face adapter publication is approved as an experimental strict Hermes tool-call LoRA with pilot-only benchmark positioning. Public dataset publication remains separate and blocked pending scope approval.
 
 Publish benchmark artifacts as either:
 
@@ -82,8 +82,8 @@ As of 2026-05-25:
 
 - GitHub: publish code, Conductor tracks, benchmark harnesses, run cards, model radar updates, passing strict-gate evidence, and negative benchmark results. This work is reproducibility infrastructure and should be versioned now.
 - Hugging Face dataset: defer until the expanded and targeted strict tool-call examples have accepted publication scope and final redistribution approval.
-- Hugging Face adapter: the Qwen3 v4 targeted adapter now passes the local strict held-out gate at `1.000` under the recorded runtime condition, but public adapter publication remains pending redistribution review, standard benchmark positioning, finalized model card, and human approval.
+- Hugging Face adapter: the Qwen3 v4 targeted adapter passes the local strict held-out gate at `1.000` under the recorded runtime condition and is public as an experimental adapter release at `edithatogo/qwen3-4b-hermes-lora`.
 - Hugging Face GGUF/merged weights: do not publish merged Qwen3 artifacts unless the upstream license and redistribution path are explicitly reviewed and a runtime card passes.
-- Publish-readiness checklist: keep public adapter publication blocked until all non-quality release gates are complete; the strict local quality gate is now satisfied by the v4 targeted run.
+- Publish-readiness checklist: the v4 targeted adapter checklist is READY for public adapter release; continue to keep public dataset and merged-weight releases separate.
 
 Next publishable HF artifact should be either a cleaned tool-call dataset with a dataset card, or the v4 targeted adapter after the remaining release gates are closed.
