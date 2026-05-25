@@ -1,0 +1,75 @@
+{
+  "assistant_outputs": {
+    "refusal": 18,
+    "tool_calls": 76
+  },
+  "assistant_tool_name_count": 57,
+  "categories": {
+    "argument_correctness": 22,
+    "format_guard": 16,
+    "invalid_tool_handling": 16,
+    "json_validity": 18,
+    "multi_turn_repair": 10
+  },
+  "data_path": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526",
+  "declared_tool_name_count": 74,
+  "duplicate_ids_across_files": [],
+  "duplicate_ids_within_files": {},
+  "error_count": 0,
+  "errors": [],
+  "files": {
+    "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/test.jsonl": {
+      "categories": {
+        "multi_turn_repair": 5
+      },
+      "rows": 5
+    },
+    "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/train.jsonl": {
+      "categories": {
+        "argument_correctness": 22,
+        "format_guard": 16,
+        "invalid_tool_handling": 16,
+        "json_validity": 16,
+        "multi_turn_repair": 2
+      },
+      "rows": 72
+    },
+    "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/validation.jsonl": {
+      "categories": {
+        "json_validity": 2,
+        "multi_turn_repair": 3
+      },
+      "rows": 5
+    }
+  },
+  "jsonl_file_count": 3,
+  "overlap": {
+    "heldout_suite": {
+      "assistant_tool_name_overlap": [
+        "notify_care_team"
+      ],
+      "assistant_tool_name_overlap_count": 1,
+      "cases": 8,
+      "path": "benchmarks/tool_call_local/heldout_suite.json",
+      "tool_name_overlap": [
+        "notify_care_team"
+      ],
+      "tool_name_overlap_count": 1,
+      "user_prompt_overlap_count": 0,
+      "user_prompt_overlap_samples": []
+    },
+    "suite": {
+      "assistant_tool_name_overlap": [],
+      "assistant_tool_name_overlap_count": 0,
+      "cases": 6,
+      "path": "benchmarks/tool_call_local/suite.json",
+      "tool_name_overlap": [],
+      "tool_name_overlap_count": 0,
+      "user_prompt_overlap_count": 0,
+      "user_prompt_overlap_samples": []
+    }
+  },
+  "rows": 82,
+  "unique_ids": 82,
+  "valid": true
+}

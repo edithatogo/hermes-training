@@ -91,6 +91,11 @@ Before creating a Hugging Face dataset repo:
 - Token audit: `dataset-token-audit.json`
 - Redistribution review: `redistribution-review.md`
 - Dataset card draft: `hf-dataset-card-draft.md`
+- Cleaned synthetic materialization run card:
+  `cleaned-synthetic-dataset-run-card.md`
+- Cleaned synthetic source audit: `cleaned-synthetic-source-audit.json`
+- Cleaned synthetic overlap audit: `cleaned-synthetic-overlap-audit.json`
+- Cleaned synthetic token audit: `cleaned-synthetic-token-audit.json`
 
 ## Boundary
 

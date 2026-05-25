@@ -30,6 +30,13 @@ gemma4/data/strict_tool_call/expanded_splits_v4_targeted
 The recommended future public dataset should be a cleaned synthetic-only subset,
 not a direct upload of the materialized training splits.
 
+A cleaned synthetic-only candidate has been materialized locally but not
+published:
+
+```text
+/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526
+```
+
 ## Intended Use
 
 - Local supervised fine-tuning experiments for strict Hermes-style tool-call
@@ -119,6 +126,10 @@ The recommended excluded source classes are:
 
 - `strict_tool_call_seed`
 - `strict_tool_call`
+
+The current cleaned candidate has `82` rows, no duplicate IDs, and no held-out
+user-prompt overlap. Its run card is
+`cleaned-synthetic-dataset-run-card.md`.
 
 ## Associated Adapter
 

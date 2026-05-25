@@ -235,6 +235,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/audit_publication_dataset_sources.py",
         ROOT / "scripts/check_storage_layout.py",
         ROOT / "scripts/smoke_official_benchmark_env.py",
+        ROOT / "scripts/materialize_publication_dataset.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
     ]
