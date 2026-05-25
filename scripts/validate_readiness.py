@@ -222,6 +222,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/run_tool_call_benchmark.py",
         ROOT / "scripts/run_endpoint_tool_call_benchmark.py",
         ROOT / "scripts/run_endpoint_pilot_benchmark.py",
+        ROOT / "scripts/run_local_pilot_benchmark.py",
         ROOT / "scripts/build_tool_call_training_data.py",
         ROOT / "scripts/normalize_tool_response.py",
         ROOT / "ollama-pack/scripts/normalize_runtime_json.py",

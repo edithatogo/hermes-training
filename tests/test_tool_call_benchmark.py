@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.run_endpoint_pilot_benchmark import apply_assistant_prefill as pilot_assistant_prefill
 from scripts.run_endpoint_tool_call_benchmark import apply_assistant_prefill
+from scripts.run_local_pilot_benchmark import generate_local
 from scripts.run_tool_call_benchmark import apply_user_prefix, build_generation_prompt
 
 
@@ -46,6 +47,9 @@ class ToolCallBenchmarkTests(unittest.TestCase):
             pilot_assistant_prefill(messages, "<think>\n\n</think>\n\n"),
             apply_assistant_prefill(messages, "<think>\n\n</think>\n\n"),
         )
+
+    def test_local_pilot_generate_local_is_importable(self) -> None:
+        self.assertTrue(callable(generate_local))
 
 
 if __name__ == "__main__":

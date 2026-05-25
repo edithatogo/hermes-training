@@ -76,6 +76,18 @@ final GGUF: not assembled
 remaining: 34 chunks before final assembly and exact-size proof
 ```
 
+Current live checkpoint:
+
+```text
+checked: 2026-05-25T22:45:45+1000
+chunks complete: 194 / 215
+active temp chunks: 16
+partial bytes complete: 13019119616
+final GGUF: not assembled
+remaining: 21 chunks before final assembly and exact-size proof
+observed rate: ~1.14 MiB/s
+```
+
 ## Post-Download Proof
 
 An SSD-backed watcher is active:

@@ -143,6 +143,26 @@ Raw output:
 /Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-mirrored-prefill-20260525
 ```
 
+## Local Pilot Benchmarks
+
+Report:
+
+```text
+reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md
+```
+
+Results:
+
+| Suite | Pass rate | Raw output root |
+|---|---:|---|
+| BFCL-style pilot | 0.667 | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-bfcl-prefill-20260525` |
+| IFEval-style pilot | 0.667 | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-ifeval-prefill-20260525` |
+| Coding sanity pilot | 1.000 | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-coding-prefill-20260525` |
+
+These are repo-native pilot suites, not official BFCL, IFEval, or HumanEval
+scores. Residual failures are documented in the report and should be treated
+as the next improvement targets before making broad public benchmark claims.
+
 ## Important Limitation
 
 Without assistant prefill, the same adapter still emits the Qwen empty thinking

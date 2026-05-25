@@ -106,12 +106,11 @@ def render_summary(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
     by_category = Counter(row["category"] for row in rows)
     passed_by_category = Counter(row["category"] for row in rows if row["pass"])
     lines = [
-        "# Endpoint Pilot Benchmark Summary",
+        "# Pilot Benchmark Summary",
         "",
         f"- Run id: `{summary['run_id']}`",
         f"- Suite: `{summary['suite']}`",
         f"- Model: `{summary['model']}`",
-        f"- Base URL: `{summary['base_url']}`",
         f"- Cases: `{summary['cases']}`",
         f"- Pass rate: `{summary['pass_rate']:.3f}`",
         f"- Output root: `{summary['output_dir']}`",
@@ -121,6 +120,10 @@ def render_summary(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         "| Category | Cases | Pass rate |",
         "|---|---:|---:|",
     ]
+    if summary.get("base_url"):
+        lines.insert(6, f"- Base URL: `{summary['base_url']}`")
+    if summary.get("adapter"):
+        lines.insert(6, f"- Adapter: `{summary['adapter']}`")
     for category in sorted(by_category):
         lines.append(
             f"| {category} | {by_category[category]} | {passed_by_category[category] / by_category[category]:.3f} |"

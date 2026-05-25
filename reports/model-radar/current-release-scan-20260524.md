@@ -34,6 +34,26 @@ Live refresh during implementation also found no Hugging Face model results for 
 
 No official `Qwen/Qwen3.7-*` open-weight model or official Qwen repository result was verified. Keep Qwen3.7 out of local runtime, training, Azure, GitHub, and Hugging Face publication lanes until an official model card or repository exists. Treat `Qwen3.7-Max` as API-only/watchlist for now, not as a Mac-local model.
 
+## 2026-05-25 Refresh
+
+Live Hugging Face search was refreshed on 2026-05-25 for `Qwen3.7`,
+`Qwen3.6`, `Hermes-4.3`, `LFM2-24B-A2B`, `BitNet`, and `RWKV-7`.
+
+- `Qwen3.7`: no Hugging Face model results were returned. Keep the guardrail.
+- `Qwen3.6`: community GGUF/merged variants remain active; the local project
+  already has the Qwen3.6 35B-A3B Q4_K_M runtime proof and should not add a
+  second Qwen3.6 download unless it closes a specific benchmark gap.
+- `Hermes-4.3`: newer 36B GGUF/MLX variants are visible, including MLX 5-bit
+  and Q4/Q5 GGUF variants. This remains a cloud or carefully selected local
+  runtime-proof candidate, not an M1 fine-tune target.
+- `LFM2-24B-A2B`: additional terminal-SFT, MXFP4-MoE, OpenVINO int4, and GGUF
+  variants are visible. The current LFM2-24B-A2B Q4 acquisition should finish
+  and prove before adding another LFM2 variant.
+- `BitNet`: small and experimental variants are visible, but no current result
+  changes the existing watchlist-only posture.
+- `RWKV-7`: `rwkv7-g1` and 7.2B/13.3B GGUF variants are visible. These remain
+  research-runtime lanes until a Hermes prompt harness exists.
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -42,5 +62,6 @@ No official `Qwen/Qwen3.7-*` open-weight model or official Qwen repository resul
 - Hugging Face NousResearch organization: `https://huggingface.co/NousResearch`
 - Hugging Face RWKV organization: `https://huggingface.co/RWKV/models`
 - Live Hugging Face API searches on 2026-05-24 for `Qwen3.7`, `Qwen3.7-Max`, `Qwen3.6-35B-A3B`, `LFM2-24B-A2B`, `Hermes-4-14B`, and `MiMo-V2-Flash GGUF`
+- Live Hugging Face API searches on 2026-05-25 for `Qwen3.7`, `Qwen3.6`, `Hermes-4.3`, `LFM2-24B-A2B`, `BitNet`, and `RWKV-7`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.

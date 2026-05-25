@@ -29,7 +29,7 @@ Every publish candidate must have:
 
 | Runtime | Strict Held-Out | BFCL-Style Pilot | IFEval-Style Pilot | Coding Pilot | Decision |
 |---|---:|---:|---:|---:|---|
-| Qwen3 4B MLX LoRA v4 targeted with `/no_think` plus assistant prefill | `1.000` | pending | pending | pending | Local strict gate passed; HF publication pending release review. |
+| Qwen3 4B MLX LoRA v4 targeted with `/no_think` plus assistant prefill | `1.000` | `0.667` | `0.667` | `1.000` | Local strict gate passed; pilot failures still limit broad benchmark claims. |
 | Qwen3 4B Q4_K_M via LM Studio | `0.500` | `0.000` | `0.667` | `1.000` | Best local strict endpoint so far; not publishable. |
 | Qwen3 4B Q4_K_M via llama.cpp | `0.375` | `0.333` | `0.667` | `1.000` | Useful baseline; not publishable. |
 | Hermes 4 14B Q4_K_M via llama.cpp | `0.250` | `0.000` | `0.667` | `1.000` | Runtime proof and baseline only. |

@@ -148,13 +148,20 @@ Qwen3.6 35B-A3B Q4_K_M is now acquired, loaded, and benchmarked through llama.cp
 The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-call gate:
 
 - Publication folder: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`
+- Local pilot report: `reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md`
 - Raw held-out output root: `/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-heldout-prefill-20260525`
 - Mirrored regression output root: `/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-mirrored-prefill-20260525`
+- BFCL-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-bfcl-prefill-20260525`
+- IFEval-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-ifeval-prefill-20260525`
+- Coding sanity pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-coding-prefill-20260525`
 - Strict held-out pass: `1.000`
 - Mirrored regression pass: `1.000`
+- BFCL-style pilot: `0.667`
+- IFEval-style pilot: `0.667`
+- Coding sanity pilot: `1.000`
 - Required runtime condition: first user turn `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`
 - Endpoint benchmark harnesses now expose the same assistant-prefill flag for strict and pilot checks, so runtime-profile comparisons can stay consistent across MLX and OpenAI-compatible endpoints.
-- Decision: local strict Hermes-agent gate passed; public Hugging Face publication remains pending redistribution review, standard benchmark positioning, finalized card, and explicit approval.
+- Decision: local strict Hermes-agent gate passed; public Hugging Face publication remains pending redistribution review, finalized card, and explicit approval. Pilot failures should be documented rather than hidden.
 
 ## mem0 Baselines
 
