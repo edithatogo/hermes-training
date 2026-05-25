@@ -38,6 +38,8 @@ Human approval was recorded on 2026-05-25 by the user instruction:
 - Dataset token audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-token-audit.json`
 - Dataset source audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-source-audit.json`
 - Redistribution review: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/redistribution-review.md`
+- Dataset publication scope: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-publication-scope.md`
+- Dataset card draft: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/hf-dataset-card-draft.md`
 - Local pilot report: `reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md`
 
 ## Quality Evidence
@@ -115,3 +117,5 @@ Hugging Face repository visibility.
 2. Run broader official suites later before making stronger benchmark claims.
 3. Continue iterating on BFCL-style and IFEval-style pilot failures in the next
    adapter track.
+4. Publish a cleaned synthetic-only dataset only after explicit human approval
+   of `dataset-publication-scope.md`.

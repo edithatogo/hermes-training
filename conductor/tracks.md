@@ -157,3 +157,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Roadmap current state refresh
 *Link: [./tracks/roadmap-current-state-refresh_20260526/](./tracks/roadmap-current-state-refresh_20260526/)*
+
+---
+
+## [x] Track: Qwen3 V4 dataset publication scope
+*Link: [./tracks/qwen3-v4-dataset-publication-scope_20260526/](./tracks/qwen3-v4-dataset-publication-scope_20260526/)*

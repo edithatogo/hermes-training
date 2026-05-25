@@ -116,7 +116,7 @@ Complete:
 
 Current gaps:
 
-- Public dataset publication remains blocked pending explicit dataset-scope approval and final dataset card.
+- Public dataset publication remains blocked pending explicit approval of the cleaned synthetic-only scope. The proposed scope and draft dataset card are recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
 - Large MoE/frontier configs are runtime/teacher experiments only; do not treat them as safe defaults for local training.
 - Azure student subscription login is complete. GPU-family quota/capacity still needs explicit Azure ML/portal confirmation before compute creation.
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
@@ -136,7 +136,7 @@ Current gaps:
 1. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
 2. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the official benchmark environments are installed and smoke-verified.
-4. Prepare a cleaned dataset-publication scope and dataset card before any Hugging Face dataset release.
+4. Publish no dataset until the cleaned synthetic-only dataset scope is explicitly approved and re-audited.
 5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
 6. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
 7. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
