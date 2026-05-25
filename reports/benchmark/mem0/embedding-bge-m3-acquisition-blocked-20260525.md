@@ -96,7 +96,9 @@ blobs/b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38.incomplet
 ## Decision
 
 BGE-M3 acquisition is no longer blocked for the PyTorch / sentence-transformers
-path. A CPU benchmark completed on 2026-05-26:
+path. CPU and MPS benchmarks completed on 2026-05-26.
+
+CPU command:
 
 ```bash
 HF_HOME=/Volumes/PortableSSD/huggingface \
@@ -129,6 +131,39 @@ Result:
 | Embed latency p50 | 0.098s |
 | Embed latency p95 | 0.141s |
 
+MPS command:
+
+```bash
+HF_HOME=/Volumes/PortableSSD/huggingface \
+HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
+TRANSFORMERS_CACHE=/Volumes/PortableSSD/huggingface/transformers \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python \
+  scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device mps \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-bge-m3-mps-smoke-20260526
+```
+
+Raw output:
+
+```text
+/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-mps-smoke-20260526
+```
+
+Result:
+
+| Metric | Value |
+|---|---:|
+| Cases | 3 |
+| Top-1 accuracy | 0.667 |
+| Recall@3 | 1.000 |
+| MRR | 0.833 |
+| nDCG@3 | 0.877 |
+| Embedding dims | 1024 |
+| Embed latency p50 | 0.126s |
+| Embed latency p95 | 1.240s |
+
 Case result:
 
 | Case | Top document | Pass |
@@ -139,7 +174,8 @@ Case result:
 
 Decision: do not promote BGE-M3 as the mem0 default. It matches the current
 `nomic-embed-text:latest` top-1 and recall result on this tiny suite, but it is
-slower and does not fix the recency-preference top-1 failure.
+slower and does not fix the recency-preference top-1 failure. In this smoke,
+CPU was also steadier than MPS.
 
 Implementation notes:
 

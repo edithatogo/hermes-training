@@ -31,9 +31,9 @@ candidates:
       - transformers
       - llama.cpp-if-supported
     embedding_dims: 1024
-    status: benchmarked-cpu-not-promoted
+    status: benchmarked-cpu-mps-not-promoted
     first_gate: mteb-retrieval-smoke
-    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-26: CPU sentence-transformers smoke completed from SSD cache at 1024 dims, top-1 0.667 / recall@3 1.000, matching nomic on the small suite but slower and not fixing recency top-1."
+    notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-26: CPU and MPS sentence-transformers smokes completed from SSD cache at 1024 dims, top-1 0.667 / recall@3 1.000, matching nomic on the small suite but slower and not fixing recency top-1."
 
   - id: jinaai/jina-embeddings-v4
     role: embedder

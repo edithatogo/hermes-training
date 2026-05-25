@@ -5,6 +5,7 @@
 | embedding | embedding-nomic-openai-ollama-smoke-20260524 | nomic-embed-text:latest | 0.667 |  | 0.667 | 1.000 |  | 0.025 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-openai-ollama-smoke-20260524` |
 | embedding | embedding-nomic-smoke-20260524 | nomic-embed-text:latest | 0.667 |  | 0.667 | 1.000 |  | 0.021 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-smoke-20260524` |
 | embedding | embedding-bge-m3-cpu-smoke-20260526 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.098 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-cpu-smoke-20260526` |
+| embedding | embedding-bge-m3-mps-smoke-20260526 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.126 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-mps-smoke-20260526` |
 | extraction | extraction-hermes3-8b-expanded-examples-20260524 | hermes3:8b | 0.571 |  |  |  | 0.714 | 1.476 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-examples-20260524` |
 | extraction | extraction-hermes3-8b-expanded-strict-20260524 | hermes3:8b | 0.429 |  |  |  | 0.714 | 0.720 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-strict-20260524` |
 | extraction | extraction-hermes3-8b-smoke-20260524 | hermes3:8b | 0.333 |  |  |  | 0.333 | 1.031 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-smoke-20260524` |
@@ -24,7 +25,7 @@
 
 ## Candidate Acquisition Notes
 
-- `BAAI/bge-m3` is now acquired and CPU-benchmarked from the SSD cache, but it
+- `BAAI/bge-m3` is now acquired and CPU/MPS-benchmarked from the SSD cache, but it
   is not promoted because it matches the nomic top-1/recall result on the tiny
   suite while running slower and still missing the recency-preference case. Report:
   `reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md`

@@ -118,7 +118,7 @@ Complete:
 Current gaps:
 
 - Public dataset publication remains blocked pending explicit approval. A cleaned synthetic-only candidate has been materialized and audited under `/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526`; the scope, run card, and draft dataset card are recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
-- BGE-M3 is acquired and CPU-smoked from the SSD Hugging Face cache, but it is not promoted for mem0 defaults because it matches nomic on the tiny retrieval suite while running slower and still missing the recency case. See `reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md`.
+- BGE-M3 is acquired and CPU/MPS-smoked from the SSD Hugging Face cache, but it is not promoted for mem0 defaults because it matches nomic on the tiny retrieval suite while running slower and still missing the recency case. See `reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md`.
 - Large MoE/frontier configs are runtime/teacher experiments only; do not treat them as safe defaults for local training.
 - Azure student subscription login is complete. GPU-family quota/capacity still needs explicit Azure ML/portal confirmation before compute creation.
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
