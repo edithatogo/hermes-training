@@ -20,6 +20,7 @@ class CheckMem0ModelCandidatesTests(unittest.TestCase):
     def test_validates_evidence_statuses(self) -> None:
         for status in (
             "benchmarked-cpu-mps-not-promoted",
+            "source-model-benchmarked",
             "live-read-wrapper-smoked",
             "working-default-clean-root-smoked",
         ):
