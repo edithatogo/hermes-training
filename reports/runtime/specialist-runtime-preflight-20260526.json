@@ -1,0 +1,212 @@
+{
+  "created_at": "2026-05-25T18:36:26.646687+00:00",
+  "ssd_root": "/Volumes/PortableSSD",
+  "policy": "read-only; no installs, downloads, compute creation, or model conversion",
+  "status": "passed",
+  "counts": {
+    "blocked": 5
+  },
+  "items": [
+    {
+      "lane_id": "ktransformers-moe",
+      "model": "Qwen/Qwen3.6-35B-A3B",
+      "runtime": "KTransformers",
+      "status": "blocked",
+      "blockers": [
+        "runtime command/module not found",
+        "no matching SSD artifact path found"
+      ],
+      "commands": [
+        {
+          "name": "ktransformers",
+          "present": false,
+          "path": ""
+        }
+      ],
+      "modules": [
+        {
+          "name": "ktransformers",
+          "present": false
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--Qwen--Qwen3.6-35B-A3B",
+          "present": false,
+          "kind": "missing"
+        },
+        {
+          "path": "/Volumes/PortableSSD/models/Qwen/Qwen3.6-35B-A3B",
+          "present": false,
+          "kind": "missing"
+        }
+      ],
+      "minimum_pass": "KTransformers import/CLI plus prepared Qwen3.6 weights.",
+      "notes": "Do not treat the existing GGUF proof as KTransformers evidence; this lane needs native prepared weights and an invocation contract."
+    },
+    {
+      "lane_id": "liquid-leap-lfm",
+      "model": "LiquidAI/LFM2-8B-A1B",
+      "runtime": "LEAP/LFM specialist runtime",
+      "status": "blocked",
+      "blockers": [
+        "runtime command/module not found"
+      ],
+      "commands": [
+        {
+          "name": "leap",
+          "present": false,
+          "path": ""
+        },
+        {
+          "name": "leap-finetune",
+          "present": false,
+          "path": ""
+        }
+      ],
+      "modules": [
+        {
+          "name": "leap",
+          "present": false
+        },
+        {
+          "name": "leap_finetune",
+          "present": false
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2-8B-A1B",
+          "present": false,
+          "kind": "missing"
+        },
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-1.2B-Instruct",
+          "present": true,
+          "kind": "directory"
+        }
+      ],
+      "minimum_pass": "LEAP CLI/import plus a cached LFM family checkpoint or package.",
+      "notes": "MLX and GGUF LFM proofs are separate; LEAP remains blocked until its own runtime/package path exists."
+    },
+    {
+      "lane_id": "recurrent-ssm-bitnet",
+      "model": "RWKV/RWKV7-Goose-World3-2.9B-HF",
+      "runtime": "RWKV native runtime",
+      "status": "blocked",
+      "blockers": [
+        "runtime command/module not found",
+        "no matching SSD artifact path found"
+      ],
+      "commands": [
+        {
+          "name": "rwkv",
+          "present": false,
+          "path": ""
+        }
+      ],
+      "modules": [
+        {
+          "name": "rwkv",
+          "present": false
+        },
+        {
+          "name": "rwkvstic",
+          "present": false
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--RWKV--RWKV7-Goose-World3-2.9B-HF",
+          "present": false,
+          "kind": "missing"
+        },
+        {
+          "path": "/Volumes/PortableSSD/models/RWKV",
+          "present": false,
+          "kind": "missing"
+        }
+      ],
+      "minimum_pass": "Native RWKV runtime plus exact cached checkpoint.",
+      "notes": "Transformers compatibility alone is not enough for the recurrent runtime lane."
+    },
+    {
+      "lane_id": "recurrent-ssm-bitnet",
+      "model": "microsoft/bitnet-b1.58-2B-4T",
+      "runtime": "BitNet native runtime",
+      "status": "blocked",
+      "blockers": [
+        "runtime command/module not found"
+      ],
+      "commands": [
+        {
+          "name": "bitnet",
+          "present": false,
+          "path": ""
+        },
+        {
+          "name": "bitnet-cli",
+          "present": false,
+          "path": ""
+        }
+      ],
+      "modules": [
+        {
+          "name": "bitnet",
+          "present": false
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--microsoft--bitnet-b1.58-2B-4T",
+          "present": false,
+          "kind": "missing"
+        },
+        {
+          "path": "/Volumes/PortableSSD/GitHub/BitNet",
+          "present": true,
+          "kind": "directory"
+        }
+      ],
+      "minimum_pass": "BitNet runtime plus exact cached checkpoint or local runtime checkout.",
+      "notes": "Ternary/BitNet claims require the native runtime path, not generic transformer loading."
+    },
+    {
+      "lane_id": "recurrent-ssm-bitnet",
+      "model": "state-spaces/mamba-family-watchlist",
+      "runtime": "Mamba/SSM native runtime",
+      "status": "blocked",
+      "blockers": [
+        "runtime command/module not found",
+        "no matching SSD artifact path found"
+      ],
+      "commands": [
+        {
+          "name": "mamba_ssm",
+          "present": false,
+          "path": ""
+        }
+      ],
+      "modules": [
+        {
+          "name": "mamba_ssm",
+          "present": false
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "/Volumes/PortableSSD/huggingface/hub/models--state-spaces",
+          "present": false,
+          "kind": "missing"
+        },
+        {
+          "path": "/Volumes/PortableSSD/models/mamba",
+          "present": false,
+          "kind": "missing"
+        }
+      ],
+      "minimum_pass": "Mamba/SSM module plus exact checkpoint and invocation contract.",
+      "notes": "Keep as architecture-family evidence until an exact public checkpoint and runtime are selected."
+    }
+  ]
+}

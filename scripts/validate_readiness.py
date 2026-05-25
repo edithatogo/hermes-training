@@ -250,6 +250,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_readiness.py",
         ROOT / "scripts/check_conductor_track_consistency.py",
         ROOT / "scripts/check_mem0_benchmark_evidence.py",
+        ROOT / "scripts/check_specialist_runtime_preflight.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],

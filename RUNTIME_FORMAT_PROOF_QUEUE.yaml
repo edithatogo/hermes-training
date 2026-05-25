@@ -38,21 +38,21 @@ proofs:
     lane_id: ktransformers-moe
     model: Qwen/Qwen3.6-35B-A3B
     run_name: qwen36-ktransformers-moe-proof-20260524
-    status: not-started
+    status: blocked-preflight
     endpoint: ""
     artifact_path: ""
     command: "python <ktransformers_launcher> --model Qwen/Qwen3.6-35B-A3B"
-    blocker: "KTransformers install, weight preparation, and Apple Silicon/runtime support are unproven in this repo."
+    blocker: "Read-only specialist preflight found no KTransformers CLI/module and no native Qwen3.6 prepared-weight artifact; GGUF proof is not KTransformers evidence."
 
   - id: lfm2-8b-a1b-leap-lfm-proof
     lane_id: liquid-leap-lfm
     model: LiquidAI/LFM2-8B-A1B
     run_name: lfm2-8b-a1b-leap-lfm-proof-20260524
-    status: not-started
+    status: blocked-preflight
     endpoint: ""
     artifact_path: ""
     command: "leap <task-specific-command>"
-    blocker: "LEAP/local LFM runtime command must be verified; task-specific smoke required."
+    blocker: "Read-only specialist preflight found no LEAP CLI/module. LFM2.5 MLX/GGUF artifacts exist, but LEAP package/runtime proof remains absent."
 
   - id: lfm25-1.2b-instruct-smoke-mlx-proof
     lane_id: liquid-leap-lfm
@@ -79,11 +79,11 @@ proofs:
     lane_id: recurrent-ssm-bitnet
     model: microsoft/bitnet-b1.58-2B-4T
     run_name: bitnet-rwkv-mamba-native-research-proof-20260524
-    status: watchlist
+    status: blocked-preflight
     endpoint: ""
     artifact_path: ""
     command: "<native-runtime> --model <checkpoint>"
-    blocker: "Native runtime, exact checkpoint, license, and invocation contract must be verified."
+    blocker: "Read-only specialist preflight found no native RWKV, BitNet, or Mamba runtime module/CLI with exact SSD checkpoint ready for smoke."
 
   - id: qwen37-max-hosted-teacher-proof
     lane_id: hosted-frontier-api

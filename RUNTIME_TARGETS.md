@@ -177,6 +177,8 @@ Point Hermes at `http://127.0.0.1:8099/v1`. Streaming chat completions are rejec
 | LFM2.5-350M / VL-450M / Audio-1.5B | MLX/GGUF/ONNX/LEAP depending on modality | Defer until use case proof | Verified public LFM2.5 family entries; separate chat, vision, and audio lanes. |
 | Mamba-3/RWKV7/BitNet/RLM | Native family runtime | None | Research only until OpenAI-compatible serving is proven. |
 
+Specialist runtime preflight is recorded in `reports/runtime/specialist-runtime-preflight-20260526.md`. KTransformers, LEAP, RWKV, BitNet, and Mamba/SSM lanes remain blocked until a native runtime command/module and exact SSD-backed artifact are both present.
+
 ## Runtime Acceptance Tests
 
 For every promoted adapter/runtime package, including specialist lanes that expose an OpenAI-compatible endpoint:
