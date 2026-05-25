@@ -18,7 +18,7 @@ try:
 except ModuleNotFoundError:
     from scripts.mem0_rerank_lib import rerank_results
 
-QWEN3_RERANKER_CACHE: dict[tuple[str, str, int], tuple[Any, Any, int, int, str]] = {}
+QWEN3_RERANKER_CACHE: dict[tuple[str, str, int, bool], tuple[Any, Any, int, int, str]] = {}
 
 
 def load_json(path: Path) -> Any:
@@ -135,8 +135,13 @@ def qwen3_reranker_prompt(query: str, document: str, instruction: str) -> str:
     )
 
 
-def load_qwen3_reranker(model_name: str, device: str, max_length: int) -> tuple[Any, Any, int, int, str]:
-    cache_key = (model_name, device, max_length)
+def load_qwen3_reranker(
+    model_name: str,
+    device: str,
+    max_length: int,
+    local_files_only: bool = False,
+) -> tuple[Any, Any, int, int, str]:
+    cache_key = (model_name, device, max_length, local_files_only)
     if cache_key in QWEN3_RERANKER_CACHE:
         return QWEN3_RERANKER_CACHE[cache_key]
     try:
@@ -152,8 +157,8 @@ def load_qwen3_reranker(model_name: str, device: str, max_length: int) -> tuple[
     if device == "auto":
         resolved_device = "mps" if torch.backends.mps.is_available() else "cpu"
     dtype = torch.float16 if resolved_device == "mps" else torch.float32
-    tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
-    model = AutoModelForCausalLM.from_pretrained(model_name, dtype=dtype).to(resolved_device)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left", local_files_only=local_files_only)
+    model = AutoModelForCausalLM.from_pretrained(model_name, dtype=dtype, local_files_only=local_files_only).to(resolved_device)
     model.eval()
     yes_id = tokenizer.convert_tokens_to_ids("yes")
     no_id = tokenizer.convert_tokens_to_ids("no")
@@ -171,6 +176,7 @@ def qwen3_causal_lm_rerank(
     device: str,
     max_length: int,
     instruction: str,
+    local_files_only: bool = False,
 ) -> tuple[list[dict[str, Any]], float]:
     try:
         import torch
@@ -178,7 +184,12 @@ def qwen3_causal_lm_rerank(
         raise SystemExit("torch is required for qwen3_causal_lm reranking.") from exc
 
     started = time.time()
-    tokenizer, model, yes_id, no_id, resolved_device = load_qwen3_reranker(model_name, device, max_length)
+    tokenizer, model, yes_id, no_id, resolved_device = load_qwen3_reranker(
+        model_name,
+        device,
+        max_length,
+        local_files_only=local_files_only,
+    )
     load_and_score_started = time.time()
     ranked: list[dict[str, Any]] = []
     for item in candidates:
@@ -266,6 +277,7 @@ def rerank_case(
     qwen3_device: str = "auto",
     qwen3_max_length: int = 4096,
     qwen3_instruction: str = "Retrieve relevant memory",
+    qwen3_local_files_only: bool = False,
 ) -> tuple[list[dict[str, Any]], float]:
     candidates = [
         {
@@ -295,6 +307,7 @@ def rerank_case(
             device=qwen3_device,
             max_length=qwen3_max_length,
             instruction=qwen3_instruction,
+            local_files_only=qwen3_local_files_only,
         )
     else:
         ranked = rerank_results(candidates, strategy, recency_weight)
@@ -323,6 +336,7 @@ def main() -> int:
     parser.add_argument("--qwen3-device", default="auto", help="Device for qwen3_causal_lm: auto, mps, or cpu.")
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
     parser.add_argument("--qwen3-instruction", default="Retrieve relevant memory")
+    parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -344,6 +358,7 @@ def main() -> int:
         if args.strategy == "qwen3_causal_lm":
             print(f"qwen3_device: {args.qwen3_device}")
             print(f"qwen3_max_length: {args.qwen3_max_length}")
+            print(f"qwen3_local_files_only: {args.qwen3_local_files_only}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -360,6 +375,7 @@ def main() -> int:
             qwen3_device=args.qwen3_device,
             qwen3_max_length=args.qwen3_max_length,
             qwen3_instruction=args.qwen3_instruction,
+            qwen3_local_files_only=args.qwen3_local_files_only,
         )
         latencies.append(latency_s)
         rows.append(
@@ -399,6 +415,7 @@ def main() -> int:
         "qwen3_device": args.qwen3_device if args.strategy == "qwen3_causal_lm" else "",
         "qwen3_max_length": args.qwen3_max_length if args.strategy == "qwen3_causal_lm" else "",
         "qwen3_instruction": args.qwen3_instruction if args.strategy == "qwen3_causal_lm" else "",
+        "qwen3_local_files_only": args.qwen3_local_files_only if args.strategy == "qwen3_causal_lm" else "",
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),

@@ -244,13 +244,40 @@ source scripts/env.sh
   --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-0.6B \
   --qwen3-device auto \
-  --timeout-s 90
+  --timeout-s 120
 ```
 
 2026-05-26 live smoke: exit code `0`, one returned memory, mem0 search latency
-`2.894s`, Qwen3 scoring latency `0.424s`, one-shot total latency `13.413s`.
+`3.920s`, Qwen3 scoring latency `0.216s`, one-shot total latency `12.093s`.
 Keep this as a candidate wrapper until a warm local service removes repeated
 model-load overhead.
+
+Run the warm service path:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/qwen3_reranker_service.py \
+  --host 127.0.0.1 \
+  --port 8765 \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --device auto \
+  --local-files-only \
+  --quiet
+
+./.venv/bin/python scripts/mem0_rerank_search.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --qwen3-local-files-only \
+  --qwen3-server-url http://127.0.0.1:8765 \
+  --timeout-s 120
+```
+
+2026-05-26 warm-service smoke: the second service-backed request completed in
+`4.112s` total with Qwen scoring latency `0.119s`; mem0 search accounted for
+`3.979s`.
 
 Run an Ollama memory-extraction smoke test:
 

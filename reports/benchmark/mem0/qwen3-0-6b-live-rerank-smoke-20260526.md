@@ -18,7 +18,9 @@ source scripts/env.sh
   --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-0.6B \
   --qwen3-device auto \
-  --timeout-s 90
+  --qwen3-max-length 4096 \
+  --qwen3-local-files-only \
+  --timeout-s 120
 ```
 
 Runtime storage remained SSD-backed:
@@ -33,9 +35,9 @@ Runtime storage remained SSD-backed:
 |---|---:|
 | Exit code | 0 |
 | Input results | 1 |
-| mem0 search latency | 2.894s |
-| Qwen3 rerank scoring latency | 0.424s |
-| One-shot total latency | 13.413s |
+| mem0 search latency | 3.920s |
+| Qwen3 rerank scoring latency | 0.216s |
+| One-shot total latency | 12.093s |
 | Top rerank score | 0.959 |
 
 Top result:

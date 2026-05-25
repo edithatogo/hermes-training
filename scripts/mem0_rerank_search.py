@@ -9,6 +9,8 @@ import sys
 import time
 from datetime import UTC, datetime
 from typing import Any
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 try:
     from mem0_rerank_lib import parse_mem0_search_output, rerank_results
@@ -48,12 +50,25 @@ def rerank_search_results(
     qwen3_device: str,
     qwen3_max_length: int,
     qwen3_instruction: str,
+    qwen3_local_files_only: bool = False,
+    qwen3_server_url: str | None = None,
 ) -> tuple[list[dict[str, Any]], float]:
     if not results:
         return [], 0.0
     if strategy == "qwen3_causal_lm":
         if not model:
             raise ValueError("--model is required for qwen3_causal_lm")
+        if qwen3_server_url:
+            return qwen3_server_rerank(
+                qwen3_server_url,
+                query,
+                results,
+                model,
+                qwen3_device,
+                qwen3_max_length,
+                qwen3_instruction,
+                qwen3_local_files_only,
+            )
         return qwen3_causal_lm_rerank(
             model,
             query,
@@ -61,10 +76,51 @@ def rerank_search_results(
             qwen3_device,
             qwen3_max_length,
             qwen3_instruction,
+            local_files_only=qwen3_local_files_only,
         )
     rerank_started = time.time()
     ranked = rerank_results(results, strategy, recency_weight)
     return ranked, time.time() - rerank_started
+
+
+def qwen3_server_rerank(
+    server_url: str,
+    query: str,
+    results: list[dict[str, Any]],
+    model: str,
+    qwen3_device: str,
+    qwen3_max_length: int,
+    qwen3_instruction: str,
+    qwen3_local_files_only: bool,
+) -> tuple[list[dict[str, Any]], float]:
+    payload = {
+        "query": query,
+        "results": results,
+        "model": model,
+        "device": qwen3_device,
+        "max_length": qwen3_max_length,
+        "instruction": qwen3_instruction,
+        "local_files_only": qwen3_local_files_only,
+    }
+    started = time.time()
+    request = Request(
+        server_url.rstrip("/") + "/rerank",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=120) as response:
+            response_payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        raise RuntimeError(f"Qwen3 reranker service returned HTTP {exc.code}: {exc.read().decode('utf-8')}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"Qwen3 reranker service unavailable: {exc.reason}") from exc
+    ranked = response_payload.get("results")
+    if not isinstance(ranked, list):
+        raise RuntimeError("Qwen3 reranker service response missing results list")
+    latency_s = float(response_payload.get("rerank_latency_s", time.time() - started))
+    return ranked, latency_s
 
 
 def main() -> int:
@@ -87,6 +143,12 @@ def main() -> int:
     parser.add_argument("--qwen3-device", default="auto", help="Device for qwen3_causal_lm: auto, mps, or cpu.")
     parser.add_argument("--qwen3-max-length", type=int, default=8192)
     parser.add_argument(
+        "--qwen3-local-files-only",
+        action="store_true",
+        help="Use only the local Hugging Face cache for qwen3_causal_lm model loading.",
+    )
+    parser.add_argument("--qwen3-server-url", help="Warm local Qwen3 reranker service URL.")
+    parser.add_argument(
         "--qwen3-instruction",
         default="Retrieve memories that answer the query for a local Hermes agent.",
     )
@@ -107,8 +169,10 @@ def main() -> int:
             args.qwen3_device,
             args.qwen3_max_length,
             args.qwen3_instruction,
+            args.qwen3_local_files_only,
+            args.qwen3_server_url,
         )
-    except ValueError as exc:
+    except (RuntimeError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
     total_latency_s = time.time() - total_started
     output = {
@@ -129,6 +193,8 @@ def main() -> int:
         output["qwen3_device"] = args.qwen3_device
         output["qwen3_max_length"] = args.qwen3_max_length
         output["qwen3_instruction"] = args.qwen3_instruction
+        output["qwen3_local_files_only"] = args.qwen3_local_files_only
+        output["qwen3_server_url"] = args.qwen3_server_url or ""
     if args.include_raw:
         output["raw_mem0_output"] = raw
     print(json.dumps(output, indent=2, ensure_ascii=False))

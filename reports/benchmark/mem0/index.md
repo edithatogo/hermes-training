@@ -19,7 +19,8 @@
 | memory | mem0-current-nomic-recency-20260524 | cmd | 0.400 |  | 0.400 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-20260524` |
 | memory | mem0-current-nomic-smoke-20260524 | cmd | 0.667 |  | 0.667 | 1.000 |  | 3.388 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-smoke-20260524` |
 | memory+rerank | mem0-current-nomic-recency-reranked-20260524 | cmd | 0.400 | 1.000 | 0.400 | 1.000 |  | 3.872 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524` |
-| memory+rerank | qwen3-0-6b-live-rerank-smoke-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  |  |  |  | 13.413 | `reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md` |
+| memory+rerank | qwen3-0-6b-live-rerank-smoke-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  |  |  |  | 12.093 | `reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md` |
+| memory+rerank | qwen3-0-6b-warm-service-rerank-smoke-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  |  |  |  | 4.112 | `reports/benchmark/mem0/qwen3-0-6b-warm-service-rerank-smoke-20260526.md` |
 | reranking | bge-m3-expanded-close-margin-rerank-20260526 | score_plus_created_at_rank_close_margin | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-close-margin-rerank-20260526` |
 | reranking | bge-m3-expanded-created-at-rank-20260526 | score_plus_created_at_rank | 0.917 |  | 0.917 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-created-at-rank-20260526` |
 | reranking | bge-m3-expanded-lexical-rerank-20260526 | lexical_overlap | 0.917 |  | 0.917 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-lexical-rerank-20260526` |

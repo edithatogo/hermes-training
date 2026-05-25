@@ -164,13 +164,32 @@ source scripts/env.sh
   --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-0.6B \
   --qwen3-device auto \
-  --timeout-s 90
+  --timeout-s 120
 ```
 
 2026-05-26 result: exit code `0`, one returned memory, mem0 search latency
-`2.894s`, Qwen3 scoring latency `0.424s`, and one-shot total latency `13.413s`.
+`3.920s`, Qwen3 scoring latency `0.216s`, and one-shot total latency `12.093s`.
 Evidence is recorded in
 `reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md`.
+
+Warm Qwen3 helper:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/qwen3_reranker_service.py \
+  --host 127.0.0.1 \
+  --port 8765 \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --device auto \
+  --local-files-only \
+  --quiet
+```
+
+Then add `--qwen3-local-files-only --qwen3-server-url http://127.0.0.1:8765`
+to the live wrapper command. The first service-backed request still loads the
+model, but the second warm request completed in `4.112s` total with Qwen
+scoring at `0.119s`. Evidence is recorded in
+`reports/benchmark/mem0/qwen3-0-6b-warm-service-rerank-smoke-20260526.md`.
 
 This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to compare:
 
