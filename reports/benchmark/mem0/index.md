@@ -24,6 +24,7 @@
 | memory+rerank | guarded-close-margin-read-wrapper-20260526 | score_plus_created_at_rank_close_margin | 0.500 | 1.000 | 0.500 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/guarded-close-margin-read-wrapper-20260526` |
 | memory+rerank | mem0-isolated-fixture-rerank-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B | 0.400 | 1.000 | 1.000 | 1.000 |  | 0.495 | `reports/benchmark/mem0/mem0-isolated-fixture-rerank-comparison-20260526.md` |
 | memory+rerank | mem0-guarded-read-wrapper-smoke-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 2.865 | `reports/benchmark/mem0/mem0-guarded-read-wrapper-smoke-20260526.md` |
+| memory+rerank | mem0-read-ux-close-margin-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 4.926 | `reports/benchmark/mem0/mem0-read-ux-close-margin-20260526.md` |
 | memory+rerank | live-multiretrieval-readiness-20260526 | cmd |  |  |  |  |  |  | `reports/benchmark/mem0/live-multiretrieval-readiness-20260526.md` |
 | memory+rerank | mem0-rerank-replay-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  | 1.000 | 1.000 |  | 0.250 | `reports/benchmark/mem0/mem0-rerank-replay-comparison-20260526.md` |
 | memory+rerank | mem0-live-fixture-qwen3-multiretrieval-rerank-20260526 | isolated fixture / Qwen/Qwen3-Reranker-0.6B | 0.667 | 1.000 | 0.667 | 1.000 |  | 2.886 | `reports/benchmark/mem0/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md` |

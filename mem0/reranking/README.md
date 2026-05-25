@@ -155,6 +155,20 @@ local service, add `--mode qwen3 --qwen3-local-files-only --qwen3-server-url
 http://127.0.0.1:8765 --fallback-to-vector`. Do not make Qwen3 the default
 until the recency fixture miss is fixed.
 
+Agent UX latency probe:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_read_latency_probe.py \
+  --mode close-margin \
+  --iterations 1 \
+  --run-id mem0-read-ux-close-margin-$(date +%Y%m%d-%H%M%S)
+```
+
+Use this before runtime wiring. It records p50/p95 latency and whether the live
+store returned singleton, empty, or multi-result candidates. The isolated
+fixture remains the quality gate for multi-result recency behavior.
+
 2026-05-26 blocker, superseded: the wrapper exposed
 `score_plus_created_at_rank_close_margin`, but live smoke was blocked until
 local Ollama recovered. Historical blocker evidence is recorded in

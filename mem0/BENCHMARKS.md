@@ -251,6 +251,22 @@ a rollback/comparison path. Use `--mode qwen3 --fallback-to-vector` only for
 explicit learned-reranker experiments until Qwen3 passes a recency-aware live
 fixture.
 
+Run repeated agent-style read latency probes before wiring the wrapper into a
+Hermes runtime:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_read_latency_probe.py \
+  --mode close-margin \
+  --iterations 1 \
+  --run-id mem0-read-ux-close-margin-$(date +%Y%m%d-%H%M%S)
+```
+
+The probe writes results under `/Volumes/PortableSSD/hermes-evals` by default
+and reports singleton, empty, and multi-result counts alongside p50/p95
+latency. Treat singleton-only live-store probes as UX latency evidence, not as
+multi-result quality evidence.
+
 Run the learned Qwen3 0.6B reranker against the same live mem0 search output:
 
 ```bash
