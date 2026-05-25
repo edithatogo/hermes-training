@@ -21,11 +21,16 @@ MODEL_ID=<runtime_model_id>
 OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/${RUN_ID}
 mkdir -p "$OUT"
 
-python -m lm_eval \
-  --model local-completions \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run \
+  --model local-chat-completions \
+  --model_args model=Qwen/Qwen3-4B-MLX-4bit,base_url=http://127.0.0.1:8080/v1/chat/completions,tokenizer=Qwen/Qwen3-4B,tokenizer_backend=huggingface,tokenized_requests=False,max_gen_toks=512,timeout=300 \
   --tasks arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande \
   --batch_size 1 \
-  --output_path "$OUT"
+  --apply_chat_template \
+  --gen_kwargs temperature=0 \
+  --output_path "$OUT" \
+  --log_samples \
+  --seed 0,1234,1234,1234
 ```
 
 Use the smoke manifest first with `LIMIT=10`. This candidate command is the next tier and should not run until adapter compatibility is confirmed.

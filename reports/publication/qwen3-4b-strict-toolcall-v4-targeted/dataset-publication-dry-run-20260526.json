@@ -1,0 +1,248 @@
+{
+  "run_id": "dataset-publication-dry-run-20260526",
+  "created_at": "2026-05-25T18:22:51.792847+00:00",
+  "status": "dry-run-only",
+  "publish_actions_performed": false,
+  "intended_repo_id": "edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4",
+  "dataset": {
+    "dataset_dir": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526",
+    "files": [
+      "test.jsonl",
+      "train.jsonl",
+      "validation.jsonl"
+    ],
+    "rows": 82,
+    "unique_ids": 82,
+    "duplicate_id_count": 0,
+    "split_counts": {
+      "test.jsonl": 5,
+      "train.jsonl": 72,
+      "validation.jsonl": 5
+    },
+    "source_counts": {
+      "strict_tool_call_expansion_v1": 54,
+      "strict_tool_call_expansion_v2_format_guard": 16,
+      "strict_tool_call_expansion_v4_targeted": 12
+    },
+    "unknown_sources": [],
+    "review_result": "reviewed_with_caveats",
+    "public_dataset_release": "blocked_pending_human_scope_approval"
+  },
+  "evidence": {
+    "bundle_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/publication/qwen3-4b-strict-toolcall-v4-targeted",
+    "required_files": {
+      "cleaned-synthetic-source-audit.json": true,
+      "cleaned-synthetic-overlap-audit.json": true,
+      "cleaned-synthetic-token-audit.json": true,
+      "hf-dataset-card-draft.md": true,
+      "dataset-publication-scope.md": true
+    },
+    "cleaned-synthetic-source-audit.json": {
+      "data_dir": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526",
+      "rows": 82,
+      "unique_ids": 82,
+      "duplicate_id_count": 0,
+      "rows_with_no_think_prompt": 36,
+      "source_counts": {
+        "strict_tool_call_expansion_v1": 54,
+        "strict_tool_call_expansion_v2_format_guard": 16,
+        "strict_tool_call_expansion_v4_targeted": 12
+      },
+      "split_counts": {
+        "test.jsonl": 5,
+        "train.jsonl": 72,
+        "validation.jsonl": 5
+      },
+      "source_examples": {
+        "strict_tool_call_expansion_v1": [
+          {
+            "id": "exp-multi-turn-repair-004-training-session",
+            "split": "test",
+            "first_user": "Schedule required safety induction at 2026-06-30T09:00:00+10:00 for 90 minutes for alex@example.test and rui@example.test."
+          },
+          {
+            "id": "exp-multi-turn-repair-005-api-key",
+            "split": "test",
+            "first_user": "Rotate API key KEY-18 for maps_service with 24 hour grace period and notify devops@example.test and owner@example.test."
+          },
+          {
+            "id": "exp-multi-turn-repair-006-return-label",
+            "split": "test",
+            "first_user": "Create a return label for order ORD-990 with items SKU-1 and SKU-8 using carrier AusPost and insured value 18900 cents."
+          }
+        ],
+        "strict_tool_call_expansion_v2_format_guard": [
+          {
+            "id": "exp-format-guard-001-contract",
+            "split": "train",
+            "first_user": "Open an urgent legal review for contract CTR-884 in the vendor queue. Return no thinking tags."
+          },
+          {
+            "id": "exp-format-guard-002-device",
+            "split": "train",
+            "first_user": "Lock device DEV-41 because it failed attestation. Output only the tool call."
+          },
+          {
+            "id": "exp-format-guard-003-access",
+            "split": "train",
+            "first_user": "Grant alex@example.test maintainer access to repo hermes-runtime. No prose."
+          }
+        ],
+        "strict_tool_call_expansion_v4_targeted": [
+          {
+            "id": "exp-target-message-exact-001-radiology",
+            "split": "train",
+            "first_user": "Create an urgent radiology order for patient PT-9021 for chest xray and CT at East Clinic, then notify radiology that scan is ready for review."
+          },
+          {
+            "id": "exp-target-message-exact-001-radiology--no-think",
+            "split": "train",
+            "first_user": "/no_think Create an urgent radiology order for patient PT-9021 for chest xray and CT at East Clinic, then notify radiology that scan is ready for review."
+          },
+          {
+            "id": "exp-target-message-exact-002-pharmacy",
+            "split": "train",
+            "first_user": "Approve a 30 day refill for patient PT-3188 for salbutamol and cetirizine, then notify pharmacy that refill is ready for pickup."
+          }
+        ]
+      },
+      "source_policy": {
+        "strict_tool_call_seed": {
+          "origin": "repo-authored mirrored strict local benchmark seed",
+          "redistribution": "reviewed; allowed for GitHub evidence, but public dataset publication should disclose benchmark-seed overlap"
+        },
+        "strict_tool_call": {
+          "origin": "repo-authored mirrored strict local benchmark seed with no-think prompt variants",
+          "redistribution": "reviewed; allowed for GitHub evidence, but public dataset publication should disclose benchmark-seed overlap"
+        },
+        "strict_tool_call_expansion_v1": {
+          "origin": "repo-authored deterministic synthetic expansion",
+          "redistribution": "reviewed; no external corpus dependency identified"
+        },
+        "strict_tool_call_expansion_v2_format_guard": {
+          "origin": "repo-authored deterministic synthetic format-guard expansion",
+          "redistribution": "reviewed; no external corpus dependency identified"
+        },
+        "strict_tool_call_expansion_v4_targeted": {
+          "origin": "repo-authored targeted synthetic rows from local failure analysis",
+          "redistribution": "reviewed; no held-out prompt copying identified, but one generic held-out tool-name overlap remains disclosed"
+        }
+      },
+      "unknown_sources": [],
+      "review_result": "reviewed_with_caveats",
+      "public_dataset_release": "blocked_pending_human_scope_approval",
+      "adapter_release_source_gate": "source_review_complete_with_disclosed_caveats"
+    },
+    "cleaned-synthetic-overlap-audit.json": {
+      "assistant_outputs": {
+        "refusal": 18,
+        "tool_calls": 76
+      },
+      "assistant_tool_name_count": 57,
+      "categories": {
+        "argument_correctness": 22,
+        "format_guard": 16,
+        "invalid_tool_handling": 16,
+        "json_validity": 18,
+        "multi_turn_repair": 10
+      },
+      "data_path": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526",
+      "declared_tool_name_count": 74,
+      "duplicate_ids_across_files": [],
+      "duplicate_ids_within_files": {},
+      "error_count": 0,
+      "errors": [],
+      "files": {
+        "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/test.jsonl": {
+          "categories": {
+            "multi_turn_repair": 5
+          },
+          "rows": 5
+        },
+        "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/train.jsonl": {
+          "categories": {
+            "argument_correctness": 22,
+            "format_guard": 16,
+            "invalid_tool_handling": 16,
+            "json_validity": 16,
+            "multi_turn_repair": 2
+          },
+          "rows": 72
+        },
+        "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526/validation.jsonl": {
+          "categories": {
+            "json_validity": 2,
+            "multi_turn_repair": 3
+          },
+          "rows": 5
+        }
+      },
+      "jsonl_file_count": 3,
+      "overlap": {
+        "heldout_suite": {
+          "assistant_tool_name_overlap": [
+            "notify_care_team"
+          ],
+          "assistant_tool_name_overlap_count": 1,
+          "cases": 8,
+          "path": "benchmarks/tool_call_local/heldout_suite.json",
+          "tool_name_overlap": [
+            "notify_care_team"
+          ],
+          "tool_name_overlap_count": 1,
+          "user_prompt_overlap_count": 0,
+          "user_prompt_overlap_samples": []
+        },
+        "suite": {
+          "assistant_tool_name_overlap": [],
+          "assistant_tool_name_overlap_count": 0,
+          "cases": 6,
+          "path": "benchmarks/tool_call_local/suite.json",
+          "tool_name_overlap": [],
+          "tool_name_overlap_count": 0,
+          "user_prompt_overlap_count": 0,
+          "user_prompt_overlap_samples": []
+        }
+      },
+      "rows": 82,
+      "unique_ids": 82,
+      "valid": true
+    },
+    "cleaned-synthetic-token-audit.json": {
+      "data": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526",
+      "model": "Qwen/Qwen3-4B-MLX-4bit",
+      "splits": {
+        "test": {
+          "avg_tokens": 262.8,
+          "max": 311,
+          "p50": 247,
+          "p95": 264,
+          "rows": 5,
+          "tokens": 1314
+        },
+        "train": {
+          "avg_tokens": 238.1,
+          "max": 360,
+          "p50": 246,
+          "p95": 347,
+          "rows": 72,
+          "tokens": 17145
+        },
+        "validation": {
+          "avg_tokens": 267.4,
+          "max": 311,
+          "p50": 244,
+          "p95": 288,
+          "rows": 5,
+          "tokens": 1337
+        }
+      }
+    },
+    "scope_blocks_publication": true,
+    "approval_required": true
+  },
+  "blockers": [
+    "explicit human approval for the cleaned synthetic-only dataset scope is still required"
+  ],
+  "approval_phrase": "I approve publishing the cleaned synthetic-only dataset at /Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526 to Hugging Face dataset repo edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4."
+}

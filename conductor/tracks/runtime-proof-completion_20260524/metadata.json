@@ -2,7 +2,7 @@
   "track_id": "runtime-proof-completion_20260524",
   "title": "Runtime proof completion",
   "type": "chore",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-05-23T16:13:55Z",
   "updated_at": "2026-05-23T16:13:55Z",
   "description": "Complete runtime proof planning for LM Studio validation of the existing Qwen3 Q4_K_M GGUF, Hermes 4 14B, Qwen3.6, deferred Ollama retest after runtime upgrade, and OpenAI normalizing proxy route."

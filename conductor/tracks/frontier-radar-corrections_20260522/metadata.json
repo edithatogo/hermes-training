@@ -1,7 +1,7 @@
 {
   "track_id": "frontier-radar-corrections_20260522",
   "type": "chore",
-  "status": "implemented",
+  "status": "completed",
   "created_at": "2026-05-22T00:00:00Z",
   "updated_at": "2026-05-22T00:00:00Z",
   "description": "Corrected the frontier model radar to separate verified checkpoints, unsupported Qwen3.7 rumors, architecture families, and tooling."

@@ -190,6 +190,16 @@ def check_conductor(failures: list[str]) -> None:
         else:
             fail(f"missing {(Path('.') / 'conductor' / rel).as_posix()}", failures)
 
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/check_conductor_track_consistency.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"conductor track consistency: {result.stderr.strip() or result.stdout.strip()}", failures)
+    else:
+        ok(result.stdout.strip())
+
 
 def check_shell_syntax(failures: list[str]) -> None:
     scripts = [
@@ -238,6 +248,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/materialize_publication_dataset.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
+        ROOT / "scripts/check_conductor_track_consistency.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],

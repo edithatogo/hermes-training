@@ -32,7 +32,7 @@
 
 ## Phase 2A - LM Studio Proof For Existing Qwen3 Q4_K_M GGUF
 
-- [ ] Task: Validate the existing Qwen3 GGUF through LM Studio.
+- [x] Task: Validate the existing Qwen3 GGUF through LM Studio.
     - [x] Record whether LM Studio server is active on `http://localhost:1234/v1`.
     - [x] Load `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`.
     - [x] Run `GET /v1/models` and one non-streaming `POST /v1/chat/completions`.

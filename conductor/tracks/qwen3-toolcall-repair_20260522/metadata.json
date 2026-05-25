@@ -1,7 +1,7 @@
 {
   "id": "qwen3-toolcall-repair_20260522",
   "title": "Qwen3 tool-call repair proof and runtime normalization gate",
-  "status": "implemented",
+  "status": "completed",
   "created": "2026-05-22T02:20:00+10:00",
   "owner": "hub",
   "lane": "mac-mlx-hermes-toolcall",

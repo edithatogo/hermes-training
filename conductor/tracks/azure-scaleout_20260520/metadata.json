@@ -1,7 +1,7 @@
 {
   "id": "azure-scaleout_20260520",
   "title": "Azure scale-out preflight and benchmark lane",
-  "status": "planned",
+  "status": "completed",
   "created": "2026-05-20",
   "owner": "hub"
 }
