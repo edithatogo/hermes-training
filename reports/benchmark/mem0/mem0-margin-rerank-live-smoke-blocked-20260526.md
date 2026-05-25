@@ -48,13 +48,19 @@ an unresponsive server during validation.
 
 ## Decision
 
-Keep the margin-gated reranker as the next read-only mem0 wrapper candidate,
-but do not claim live mem0 validation until Ollama responsiveness is restored.
+This blocker was superseded later on 2026-05-26 by using a clean SSD-backed
+Ollama model root and stopping the stale Qdrant lock holder. The passing smoke
+is recorded in:
+
+```text
+reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md
+```
 
 Next steps:
 
-1. Restore a responsive Ollama daemon with `nomic-embed-text:latest` and
-   `sam860/LFM2:2.6b`.
-2. Run the wrapper command above.
-3. Record raw wrapper output and latency.
-4. Only after that, consider wiring the wrapper into agent read paths.
+1. Keep using `/Volumes/PortableSSD/Ollama/mem0-clean-models` for mem0 read
+   smokes.
+2. Pull and smoke `sam860/LFM2:2.6b` in that clean root before claiming LFM2
+   extraction recovery.
+3. Only after more live read coverage, consider wiring the wrapper into agent
+   read paths.

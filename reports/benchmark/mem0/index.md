@@ -17,6 +17,7 @@
 | memory | mem0-current-nomic-recency-20260524 | cmd | 0.400 |  | 0.400 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-20260524` |
 | memory | mem0-current-nomic-smoke-20260524 | cmd | 0.667 |  | 0.667 | 1.000 |  | 3.388 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-smoke-20260524` |
 | memory+rerank | mem0-current-nomic-recency-reranked-20260524 | cmd | 0.400 | 1.000 | 0.400 | 1.000 |  | 3.872 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524` |
+| memory+rerank | mem0-margin-rerank-live-smoke-20260526 | score_plus_created_at_rank_close_margin | 1.000 | 1.000 | 1.000 | 1.000 |  | 2.873 | `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md` |
 | reranking | fixed-rerank-created-at-rank-20260524 | score_plus_created_at_rank | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-created-at-rank-20260524` |
 | reranking | fixed-rerank-created-at-rank-expanded-20260524 | score_plus_created_at_rank | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-created-at-rank-expanded-20260524` |
 | reranking | fixed-rerank-lexical-overlap-20260524 | lexical_overlap | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-lexical-overlap-20260524` |

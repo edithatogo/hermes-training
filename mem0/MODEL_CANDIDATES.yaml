@@ -1,7 +1,7 @@
 # Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
 project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
 latest_release_recheck: "2026-05-24: Hugging Face metadata check verified BAAI/bge-m3, jinaai/jina-embeddings-v4, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, LiquidAI/LFM2-ColBERT-350M, and NousResearch/Hermes-4-14B. Ollama-style ids were skipped by the HF check."
-latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU/MPS-smoked from the SSD cache at 1024 dims. On the expanded 12-case suite BGE-M3 CPU reached top-1 0.917 / recall@3 1.000 but still missed the current-vs-old preference case. A BGE-derived margin-gated recency reranker reached 1.000, so nomic remains the default embedder and score_plus_created_at_rank_close_margin becomes the next read-only reranker candidate."
+latest_local_benchmark: "2026-05-26: BGE-M3 acquired and CPU/MPS-smoked from the SSD cache at 1024 dims. On the expanded 12-case suite BGE-M3 CPU reached top-1 0.917 / recall@3 1.000 but still missed the current-vs-old preference case. A BGE-derived margin-gated recency reranker reached 1.000. Live read-only mem0 wrapper smoke with score_plus_created_at_rank_close_margin passed in 2.873s from the clean SSD Ollama root, so nomic remains the default embedder and the wrapper is the validated next read path."
 current_default:
   vector_store: qdrant
   collection: mem0_nomic_768
@@ -43,7 +43,7 @@ candidates:
       - transformers
       - mlx-if-supported
     embedding_dims: variable
-    status: candidate
+    status: live-read-wrapper-smoked
     first_gate: mteb-retrieval-smoke
     notes: "Candidate for broader document and memory retrieval. Verify local Mac runtime and dimensions before indexing."
 

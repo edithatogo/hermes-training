@@ -105,6 +105,17 @@ This calls `mem0 <tool> search`, reranks the returned JSON locally, and prints J
 Ollama is responsive again. Current evidence is recorded in
 `reports/benchmark/mem0/mem0-margin-rerank-live-smoke-blocked-20260526.md`.
 
+2026-05-26 update: live read-only wrapper smoke passed after starting Ollama
+from `/Volumes/PortableSSD/Ollama/mem0-clean-models` and releasing a stale
+Qdrant file lock. Use:
+
+```bash
+scripts/start_mem0_ollama.sh
+```
+
+Then run the wrapper command above. Evidence is recorded in
+`reports/benchmark/mem0/mem0-margin-rerank-live-smoke-20260526.md`.
+
 This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to expand the suite and compare:
 
 - vector-only ordering
