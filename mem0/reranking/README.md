@@ -164,6 +164,7 @@ source scripts/env.sh
   --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-0.6B \
   --qwen3-device auto \
+  --qwen3-local-files-only \
   --timeout-s 120
 ```
 
