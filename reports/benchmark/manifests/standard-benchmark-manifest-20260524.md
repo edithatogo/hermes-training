@@ -130,6 +130,19 @@ The MLX-native Qwen3 4B cached checkpoint now has a current runtime-format proof
 - Strict held-out pass: `0.250`
 - Decision: valid MLX-native runtime proof and regression baseline only; no publishable improvement claim.
 
+Qwen3.6 35B-A3B Q4_K_M is now acquired, loaded, and benchmarked through llama.cpp:
+
+- Runtime report: `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`
+- Held-out report root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-tool-call-benchmark/qwen3.6-35b-a3b-q4-llamacpp-heldout-nothink-20260524`
+- BFCL-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3.6-35b-a3b-q4-bfcl-pilot-nothink-20260524`
+- IFEval-style pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3.6-35b-a3b-q4-ifeval-pilot-nothink-20260524`
+- Coding sanity pilot root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/qwen3.6-35b-a3b-q4-coding-pilot-nothink-20260524`
+- Strict held-out pass: `0.000`
+- BFCL-style pilot: `0.000`
+- IFEval-style pilot: `0.000`
+- Coding sanity pilot: `0.333`
+- Decision: valid frontier runtime proof only; below publication and Hermes-agent promotion gates.
+
 ## mem0 Baselines
 
 The mem0 benchmark index is:

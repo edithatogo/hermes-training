@@ -50,31 +50,22 @@ Chunk parts were stored in:
 
 After the final GGUF was assembled and validated, the redundant chunk directory was removed to recover SSD space.
 
-## Active Qwen3.6 Acquisition
+## Completed Qwen3.6 Acquisition
 
-Qwen3.6 35B-A3B Q4_K_M acquisition is now running one target at a time on the SSD:
+Qwen3.6 35B-A3B Q4_K_M acquisition completed on the SSD:
 
-```bash
-tmux attach -t qwen36_download
-```
+- Artifact: `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf`
+- Size: `21166757888` bytes
+- Runtime proof: `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`
+- Held-out strict tool-call pass: `0.000`
+- Decision: runtime baseline only, not promotion-ready.
 
-Status and follow-up steps are recorded in `reports/runtime/qwen36-q4km-acquisition-20260524.md`.
-
-Latest live check: Qwen3.6 ranged acquisition is still progressing on the external SSD at `121/316` chunks and about `8.5G` staged.
-
-The post-download proof is now wired to an optional watcher:
-
-```bash
-POLL_SECONDS=300 bash scripts/watch_qwen36_q4_runtime_proof.sh
-```
-
-Run it in tmux as `qwen36_proof_watch` while the downloader continues. The
-watcher does not treat partial chunks as evidence; it waits for the final GGUF
-at the exact expected byte size, then calls `scripts/run_qwen36_q4_runtime_proof.sh`.
+The post-download watcher ran the proof automatically after exact-size assembly.
+The redundant chunk directory was removed after the proof to recover SSD space.
 
 ## Paused / Resumable
 
-The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after the active Qwen3.6 acquisition completes:
+The following acquisition attempts were stopped because concurrent large downloads were moving too slowly. They are resumable and should be restarted one by one after the completed Qwen3.6 proof:
 
 ```bash
 hf download DuoNeural/Gemma-4-26B-A4B-it-GGUF \
@@ -93,12 +84,11 @@ snapshot_download(
 
 ## Next Runtime Proof
 
-Hermes 4 is complete. Qwen3.6 Q4_K_M is the active acquisition/runtime-proof target. After it completes:
+Hermes 4 and Qwen3.6 Q4_K_M are complete. Next candidates:
 
-1. Run the Qwen3.6 llama.cpp runtime proof and endpoint benchmarks.
-2. Acquire and prove `LiquidAI/LFM2-24B-A2B-GGUF` `LFM2-24B-A2B-Q4_K_M.gguf` if the LFM frontier lane should be prioritized next. Expected size is `14415473952` bytes, planned SSD path is `/Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf`, and proof helper is `scripts/run_lfm2_24b_q4_runtime_proof.sh`.
-3. Resume `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M.
-4. Consider `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` only if the GGUF path is blocked or the MLX runtime is specifically needed.
+1. Acquire and prove `LiquidAI/LFM2-24B-A2B-GGUF` `LFM2-24B-A2B-Q4_K_M.gguf` if the LFM frontier lane should be prioritized next. This acquisition is now active in `tmux` session `lfm2_24b_download`; status is recorded in `reports/runtime/lfm2-24b-a2b-q4-acquisition-20260525.md`.
+2. Resume `DuoNeural/Gemma-4-26B-A4B-it-GGUF` Q3_K_M.
+3. Consider `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` only if the GGUF path is blocked or the MLX runtime is specifically needed.
 
 ## Boundary
 

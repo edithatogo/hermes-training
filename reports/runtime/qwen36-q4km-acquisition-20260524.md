@@ -11,11 +11,8 @@ Date: 2026-05-24
 
 ## Current Status
 
-Acquisition is in progress on the external SSD through the resumable ranged downloader.
-
-```bash
-tmux attach -t qwen36_download
-```
+Acquisition completed on 2026-05-25. The final GGUF exists at the expected
+byte size and has been runtime-proven through llama.cpp.
 
 Progress log:
 
@@ -25,7 +22,9 @@ Chunk state:
 
 `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf.parts`
 
-The abandoned aria2 sparse placeholder was removed. Until the final GGUF exists at the expected byte size, this target remains acquisition-only and must not be used as runtime or benchmark evidence.
+The abandoned aria2 sparse placeholder was removed. The redundant ranged
+download chunk directory was also removed after exact-size assembly and runtime
+proof to recover SSD space.
 
 ## Downloader Hardening
 
@@ -62,16 +61,16 @@ partial root size: 4.0G
 active session: qwen36_download
 ```
 
-Most recent live check on 2026-05-24 shows the transfer continuing:
+Final state:
 
 ```text
-chunks complete: 121 / 316
-partial root size: 8.5G
-active session: qwen36_download
+final size: 21166757888 bytes
+artifact root size after chunk cleanup: 20G
+runtime proof: reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md
 ```
 
-An SSD-backed watcher is now available so the runtime proof can start
-automatically as soon as the final GGUF is assembled:
+The SSD-backed watcher ran the runtime proof automatically after exact-size
+assembly:
 
 ```bash
 tmux new-session -d -s qwen36_proof_watch \
@@ -82,16 +81,13 @@ Watcher log:
 
 `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/logs/qwen3.6-q4km-proof-watch-20260524.log`
 
-## Follow-Up After Completion
+## Runtime Proof Result
 
-1. Confirm final byte size equals `21166757888`.
-2. Run the post-download proof helper:
+- Smoke: passed
+- Held-out strict tool-call pass: `0.000`
+- BFCL-style pilot: `0.000`
+- IFEval-style pilot: `0.000`
+- Coding sanity pilot: `0.333`
 
-```bash
-source scripts/env.sh
-bash scripts/run_qwen36_q4_runtime_proof.sh
-```
-
-The helper starts llama.cpp with alias `qwen3.6-35b-a3b-q4`, runs the runtime
-smoke, runs the held-out strict tool-call suite with `/no_think`, runs the
-endpoint pilot suites, and stores raw outputs under `/Volumes/PortableSSD/hermes-evals`.
+Decision: runtime proof only. This artifact is useful as a frontier local
+runtime baseline, but it is not promotion-ready for Hermes-agent tool use.

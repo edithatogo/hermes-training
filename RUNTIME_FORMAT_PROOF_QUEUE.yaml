@@ -18,11 +18,11 @@ proofs:
     lane_id: gguf-portability
     model: Qwen3.6-35B-A3B-Q4_K_M
     run_name: qwen36-35b-a3b-q4-gguf-proof-20260524
-    status: acquisition-active
+    status: completed-runtime-proof
     endpoint: http://127.0.0.1:8093/v1
     artifact_path: /Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf
     command: "bash scripts/run_qwen36_q4_runtime_proof.sh"
-    blocker: "Download is active; final GGUF must equal 21166757888 bytes before proof."
+    blocker: "Runtime proof passed; strict held-out tool-call score was 0.000, so this remains runtime/baseline evidence and is not promoted."
 
   - id: qwen36-unsloth-cloud-smoke
     lane_id: unsloth-cloud
@@ -58,11 +58,11 @@ proofs:
     lane_id: gguf-portability
     model: LiquidAI/LFM2-24B-A2B-GGUF
     run_name: lfm2-24b-a2b-q4-gguf-proof-20260524
-    status: paused-after-qwen36
+    status: acquisition-active
     endpoint: http://127.0.0.1:8095/v1
     artifact_path: /Volumes/PortableSSD/hermes-models/frontier-gguf/lfm2-24b-a2b-q4/LFM2-24B-A2B-Q4_K_M.gguf
     command: "bash scripts/run_lfm2_24b_q4_runtime_proof.sh"
-    blocker: "Do not start until Qwen3.6 acquisition/proof completes or is explicitly skipped; expected Q4_K_M size is 14415473952 bytes."
+    blocker: "Download is active in tmux session lfm2_24b_download; final GGUF must equal 14415473952 bytes before proof."
 
   - id: bitnet-rwkv-mamba-native-research-proof
     lane_id: recurrent-ssm-bitnet

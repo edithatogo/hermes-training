@@ -79,8 +79,11 @@
     - [x] Ranged downloader hardened to refresh Hugging Face signed URLs per chunk attempt, then restarted from existing chunk state.
     - [x] Post-download proof helper added at `scripts/run_qwen36_q4_runtime_proof.sh` so smoke, held-out, and pilot benchmarks can start immediately after byte-size validation.
     - [x] Post-download watcher added at `scripts/watch_qwen36_q4_runtime_proof.sh` so the proof can start automatically after exact-size assembly.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
-    - [ ] Blocked until `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf` reaches `21166757888` bytes and passes `scripts/run_qwen36_q4_runtime_proof.sh`; watcher session `qwen36_proof_watch` can automate that handoff.
+    - [x] Final GGUF reached `21166757888` bytes and watcher ran `scripts/run_qwen36_q4_runtime_proof.sh`.
+    - [x] Runtime proof recorded in `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`.
+    - [x] Redundant ranged chunk directory removed after exact-size assembly and proof.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Qwen3.6 Runtime Proof' (Protocol in workflow.md)
+    - [x] Evidence: llama.cpp smoke passed; held-out strict tool-call pass was `0.000`, so Qwen3.6 is runtime-proven but not promotion-ready.
 
 ## Phase 3 - OpenAI Normalizing Proxy Route
 
@@ -122,11 +125,11 @@
     - [x] Run any syntax checks touched by the track.
     - [x] Update this plan with completed statuses and remaining blockers.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Documentation, Registry, And Closeout' (Protocol in workflow.md)
-    - [ ] Final closeout remains blocked by active Qwen3.6 acquisition and proof.
+    - [ ] Final closeout now requires validation after documentation updates and recording the active LFM2-24B follow-up acquisition.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.7 / 10
-- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof. `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md` records the current MLX-native OpenAI-compatible proof and its held-out benchmark result.
-- Blocker: Qwen3.6 Q4_K_M acquisition is active but not complete; the post-download runtime/benchmark helper and watcher are ready. Gemma 4 remains paused/resumable until Qwen3.6 is proven or explicitly skipped. Hermes 4 14B Q4 is complete and runtime-proven. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.
+- Current estimate: 9.8 / 10
+- Evidence: `reports/runtime/runtime-inventory-20260524.md` records current endpoints, SSD GGUF artifacts, normalizing proxy self-test, and no-download frontier artifact blockers. `reports/runtime/llamacpp-qwen3-q4km-server-smoke-20260524.md` records a successful SSD-backed OpenAI-compatible llama.cpp proof for the Qwen3 Q4_K_M GGUF. `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md` records successful local Hermes 4 14B Q4 runtime proof. `reports/runtime/qwen3-4b-mlx-native-proof-20260524.md` records the current MLX-native OpenAI-compatible proof and its held-out benchmark result. `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` records successful Qwen3.6 llama.cpp smoke and failed strict tool-call promotion gate.
+- Blocker: No remaining blocker for Qwen3.6 runtime proof. LFM2-24B Q4_K_M acquisition is active as the next GGUF portability proof candidate. Gemma 4 remains paused/resumable. Ollama Qwen3 retest is intentionally blocked until a runtime upgrade or relevant local fix exists.

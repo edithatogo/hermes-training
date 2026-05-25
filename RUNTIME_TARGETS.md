@@ -96,6 +96,16 @@ Track `qwen36-runtime-proof_20260522` completed the SSD-only runtime proof pass:
 
 The no-download proof is documented in `reports/runtime/qwen36-hermes4-runtime-proof/run-card.md`. The next pass should start from an explicit SSD-backed artifact path or an already-running endpoint, then run the endpoint smoke matrix below.
 
+## Qwen3.6 Q4_K_M Runtime Result
+
+The follow-up artifact acquisition and proof completed on 2026-05-25:
+
+- Artifact: `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4/Qwen3.6-35B-A3B-Q4_K_M.gguf`
+- Size: `21166757888` bytes
+- Runtime proof: `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`
+- Held-out strict tool-call pass: `0.000`
+- Decision: valid llama.cpp runtime proof and frontier baseline only; not promotion-ready for Hermes-agent tool use.
+
 ## Installed Ollama Smoke
 
 The installed Ollama models `hermes3:8b` and `sam860/LFM2:2.6b` passed the OpenAI-compatible JSON smoke on 2026-05-22 with no downloads. The run card is `reports/runtime/ollama-installed-models-smoke/run-card.md`.
