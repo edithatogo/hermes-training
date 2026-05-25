@@ -53,6 +53,33 @@ TRANSFORMERS_CACHE=/Volumes/PortableSSD/huggingface/transformers \
 
 Result: no case progress after roughly two minutes; process was killed.
 
+Follow-up on 2026-05-26:
+
+- `~/.mem0/mem0_wrapper.py` now honors `MEM0_CONFIG_PATH`, so BGE-M3 can be
+  tested without overwriting the stable `mem0_nomic_768` setup.
+- `~/.mem0/config.bge-m3.json` was created for side-by-side testing with
+  collection `mem0_bge_m3_1024`, embedder `BAAI/bge-m3`, embedding dimensions
+  `1024`, and the existing extractor `sam860/LFM2:2.6b`.
+- The first full `hf download BAAI/bge-m3` attempt was stopped because it was
+  also downloading the ONNX weight shard. The resumed acquisition uses only
+  PyTorch / sentence-transformers files:
+
+```bash
+HF_HOME=/Volumes/PortableSSD/huggingface \
+HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
+HF_HUB_DISABLE_XET=1 \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/hf download \
+  BAAI/bge-m3 \
+  --include '*.json' \
+  --include '*.pt' \
+  --include '*.bin' \
+  --include 'sentencepiece.bpe.model' \
+  --include '1_Pooling/config.json' \
+  --exclude 'onnx/*' \
+  --exclude 'imgs/*' \
+  --max-workers 2
+```
+
 Local cache inspection showed that the model weights are not acquired:
 
 ```text
