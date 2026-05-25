@@ -273,10 +273,20 @@ def apply_user_prefix(messages: list[dict[str, Any]], prefix: str) -> list[dict[
     return updated
 
 
-def generate_response(model: Any, tokenizer: Any, messages: list[dict[str, Any]], max_tokens: int) -> tuple[str, float]:
+def build_generation_prompt(messages: list[dict[str, Any]], tokenizer: Any | None, assistant_prefill: str = "") -> str:
+    return build_prompt(messages, tokenizer) + assistant_prefill
+
+
+def generate_response(
+    model: Any,
+    tokenizer: Any,
+    messages: list[dict[str, Any]],
+    max_tokens: int,
+    assistant_prefill: str = "",
+) -> tuple[str, float]:
     from mlx_lm import generate as mlx_generate
 
-    prompt = build_prompt(messages, tokenizer)
+    prompt = build_generation_prompt(messages, tokenizer, assistant_prefill)
     t0 = time.time()
     response = mlx_generate(model, tokenizer, prompt=prompt, max_tokens=max_tokens, verbose=False)
     return response.strip(), time.time() - t0
@@ -441,6 +451,11 @@ def main() -> int:
         help="Optional prefix for the first user turn, e.g. /no_think for Qwen3 strict-format checks.",
     )
     parser.add_argument(
+        "--assistant-prefill",
+        default="",
+        help="Optional assistant-side prefill appended to the prompt but not counted as generated output.",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         help="Output directory. Defaults to an SSD-backed run directory under HERMES_EVAL_ROOT.",
@@ -517,7 +532,13 @@ def main() -> int:
             if not isinstance(messages, list):
                 raise ValueError(f"{case['id']}: messages must be a list")
             print(f"  [{index}/{len(suite)}] {case.get('category', 'unknown')} {case['id']}")
-            response, latency_s = generate_response(model, tokenizer, apply_user_prefix(messages, args.user_prefix), args.max_tokens)
+            response, latency_s = generate_response(
+                model,
+                tokenizer,
+                apply_user_prefix(messages, args.user_prefix),
+                args.max_tokens,
+                args.assistant_prefill,
+            )
             rows.append(
                 {
                     "id": case["id"],
@@ -561,6 +582,8 @@ def main() -> int:
         "output_dir": str(output_dir),
         "model": args.model,
         "adapter": args.adapter,
+        "user_prefix": args.user_prefix,
+        "assistant_prefill": args.assistant_prefill,
         "cases": cases,
         "tool_call_cases": len(tool_call_rows),
         "passed": passed,

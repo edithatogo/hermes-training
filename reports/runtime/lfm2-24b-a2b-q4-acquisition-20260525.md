@@ -66,6 +66,16 @@ proof watcher: lfm2_24b_proof_watch active
 remaining: 52 chunks before final assembly and exact-size proof
 ```
 
+Later live checkpoint:
+
+```text
+checked: 2026-05-25T22:26:26+1000
+chunks complete: 176 / 215
+active temp chunks: 16
+final GGUF: not assembled
+remaining: 39 chunks before final assembly and exact-size proof
+```
+
 ## Post-Download Proof
 
 An SSD-backed watcher is active:
