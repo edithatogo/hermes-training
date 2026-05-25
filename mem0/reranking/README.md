@@ -59,6 +59,34 @@ Decision: `score_plus_created_at_rank` remains the best no-download reranker on
 the expanded seed suite. `lexical_overlap` is useful as a sanity baseline but
 misses one recency conflict.
 
+BGE-M3 expanded replay:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/build_reranking_suite_from_embedding_results.py \
+  --suite benchmarks/embeddings/memory_retrieval_expanded_suite.json \
+  --results /Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-cpu-expanded-20260526/results.jsonl \
+  --run-id bge-m3-expanded-derived-reranking-20260526
+
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --suite /Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-derived-reranking-20260526/candidate-suite.json \
+  --strategy score_plus_created_at_rank_close_margin \
+  --recency-weight 0.20 \
+  --run-id bge-m3-expanded-close-margin-rerank-20260526
+```
+
+| Strategy | Top-1 | Recency conflict | Distractor resistance |
+|---|---:|---:|---:|
+| `vector` | 0.917 | 0.500 | 1.000 |
+| `score_plus_created_at_rank` | 0.917 | 1.000 | 0.750 |
+| `lexical_overlap` | 0.917 | 0.500 | 1.000 |
+| `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 |
+
+Decision: prefer `score_plus_created_at_rank_close_margin` for the next
+read-only wrapper test. It keeps recency as a tie-breaker for close semantic
+margins instead of letting newer but semantically weaker memories override
+older source-grounded facts.
+
 Live read-only wrapper:
 
 ```bash
@@ -75,7 +103,7 @@ This calls `mem0 <tool> search`, reranks the returned JSON locally, and prints J
 This is not enough to change live mem0 behavior. It proves the failure is addressable after retrieval. The next step is to expand the suite and compare:
 
 - vector-only ordering
-- `score_plus_created_at_rank`
+- `score_plus_created_at_rank_close_margin`
 - a learned/local reranker such as `Qwen/Qwen3-Reranker-4B`
 - conflict-aware memory update/supersession metadata
 

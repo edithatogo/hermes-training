@@ -1,0 +1,338 @@
+[
+  {
+    "id": "metadata-database",
+    "category": "direct_recall",
+    "query": "Which database stores local metadata for Project Phoenix?",
+    "documents": [
+      {
+        "id": "target-sqlite",
+        "text": "Project Phoenix uses SQLite for local metadata and Qdrant for vector search.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-qdrant",
+        "text": "Project Phoenix uses Qdrant for vector search over embedded memories.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-runtime",
+        "text": "Project Phoenix uses llama.cpp for endpoint smoke checks.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-azure",
+        "text": "Project Phoenix can use Azure for cloud benchmark scale-out after quota is approved.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "recency-preference",
+    "category": "recency_conflict",
+    "query": "What is the current preferred local embedding model?",
+    "documents": [
+      {
+        "id": "old-preference",
+        "text": "The preferred local embedding model was old-embed-1024.",
+        "created_at": "2026-05-24T05:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "current-preference",
+        "text": "The current preferred local embedding model is nomic-embed-text because it is the working baseline.",
+        "created_at": "2026-05-24T07:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "runtime-note",
+        "text": "The preferred local runtime for daily chat is Ollama.",
+        "created_at": "2026-05-24T06:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "candidate-note",
+        "text": "BGE-M3 is a candidate embedder that needs side-by-side benchmarking before promotion.",
+        "created_at": "2026-05-26T01:00:00+10:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "benchmark-type",
+    "category": "distractor_resistance",
+    "query": "Which benchmark uses distractor resistance cases?",
+    "documents": [
+      {
+        "id": "hermes-toolcall",
+        "text": "The Hermes tool-call benchmark uses strict held-out function-call cases.",
+        "relevant": false
+      },
+      {
+        "id": "mem0-memory",
+        "text": "The mem0 memory benchmark uses direct recall, recency conflict, and distractor resistance cases.",
+        "relevant": true
+      },
+      {
+        "id": "endpoint-smoke",
+        "text": "The runtime endpoint benchmark checks OpenAI-compatible model and chat endpoints.",
+        "relevant": false
+      },
+      {
+        "id": "official-env",
+        "text": "The official benchmark environment smoke verifies packages such as lm-eval, BFCL, MTEB, and EvalPlus.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "artifact-path-direct",
+    "category": "direct_recall",
+    "query": "Where should Hermes export artifacts be stored?",
+    "documents": [
+      {
+        "id": "target-exports",
+        "text": "Hermes export artifacts should stay on /Volumes/PortableSSD/hermes-exports.",
+        "relevant": true
+      },
+      {
+        "id": "recent-source",
+        "text": "Source files, configs, benchmark fixtures, and reports should stay in Git.",
+        "relevant": false
+      },
+      {
+        "id": "cache-path",
+        "text": "Model caches should stay under /Volumes/PortableSSD/huggingface.",
+        "relevant": false
+      },
+      {
+        "id": "eval-path",
+        "text": "Benchmark outputs should stay under /Volumes/PortableSSD/hermes-evals.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "extractor-preference-update",
+    "category": "recency_conflict",
+    "query": "Which extractor should remain the rollback extractor?",
+    "documents": [
+      {
+        "id": "older-hermes",
+        "text": "The rollback extractor was hermes3:8b.",
+        "created_at": "2026-05-24T04:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "current-lfm2",
+        "text": "The rollback extractor is sam860/LFM2:2.6b until another extractor passes the benchmark gates.",
+        "created_at": "2026-05-24T07:30:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "embedding-rollback",
+        "text": "The rollback embedder remains nomic-embed-text:latest.",
+        "created_at": "2026-05-24T08:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "teacher-note",
+        "text": "Hermes 4 can be evaluated as a runtime baseline or teacher before local fine-tuning.",
+        "created_at": "2026-05-25T08:00:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "semantic-margin-beats-recency",
+    "category": "distractor_resistance",
+    "query": "Which collection stores the current mem0 vectors?",
+    "documents": [
+      {
+        "id": "target-collection",
+        "text": "The active mem0 Qdrant collection is mem0_nomic_768.",
+        "created_at": "2026-05-24T03:00:00+00:00",
+        "relevant": true
+      },
+      {
+        "id": "recent-candidate",
+        "text": "The planned BGE-M3 candidate collection is mem0_bge_m3_1024.",
+        "created_at": "2026-05-24T10:00:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "recent-qwen",
+        "text": "The planned Qwen embedding candidate collection must verify dimensions before creation.",
+        "created_at": "2026-05-24T10:15:00+00:00",
+        "relevant": false
+      },
+      {
+        "id": "recent-colbert",
+        "text": "The LFM2-ColBERT candidate would use late interaction rather than the active mem0 vector collection.",
+        "created_at": "2026-05-25T10:15:00+00:00",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "publication-gate",
+    "category": "direct_recall",
+    "query": "What blocks publishing the Qwen3 v4 dataset?",
+    "documents": [
+      {
+        "id": "target-approval",
+        "text": "Publishing the Qwen3 v4 cleaned synthetic-only dataset is blocked pending explicit approval and re-audit.",
+        "relevant": true
+      },
+      {
+        "id": "adapter-promoted",
+        "text": "Qwen3 v4 is the recommended strict Hermes tool-call adapter for local publication evidence.",
+        "relevant": false
+      },
+      {
+        "id": "runtime-export",
+        "text": "Qwen3 4B GGUF exports exist for direct llama.cpp and LM Studio validation.",
+        "relevant": false
+      },
+      {
+        "id": "azure-blocker",
+        "text": "Azure GPU-family quota must be confirmed before submitting cloud benchmark jobs.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "adapter-promotion",
+    "category": "direct_recall",
+    "query": "Which Qwen3 adapter is currently recommended for strict Hermes tool calls?",
+    "documents": [
+      {
+        "id": "target-v4",
+        "text": "Qwen3 v4 targeted is the current recommended strict Hermes tool-call adapter.",
+        "relevant": true
+      },
+      {
+        "id": "v5-non-promotion",
+        "text": "Qwen3 v5 pilot-polish is documented as a non-promotion because held-out strict pass regressed.",
+        "relevant": false
+      },
+      {
+        "id": "smoke-proof",
+        "text": "Qwen3 4B smoke training is a local MLX proof rather than the recommended public adapter.",
+        "relevant": false
+      },
+      {
+        "id": "future-v6",
+        "text": "Any Qwen3 v6 attempt must start from v4 and preserve held-out strict pass at 1.000.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "azure-quota",
+    "category": "distractor_resistance",
+    "query": "What must be checked before creating Azure ML GPU compute?",
+    "documents": [
+      {
+        "id": "target-quota",
+        "text": "Azure ML GPU quota and regional capacity must be confirmed before compute creation.",
+        "relevant": true
+      },
+      {
+        "id": "student-login",
+        "text": "The Azure for Students account login completed for d.a.mordaunt@gmail.com.",
+        "relevant": false
+      },
+      {
+        "id": "local-mlx",
+        "text": "Mac MLX remains the local lane for achievable adapter training.",
+        "relevant": false
+      },
+      {
+        "id": "official-smoke",
+        "text": "Official benchmark environments are installed and smoke-verified locally.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "ollama-retest",
+    "category": "direct_recall",
+    "query": "When should the Ollama Qwen3 runtime path be retested?",
+    "documents": [
+      {
+        "id": "target-after-upgrade",
+        "text": "Retest Ollama only after upgrading or replacing the current crashing Qwen3 GGUF import path.",
+        "relevant": true
+      },
+      {
+        "id": "lmstudio-validated",
+        "text": "LM Studio and direct llama.cpp are the validated GGUF runtime paths for the Qwen3 package.",
+        "relevant": false
+      },
+      {
+        "id": "mlx-server",
+        "text": "The Qwen3 MLX adapter runtime smoke passed through an OpenAI-compatible mlx_lm.server endpoint.",
+        "relevant": false
+      },
+      {
+        "id": "ollama-model-dir",
+        "text": "Ollama model files are stored on /Volumes/PortableSSD/ollama-models.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "lfm25-guard",
+    "category": "distractor_resistance",
+    "query": "What guard should a safer LFM2.5 recipe include?",
+    "documents": [
+      {
+        "id": "target-empty-response",
+        "text": "A safer LFM2.5 recipe should use a lower learning rate and an early empty-response gate.",
+        "relevant": true
+      },
+      {
+        "id": "collapse-result",
+        "text": "The LFM2.5 full-smoke adapter is not publishable because evaluation showed response collapse.",
+        "relevant": false
+      },
+      {
+        "id": "lfm24-runtime",
+        "text": "LFM2-24B is a runtime baseline or teacher candidate, not a local fine-tuning default.",
+        "relevant": false
+      },
+      {
+        "id": "lfm-colbert",
+        "text": "LFM2-ColBERT is a retrieval candidate that would require a late-interaction service proof.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "storage-policy",
+    "category": "direct_recall",
+    "query": "Where should benchmark outputs be written to avoid internal disk pressure?",
+    "documents": [
+      {
+        "id": "target-evals",
+        "text": "Benchmark outputs should be written under /Volumes/PortableSSD/hermes-evals.",
+        "relevant": true
+      },
+      {
+        "id": "git-source",
+        "text": "Small source files, configs, tests, and reports belong in the Git repository.",
+        "relevant": false
+      },
+      {
+        "id": "hf-cache",
+        "text": "Hugging Face model caches should be kept under /Volumes/PortableSSD/huggingface.",
+        "relevant": false
+      },
+      {
+        "id": "home-relocated",
+        "text": "Some bulky home cache directories can be relocated to /Volumes/PortableSSD/home-relocated.",
+        "relevant": false
+      }
+    ]
+  }
+]

@@ -177,3 +177,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: BGE-M3 CPU smoke
 *Link: [./tracks/bge-m3-cpu-smoke_20260526/](./tracks/bge-m3-cpu-smoke_20260526/)*
+
+---
+
+## [x] Track: BGE-M3 Expanded Retrieval Benchmark
+*Link: [./tracks/bge-m3-expanded-retrieval_20260526/](./tracks/bge-m3-expanded-retrieval_20260526/)*

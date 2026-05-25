@@ -43,6 +43,7 @@ def rerank_results(results: list[dict[str, Any]], strategy: str, recency_weight:
     if strategy == "vector":
         return sorted(results, key=lambda item: float(item.get("score") or 0.0), reverse=True)
 
+    best_score = max((float(item.get("score") or 0.0) for item in results), default=0.0)
     timestamps = [parse_timestamp(item.get("created_at")) for item in results]
     newest = max(timestamps) if timestamps else 0.0
     oldest = min(timestamps) if timestamps else 0.0
@@ -66,6 +67,12 @@ def rerank_results(results: list[dict[str, Any]], strategy: str, recency_weight:
         elif strategy == "score_plus_created_at_rank":
             rank_score = timestamp_order.get(id(item), 0) / max(1, len(results))
             adjusted = base_score + recency_weight * rank_score
+        elif strategy == "score_plus_created_at_rank_close_margin":
+            rank_score = timestamp_order.get(id(item), 0) / max(1, len(results))
+            has_timestamp = created_at > 0.0
+            within_close_margin = (best_score - base_score) <= 0.03
+            if has_timestamp and within_close_margin:
+                adjusted = base_score + recency_weight * rank_score
         elif strategy == "benchmark_order":
             memory = str(item.get("memory") or "")
             index = benchmark_memory_index(memory) or 0

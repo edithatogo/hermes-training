@@ -47,6 +47,42 @@ class Mem0RerankLibTest(unittest.TestCase):
 
         self.assertEqual(ranked[0]["id"], "relevant_old")
 
+    def test_close_margin_created_at_rank_avoids_wide_margin_distractor(self) -> None:
+        close_conflict = [
+            {
+                "id": "old",
+                "memory": "The preferred local embedding model was old-embed-1024.",
+                "score": 0.741,
+                "created_at": "2026-05-24T05:00:00+00:00",
+            },
+            {
+                "id": "new",
+                "memory": "The current preferred local embedding model is nomic-embed-text.",
+                "score": 0.730,
+                "created_at": "2026-05-24T07:00:00+00:00",
+            },
+        ]
+        wide_margin = [
+            {
+                "id": "target",
+                "memory": "The active mem0 Qdrant collection is mem0_nomic_768.",
+                "score": 0.655,
+                "created_at": "2026-05-24T03:00:00+00:00",
+            },
+            {
+                "id": "recent_distractor",
+                "memory": "The planned BGE-M3 candidate collection is mem0_bge_m3_1024.",
+                "score": 0.539,
+                "created_at": "2026-05-24T10:00:00+00:00",
+            },
+        ]
+
+        close_ranked = rerank_results(close_conflict, "score_plus_created_at_rank_close_margin", 0.20)
+        wide_ranked = rerank_results(wide_margin, "score_plus_created_at_rank_close_margin", 0.20)
+
+        self.assertEqual(close_ranked[0]["id"], "new")
+        self.assertEqual(wide_ranked[0]["id"], "target")
+
     def test_parse_mem0_search_output_ignores_warning_prefix(self) -> None:
         raw = """Failed to load spaCy lemma model: spaCy is not installed.
 {

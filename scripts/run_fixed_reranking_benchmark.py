@@ -210,7 +210,15 @@ def main() -> int:
     parser.add_argument("--suite", type=Path, default=Path(__file__).resolve().parents[1] / "benchmarks" / "mem0_reranking" / "fixed_candidate_suite.json")
     parser.add_argument(
         "--strategy",
-        choices=("vector", "score_plus_recency", "score_plus_created_at_rank", "benchmark_order", "lexical_overlap", "cross_encoder"),
+        choices=(
+            "vector",
+            "score_plus_recency",
+            "score_plus_created_at_rank",
+            "score_plus_created_at_rank_close_margin",
+            "benchmark_order",
+            "lexical_overlap",
+            "cross_encoder",
+        ),
         default="vector",
     )
     parser.add_argument("--recency-weight", type=float, default=0.20)
