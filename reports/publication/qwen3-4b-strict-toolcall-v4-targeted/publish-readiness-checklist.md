@@ -23,7 +23,7 @@ Machine gate: BLOCKED FOR PUBLIC RELEASE
 - [x] Release decision recorded in `release-decision.md`.
 - [x] Publication bundle validator passes in fail-closed mode:
   `./.venv/bin/python scripts/validate_publication_bundle.py reports/publication/qwen3-4b-strict-toolcall-v4-targeted --expect-blocked`
-- [ ] Dataset/source redistribution review complete for all materialized training rows.
+- [x] Dataset/source redistribution review complete for all materialized training rows.
 - [ ] Standard benchmark stage target is met.
 - [ ] Hugging Face model card finalized.
 - [ ] Human publication approval recorded.
@@ -40,10 +40,10 @@ prompt overlap. It does show one held-out tool-name overlap
 redistribution approval.
 
 Public Hugging Face publication should still wait for the remaining publication
-items above. In particular, the adapter was trained from materialized strict
-tool-call rows that include earlier mirrored seed material, so the dataset/source
-redistribution review must be completed before representing this as a public
-release artifact.
+items above. The dataset/source redistribution review is complete with caveats:
+the adapter source-review gate is cleared, but public dataset publication remains
+blocked pending human scope approval because the materialized rows include
+mirrored local benchmark seed material.
 
 Private draft upload:
 

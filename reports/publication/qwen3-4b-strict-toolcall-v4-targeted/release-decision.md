@@ -19,7 +19,6 @@ Merged weights or GGUF publication: **out of scope and blocked**.
 The local strict quality gate is satisfied, but public release requires more
 than quality. The remaining public-release gates are:
 
-- dataset/source redistribution review for every materialized training row
 - final standard benchmark positioning with pilot scores labeled correctly
 - finalized Hugging Face model card
 - explicit human publication approval
@@ -35,6 +34,8 @@ publish-readiness checklist.
 - Model card draft: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/hf-model-card-draft.md`
 - Dataset overlap audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-overlap-audit.json`
 - Dataset token audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-token-audit.json`
+- Dataset source audit: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-source-audit.json`
+- Redistribution review: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/redistribution-review.md`
 - Local pilot report: `reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md`
 
 ## Quality Evidence
@@ -114,9 +115,8 @@ checked with evidence.
 
 ## Next Actions
 
-1. Complete redistribution review for the materialized strict tool-call rows.
-2. Decide whether to keep the current pilot-only standard benchmark positioning
+1. Decide whether to keep the current pilot-only standard benchmark positioning
    or run broader official suites on Azure or another suitable runtime.
-3. Finalize the Hugging Face model card only after the release wording reflects
+2. Finalize the Hugging Face model card only after the release wording reflects
    the runtime prefill requirement and pilot-only benchmark scope.
-4. Record human publication approval before changing private draft visibility.
+3. Record human publication approval before changing private draft visibility.

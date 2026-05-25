@@ -17,6 +17,8 @@ DEFAULT_REQUIRED_FILES = (
     "license-review.md",
     "dataset-overlap-audit.json",
     "dataset-token-audit.json",
+    "dataset-source-audit.json",
+    "redistribution-review.md",
     "release-decision.md",
 )
 

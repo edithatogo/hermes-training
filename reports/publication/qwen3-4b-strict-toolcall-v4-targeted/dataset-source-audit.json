@@ -1,0 +1,133 @@
+{
+  "data_dir": "gemma4/data/strict_tool_call/expanded_splits_v4_targeted",
+  "rows": 107,
+  "unique_ids": 102,
+  "duplicate_id_count": 5,
+  "rows_with_no_think_prompt": 46,
+  "source_counts": {
+    "strict_tool_call": 10,
+    "strict_tool_call_expansion_v1": 59,
+    "strict_tool_call_expansion_v2_format_guard": 16,
+    "strict_tool_call_expansion_v4_targeted": 12,
+    "strict_tool_call_seed": 10
+  },
+  "split_counts": {
+    "test.jsonl": 5,
+    "train.jsonl": 92,
+    "val.jsonl": 5,
+    "valid.jsonl": 5
+  },
+  "source_examples": {
+    "strict_tool_call": [
+      {
+        "id": "01-json-validity-ticket--no-think",
+        "split": "train",
+        "first_user": "/no_think Look up ticket TKT-2049 and return the status."
+      },
+      {
+        "id": "02-json-validity-calendar--no-think",
+        "split": "train",
+        "first_user": "/no_think Create a team sync for 2026-05-26T10:30:00+10:00 lasting 30 minutes for sam@corp.example and lee@corp.example, then list events for 2026-05-26."
+      },
+      {
+        "id": "03-argument-correctness-emr--no-think",
+        "split": "train",
+        "first_user": "/no_think Organize the records at /path/to/emr/data. Sort them into diagnosis, treatment, and medication_history, merge duplicate profiles, and update contacts from /path/to/contac"
+      }
+    ],
+    "strict_tool_call_expansion_v1": [
+      {
+        "id": "exp-multi-turn-repair-004-training-session",
+        "split": "test",
+        "first_user": "Schedule required safety induction at 2026-06-30T09:00:00+10:00 for 90 minutes for alex@example.test and rui@example.test."
+      },
+      {
+        "id": "exp-multi-turn-repair-005-api-key",
+        "split": "test",
+        "first_user": "Rotate API key KEY-18 for maps_service with 24 hour grace period and notify devops@example.test and owner@example.test."
+      },
+      {
+        "id": "exp-multi-turn-repair-006-return-label",
+        "split": "test",
+        "first_user": "Create a return label for order ORD-990 with items SKU-1 and SKU-8 using carrier AusPost and insured value 18900 cents."
+      }
+    ],
+    "strict_tool_call_expansion_v2_format_guard": [
+      {
+        "id": "exp-format-guard-001-contract",
+        "split": "train",
+        "first_user": "Open an urgent legal review for contract CTR-884 in the vendor queue. Return no thinking tags."
+      },
+      {
+        "id": "exp-format-guard-002-device",
+        "split": "train",
+        "first_user": "Lock device DEV-41 because it failed attestation. Output only the tool call."
+      },
+      {
+        "id": "exp-format-guard-003-access",
+        "split": "train",
+        "first_user": "Grant alex@example.test maintainer access to repo hermes-runtime. No prose."
+      }
+    ],
+    "strict_tool_call_expansion_v4_targeted": [
+      {
+        "id": "exp-target-message-exact-001-radiology",
+        "split": "train",
+        "first_user": "Create an urgent radiology order for patient PT-9021 for chest xray and CT at East Clinic, then notify radiology that scan is ready for review."
+      },
+      {
+        "id": "exp-target-message-exact-001-radiology--no-think",
+        "split": "train",
+        "first_user": "/no_think Create an urgent radiology order for patient PT-9021 for chest xray and CT at East Clinic, then notify radiology that scan is ready for review."
+      },
+      {
+        "id": "exp-target-message-exact-002-pharmacy",
+        "split": "train",
+        "first_user": "Approve a 30 day refill for patient PT-3188 for salbutamol and cetirizine, then notify pharmacy that refill is ready for pickup."
+      }
+    ],
+    "strict_tool_call_seed": [
+      {
+        "id": "01-json-validity-ticket",
+        "split": "train",
+        "first_user": "Look up ticket TKT-2049 and return the status."
+      },
+      {
+        "id": "02-json-validity-calendar",
+        "split": "train",
+        "first_user": "Create a team sync for 2026-05-26T10:30:00+10:00 lasting 30 minutes for sam@corp.example and lee@corp.example, then list events for 2026-05-26."
+      },
+      {
+        "id": "03-argument-correctness-emr",
+        "split": "train",
+        "first_user": "Organize the records at /path/to/emr/data. Sort them into diagnosis, treatment, and medication_history, merge duplicate profiles, and update contacts from /path/to/contact/updates."
+      }
+    ]
+  },
+  "source_policy": {
+    "strict_tool_call_seed": {
+      "origin": "repo-authored mirrored strict local benchmark seed",
+      "redistribution": "reviewed; allowed for GitHub evidence, but public dataset publication should disclose benchmark-seed overlap"
+    },
+    "strict_tool_call": {
+      "origin": "repo-authored mirrored strict local benchmark seed with no-think prompt variants",
+      "redistribution": "reviewed; allowed for GitHub evidence, but public dataset publication should disclose benchmark-seed overlap"
+    },
+    "strict_tool_call_expansion_v1": {
+      "origin": "repo-authored deterministic synthetic expansion",
+      "redistribution": "reviewed; no external corpus dependency identified"
+    },
+    "strict_tool_call_expansion_v2_format_guard": {
+      "origin": "repo-authored deterministic synthetic format-guard expansion",
+      "redistribution": "reviewed; no external corpus dependency identified"
+    },
+    "strict_tool_call_expansion_v4_targeted": {
+      "origin": "repo-authored targeted synthetic rows from local failure analysis",
+      "redistribution": "reviewed; no held-out prompt copying identified, but one generic held-out tool-name overlap remains disclosed"
+    }
+  },
+  "unknown_sources": [],
+  "review_result": "reviewed_with_caveats",
+  "public_dataset_release": "blocked_pending_human_scope_approval",
+  "adapter_release_source_gate": "source_review_complete_with_disclosed_caveats"
+}

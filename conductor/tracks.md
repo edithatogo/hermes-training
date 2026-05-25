@@ -132,3 +132,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 release evidence and fail-closed publication gate
 *Link: [./tracks/qwen3-v4-release-gate_20260525/](./tracks/qwen3-v4-release-gate_20260525/)*
+
+---
+
+## [x] Track: Qwen3 v4 dataset source redistribution review
+*Link: [./tracks/qwen3-v4-redistribution-review_20260525/](./tracks/qwen3-v4-redistribution-review_20260525/)*
