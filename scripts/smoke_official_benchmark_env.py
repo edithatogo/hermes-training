@@ -22,6 +22,8 @@ MODES = {
     "general": {
         "imports": (
             "lm_eval",
+            "langdetect",
+            "immutabledict",
             "evaluate",
             "evalplus",
             "human_eval",
@@ -32,6 +34,8 @@ MODES = {
         ),
         "distributions": (
             "lm_eval",
+            "langdetect",
+            "immutabledict",
             "evaluate",
             "evalplus",
             "human-eval",
@@ -46,6 +50,7 @@ MODES = {
     "bfcl": {
         "imports": (
             "bfcl_eval",
+            "soundfile",
             "tree_sitter",
             "numpy",
             "torch",
@@ -54,13 +59,14 @@ MODES = {
         ),
         "distributions": (
             "bfcl-eval",
+            "soundfile",
             "tree-sitter",
             "numpy",
             "torch",
             "transformers",
             "sentence-transformers",
         ),
-        "cli": (),
+        "cli": (("bfcl", "--help"),),
     },
 }
 

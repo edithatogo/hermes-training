@@ -23,7 +23,7 @@ Command:
 /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python \
   scripts/smoke_official_benchmark_env.py \
   --mode general \
-  --json-output /Volumes/PortableSSD/hermes-evals/standard-benchmarks/env-smoke/general-20260526.json
+  --json-output /Volumes/PortableSSD/hermes-evals/standard-benchmarks/env-smoke/general-20260526-after-ifeval-deps.json
 ```
 
 Result: passed.
@@ -32,7 +32,7 @@ Result: passed.
 |---|---|
 | Python | `3.12.13` |
 | Executable | `/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python` |
-| Imports | `lm_eval`, `evaluate`, `evalplus`, `human_eval`, `mteb`, `sentence_transformers`, `transformers`, `torch` |
+| Imports | `lm_eval`, `langdetect`, `immutabledict`, `evaluate`, `evalplus`, `human_eval`, `mteb`, `sentence_transformers`, `transformers`, `torch` |
 | `pip check` | no broken requirements |
 | `lm_eval --help` | starts successfully |
 | Torch MPS | available |
@@ -42,6 +42,8 @@ Versions:
 | Package | Version |
 |---|---|
 | `lm_eval` | `0.4.12` |
+| `langdetect` | `1.0.9` |
+| `immutabledict` | `4.3.1` |
 | `evaluate` | `0.4.6` |
 | `evalplus` | `0.3.1` |
 | `human-eval` | `1.0.3` |
@@ -59,7 +61,7 @@ Command:
 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/python \
   scripts/smoke_official_benchmark_env.py \
   --mode bfcl \
-  --json-output /Volumes/PortableSSD/hermes-evals/standard-benchmarks/env-smoke/bfcl-20260526.json
+  --json-output /Volumes/PortableSSD/hermes-evals/standard-benchmarks/env-smoke/bfcl-20260526-after-soundfile.json
 ```
 
 Result: passed.
@@ -68,8 +70,9 @@ Result: passed.
 |---|---|
 | Python | `3.12.13` |
 | Executable | `/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/python` |
-| Imports | `bfcl_eval`, `tree_sitter`, `numpy`, `torch`, `transformers`, `sentence_transformers` |
+| Imports | `bfcl_eval`, `soundfile`, `tree_sitter`, `numpy`, `torch`, `transformers`, `sentence_transformers` |
 | `pip check` | no broken requirements |
+| `bfcl --help` | starts successfully |
 | Torch MPS | available |
 
 Versions:
@@ -77,6 +80,7 @@ Versions:
 | Package | Version |
 |---|---|
 | `bfcl-eval` | `2026.3.23` |
+| `soundfile` | `0.13.1` |
 | `tree-sitter` | `0.21.3` |
 | `numpy` | `1.26.4` |
 | `torch` | `2.12.0` |

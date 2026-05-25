@@ -183,6 +183,14 @@ The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-cal
 - Endpoint benchmark harnesses now expose the same assistant-prefill flag for strict and pilot checks, so runtime-profile comparisons can stay consistent across MLX and OpenAI-compatible endpoints.
 - Decision: local strict Hermes-agent gate passed; public Hugging Face adapter release approved as experimental with pilot-only benchmark scope. Pilot failures should be documented rather than hidden.
 
+Official IFEval pilot evidence now exists for the same adapter:
+
+- Report: `reports/benchmark/official-ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526.md`
+- Raw output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526`
+- Prompt-level strict accuracy: `0.760` on 25 samples
+- Prompt-level loose accuracy: `0.840` on 25 samples
+- Decision: pilot-only; not a full leaderboard or publication score.
+
 ## mem0 Baselines
 
 The mem0 benchmark index is:
