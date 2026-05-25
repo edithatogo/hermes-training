@@ -16,14 +16,8 @@
 | extraction | extraction-lfm2-2-6b-expanded-strict-20260524 | sam860/LFM2:2.6b | 0.571 |  |  |  | 1.000 | 0.758 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-strict-20260524` |
 | extraction | extraction-lfm2-2-6b-prompt-file-20260524 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 0.866 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-prompt-file-20260524` |
 | extraction | extraction-lfm2-2-6b-smoke-20260524 | sam860/LFM2:2.6b | 0.333 |  |  |  | 0.667 | 0.786 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-smoke-20260524` |
-| memory | benchmark-order-006-20260524 |  | 0.667 |  | 0.667 |  |  |  |  |
-| memory | benchmark-order-010-20260524 |  | 1.000 |  | 1.000 |  |  |  |  |
-| memory | created-at-rank-012-20260524 |  | 0.667 |  | 0.667 |  |  |  |  |
-| memory | created-at-rank-020-20260524 |  | 1.000 |  | 1.000 |  |  |  |  |
 | memory | mem0-current-nomic-recency-20260524 | cmd | 0.400 |  | 0.400 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-20260524` |
 | memory | mem0-current-nomic-smoke-20260524 | cmd | 0.667 |  | 0.667 | 1.000 |  | 3.388 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-smoke-20260524` |
-| memory | recency-boost-005-20260524 |  | 0.667 |  | 0.667 |  |  |  |  |
-| memory | recency-suite-created-at-rank-020-20260524 |  | 1.000 |  | 1.000 |  |  |  |  |
 | memory+rerank | mem0-current-nomic-recency-reranked-20260524 | cmd | 0.400 | 1.000 | 0.400 | 1.000 |  | 3.872 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524` |
 | reranking | bge-m3-expanded-close-margin-rerank-20260526 | score_plus_created_at_rank_close_margin | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-close-margin-rerank-20260526` |
 | reranking | bge-m3-expanded-created-at-rank-20260526 | score_plus_created_at_rank | 0.917 |  | 0.917 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-created-at-rank-20260526` |
