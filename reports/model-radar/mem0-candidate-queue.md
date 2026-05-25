@@ -22,7 +22,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
 | 3 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
-| 4 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof |
+| 4 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof |
 | 5 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
 | 6 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 | 7 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
@@ -84,17 +84,16 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `source-model-benchmarked`
-- Blocker: source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof
+- Blocker: source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof
 
 ```bash
 source scripts/env.sh
-# ONNX candidate is Transformers.js-oriented; this Python smoke uses the source HF model with the same yes/no scoring.
-./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
-  --strategy qwen3_causal_lm \
-  --model Qwen/Qwen3-Reranker-0.6B \
-  --qwen3-device auto \
-  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-onnx-community-qwen3-reranker-0-6b-onnx-$(date +%Y%m%d-%H%M%S)
+# ONNX candidate is Transformers.js-oriented; this fail-closed bridge proof keeps Node tooling on the SSD.
+./.venv/bin/python scripts/run_qwen3_onnx_transformersjs_smoke.py \
+  --run-id qwen3-0-6b-onnx-transformersjs-$(date +%Y%m%d-%H%M%S) \
+  --limit-cases 1 \
+  --max-length 512 \
+  --timeout-s 180
 ```
 
 ### BAAI/bge-m3

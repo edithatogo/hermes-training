@@ -76,8 +76,11 @@ The source Hugging Face model uses the same yes/no causal-LM scoring shape as
 the public `onnx-community/Qwen3-Reranker-0.6B-ONNX` card. It passed the fixed
 6-case suite and both BGE/nomic expanded 12-case derived suites at top-1
 `1.000`, recall@3 `1.000`, MRR `1.000`, and nDCG@3 `1.000`. Keep it as the
-next learned read-reranker candidate; the ONNX/Transformers.js runtime bridge
-still needs separate proof before claiming ONNX local runtime readiness.
+next learned read-reranker candidate. The ONNX/Transformers.js runtime bridge
+has been attempted and failed closed: Node rejected the original `wasm` device
+setting, and a CPU/q4 retry timed out after `180.0s` before scoring one
+fixed-suite case at max length `512`. Do not claim ONNX local runtime readiness
+until a bounded CPU/CoreML bridge proof passes.
 
 BGE-M3 expanded replay:
 

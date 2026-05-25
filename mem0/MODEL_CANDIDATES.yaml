@@ -85,10 +85,11 @@ candidates:
     family: onnx-causal-lm-reranker
     runtime:
       - onnxruntime
+      - transformers.js
     embedding_dims: null
     status: source-model-benchmarked
     first_gate: rerank-smoke
-    notes: "Smaller 2026-05-26 refresh candidate for local reranking. Public ONNX package targets Transformers.js; Python fixed-suite smoke uses the source Qwen/Qwen3-Reranker-0.6B model with the same yes/no causal-LM scoring until the ONNX bridge is added. Source model passed fixed 6-case and BGE/nomic expanded 12-case reranking suites at top-1 1.000. Live read-only wrapper smoke passed; warm helper reduced repeat-request Qwen scoring latency to 0.119s and total wrapper latency to 4.112s on a single-result live query. Multi-result replay through the wrapper reached top-1 1.000 on fixed, BGE-derived, and nomic-derived suites with p50 scoring around 0.25s to 0.28s on expanded suites. Isolated live fixture reached only top-1 0.667, matching vector and missing a recency lane; needs prompt/metadata work before promotion."
+    notes: "Smaller 2026-05-26 refresh candidate for local reranking. Public ONNX package targets Transformers.js; Python fixed-suite smoke uses the source Qwen/Qwen3-Reranker-0.6B model with the same yes/no causal-LM scoring. Source model passed fixed 6-case and BGE/nomic expanded 12-case reranking suites at top-1 1.000. Live read-only wrapper smoke passed; warm helper reduced repeat-request Qwen scoring latency to 0.119s and total wrapper latency to 4.112s on a single-result live query. Multi-result replay through the wrapper reached top-1 1.000 on fixed, BGE-derived, and nomic-derived suites with p50 scoring around 0.25s to 0.28s on expanded suites. Isolated live fixture reached only top-1 0.667, matching vector and missing a recency lane. ONNX/Transformers.js bridge failed closed: Node supports cpu/webgpu rather than wasm, and CPU q4 timed out after 180.0s on one fixed-suite case at max length 512. Do not promote ONNX until a bounded CPU/CoreML proof passes."
 
   - id: BAAI/bge-reranker-v2-m3-mlx
     role: reranker

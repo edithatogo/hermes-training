@@ -2,7 +2,6 @@
 
 ## Phase 1 - Scope and Runtime Guardrails
 
-- [ ] Task: confirm the local ONNX artifact, SSD-backed cache root, and
 - [x] Task: confirm the local ONNX artifact, SSD-backed cache root, and
   Transformers.js entrypoint to use for the proof.
 - [x] Task: verify the repo does not gain a `node_modules` directory and that

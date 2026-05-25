@@ -105,6 +105,17 @@ def command_for(candidate: dict[str, Any]) -> str:
         )
     if role == "reranker":
         if "Qwen3-Reranker" in model_id:
+            if model_id == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
+                return "\n".join(
+                    [
+                        "# ONNX candidate is Transformers.js-oriented; this fail-closed bridge proof keeps Node tooling on the SSD.",
+                        "./.venv/bin/python scripts/run_qwen3_onnx_transformersjs_smoke.py \\",
+                        "  --run-id qwen3-0-6b-onnx-transformersjs-$(date +%Y%m%d-%H%M%S) \\",
+                        "  --limit-cases 1 \\",
+                        "  --max-length 512 \\",
+                        "  --timeout-s 180",
+                    ]
+                )
             benchmark_model = (
                 "Qwen/Qwen3-Reranker-0.6B"
                 if model_id == "onnx-community/Qwen3-Reranker-0.6B-ONNX"
@@ -184,6 +195,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     if status == "benchmarked-cpu-mps-not-promoted":
         return "benchmarked but not promoted; keep separate collection or artifact"
     if status == "source-model-benchmarked":
+        if candidate.get("id") == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
+            return "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof"
         return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"

@@ -24,7 +24,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertEqual(queue_priority(candidate)[0], 2)
         self.assertEqual(
             blocker_for(candidate),
-            "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof",
+            "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof",
         )
 
 
