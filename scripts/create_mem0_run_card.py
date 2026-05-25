@@ -18,6 +18,8 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def infer_kind(path: Path, summary: dict[str, Any]) -> str:
     text = str(path)
+    if "mem0-reranking-replay" in text:
+        return "reranking-replay"
     if "mem0-reranking-benchmark" in text:
         return "reranking"
     if "embedding-benchmark" in text:
@@ -84,9 +86,10 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --base-url {summary['base_url']} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
-    if kind == "reranking":
+    if kind in {"reranking", "reranking-replay"}:
+        script = "scripts/run_mem0_rerank_replay.py" if kind == "reranking-replay" else "scripts/run_fixed_reranking_benchmark.py"
         lines = [
-            "./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \\",
+            f"./.venv/bin/python {script} \\",
             f"  --strategy {summary.get('strategy', '<strategy>')} \\",
         ]
         if summary.get("model"):
@@ -95,6 +98,10 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --qwen3-device {summary['qwen3_device']} \\")
         if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_max_length"):
             lines.append(f"  --qwen3-max-length {summary['qwen3_max_length']} \\")
+        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_local_files_only"):
+            lines.append("  --qwen3-local-files-only \\")
+        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_server_url"):
+            lines.append(f"  --qwen3-server-url {summary['qwen3_server_url']} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     lines = [
@@ -144,6 +151,16 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
             "keep testing",
             "The extractor did not reach the JSON validity, durable extraction, and transient-noise gates needed for default promotion.",
         )
+    if kind == "reranking-replay":
+        if summary.get("top1_accuracy") == 1.0:
+            return (
+                "keep testing",
+                "The replay suite passed through the read-only wrapper path; keep it as integration evidence and require live multi-result or isolated-store proof before default promotion.",
+            )
+        return (
+            "keep testing",
+            "The replay suite did not reach the strict 1.000 top-1 gate and should remain a comparison baseline.",
+        )
     if kind == "reranking":
         if summary.get("top1_accuracy") == 1.0:
             return (
@@ -168,6 +185,7 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         "memory": "memory",
         "memory+rerank": "memory+rerank",
         "reranking": "reranker",
+        "reranking-replay": "reranker",
     }.get(kind, kind)
     endpoint = summary.get("base_url", "")
     runtime = summary.get("endpoint_kind") or summary.get("tool") or summary.get("strategy") or ("openai-compatible" if endpoint else "")

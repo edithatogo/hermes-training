@@ -205,6 +205,25 @@ one memory, so a real live multi-result comparison is blocked until there is an
 isolated fixture store or captured replay with multiple candidates. Evidence is
 recorded in `reports/benchmark/mem0/live-multiretrieval-readiness-20260526.md`.
 
+Replay harness:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_rerank_replay.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --qwen3-local-files-only \
+  --qwen3-server-url http://127.0.0.1:8765 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+```
+
+2026-05-26 replay result: warm Qwen3 reached top-1 `1.000` on fixed,
+BGE-derived expanded, and nomic-derived expanded suites. The close-margin
+heuristic also reached `1.000` on fixed and BGE-derived replay, but stayed at
+`0.917` on nomic-derived replay. Evidence is recorded in
+`reports/benchmark/mem0/mem0-rerank-replay-comparison-20260526.md`.
+
 Optional reranker dependencies are intentionally separate from the base repo
 environment:
 

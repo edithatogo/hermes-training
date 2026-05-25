@@ -207,3 +207,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 0.6B Live mem0 Rerank Wrapper
 *Link: [./tracks/qwen3-06b-live-mem0-rerank_20260526/](./tracks/qwen3-06b-live-mem0-rerank_20260526/)*
+
+---
+
+## [x] Track: mem0 Multi-Result Rerank Replay Harness
+*Link: [./tracks/mem0-multiretrieval-rerank-replay_20260526/](./tracks/mem0-multiretrieval-rerank-replay_20260526/)*

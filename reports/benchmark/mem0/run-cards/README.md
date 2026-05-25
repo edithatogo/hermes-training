@@ -31,6 +31,12 @@ runtime endpoint against the current mem0 default.
 | [rerank-qwen3-0-6b-fixed-20260526](./rerank-qwen3-0-6b-fixed-20260526.md) | reranker candidate | keep testing |
 | [qwen3-0-6b-nomic-expanded-rerank-20260526](./qwen3-0-6b-nomic-expanded-rerank-20260526.md) | reranker candidate | keep testing |
 | [qwen3-0-6b-bge-expanded-rerank-20260526](./qwen3-0-6b-bge-expanded-rerank-20260526.md) | reranker candidate | keep testing |
+| [mem0-replay-close-margin-fixed-20260526](./mem0-replay-close-margin-fixed-20260526.md) | reranker replay | keep testing |
+| [mem0-replay-qwen3-06b-warm-fixed-20260526](./mem0-replay-qwen3-06b-warm-fixed-20260526.md) | reranker replay | keep testing |
+| [mem0-replay-close-margin-bge-expanded-20260526](./mem0-replay-close-margin-bge-expanded-20260526.md) | reranker replay | keep testing |
+| [mem0-replay-close-margin-nomic-expanded-20260526](./mem0-replay-close-margin-nomic-expanded-20260526.md) | reranker replay | keep testing |
+| [mem0-replay-qwen3-06b-warm-bge-expanded-20260526](./mem0-replay-qwen3-06b-warm-bge-expanded-20260526.md) | reranker replay | keep testing |
+| [mem0-replay-qwen3-06b-warm-nomic-expanded-20260526](./mem0-replay-qwen3-06b-warm-nomic-expanded-20260526.md) | reranker replay | keep testing |
 
 ## Generate
 

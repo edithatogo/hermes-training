@@ -280,6 +280,28 @@ source scripts/env.sh
 `4.112s` total with Qwen scoring latency `0.119s`; mem0 search accounted for
 `3.979s`.
 
+Run multi-result replay through the live-wrapper abstraction without writing to
+the live mem0 store:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_rerank_replay.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --qwen3-local-files-only \
+  --qwen3-server-url http://127.0.0.1:8765 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+```
+
+Current replay comparison:
+
+| Suite | Close-margin top-1 | Warm Qwen3 top-1 | Warm Qwen3 p50 |
+|---|---:|---:|---:|
+| Fixed | 1.000 | 1.000 | 0.220s |
+| BGE-derived expanded | 1.000 | 1.000 | 0.281s |
+| Nomic-derived expanded | 0.917 | 1.000 | 0.250s |
+
 Run an Ollama memory-extraction smoke test:
 
 ```bash
