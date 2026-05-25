@@ -50,7 +50,7 @@ completed SSD-side proof cards from being reset to pending state.
 | `gguf-portability` | `Qwen3.6-35B-A3B-Q4_K_M`; `LiquidAI/LFM2-24B-A2B-GGUF` Q4_K_M | byte-size validation, llama.cpp smoke, held-out and pilots | complete for both Qwen3.6 and LFM2-24B as runtime proofs only |
 | `unsloth-cloud` | Qwen3.6 or Gemma 4 small LoRA smoke | Azure preflight, pinned revision, token audit, adapter run card | blocked by useful GPU quota |
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | weight prep record, KTransformers launch, invocation/endpoint contract | not started |
-| `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` or LFM2.5 1.2B | LEAP/MLX/ONNX task-specific smoke, no response-collapse regression | LFM2.5 1.2B MLX adapter runtime smoke complete; direct evaluator blocked |
+| `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` or LFM2.5 1.2B | LEAP/MLX/ONNX task-specific smoke, no response-collapse regression | LFM2.5 1.2B MLX adapter runtime smoke complete; direct evaluator load repaired but response quality failed |
 | `recurrent-ssm-bitnet` | RWKV7, BitNet b1.58, Mamba/SSM, RLM-Qwen3 | native runtime install, invocation contract, comparability caveat | watchlist |
 | `hosted-frontier-api` | Qwen3.7-Max | provider/model/date/terms, teacher prompt manifest, cost note | API-only teacher lane |
 
@@ -83,7 +83,8 @@ A lane proof card can promote a model only to the evidence type it actually prov
 
 - Runtime proof: `reports/runtime/lfm25-1.2b-instruct-smoke-mlx-proof-20260526.md`
 - Smoke response: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/lfm25-1.2b-instruct-smoke-chat-response-20260526.json`
-- Decision: runtime proof only; served MLX adapter smoke passed, but direct offline evaluator loading is blocked on adapter metadata and prior full-smoke evaluation showed response collapse.
+- Direct eval output: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/lfm25-1.2b-instruct-smoke/eval-one-prompt-results-20260526.jsonl`
+- Decision: runtime proof only; served MLX adapter smoke passed and direct offline evaluator loading is repaired, but the one-prompt direct response did not follow the JSON instruction and prior full-smoke evaluation showed response collapse.
 
 ## Queued Frontier Follow-Up
 

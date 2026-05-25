@@ -173,7 +173,7 @@ Point Hermes at `http://127.0.0.1:8099/v1`. Streaming chat completions are rejec
 | Qwen3.6-35B-A3B | LM Studio/Ollama GGUF or KTransformers | Transformers on CPU/MPS for smoke only | Verify memory at realistic context before using with Hermes. |
 | Hermes-4-14B | Ollama/LM Studio GGUF | Transformers | Use as baseline/teacher before local LoRA. |
 | Gemma-4-26B-A4B | Ollama/LM Studio GGUF | Transformers | Validate tool-call stability; MoE quant support is moving quickly. |
-| LFM2.5-1.2B | MLX/GGUF | LEAP/Unsloth/TRL for training | MLX server plus local smoke LoRA adapter is runtime-proven as a low-latency helper baseline; direct evaluator remains blocked. |
+| LFM2.5-1.2B | MLX/GGUF | LEAP/Unsloth/TRL for training | MLX server plus local smoke LoRA adapter is runtime-proven as a low-latency helper baseline; direct evaluator load is repaired, but response quality still blocks promotion. |
 | LFM2.5-350M / VL-450M / Audio-1.5B | MLX/GGUF/ONNX/LEAP depending on modality | Defer until use case proof | Verified public LFM2.5 family entries; separate chat, vision, and audio lanes. |
 | Mamba-3/RWKV7/BitNet/RLM | Native family runtime | None | Research only until OpenAI-compatible serving is proven. |
 

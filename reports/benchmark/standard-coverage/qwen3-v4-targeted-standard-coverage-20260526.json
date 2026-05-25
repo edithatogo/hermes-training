@@ -1,6 +1,6 @@
 {
   "run_id": "qwen3-v4-targeted-standard-coverage-20260526",
-  "created_at": "2026-05-25T18:30:41.330621+00:00",
+  "created_at": "2026-05-25T18:32:59.248809+00:00",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "status": "pilot-only",
   "local_adapter_gate_ready": true,

@@ -63,7 +63,7 @@ proofs:
     artifact_path: /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-1.2B-Instruct/snapshots/6314d2b7cf28a6ae9de9d3e77dcfcd9c9f281c77
     adapter_path: /Volumes/PortableSSD/GitHub/hermes-training/lfm2/experiments/lfm25-1.2b-instruct-smoke/lora_adapter
     command: "HF_HUB_OFFLINE=1 ./.venv/bin/python -m mlx_lm.server --model /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-1.2B-Instruct/snapshots/6314d2b7cf28a6ae9de9d3e77dcfcd9c9f281c77 --adapter-path /Volumes/PortableSSD/GitHub/hermes-training/lfm2/experiments/lfm25-1.2b-instruct-smoke/lora_adapter --host 127.0.0.1 --port 8096"
-    blocker: "Runtime smoke passed through MLX server; direct lfm2/scripts/evaluate.py adapter load is blocked on missing num_layers metadata, so this is runtime proof only."
+    blocker: "Runtime smoke passed through MLX server; direct lfm2/scripts/evaluate.py adapter load was repaired in lfm2 commit 3413720, but a one-prompt direct eval produced a non-compliant response, so this is runtime/load proof only."
 
   - id: lfm2-24b-a2b-q4-gguf-proof
     lane_id: gguf-portability
