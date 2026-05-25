@@ -18,6 +18,8 @@ try:
 except ModuleNotFoundError:
     from scripts.mem0_rerank_lib import rerank_results
 
+QWEN3_RERANKER_CACHE: dict[tuple[str, str, int], tuple[Any, Any, int, int, str]] = {}
+
 
 def load_json(path: Path) -> Any:
     with path.open(encoding="utf-8") as handle:
@@ -121,6 +123,81 @@ def cross_encoder_rerank(model_name: str, query: str, candidates: list[dict[str,
     return sorted(ranked, key=lambda item: float(item["rerank_score"]), reverse=True), load_latency_s
 
 
+def qwen3_reranker_prompt(query: str, document: str, instruction: str) -> str:
+    system_prompt = (
+        "Judge whether the Document meets the requirements based on the Query and the Instruct provided. "
+        'Note that the answer can only be "yes" or "no".'
+    )
+    return (
+        f"<|im_start|>system\n{system_prompt}<|im_end|>\n"
+        f"<|im_start|>user\n<Instruct>: {instruction}\n\n<Query>: {query}\n\n<Document>: {document}<|im_end|>\n"
+        "<|im_start|>assistant\n<think>\n\n</think>\n"
+    )
+
+
+def load_qwen3_reranker(model_name: str, device: str, max_length: int) -> tuple[Any, Any, int, int, str]:
+    cache_key = (model_name, device, max_length)
+    if cache_key in QWEN3_RERANKER_CACHE:
+        return QWEN3_RERANKER_CACHE[cache_key]
+    try:
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+    except ModuleNotFoundError as exc:
+        raise SystemExit(
+            "transformers and torch are required for qwen3_causal_lm reranking. "
+            "Install the base project dependencies or run a heuristic reranker instead."
+        ) from exc
+
+    resolved_device = device
+    if device == "auto":
+        resolved_device = "mps" if torch.backends.mps.is_available() else "cpu"
+    dtype = torch.float16 if resolved_device == "mps" else torch.float32
+    tokenizer = AutoTokenizer.from_pretrained(model_name, padding_side="left")
+    model = AutoModelForCausalLM.from_pretrained(model_name, dtype=dtype).to(resolved_device)
+    model.eval()
+    yes_id = tokenizer.convert_tokens_to_ids("yes")
+    no_id = tokenizer.convert_tokens_to_ids("no")
+    if yes_id is None or no_id is None or yes_id < 0 or no_id < 0:
+        raise ValueError(f"{model_name}: tokenizer does not expose yes/no tokens")
+    loaded = (tokenizer, model, int(yes_id), int(no_id), resolved_device)
+    QWEN3_RERANKER_CACHE[cache_key] = loaded
+    return loaded
+
+
+def qwen3_causal_lm_rerank(
+    model_name: str,
+    query: str,
+    candidates: list[dict[str, Any]],
+    device: str,
+    max_length: int,
+    instruction: str,
+) -> tuple[list[dict[str, Any]], float]:
+    try:
+        import torch
+    except ModuleNotFoundError as exc:
+        raise SystemExit("torch is required for qwen3_causal_lm reranking.") from exc
+
+    started = time.time()
+    tokenizer, model, yes_id, no_id, resolved_device = load_qwen3_reranker(model_name, device, max_length)
+    load_and_score_started = time.time()
+    ranked: list[dict[str, Any]] = []
+    for item in candidates:
+        document = str(item.get("text") or item.get("memory") or "")
+        prompt = qwen3_reranker_prompt(query, document, instruction)
+        inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=max_length)
+        inputs = {key: value.to(resolved_device) for key, value in inputs.items()}
+        with torch.inference_mode():
+            output = model(**inputs)
+        logits = output.logits[0, -1, [yes_id, no_id]]
+        score = torch.softmax(logits.float(), dim=0)[0].item()
+        enriched = dict(item)
+        enriched["base_score"] = float(item.get("score") or 0.0)
+        enriched["rerank_score"] = float(score)
+        ranked.append(enriched)
+    latency_s = time.time() - load_and_score_started if time.time() > started else 0.0
+    return sorted(ranked, key=lambda item: float(item["rerank_score"]), reverse=True), latency_s
+
+
 def reciprocal_rank(ranked: list[dict[str, Any]]) -> float:
     for index, item in enumerate(ranked, 1):
         if item["relevant"]:
@@ -181,7 +258,15 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
     return "\n".join(lines)
 
 
-def rerank_case(case: dict[str, Any], strategy: str, recency_weight: float, model: str | None) -> tuple[list[dict[str, Any]], float]:
+def rerank_case(
+    case: dict[str, Any],
+    strategy: str,
+    recency_weight: float,
+    model: str | None,
+    qwen3_device: str = "auto",
+    qwen3_max_length: int = 4096,
+    qwen3_instruction: str = "Retrieve relevant memory",
+) -> tuple[list[dict[str, Any]], float]:
     candidates = [
         {
             "id": item["id"],
@@ -200,6 +285,17 @@ def rerank_case(case: dict[str, Any], strategy: str, recency_weight: float, mode
         if not model:
             raise ValueError("--model is required for cross_encoder strategy")
         return cross_encoder_rerank(model, case["query"], candidates)
+    elif strategy == "qwen3_causal_lm":
+        if not model:
+            raise ValueError("--model is required for qwen3_causal_lm strategy")
+        return qwen3_causal_lm_rerank(
+            model,
+            case["query"],
+            candidates,
+            device=qwen3_device,
+            max_length=qwen3_max_length,
+            instruction=qwen3_instruction,
+        )
     else:
         ranked = rerank_results(candidates, strategy, recency_weight)
     return ranked, time.time() - started
@@ -218,11 +314,15 @@ def main() -> int:
             "benchmark_order",
             "lexical_overlap",
             "cross_encoder",
+            "qwen3_causal_lm",
         ),
         default="vector",
     )
     parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--model")
+    parser.add_argument("--qwen3-device", default="auto", help="Device for qwen3_causal_lm: auto, mps, or cpu.")
+    parser.add_argument("--qwen3-max-length", type=int, default=4096)
+    parser.add_argument("--qwen3-instruction", default="Retrieve relevant memory")
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -241,6 +341,9 @@ def main() -> int:
         print(f"cases: {len(suite)}")
         print(f"strategy: {args.strategy}")
         print(f"model: {args.model or ''}")
+        if args.strategy == "qwen3_causal_lm":
+            print(f"qwen3_device: {args.qwen3_device}")
+            print(f"qwen3_max_length: {args.qwen3_max_length}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -249,7 +352,15 @@ def main() -> int:
     latencies: list[float] = []
     for index, case in enumerate(suite, 1):
         print(f"  [{index}/{len(suite)}] {case['id']}")
-        ranked, latency_s = rerank_case(case, args.strategy, args.recency_weight, args.model)
+        ranked, latency_s = rerank_case(
+            case,
+            args.strategy,
+            args.recency_weight,
+            args.model,
+            qwen3_device=args.qwen3_device,
+            qwen3_max_length=args.qwen3_max_length,
+            qwen3_instruction=args.qwen3_instruction,
+        )
         latencies.append(latency_s)
         rows.append(
             {
@@ -285,6 +396,9 @@ def main() -> int:
         "strategy": args.strategy,
         "model": args.model or "",
         "recency_weight": args.recency_weight,
+        "qwen3_device": args.qwen3_device if args.strategy == "qwen3_causal_lm" else "",
+        "qwen3_max_length": args.qwen3_max_length if args.strategy == "qwen3_causal_lm" else "",
+        "qwen3_instruction": args.qwen3_instruction if args.strategy == "qwen3_causal_lm" else "",
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),

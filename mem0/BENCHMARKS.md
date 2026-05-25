@@ -191,6 +191,18 @@ python -m pip install -r requirements-mem0-rerankers.txt
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
 ```
 
+For Qwen3 rerankers that score yes/no logits from a causal LM, use the
+dedicated scorer:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json
+```
+
 Current expanded fixed-suite reranker scores:
 
 | Strategy | Top-1 | Recency conflict | Distractor resistance |
@@ -198,6 +210,7 @@ Current expanded fixed-suite reranker scores:
 | `vector` | 0.667 | 0.000 | 1.000 |
 | `score_plus_created_at_rank` | 1.000 | 1.000 | 1.000 |
 | `lexical_overlap` | 0.833 | 0.500 | 1.000 |
+| `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
 Current expanded embedding-derived reranker scores:
 
@@ -205,8 +218,10 @@ Current expanded embedding-derived reranker scores:
 |---|---|---:|---:|---:|
 | BGE-M3 | `vector` | 0.917 | 0.500 | 1.000 |
 | BGE-M3 | `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 |
+| BGE-M3 | `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 | nomic | `vector` | 0.833 | 0.500 | 1.000 |
 | nomic | `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 |
+| nomic | `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
 Run a read-only reranked search against the live mem0 store:
 

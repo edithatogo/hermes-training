@@ -22,11 +22,11 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
 | 3 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
-| 4 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
-| 5 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
-| 6 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 7 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 8 | `Qwen/Qwen3-Reranker-0.6B-ONNX` | reranker | candidate | onnxruntime | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 4 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof |
+| 5 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
+| 6 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
+| 7 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
+| 8 | `BAAI/bge-reranker-v2-m3-mlx` | reranker | candidate | mlx | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
 | 9 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
 | 10 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 11 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
@@ -78,6 +78,23 @@ source scripts/env.sh
   --strategy score_plus_created_at_rank_close_margin \
   --recency-weight 0.20 \
   --timeout-s 60
+```
+
+### onnx-community/Qwen3-Reranker-0.6B-ONNX
+
+- Role: `reranker`
+- Status: `source-model-benchmarked`
+- Blocker: source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof
+
+```bash
+source scripts/env.sh
+# ONNX candidate is Transformers.js-oriented; this Python smoke uses the source HF model with the same yes/no scoring.
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-onnx-community-qwen3-reranker-0-6b-onnx-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### BAAI/bge-m3
@@ -145,23 +162,6 @@ python -m pip install -r requirements-mem0-rerankers.txt
   --run-id rerank-baai-bge-reranker-v2-m3-mlx-$(date +%Y%m%d-%H%M%S)
 ```
 
-### Qwen/Qwen3-Reranker-0.6B-ONNX
-
-- Role: `reranker`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof; fixed-candidate harness is ready
-
-```bash
-source scripts/env.sh
-# First install optional reranker deps if needed.
-python -m pip install -r requirements-mem0-rerankers.txt
-./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
-  --strategy cross_encoder \
-  --model Qwen/Qwen3-Reranker-0.6B-ONNX \
-  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-qwen-qwen3-reranker-0-6b-onnx-$(date +%Y%m%d-%H%M%S)
-```
-
 ### Qwen/Qwen3-Reranker-4B
 
 - Role: `reranker`
@@ -170,11 +170,11 @@ python -m pip install -r requirements-mem0-rerankers.txt
 
 ```bash
 source scripts/env.sh
-# First install optional reranker deps if needed.
-python -m pip install -r requirements-mem0-rerankers.txt
+# First ensure the model is available in the SSD Hugging Face cache.
 ./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
-  --strategy cross_encoder \
+  --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-4B \
+  --qwen3-device auto \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
   --run-id rerank-qwen-qwen3-reranker-4b-$(date +%Y%m%d-%H%M%S)
 ```

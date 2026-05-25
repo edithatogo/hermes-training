@@ -23,6 +23,7 @@ STATUS_ORDER = {
     "working-default-clean-root-smoked": 0,
     "live-read-wrapper-smoked": 1,
     "benchmarked-cpu-mps-not-promoted": 2,
+    "source-model-benchmarked": 2,
     "installed-baseline": 3,
     "candidate": 4,
     "runtime-proof-needed": 3,
@@ -103,6 +104,28 @@ def command_for(candidate: dict[str, Any]) -> str:
             ]
         )
     if role == "reranker":
+        if "Qwen3-Reranker" in model_id:
+            benchmark_model = (
+                "Qwen/Qwen3-Reranker-0.6B"
+                if model_id == "onnx-community/Qwen3-Reranker-0.6B-ONNX"
+                else model_id
+            )
+            setup_note = (
+                "# ONNX candidate is Transformers.js-oriented; this Python smoke uses the source HF model with the same yes/no scoring."
+                if benchmark_model != model_id
+                else "# First ensure the model is available in the SSD Hugging Face cache."
+            )
+            return "\n".join(
+                [
+                    setup_note,
+                    "./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \\",
+                    "  --strategy qwen3_causal_lm \\",
+                    f"  --model {benchmark_model} \\",
+                    "  --qwen3-device auto \\",
+                    "  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \\",
+                    f"  --run-id rerank-{slug}-$(date +%Y%m%d-%H%M%S)",
+                ]
+            )
         return "\n".join(
             [
                 "# First install optional reranker deps if needed.",
@@ -160,6 +183,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "live read-only wrapper smoke passed; keep read-only until broader coverage"
     if status == "benchmarked-cpu-mps-not-promoted":
         return "benchmarked but not promoted; keep separate collection or artifact"
+    if status == "source-model-benchmarked":
+        return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"
     if role == "embedder" and dims in {"unknown", "variable"}:

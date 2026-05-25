@@ -28,6 +28,9 @@ runtime endpoint against the current mem0 default.
 | [nomic-expanded-created-at-rank-20260526](./nomic-expanded-created-at-rank-20260526.md) | reranker baseline | keep testing |
 | [nomic-expanded-lexical-rerank-20260526](./nomic-expanded-lexical-rerank-20260526.md) | reranker baseline | keep testing |
 | [nomic-expanded-close-margin-rerank-20260526](./nomic-expanded-close-margin-rerank-20260526.md) | reranker candidate | keep testing |
+| [rerank-qwen3-0-6b-fixed-20260526](./rerank-qwen3-0-6b-fixed-20260526.md) | reranker candidate | keep testing |
+| [qwen3-0-6b-nomic-expanded-rerank-20260526](./qwen3-0-6b-nomic-expanded-rerank-20260526.md) | reranker candidate | keep testing |
+| [qwen3-0-6b-bge-expanded-rerank-20260526](./qwen3-0-6b-bge-expanded-rerank-20260526.md) | reranker candidate | keep testing |
 
 ## Generate
 

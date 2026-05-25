@@ -91,6 +91,10 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         ]
         if summary.get("model"):
             lines.append(f"  --model {summary['model']} \\")
+        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_device"):
+            lines.append(f"  --qwen3-device {summary['qwen3_device']} \\")
+        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_max_length"):
+            lines.append(f"  --qwen3-max-length {summary['qwen3_max_length']} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     lines = [

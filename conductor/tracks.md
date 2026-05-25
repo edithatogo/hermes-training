@@ -197,3 +197,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Nomic Expanded Retrieval and Reranker Replay
 *Link: [./tracks/nomic-expanded-retrieval_20260526/](./tracks/nomic-expanded-retrieval_20260526/)*
+
+---
+
+## [x] Track: Qwen3 0.6B Reranker Smoke
+*Link: [./tracks/qwen3-06b-reranker-smoke_20260526/](./tracks/qwen3-06b-reranker-smoke_20260526/)*

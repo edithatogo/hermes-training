@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.run_fixed_reranking_benchmark import lexical_rerank, rerank_case
+from scripts.run_fixed_reranking_benchmark import lexical_rerank, qwen3_reranker_prompt, rerank_case
 
 
 class FixedRerankingBenchmarkTests(unittest.TestCase):
@@ -41,6 +41,18 @@ class FixedRerankingBenchmarkTests(unittest.TestCase):
         )
 
         self.assertEqual(ranked[0]["id"], "sqlite")
+
+    def test_qwen3_prompt_uses_yes_no_judge_shape(self) -> None:
+        prompt = qwen3_reranker_prompt(
+            "Which collection is active?",
+            "mem0_nomic_768 is the current Qdrant collection.",
+            "Retrieve relevant memory",
+        )
+
+        self.assertIn('answer can only be "yes" or "no"', prompt)
+        self.assertIn("<Query>: Which collection is active?", prompt)
+        self.assertIn("<Document>: mem0_nomic_768 is the current Qdrant collection.", prompt)
+        self.assertTrue(prompt.endswith("<|im_start|>assistant\n<think>\n\n</think>\n"))
 
 
 if __name__ == "__main__":

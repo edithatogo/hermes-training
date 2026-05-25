@@ -54,10 +54,30 @@ Expanded fixed-suite results:
 | `vector` | 0.667 | 0.000 | 1.000 |
 | `score_plus_created_at_rank` | 1.000 | 1.000 | 1.000 |
 | `lexical_overlap` | 0.833 | 0.500 | 1.000 |
+| `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
 Decision: `score_plus_created_at_rank` remains the best no-download reranker on
 the expanded seed suite. `lexical_overlap` is useful as a sanity baseline but
 misses one recency conflict.
+
+Learned Qwen3 0.6B reranker:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device auto \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-qwen3-0-6b-fixed-20260526
+```
+
+The source Hugging Face model uses the same yes/no causal-LM scoring shape as
+the public `onnx-community/Qwen3-Reranker-0.6B-ONNX` card. It passed the fixed
+6-case suite and both BGE/nomic expanded 12-case derived suites at top-1
+`1.000`, recall@3 `1.000`, MRR `1.000`, and nDCG@3 `1.000`. Keep it as the
+next learned read-reranker candidate; the ONNX/Transformers.js runtime bridge
+still needs separate proof before claiming ONNX local runtime readiness.
 
 BGE-M3 expanded replay:
 
@@ -81,6 +101,7 @@ source scripts/env.sh
 | `score_plus_created_at_rank` | 0.917 | 1.000 | 0.750 |
 | `lexical_overlap` | 0.917 | 0.500 | 1.000 |
 | `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 |
+| `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
 Decision: prefer `score_plus_created_at_rank_close_margin` for the next
 read-only wrapper test. It keeps recency as a tie-breaker for close semantic
@@ -95,10 +116,13 @@ Nomic expanded replay:
 | `score_plus_created_at_rank` | 0.750 | 1.000 | 0.750 |
 | `lexical_overlap` | 0.917 | 0.500 | 1.000 |
 | `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 |
+| `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
 The close-margin strategy also improves the default nomic path without touching
 `mem0_nomic_768`. It leaves one direct semantic miss (`ollama-retest`) for a
-future embedder or learned reranker.
+future embedder or learned reranker. The Qwen3 0.6B causal-LM reranker closes
+that miss in offline fixed-candidate replay, but it is not wired into live
+mem0 reads yet.
 
 Live read-only wrapper:
 

@@ -1,7 +1,7 @@
 # Candidate radar for mem0 extraction, embedding, reranking, and retrieval.
 project_target: "Local mem0 memory for Codex, Cline, Hermes, and other CLI agents"
 latest_release_recheck: "2026-05-26: Hugging Face metadata refresh found newer Mac/retrieval candidates including jinaai/jina-embeddings-v5-omni-small-mlx, Qwen3 reranker ONNX/GGUF variants, BAAI bge-reranker-v2-m3 MLX builds, and recent Qwen3.6 GGUF packages. Keep BGE-M3 and the margin-gated read wrapper as the validated local mem0 path; treat new candidates as acquisition/load-proof targets."
-latest_local_benchmark: "2026-05-26: BGE-M3 dense retrieval reached top-1 0.917 / recall@3 1.000 on the expanded 12-case suite; nomic reached top-1 0.833 / recall@3 1.000 from the clean SSD Ollama root. score_plus_created_at_rank_close_margin reached 1.000 on BGE-derived reranking and 0.917 on nomic-derived reranking. Keep nomic as the default rollback embedder, keep BGE-M3 side-by-side, and use the margin-gated wrapper as the validated next read path. LFM2 clean-root extraction smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
+latest_local_benchmark: "2026-05-26: BGE-M3 dense retrieval reached top-1 0.917 / recall@3 1.000 on the expanded 12-case suite; nomic reached top-1 0.833 / recall@3 1.000 from the clean SSD Ollama root. score_plus_created_at_rank_close_margin reached 1.000 on BGE-derived reranking and 0.917 on nomic-derived reranking. Qwen/Qwen3-Reranker-0.6B causal-LM scoring reached 1.000 on the fixed suite and both BGE/nomic expanded derived suites. Keep nomic as the default rollback embedder, keep BGE-M3 side-by-side, and compare Qwen3 0.6B read reranking against the margin-gated wrapper before live default integration. LFM2 clean-root extraction smoke passed 7/7 with JSON validity 1.000 and p50 latency 0.874s."
 current_default:
   vector_store: qdrant
   collection: mem0_nomic_768
@@ -80,15 +80,15 @@ candidates:
     first_gate: rerank-smoke
     notes: "Use after dense retrieval to improve precision. Not a vector-store replacement."
 
-  - id: Qwen/Qwen3-Reranker-0.6B-ONNX
+  - id: onnx-community/Qwen3-Reranker-0.6B-ONNX
     role: reranker
-    family: onnx-cross-encoder-reranker
+    family: onnx-causal-lm-reranker
     runtime:
       - onnxruntime
     embedding_dims: null
-    status: candidate
+    status: source-model-benchmarked
     first_gate: rerank-smoke
-    notes: "Smaller 2026-05-26 refresh candidate for local reranking. Prefer before 4B if the goal is low-latency mem0 read rerank."
+    notes: "Smaller 2026-05-26 refresh candidate for local reranking. Public ONNX package targets Transformers.js; Python fixed-suite smoke uses the source Qwen/Qwen3-Reranker-0.6B model with the same yes/no causal-LM scoring until the ONNX bridge is added. Source model passed fixed 6-case and BGE/nomic expanded 12-case reranking suites at top-1 1.000."
 
   - id: BAAI/bge-reranker-v2-m3-mlx
     role: reranker
