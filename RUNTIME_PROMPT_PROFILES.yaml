@@ -1,0 +1,29 @@
+# Prompt/runtime contracts that are required for specific Hermes local candidates.
+
+updated: "2026-05-25"
+policy: "Prompt profiles are runtime conditions, not training data. A candidate that depends on a profile must record it in benchmark commands, runtime cards, and publication notes."
+
+profiles:
+  - id: qwen3-no-think-assistant-prefill
+    model_family: Qwen3
+    applies_to:
+      - qwen3-4b-strict-toolcall-v4-targeted
+    user_prefix: "/no_think"
+    assistant_prefill: "<think>\n\n</think>\n\n"
+    endpoint_strategy: "Append a final assistant message containing the prefill when using OpenAI-compatible chat endpoints that support assistant prefill; otherwise use the local MLX benchmark prompt prefill path."
+    required_for:
+      - strict Hermes tool-call output
+      - Qwen3 4B strict tool-call v4 targeted local adapter
+    evidence:
+      heldout_run: /Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-heldout-prefill-20260525
+      mirrored_run: /Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-mirrored-prefill-20260525
+      no_prefill_run: /Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-heldout-nothink-20260525
+    strict_result:
+      no_prefill_pass_rate: 0.25
+      prefill_pass_rate: 1.0
+      prefill_json_valid_rate: 1.0
+      prefill_argument_accuracy_rate: 1.0
+    limitations:
+      - Do not claim strict pass without the profile.
+      - Do not assume every OpenAI-compatible endpoint accepts assistant prefill messages.
+      - Empty-think normalization remains runtime integration evidence unless the prefill profile is explicitly used in the benchmark.

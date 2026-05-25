@@ -53,12 +53,22 @@ def endpoint_chat(
     return message["content"].strip(), latency_s
 
 
+def apply_assistant_prefill(messages: list[dict[str, Any]], assistant_prefill: str) -> list[dict[str, Any]]:
+    if not assistant_prefill:
+        return messages
+    updated = [dict(message) for message in messages]
+    updated.append({"role": "assistant", "content": assistant_prefill})
+    return updated
+
+
 def build_summary(
     run_id: str,
     suite: Path,
     output_dir: Path,
     base_url: str,
     model: str,
+    user_prefix: str,
+    assistant_prefill: str,
     rows: list[dict[str, Any]],
 ) -> dict[str, Any]:
     cases = len(rows)
@@ -95,6 +105,8 @@ def build_summary(
         "base_url": base_url,
         "model": model,
         "adapter": "(endpoint)",
+        "user_prefix": user_prefix,
+        "assistant_prefill": assistant_prefill,
         "cases": cases,
         "tool_call_cases": len(tool_call_rows),
         "passed": passed,
@@ -130,6 +142,11 @@ def main() -> int:
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--user-prefix", default="")
+    parser.add_argument(
+        "--assistant-prefill",
+        default="",
+        help="Optional assistant-side prefill appended as the final assistant message for compatible endpoints.",
+    )
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -150,6 +167,8 @@ def main() -> int:
         print(f"categories: {dict(categories)}")
         print(f"base_url: {args.base_url}")
         print(f"model: {args.model}")
+        print(f"user_prefix: {args.user_prefix}")
+        print(f"assistant_prefill: {args.assistant_prefill!r}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -164,7 +183,7 @@ def main() -> int:
         response, latency_s = endpoint_chat(
             args.base_url,
             args.model,
-            apply_user_prefix(messages, args.user_prefix),
+            apply_assistant_prefill(apply_user_prefix(messages, args.user_prefix), args.assistant_prefill),
             args.max_tokens,
             args.timeout_s,
         )
@@ -179,7 +198,16 @@ def main() -> int:
             }
         )
 
-    summary = build_summary(run_id, args.suite, output_dir, args.base_url, args.model, rows)
+    summary = build_summary(
+        run_id,
+        args.suite,
+        output_dir,
+        args.base_url,
+        args.model,
+        args.user_prefix,
+        args.assistant_prefill,
+        rows,
+    )
     save_jsonl(output_dir / "responses.jsonl", response_rows)
     save_jsonl(output_dir / "results.jsonl", rows)
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

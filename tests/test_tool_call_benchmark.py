@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from scripts.run_endpoint_tool_call_benchmark import apply_assistant_prefill
 from scripts.run_tool_call_benchmark import apply_user_prefix, build_generation_prompt
 
 
@@ -28,6 +29,14 @@ class ToolCallBenchmarkTests(unittest.TestCase):
         prompt = build_generation_prompt(messages, None, "<tool_call>\n")
 
         self.assertTrue(prompt.endswith("ASSISTANT:<tool_call>\n"))
+
+    def test_endpoint_assistant_prefill_adds_final_assistant_message(self) -> None:
+        messages = [{"role": "user", "content": "Return a tool call."}]
+
+        updated = apply_assistant_prefill(messages, "<think>\n\n</think>\n\n")
+
+        self.assertEqual(updated[-1], {"role": "assistant", "content": "<think>\n\n</think>\n\n"})
+        self.assertEqual(messages, [{"role": "user", "content": "Return a tool call."}])
 
 
 if __name__ == "__main__":

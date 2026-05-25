@@ -66,6 +66,9 @@ Raw local artifact:
 /Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-heldout-prefill-20260525
 ```
 
+The reusable runtime prompt contract is recorded in
+`RUNTIME_PROMPT_PROFILES.yaml` as `qwen3-no-think-assistant-prefill`.
+
 ## Limitations
 
 - This is a small local strict-format benchmark, not broad BFCL or production

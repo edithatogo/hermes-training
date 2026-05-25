@@ -15,6 +15,7 @@ Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 - [x] Mirrored regression suite passes at `1.000`.
 - [x] Runtime condition recorded: `/no_think` plus assistant prefill.
 - [x] Raw benchmark artifact paths recorded.
+- [x] Dataset overlap audit recorded in `dataset-overlap-audit.json`.
 - [ ] Dataset/source redistribution review complete for all materialized training rows.
 - [ ] Standard benchmark stage target is met.
 - [ ] Hugging Face model card finalized.
@@ -25,6 +26,11 @@ Status: LOCAL STRICT GATE PASSED; PUBLIC HUGGING FACE PUBLICATION PENDING REVIEW
 The V4 adapter satisfies the local strict held-out tool-call gate when evaluated
 with the recorded assistant prefill. It is the first candidate in this project
 to pass the strict gate at `1.000`.
+
+The dataset overlap audit is valid and reproducible, with no held-out user
+prompt overlap. It does show one held-out tool-name overlap
+(`notify_care_team`), so it is evidence for review rather than a final
+redistribution approval.
 
 Public Hugging Face publication should still wait for the remaining publication
 items above. In particular, the adapter was trained from materialized strict

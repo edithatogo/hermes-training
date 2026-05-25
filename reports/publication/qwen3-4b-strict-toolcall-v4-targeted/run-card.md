@@ -51,6 +51,17 @@ Key metrics:
 | Peak memory | 3.785 GB |
 | Wall time | 234.0 s |
 
+Dataset audit:
+
+```bash
+./.venv/bin/python scripts/audit_tool_call_data.py \
+  gemma4/data/strict_tool_call/expanded_splits_v4_targeted
+```
+
+Result: valid JSONL structure, `107` rows, no held-out user-prompt overlap, one
+held-out tool-name overlap (`notify_care_team`). The recorded audit is
+`reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-overlap-audit.json`.
+
 ## Strict Held-Out Gate
 
 Command:
@@ -117,3 +128,5 @@ wrapper and strict raw pass remains `0.250`, although diagnostic empty-think
 stripping reaches `1.000`.
 
 No model-card or runtime claim should omit the required assistant prefill.
+The reusable prompt contract is recorded in
+`RUNTIME_PROMPT_PROFILES.yaml` as `qwen3-no-think-assistant-prefill`.

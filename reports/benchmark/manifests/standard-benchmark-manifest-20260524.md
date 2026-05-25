@@ -49,7 +49,7 @@ This setup pass did not run BFCL, IFEval, coding, lm-eval, MTEB, paid Azure jobs
 
 ## Publication Gate
 
-Benchmark publication remains blocked until a candidate satisfies the full evidence pack and Hermes-agent strict tool-call gate. The current gate record is:
+The Hermes-agent strict tool-call gate is now satisfied by `qwen3-4b-strict-toolcall-v4-targeted` under its recorded Qwen runtime prefill condition. Public benchmark/model publication remains blocked until the full evidence pack is complete. The current gate record is:
 
 `reports/benchmark/publication-readiness-gate-20260524.md`
 
@@ -142,6 +142,18 @@ Qwen3.6 35B-A3B Q4_K_M is now acquired, loaded, and benchmarked through llama.cp
 - IFEval-style pilot: `0.000`
 - Coding sanity pilot: `0.333`
 - Decision: valid frontier runtime proof only; below publication and Hermes-agent promotion gates.
+
+## Adapter Candidate
+
+The MLX-native Qwen3 4B v4 targeted LoRA now has a passing strict local tool-call gate:
+
+- Publication folder: `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`
+- Raw held-out output root: `/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-heldout-prefill-20260525`
+- Mirrored regression output root: `/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v4-targeted-mirrored-prefill-20260525`
+- Strict held-out pass: `1.000`
+- Mirrored regression pass: `1.000`
+- Required runtime condition: first user turn `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`
+- Decision: local strict Hermes-agent gate passed; public Hugging Face publication remains pending redistribution review, standard benchmark positioning, finalized card, and explicit approval.
 
 ## mem0 Baselines
 

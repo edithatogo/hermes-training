@@ -147,6 +147,8 @@ GitHub remotes exist for the hub and current tracks. Hugging Face repos are plan
 
 Adapter publication also requires a strict `1.000` pass on the held-out local tool-call suite at `benchmarks/tool_call_local/heldout_suite.json`. The mirrored suite at `benchmarks/tool_call_local/suite.json` overlaps the current strict seed and is only a regression check.
 
+Current local strict-gate candidate: `qwen3-4b-strict-toolcall-v4-targeted` passes the held-out suite at `1.000` when run with `/no_think` and assistant prefill `<think>\n\n</think>\n\n`. See [`reports/publication/qwen3-4b-strict-toolcall-v4-targeted/run-card.md`](./reports/publication/qwen3-4b-strict-toolcall-v4-targeted/run-card.md). Public Hugging Face publication remains pending redistribution review, broader benchmark positioning, finalized card, and human approval.
+
 Planned Hugging Face repos:
 
 | Repo | Contents |

@@ -69,11 +69,11 @@ remaining: 52 chunks before final assembly and exact-size proof
 Later live checkpoint:
 
 ```text
-checked: 2026-05-25T22:26:26+1000
-chunks complete: 176 / 215
+checked: 2026-05-25T22:30:11+1000
+chunks complete: 179 / 215
 active temp chunks: 16
 final GGUF: not assembled
-remaining: 39 chunks before final assembly and exact-size proof
+remaining: 36 chunks before final assembly and exact-size proof
 ```
 
 ## Post-Download Proof

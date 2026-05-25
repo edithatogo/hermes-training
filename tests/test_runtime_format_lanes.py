@@ -7,6 +7,7 @@ from pathlib import Path
 from scripts.create_runtime_format_lane_card import load_lanes, render_card
 from scripts.create_runtime_format_proof_queue import load_queue, output_path_for, validate_queue
 from scripts.validate_runtime_format_lanes import main as validate_lanes
+from scripts.validate_runtime_prompt_profiles import load_profiles, validate_profiles
 
 
 class RuntimeFormatLaneTests(unittest.TestCase):
@@ -47,6 +48,11 @@ class RuntimeFormatLaneTests(unittest.TestCase):
 
         self.assertIn(queue["proofs"][0]["lane_id"], output.parts)
         self.assertIn(queue["proofs"][0]["id"], output.parts)
+
+    def test_runtime_prompt_profiles_validate(self) -> None:
+        profiles = load_profiles()
+
+        self.assertEqual(validate_profiles(profiles), [])
 
 
 if __name__ == "__main__":

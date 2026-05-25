@@ -135,6 +135,13 @@ This proves the local Ollama endpoint remains usable for already-installed Herme
 
 For local Hermes use, `scripts/openai_normalizing_proxy.py` can sit in front of any non-streaming OpenAI-compatible endpoint and remove only empty leading Qwen `<think></think>` wrappers from `choices[].message.content`.
 
+Runtime prompt profiles live in `RUNTIME_PROMPT_PROFILES.yaml`. The current
+Qwen3 strict tool-call v4 targeted adapter requires profile
+`qwen3-no-think-assistant-prefill`: prefix the first user turn with
+`/no_think` and prefill the assistant with `<think>\n\n</think>\n\n`.
+With that profile, the local held-out strict tool-call gate passed at `1.000`;
+without assistant prefill, strict pass remains `0.250`.
+
 Examples:
 
 ```bash

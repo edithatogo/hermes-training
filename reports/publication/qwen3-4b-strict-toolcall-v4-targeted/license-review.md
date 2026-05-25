@@ -17,8 +17,10 @@ Review date: 2026-05-25
   extraction and nested object-array JSON formatting.
 - The materialized V4 split inherits the earlier strict tool-call seed and
   expanded rows.
-- The held-out strict suite values, IDs, and exact tool names were not added to
-  the targeted V4 training rows.
+- The dataset overlap audit found no held-out user-prompt overlap and one
+  held-out tool-name overlap: `notify_care_team`.
+- The held-out strict suite IDs and user prompts were not added to the targeted
+  V4 training rows.
 
 ## Current Decision
 
