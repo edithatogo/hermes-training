@@ -138,6 +138,23 @@ source scripts/env.sh
 
 This calls `mem0 <tool> search`, reranks the returned JSON locally, and prints JSON. It does not write memories or change `~/.mem0/config.json`.
 
+Guarded agent entrypoint:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --mode close-margin
+```
+
+This wraps the same read-only behavior behind a smaller contract for agents:
+`close-margin` is the default and recommended mode, `vector` is the rollback
+mode, and `qwen3` is explicit experimental mode. If using Qwen3 against a warm
+local service, add `--mode qwen3 --qwen3-local-files-only --qwen3-server-url
+http://127.0.0.1:8765 --fallback-to-vector`. Do not make Qwen3 the default
+until the recency fixture miss is fixed.
+
 2026-05-26 blocker, superseded: the wrapper exposed
 `score_plus_created_at_rank_close_margin`, but live smoke was blocked until
 local Ollama recovered. Historical blocker evidence is recorded in

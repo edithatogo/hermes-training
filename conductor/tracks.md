@@ -222,3 +222,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 Isolated Fixture Rerank Proof
 *Link: [./tracks/mem0-isolated-fixture-rerank-proof_20260526/](./tracks/mem0-isolated-fixture-rerank-proof_20260526/)*
+
+---
+
+## [x] Track: mem0 Guarded Read Wrapper
+*Link: [./tracks/mem0-guarded-read-wrapper_20260526/](./tracks/mem0-guarded-read-wrapper_20260526/)*

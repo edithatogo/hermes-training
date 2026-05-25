@@ -234,6 +234,23 @@ source scripts/env.sh
   --recency-weight 0.20
 ```
 
+Preferred guarded entrypoint for agents:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --mode close-margin
+```
+
+`scripts/mem0_read.py` is read-only, does not mutate `~/.mem0/config.json`,
+and defaults to the isolated-fixture-winning
+`score_plus_created_at_rank_close_margin` strategy. Use `--mode vector` only as
+a rollback/comparison path. Use `--mode qwen3 --fallback-to-vector` only for
+explicit learned-reranker experiments until Qwen3 passes a recency-aware live
+fixture.
+
 Run the learned Qwen3 0.6B reranker against the same live mem0 search output:
 
 ```bash
