@@ -249,6 +249,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
         ROOT / "scripts/check_conductor_track_consistency.py",
+        ROOT / "scripts/check_mem0_benchmark_evidence.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],
@@ -280,6 +281,28 @@ def check_storage_layout(failures: list[str]) -> None:
         fail(f"storage layout: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("storage layout")
+
+
+def check_mem0_benchmark_evidence(failures: list[str]) -> None:
+    eval_root = STORAGE_ROOT / "hermes-evals"
+    if not eval_root.exists():
+        ok(f"mem0 benchmark evidence skipped: {eval_root} not present")
+        return
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/check_mem0_benchmark_evidence.py"),
+            "--eval-root",
+            str(eval_root),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"mem0 benchmark evidence: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("mem0 benchmark evidence")
 
 
 def check_publication_bundles(failures: list[str]) -> None:
@@ -360,6 +383,7 @@ def main() -> int:
     check_runtime_format_lanes(failures)
     check_publication_bundles(failures)
     check_storage_layout(failures)
+    check_mem0_benchmark_evidence(failures)
 
     if failures:
         print("\nnot ready:")

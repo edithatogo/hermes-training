@@ -1,0 +1,418 @@
+{
+  "created_at": "2026-05-25T18:25:09.628806+00:00",
+  "eval_root": "/Volumes/PortableSSD/hermes-evals",
+  "status": "passed",
+  "counts": {
+    "passed": 57
+  },
+  "by_kind": {
+    "memory": 11,
+    "embedding": 6,
+    "extraction": 8,
+    "reranking": 19,
+    "replay": 9,
+    "isolated-fixture": 4
+  },
+  "missing_kinds": [],
+  "items": [
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-recency-20260524/rerank/recency-suite-created-at-rank-020-20260524/summary.json",
+      "run_id": "recency-suite-created-at-rank-020-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-recency-20260524/summary.json",
+      "run_id": "mem0-current-nomic-recency-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524/summary.json",
+      "run_id": "mem0-current-nomic-recency-reranked-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/rerank/benchmark-order-006-20260524/summary.json",
+      "run_id": "benchmark-order-006-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/rerank/benchmark-order-010-20260524/summary.json",
+      "run_id": "benchmark-order-010-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/rerank/created-at-rank-012-20260524/summary.json",
+      "run_id": "created-at-rank-012-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/rerank/created-at-rank-020-20260524/summary.json",
+      "run_id": "created-at-rank-020-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/rerank/recency-boost-005-20260524/summary.json",
+      "run_id": "recency-boost-005-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-current-nomic-smoke-20260524/summary.json",
+      "run_id": "mem0-current-nomic-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-fixture-close-margin-recency-20260526/summary.json",
+      "run_id": "mem0-fixture-close-margin-recency-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "memory",
+      "path": "mem0-memory-benchmark/mem0-fixture-qwen3-06b-recency-20260526/summary.json",
+      "run_id": "mem0-fixture-qwen3-06b-recency-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-bge-m3-cpu-expanded-20260526/summary.json",
+      "run_id": "embedding-bge-m3-cpu-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-bge-m3-cpu-smoke-20260526/summary.json",
+      "run_id": "embedding-bge-m3-cpu-smoke-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-bge-m3-mps-smoke-20260526/summary.json",
+      "run_id": "embedding-bge-m3-mps-smoke-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-nomic-expanded-20260526/summary.json",
+      "run_id": "embedding-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-nomic-openai-ollama-smoke-20260524/summary.json",
+      "run_id": "embedding-nomic-openai-ollama-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-nomic-smoke-20260524/summary.json",
+      "run_id": "embedding-nomic-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-hermes3-8b-expanded-examples-20260524/summary.json",
+      "run_id": "extraction-hermes3-8b-expanded-examples-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-hermes3-8b-expanded-strict-20260524/summary.json",
+      "run_id": "extraction-hermes3-8b-expanded-strict-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-hermes3-8b-smoke-20260524/summary.json",
+      "run_id": "extraction-hermes3-8b-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-lfm2-2-6b-clean-root-20260526/summary.json",
+      "run_id": "extraction-lfm2-2-6b-clean-root-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-examples-20260524/summary.json",
+      "run_id": "extraction-lfm2-2-6b-expanded-examples-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-strict-20260524/summary.json",
+      "run_id": "extraction-lfm2-2-6b-expanded-strict-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-lfm2-2-6b-prompt-file-20260524/summary.json",
+      "run_id": "extraction-lfm2-2-6b-prompt-file-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "extraction",
+      "path": "mem0-extraction-benchmark/extraction-lfm2-2-6b-smoke-20260524/summary.json",
+      "run_id": "extraction-lfm2-2-6b-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/bge-m3-expanded-close-margin-rerank-20260526/summary.json",
+      "run_id": "bge-m3-expanded-close-margin-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/bge-m3-expanded-created-at-rank-20260526/summary.json",
+      "run_id": "bge-m3-expanded-created-at-rank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/bge-m3-expanded-lexical-rerank-20260526/summary.json",
+      "run_id": "bge-m3-expanded-lexical-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/bge-m3-expanded-vector-rerank-20260526/summary.json",
+      "run_id": "bge-m3-expanded-vector-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-created-at-rank-20260524/summary.json",
+      "run_id": "fixed-rerank-created-at-rank-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-created-at-rank-expanded-20260524/summary.json",
+      "run_id": "fixed-rerank-created-at-rank-expanded-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-lexical-overlap-20260524/summary.json",
+      "run_id": "fixed-rerank-lexical-overlap-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-lexical-overlap-expanded-20260524/summary.json",
+      "run_id": "fixed-rerank-lexical-overlap-expanded-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-vector-20260524/summary.json",
+      "run_id": "fixed-rerank-vector-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/fixed-rerank-vector-expanded-20260524/summary.json",
+      "run_id": "fixed-rerank-vector-expanded-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/nomic-expanded-close-margin-rerank-20260526/summary.json",
+      "run_id": "nomic-expanded-close-margin-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/nomic-expanded-created-at-rank-20260526/summary.json",
+      "run_id": "nomic-expanded-created-at-rank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/nomic-expanded-lexical-rerank-20260526/summary.json",
+      "run_id": "nomic-expanded-lexical-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/nomic-expanded-vector-rerank-20260526/summary.json",
+      "run_id": "nomic-expanded-vector-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/qwen3-0-6b-bge-expanded-rerank-20260526/summary.json",
+      "run_id": "qwen3-0-6b-bge-expanded-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/qwen3-0-6b-nomic-expanded-rerank-20260526/summary.json",
+      "run_id": "qwen3-0-6b-nomic-expanded-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/qwen3-0-6b-onnx-transformersjs-bridge-20260526/summary.json",
+      "run_id": "qwen3-0-6b-onnx-transformersjs-bridge-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526/summary.json",
+      "run_id": "qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-qwen3-0-6b-fixed-20260526/summary.json",
+      "run_id": "rerank-qwen3-0-6b-fixed-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-close-margin-bge-expanded-20260526/summary.json",
+      "run_id": "mem0-replay-close-margin-bge-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-close-margin-fixed-20260526/summary.json",
+      "run_id": "mem0-replay-close-margin-fixed-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-close-margin-nomic-expanded-20260526/summary.json",
+      "run_id": "mem0-replay-close-margin-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-qwen3-06b-warm-bge-expanded-20260526/summary.json",
+      "run_id": "mem0-replay-qwen3-06b-warm-bge-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-qwen3-06b-warm-fixed-20260526/summary.json",
+      "run_id": "mem0-replay-qwen3-06b-warm-fixed-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-qwen3-06b-warm-nomic-expanded-20260526/summary.json",
+      "run_id": "mem0-replay-qwen3-06b-warm-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-rerank-replay-close-margin-20260526/summary.json",
+      "run_id": "mem0-rerank-replay-close-margin-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-rerank-replay-qwen3-0-6b-warm-20260526/summary.json",
+      "run_id": "mem0-rerank-replay-qwen3-0-6b-warm-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-rerank-replay-vector-20260526/summary.json",
+      "run_id": "mem0-rerank-replay-vector-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/guarded-close-margin-read-wrapper-20260526/summary.json",
+      "run_id": "guarded-close-margin-read-wrapper-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-isolated-fixture-qwen3-20260526/summary.json",
+      "run_id": "mem0-isolated-fixture-qwen3-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-multiretrieval-rerank-20260526/summary.json",
+      "run_id": "mem0-live-fixture-multiretrieval-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526/summary.json",
+      "run_id": "mem0-live-fixture-qwen3-multiretrieval-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    }
+  ]
+}
