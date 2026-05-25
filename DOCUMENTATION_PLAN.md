@@ -70,7 +70,7 @@ For the completed v2/v3 strict format-guard attempts, the publication folder is 
 
 For the completed v4 targeted strict-tool-call attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`. Its checklist records the first local strict held-out pass at `1.000`, using the required Qwen runtime condition: `/no_think` on the first user turn plus assistant prefill `<think>\n\n</think>\n\n`. Public Hugging Face adapter publication is approved as an experimental strict Hermes tool-call LoRA with pilot-only benchmark positioning. Public dataset publication remains separate and blocked pending scope approval.
 
-For the completed v5 pilot-polish attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/`. Its run card records a negative result: final strict held-out pass rate regressed to `0.750`, the best checked checkpoints reached only `0.875`, and the coding sanity pilot regressed to `0.667`. Do not upload or promote v5; keep the public Hugging Face adapter on v4 targeted.
+For the completed v5 pilot-polish attempt, the publication folder is `reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/`. Its checklist remains BLOCKED because the held-out strict local tool-call suite regressed to `0.875`, even though the BFCL-style pilot improved to `1.000`. Treat it as negative evidence and keep the v4 targeted adapter as the recommended/public adapter.
 
 Publish benchmark artifacts as either:
 
@@ -86,6 +86,6 @@ As of 2026-05-25:
 - Hugging Face dataset: defer until the expanded and targeted strict tool-call examples have accepted publication scope and final redistribution approval.
 - Hugging Face adapter: the Qwen3 v4 targeted adapter passes the local strict held-out gate at `1.000` under the recorded runtime condition and is public as an experimental adapter release at `edithatogo/qwen3-4b-hermes-lora`.
 - Hugging Face GGUF/merged weights: do not publish merged Qwen3 artifacts unless the upstream license and redistribution path are explicitly reviewed and a runtime card passes.
-- Publish-readiness checklist: the v4 targeted adapter checklist is READY for public adapter release; continue to keep public dataset and merged-weight releases separate.
+- Publish-readiness checklist: the v4 targeted adapter checklist is READY for public adapter release; the v5 pilot-polish checklist is BLOCKED and must not replace v4; continue to keep public dataset and merged-weight releases separate.
 
 Next publishable HF artifact should be either a cleaned tool-call dataset with a dataset card, or the v4 targeted adapter after the remaining release gates are closed.

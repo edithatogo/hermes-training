@@ -15,24 +15,43 @@ scores.
 
 ## Results
 
+### Strict-Compatible Rerun
+
+This rerun uses the corrected V5 data contract: V4 plus invalid-tool polish rows
+only. Ordinary instruction-following rows were excluded before training because
+they are outside the strict tool-call dataset contract.
+
 | Checkpoint | Suite | Cases | Passed | Pass rate | Residual failure | Raw output root |
 |---|---|---:|---:|---:|---|---|
-| Final | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-bfcl-prefill-20260525` |
-| Final | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-ifeval-prefill-20260525` |
-| Final | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-coding-prefill-20260525` |
-| Iter 125 | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-bfcl-prefill-20260525` |
-| Iter 125 | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-ifeval-prefill-20260525` |
-| Iter 125 | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-coding-prefill-20260525` |
-| Iter 100 | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-bfcl-prefill-20260525` |
-| Iter 100 | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-ifeval-prefill-20260525` |
-| Iter 100 | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-coding-prefill-20260525` |
+| Final strict-compatible rerun | BFCL-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-local-bfcl-prefill-20260525` |
+| Final strict-compatible rerun | IFEval-style pilot | 3 | 2 | 0.667 | `ifeval-forbidden-word` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-local-ifeval-prefill-20260525` |
+| Final strict-compatible rerun | Coding sanity pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-local-coding-prefill-20260525` |
+
+### Superseded Mixed-Draft Runs
+
+The earlier mixed-draft run included ordinary instruction-following rows. It is
+preserved here as superseded evidence because those rows were later rejected by
+the strict dataset audit.
+
+| Checkpoint | Suite | Cases | Passed | Pass rate | Residual failure | Raw output root |
+|---|---|---:|---:|---:|---|---|
+| Mixed draft final | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-bfcl-prefill-20260525` |
+| Mixed draft final | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-ifeval-prefill-20260525` |
+| Mixed draft final | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-final-local-coding-prefill-20260525` |
+| Mixed draft iter 125 | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-bfcl-prefill-20260525` |
+| Mixed draft iter 125 | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-ifeval-prefill-20260525` |
+| Mixed draft iter 125 | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter125-local-coding-prefill-20260525` |
+| Mixed draft iter 100 | BFCL-style pilot | 3 | 2 | 0.667 | `bfcl-invalid-tool` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-bfcl-prefill-20260525` |
+| Mixed draft iter 100 | IFEval-style pilot | 3 | 3 | 1.000 | none | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-ifeval-prefill-20260525` |
+| Mixed draft iter 100 | Coding sanity pilot | 3 | 2 | 0.667 | `coding-python-filter-even` | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen3-4b-strict-toolcall-v5-pilot-polish-iter100-local-coding-prefill-20260525` |
 
 ## Interpretation
 
-V5 fixes the V4 IFEval-style wording failure, but it does not fix the
-unsupported-tool BFCL-style failure. It also regresses the coding sanity pilot
-from V4's `1.000` to `0.667`.
+The strict-compatible rerun fixes the V4 BFCL-style unsupported-tool pilot
+failure, but it does not fix the IFEval-style wording failure. The superseded
+mixed draft had the opposite shape: IFEval improved, but BFCL remained failed
+and coding regressed.
 
-Because the strict held-out gate also regressed below `1.000`, these pilot
-results are recorded as evidence against promoting V5. Keep V4 targeted as the
-public adapter and treat V5 as a negative ablation.
+Because the strict-compatible rerun also regressed the held-out publication
+gate to `0.875`, all V5 variants remain evidence against promotion. Keep V4
+targeted as the public adapter and treat V5 as a negative ablation.

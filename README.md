@@ -149,6 +149,8 @@ Adapter publication also requires a strict `1.000` pass on the held-out local to
 
 Current public strict-gate adapter: `qwen3-4b-strict-toolcall-v4-targeted` passes the held-out suite at `1.000` when run with `/no_think` and assistant prefill `<think>\n\n</think>\n\n`. See [`reports/publication/qwen3-4b-strict-toolcall-v4-targeted/run-card.md`](./reports/publication/qwen3-4b-strict-toolcall-v4-targeted/run-card.md). Public Hugging Face adapter repo: `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`. Public dataset publication remains separate and is not approved by this adapter release.
 
+Do not promote the follow-on `qwen3-4b-strict-toolcall-v5-pilot-polish` adapter. It improved the local BFCL-style pilot to `1.000`, but held-out strict local tool-call pass rate regressed to `0.875`; its negative result is recorded in [`reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/run-card.md`](./reports/publication/qwen3-4b-strict-toolcall-v5-pilot-polish/run-card.md).
+
 Planned Hugging Face repos:
 
 | Repo | Contents |
