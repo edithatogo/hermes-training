@@ -295,6 +295,7 @@ def check_mem0_benchmark_evidence(failures: list[str]) -> None:
             str(ROOT / "scripts/check_mem0_benchmark_evidence.py"),
             "--eval-root",
             str(eval_root),
+            "--no-write",
         ],
         capture_output=True,
         text=True,
