@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.build_mem0_candidate_queue import blocker_for, queue_priority
+from scripts.build_mem0_candidate_queue import blocker_for, command_for, queue_priority
 
 
 class BuildMem0CandidateQueueTests(unittest.TestCase):
@@ -38,8 +38,10 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertEqual(queue_priority(candidate)[0], 4)
         self.assertEqual(
             blocker_for(candidate),
-            "model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark",
+            "model repo verified; MLX load/scoring proof is ready before live mem0 integration",
         )
+        self.assertIn("--strategy mlx_cross_encoder", command_for(candidate))
+        self.assertIn("--mlx-max-length 1024", command_for(candidate))
 
 
 if __name__ == "__main__":

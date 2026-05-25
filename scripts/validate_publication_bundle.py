@@ -9,6 +9,14 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_COVERAGE_REPORT = (
+    ROOT
+    / "reports"
+    / "benchmark"
+    / "standard-coverage"
+    / "qwen3-v4-targeted-standard-coverage-20260526.json"
+)
 
 DEFAULT_REQUIRED_FILES = (
     "run-card.md",
@@ -28,6 +36,14 @@ PUBLIC_RELEASE_GATES = (
     "Hugging Face model card finalized.",
     "Human publication approval recorded.",
 )
+STANDARD_BENCHMARK_GATE = "Standard benchmark stage target is met."
+OFFICIAL_SUITE_EXCLUSION_TERMS = {
+    "official-bfcl": ("not official BFCL", "does not include official BFCL"),
+    "lm-eval-selected": ("no lm-eval score", "not loglikelihood-compatible"),
+    "official-coding": ("HumanEval", "MBPP", "EvalPlus", "BigCodeBench", "LiveCodeBench"),
+    "safety-refusal": ("safety/refusal", "safety", "refusal"),
+    "ruler-long-context": ("RULER", "long-context"),
+}
 
 LOCAL_QUALITY_GATES = (
     "Held-out strict local tool-call suite passes at `1.000`.",
@@ -47,6 +63,7 @@ class BundleStatus:
     unchecked_public_release_gates: tuple[str, ...]
     checked_local_quality_gates: tuple[str, ...]
     unchecked_local_quality_gates: tuple[str, ...]
+    benchmark_evidence_errors: tuple[str, ...]
 
     @property
     def public_ready(self) -> bool:
@@ -66,7 +83,54 @@ def parse_checklist(path: Path) -> dict[str, bool]:
     return items
 
 
-def evaluate_bundle(bundle: Path, required_files: tuple[str, ...] = DEFAULT_REQUIRED_FILES) -> BundleStatus:
+def text_has_any(text: str, terms: tuple[str, ...]) -> bool:
+    return any(term.lower() in text.lower() for term in terms)
+
+
+def validate_standard_benchmark_evidence(bundle: Path, checklist_items: dict[str, bool], coverage_report: Path) -> tuple[str, ...]:
+    if not checklist_items.get(STANDARD_BENCHMARK_GATE, False):
+        return ()
+
+    errors: list[str] = []
+    if not coverage_report.exists():
+        errors.append(f"missing standard benchmark coverage report: {coverage_report}")
+        return tuple(errors)
+
+    try:
+        coverage = json.loads(coverage_report.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return (f"invalid standard benchmark coverage report JSON: {exc}",)
+
+    items = coverage.get("items", [])
+    official_items = [
+        item
+        for item in items
+        if item.get("tier") == "official-candidate" and item.get("status") in {"missing", "blocked"}
+    ]
+    if not official_items:
+        return ()
+
+    model_card = bundle / "hf-model-card-draft.md"
+    if not model_card.exists():
+        return ("standard benchmark gate is checked but hf-model-card-draft.md is missing",)
+    model_card_text = model_card.read_text(encoding="utf-8")
+    if not text_has_any(model_card_text, ("pilot-only", "pilot only")):
+        errors.append("standard benchmark gate is checked with incomplete official coverage, but model card does not label benchmark support as pilot-only")
+
+    for item in official_items:
+        suite = str(item.get("suite", ""))
+        terms = OFFICIAL_SUITE_EXCLUSION_TERMS.get(suite, (suite,))
+        if not text_has_any(model_card_text, terms):
+            errors.append(f"model card does not explicitly exclude or block official suite: {suite}")
+
+    return tuple(errors)
+
+
+def evaluate_bundle(
+    bundle: Path,
+    required_files: tuple[str, ...] = DEFAULT_REQUIRED_FILES,
+    coverage_report: Path = DEFAULT_COVERAGE_REPORT,
+) -> BundleStatus:
     missing = tuple(rel for rel in required_files if not (bundle / rel).exists())
     checklist = bundle / "publish-readiness-checklist.md"
     items = parse_checklist(checklist) if checklist.exists() else {}
@@ -75,8 +139,9 @@ def evaluate_bundle(bundle: Path, required_files: tuple[str, ...] = DEFAULT_REQU
     unchecked_public = tuple(gate for gate in PUBLIC_RELEASE_GATES if not items.get(gate, False))
     checked_quality = tuple(gate for gate in LOCAL_QUALITY_GATES if items.get(gate, False))
     unchecked_quality = tuple(gate for gate in LOCAL_QUALITY_GATES if not items.get(gate, False))
+    benchmark_errors = validate_standard_benchmark_evidence(bundle, items, coverage_report)
 
-    if missing:
+    if missing or benchmark_errors:
         status = "invalid"
     elif unchecked_public:
         status = "blocked"
@@ -91,6 +156,7 @@ def evaluate_bundle(bundle: Path, required_files: tuple[str, ...] = DEFAULT_REQU
         unchecked_public_release_gates=unchecked_public,
         checked_local_quality_gates=checked_quality,
         unchecked_local_quality_gates=unchecked_quality,
+        benchmark_evidence_errors=benchmark_errors,
     )
 
 
@@ -105,6 +171,7 @@ def status_to_dict(status: BundleStatus) -> dict[str, object]:
         "unchecked_public_release_gates": list(status.unchecked_public_release_gates),
         "checked_local_quality_gates": list(status.checked_local_quality_gates),
         "unchecked_local_quality_gates": list(status.unchecked_local_quality_gates),
+        "benchmark_evidence_errors": list(status.benchmark_evidence_errors),
     }
 
 
@@ -122,9 +189,15 @@ def main() -> int:
         help="Fail unless the bundle is intentionally blocked for public release.",
     )
     parser.add_argument("--json", action="store_true", help="Print machine-readable status.")
+    parser.add_argument(
+        "--coverage-report",
+        type=Path,
+        default=DEFAULT_COVERAGE_REPORT,
+        help="Machine-readable standard benchmark coverage report used when the benchmark gate is checked.",
+    )
     args = parser.parse_args()
 
-    status = evaluate_bundle(args.bundle)
+    status = evaluate_bundle(args.bundle, coverage_report=args.coverage_report)
     data = status_to_dict(status)
     if args.json:
         print(json.dumps(data, indent=2))
@@ -141,8 +214,14 @@ def main() -> int:
             print("unchecked_public_release_gates:")
             for gate in status.unchecked_public_release_gates:
                 print(f"- {gate}")
+        if status.benchmark_evidence_errors:
+            print("benchmark_evidence_errors:")
+            for error in status.benchmark_evidence_errors:
+                print(f"- {error}")
 
     if status.missing_files:
+        return 1
+    if status.benchmark_evidence_errors:
         return 1
     if status.unchecked_local_quality_gates:
         return 1

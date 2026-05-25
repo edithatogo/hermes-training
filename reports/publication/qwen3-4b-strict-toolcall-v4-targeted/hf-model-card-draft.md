@@ -98,6 +98,11 @@ The reusable runtime prompt contract is recorded in
 
 - This is a small local strict-format benchmark, not broad BFCL or production
   tool-use evidence.
+- The release does not include official BFCL, HumanEval, MBPP, EvalPlus,
+  BigCodeBench, LiveCodeBench, safety/refusal, or RULER long-context scores.
+- The selected lm-eval smoke was attempted separately, but the current local
+  MLX endpoint is not loglikelihood-compatible for those tasks, so no lm-eval
+  score is claimed.
 - The adapter is sensitive to runtime prompt formatting.
 - The V4 training data has no held-out user-prompt overlap in the recorded
   audit, but it shares one generic held-out tool name, `notify_care_team`.

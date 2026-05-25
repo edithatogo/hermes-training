@@ -244,15 +244,17 @@ def main() -> int:
     parser.add_argument("--json-output", type=Path)
     parser.add_argument("--md-output", type=Path)
     parser.add_argument("--require-official-candidate", action="store_true")
+    parser.add_argument("--no-write", action="store_true", help="Print the generated summary without updating report files.")
     args = parser.parse_args()
 
     items = build_items(args.candidate)
     summary = summarize(items, args.candidate, args.run_id)
-    args.output_root.mkdir(parents=True, exist_ok=True)
-    json_output = args.json_output or args.output_root / f"{args.run_id}.json"
-    md_output = args.md_output or args.output_root / f"{args.run_id}.md"
-    json_output.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    md_output.write_text(render_markdown(summary), encoding="utf-8")
+    if not args.no_write:
+        args.output_root.mkdir(parents=True, exist_ok=True)
+        json_output = args.json_output or args.output_root / f"{args.run_id}.json"
+        md_output = args.md_output or args.output_root / f"{args.run_id}.md"
+        json_output.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        md_output.write_text(render_markdown(summary), encoding="utf-8")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
     if args.require_official_candidate and summary["official_candidate_missing"]:
         return 1

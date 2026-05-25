@@ -148,7 +148,7 @@ Current gaps:
 
 1. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
 2. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
-3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, lm-eval, coding, safety, and RULER candidate suites.
+3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, coding, safety, and RULER candidate suites, with selected lm-eval attempted but blocked on local loglikelihood support.
 4. Publish no dataset until the cleaned synthetic-only dataset scope is explicitly approved and re-audited.
 5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
 6. If wiring mem0 into Hermes-agent, use `scripts/hermes_mem0_tool.py` or the manifest at `mem0/integration/hermes_agent_mem0_read_tool.json`; keep it explicit/cached, not an every-turn prelude. Keep Qwen3 0.6B as a learned-reranker candidate only after prompt/metadata work fixes the isolated fixture recency miss and the ONNX/Transformers.js bridge has a bounded CPU/CoreML proof.

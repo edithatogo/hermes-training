@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import contextlib
+import io
+import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.check_standard_benchmark_coverage import build_items, render_markdown, summarize
+from scripts.check_standard_benchmark_coverage import build_items, main, render_markdown, summarize
 
 
 class StandardBenchmarkCoverageTests(unittest.TestCase):
@@ -31,17 +35,25 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         self.assertIn("pilot-only", markdown)
         self.assertIn("local-heldout-strict-tool-call", markdown)
 
-    def test_outputs_are_written_by_cli_shape(self) -> None:
+    def test_no_write_cli_prints_summary_without_files(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             output_root = Path(tmp)
-            json_path = output_root / "coverage.json"
-            md_path = output_root / "coverage.md"
-            summary = summarize(build_items("qwen3-4b-strict-toolcall-v4-targeted"), "qwen3-4b-strict-toolcall-v4-targeted", "test-run")
-            json_path.write_text(str(summary), encoding="utf-8")
-            md_path.write_text(render_markdown(summary), encoding="utf-8")
+            stdout = io.StringIO()
+            argv = [
+                "check_standard_benchmark_coverage.py",
+                "--run-id",
+                "test-run",
+                "--output-root",
+                str(output_root),
+                "--no-write",
+            ]
+            with patch("sys.argv", argv), contextlib.redirect_stdout(stdout):
+                code = main()
 
-            self.assertTrue(json_path.exists())
-            self.assertTrue(md_path.exists())
+            self.assertEqual(code, 0)
+            self.assertFalse((output_root / "test-run.json").exists())
+            data = json.loads(stdout.getvalue())
+            self.assertEqual(data["run_id"], "test-run")
 
 
 if __name__ == "__main__":

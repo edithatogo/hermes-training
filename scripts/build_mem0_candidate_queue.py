@@ -108,9 +108,13 @@ def command_for(candidate: dict[str, Any]) -> str:
         if "bge-reranker-v2-m3-mlx" in model_id:
             return "\n".join(
                 [
-                    "# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.",
-                    "# First implement or select an MLX reranker load/scoring shim for query-document pairs.",
-                    "# Then run the fixed candidate suite before any live mem0 integration.",
+                    "# MLX BGE reranker repo ID is verified. Run a bounded Apple Silicon load/scoring proof first.",
+                    "./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \\",
+                    "  --strategy mlx_cross_encoder \\",
+                    f"  --model {model_id} \\",
+                    "  --mlx-max-length 1024 \\",
+                    "  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \\",
+                    f"  --run-id rerank-{slug}-$(date +%Y%m%d-%H%M%S)",
                 ]
             )
         if "Qwen3-Reranker" in model_id:
@@ -208,7 +212,7 @@ def blocker_for(candidate: dict[str, Any]) -> str:
             return "source HF model passed suites; ONNX/Transformers.js bridge failed closed pending bounded CPU/CoreML proof"
         return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
     if status == "candidate-runtime-id-verified" and role == "reranker" and runtime == "mlx":
-        return "model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark"
+        return "model repo verified; MLX load/scoring proof is ready before live mem0 integration"
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"
     if role == "embedder" and dims in {"unknown", "variable"}:

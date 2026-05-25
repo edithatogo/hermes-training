@@ -49,9 +49,11 @@ Before public Hugging Face publication:
 
 The current machine-readable coverage report is
 `reports/benchmark/standard-coverage/qwen3-v4-targeted-standard-coverage-20260526.md`.
-It records the v4 adapter as local-gate ready with pilot-only benchmark support,
-while full official BFCL, lm-eval, coding, safety, and RULER candidate suites
-remain missing for broad benchmark claims.
+It records the v4 adapter as local-gate ready with pilot-only benchmark support.
+Full official BFCL, coding, safety, and RULER candidate suites remain missing
+for broad benchmark claims. The selected lm-eval smoke was attempted and is
+blocked on a loglikelihood-compatible MLX/local runtime, so it must not be
+reported as a score.
 
 ## Report Template
 

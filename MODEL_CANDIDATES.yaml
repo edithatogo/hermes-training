@@ -13,13 +13,13 @@ candidates:
     tier: frontier-runtime
     role: cloud-teacher
     environment: azure-cuda
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "35B total / 3B active"
     architecture: "Sparse MoE, multimodal, Qwen3.5 MoE family"
     license: apache-2.0
-    first_runtime: "LM Studio or Ollama GGUF; KTransformers only after local proof"
+    first_runtime: "llama.cpp GGUF baseline is runtime-proven; KTransformers only after local specialist proof"
     first_finetune: "defer; smoke adapter only after memory proof"
-    notes: "Verified by Hugging Face API on 2026-05-24: updated 2026-04-24, 26 safetensor shards, no GGUF in the official repo. Model card reports 35B total / 3B active, 262k native context, Gated DeltaNet plus attention MoE layout, Apache-2.0, and Qwen-Agent/tool-calling support. Use as teacher/evaluator before attempting local training. Prefer KTransformers or Transformers-native proof for the official weights; GGUF is only the portability route. The SSD-only pass found no local Qwen3.6 artifact and no active default endpoint."
+    notes: "Official repo metadata was verified by Hugging Face API on 2026-05-24. The local Q4_K_M GGUF artifact is now acquired under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4` and runtime-proven through llama.cpp in `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`. Treat this as a runtime/teacher baseline only: strict Hermes tool-call pass was `0.000`, and GGUF proof does not count as KTransformers or official-weight fine-tune evidence."
 
   - id: baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX
     family: qwen
@@ -52,13 +52,13 @@ candidates:
     tier: baseline-teacher
     role: cloud-teacher
     environment: mac-ollama
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "14B dense"
     architecture: "Qwen3 14B fine-tune, hybrid reasoning/tool mode"
     license: "check model card before derivative publishing"
-    first_runtime: "Ollama or LM Studio GGUF if available; Transformers fallback"
+    first_runtime: "llama.cpp GGUF baseline is runtime-proven; LM Studio/Ollama remain optional packaging checks"
     first_finetune: "defer"
-    notes: "Verified by Hugging Face API on 2026-05-24: updated 2026-01-09 with safetensors available. Treat as the primary Hermes-style baseline, but the SSD-only pass found no local Hermes 4 artifact and no active default endpoint, so GGUF/FP8/community quant paths remain needs-runtime-proof until a smoke result exists."
+    notes: "Verified by Hugging Face API on 2026-05-24. The local Hermes 4 14B Q4_K_M GGUF artifact is now acquired under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4` and runtime-proven through llama.cpp in `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md`. Use as the primary Hermes-aligned baseline/teacher only: strict held-out score was `0.250`, so it is not a promotion or publication candidate."
 
   - id: qwen3.7-open-weights-watch
     family: qwen

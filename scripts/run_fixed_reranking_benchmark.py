@@ -19,6 +19,7 @@ except ModuleNotFoundError:
     from scripts.mem0_rerank_lib import rerank_results
 
 QWEN3_RERANKER_CACHE: dict[tuple[str, str, int, bool], tuple[Any, Any, int, int, str]] = {}
+MLX_RERANKER_CACHE: dict[tuple[str, int], tuple[Any, Any, dict[str, Any]]] = {}
 
 
 def load_json(path: Path) -> Any:
@@ -121,6 +122,61 @@ def cross_encoder_rerank(model_name: str, query: str, candidates: list[dict[str,
         enriched["rerank_score"] = float(score)
         ranked.append(enriched)
     return sorted(ranked, key=lambda item: float(item["rerank_score"]), reverse=True), load_latency_s
+
+
+def xlm_roberta_pair_text(query: str, document: str) -> str:
+    return f"<s>{query}</s></s>{document}</s>"
+
+
+def load_mlx_reranker(model_name: str, max_length: int) -> tuple[Any, Any, dict[str, Any]]:
+    cache_key = (model_name, max_length)
+    if cache_key in MLX_RERANKER_CACHE:
+        return MLX_RERANKER_CACHE[cache_key]
+    try:
+        from mlx_lm.utils import load
+    except ModuleNotFoundError as exc:
+        raise SystemExit(
+            "mlx-lm is required for mlx_cross_encoder reranking. "
+            "Install the MLX runtime or use another reranking strategy."
+        ) from exc
+
+    model, tokenizer, config = load(model_name, return_config=True)
+    model.eval()
+    loaded = (model, tokenizer, config)
+    MLX_RERANKER_CACHE[cache_key] = loaded
+    return loaded
+
+
+def mlx_cross_encoder_rerank(
+    model_name: str,
+    query: str,
+    candidates: list[dict[str, Any]],
+    max_length: int,
+) -> tuple[list[dict[str, Any]], float]:
+    try:
+        import mlx.core as mx
+    except ModuleNotFoundError as exc:
+        raise SystemExit("mlx is required for mlx_cross_encoder reranking.") from exc
+
+    started = time.time()
+    model, tokenizer, config = load_mlx_reranker(model_name, max_length)
+    load_and_score_started = time.time()
+    pad_token_id = int(config.get("pad_token_id", 1))
+    ranked: list[dict[str, Any]] = []
+    for item in candidates:
+        document = str(item.get("text") or item.get("memory") or "")
+        ids = tokenizer.encode(xlm_roberta_pair_text(query, document))
+        ids = ids[:max_length]
+        input_ids = mx.array([ids], dtype=mx.int32)
+        attention_mask = mx.where(input_ids != pad_token_id, 1, 0)
+        logits = model(input_ids, attention_mask=attention_mask)
+        mx.eval(logits)
+        enriched = dict(item)
+        enriched["base_score"] = float(item.get("score") or 0.0)
+        enriched["rerank_score"] = float(mx.flatten(logits)[0].item())
+        ranked.append(enriched)
+    latency_s = time.time() - load_and_score_started if time.time() > started else 0.0
+    return sorted(ranked, key=lambda item: float(item["rerank_score"]), reverse=True), latency_s
 
 
 def qwen3_reranker_prompt(query: str, document: str, instruction: str) -> str:
@@ -278,6 +334,7 @@ def rerank_case(
     qwen3_max_length: int = 4096,
     qwen3_instruction: str = "Retrieve relevant memory",
     qwen3_local_files_only: bool = False,
+    mlx_max_length: int = 8192,
 ) -> tuple[list[dict[str, Any]], float]:
     candidates = [
         {
@@ -309,6 +366,15 @@ def rerank_case(
             instruction=qwen3_instruction,
             local_files_only=qwen3_local_files_only,
         )
+    elif strategy == "mlx_cross_encoder":
+        if not model:
+            raise ValueError("--model is required for mlx_cross_encoder strategy")
+        return mlx_cross_encoder_rerank(
+            model,
+            case["query"],
+            candidates,
+            max_length=mlx_max_length,
+        )
     else:
         ranked = rerank_results(candidates, strategy, recency_weight)
     return ranked, time.time() - started
@@ -327,6 +393,7 @@ def main() -> int:
             "benchmark_order",
             "lexical_overlap",
             "cross_encoder",
+            "mlx_cross_encoder",
             "qwen3_causal_lm",
         ),
         default="vector",
@@ -337,6 +404,7 @@ def main() -> int:
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
     parser.add_argument("--qwen3-instruction", default="Retrieve relevant memory")
     parser.add_argument("--qwen3-local-files-only", action="store_true")
+    parser.add_argument("--mlx-max-length", type=int, default=8192)
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -359,6 +427,8 @@ def main() -> int:
             print(f"qwen3_device: {args.qwen3_device}")
             print(f"qwen3_max_length: {args.qwen3_max_length}")
             print(f"qwen3_local_files_only: {args.qwen3_local_files_only}")
+        if args.strategy == "mlx_cross_encoder":
+            print(f"mlx_max_length: {args.mlx_max_length}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -376,6 +446,7 @@ def main() -> int:
             qwen3_max_length=args.qwen3_max_length,
             qwen3_instruction=args.qwen3_instruction,
             qwen3_local_files_only=args.qwen3_local_files_only,
+            mlx_max_length=args.mlx_max_length,
         )
         latencies.append(latency_s)
         rows.append(
@@ -416,6 +487,7 @@ def main() -> int:
         "qwen3_max_length": args.qwen3_max_length if args.strategy == "qwen3_causal_lm" else "",
         "qwen3_instruction": args.qwen3_instruction if args.strategy == "qwen3_causal_lm" else "",
         "qwen3_local_files_only": args.qwen3_local_files_only if args.strategy == "qwen3_causal_lm" else "",
+        "mlx_max_length": args.mlx_max_length if args.strategy == "mlx_cross_encoder" else "",
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),

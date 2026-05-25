@@ -27,8 +27,8 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 6 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 | 7 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
 | 8 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 9 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark |
-| 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark |
+| 9 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
+| 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
 | 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 12 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 | 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
@@ -166,26 +166,34 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `candidate-runtime-id-verified`
-- Blocker: model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark
+- Blocker: model repo verified; MLX load/scoring proof is ready before live mem0 integration
 
 ```bash
 source scripts/env.sh
-# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.
-# First implement or select an MLX reranker load/scoring shim for query-document pairs.
-# Then run the fixed candidate suite before any live mem0 integration.
+# MLX BGE reranker repo ID is verified. Run a bounded Apple Silicon load/scoring proof first.
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy mlx_cross_encoder \
+  --model flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16 \
+  --mlx-max-length 1024 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-fp16-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
 
 - Role: `reranker`
 - Status: `candidate-runtime-id-verified`
-- Blocker: model repo verified; needs MLX reranker load/scoring shim before fixed-suite benchmark
+- Blocker: model repo verified; MLX load/scoring proof is ready before live mem0 integration
 
 ```bash
 source scripts/env.sh
-# MLX BGE reranker repo ID is verified, but no MLX scoring harness is wired yet.
-# First implement or select an MLX reranker load/scoring shim for query-document pairs.
-# Then run the fixed candidate suite before any live mem0 integration.
+# MLX BGE reranker repo ID is verified. Run a bounded Apple Silicon load/scoring proof first.
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy mlx_cross_encoder \
+  --model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit \
+  --mlx-max-length 1024 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### Qwen/Qwen3-Embedding-4B
