@@ -43,6 +43,35 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertIn("--strategy mlx_cross_encoder", command_for(candidate))
         self.assertIn("--mlx-max-length 1024", command_for(candidate))
 
+    def test_fixed_suite_benchmarked_status_records_next_live_gate(self) -> None:
+        candidate = {
+            "id": "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "role": "reranker",
+            "runtime": ["mlx"],
+            "status": "fixed-suite-benchmarked",
+        }
+
+        self.assertEqual(queue_priority(candidate)[0], 2)
+        self.assertEqual(
+            blocker_for(candidate),
+            "fixed suite passed; run expanded replay and isolated fixture before live integration",
+        )
+
+    def test_isolated_fixture_proven_status_records_opt_in_boundary(self) -> None:
+        candidate = {
+            "id": "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "role": "reranker",
+            "runtime": ["mlx"],
+            "status": "isolated-fixture-proven",
+        }
+
+        self.assertEqual(queue_priority(candidate)[0], 1)
+        self.assertEqual(
+            blocker_for(candidate),
+            "isolated fixture passed; keep opt-in read mode until broader daily-use latency proof",
+        )
+        self.assertIn("--mode mlx-bge", command_for(candidate))
+
 
 if __name__ == "__main__":
     unittest.main()

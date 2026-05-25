@@ -281,6 +281,8 @@ def main() -> int:
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
     parser.add_argument("--skip-qwen3", action="store_true")
+    parser.add_argument("--mlx-model", help="Optional MLX cross-encoder reranker model to compare.")
+    parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--keep-fixture", action="store_true", help="Keep output-local qdrant/history files after the run.")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -298,6 +300,8 @@ def main() -> int:
     ]
     if not args.skip_qwen3:
         strategies.append(("qwen3_causal_lm", args.qwen3_model))
+    if args.mlx_model:
+        strategies.append(("mlx_cross_encoder", args.mlx_model))
 
     if args.dry_run:
         print(f"suite: {args.suite}")
@@ -353,6 +357,7 @@ def main() -> int:
                     args.qwen3_instruction,
                     args.qwen3_local_files_only,
                     args.qwen3_server_url if strategy == "qwen3_causal_lm" else None,
+                    args.mlx_max_length,
                 )
                 strategy_results[label] = score_ranking(case, ranked, rerank_latency_s)
             rows.append(
@@ -399,13 +404,20 @@ def main() -> int:
         "qwen3_max_length": args.qwen3_max_length,
         "qwen3_server_url": args.qwen3_server_url or "",
         "qwen3_local_files_only": args.qwen3_local_files_only,
+        "mlx_max_length": args.mlx_max_length if args.mlx_model else "",
     }
     preferred = preferred_summary_metrics(summary)
     if preferred:
         summary.update(
             {
                 "strategy": preferred["strategy"],
-                "model": args.qwen3_model if preferred["strategy"].startswith("qwen3_causal_lm:") else "",
+                "model": (
+                    args.qwen3_model
+                    if preferred["strategy"].startswith("qwen3_causal_lm:")
+                    else args.mlx_model
+                    if preferred["strategy"].startswith("mlx_cross_encoder:")
+                    else ""
+                ),
                 "pass_rate": preferred["pass_rate"],
                 "top1_accuracy": preferred["top1_accuracy"],
                 "recall_at_3": preferred["recall_at_3"],

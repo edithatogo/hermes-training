@@ -22,7 +22,9 @@ STATUS_ORDER = {
     "working-default": 0,
     "working-default-clean-root-smoked": 0,
     "live-read-wrapper-smoked": 1,
+    "isolated-fixture-proven": 1,
     "benchmarked-cpu-mps-not-promoted": 2,
+    "fixed-suite-benchmarked": 2,
     "source-model-benchmarked": 2,
     "installed-baseline": 3,
     "candidate-runtime-id-verified": 4,
@@ -106,6 +108,17 @@ def command_for(candidate: dict[str, Any]) -> str:
         )
     if role == "reranker":
         if "bge-reranker-v2-m3-mlx" in model_id:
+            if status == "isolated-fixture-proven":
+                return "\n".join(
+                    [
+                        "# Opt-in guarded read mode is available; run daily-use latency probes before any default integration.",
+                        "HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \\",
+                        '  "What is the active mem0 Qdrant collection?" \\',
+                        "  --mode mlx-bge \\",
+                        "  --fallback-to-vector \\",
+                        "  --cache-ttl-s 300",
+                    ]
+                )
             return "\n".join(
                 [
                     "# MLX BGE reranker repo ID is verified. Run a bounded Apple Silicon load/scoring proof first.",
@@ -205,8 +218,12 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "baseline recovered in clean SSD Ollama root; keep as rollback and compare only"
     if status == "live-read-wrapper-smoked":
         return "live read-only wrapper smoke passed; keep read-only until broader coverage"
+    if status == "isolated-fixture-proven":
+        return "isolated fixture passed; keep opt-in read mode until broader daily-use latency proof"
     if status == "benchmarked-cpu-mps-not-promoted":
         return "benchmarked but not promoted; keep separate collection or artifact"
+    if status == "fixed-suite-benchmarked":
+        return "fixed suite passed; run expanded replay and isolated fixture before live integration"
     if status == "source-model-benchmarked":
         if candidate.get("id") == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
             return "source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof"

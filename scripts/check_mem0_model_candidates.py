@@ -24,6 +24,8 @@ STATUSES = {
     "runtime-proof-needed",
     "benchmarked-cpu-mps-not-promoted",
     "candidate-runtime-id-verified",
+    "fixed-suite-benchmarked",
+    "isolated-fixture-proven",
     "source-model-benchmarked",
     "live-read-wrapper-smoked",
     "rejected",

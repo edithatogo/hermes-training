@@ -25,6 +25,7 @@ class Mem0ReadTests(unittest.TestCase):
             "qwen3_instruction": "Retrieve relevant memory",
             "qwen3_local_files_only": False,
             "qwen3_server_url": None,
+            "mlx_max_length": 1024,
             "fallback_to_vector": False,
             "include_raw": False,
             "cache_path": None,
@@ -38,6 +39,7 @@ class Mem0ReadTests(unittest.TestCase):
         self.assertEqual(select_strategy("close-margin"), "score_plus_created_at_rank_close_margin")
         self.assertEqual(select_strategy("vector"), "vector")
         self.assertEqual(select_strategy("qwen3"), "qwen3_causal_lm")
+        self.assertEqual(select_strategy("mlx-bge"), "mlx_cross_encoder")
 
     def test_guarded_read_uses_close_margin_by_default(self) -> None:
         args = self.build_args()
@@ -57,6 +59,23 @@ class Mem0ReadTests(unittest.TestCase):
         self.assertEqual(output["results"], ranked)
         search.assert_called_once_with("cmd", "active collection", 120.0)
         rerank.assert_called_once()
+
+    def test_guarded_read_can_use_default_mlx_bge_model(self) -> None:
+        args = self.build_args(mode="mlx-bge")
+        results = [{"memory": "The active collection is mem0_nomic_768.", "score": 0.9}]
+        ranked = [dict(results[0], rerank_score=0.99)]
+
+        with (
+            patch("scripts.mem0_read.run_mem0_search", return_value=(results, "raw", 1.2)),
+            patch("scripts.mem0_read.rerank_search_results", return_value=(ranked, 0.14)) as rerank,
+        ):
+            output = run_guarded_read(args)
+
+        self.assertEqual(output["strategy"], "mlx_cross_encoder")
+        self.assertEqual(output["model"], "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit")
+        self.assertEqual(output["rerank_latency_s"], 0.14)
+        self.assertEqual(rerank.call_args.args[4], "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit")
+        self.assertEqual(rerank.call_args.args[10], 1024)
 
     def test_guarded_read_can_fallback_to_vector(self) -> None:
         args = self.build_args(

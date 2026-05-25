@@ -12,7 +12,8 @@ try:
 except ModuleNotFoundError:
     from scripts.mem0_read import run_guarded_read
 
-VALID_MODES = {"close-margin", "vector", "qwen3"}
+VALID_MODES = {"close-margin", "vector", "qwen3", "mlx-bge"}
+DEFAULT_MLX_BGE_MODEL = "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit"
 DEFAULT_CACHE_TTL_S = 300.0
 
 
@@ -66,18 +67,22 @@ def build_read_args(args: argparse.Namespace, payload: dict[str, Any]) -> argpar
     qwen3_max_length = int_value(payload.get("qwen3_max_length"), args.qwen3_max_length)
     if qwen3_max_length <= 0:
         raise ValueError("qwen3_max_length must be > 0")
+    mlx_max_length = int_value(payload.get("mlx_max_length"), args.mlx_max_length)
+    if mlx_max_length <= 0:
+        raise ValueError("mlx_max_length must be > 0")
     return argparse.Namespace(
         query=query.strip(),
         tool=str(payload.get("tool") or args.tool),
         mode=mode,
         timeout_s=timeout_s,
         recency_weight=float_value(payload.get("recency_weight"), args.recency_weight),
-        model=str(payload.get("model") or args.model),
+        model=str(payload.get("model") or (DEFAULT_MLX_BGE_MODEL if mode == "mlx-bge" else args.model)),
         qwen3_device=str(payload.get("qwen3_device") or args.qwen3_device),
         qwen3_max_length=qwen3_max_length,
         qwen3_instruction=str(payload.get("qwen3_instruction") or args.qwen3_instruction),
         qwen3_local_files_only=bool_value(payload.get("qwen3_local_files_only"), args.qwen3_local_files_only),
         qwen3_server_url=payload.get("qwen3_server_url") or args.qwen3_server_url,
+        mlx_max_length=mlx_max_length,
         fallback_to_vector=bool_value(payload.get("fallback_to_vector"), args.fallback_to_vector),
         include_raw=bool_value(payload.get("include_raw"), args.include_raw),
         cache_path=payload.get("cache_path") or args.cache_path,
@@ -138,6 +143,7 @@ def main() -> int:
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
+    parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--qwen3-instruction", default="Retrieve memories that answer the query for a local Hermes agent.")
     args = parser.parse_args()
 

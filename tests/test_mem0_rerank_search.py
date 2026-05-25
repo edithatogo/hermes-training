@@ -37,6 +37,19 @@ class Mem0RerankSearchTests(unittest.TestCase):
                 "Retrieve relevant memory",
             )
 
+    def test_mlx_cross_encoder_strategy_requires_model(self) -> None:
+        with self.assertRaisesRegex(ValueError, "--model is required"):
+            rerank_search_results(
+                "active mem0 collection",
+                [{"memory": "The active collection is mem0_nomic_768.", "score": 0.9}],
+                "mlx_cross_encoder",
+                0.20,
+                None,
+                "auto",
+                4096,
+                "Retrieve relevant memory",
+            )
+
     def test_qwen3_strategy_delegates_to_causal_lm_reranker(self) -> None:
         results = [
             {"memory": "Old collection was mem0_old.", "score": 0.91},
@@ -94,6 +107,35 @@ class Mem0RerankSearchTests(unittest.TestCase):
         self.assertEqual(latency, 0.02)
         local.assert_not_called()
         server.assert_called_once()
+
+    def test_mlx_cross_encoder_strategy_delegates_to_mlx_backend(self) -> None:
+        results = [
+            {"memory": "Old collection was mem0_old.", "score": 0.91},
+            {"memory": "Current collection is mem0_nomic_768.", "score": 0.88},
+        ]
+        expected = [dict(results[1], rerank_score=0.99), dict(results[0], rerank_score=0.1)]
+
+        with patch("scripts.mem0_rerank_search.mlx_cross_encoder_rerank", return_value=(expected, 0.456)) as mocked:
+            ranked, latency = rerank_search_results(
+                "What is the active mem0 collection?",
+                results,
+                "mlx_cross_encoder",
+                0.20,
+                "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+                "cpu",
+                4096,
+                "Retrieve relevant memory",
+                mlx_max_length=1024,
+            )
+
+        self.assertEqual(ranked, expected)
+        self.assertEqual(latency, 0.456)
+        mocked.assert_called_once_with(
+            "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "What is the active mem0 collection?",
+            results,
+            1024,
+        )
 
     def test_qwen3_server_rerank_posts_json(self) -> None:
         class FakeResponse:

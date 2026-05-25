@@ -74,10 +74,79 @@ rejecting `logprobs` when it is not a boolean:
 ValueError: logprobs must be of type <class 'bool'>
 ```
 
+## Proxy Completions Bridge Rerun
+
+After adding `/v1/completions` passthrough and integer-to-boolean `logprobs`
+coercion to `scripts/openai_normalizing_proxy.py`, a bounded local rerun was
+attempted against the proxy.
+
+Proxy:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/openai_normalizing_proxy.py \
+  --upstream http://127.0.0.1:8080/v1 \
+  --listen-host 127.0.0.1 \
+  --listen-port 8098 \
+  --quiet
+```
+
+Probe:
+
+```bash
+source scripts/env.sh
+RUN_ID=qwen3-4b-v4-targeted-lm-eval-proxy-completions-probe-20260526
+OUT="$HERMES_EVAL_ROOT/standard-benchmarks/lm-eval/${RUN_ID}"
+mkdir -p "$OUT"
+OPENAI_API_KEY=dummy \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run \
+  --model local-completions \
+  --model_args model=Qwen/Qwen3-4B-MLX-4bit,base_url=http://127.0.0.1:8098/v1/completions,tokenizer=Qwen/Qwen3-4B,tokenizer_backend=huggingface,tokenized_requests=False,max_gen_toks=512,timeout=300 \
+  --tasks arc_challenge \
+  --limit 1 \
+  --batch_size 1 \
+  --gen_kwargs temperature=0 \
+  --output_path "$OUT" \
+  --log_samples \
+  --seed 0,1234,1234,1234
+```
+
+Raw probe log:
+
+```text
+/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/qwen3-4b-v4-targeted-lm-eval-proxy-completions-probe-20260526/lm-eval-proxy-completions-probe.log
+```
+
+Result: still blocked before scoring. The proxy successfully forwards
+`/v1/completions` and records `X-Hermes-Coerced-Logprobs-Count: 1`, but
+`mlx_lm.server` returns logprobs in its current response shape:
+
+```json
+{"logprobs": {"content": [{"id": 12095, "logprob": -0.625}]}}
+```
+
+`lm_eval --model local-completions` expects legacy OpenAI-style echoed prompt
+logprobs:
+
+```text
+choice["logprobs"]["token_logprobs"]
+```
+
+The rerun failed with:
+
+```text
+KeyError: 'token_logprobs'
+```
+
+Do not shim this by fabricating echoed prompt logprobs from generated-token
+logprobs; that would produce invalid scores. The remaining fix needs a direct
+MLX loglikelihood evaluator or an endpoint that returns true echoed prompt
+token logprobs in the legacy shape expected by lm-eval.
+
 ## Decision
 
 `lm-eval-selected` is no longer merely missing; it is blocked on a
-loglikelihood-compatible local runtime shim or direct evaluator adapter for MLX.
+true loglikelihood-compatible local runtime shim or direct evaluator adapter for MLX.
 Do not report ARC/HellaSwag/TruthfulQA/Winogrande scores for this adapter from
 the current `mlx_lm.server` endpoint.
 

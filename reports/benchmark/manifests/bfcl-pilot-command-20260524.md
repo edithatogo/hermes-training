@@ -18,13 +18,13 @@ Run a small Berkeley Function Calling Leaderboard-style pilot for candidate Herm
 ```bash
 source scripts/env.sh
 RUN_ID=<model>-bfcl-pilot-<date>
-MODEL_ID=<bfcl_registered_model_name>
+MODEL_ID=Qwen/Qwen3-4B-Instruct-2507-FC
 BASE_URL=http://127.0.0.1:<port>/v1
 OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/${RUN_ID}
 mkdir -p "$OUT"
 
-LOCAL_SERVER_ENDPOINT="$BASE_URL" \
-LOCAL_SERVER_PORT="<port>" \
+REMOTE_OPENAI_BASE_URL="$BASE_URL" \
+REMOTE_OPENAI_API_KEY=EMPTY \
 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate \
   --model "$MODEL_ID" \
   --test-category simple_python,multiple,parallel \
@@ -42,9 +42,14 @@ LOCAL_SERVER_PORT="<port>" \
 ```
 
 The installed BFCL package exposes a `bfcl` CLI with `generate` and `evaluate`
-subcommands. Keep the endpoint variables in the run card because `--skip-server-setup`
-uses `LOCAL_SERVER_ENDPOINT` and `LOCAL_SERVER_PORT` rather than a `--base-url`
-flag.
+subcommands. Keep `REMOTE_OPENAI_BASE_URL` and `REMOTE_OPENAI_API_KEY` in the
+run card because the generic self-hosted OpenAI-compatible handlers use those
+environment variables rather than a `--base-url` flag.
+
+BFCL model-name boundary: local OpenAI-compatible endpoints should use a BFCL
+self-hosted model config such as `Qwen/Qwen3-4B-Instruct-2507-FC`. The shorter
+`qwen3-4b` / `qwen3-4b-FC` names are wired to hosted Qwen API handlers in the
+installed BFCL package and are not equivalent to a local MLX/llama.cpp endpoint.
 
 ## Result Card Schema
 

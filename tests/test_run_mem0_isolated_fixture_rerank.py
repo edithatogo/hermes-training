@@ -115,6 +115,29 @@ class RunMem0IsolatedFixtureRerankTests(unittest.TestCase):
         self.assertEqual(preferred["strategy"], "score_plus_created_at_rank_close_margin")
         self.assertEqual(preferred["top1_accuracy"], 1.0)
 
+    def test_preferred_summary_metrics_can_select_mlx_strategy(self) -> None:
+        summary = {
+            "strategies": {
+                "score_plus_created_at_rank_close_margin": {
+                    "top1_accuracy": 0.8,
+                    "pass_rate": 0.8,
+                    "mrr": 0.9,
+                },
+                "mlx_cross_encoder:flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit": {
+                    "top1_accuracy": 1.0,
+                    "pass_rate": 1.0,
+                    "mrr": 1.0,
+                },
+            }
+        }
+
+        preferred = preferred_summary_metrics(summary)
+
+        self.assertEqual(
+            preferred["strategy"],
+            "mlx_cross_encoder:flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+        )
+
     def test_safe_collection_suffix_removes_punctuation(self) -> None:
         self.assertEqual(safe_collection_suffix("Run 2026-05-26!"), "run_2026_05_26")
 

@@ -308,6 +308,36 @@ Qwen3 needs prompt or metadata work before another live recency gate. Evidence
 is recorded in
 `reports/benchmark/mem0/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md`.
 
+MLX BGE reranker:
+
+```bash
+source scripts/env.sh
+HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy mlx_cross_encoder \
+  --model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit \
+  --mlx-max-length 1024 \
+  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
+  --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-fixed-20260526
+```
+
+2026-05-26 result: the 8-bit MLX BGE reranker passed fixed, BGE-derived
+expanded, and nomic-derived expanded reranking at top-1 `1.000` after switching
+the harness to tokenizer-native paired inputs. It also passed the isolated live
+fixture at pass/top-1 `1.000` with p50 rerank latency `0.145s`. The guarded read
+wrapper and Hermes tool expose it as explicit opt-in mode:
+
+```bash
+HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --mode mlx-bge \
+  --fallback-to-vector \
+  --cache-ttl-s 300
+```
+
+Keep `mlx-bge` opt-in until broader daily-use latency probes justify a default
+change. Evidence is recorded in
+`reports/benchmark/mem0/bge-reranker-v2-m3-mlx-8bit-fixed-suite-20260526.md`.
+
 Optional reranker dependencies are intentionally separate from the base repo
 environment:
 

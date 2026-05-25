@@ -150,7 +150,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
             status="blocked" if lm_eval_selected.exists() else "missing",
             evidence=str(lm_eval_selected.relative_to(ROOT)) if lm_eval_selected.exists() else "",
             metric="",
-            notes="Selected lm-eval smoke was attempted; current mlx_lm.server endpoint is not loglikelihood-compatible for these tasks.",
+            notes="Selected lm-eval smoke was attempted; proxy completions bridge now fixes integer logprobs request shape, but current mlx_lm.server response lacks legacy echoed token_logprobs for true prompt loglikelihood scoring.",
             required_for="general benchmark claim",
         ),
         CoverageItem(

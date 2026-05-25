@@ -111,6 +111,8 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append("  --qwen3-local-files-only \\")
         if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_server_url"):
             lines.append(f"  --qwen3-server-url {summary['qwen3_server_url']} \\")
+        if strategy == "mlx_cross_encoder" and summary.get("mlx_max_length"):
+            lines.append(f"  --mlx-max-length {summary['mlx_max_length']} \\")
         if kind == "isolated-fixture-rerank" and summary.get("kept_fixture"):
             lines.append("  --keep-fixture \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])

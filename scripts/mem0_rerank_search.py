@@ -14,10 +14,10 @@ from urllib.request import Request, urlopen
 
 try:
     from mem0_rerank_lib import parse_mem0_search_output, rerank_results
-    from run_fixed_reranking_benchmark import qwen3_causal_lm_rerank
+    from run_fixed_reranking_benchmark import mlx_cross_encoder_rerank, qwen3_causal_lm_rerank
 except ModuleNotFoundError:
     from scripts.mem0_rerank_lib import parse_mem0_search_output, rerank_results
-    from scripts.run_fixed_reranking_benchmark import qwen3_causal_lm_rerank
+    from scripts.run_fixed_reranking_benchmark import mlx_cross_encoder_rerank, qwen3_causal_lm_rerank
 
 
 def cli_safe_text(text: str) -> str:
@@ -52,6 +52,7 @@ def rerank_search_results(
     qwen3_instruction: str,
     qwen3_local_files_only: bool = False,
     qwen3_server_url: str | None = None,
+    mlx_max_length: int = 8192,
 ) -> tuple[list[dict[str, Any]], float]:
     if not results:
         return [], 0.0
@@ -78,6 +79,10 @@ def rerank_search_results(
             qwen3_instruction,
             local_files_only=qwen3_local_files_only,
         )
+    if strategy == "mlx_cross_encoder":
+        if not model:
+            raise ValueError("--model is required for mlx_cross_encoder")
+        return mlx_cross_encoder_rerank(model, query, results, mlx_max_length)
     rerank_started = time.time()
     ranked = rerank_results(results, strategy, recency_weight)
     return ranked, time.time() - rerank_started
@@ -136,6 +141,7 @@ def main() -> int:
             "score_plus_created_at_rank_close_margin",
             "benchmark_order",
             "qwen3_causal_lm",
+            "mlx_cross_encoder",
         ),
         default="score_plus_created_at_rank",
     )
@@ -148,6 +154,7 @@ def main() -> int:
         help="Use only the local Hugging Face cache for qwen3_causal_lm model loading.",
     )
     parser.add_argument("--qwen3-server-url", help="Warm local Qwen3 reranker service URL.")
+    parser.add_argument("--mlx-max-length", type=int, default=8192)
     parser.add_argument(
         "--qwen3-instruction",
         default="Retrieve memories that answer the query for a local Hermes agent.",
@@ -171,6 +178,7 @@ def main() -> int:
             args.qwen3_instruction,
             args.qwen3_local_files_only,
             args.qwen3_server_url,
+            args.mlx_max_length,
         )
     except (RuntimeError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
@@ -195,6 +203,8 @@ def main() -> int:
         output["qwen3_instruction"] = args.qwen3_instruction
         output["qwen3_local_files_only"] = args.qwen3_local_files_only
         output["qwen3_server_url"] = args.qwen3_server_url or ""
+    if args.strategy == "mlx_cross_encoder":
+        output["mlx_max_length"] = args.mlx_max_length
     if args.include_raw:
         output["raw_mem0_output"] = raw
     print(json.dumps(output, indent=2, ensure_ascii=False))

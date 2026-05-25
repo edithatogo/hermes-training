@@ -30,6 +30,7 @@ class HermesMem0ToolTests(unittest.TestCase):
             qwen3_max_length=4096,
             qwen3_local_files_only=False,
             qwen3_server_url=None,
+            mlx_max_length=1024,
             qwen3_instruction="Retrieve",
         )
 
@@ -39,6 +40,32 @@ class HermesMem0ToolTests(unittest.TestCase):
         self.assertEqual(read_args.mode, "close-margin")
         self.assertEqual(read_args.cache_ttl_s, 300.0)
         self.assertFalse(read_args.refresh_cache)
+
+    def test_build_read_args_defaults_mlx_bge_model_for_mlx_mode(self) -> None:
+        cli_args = argparse.Namespace(
+            tool="cmd",
+            mode="close-margin",
+            cache_path=None,
+            cache_ttl_s=300.0,
+            refresh_cache=False,
+            timeout_s=120.0,
+            recency_weight=0.2,
+            include_raw=False,
+            fallback_to_vector=False,
+            model="Qwen/Qwen3-Reranker-0.6B",
+            qwen3_device="auto",
+            qwen3_max_length=4096,
+            qwen3_local_files_only=False,
+            qwen3_server_url=None,
+            qwen3_instruction="Retrieve",
+            mlx_max_length=1024,
+        )
+
+        read_args = build_read_args(cli_args, {"query": "active collection", "mode": "mlx-bge"})
+
+        self.assertEqual(read_args.mode, "mlx-bge")
+        self.assertEqual(read_args.model, "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit")
+        self.assertEqual(read_args.mlx_max_length, 1024)
 
     def test_render_tool_result_filters_to_agent_contract(self) -> None:
         output = render_tool_result(

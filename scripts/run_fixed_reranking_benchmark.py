@@ -165,8 +165,7 @@ def mlx_cross_encoder_rerank(
     ranked: list[dict[str, Any]] = []
     for item in candidates:
         document = str(item.get("text") or item.get("memory") or "")
-        ids = tokenizer.encode(xlm_roberta_pair_text(query, document))
-        ids = ids[:max_length]
+        ids = tokenizer.encode(query, document, truncation=True, max_length=max_length)
         input_ids = mx.array([ids], dtype=mx.int32)
         attention_mask = mx.where(input_ids != pad_token_id, 1, 0)
         logits = model(input_ids, attention_mask=attention_mask)

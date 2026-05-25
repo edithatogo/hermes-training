@@ -21,14 +21,14 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 |---:|---|---|---|---|---|---|
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
-| 3 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
-| 4 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
-| 5 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
-| 6 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
-| 7 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 8 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
-| 9 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
+| 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | isolated-fixture-proven | mlx | daily-use-latency-probe | isolated fixture passed; keep opt-in read mode until broader daily-use latency proof |
+| 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
+| 5 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
+| 6 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
+| 7 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
+| 8 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
+| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
 | 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 12 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 | 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
@@ -63,6 +63,22 @@ source scripts/env.sh
   --base-url http://127.0.0.1:11434/v1 \
   --suite benchmarks/mem0_extraction/smoke_suite.json \
   --run-id extraction-sam860-lfm2-2-6b-$(date +%Y%m%d-%H%M%S)
+```
+
+### flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
+
+- Role: `reranker`
+- Status: `isolated-fixture-proven`
+- Blocker: isolated fixture passed; keep opt-in read mode until broader daily-use latency proof
+
+```bash
+source scripts/env.sh
+# Opt-in guarded read mode is available; run daily-use latency probes before any default integration.
+HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --mode mlx-bge \
+  --fallback-to-vector \
+  --cache-ttl-s 300
 ```
 
 ### mem0-created-at-rank-reranker
@@ -177,23 +193,6 @@ source scripts/env.sh
   --mlx-max-length 1024 \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
   --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-fp16-$(date +%Y%m%d-%H%M%S)
-```
-
-### flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
-
-- Role: `reranker`
-- Status: `candidate-runtime-id-verified`
-- Blocker: model repo verified; MLX load/scoring proof is ready before live mem0 integration
-
-```bash
-source scripts/env.sh
-# MLX BGE reranker repo ID is verified. Run a bounded Apple Silicon load/scoring proof first.
-./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
-  --strategy mlx_cross_encoder \
-  --model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit \
-  --mlx-max-length 1024 \
-  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### Qwen/Qwen3-Embedding-4B

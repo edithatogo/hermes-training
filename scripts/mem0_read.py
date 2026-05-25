@@ -19,6 +19,7 @@ except ModuleNotFoundError:
 
 DEFAULT_STRATEGY = "score_plus_created_at_rank_close_margin"
 DEFAULT_RECENCY_WEIGHT = 0.20
+DEFAULT_MLX_BGE_MODEL = "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit"
 MEM0_READ_CACHE_VERSION = 1
 
 
@@ -29,6 +30,8 @@ def select_strategy(mode: str) -> str:
         return DEFAULT_STRATEGY
     if mode == "qwen3":
         return "qwen3_causal_lm"
+    if mode == "mlx-bge":
+        return "mlx_cross_encoder"
     raise ValueError(f"unsupported mode {mode!r}")
 
 
@@ -172,9 +175,13 @@ def write_cache_entry(
 def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
     total_started = time.time()
     strategy = select_strategy(args.mode)
-    model = args.model if strategy == "qwen3_causal_lm" else ""
+    if strategy == "mlx_cross_encoder" and args.model == "Qwen/Qwen3-Reranker-0.6B":
+        model = DEFAULT_MLX_BGE_MODEL
+    else:
+        model = args.model if strategy in {"qwen3_causal_lm", "mlx_cross_encoder"} else ""
     cache_ttl_s = float(getattr(args, "cache_ttl_s", 0.0) or 0.0)
     cache_arg = getattr(args, "cache_path", None)
+    mlx_max_length = int(getattr(args, "mlx_max_length", 1024) or 1024)
     cache_path = Path(cache_arg) if cache_arg else resolve_default_cache_path()
     key = cache_key(args) if cache_ttl_s > 0 else ""
     cache = load_cache(cache_path) if cache_ttl_s > 0 else {"version": MEM0_READ_CACHE_VERSION, "entries": {}}
@@ -205,6 +212,7 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
             args.qwen3_instruction,
             args.qwen3_local_files_only,
             args.qwen3_server_url if strategy == "qwen3_causal_lm" else None,
+            mlx_max_length,
         )
     except (RuntimeError, ValueError) as exc:
         if not args.fallback_to_vector:
@@ -223,6 +231,7 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
             args.qwen3_instruction,
             args.qwen3_local_files_only,
             None,
+            mlx_max_length,
         )
     total_latency_s = time.time() - total_started
     output = build_output(
@@ -254,7 +263,7 @@ def main() -> int:
     parser.add_argument("--tool", default="cmd")
     parser.add_argument(
         "--mode",
-        choices=("close-margin", "vector", "qwen3"),
+        choices=("close-margin", "vector", "qwen3", "mlx-bge"),
         default="close-margin",
         help="Read mode. The default is the no-download close-margin reranker.",
     )
@@ -270,6 +279,7 @@ def main() -> int:
         help="Return vector ordering if the selected reranker fails.",
     )
     parser.add_argument("--model", default="Qwen/Qwen3-Reranker-0.6B")
+    parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--qwen3-device", default="auto")
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
     parser.add_argument("--qwen3-local-files-only", action="store_true")
