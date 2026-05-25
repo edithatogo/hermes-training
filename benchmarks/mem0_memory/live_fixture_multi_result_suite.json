@@ -1,0 +1,104 @@
+[
+  {
+    "id": "fixture-current-embedder",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "Fixture preference old: the preferred local embedding model is old-embed-1024.",
+      "Fixture preference current: the preferred local embedding model is nomic-embed-text because it is the current working baseline.",
+      "Fixture distractor: BGE-M3 is a side-by-side embedding candidate that uses a separate 1024 dimension collection."
+    ],
+    "query": "What is the preferred local embedding model?",
+    "expected": {
+      "must_retrieve_any": [
+        "nomic-embed-text"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "nomic-embed-text"
+    }
+  },
+  {
+    "id": "fixture-current-runtime",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "Fixture runtime old: the preferred local runtime for Hermes smoke tests is MLX server on port 8088.",
+      "Fixture runtime current: the preferred local runtime for daily Hermes smoke tests is Ollama on port 11434 when the model is already installed.",
+      "Fixture runtime distractor: LM Studio is a validated GGUF smoke path for local endpoint checks."
+    ],
+    "query": "What is the preferred local runtime for daily Hermes smoke tests?",
+    "expected": {
+      "must_retrieve_any": [
+        "Ollama on port 11434"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Ollama on port 11434"
+    }
+  },
+  {
+    "id": "fixture-large-export-path",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Fixture storage rule: large GGUF exports should stay under /Volumes/PortableSSD/hermes-exports.",
+      "Fixture storage distractor: short benchmark report markdown files can be committed to the git repository.",
+      "Fixture storage distractor: temporary benchmark outputs should stay under /Volumes/PortableSSD/hermes-evals."
+    ],
+    "query": "Where should large GGUF exports stay?",
+    "expected": {
+      "must_retrieve_any": [
+        "/Volumes/PortableSSD/hermes-exports"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "/Volumes/PortableSSD/hermes-exports"
+    }
+  },
+  {
+    "id": "fixture-json-toolcall-benchmark",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "Fixture benchmark fact: the mem0 reranking benchmark evaluates recency conflict handling.",
+      "Fixture benchmark fact: the Hermes strict tool-call benchmark evaluates JSON function-call formatting.",
+      "Fixture benchmark fact: the endpoint smoke benchmark checks whether OpenAI-compatible servers respond."
+    ],
+    "query": "Which benchmark evaluates JSON function-call formatting?",
+    "expected": {
+      "must_retrieve_any": [
+        "Hermes strict tool-call benchmark"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Hermes strict tool-call benchmark"
+    }
+  },
+  {
+    "id": "fixture-current-collection",
+    "category": "tool_state_recall",
+    "setup_memories": [
+      "Fixture collection old: the active mem0 Qdrant collection is mem0_legacy_1024.",
+      "Fixture collection current: the active mem0 Qdrant collection is mem0_nomic_768 with 768 dimensions.",
+      "Fixture collection candidate: the BGE-M3 candidate collection is mem0_bge_m3_1024 with 1024 dimensions."
+    ],
+    "query": "What is the active mem0 Qdrant collection?",
+    "expected": {
+      "must_retrieve_any": [
+        "mem0_nomic_768"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "mem0_nomic_768"
+    }
+  },
+  {
+    "id": "fixture-current-extractor",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Fixture extractor fact: sam860/LFM2:2.6b is the current rollback extractor for local mem0.",
+      "Fixture extractor distractor: hermes3:8b is an installed extraction baseline for comparison.",
+      "Fixture extractor distractor: Hermes 4 is a future teacher or baseline candidate."
+    ],
+    "query": "Which extractor is the current rollback extractor for local mem0?",
+    "expected": {
+      "must_retrieve_any": [
+        "sam860/LFM2:2.6b"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "sam860/LFM2:2.6b"
+    }
+  }
+]

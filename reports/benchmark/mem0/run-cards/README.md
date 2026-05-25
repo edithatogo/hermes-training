@@ -37,6 +37,9 @@ runtime endpoint against the current mem0 default.
 | [mem0-replay-close-margin-nomic-expanded-20260526](./mem0-replay-close-margin-nomic-expanded-20260526.md) | reranker replay | keep testing |
 | [mem0-replay-qwen3-06b-warm-bge-expanded-20260526](./mem0-replay-qwen3-06b-warm-bge-expanded-20260526.md) | reranker replay | keep testing |
 | [mem0-replay-qwen3-06b-warm-nomic-expanded-20260526](./mem0-replay-qwen3-06b-warm-nomic-expanded-20260526.md) | reranker replay | keep testing |
+| [mem0-live-fixture-qwen3-multiretrieval-rerank-20260526](./mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md) | isolated fixture reranker | keep testing |
+| [mem0-fixture-close-margin-recency-20260526](./mem0-fixture-close-margin-recency-20260526.md) | memory+rerank fixture | keep testing |
+| [mem0-fixture-qwen3-06b-recency-20260526](./mem0-fixture-qwen3-06b-recency-20260526.md) | memory+rerank fixture | keep testing |
 
 ## Generate
 

@@ -212,3 +212,13 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 Multi-Result Rerank Replay Harness
 *Link: [./tracks/mem0-multiretrieval-rerank-replay_20260526/](./tracks/mem0-multiretrieval-rerank-replay_20260526/)*
+
+---
+
+## [x] Track: mem0 Isolated Fixture Rerank Gate
+*Link: [./tracks/mem0-isolated-fixture-rerank_20260526/](./tracks/mem0-isolated-fixture-rerank_20260526/)*
+
+---
+
+## [x] Track: mem0 Isolated Fixture Rerank Proof
+*Link: [./tracks/mem0-isolated-fixture-rerank-proof_20260526/](./tracks/mem0-isolated-fixture-rerank-proof_20260526/)*

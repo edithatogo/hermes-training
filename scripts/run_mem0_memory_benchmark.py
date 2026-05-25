@@ -14,7 +14,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from mem0_rerank_lib import rerank_results
+try:
+    from mem0_rerank_lib import rerank_results
+    from mem0_rerank_search import rerank_search_results
+except ModuleNotFoundError:
+    from scripts.mem0_rerank_lib import rerank_results
+    from scripts.mem0_rerank_search import rerank_search_results
 
 
 VALID_CATEGORIES = {"direct_recall", "recency_conflict", "distractor_resistance", "tool_state_recall"}
@@ -159,6 +164,45 @@ def score_case(case: dict[str, Any], memories: list[str]) -> dict[str, Any]:
     }
 
 
+def score_reranked_case(
+    case: dict[str, Any],
+    search_result_objects: list[dict[str, Any]],
+    strategy: str,
+    recency_weight: float,
+    model: str | None,
+    qwen3_device: str,
+    qwen3_max_length: int,
+    qwen3_instruction: str,
+    qwen3_local_files_only: bool,
+    qwen3_server_url: str | None,
+) -> dict[str, Any]:
+    ranked, latency_s = rerank_search_results(
+        case["query"],
+        search_result_objects,
+        strategy,
+        recency_weight,
+        model,
+        qwen3_device,
+        qwen3_max_length,
+        qwen3_instruction,
+        qwen3_local_files_only,
+        qwen3_server_url,
+    )
+    reranked_memories = [str(item.get("memory") or "") for item in ranked]
+    rerank_scored = score_case(case, reranked_memories)
+    return {
+        "rerank_strategy": strategy,
+        "rerank_recency_weight": recency_weight,
+        "rerank_latency_s": round(latency_s, 6),
+        "reranked_results": reranked_memories,
+        "rerank_top_result": rerank_scored["top_result"],
+        "rerank_pass": rerank_scored["pass"],
+        "rerank_retrieved_expected": rerank_scored["retrieved_expected"],
+        "rerank_forbidden_hit": rerank_scored["forbidden_hit"],
+        "rerank_top_result_ok": rerank_scored["top_result_ok"],
+    }
+
+
 def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
     lines = [
         f"# mem0 Memory Benchmark: {summary['run_id']}",
@@ -184,10 +228,12 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
         lines.extend(
             [
                 f"| Rerank strategy | {summary['rerank_strategy']} |",
+                f"| Rerank model | {summary.get('rerank_model', '')} |",
                 f"| Rerank pass rate | {summary['rerank_pass_rate']:.3f} |",
                 f"| Rerank top-1 expected rate | {summary['rerank_top1_expected_rate']:.3f} |",
                 f"| Rerank recency conflict pass rate | {summary['rerank_recency_conflict_pass_rate']:.3f} |",
                 f"| Rerank distractor resistance pass rate | {summary['rerank_distractor_resistance_pass_rate']:.3f} |",
+                f"| Rerank latency p50 | {summary.get('rerank_latency_p50_s', 0.0):.3f}s |",
             ]
         )
     lines.extend(
@@ -237,8 +283,21 @@ def main() -> int:
     parser.add_argument("--keep-memories", action="store_true")
     parser.add_argument(
         "--rerank-strategy",
-        choices=("vector", "score_plus_recency", "score_plus_created_at_rank", "benchmark_order"),
+        choices=(
+            "vector",
+            "score_plus_recency",
+            "score_plus_created_at_rank",
+            "score_plus_created_at_rank_close_margin",
+            "benchmark_order",
+            "qwen3_causal_lm",
+        ),
     )
+    parser.add_argument("--rerank-model")
+    parser.add_argument("--qwen3-device", default="auto")
+    parser.add_argument("--qwen3-max-length", type=int, default=4096)
+    parser.add_argument("--qwen3-instruction", default="Retrieve relevant memory")
+    parser.add_argument("--qwen3-local-files-only", action="store_true")
+    parser.add_argument("--qwen3-server-url")
     parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -268,6 +327,7 @@ def main() -> int:
     raw_rows: list[dict[str, Any]] = []
     add_latencies: list[float] = []
     search_latencies: list[float] = []
+    rerank_latencies: list[float] = []
     added_ids: list[str] = []
     cleanup_successes = 0
 
@@ -302,21 +362,20 @@ def main() -> int:
                 **scored,
             }
             if args.rerank_strategy:
-                reranked = rerank_results(search_result_objects, args.rerank_strategy, args.recency_weight)
-                reranked_memories = [str(item.get("memory") or "") for item in reranked]
-                rerank_scored = score_case(case, reranked_memories)
-                row.update(
-                    {
-                        "rerank_strategy": args.rerank_strategy,
-                        "rerank_recency_weight": args.recency_weight,
-                        "reranked_results": reranked_memories,
-                        "rerank_top_result": rerank_scored["top_result"],
-                        "rerank_pass": rerank_scored["pass"],
-                        "rerank_retrieved_expected": rerank_scored["retrieved_expected"],
-                        "rerank_forbidden_hit": rerank_scored["forbidden_hit"],
-                        "rerank_top_result_ok": rerank_scored["top_result_ok"],
-                    }
+                rerank_row = score_reranked_case(
+                    case,
+                    search_result_objects,
+                    args.rerank_strategy,
+                    args.recency_weight,
+                    args.rerank_model,
+                    args.qwen3_device,
+                    args.qwen3_max_length,
+                    args.qwen3_instruction,
+                    args.qwen3_local_files_only,
+                    args.qwen3_server_url,
                 )
+                rerank_latencies.append(float(rerank_row["rerank_latency_s"]))
+                row.update(rerank_row)
             rows.append(row)
     finally:
         if not args.keep_memories:
@@ -362,7 +421,13 @@ def main() -> int:
         summary.update(
             {
                 "rerank_strategy": args.rerank_strategy,
+                "rerank_model": args.rerank_model or "",
                 "rerank_recency_weight": args.recency_weight,
+                "qwen3_device": args.qwen3_device if args.rerank_strategy == "qwen3_causal_lm" else "",
+                "qwen3_max_length": args.qwen3_max_length if args.rerank_strategy == "qwen3_causal_lm" else "",
+                "qwen3_instruction": args.qwen3_instruction if args.rerank_strategy == "qwen3_causal_lm" else "",
+                "qwen3_local_files_only": args.qwen3_local_files_only if args.rerank_strategy == "qwen3_causal_lm" else "",
+                "qwen3_server_url": args.qwen3_server_url or "",
                 "rerank_passed": rerank_passed,
                 "rerank_pass_rate": rerank_passed / max(1, cases),
                 "rerank_top1_expected_rate": rerank_top1 / max(1, cases),
@@ -372,6 +437,9 @@ def main() -> int:
                     1 for row in distractor_rows if row.get("rerank_pass")
                 )
                 / max(1, len(distractor_rows)),
+                "rerank_latency_mean_s": statistics.fmean(rerank_latencies) if rerank_latencies else 0.0,
+                "rerank_latency_p50_s": percentile(rerank_latencies, 0.50),
+                "rerank_latency_p95_s": percentile(rerank_latencies, 0.95),
             }
         )
 

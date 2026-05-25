@@ -302,6 +302,31 @@ Current replay comparison:
 | BGE-derived expanded | 1.000 | 1.000 | 0.281s |
 | Nomic-derived expanded | 0.917 | 1.000 | 0.250s |
 
+Run the isolated fixture add/search comparison without touching
+`~/.mem0/config.json` or `mem0_nomic_768`:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_isolated_fixture_rerank.py \
+  --suite benchmarks/mem0_memory/live_fixture_multi_result_suite.json \
+  --run-id mem0-live-fixture-qwen3-multiretrieval-rerank-$(date +%Y%m%d-%H%M%S) \
+  --qwen3-local-files-only \
+  --qwen3-server-url http://127.0.0.1:8765 \
+  --keep-fixture
+```
+
+Current isolated fixture comparison:
+
+| Strategy | Pass | Top-1 | Recall@3 | Recency conflict | Distractor resistance | p50 rerank |
+|---|---:|---:|---:|---:|---:|---:|
+| `vector` | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.000s |
+| `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000s |
+| `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` warm service | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.491s |
+
+The fixture returned 3-5 candidates per query from an output-local Qdrant
+store. Qwen3 remains a candidate, but this live fixture promotes the
+close-margin wrapper as the next low-risk integration target.
+
 Run an Ollama memory-extraction smoke test:
 
 ```bash

@@ -19,8 +19,12 @@
 | memory | mem0-current-nomic-recency-20260524 | cmd | 0.400 |  | 0.400 | 1.000 |  | 2.890 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-20260524` |
 | memory | mem0-current-nomic-smoke-20260524 | cmd | 0.667 |  | 0.667 | 1.000 |  | 3.388 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-smoke-20260524` |
 | memory+rerank | mem0-current-nomic-recency-reranked-20260524 | cmd | 0.400 | 1.000 | 0.400 | 1.000 |  | 3.872 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524` |
+| memory+rerank | mem0-fixture-close-margin-recency-20260526 | hermes_fixture | 0.400 | 1.000 | 0.400 | 1.000 |  | 2.862 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-fixture-close-margin-recency-20260526` |
+| memory+rerank | mem0-fixture-qwen3-06b-recency-20260526 | hermes_fixture | 0.400 | 1.000 | 0.400 | 1.000 |  | 2.867 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-fixture-qwen3-06b-recency-20260526` |
+| memory+rerank | mem0-isolated-fixture-rerank-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B | 0.400 | 1.000 | 1.000 | 1.000 |  | 0.495 | `reports/benchmark/mem0/mem0-isolated-fixture-rerank-comparison-20260526.md` |
 | memory+rerank | live-multiretrieval-readiness-20260526 | cmd |  |  |  |  |  |  | `reports/benchmark/mem0/live-multiretrieval-readiness-20260526.md` |
 | memory+rerank | mem0-rerank-replay-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  | 1.000 | 1.000 |  | 0.250 | `reports/benchmark/mem0/mem0-rerank-replay-comparison-20260526.md` |
+| memory+rerank | mem0-live-fixture-qwen3-multiretrieval-rerank-20260526 | isolated fixture / Qwen/Qwen3-Reranker-0.6B | 0.667 | 1.000 | 0.667 | 1.000 |  | 2.886 | `reports/benchmark/mem0/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md` |
 | memory+rerank | qwen3-0-6b-live-rerank-smoke-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  |  |  |  | 12.093 | `reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md` |
 | memory+rerank | qwen3-0-6b-warm-service-rerank-smoke-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  |  |  |  | 4.112 | `reports/benchmark/mem0/qwen3-0-6b-warm-service-rerank-smoke-20260526.md` |
 | reranking | bge-m3-expanded-close-margin-rerank-20260526 | score_plus_created_at_rank_close_margin | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/bge-m3-expanded-close-margin-rerank-20260526` |

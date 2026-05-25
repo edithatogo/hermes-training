@@ -224,6 +224,29 @@ heuristic also reached `1.000` on fixed and BGE-derived replay, but stayed at
 `0.917` on nomic-derived replay. Evidence is recorded in
 `reports/benchmark/mem0/mem0-rerank-replay-comparison-20260526.md`.
 
+Isolated live fixture:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_isolated_fixture_rerank.py \
+  --suite benchmarks/mem0_memory/live_fixture_multi_result_suite.json \
+  --run-id mem0-live-fixture-qwen3-multiretrieval-rerank-20260526 \
+  --qwen3-local-files-only \
+  --qwen3-server-url http://127.0.0.1:8765 \
+  --keep-fixture
+```
+
+This writes a temporary config under the benchmark output directory and sets
+`MEM0_CONFIG_PATH` for subprocesses. It does not edit `~/.mem0/config.json` or
+write to the default `mem0_nomic_768` collection.
+
+2026-05-26 live fixture result: every query returned 3-5 candidates. Vector
+top-1 was `0.667`, close-margin top-1 was `1.000`, and warm Qwen3 top-1 was
+`0.667`. The next integration target is therefore the close-margin wrapper;
+Qwen3 needs prompt or metadata work before another live recency gate. Evidence
+is recorded in
+`reports/benchmark/mem0/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md`.
+
 Optional reranker dependencies are intentionally separate from the base repo
 environment:
 

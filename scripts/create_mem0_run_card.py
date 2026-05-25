@@ -18,6 +18,8 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def infer_kind(path: Path, summary: dict[str, Any]) -> str:
     text = str(path)
+    if "mem0-isolated-fixture-rerank" in text:
+        return "isolated-fixture-rerank"
     if "mem0-reranking-replay" in text:
         return "reranking-replay"
     if "mem0-reranking-benchmark" in text:
@@ -86,22 +88,31 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --base-url {summary['base_url']} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
-    if kind in {"reranking", "reranking-replay"}:
-        script = "scripts/run_mem0_rerank_replay.py" if kind == "reranking-replay" else "scripts/run_fixed_reranking_benchmark.py"
+    if kind in {"reranking", "reranking-replay", "isolated-fixture-rerank"}:
+        script = {
+            "reranking": "scripts/run_fixed_reranking_benchmark.py",
+            "reranking-replay": "scripts/run_mem0_rerank_replay.py",
+            "isolated-fixture-rerank": "scripts/run_mem0_isolated_fixture_rerank.py",
+        }[kind]
         lines = [
             f"./.venv/bin/python {script} \\",
-            f"  --strategy {summary.get('strategy', '<strategy>')} \\",
         ]
+        if kind != "isolated-fixture-rerank":
+            lines.append(f"  --strategy {summary.get('strategy', '<strategy>')} \\")
         if summary.get("model"):
-            lines.append(f"  --model {summary['model']} \\")
-        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_device"):
+            model_arg = "--qwen3-model" if kind == "isolated-fixture-rerank" else "--model"
+            lines.append(f"  {model_arg} {summary['model']} \\")
+        strategy = str(summary.get("strategy") or "")
+        if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_device"):
             lines.append(f"  --qwen3-device {summary['qwen3_device']} \\")
-        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_max_length"):
+        if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_max_length"):
             lines.append(f"  --qwen3-max-length {summary['qwen3_max_length']} \\")
-        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_local_files_only"):
+        if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_local_files_only"):
             lines.append("  --qwen3-local-files-only \\")
-        if summary.get("strategy") == "qwen3_causal_lm" and summary.get("qwen3_server_url"):
+        if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_server_url"):
             lines.append(f"  --qwen3-server-url {summary['qwen3_server_url']} \\")
+        if kind == "isolated-fixture-rerank" and summary.get("kept_fixture"):
+            lines.append("  --keep-fixture \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     lines = [
@@ -110,6 +121,14 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         f"  --suite {suite} \\",
     ]
     if summary.get("rerank_strategy"):
+        if summary.get("rerank_strategy") == "qwen3_causal_lm" and summary.get("rerank_model"):
+            lines.append(f"  --rerank-model {summary['rerank_model']} \\")
+        if summary.get("rerank_strategy") == "qwen3_causal_lm" and summary.get("qwen3_device"):
+            lines.append(f"  --qwen3-device {summary['qwen3_device']} \\")
+        if summary.get("rerank_strategy") == "qwen3_causal_lm" and summary.get("qwen3_local_files_only"):
+            lines.append("  --qwen3-local-files-only \\")
+        if summary.get("rerank_strategy") == "qwen3_causal_lm" and summary.get("qwen3_server_url"):
+            lines.append(f"  --qwen3-server-url {summary['qwen3_server_url']} \\")
         lines.extend(
             [
                 f"  --rerank-strategy {summary['rerank_strategy']} \\",
@@ -161,6 +180,16 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
             "keep testing",
             "The replay suite did not reach the strict 1.000 top-1 gate and should remain a comparison baseline.",
         )
+    if kind == "isolated-fixture-rerank":
+        if summary.get("top1_accuracy") == 1.0 and summary.get("input_count_min", 0) >= 3:
+            return (
+                "keep testing",
+                "The isolated fixture passed the live add/search multi-result gate without touching defaults; require a deliberate default-integration plan before promotion.",
+            )
+        return (
+            "keep testing",
+            "The isolated fixture did not prove strict multi-result top-1 behavior and should remain a comparison baseline.",
+        )
     if kind == "reranking":
         if summary.get("top1_accuracy") == 1.0:
             return (
@@ -186,9 +215,10 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         "memory+rerank": "memory+rerank",
         "reranking": "reranker",
         "reranking-replay": "reranker",
+        "isolated-fixture-rerank": "reranker",
     }.get(kind, kind)
     endpoint = summary.get("base_url", "")
-    runtime = summary.get("endpoint_kind") or summary.get("tool") or summary.get("strategy") or ("openai-compatible" if endpoint else "")
+    runtime = summary.get("endpoint_kind") or summary.get("strategy") or summary.get("tool") or ("openai-compatible" if endpoint else "")
     output_dir = summary.get("output_dir", "")
     command = "\n".join(command_for_kind(kind, summary))
     decision, reason = decision_for(kind, summary)
@@ -208,7 +238,7 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         f"| Model/tool | `{model}` |" if model else "| Model/tool | |",
         f"| Runtime | {runtime} |",
         f"| Endpoint | `{endpoint}` |" if endpoint else "| Endpoint | |",
-        "| Collection or index | |",
+        f"| Collection or index | `{summary.get('collection_name', '')}` |" if summary.get("collection_name") else "| Collection or index | |",
         f"| Embedding dims | {metric(summary, 'embedding_dims')} |",
         "| Distance metric | cosine / configured vector-store metric |",
         f"| Output | `{output_dir}` |" if output_dir else "| Output | |",
