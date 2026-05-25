@@ -115,7 +115,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Runtime proof completion
+## [~] Track: Runtime proof completion
 *Link: [./tracks/runtime-proof-completion_20260524/](./tracks/runtime-proof-completion_20260524/)*
 
 ---

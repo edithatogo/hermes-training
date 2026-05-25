@@ -125,7 +125,8 @@
     - [x] Run any syntax checks touched by the track.
     - [x] Update this plan with completed statuses and remaining blockers.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Documentation, Registry, And Closeout' (Protocol in workflow.md)
-    - [ ] Final closeout now requires validation after documentation updates and recording the active LFM2-24B follow-up acquisition.
+    - [x] Validation after documentation updates and active LFM2-24B follow-up acquisition record passed on 2026-05-25: `git diff --check`, `python3 -m unittest discover -s tests`, and `./.venv/bin/python scripts/validate_readiness.py`.
+    - [ ] Final closeout remains open until the active LFM2-24B follow-up acquisition reaches exact-size proof or is explicitly deferred in the runtime queue.
 
 ## Health Check
 
