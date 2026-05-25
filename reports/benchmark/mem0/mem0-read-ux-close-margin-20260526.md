@@ -15,7 +15,7 @@ source scripts/env.sh
   --mode close-margin \
   --iterations 1 \
   --run-id mem0-read-ux-close-margin-20260526 \
-  --timeout-s 180
+  --timeout-s 120
 ```
 
 ## Result
@@ -33,11 +33,11 @@ Output:
 | Singleton count | 5 |
 | Multi-result count | 0 |
 | Empty count | 0 |
-| Total latency p50 | 4.926s |
-| Total latency p95 | 4.940s |
-| Total latency mean | 4.517s |
-| mem0 search latency p50 | 4.926s |
-| mem0 search latency p95 | 4.940s |
+| Total latency p50 | 2.897s |
+| Total latency p95 | 3.729s |
+| Total latency mean | 3.094s |
+| mem0 search latency p50 | 2.897s |
+| mem0 search latency p95 | 3.729s |
 | Rerank latency p50 | 0.000s |
 
 ## Decision

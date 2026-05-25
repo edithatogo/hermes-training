@@ -23,6 +23,6 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.7 / 10
 - Evidence: live close-margin probe completed 5/5 read-only calls with p50
-  `4.926s`, p95 `4.940s`, no fallbacks, and singleton-only live-store results.
+  `2.897s`, p95 `3.729s`, no fallbacks, and singleton-only live-store results.
 - Gaps: runtime integration remains a separate decision; this track provides
   the latency evidence and guardrail.

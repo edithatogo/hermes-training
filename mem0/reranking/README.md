@@ -155,6 +155,21 @@ local service, add `--mode qwen3 --qwen3-local-files-only --qwen3-server-url
 http://127.0.0.1:8765 --fallback-to-vector`. Do not make Qwen3 the default
 until the recency fixture miss is fixed.
 
+For repeated agent reads, add an explicit cache TTL:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --mode close-margin \
+  --cache-ttl-s 300
+```
+
+This cache skips repeated `mem0 cmd search` calls for the same query/config
+fingerprint but still reranks locally. Leave it disabled for freshness-sensitive
+checks or use `--refresh-cache` when validating a newly changed memory store.
+
 Agent UX latency probe:
 
 ```bash

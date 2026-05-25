@@ -251,6 +251,22 @@ a rollback/comparison path. Use `--mode qwen3 --fallback-to-vector` only for
 explicit learned-reranker experiments until Qwen3 passes a recency-aware live
 fixture.
 
+For repeated agent calls, enable the wrapper cache explicitly instead of making
+memory reads an automatic every-turn prelude:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/mem0_read.py \
+  "What is the active mem0 Qdrant collection?" \
+  --tool cmd \
+  --mode close-margin \
+  --cache-ttl-s 300
+```
+
+The cache stores raw mem0 search output under `/Volumes/PortableSSD/hermes-cache`
+by default, keys entries by query plus mem0 config fingerprint, and still reranks
+the cached candidates locally on each read.
+
 Run repeated agent-style read latency probes before wiring the wrapper into a
 Hermes runtime:
 

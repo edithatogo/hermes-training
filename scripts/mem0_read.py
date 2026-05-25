@@ -3,19 +3,23 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import sys
 import time
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 try:
-    from mem0_rerank_search import rerank_search_results, run_mem0_search
+    from mem0_rerank_search import cli_safe_text, rerank_search_results, run_mem0_search
 except ModuleNotFoundError:
-    from scripts.mem0_rerank_search import rerank_search_results, run_mem0_search
+    from scripts.mem0_rerank_search import cli_safe_text, rerank_search_results, run_mem0_search
 
 DEFAULT_STRATEGY = "score_plus_created_at_rank_close_margin"
 DEFAULT_RECENCY_WEIGHT = 0.20
+MEM0_READ_CACHE_VERSION = 1
 
 
 def select_strategy(mode: str) -> str:
@@ -42,6 +46,9 @@ def build_output(
     model: str,
     fallback_reason: str = "",
     raw: str = "",
+    mem0_cache_hit: bool = False,
+    mem0_cache_age_s: float = 0.0,
+    source_mem0_search_latency_s: float = 0.0,
 ) -> dict[str, Any]:
     output = {
         "created_at": datetime.now(UTC).isoformat(),
@@ -58,18 +65,133 @@ def build_output(
         "rerank_latency_s": round(rerank_latency_s, 3),
         "total_latency_s": round(total_latency_s, 3),
         "fallback_reason": fallback_reason,
+        "mem0_cache_hit": mem0_cache_hit,
+        "mem0_cache_age_s": round(mem0_cache_age_s, 3),
         "results": ranked,
     }
+    if source_mem0_search_latency_s:
+        output["source_mem0_search_latency_s"] = round(source_mem0_search_latency_s, 3)
     if raw:
         output["raw_mem0_output"] = raw
     return output
 
 
+def resolve_default_cache_path() -> Path:
+    env_cache_path = os.environ.get("HERMES_MEM0_READ_CACHE_PATH")
+    if env_cache_path:
+        return Path(env_cache_path)
+    storage_root = os.environ.get("HERMES_STORAGE_ROOT")
+    if storage_root:
+        return Path(storage_root) / "hermes-cache" / "mem0-read-cache.json"
+    if Path("/Volumes/PortableSSD").exists():
+        return Path("/Volumes/PortableSSD") / "hermes-cache" / "mem0-read-cache.json"
+    return Path.cwd() / ".local-storage" / "hermes-cache" / "mem0-read-cache.json"
+
+
+def config_fingerprint(path: Path | None = None) -> str:
+    config_path = path or Path.home() / ".mem0" / "config.json"
+    try:
+        content = config_path.read_bytes()
+    except FileNotFoundError:
+        return "missing"
+    return hashlib.sha256(content).hexdigest()
+
+
+def cache_key(args: argparse.Namespace) -> str:
+    payload = {
+        "version": MEM0_READ_CACHE_VERSION,
+        "tool": args.tool,
+        "query": args.query,
+        "cli_safe_query": cli_safe_text(args.query),
+        "command": ["mem0", args.tool, "search", cli_safe_text(args.query)],
+        "mem0_config_fingerprint": config_fingerprint(),
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def load_cache(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"version": MEM0_READ_CACHE_VERSION, "entries": {}}
+    if not isinstance(payload, dict) or payload.get("version") != MEM0_READ_CACHE_VERSION:
+        return {"version": MEM0_READ_CACHE_VERSION, "entries": {}}
+    entries = payload.get("entries")
+    if not isinstance(entries, dict):
+        payload["entries"] = {}
+    return payload
+
+
+def save_cache(path: Path, cache: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
+    tmp_path.write_text(json.dumps(cache, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    tmp_path.replace(path)
+
+
+def cached_search(cache: dict[str, Any], key: str, ttl_s: float) -> tuple[list[dict[str, Any]], str, float, float] | None:
+    if ttl_s <= 0:
+        return None
+    entry = cache.get("entries", {}).get(key)
+    if not isinstance(entry, dict):
+        return None
+    cached_at = float(entry.get("cached_at", 0.0) or 0.0)
+    age_s = time.time() - cached_at
+    if age_s < 0 or age_s > ttl_s:
+        return None
+    results = entry.get("results")
+    raw = entry.get("raw")
+    source_latency_s = float(entry.get("source_mem0_search_latency_s", 0.0) or 0.0)
+    if not isinstance(results, list) or not isinstance(raw, str):
+        return None
+    return results, raw, age_s, source_latency_s
+
+
+def write_cache_entry(
+    cache: dict[str, Any],
+    key: str,
+    results: list[dict[str, Any]],
+    raw: str,
+    source_mem0_search_latency_s: float,
+) -> dict[str, Any]:
+    cache.setdefault("version", MEM0_READ_CACHE_VERSION)
+    entries = cache.setdefault("entries", {})
+    if not isinstance(entries, dict):
+        entries = {}
+        cache["entries"] = entries
+    entries[key] = {
+        "cached_at": time.time(),
+        "results": results,
+        "raw": raw,
+        "source_mem0_search_latency_s": source_mem0_search_latency_s,
+    }
+    return cache
+
+
 def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
     total_started = time.time()
     strategy = select_strategy(args.mode)
-    results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s)
     model = args.model if strategy == "qwen3_causal_lm" else ""
+    cache_ttl_s = float(getattr(args, "cache_ttl_s", 0.0) or 0.0)
+    cache_arg = getattr(args, "cache_path", None)
+    cache_path = Path(cache_arg) if cache_arg else resolve_default_cache_path()
+    key = cache_key(args) if cache_ttl_s > 0 else ""
+    cache = load_cache(cache_path) if cache_ttl_s > 0 else {"version": MEM0_READ_CACHE_VERSION, "entries": {}}
+    mem0_cache_hit = False
+    mem0_cache_age_s = 0.0
+    source_mem0_search_latency_s = 0.0
+    refresh_cache = bool(getattr(args, "refresh_cache", False))
+    hit = None if refresh_cache else cached_search(cache, key, cache_ttl_s)
+    if hit is None:
+        results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s)
+        if cache_ttl_s > 0:
+            write_cache_entry(cache, key, results, raw, search_latency_s)
+            save_cache(cache_path, cache)
+    else:
+        results, raw, mem0_cache_age_s, source_mem0_search_latency_s = hit
+        search_latency_s = 0.0
+        mem0_cache_hit = True
     fallback_reason = ""
     try:
         ranked, rerank_latency_s = rerank_search_results(
@@ -103,7 +225,7 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
             None,
         )
     total_latency_s = time.time() - total_started
-    return build_output(
+    output = build_output(
         args.query,
         args.tool,
         args.mode,
@@ -117,7 +239,13 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
         model,
         fallback_reason,
         raw if args.include_raw else "",
+        mem0_cache_hit,
+        mem0_cache_age_s,
+        source_mem0_search_latency_s,
     )
+    if cache_ttl_s > 0:
+        output["cache_path"] = str(cache_path)
+    return output
 
 
 def main() -> int:
@@ -133,6 +261,9 @@ def main() -> int:
     parser.add_argument("--recency-weight", type=float, default=DEFAULT_RECENCY_WEIGHT)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--include-raw", action="store_true")
+    parser.add_argument("--cache-path", type=Path, help="Optional JSON cache path for repeated read-only calls.")
+    parser.add_argument("--cache-ttl-s", type=float, default=0.0, help="Enable cache hits for this many seconds. Default disables caching.")
+    parser.add_argument("--refresh-cache", action="store_true", help="Bypass any existing cache entry and refresh it.")
     parser.add_argument(
         "--fallback-to-vector",
         action="store_true",

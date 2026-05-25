@@ -43,6 +43,7 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
                 "mem0_search_latency_s": 2.0,
                 "rerank_latency_s": 0.0,
                 "fallback_reason": "",
+                "mem0_cache_hit": False,
             },
             {
                 "query": "b",
@@ -52,6 +53,7 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
                 "mem0_search_latency_s": 3.9,
                 "rerank_latency_s": 0.1,
                 "fallback_reason": "fallback",
+                "mem0_cache_hit": True,
             },
             {
                 "query": "c",
@@ -61,6 +63,7 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
                 "mem0_search_latency_s": 1.0,
                 "rerank_latency_s": 0.0,
                 "fallback_reason": "",
+                "mem0_cache_hit": False,
             },
         ]
 
@@ -71,7 +74,10 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
         self.assertEqual(summary["multi_result_count"], 1)
         self.assertEqual(summary["empty_count"], 1)
         self.assertEqual(summary["fallback_count"], 1)
+        self.assertEqual(summary["mem0_cache_hit_count"], 1)
         self.assertEqual(summary["total_latency_p50_s"], 2.0)
+        self.assertEqual(summary["scenario_summaries"]["cold"]["count"], 2)
+        self.assertEqual(summary["scenario_summaries"]["cache_hit"]["count"], 1)
 
     def test_build_read_args_preserves_guarded_options(self) -> None:
         args = argparse.Namespace(
@@ -87,6 +93,9 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
             qwen3_server_url="http://127.0.0.1:8765",
             fallback_to_vector=True,
             include_raw=False,
+            cache_path=Path("/tmp/cache.json"),
+            cache_ttl_s=60.0,
+            refresh_cache=True,
         )
 
         read_args = build_read_args(args, "query")
@@ -95,6 +104,9 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
         self.assertEqual(read_args.mode, "qwen3")
         self.assertTrue(read_args.fallback_to_vector)
         self.assertEqual(read_args.qwen3_server_url, "http://127.0.0.1:8765")
+        self.assertEqual(read_args.cache_path, Path("/tmp/cache.json"))
+        self.assertEqual(read_args.cache_ttl_s, 60.0)
+        self.assertTrue(read_args.refresh_cache)
 
     def test_main_writes_summary_with_mocked_reads(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -116,6 +128,7 @@ class RunMem0ReadLatencyProbeTests(unittest.TestCase):
                 "mem0_search_latency_s": 2.0,
                 "rerank_latency_s": 0.0,
                 "fallback_reason": "",
+                "mem0_cache_hit": False,
             }
             with (
                 patch("sys.argv", argv),

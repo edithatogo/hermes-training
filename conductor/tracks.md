@@ -232,3 +232,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 Read UX Latency Probe
 *Link: [./tracks/mem0-read-ux-latency-probe_20260526/](./tracks/mem0-read-ux-latency-probe_20260526/)*
+
+---
+
+## [x] Track: mem0 Cached Read Path Benchmark
+*Link: [./tracks/mem0-cached-read-path_20260526/](./tracks/mem0-cached-read-path_20260526/)*
