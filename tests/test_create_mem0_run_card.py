@@ -101,6 +101,23 @@ class CreateMem0RunCardTests(unittest.TestCase):
         self.assertEqual(decision, "keep testing")
         self.assertIn("live add/search multi-result gate", reason)
 
+    def test_isolated_fixture_mlx_command_uses_mlx_flags(self) -> None:
+        summary = {
+            "run_id": "fixture",
+            "strategy": "mlx_cross_encoder:flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "model": "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "suite": "suite.json",
+            "mlx_max_length": 1024,
+            "kept_fixture": True,
+        }
+
+        command = "\n".join(command_for_kind("isolated-fixture-rerank", summary))
+
+        self.assertIn("--mlx-model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit", command)
+        self.assertIn("--mlx-max-length 1024", command)
+        self.assertIn("--keep-fixture", command)
+        self.assertNotIn("--qwen3-model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit", command)
+
 
 if __name__ == "__main__":
     unittest.main()

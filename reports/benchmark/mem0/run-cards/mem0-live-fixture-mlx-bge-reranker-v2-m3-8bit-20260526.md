@@ -22,7 +22,8 @@ Summary: `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-li
 ```bash
 source scripts/env.sh
 ./.venv/bin/python scripts/run_mem0_isolated_fixture_rerank.py \
-  --qwen3-model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit \
+  --mlx-model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit \
+  --mlx-max-length 1024 \
   --keep-fixture \
   --suite benchmarks/mem0_memory/recency_suite.json \
   --run-id mem0-live-fixture-mlx-bge-reranker-v2-m3-8bit-20260526

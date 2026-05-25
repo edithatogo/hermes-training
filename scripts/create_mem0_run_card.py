@@ -99,10 +99,15 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         ]
         if kind != "isolated-fixture-rerank":
             lines.append(f"  --strategy {summary.get('strategy', '<strategy>')} \\")
-        if summary.get("model"):
-            model_arg = "--qwen3-model" if kind == "isolated-fixture-rerank" else "--model"
-            lines.append(f"  {model_arg} {summary['model']} \\")
         strategy = str(summary.get("strategy") or "")
+        if summary.get("model"):
+            if kind == "isolated-fixture-rerank" and strategy.startswith("mlx_cross_encoder"):
+                model_arg = "--mlx-model"
+            elif kind == "isolated-fixture-rerank":
+                model_arg = "--qwen3-model"
+            else:
+                model_arg = "--model"
+            lines.append(f"  {model_arg} {summary['model']} \\")
         if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_device"):
             lines.append(f"  --qwen3-device {summary['qwen3_device']} \\")
         if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_max_length"):
@@ -111,7 +116,7 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append("  --qwen3-local-files-only \\")
         if strategy.startswith("qwen3_causal_lm") and summary.get("qwen3_server_url"):
             lines.append(f"  --qwen3-server-url {summary['qwen3_server_url']} \\")
-        if strategy == "mlx_cross_encoder" and summary.get("mlx_max_length"):
+        if strategy.startswith("mlx_cross_encoder") and summary.get("mlx_max_length"):
             lines.append(f"  --mlx-max-length {summary['mlx_max_length']} \\")
         if kind == "isolated-fixture-rerank" and summary.get("kept_fixture"):
             lines.append("  --keep-fixture \\")
