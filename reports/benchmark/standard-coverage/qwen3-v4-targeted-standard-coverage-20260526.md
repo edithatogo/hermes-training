@@ -17,6 +17,7 @@ Public release blocked: `true`
 | `publication-bundle` | release-gate | `blocked` | local quality gates checked; public release gates remain blocked | reports/publication/qwen3-4b-strict-toolcall-v4-targeted/publish-readiness-checklist.md | public Hugging Face release |
 | `official-bfcl` | official-candidate | `missing` |  | none | broad tool-calling benchmark claim |
 | `lm-eval-selected` | official-candidate | `blocked` |  | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md | general benchmark claim |
+| `mlx-direct-loglikelihood-smoke` | diagnostic | `present` | 2-case mock schema smoke | reports/benchmark/lm-eval/mlx-loglikelihood-direct-smoke-20260526.md | future lm-eval adapter work |
 | `official-coding` | official-candidate | `missing` |  | none | coding benchmark claim |
 | `safety-refusal` | official-candidate | `missing` |  | none | safety/refusal claim |
 | `ruler-long-context` | official-candidate | `missing` |  | none | long-context claim |

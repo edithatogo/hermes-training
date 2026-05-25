@@ -23,6 +23,7 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         self.assertNotIn("lm-eval-selected", summary["official_candidate_missing"])
         statuses = {item["suite"]: item["status"] for item in summary["items"]}
         self.assertEqual(statuses["lm-eval-selected"], "blocked")
+        self.assertEqual(statuses["mlx-direct-loglikelihood-smoke"], "present")
         metrics = {item["suite"]: item["metric"] for item in summary["items"]}
         self.assertEqual(metrics["local-bfcl-style-pilot"], "BFCL-style pilot 0.667")
         self.assertEqual(metrics["official-ifeval-pilot"], "prompt strict 0.760")
@@ -32,6 +33,7 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         markdown = render_markdown(summary)
 
         self.assertIn("official-bfcl", markdown)
+        self.assertIn("mlx-direct-loglikelihood-smoke", markdown)
         self.assertIn("pilot-only", markdown)
         self.assertIn("local-heldout-strict-tool-call", markdown)
 

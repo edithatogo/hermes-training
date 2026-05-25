@@ -68,9 +68,11 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertEqual(queue_priority(candidate)[0], 1)
         self.assertEqual(
             blocker_for(candidate),
-            "isolated fixture passed; keep opt-in read mode until broader daily-use latency proof",
+            "first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof",
         )
+        self.assertIn("run_mem0_read_latency_probe.py", command_for(candidate))
         self.assertIn("--mode mlx-bge", command_for(candidate))
+        self.assertIn("--subprocess-read", command_for(candidate))
 
 
 if __name__ == "__main__":

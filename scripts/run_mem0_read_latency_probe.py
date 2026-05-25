@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
+import signal
 import statistics
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -25,6 +28,29 @@ DEFAULT_QUERIES = [
     "What should be used as the rollback path for mem0 reads?",
     "Which reranker is safest for live recency-sensitive mem0 reads?",
 ]
+
+
+class ReadWallTimeout(RuntimeError):
+    """Raised when one guarded read exceeds the outer probe wall clock."""
+
+
+@contextlib.contextmanager
+def read_wall_timeout(seconds: float):
+    if seconds <= 0:
+        yield
+        return
+    previous_handler = signal.getsignal(signal.SIGALRM)
+
+    def _handle_timeout(_signum: int, _frame: Any) -> None:
+        raise ReadWallTimeout(f"guarded read exceeded wall timeout of {seconds:.1f}s")
+
+    signal.signal(signal.SIGALRM, _handle_timeout)
+    signal.setitimer(signal.ITIMER_REAL, seconds)
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous_handler)
 
 
 def resolve_default_output_root() -> Path:
@@ -98,7 +124,7 @@ def summarize(rows: list[dict[str, Any]], run_id: str, output_dir: Path, queries
         "tool": args.tool,
         "mode": args.mode,
         "strategy": rows[0].get("strategy", "") if rows else "",
-        "model": args.model if args.mode == "qwen3" else "",
+        "model": rows[0].get("model", "") if rows and args.mode in {"qwen3", "mlx-bge"} else "",
         "read_only": True,
         "mutates_mem0_config": False,
         "query_count": len(queries),
@@ -216,12 +242,74 @@ def build_read_args(args: argparse.Namespace, query: str) -> argparse.Namespace:
         qwen3_instruction=args.qwen3_instruction,
         qwen3_local_files_only=args.qwen3_local_files_only,
         qwen3_server_url=args.qwen3_server_url,
+        mlx_max_length=args.mlx_max_length,
         fallback_to_vector=args.fallback_to_vector,
         include_raw=args.include_raw,
         cache_path=args.cache_path,
         cache_ttl_s=args.cache_ttl_s,
         refresh_cache=args.refresh_cache,
     )
+
+
+def build_mem0_read_command(args: argparse.Namespace, query: str) -> list[str]:
+    command = [
+        sys.executable,
+        str(Path(__file__).resolve().parent / "mem0_read.py"),
+        query,
+        "--tool",
+        args.tool,
+        "--mode",
+        args.mode,
+        "--timeout-s",
+        str(args.timeout_s),
+        "--recency-weight",
+        str(args.recency_weight),
+        "--model",
+        args.model,
+        "--qwen3-device",
+        args.qwen3_device,
+        "--qwen3-max-length",
+        str(args.qwen3_max_length),
+        "--mlx-max-length",
+        str(args.mlx_max_length),
+        "--qwen3-instruction",
+        args.qwen3_instruction,
+        "--cache-ttl-s",
+        str(args.cache_ttl_s),
+    ]
+    if args.include_raw:
+        command.append("--include-raw")
+    if args.cache_path:
+        command.extend(["--cache-path", str(args.cache_path)])
+    if args.refresh_cache:
+        command.append("--refresh-cache")
+    if args.fallback_to_vector:
+        command.append("--fallback-to-vector")
+    if args.qwen3_local_files_only:
+        command.append("--qwen3-local-files-only")
+    if args.qwen3_server_url:
+        command.extend(["--qwen3-server-url", args.qwen3_server_url])
+    return command
+
+
+def run_guarded_read_subprocess(args: argparse.Namespace, query: str) -> dict[str, Any]:
+    try:
+        completed = subprocess.run(
+            build_mem0_read_command(args, query),
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=args.read_wall_timeout_s if args.read_wall_timeout_s > 0 else None,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise ReadWallTimeout(f"guarded read child process exceeded wall timeout of {args.read_wall_timeout_s:.1f}s") from exc
+    try:
+        payload = json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"mem0_read.py did not return JSON. stderr: {completed.stderr[-1000:]}") from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError("mem0_read.py returned non-object JSON")
+    return payload
 
 
 def main() -> int:
@@ -232,7 +320,7 @@ def main() -> int:
     parser.add_argument("--run-id", default=f"mem0-read-latency-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--tool", default="cmd")
-    parser.add_argument("--mode", choices=("close-margin", "vector", "qwen3"), default="close-margin")
+    parser.add_argument("--mode", choices=("close-margin", "vector", "qwen3", "mlx-bge"), default="close-margin")
     parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--include-raw", action="store_true")
@@ -243,9 +331,12 @@ def main() -> int:
     parser.add_argument("--model", default="Qwen/Qwen3-Reranker-0.6B")
     parser.add_argument("--qwen3-device", default="auto")
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
+    parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
     parser.add_argument("--qwen3-instruction", default="Retrieve memories that answer the query for a local Hermes agent.")
+    parser.add_argument("--read-wall-timeout-s", type=float, default=0.0, help="Optional outer wall-clock timeout for each guarded read, including model load.")
+    parser.add_argument("--subprocess-read", action="store_true", help="Run each guarded read in a child process so wall timeouts can kill model load/fetch hangs.")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -265,7 +356,11 @@ def main() -> int:
     for iteration in range(1, args.iterations + 1):
         for query_index, query in enumerate(queries, 1):
             print(f"  [{iteration}/{args.iterations} {query_index}/{len(queries)}] {query}")
-            output = run_guarded_read(build_read_args(args, query))
+            if args.subprocess_read:
+                output = run_guarded_read_subprocess(args, query)
+            else:
+                with read_wall_timeout(args.read_wall_timeout_s):
+                    output = run_guarded_read(build_read_args(args, query))
             output["iteration"] = iteration
             output["query_index"] = query_index
             rows.append(output)

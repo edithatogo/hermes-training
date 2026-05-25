@@ -252,3 +252,13 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 0.6B ONNX Transformers.js Bridge Proof
 *Link: [./tracks/qwen3-06b-onnx-transformersjs-bridge_20260526/](./tracks/qwen3-06b-onnx-transformersjs-bridge_20260526/)*
+
+---
+
+## [x] Track: mem0 MLX BGE Daily-Use Latency Probe
+*Link: [./tracks/mem0-mlx-bge-daily-use-latency_20260526/](./tracks/mem0-mlx-bge-daily-use-latency_20260526/)*
+
+---
+
+## [x] Track: MLX Direct Loglikelihood Smoke Harness
+*Link: [./tracks/mlx-direct-loglikelihood-smoke_20260526/](./tracks/mlx-direct-loglikelihood-smoke_20260526/)*

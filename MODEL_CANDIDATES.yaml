@@ -4,7 +4,7 @@
 updated: "2026-05-26"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-05-26: refreshed official/current sources. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 gained newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. Treat these as runtime latency experiments behind the already-proven Qwen3.6 Q4_K_M baseline, not local fine-tune targets."
+latest_release_recheck: "2026-05-26: refreshed official/current sources. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 gained newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. A late parallel refresh found mlx-community/Qwen3-VL-32B-Instruct-4bit as a 19.6GB MLX multimodal runtime candidate and active LiquidAI LFM2/LFM2.5 edge releases. Treat these as runtime smoke/watchlist items behind current text/tool-call and mem0 gates, not local fine-tune targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -72,6 +72,19 @@ candidates:
     first_runtime: "do not start until official open weights or supported hosted API are verified"
     first_finetune: "not applicable"
     notes: "2026-05-24 search found Qwen3.7-Max/Plus reports, but current reporting describes proprietary/API preview availability rather than verified open Hugging Face weights. Keep this as watchlist-only."
+
+  - id: mlx-community/Qwen3-VL-32B-Instruct-4bit
+    family: qwen
+    tier: multimodal-runtime
+    role: local-runtime
+    environment: mac-mlx-vlm
+    feasibility: needs-runtime-proof
+    parameters: "32B, 4-bit MLX package"
+    architecture: "Qwen3 vision-language model"
+    license: apache-2.0
+    first_runtime: "mlx-vlm smoke only after explicit artifact/capacity check"
+    first_finetune: "defer"
+    notes: "Late 2026-05-26 refresh found this MLX conversion with a 19.6GB listed footprint and Hermes Agent local-server instructions. Candidate for multimodal runtime proof, not a 32GB Mac fine-tune lane."
 
   - id: NousResearch/Hermes-4.3-36B
     family: hermes

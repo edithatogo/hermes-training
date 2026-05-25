@@ -72,6 +72,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
     pilots = ROOT / "reports" / "benchmark" / "local-pilots" / "qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md"
     official_ifeval = ROOT / "reports" / "benchmark" / "official-ifeval" / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md"
     lm_eval_selected = ROOT / "reports" / "benchmark" / "lm-eval" / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md"
+    mlx_direct_loglikelihood = ROOT / "reports" / "benchmark" / "lm-eval" / "mlx-loglikelihood-direct-smoke-20260526.md"
     bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -150,8 +151,17 @@ def build_items(candidate: str) -> list[CoverageItem]:
             status="blocked" if lm_eval_selected.exists() else "missing",
             evidence=str(lm_eval_selected.relative_to(ROOT)) if lm_eval_selected.exists() else "",
             metric="",
-            notes="Selected lm-eval smoke was attempted; proxy completions bridge now fixes integer logprobs request shape, but current mlx_lm.server response lacks legacy echoed token_logprobs for true prompt loglikelihood scoring.",
+            notes="Selected lm-eval smoke was attempted; proxy completions bridge now fixes integer logprobs request shape, but current mlx_lm.server response lacks legacy echoed token_logprobs for true prompt loglikelihood scoring. A direct MLX loglikelihood harness now exists as diagnostic plumbing, not an official score.",
             required_for="general benchmark claim",
+        ),
+        CoverageItem(
+            suite="mlx-direct-loglikelihood-smoke",
+            tier="diagnostic",
+            status="present" if mlx_direct_loglikelihood.exists() else "missing",
+            evidence=str(mlx_direct_loglikelihood.relative_to(ROOT)) if mlx_direct_loglikelihood.exists() else "",
+            metric="2-case mock schema smoke" if mlx_direct_loglikelihood.exists() else "",
+            notes="Repo-native prompt/continuation scoring harness for MLX logits; must be wrapped around selected lm-eval tasks and run non-mock before benchmark claims.",
+            required_for="future lm-eval adapter work",
         ),
         CoverageItem(
             suite="official-coding",

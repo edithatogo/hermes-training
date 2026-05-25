@@ -21,7 +21,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 |---:|---|---|---|---|---|---|
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
-| 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | isolated-fixture-proven | mlx | daily-use-latency-probe | isolated fixture passed; keep opt-in read mode until broader daily-use latency proof |
+| 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | isolated-fixture-proven | mlx | multi-query-cold-warm-latency-probe | first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof |
 | 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
 | 5 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
 | 6 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
@@ -69,14 +69,17 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `isolated-fixture-proven`
-- Blocker: isolated fixture passed; keep opt-in read mode until broader daily-use latency proof
+- Blocker: first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof
 
 ```bash
 source scripts/env.sh
-# Opt-in guarded read mode is available; run daily-use latency probes before any default integration.
-HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \
-  "What is the active mem0 Qdrant collection?" \
+# Opt-in guarded read mode is available; run bounded cold/warm latency probes before any default integration.
+HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/run_mem0_read_latency_probe.py \
   --mode mlx-bge \
+  --query "What is the active mem0 Qdrant collection?" \
+  --iterations 1 \
+  --read-wall-timeout-s 60 \
+  --subprocess-read \
   --fallback-to-vector \
   --cache-ttl-s 300
 ```

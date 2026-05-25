@@ -111,10 +111,13 @@ def command_for(candidate: dict[str, Any]) -> str:
             if status == "isolated-fixture-proven":
                 return "\n".join(
                     [
-                        "# Opt-in guarded read mode is available; run daily-use latency probes before any default integration.",
-                        "HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \\",
-                        '  "What is the active mem0 Qdrant collection?" \\',
+                        "# Opt-in guarded read mode is available; run bounded cold/warm latency probes before any default integration.",
+                        "HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/run_mem0_read_latency_probe.py \\",
                         "  --mode mlx-bge \\",
+                        '  --query "What is the active mem0 Qdrant collection?" \\',
+                        "  --iterations 1 \\",
+                        "  --read-wall-timeout-s 60 \\",
+                        "  --subprocess-read \\",
                         "  --fallback-to-vector \\",
                         "  --cache-ttl-s 300",
                     ]
@@ -219,7 +222,7 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     if status == "live-read-wrapper-smoked":
         return "live read-only wrapper smoke passed; keep read-only until broader coverage"
     if status == "isolated-fixture-proven":
-        return "isolated fixture passed; keep opt-in read mode until broader daily-use latency proof"
+        return "first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof"
     if status == "benchmarked-cpu-mps-not-promoted":
         return "benchmarked but not promoted; keep separate collection or artifact"
     if status == "fixed-suite-benchmarked":

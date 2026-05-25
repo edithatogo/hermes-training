@@ -1,17 +1,17 @@
 {
-  "created_at": "2026-05-25T18:25:09.628806+00:00",
+  "created_at": "2026-05-25T19:21:24.667994+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 57
+    "passed": 64
   },
   "by_kind": {
     "memory": 11,
     "embedding": 6,
     "extraction": 8,
-    "reranking": 19,
+    "reranking": 25,
     "replay": 9,
-    "isolated-fixture": 4
+    "isolated-fixture": 5
   },
   "missing_kinds": [],
   "items": [
@@ -318,6 +318,48 @@
     },
     {
       "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-bge-expanded-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-bge-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-nomic-expanded-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-bge-expanded-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-bge-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-fixed-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-fixed-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-nomic-expanded-20260526/summary.json",
+      "run_id": "rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
       "path": "mem0-reranking-benchmark/rerank-qwen3-0-6b-fixed-20260526/summary.json",
       "run_id": "rerank-qwen3-0-6b-fixed-20260526",
       "status": "passed",
@@ -397,6 +439,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-isolated-fixture-qwen3-20260526/summary.json",
       "run_id": "mem0-isolated-fixture-qwen3-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-mlx-bge-reranker-v2-m3-8bit-20260526/summary.json",
+      "run_id": "mem0-live-fixture-mlx-bge-reranker-v2-m3-8bit-20260526",
       "status": "passed",
       "errors": []
     },
