@@ -50,6 +50,18 @@ This moves caches and outputs to the SSD:
 
 For Azure work, run `scripts/azure_preflight.py` first and keep the default policy of Spot/low-priority, `min_instances: 0`, `max_instances: 1`, and one GPU job at a time until a track explicitly changes it.
 
+Official benchmark harnesses are isolated from the Python 3.14 training
+environment in SSD-backed Python 3.12 environments. The manifest is:
+
+```text
+reports/benchmark/manifests/official-benchmark-env-20260525.md
+```
+
+Use `/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312` for lm-eval,
+MTEB, HumanEval, and EvalPlus. Use
+`/Volumes/PortableSSD/hermes-training-envs/bfcl-py312` for official BFCL because
+its `tree_sitter` pin conflicts with EvalPlus.
+
 ## lm-evaluation-harness Starter
 
 Use `lm-eval` for common academic baselines. Record the exact command, task names, model args, seeds, and harness commit/version.

@@ -133,14 +133,13 @@ Current gaps:
 
 ## Next Actions
 
-1. Validate the Qwen3 Q4_K_M GGUF in LM Studio and record the OpenAI-compatible smoke result.
-2. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
-3. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
-4. Run broader official benchmarks for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots.
-5. Prepare a cleaned dataset-publication scope and dataset card before any Hugging Face dataset release.
-6. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
-7. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
-8. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
+1. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
+2. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
+3. Run broader official benchmarks for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots.
+4. Prepare a cleaned dataset-publication scope and dataset card before any Hugging Face dataset release.
+5. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
+6. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
+7. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
 
 ## Key Files
 

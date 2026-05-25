@@ -29,13 +29,27 @@ Initial `lms` checks failed, but LM Studio `0.4.14+4` is now installed and `/opt
 | Qwen3 Q4_K_M GGUF | `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf` | LM Studio proof |
 | Qwen3 merged dequantized export | `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/merged-dequantized` | export provenance only |
 
-## No-Download Frontier Runtime Blockers
+## Frontier Runtime Status
 
-No local Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 runtime artifact has been recorded in this repo. The runtime-proof-completion track must either find an existing artifact/endpoint or record a blocker; it must not silently download large weights.
+The original no-download scan on 2026-05-24 found no runnable Qwen3.6, Hermes 4,
+Hermes 4.3, or Gemma 4 26B A4B chat artifact. That blocker has since been
+partially closed through explicit SSD-backed acquisition and proof:
 
-Read-only SSD scan on 2026-05-24 found Gemma 4 tokenizer/template files and the `lmstudio-community/gemma-4-E4B-it-MLX-4bit` cache, but no runnable Qwen3.6, Hermes 4, Hermes 4.3, or Gemma 4 26B A4B chat artifact was identified. SSD blocker card: `/Volumes/PortableSSD/hermes-evals/runtime-proof-completion/frontier-artifact-blockers-20260524.md`.
+- Hermes 4 14B Q4_K_M is complete and runtime-proven.
+- Qwen3.6 35B-A3B Q4_K_M is complete and runtime-proven, but failed the strict
+  Hermes tool-call gate.
+- LFM2 24B-A2B Q4_K_M is complete and runtime-proven, but remains below the
+  Hermes-agent promotion gate.
 
-Exact GGUF acquisition targets and resumable SSD commands are recorded in `reports/runtime/frontier-gguf-acquisition-20260524.md`.
+Remaining frontier blockers:
+
+- Hermes 4.3 36B remains acquisition/proof work.
+- Gemma 4 26B A4B remains paused/resumable.
+- Qwen3.7 remains watchlist-only because no official open-weight local artifact
+  has been verified.
+
+Exact GGUF acquisition targets and resumable SSD commands are recorded in
+`reports/runtime/frontier-gguf-acquisition-20260524.md`.
 
 ## Frontier Artifact Acquisition
 

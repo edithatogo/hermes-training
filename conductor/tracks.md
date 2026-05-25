@@ -142,3 +142,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Handoff and roadmap reconciliation
 *Link: [./tracks/handoff-roadmap-reconciliation_20260525/](./tracks/handoff-roadmap-reconciliation_20260525/)*
+
+---
+
+## [x] Track: Model radar and runtime refresh
+*Link: [./tracks/model-radar-runtime-refresh_20260526/](./tracks/model-radar-runtime-refresh_20260526/)*
