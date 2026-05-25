@@ -1,11 +1,15 @@
 # Hermes Training Hub — Codex Handoff
 
-> Last updated: 2026-05-24
+> Last updated: 2026-05-25
 > Pickup agent: Codex
 
 ## What Is Here
 
-All under `/Users/doughnut/GitHub/hermes-training/`:
+Canonical working root:
+
+```text
+/Volumes/PortableSSD/GitHub/hermes-training
+```
 
 | Repo | GitHub | Purpose |
 |---|---|---|
@@ -16,8 +20,8 @@ All under `/Users/doughnut/GitHub/hermes-training/`:
 
 The hub root tracks the model repos as Git submodules. `.gitmodules` has been added to repair the previous gitlink-without-submodule metadata state.
 
-Current working root is also available at
-`/Volumes/PortableSSD/GitHub/hermes-training`.
+Older notes may mention `/Users/doughnut/GitHub/hermes-training`; treat the SSD
+path above as canonical for active work.
 
 ## 2026-05-24 Storage Layout Update
 
@@ -69,7 +73,14 @@ The audit report is
 
 ## Repo Hygiene Status
 
-The hub and nested repos were cleaned, committed, and pushed before the latest runtime/documentation pass. Treat the current working tree as the source of truth and check status before committing:
+The nested repos are clean and pushed at the current submodule pointers:
+
+- `gemma4`: `d4d7078` (`github.com/edithatogo/hermes-gemma-lab`)
+- `lfm2`: `40c4020` (`github.com/edithatogo/hermes-lfm2-lab`)
+- `ollama-pack`: `c740e96` (`github.com/edithatogo/hermes-ollama-pack`)
+
+Treat the current working tree as the source of truth and check status before
+committing:
 
 ```bash
 git status --short
@@ -95,19 +106,18 @@ Complete:
 - MLX LoRA training script exists.
 - Eval/comparison scripts exist.
 - Hugging Face publishing scripts use the current `hf` CLI.
-- Runtime docs cover Ollama launcher, experimental safetensors, GGUF, MLX, LM Studio, and KTransformers.
+- Runtime docs cover Ollama launcher, experimental safetensors, GGUF, MLX, LM Studio, and specialist runtime handoff.
 - Model radar includes Qwen3.6, Hermes 4, Gemma 4 A4B, LFM2.5, LFM2-ColBERT, Qwen3-Next, BitNet, BGE-M3, Jina embeddings, and watchlist entries for RWKV/Mamba-style families.
 - Platform abstraction is now explicit: Mac/MLX is the local lane, Azure is the scale-out lane, retrieval is separate from chat SFT, and specialist runtimes require proof.
-- Azure preflight exists at `scripts/azure_preflight.py`; it now passes for `d.a.mordaunt@gmail.com` on `Azure for Students`. Modern GPU quota is zero across sampled regions, so the Azure track is fail-closed until quota is approved.
+- Azure preflight exists at `scripts/azure_preflight.py`; it passes for `d.a.mordaunt@gmail.com` on `Azure for Students`. Modern GPU quota is zero across sampled regions, so the Azure track is fail-closed until quota is approved.
+- Qwen3 v4 targeted is the current public/recommended strict Hermes tool-call adapter. It passes the held-out strict local tool-call suite at `1.000` with `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`; publication evidence is in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
+- Qwen3 v5 pilot-polish is a documented non-promotion result. It improved the local BFCL-style pilot to `1.000`, but held-out strict pass regressed to `0.875`; keep v4 as the recommended/public adapter.
+- The `ollama-pack` runtime packaging Conductor track is complete. It records current MLX, Ollama, GGUF/LM Studio, and blocked retest status without promoting unvalidated runtime surfaces.
 
 Current gaps:
 
-- LFM2.5 smoke adapter exists locally under `lfm2/experiments/lfm25-1.2b-instruct-smoke/lora_adapter`; it is intentionally ignored by Git.
-- Hugging Face repos are planned, not published.
-- Large MoE configs are smoke configs only; do not treat them as safe defaults for local training.
-- Nested repos still have dirty changes and need an intentional commit/push pass.
-- Current checked-in dataset scale is smoke only, not publishable fine-tuning data.
-- Qwen3 4B MLX smoke config exists, but unauthenticated model download stalled during first proof attempt.
+- Public dataset publication remains blocked pending explicit dataset-scope approval and final dataset card.
+- Large MoE/frontier configs are runtime/teacher experiments only; do not treat them as safe defaults for local training.
 - Azure student subscription login is complete. GPU-family quota/capacity still needs explicit Azure ML/portal confirmation before compute creation.
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
 - Qwen3 4B smoke training/evaluation is complete as a local MLX proof. It trained for 10 iterations / 2,889 tokens with final validation loss 2.386 and peak memory 3.944 GB; base and adapter both passed the response-collapse gate. See `gemma4/eval/qwen3-4b-smoke-summary.md`.
@@ -118,19 +128,19 @@ Current gaps:
   - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-f16.gguf`
   - `/Volumes/PortableSSD/hermes-exports/ollama/qwen3-4b-hermes-smoke/qwen3-4b-hermes-smoke-q4_K_M.gguf`
 - The Q4_K_M GGUF passed direct `llama-completion` validation and returned `{"ok": true}`. Ollama GGUF import failed because the daemon dropped during model creation, so LM Studio/direct llama.cpp is the next GGUF runtime path.
-- Populated publication drafts for the Qwen3 smoke run exist in `reports/publication/qwen3-4b-smoke/`.
+- Populated publication/evidence bundles exist for Qwen3 smoke, failed Qwen3 attempts, Qwen3 v4 public adapter evidence, and Qwen3 v5 non-promotion evidence.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Last check showed about 51 GiB free on `/` and about 660 GiB free on `/Volumes/PortableSSD`.
 
 ## Next Actions
 
 1. Validate the Qwen3 Q4_K_M GGUF in LM Studio and record the OpenAI-compatible smoke result.
 2. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
-3. Confirm Azure ML GPU quota/capacity before creating any workspace compute or submitting benchmark jobs.
-4. Use the non-spending Azure job templates for a benchmark-only smoke job only after quota/capacity is confirmed.
-5. Start a safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
-6. Use Qwen3 4B as the next local MLX candidate; use Hermes 4 and Qwen3.6 as runtime baselines/teachers before local fine-tunes.
-7. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` before using it in Hermes.
-8. Do not publish the Qwen3 smoke adapter as a quality artifact; the publication drafts exist to show provenance shape only.
+3. Confirm Azure ML GPU quota/capacity before creating workspace compute or submitting benchmark jobs.
+4. Run broader official benchmarks for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots.
+5. Prepare a cleaned dataset-publication scope and dataset card before any Hugging Face dataset release.
+6. Use Hermes 4, Qwen3.6, Gemma 4, and LFM2-24B as runtime baselines/teachers before attempting local fine-tunes.
+7. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
+8. Validate every runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
 
 ## Key Files
 

@@ -26,13 +26,19 @@ Do not commit the hub first if submodules point at local-only commits. The hub s
 - Never stage a hub-root submodule pointer update that refers to a commit which has not been pushed from the nested repo.
 - When reviewing a hub-root diff, verify that each gitlink update matches a remote-visible nested repo commit.
 
-## Nested Repo Dirty-State Checklist
+## Nested Repo State Checklist
 
-Before changing the hub root, check the nested repos and record their state in `HANDOFF.md`:
+Before changing the hub root, check the nested repos and record their state in
+`HANDOFF.md`.
 
-- `gemma4`: dirty; tracked edits in `.gitignore`, `CONDUCTOR.md`, `README.md`, `scripts/build_dataset.py`, `scripts/run_train.sh`, `scripts/train.py`; untracked `conductor/`, `data/splits/valid.jsonl`, `scripts/train_config.gemma4-26b-a4b.experimental.yaml`, `scripts/train_config.hermes4-14b.experimental.yaml`, `scripts/train_config.qwen3-4b.smoke.yaml`, `scripts/train_config.qwen3.6-35b-a3b.experimental.yaml`
-- `lfm2`: dirty; tracked edits in `.gitignore`, `CONDUCTOR.md`, `README.md`, `scripts/build_dataset.py`, `scripts/run_train.sh`, `scripts/train.py`; untracked `conductor/`, `data/splits/valid.jsonl`, `scripts/train_config.lfm25-1.2b-instruct.smoke.yaml`, `scripts/train_config.lfm25-1.2b-instruct.yaml`, `scripts/train_config.lfm25-1.2b-thinking.yaml`
-- `ollama-pack`: dirty; tracked edits in `CONDUCTOR.md`, `README.md`; untracked `conductor/`, `modelfiles/LFM-Hermes.Modelfile`, `modelfiles/Qwen3-Hermes.Modelfile`, `scripts/create_experimental_safetensors.sh`, `scripts/runtime_smoke.sh`
+Current pushed pointers as of 2026-05-25:
+
+- `gemma4`: `d4d7078`, clean after Qwen3 v5 non-promotion documentation.
+- `lfm2`: `40c4020`, clean.
+- `ollama-pack`: `c740e96`, clean after runtime packaging track closure.
+
+If any nested repo becomes dirty, commit and push that repo before staging the
+hub submodule pointer.
 
 ## Generated Artifact Policy
 
@@ -79,12 +85,12 @@ Current smoke datasets are small and already live in the track repos. For future
    python3 -m py_compile scripts/check_model_candidates.py
    ```
 
-5. Decide whether to commit smoke data updates in `gemma4` and `lfm2`.
+5. Keep v4 as the recommended/public Qwen3 adapter; do not promote v5.
 
 6. Train low-risk targets before large MoE experiments:
 
    - `LiquidAI/LFM2.5-1.2B-Instruct` (10-iteration smoke passed locally)
-   - `Qwen/Qwen3-4B-MLX-4bit` (configured; retry after authenticated/prefetched HF download)
+   - `Qwen/Qwen3-4B-MLX-4bit` (local strict-tool-call v4 adapter is the current recommended adapter)
    - `LiquidAI/LFM2.5-1.2B-Thinking`
 
 7. Treat these as runtime/baseline/teacher targets first:

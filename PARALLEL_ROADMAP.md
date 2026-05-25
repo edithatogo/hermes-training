@@ -1,6 +1,6 @@
 # Parallel Roadmap
 
-Updated: 2026-05-24
+Updated: 2026-05-25
 
 This roadmap defines the remaining work as parallel Conductor lanes. It is intentionally broader than the completed Qwen3 4B experiments: the goal is to reach publishable Hermes-agent evidence, not to keep iterating on one weak candidate.
 
@@ -24,11 +24,13 @@ This roadmap defines the remaining work as parallel Conductor lanes. It is inten
 
 ## Current High-Priority Work
 
-1. Candidate matrix is started at `reports/model-radar/candidate-matrix-20260524.md`; next action is to attach runtime proof evidence per candidate.
-2. Runtime inventory is started at `reports/runtime/runtime-inventory-20260524.md`; LM Studio and MLX endpoints were not listening on 2026-05-24, while Ollama was live with installed models.
-3. Azure account preflight passed and is recorded at `reports/azure/execution-readiness-20260524.md`; live cloud execution remains blocked until specific GPU quota is confirmed.
-4. Standardized benchmark manifest is started at `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md`; live benchmark runs remain gated on candidate/runtime readiness.
-5. Publish only after raw strict tool-call and standardized benchmark evidence support the claim.
+1. Qwen3 v4 targeted is the current public/recommended strict Hermes tool-call adapter. It passes the local held-out strict gate at `1.000` with the recorded Qwen runtime prefill and has ready publication evidence.
+2. Qwen3 v5 pilot-polish is a non-promotion result. It improved the BFCL-style pilot but regressed held-out strict pass to `0.875`, so it must not replace v4.
+3. Candidate matrix is recorded at `reports/model-radar/candidate-matrix-20260524.md`; next action is to attach runtime proof evidence for frontier/runtime candidates, not to train them immediately.
+4. Runtime packaging is complete as a lane. Remaining runtime work is live LM Studio GGUF smoke for Qwen3 and a future Ollama retest after the Qwen3 import/runtime instability changes.
+5. Azure account preflight passed and is recorded at `reports/azure/execution-readiness-20260524.md`; live cloud execution remains blocked until specific useful GPU quota is confirmed.
+6. Standardized benchmark manifest is recorded at `reports/benchmark/manifests/standard-benchmark-manifest-20260524.md`; official BFCL/IFEval/lm-eval expansion remains future work if broader public claims are needed.
+7. Dataset publication remains separate from adapter publication and blocked pending dataset-scope approval.
 
 ## Current Model Scan Notes
 

@@ -137,3 +137,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 dataset source redistribution review
 *Link: [./tracks/qwen3-v4-redistribution-review_20260525/](./tracks/qwen3-v4-redistribution-review_20260525/)*
+
+---
+
+## [x] Track: Handoff and roadmap reconciliation
+*Link: [./tracks/handoff-roadmap-reconciliation_20260525/](./tracks/handoff-roadmap-reconciliation_20260525/)*
