@@ -25,6 +25,7 @@
 | memory+rerank | mem0-isolated-fixture-rerank-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B | 0.400 | 1.000 | 1.000 | 1.000 |  | 0.495 | `reports/benchmark/mem0/mem0-isolated-fixture-rerank-comparison-20260526.md` |
 | memory+rerank | mem0-guarded-read-wrapper-smoke-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 2.865 | `reports/benchmark/mem0/mem0-guarded-read-wrapper-smoke-20260526.md` |
 | memory+rerank | mem0-read-cache-close-margin-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 0.000 | `reports/benchmark/mem0/mem0-read-cache-close-margin-20260526.md` |
+| memory+rerank | hermes-mem0-tool-smoke-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 0.000 | `reports/benchmark/mem0/hermes-mem0-tool-smoke-20260526.md` |
 | memory+rerank | mem0-read-ux-close-margin-20260526 | score_plus_created_at_rank_close_margin |  |  |  |  |  | 2.897 | `reports/benchmark/mem0/mem0-read-ux-close-margin-20260526.md` |
 | memory+rerank | live-multiretrieval-readiness-20260526 | cmd |  |  |  |  |  |  | `reports/benchmark/mem0/live-multiretrieval-readiness-20260526.md` |
 | memory+rerank | mem0-rerank-replay-comparison-20260526 | Qwen/Qwen3-Reranker-0.6B |  |  | 1.000 | 1.000 |  | 0.250 | `reports/benchmark/mem0/mem0-rerank-replay-comparison-20260526.md` |
@@ -47,4 +48,5 @@
 | reranking | nomic-expanded-vector-rerank-20260526 | vector | 0.833 |  | 0.833 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/nomic-expanded-vector-rerank-20260526` |
 | reranking | qwen3-0-6b-bge-expanded-rerank-20260526 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.334 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-0-6b-bge-expanded-rerank-20260526` |
 | reranking | qwen3-0-6b-nomic-expanded-rerank-20260526 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.314 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-0-6b-nomic-expanded-rerank-20260526` |
+| reranking | qwen3-0-6b-onnx-transformersjs-bridge-20260526 | onnx-community/Qwen3-Reranker-0.6B-ONNX |  |  | 0.000 | 0.000 |  | 0.000 | `reports/benchmark/mem0/qwen3-0-6b-onnx-transformersjs-bridge-20260526.md` |
 | reranking | rerank-qwen3-0-6b-fixed-20260526 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.222 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-qwen3-0-6b-fixed-20260526` |

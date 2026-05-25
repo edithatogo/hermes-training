@@ -66,6 +66,11 @@ fixture evidence are recorded. Changing `~/.mem0/config.json`, the default
 collection, embedder, or extractor still requires the full default-promotion
 gates below.
 
+For Hermes-agent integration, use the explicit command contract in
+[`HERMES_AGENT_TOOL.md`](./HERMES_AGENT_TOOL.md). It wraps the same guarded read
+path and keeps memory lookup intentional rather than adding a memory prelude to
+every turn.
+
 Every mem0 candidate must pass these gates before becoming the default:
 
 | Gate | Purpose | Required evidence |

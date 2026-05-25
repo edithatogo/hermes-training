@@ -267,6 +267,18 @@ The cache stores raw mem0 search output under `/Volumes/PortableSSD/hermes-cache
 by default, keys entries by query plus mem0 config fingerprint, and still reranks
 the cached candidates locally on each read.
 
+Run the Hermes-agent command contract:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/hermes_mem0_tool.py \
+  --query "What is the active mem0 Qdrant collection?" \
+  --cache-ttl-s 300
+```
+
+The tool accepts stdin JSON for plugin adapters. Its manifest is checked in at
+`mem0/integration/hermes_agent_mem0_read_tool.json`.
+
 Run repeated agent-style read latency probes before wiring the wrapper into a
 Hermes runtime:
 

@@ -170,6 +170,18 @@ This cache skips repeated `mem0 cmd search` calls for the same query/config
 fingerprint but still reranks locally. Leave it disabled for freshness-sensitive
 checks or use `--refresh-cache` when validating a newly changed memory store.
 
+Hermes-agent explicit tool wrapper:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/hermes_mem0_tool.py \
+  --query "What is the active mem0 Qdrant collection?" \
+  --cache-ttl-s 300
+```
+
+Use the manifest at `mem0/integration/hermes_agent_mem0_read_tool.json` for a
+plugin/tool adapter. Do not run it automatically on every turn.
+
 Agent UX latency probe:
 
 ```bash

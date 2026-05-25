@@ -237,3 +237,13 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: mem0 Cached Read Path Benchmark
 *Link: [./tracks/mem0-cached-read-path_20260526/](./tracks/mem0-cached-read-path_20260526/)*
+
+---
+
+## [x] Track: mem0 Hermes Runtime Tool
+*Link: [./tracks/mem0-hermes-runtime-tool_20260526/](./tracks/mem0-hermes-runtime-tool_20260526/)*
+
+---
+
+## [x] Track: Qwen3 0.6B ONNX Transformers.js Bridge Proof
+*Link: [./tracks/qwen3-06b-onnx-transformersjs-bridge_20260526/](./tracks/qwen3-06b-onnx-transformersjs-bridge_20260526/)*

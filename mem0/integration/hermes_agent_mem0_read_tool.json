@@ -1,0 +1,48 @@
+{
+  "name": "hermes_mem0_read",
+  "description": "Read local mem0 memories through the guarded close-margin reranker. This tool is read-only and does not mutate mem0 config or collections.",
+  "command": [
+    "/Volumes/PortableSSD/GitHub/hermes-training/.venv/bin/python",
+    "/Volumes/PortableSSD/GitHub/hermes-training/scripts/hermes_mem0_tool.py"
+  ],
+  "stdin": "json",
+  "read_only": true,
+  "mutates_mem0_config": false,
+  "default_mode": "close-margin",
+  "default_cache_ttl_s": 300,
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "query"
+    ],
+    "properties": {
+      "query": {
+        "type": "string",
+        "minLength": 1
+      },
+      "mode": {
+        "type": "string",
+        "enum": [
+          "close-margin",
+          "vector",
+          "qwen3"
+        ],
+        "default": "close-margin"
+      },
+      "cache_ttl_s": {
+        "type": "number",
+        "minimum": 0,
+        "default": 300
+      },
+      "refresh_cache": {
+        "type": "boolean",
+        "default": false
+      },
+      "fallback_to_vector": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  }
+}
