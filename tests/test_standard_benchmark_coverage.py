@@ -20,20 +20,21 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         self.assertTrue(summary["local_adapter_gate_ready"])
         self.assertTrue(summary["public_release_blocked"])
         self.assertIn("official-bfcl", summary["official_candidate_missing"])
-        self.assertNotIn("lm-eval-selected", summary["official_candidate_missing"])
+        self.assertIn("lm-eval-selected", summary["official_candidate_missing"])
         statuses = {item["suite"]: item["status"] for item in summary["items"]}
-        self.assertEqual(statuses["lm-eval-selected"], "blocked")
-        self.assertEqual(statuses["mlx-direct-loglikelihood-smoke"], "present")
+        self.assertEqual(statuses["lm-eval-selected-smoke"], "present")
+        self.assertEqual(statuses["lm-eval-selected"], "missing")
         metrics = {item["suite"]: item["metric"] for item in summary["items"]}
         self.assertEqual(metrics["local-bfcl-style-pilot"], "BFCL-style pilot 0.667")
         self.assertEqual(metrics["official-ifeval-pilot"], "prompt strict 0.760")
+        self.assertEqual(metrics["lm-eval-selected-smoke"], "limit 10 selected MLX direct smoke scored")
 
     def test_markdown_lists_missing_official_suites(self) -> None:
         summary = summarize(build_items("qwen3-4b-strict-toolcall-v4-targeted"), "qwen3-4b-strict-toolcall-v4-targeted", "test-run")
         markdown = render_markdown(summary)
 
         self.assertIn("official-bfcl", markdown)
-        self.assertIn("mlx-direct-loglikelihood-smoke", markdown)
+        self.assertIn("lm-eval-selected-smoke", markdown)
         self.assertIn("pilot-only", markdown)
         self.assertIn("local-heldout-strict-tool-call", markdown)
 

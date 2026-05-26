@@ -76,7 +76,10 @@ Pilot results are engineering evidence only. Public claims require full BFCL exe
 
 ## Current Local Pilot Evidence
 
-Because `bfcl_eval` is not installed in the active environment, the repo-native endpoint pilot was run first:
+The repo-native endpoint pilot below predates the isolated official BFCL env
+and remains separate from it. The official BFCL package is now installed and
+smoked in `/Volumes/PortableSSD/hermes-training-envs/bfcl-py312`, but no
+official BFCL model execution is recorded yet.
 
 - Script: `scripts/run_endpoint_pilot_benchmark.py`
 - Suite: `benchmarks/endpoint_pilots/bfcl_pilot.json`

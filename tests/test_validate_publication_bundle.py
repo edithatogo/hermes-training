@@ -53,7 +53,7 @@ def write_coverage_report(root: Path) -> Path:
             {
                 "items": [
                     {"suite": "official-bfcl", "tier": "official-candidate", "status": "missing"},
-                    {"suite": "lm-eval-selected", "tier": "official-candidate", "status": "blocked"},
+                    {"suite": "lm-eval-selected", "tier": "official-candidate", "status": "missing"},
                     {"suite": "official-coding", "tier": "official-candidate", "status": "missing"},
                     {"suite": "safety-refusal", "tier": "official-candidate", "status": "missing"},
                     {"suite": "ruler-long-context", "tier": "official-candidate", "status": "missing"},

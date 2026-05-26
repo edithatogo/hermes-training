@@ -10,22 +10,19 @@ Run a cheap engineering smoke before broader lm-eval execution.
 
 ```bash
 source scripts/env.sh
-RUN_ID=qwen3-4b-v4-targeted-lm-eval-selected-smoke-<date>
+RUN_ID=qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-<date>
 OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/${RUN_ID}
 mkdir -p "$OUT"
 
-OPENAI_API_KEY=dummy \
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run \
-  --model local-chat-completions \
-  --model_args model=Qwen/Qwen3-4B-MLX-4bit,base_url=http://127.0.0.1:8080/v1/chat/completions,tokenizer=Qwen/Qwen3-4B,tokenizer_backend=huggingface,tokenized_requests=False,max_gen_toks=512,timeout=300 \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python scripts/run_mlx_lm_eval.py \
+  --run-id "$RUN_ID" \
+  --model Qwen/Qwen3-4B-MLX-4bit \
+  --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter \
   --tasks arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande \
   --limit 10 \
-  --batch_size 1 \
-  --apply_chat_template \
-  --gen_kwargs temperature=0 \
-  --output_path "$OUT" \
-  --log_samples \
-  --seed 0,1234,1234,1234
+  --batch-size 1 \
+  --max-length 4096 \
+  --output-dir "$OUT"
 ```
 
 ## Artifact Root
@@ -43,3 +40,8 @@ require loglikelihood scoring; the chat-completions harness is generation-only
 for these purposes, and the completions route needs a logprobs-compatible shim.
 See
 `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`.
+
+Direct MLX follow-up status: the repo-local `scripts/run_mlx_lm_eval.py`
+adapter scored the selected task set at `--limit 10` on 2026-05-26. Treat that
+as a bounded smoke only, not a full candidate scorecard. See
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md`.

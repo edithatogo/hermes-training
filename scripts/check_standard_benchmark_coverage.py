@@ -71,8 +71,14 @@ def build_items(candidate: str) -> list[CoverageItem]:
     publication_gate = ROOT / "reports" / "benchmark" / "publication-readiness-gate-20260524.md"
     pilots = ROOT / "reports" / "benchmark" / "local-pilots" / "qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md"
     official_ifeval = ROOT / "reports" / "benchmark" / "official-ifeval" / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md"
-    lm_eval_selected = ROOT / "reports" / "benchmark" / "lm-eval" / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md"
-    mlx_direct_loglikelihood = ROOT / "reports" / "benchmark" / "lm-eval" / "mlx-loglikelihood-direct-smoke-20260526.md"
+    lm_eval_endpoint_attempt = ROOT / "reports" / "benchmark" / "lm-eval" / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md"
+    lm_eval_direct_smoke = (
+        ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md"
+    )
     bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -146,22 +152,22 @@ def build_items(candidate: str) -> list[CoverageItem]:
             required_for="broad tool-calling benchmark claim",
         ),
         CoverageItem(
-            suite="lm-eval-selected",
-            tier="official-candidate",
-            status="blocked" if lm_eval_selected.exists() else "missing",
-            evidence=str(lm_eval_selected.relative_to(ROOT)) if lm_eval_selected.exists() else "",
-            metric="",
-            notes="Selected lm-eval smoke was attempted; proxy completions bridge now fixes integer logprobs request shape, but current mlx_lm.server response lacks legacy echoed token_logprobs for true prompt loglikelihood scoring. A direct MLX loglikelihood harness now exists as diagnostic plumbing, not an official score.",
-            required_for="general benchmark claim",
+            suite="lm-eval-selected-smoke",
+            tier="official-pilot",
+            status="present" if lm_eval_direct_smoke.exists() else "missing",
+            evidence=str(lm_eval_direct_smoke.relative_to(ROOT)) if lm_eval_direct_smoke.exists() else "",
+            metric="limit 10 selected MLX direct smoke scored" if lm_eval_direct_smoke.exists() else "",
+            notes="Direct MLX lm-eval adapter scored ARC Challenge, HellaSwag, TruthfulQA MC2, GSM8K, and Winogrande at limit 10; this is a bounded smoke, not a full candidate scorecard.",
+            required_for="official harness readiness",
         ),
         CoverageItem(
-            suite="mlx-direct-loglikelihood-smoke",
-            tier="diagnostic",
-            status="present" if mlx_direct_loglikelihood.exists() else "missing",
-            evidence=str(mlx_direct_loglikelihood.relative_to(ROOT)) if mlx_direct_loglikelihood.exists() else "",
-            metric="2-case mock schema smoke" if mlx_direct_loglikelihood.exists() else "",
-            notes="Repo-native prompt/continuation scoring harness for MLX logits; must be wrapped around selected lm-eval tasks and run non-mock before benchmark claims.",
-            required_for="future lm-eval adapter work",
+            suite="lm-eval-selected",
+            tier="official-candidate",
+            status="missing",
+            evidence=str(lm_eval_endpoint_attempt.relative_to(ROOT)) if lm_eval_endpoint_attempt.exists() else "",
+            metric="",
+            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs, while the direct MLX adapter has only a limit-10 smoke. A full selected-task candidate run is still missing.",
+            required_for="general benchmark claim",
         ),
         CoverageItem(
             suite="official-coding",

@@ -1,12 +1,13 @@
 {
   "run_id": "qwen3-v4-targeted-standard-coverage-20260526",
-  "created_at": "2026-05-25T19:25:43.608574+00:00",
+  "created_at": "2026-05-26T06:25:51.232405+00:00",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "status": "pilot-only",
   "local_adapter_gate_ready": true,
   "public_release_blocked": true,
   "official_candidate_missing": [
     "official-bfcl",
+    "lm-eval-selected",
     "official-coding",
     "safety-refusal",
     "ruler-long-context"
@@ -14,8 +15,8 @@
   "counts": {
     "passed": 1,
     "present": 5,
-    "blocked": 2,
-    "missing": 4
+    "blocked": 1,
+    "missing": 5
   },
   "items": [
     {
@@ -82,22 +83,22 @@
       "required_for": "broad tool-calling benchmark claim"
     },
     {
-      "suite": "lm-eval-selected",
-      "tier": "official-candidate",
-      "status": "blocked",
-      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
-      "metric": "",
-      "notes": "Selected lm-eval smoke was attempted; proxy completions bridge now fixes integer logprobs request shape, but current mlx_lm.server response lacks legacy echoed token_logprobs for true prompt loglikelihood scoring. A direct MLX loglikelihood harness now exists as diagnostic plumbing, not an official score.",
-      "required_for": "general benchmark claim"
+      "suite": "lm-eval-selected-smoke",
+      "tier": "official-pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md",
+      "metric": "limit 10 selected MLX direct smoke scored",
+      "notes": "Direct MLX lm-eval adapter scored ARC Challenge, HellaSwag, TruthfulQA MC2, GSM8K, and Winogrande at limit 10; this is a bounded smoke, not a full candidate scorecard.",
+      "required_for": "official harness readiness"
     },
     {
-      "suite": "mlx-direct-loglikelihood-smoke",
-      "tier": "diagnostic",
-      "status": "present",
-      "evidence": "reports/benchmark/lm-eval/mlx-loglikelihood-direct-smoke-20260526.md",
-      "metric": "2-case mock schema smoke",
-      "notes": "Repo-native prompt/continuation scoring harness for MLX logits; must be wrapped around selected lm-eval tasks and run non-mock before benchmark claims.",
-      "required_for": "future lm-eval adapter work"
+      "suite": "lm-eval-selected",
+      "tier": "official-candidate",
+      "status": "missing",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
+      "metric": "",
+      "notes": "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs, while the direct MLX adapter has only a limit-10 smoke. A full selected-task candidate run is still missing.",
+      "required_for": "general benchmark claim"
     },
     {
       "suite": "official-coding",

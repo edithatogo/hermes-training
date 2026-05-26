@@ -146,9 +146,17 @@ token logprobs in the legacy shape expected by lm-eval.
 ## Decision
 
 `lm-eval-selected` is no longer merely missing; it is blocked on a
-true loglikelihood-compatible local runtime shim or direct evaluator adapter for MLX.
-Do not report ARC/HellaSwag/TruthfulQA/Winogrande scores for this adapter from
-the current `mlx_lm.server` endpoint.
+true loglikelihood-compatible local runtime shim for the current
+`mlx_lm.server` endpoint. Do not report ARC/HellaSwag/TruthfulQA/Winogrande
+scores for this adapter from that endpoint.
+
+## Direct MLX Follow-up
+
+A direct MLX `lm_eval` adapter was added after this endpoint investigation and
+scored the selected task set at `--limit 10`. That run proves the local
+loglikelihood path works without fabricating endpoint logprobs, but it remains
+a bounded smoke and not a full candidate scorecard. See
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md`.
 
 IFEval remains the validated official-harness pilot because it is a generation
 task and does not require loglikelihood scoring.

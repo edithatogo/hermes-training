@@ -10,6 +10,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+try:
+    from lm_eval.api.model import LM as LmEvalBase
+except ModuleNotFoundError:  # keep repo py_compile/unit tests independent from benchmark env
+    LmEvalBase = object  # type: ignore[assignment,misc]
+
 
 def resolve_default_output_root() -> Path:
     env_eval_root = os.environ.get("HERMES_EVAL_ROOT")
@@ -24,7 +29,19 @@ def resolve_default_output_root() -> Path:
 
 
 def save_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(json_safe(payload), indent=2, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
+
+
+def json_safe(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {str(key): json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [json_safe(item) for item in value]
+    if isinstance(value, tuple):
+        return [json_safe(item) for item in value]
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    return str(value)
 
 
 def token_ids(tokenizer: Any, text: str) -> list[int]:
@@ -72,6 +89,26 @@ def score_continuation(model: Any, tokenizer: Any, context: str, continuation: s
     return score, greedy
 
 
+def trim_until(text: str, until: Any) -> str:
+    stops: list[str]
+    if until is None:
+        return text
+    if isinstance(until, str):
+        stops = [until]
+    elif isinstance(until, list):
+        stops = [str(item) for item in until]
+    else:
+        stops = [str(until)]
+    cut = len(text)
+    for stop in stops:
+        if not stop:
+            continue
+        index = text.find(stop)
+        if index >= 0:
+            cut = min(cut, index)
+    return text[:cut]
+
+
 def run_self_test() -> None:
     class ToyTokenizer:
         def encode(self, text: str, add_special_tokens: bool = False) -> list[int]:
@@ -89,6 +126,24 @@ def run_self_test() -> None:
     score, greedy = score_continuation(ToyModel(), ToyTokenizer(), "ab", "c", 32)
     if not isinstance(score, float) or not isinstance(greedy, bool):
         raise AssertionError("self-test did not return (float, bool)")
+
+
+def collect_task_metrics(results: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    task_results = results.get("results", {}) if isinstance(results, dict) else {}
+    if not isinstance(task_results, dict):
+        return {}
+    metrics: dict[str, dict[str, Any]] = {}
+    for task, payload in task_results.items():
+        if not isinstance(payload, dict):
+            continue
+        task_metrics = {
+            key: value
+            for key, value in payload.items()
+            if ("," in key or key in {"acc", "acc_norm", "exact_match"}) and "stderr" not in key
+        }
+        if task_metrics:
+            metrics[str(task)] = task_metrics
+    return metrics
 
 
 def render_report(summary: dict[str, Any]) -> str:
@@ -112,17 +167,24 @@ def render_report(summary: dict[str, Any]) -> str:
     ]
     if summary.get("error"):
         lines.extend(["", "## Error", "", "```text", str(summary["error"]), "```"])
+    task_metrics = summary.get("task_metrics")
+    if isinstance(task_metrics, dict) and task_metrics:
+        lines.extend(["", "## Metrics", "", "| Task | Metric | Value |", "|---|---|---:|"])
+        for task, metrics in task_metrics.items():
+            if not isinstance(metrics, dict):
+                continue
+            for metric, value in metrics.items():
+                display = f"{float(value):.6f}" if isinstance(value, (int, float)) else str(value)
+                lines.append(f"| `{task}` | `{metric}` | {display} |")
     lines.append("")
     return "\n".join(lines)
 
 
-class MlxLmEvalAdapter:  # concrete methods match lm_eval.api.model.LM
+class MlxLmEvalAdapter(LmEvalBase):  # concrete methods match lm_eval.api.model.LM
     def __init__(self, model_name: str, adapter_path: str | None, max_length: int) -> None:
-        from lm_eval.api.model import LM
         from mlx_lm import load
 
-        self.__class__ = type("MlxLmEvalAdapter", (self.__class__, LM), {})
-        LM.__init__(self)
+        super().__init__()
         self.model_name = model_name
         self.adapter_path = adapter_path or ""
         self.max_length = max_length
@@ -158,7 +220,23 @@ class MlxLmEvalAdapter:  # concrete methods match lm_eval.api.model.LM
         return rows
 
     def generate_until(self, requests: list[Any]) -> list[str]:
-        raise NotImplementedError("This direct MLX adapter is for loglikelihood-only lm-eval tasks.")
+        from mlx_lm import generate as mlx_generate
+
+        rows: list[str] = []
+        for request in requests:
+            context, kwargs = request.args
+            if not isinstance(kwargs, dict):
+                kwargs = {}
+            max_tokens = int(kwargs.get("max_gen_toks") or kwargs.get("max_tokens") or 256)
+            response = mlx_generate(
+                self.model,
+                self.tokenizer,
+                prompt=str(context),
+                max_tokens=max_tokens,
+                verbose=False,
+            )
+            rows.append(trim_until(str(response), kwargs.get("until")).strip())
+        return rows
 
 
 def main() -> int:
@@ -225,7 +303,8 @@ def main() -> int:
             verbosity="INFO",
         )
         summary["status"] = "scored"
-        summary["results"] = results or {}
+        safe_results = json_safe(results or {})
+        summary["task_metrics"] = collect_task_metrics(safe_results)
         save_json(output_dir / "results.json", results or {})
     except Exception as exc:  # noqa: BLE001
         summary["status"] = "blocked"
@@ -233,7 +312,7 @@ def main() -> int:
     summary["total_latency_s"] = time.time() - started
     save_json(output_dir / "summary.json", summary)
     report_path.write_text(render_report(summary), encoding="utf-8")
-    print(json.dumps(summary, indent=2, ensure_ascii=False))
+    print(json.dumps(json_safe(summary), indent=2, ensure_ascii=False))
     return 0 if summary["status"] == "scored" else 1
 
 

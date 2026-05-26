@@ -54,17 +54,27 @@ RULES = (
     ManifestRule(
         rel_path="reports/benchmark/manifests/lm-eval-smoke-command-20260524.md",
         required=(
-            f"{GENERAL_ENV}/bin/lm_eval run",
-            "local-chat-completions",
+            f"{GENERAL_ENV}/bin/python scripts/run_mlx_lm_eval.py",
+            "--limit 10",
+            "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-<date>",
             f"{SSD_EVAL_ROOT}/lm-eval/",
+        ),
+        forbidden=(
+            "--model local-chat-completions",
+            "base_url=http://127.0.0.1:8080/v1/chat/completions",
         ),
     ),
     ManifestRule(
         rel_path="reports/benchmark/manifests/lm-eval-candidate-command-20260524.md",
         required=(
-            f"{GENERAL_ENV}/bin/lm_eval run",
+            f"{GENERAL_ENV}/bin/python scripts/run_mlx_lm_eval.py",
             "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+            "Qwen/Qwen3-4B-MLX-4bit",
             f"{SSD_EVAL_ROOT}/lm-eval/",
+        ),
+        forbidden=(
+            "--model local-chat-completions",
+            "base_url=http://127.0.0.1:8080/v1/chat/completions",
         ),
     ),
 )

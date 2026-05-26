@@ -21,25 +21,29 @@ MODEL_ID=<runtime_model_id>
 OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/${RUN_ID}
 mkdir -p "$OUT"
 
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run \
-  --model local-chat-completions \
-  --model_args model=Qwen/Qwen3-4B-MLX-4bit,base_url=http://127.0.0.1:8080/v1/chat/completions,tokenizer=Qwen/Qwen3-4B,tokenizer_backend=huggingface,tokenized_requests=False,max_gen_toks=512,timeout=300 \
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python scripts/run_mlx_lm_eval.py \
+  --run-id "$RUN_ID" \
+  --model Qwen/Qwen3-4B-MLX-4bit \
+  --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter \
   --tasks arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande \
-  --batch_size 1 \
-  --apply_chat_template \
-  --gen_kwargs temperature=0 \
-  --output_path "$OUT" \
-  --log_samples \
-  --seed 0,1234,1234,1234
+  --batch-size 1 \
+  --max-length 4096 \
+  --output-dir "$OUT"
 ```
 
-Use the smoke manifest first with `LIMIT=10`. This candidate command is the
-next tier and should not run until adapter compatibility is confirmed.
+Use the smoke manifest first with `--limit 10`. This candidate command is the
+next tier and should not be used for external claims until the full selected
+task run completes, raw `results.json` is retained, and reviewer sign-off is
+recorded.
 
-Current Qwen3 v4 status: blocked with `mlx_lm.server`. The selected tasks
-require loglikelihood scoring; `local-chat-completions` cannot provide it, and
-`local-completions` currently fails against the MLX server logprobs shape. See
-`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`.
+Current Qwen3 v4 status: endpoint-based `lm_eval` remains blocked with
+`mlx_lm.server` because the selected tasks require prompt loglikelihood and the
+server does not return legacy echoed `token_logprobs`. The direct MLX adapter
+has scored a `--limit 10` selected-task smoke, but the full candidate run is
+still missing. See
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`
+and
+`reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md`.
 
 ## Result Card Schema
 
@@ -50,6 +54,7 @@ require loglikelihood scoring; `local-chat-completions` cannot provide it, and
   "model": "<runtime_model_id>",
   "tasks": ["arc_challenge", "hellaswag", "truthfulqa_mc2", "gsm8k", "winogrande"],
   "raw_output": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/<run-id>",
+  "report": "reports/benchmark/lm-eval/<run-id>.md",
   "harness_version": null,
   "normalized_scores": {},
   "known_failures": [],
