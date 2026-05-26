@@ -6,7 +6,7 @@ Changing from one base model to another usually requires touching **3-5 files:**
 
 ```bash
 # 1. Create new repo from template
-cp -r /Users/doughnut/GitHub/hermes-training/gemma4 /Users/doughnut/GitHub/hermes-training/{new-model}
+cp -r /Volumes/PortableSSD/GitHub/hermes-training/gemma4 /Volumes/PortableSSD/GitHub/hermes-training/{new-model}
 
 # 2. Change the MODEL ID in the training config or create a sibling config
 sed -i '' 's|google/gemma-4-E4B-it|huggingface/{model-id}|' {new-model}/scripts/train_config.yaml
@@ -36,7 +36,7 @@ The pipeline handles everything else automatically:
 For Qwen3 smoke work in this repo, use the hub-level SSD-backed cache script first:
 
 ```bash
-source /Users/doughnut/GitHub/hermes-training/scripts/env.sh
+source /Volumes/PortableSSD/GitHub/hermes-training/scripts/env.sh
 export HF_TOKEN=...
 ```
 
@@ -52,7 +52,7 @@ Verification and dry-run before any actual training:
 
 ```bash
 test "$HF_HOME" = "/Volumes/PortableSSD/huggingface"
-cd /Users/doughnut/GitHub/hermes-training/gemma4
+cd /Volumes/PortableSSD/GitHub/hermes-training/gemma4
 ../.venv/bin/python scripts/train.py --config scripts/train_config.qwen3-4b.smoke.yaml --dry-run
 ```
 
@@ -68,7 +68,7 @@ Blockers to record before starting the smoke run:
 
 ```bash
 # Run this from the hub:
-cd /Users/doughnut/GitHub/hermes-training
+cd /Volumes/PortableSSD/GitHub/hermes-training
 
 # 1. Clone the template
 cp -r gemma4 new-model-name

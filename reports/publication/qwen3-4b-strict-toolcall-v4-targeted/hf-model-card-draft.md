@@ -100,9 +100,11 @@ The reusable runtime prompt contract is recorded in
   tool-use evidence.
 - The release does not include official BFCL, HumanEval, MBPP, EvalPlus,
   BigCodeBench, LiveCodeBench, safety/refusal, or RULER long-context scores.
-- The selected lm-eval smoke was attempted separately, but the current local
-  MLX endpoint is not loglikelihood-compatible for those tasks, so no lm-eval
-  score is claimed.
+- The selected `lm_eval` endpoint route was attempted separately, but the current
+  local MLX endpoint is not loglikelihood-compatible for those tasks. A direct
+  MLX adapter has scored bounded selected-task limit-10 and limit-25 runs; treat
+  those as pilot evidence only, not as full official `lm_eval` or leaderboard
+  scores.
 - The adapter is sensitive to runtime prompt formatting.
 - The V4 training data has no held-out user-prompt overlap in the recorded
   audit, but it shares one generic held-out tool name, `notify_care_team`.

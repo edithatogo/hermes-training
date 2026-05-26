@@ -24,10 +24,15 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
         statuses = {item["suite"]: item["status"] for item in summary["items"]}
         self.assertEqual(statuses["lm-eval-selected-smoke"], "present")
         self.assertEqual(statuses["lm-eval-selected"], "missing")
+        self.assertEqual(statuses["lm-eval-selected-candidate-pilot"], "present")
         metrics = {item["suite"]: item["metric"] for item in summary["items"]}
         self.assertEqual(metrics["local-bfcl-style-pilot"], "BFCL-style pilot 0.667")
         self.assertEqual(metrics["official-ifeval-pilot"], "prompt strict 0.760")
         self.assertEqual(metrics["lm-eval-selected-smoke"], "limit 10 selected MLX direct smoke scored")
+        self.assertEqual(
+            metrics["lm-eval-selected-candidate-pilot"],
+            "limit 25 selected MLX direct candidate-pilot scored",
+        )
 
     def test_markdown_lists_missing_official_suites(self) -> None:
         summary = summarize(build_items("qwen3-4b-strict-toolcall-v4-targeted"), "qwen3-4b-strict-toolcall-v4-targeted", "test-run")
@@ -35,6 +40,7 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
 
         self.assertIn("official-bfcl", markdown)
         self.assertIn("lm-eval-selected-smoke", markdown)
+        self.assertIn("lm-eval-selected-candidate-pilot", markdown)
         self.assertIn("pilot-only", markdown)
         self.assertIn("local-heldout-strict-tool-call", markdown)
 

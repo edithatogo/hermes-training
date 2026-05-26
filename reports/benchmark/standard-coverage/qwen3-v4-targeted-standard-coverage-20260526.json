@@ -1,6 +1,6 @@
 {
   "run_id": "qwen3-v4-targeted-standard-coverage-20260526",
-  "created_at": "2026-05-26T06:25:51.232405+00:00",
+  "created_at": "2026-05-26T06:59:23.015682+00:00",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "status": "pilot-only",
   "local_adapter_gate_ready": true,
@@ -14,7 +14,7 @@
   ],
   "counts": {
     "passed": 1,
-    "present": 5,
+    "present": 6,
     "blocked": 1,
     "missing": 5
   },
@@ -95,10 +95,19 @@
       "suite": "lm-eval-selected",
       "tier": "official-candidate",
       "status": "missing",
-      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md",
       "metric": "",
-      "notes": "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs, while the direct MLX adapter has only a limit-10 smoke. A full selected-task candidate run is still missing.",
+      "notes": "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter now records bounded selected-task candidate-pilot evidence, but a full selected-task run is still missing.",
       "required_for": "general benchmark claim"
+    },
+    {
+      "suite": "lm-eval-selected-candidate-pilot",
+      "tier": "official-pilot",
+      "status": "present",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md",
+      "metric": "limit 25 selected MLX direct candidate-pilot scored",
+      "notes": "Direct MLX lm-eval adapter scored the selected task set with a fixed 25-sample limit. This is stronger than smoke evidence but still not a leaderboard or full-task scorecard.",
+      "required_for": "candidate-pilot benchmark positioning"
     },
     {
       "suite": "official-coding",

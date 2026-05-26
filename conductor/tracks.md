@@ -262,3 +262,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: MLX Direct Loglikelihood Smoke Harness
 *Link: [./tracks/mlx-direct-loglikelihood-smoke_20260526/](./tracks/mlx-direct-loglikelihood-smoke_20260526/)*
+
+---
+
+## [x] Track: MLX Direct lm-eval Candidate Scorecard
+*Link: [./tracks/mlx-direct-lm-eval-candidate-scorecard_20260526/](./tracks/mlx-direct-lm-eval-candidate-scorecard_20260526/)*

@@ -141,6 +141,26 @@ Decision: add no Qwen3.7 track. Keep Qwen3-VL 32B MLX as a future multimodal
 runtime proof candidate after the current text/tool-call and mem0 gates are
 stable.
 
+## 2026-05-26 Candidate-Scorecard Refresh
+
+Another live Hugging Face API spot check was run while the larger direct MLX
+`lm_eval` scorecard was executing.
+
+- `Qwen3.7`: no Hugging Face model results were returned. Keep Qwen3.7
+  watchlist-only until official open weights or a supported hosted workflow
+  exists.
+- `Qwen/Qwen3.6-35B-A3B`: the official repository remains the canonical
+  frontier Qwen runtime/teacher candidate. Current community packaging is active,
+  including `unsloth/Qwen3.6-35B-A3B-MTP-GGUF`, `byteshape/Qwen3.6-35B-A3B-MTP-GGUF`,
+  and `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF`; treat these as latency/runtime
+  experiments only.
+- `NousResearch/Hermes-4-14B`: the official Hermes 4 14B repository remains the
+  smaller Hermes-aligned baseline. ONNX/GGUF/MLX variants are packaging
+  candidates, not new fine-tune bases.
+- `LiquidAI/LFM2-24B-A2B`: official GGUF, ONNX, and MLX quantized packages
+  remain visible. Continue treating LFM2-24B as an efficient runtime/teacher
+  lane rather than a local M1 fine-tune target.
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -154,5 +174,6 @@ stable.
 - Live Hugging Face API searches on 2026-05-26 for `Hermes 4 GGUF`, `Qwen3.6 GGUF`, `Qwen3 Embedding`, `Qwen3 Reranker`, `LFM2 GGUF`, `LFM2 ColBERT`, `embedding mlx`, and `reranker mlx`
 - Hugging Face pages checked on 2026-05-26: `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` and `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF`
 - Hugging Face pages checked on 2026-05-26 late refresh: `mlx-community/Qwen3-VL-32B-Instruct-4bit`, `LiquidAI` organization models, `LiquidAI/LFM2.5-Audio-1.5B`, and `NousResearch/eval-Hermes-4-14B-reasoning`
+- Live Hugging Face API spot check on 2026-05-26 for `Qwen3.7`, `Qwen3.6-35B-A3B`, `Hermes-4-14B`, and `LFM2-24B-A2B`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.

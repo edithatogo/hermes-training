@@ -43,7 +43,7 @@ The format ladder lives in [RUNTIME_FORMAT_LANES.yaml](./RUNTIME_FORMAT_LANES.ya
 
 ## Ollama Notes From Local Repo
 
-The local `/Users/doughnut/GitHub/ollama` tree includes newer support that should influence packaging:
+The canonical local Ollama worktree should live under `/Volumes/PortableSSD/GitHub/ollama` or a repo-specific SSD checkout. Older `/Users/doughnut/GitHub/ollama` notes are legacy references only. The Ollama tree includes newer support that should influence packaging:
 
 - `cmd/launch/hermes.go` configures Hermes through Ollama's OpenAI-compatible endpoint and model picker.
 - `runner/runner.go` can dispatch `--mlx-engine` to `x/mlxrunner`.

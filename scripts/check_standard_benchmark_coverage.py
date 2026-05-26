@@ -79,6 +79,13 @@ def build_items(candidate: str) -> list[CoverageItem]:
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md"
     )
+    lm_eval_direct_candidate_pilot = (
+        ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md"
+    )
     bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -164,10 +171,25 @@ def build_items(candidate: str) -> list[CoverageItem]:
             suite="lm-eval-selected",
             tier="official-candidate",
             status="missing",
-            evidence=str(lm_eval_endpoint_attempt.relative_to(ROOT)) if lm_eval_endpoint_attempt.exists() else "",
+            evidence=(
+                str(lm_eval_direct_candidate_pilot.relative_to(ROOT))
+                if lm_eval_direct_candidate_pilot.exists()
+                else str(lm_eval_endpoint_attempt.relative_to(ROOT))
+                if lm_eval_endpoint_attempt.exists()
+                else ""
+            ),
             metric="",
-            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs, while the direct MLX adapter has only a limit-10 smoke. A full selected-task candidate run is still missing.",
+            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter now records bounded selected-task candidate-pilot evidence, but a full selected-task run is still missing.",
             required_for="general benchmark claim",
+        ),
+        CoverageItem(
+            suite="lm-eval-selected-candidate-pilot",
+            tier="official-pilot",
+            status="present" if lm_eval_direct_candidate_pilot.exists() else "missing",
+            evidence=str(lm_eval_direct_candidate_pilot.relative_to(ROOT)) if lm_eval_direct_candidate_pilot.exists() else "",
+            metric="limit 25 selected MLX direct candidate-pilot scored" if lm_eval_direct_candidate_pilot.exists() else "",
+            notes="Direct MLX lm-eval adapter scored the selected task set with a fixed 25-sample limit. This is stronger than smoke evidence but still not a leaderboard or full-task scorecard.",
+            required_for="candidate-pilot benchmark positioning",
         ),
         CoverageItem(
             suite="official-coding",
