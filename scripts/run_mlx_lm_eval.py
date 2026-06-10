@@ -231,6 +231,65 @@ def build_results_payload(
     }
 
 
+def load_json_payload(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload if isinstance(payload, dict) else {}
+
+
+def load_resumable_full_run_state(
+    output_dir: Path,
+    run_id: str,
+    model: str,
+    adapter: str,
+    tasks: list[str],
+) -> dict[str, Any] | None:
+    summary_path = output_dir / "summary.json"
+    results_path = output_dir / "results.json"
+    if not summary_path.exists():
+        return None
+
+    summary = load_json_payload(summary_path)
+    if not summary:
+        return None
+    if summary.get("run_id") != run_id:
+        raise ValueError(f"existing run_id {summary.get('run_id')!r} does not match {run_id!r}")
+    if summary.get("model") != model or summary.get("adapter") != adapter:
+        raise ValueError("existing run configuration does not match requested model or adapter")
+    if summary.get("tasks") != tasks:
+        raise ValueError("existing task list does not match requested task list")
+    if summary.get("limit") is not None:
+        return None
+
+    results = load_json_payload(results_path)
+    completed_tasks = [str(task) for task in summary.get("completed_tasks", []) if str(task) in tasks]
+    pending_tasks = [task for task in tasks if task not in completed_tasks]
+    task_metrics = summary.get("task_metrics", {})
+    raw_results: dict[str, Any] = {
+        "results": results.get("results", {}) if isinstance(results.get("results", {}), dict) else {},
+        "task_runs": results.get("task_runs", {}) if isinstance(results.get("task_runs", {}), dict) else {},
+    }
+    started_at = summary.get("started_at")
+    if not isinstance(started_at, (int, float)):
+        started_at = time.time()
+
+    summary["started_at"] = started_at
+    summary["status"] = "running" if pending_tasks else "scored"
+    summary["completed_tasks"] = completed_tasks
+    summary["pending_tasks"] = pending_tasks
+    summary["task_metrics"] = task_metrics if isinstance(task_metrics, dict) else {}
+    summary.pop("error", None)
+    return {
+        "summary": summary,
+        "raw_results": raw_results,
+        "started_at": float(started_at),
+        "completed_tasks": completed_tasks,
+        "pending_tasks": pending_tasks,
+        "results": results,
+    }
+
+
 def run_full_selected_tasks(
     adapter: Any,
     tasks: list[str],
@@ -242,22 +301,26 @@ def run_full_selected_tasks(
     run_id: str,
     model: str,
     adapter_path: str,
+    raw_results: dict[str, Any] | None = None,
+    completed_tasks: list[str] | None = None,
 ) -> None:
     from lm_eval import evaluator
 
-    raw_results: dict[str, Any] = {"results": {}, "task_runs": {}}
+    raw_results = raw_results or {"results": {}, "task_runs": {}}
+    completed_tasks = list(completed_tasks or [])
     summary["status"] = "running"
-    summary["completed_tasks"] = []
-    summary["pending_tasks"] = list(tasks)
+    summary["completed_tasks"] = completed_tasks
+    summary["pending_tasks"] = [task for task in tasks if task not in completed_tasks]
     summary.pop("current_task", None)
-    summary["task_metrics"] = {}
+    summary["task_metrics"] = collect_task_metrics(raw_results)
     persist_run_state(summary, output_dir, report_path, started)
     save_json(
         output_dir / "results.json",
-        build_results_payload(run_id, model, adapter_path, tasks, None, [], raw_results),
+        build_results_payload(run_id, model, adapter_path, tasks, None, list(completed_tasks), raw_results),
     )
 
-    for task in tasks:
+    pending_tasks = [task for task in tasks if task not in completed_tasks]
+    for task in pending_tasks:
         summary["current_task"] = task
         persist_run_state(summary, output_dir, report_path, started)
         task_results = evaluator.simple_evaluate(
@@ -275,12 +338,13 @@ def run_full_selected_tasks(
             raw_results["results"].update(task_result)
         raw_results["task_runs"][task] = safe_task_results
         summary["task_metrics"] = collect_task_metrics(raw_results)
-        summary["completed_tasks"].append(task)
-        summary["pending_tasks"] = [item for item in tasks if item not in summary["completed_tasks"]]
+        completed_tasks.append(task)
+        summary["completed_tasks"] = completed_tasks
+        summary["pending_tasks"] = [item for item in tasks if item not in completed_tasks]
         persist_run_state(summary, output_dir, report_path, started)
         save_json(
             output_dir / "results.json",
-            build_results_payload(run_id, model, adapter_path, tasks, None, list(summary["completed_tasks"]), raw_results),
+            build_results_payload(run_id, model, adapter_path, tasks, None, list(completed_tasks), raw_results),
         )
 
     summary["status"] = "scored"
@@ -388,7 +452,6 @@ def main() -> int:
 
     output_dir.mkdir(parents=True, exist_ok=True)
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    started = time.time()
     summary: dict[str, Any] = {
         "run_id": args.run_id,
         "created_at": datetime.now(UTC).isoformat(),
@@ -402,24 +465,58 @@ def main() -> int:
         "status": "started",
         "load_latency_s": 0.0,
         "total_latency_s": 0.0,
+        "started_at": time.time(),
     }
     try:
         adapter = MlxLmEvalAdapter(args.model, args.adapter or None, args.max_length)
         summary["load_latency_s"] = adapter.load_latency_s
         if limit is None:
-            run_full_selected_tasks(
-                adapter,
-                tasks,
-                args.batch_size,
-                started,
-                summary,
-                output_dir,
-                report_path,
-                args.run_id,
-                args.model,
-                args.adapter,
-            )
+            resume_state = load_resumable_full_run_state(output_dir, args.run_id, args.model, args.adapter, tasks)
+            if resume_state:
+                summary = resume_state["summary"]
+                summary["load_latency_s"] = adapter.load_latency_s
+                started = float(resume_state["started_at"])
+                raw_results = resume_state["raw_results"]
+                completed_tasks = resume_state["completed_tasks"]
+                if not resume_state["pending_tasks"]:
+                    summary["status"] = "scored"
+                    summary.pop("current_task", None)
+                    persist_run_state(summary, output_dir, report_path, started)
+                    save_json(
+                        output_dir / "results.json",
+                        build_results_payload(args.run_id, args.model, args.adapter, tasks, None, list(completed_tasks), raw_results),
+                    )
+                else:
+                    run_full_selected_tasks(
+                        adapter,
+                        tasks,
+                        args.batch_size,
+                        started,
+                        summary,
+                        output_dir,
+                        report_path,
+                        args.run_id,
+                        args.model,
+                        args.adapter,
+                        raw_results=raw_results,
+                        completed_tasks=completed_tasks,
+                    )
+            else:
+                started = float(summary["started_at"])
+                run_full_selected_tasks(
+                    adapter,
+                    tasks,
+                    args.batch_size,
+                    started,
+                    summary,
+                    output_dir,
+                    report_path,
+                    args.run_id,
+                    args.model,
+                    args.adapter,
+                )
         else:
+            started = float(summary["started_at"])
             from lm_eval import evaluator
 
             results = evaluator.simple_evaluate(

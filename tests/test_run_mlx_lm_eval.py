@@ -205,6 +205,132 @@ class RunMlxLmEvalTests(unittest.TestCase):
             self.assertEqual(sorted(results["results"]), ["arc_challenge", "hellaswag"])
             self.assertEqual(sorted(results["task_runs"]), ["arc_challenge", "hellaswag"])
 
+    def test_main_resumes_full_mode_from_existing_checkpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "out"
+            report_path = Path(tmpdir) / "report.md"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            report_path.parent.mkdir(parents=True, exist_ok=True)
+            calls: list[dict[str, object]] = []
+
+            summary_path = output_dir / "summary.json"
+            results_path = output_dir / "results.json"
+            summary_path.write_text(
+                json.dumps(
+                    {
+                        "run_id": "resume-run",
+                        "created_at": "2026-06-10T00:00:00+00:00",
+                        "started_at": 1_700_000_000.0,
+                        "model": "Qwen/Qwen3-4B-MLX-4bit",
+                        "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+                        "tasks": ["arc_challenge", "hellaswag"],
+                        "limit": None,
+                        "output_dir": str(output_dir),
+                        "report": str(report_path),
+                        "max_length": 4096,
+                        "status": "running",
+                        "load_latency_s": 0.125,
+                        "total_latency_s": 12.3,
+                        "completed_tasks": ["arc_challenge"],
+                        "pending_tasks": ["hellaswag"],
+                        "task_metrics": {"arc_challenge": {"acc,none": 1.0}},
+                        "current_task": "hellaswag",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "run_id": "resume-run",
+                        "model": "Qwen/Qwen3-4B-MLX-4bit",
+                        "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+                        "tasks": ["arc_challenge", "hellaswag"],
+                        "limit": None,
+                        "task_order": ["arc_challenge"],
+                        "task_metrics": {"arc_challenge": {"acc,none": 1.0}},
+                        "results": {"arc_challenge": {"acc,none": 1.0}},
+                        "task_runs": {"arc_challenge": {"results": {"arc_challenge": {"acc,none": 1.0}}}},
+                        "mode": "incremental-full-run",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            class FakeAdapter:
+                def __init__(self, model_name: str, adapter_path: str | None, max_length: int) -> None:
+                    self.model_name = model_name
+                    self.adapter_path = adapter_path or ""
+                    self.max_length = max_length
+                    self.load_latency_s = 0.125
+
+            def simple_evaluate(*, model, tasks, limit, batch_size, bootstrap_iters, log_samples, verbosity):
+                calls.append(
+                    {
+                        "tasks": list(tasks),
+                        "limit": limit,
+                        "batch_size": batch_size,
+                        "bootstrap_iters": bootstrap_iters,
+                        "log_samples": log_samples,
+                        "verbosity": verbosity,
+                    }
+                )
+                summary = json.loads(summary_path.read_text(encoding="utf-8"))
+                report = report_path.read_text(encoding="utf-8")
+                results = json.loads(results_path.read_text(encoding="utf-8"))
+                self.assertEqual(summary["status"], "running")
+                self.assertEqual(summary["completed_tasks"], ["arc_challenge"])
+                self.assertEqual(summary["pending_tasks"], ["hellaswag"])
+                self.assertEqual(summary["current_task"], "hellaswag")
+                self.assertIn("Current task | `hellaswag`", report)
+                self.assertIn("Completed tasks | `1/2`", report)
+                self.assertEqual(results["task_order"], ["arc_challenge"])
+                self.assertEqual(sorted(results["results"]), ["arc_challenge"])
+                return {"results": {"hellaswag": {"acc,none": 2.0, "acc_stderr,none": 0.0}}}
+
+            fake_lm_eval = types.ModuleType("lm_eval")
+            fake_evaluator = types.ModuleType("lm_eval.evaluator")
+            fake_evaluator.simple_evaluate = simple_evaluate
+            fake_lm_eval.evaluator = fake_evaluator
+
+            argv = [
+                "run_mlx_lm_eval.py",
+                "--run-id",
+                "resume-run",
+                "--tasks",
+                "arc_challenge,hellaswag",
+                "--batch-size",
+                "1",
+                "--output-dir",
+                str(output_dir),
+                "--report",
+                str(report_path),
+            ]
+            with patch.object(run_mlx_lm_eval, "MlxLmEvalAdapter", FakeAdapter), patch.dict(
+                sys.modules,
+                {"lm_eval": fake_lm_eval, "lm_eval.evaluator": fake_evaluator},
+            ), patch.object(sys, "argv", argv), contextlib.redirect_stdout(io.StringIO()):
+                exit_code = run_mlx_lm_eval.main()
+
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(len(calls), 1)
+            self.assertEqual(calls[0]["tasks"], ["hellaswag"])
+            self.assertEqual(calls[0]["limit"], None)
+            self.assertFalse(calls[0]["log_samples"])
+
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            report = report_path.read_text(encoding="utf-8")
+            results = json.loads(results_path.read_text(encoding="utf-8"))
+
+            self.assertEqual(summary["status"], "scored")
+            self.assertEqual(summary["completed_tasks"], ["arc_challenge", "hellaswag"])
+            self.assertEqual(summary["pending_tasks"], [])
+            self.assertNotIn("current_task", summary)
+            self.assertIn("Completed tasks | `2/2`", report)
+            self.assertIn("Limit: `full`", report)
+            self.assertEqual(results["task_order"], ["arc_challenge", "hellaswag"])
+            self.assertEqual(sorted(results["results"]), ["arc_challenge", "hellaswag"])
+
     def test_main_keeps_limit_smoke_batch_behavior(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir) / "out"
