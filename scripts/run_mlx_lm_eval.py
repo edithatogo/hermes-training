@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import threading
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -152,6 +153,7 @@ def render_report(summary: dict[str, Any]) -> str:
         f"# MLX lm-eval Direct Run: {summary['run_id']}",
         "",
         f"Date: {summary['created_at']}",
+        f"Last update: {summary.get('last_update_at', summary['created_at'])}",
         f"Model: `{summary['model']}`",
         f"Adapter: `{summary.get('adapter', '')}`",
         f"Tasks: `{','.join(summary['tasks'])}`",
@@ -194,10 +196,43 @@ def render_report(summary: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def persist_run_state(summary: dict[str, Any], output_dir: Path, report_path: Path, started: float) -> None:
-    summary["total_latency_s"] = time.time() - started
-    save_json(output_dir / "summary.json", summary)
-    report_path.write_text(render_report(summary), encoding="utf-8")
+def persist_run_state(
+    summary: dict[str, Any],
+    output_dir: Path,
+    report_path: Path,
+    started: float,
+    state_lock: Any | None = None,
+) -> None:
+    def write_state() -> None:
+        summary["total_latency_s"] = time.time() - started
+        summary["last_update_at"] = datetime.now(UTC).isoformat()
+        save_json(output_dir / "summary.json", summary)
+        report_path.write_text(render_report(summary), encoding="utf-8")
+
+    if state_lock is None:
+        write_state()
+        return
+    with state_lock:
+        write_state()
+
+
+def start_run_heartbeat(
+    summary: dict[str, Any],
+    output_dir: Path,
+    report_path: Path,
+    started: float,
+    state_lock: Any,
+    interval_s: float = 60.0,
+) -> tuple[threading.Event, threading.Thread]:
+    stop_event = threading.Event()
+
+    def heartbeat() -> None:
+        while not stop_event.wait(interval_s):
+            persist_run_state(summary, output_dir, report_path, started, state_lock)
+
+    thread = threading.Thread(target=heartbeat, name="lm-eval-heartbeat", daemon=True)
+    thread.start()
+    return stop_event, thread
 
 
 def collect_task_result(task_name: str, results: dict[str, Any]) -> dict[str, Any]:
@@ -308,12 +343,13 @@ def run_full_selected_tasks(
 
     raw_results = raw_results or {"results": {}, "task_runs": {}}
     completed_tasks = list(completed_tasks or [])
+    state_lock = threading.Lock()
     summary["status"] = "running"
     summary["completed_tasks"] = completed_tasks
     summary["pending_tasks"] = [task for task in tasks if task not in completed_tasks]
     summary.pop("current_task", None)
     summary["task_metrics"] = collect_task_metrics(raw_results)
-    persist_run_state(summary, output_dir, report_path, started)
+    persist_run_state(summary, output_dir, report_path, started, state_lock)
     save_json(
         output_dir / "results.json",
         build_results_payload(run_id, model, adapter_path, tasks, None, list(completed_tasks), raw_results),
@@ -322,16 +358,21 @@ def run_full_selected_tasks(
     pending_tasks = [task for task in tasks if task not in completed_tasks]
     for task in pending_tasks:
         summary["current_task"] = task
-        persist_run_state(summary, output_dir, report_path, started)
-        task_results = evaluator.simple_evaluate(
-            model=adapter,
-            tasks=[task],
-            limit=None,
-            batch_size=batch_size,
-            bootstrap_iters=0,
-            log_samples=False,
-            verbosity="INFO",
-        )
+        persist_run_state(summary, output_dir, report_path, started, state_lock)
+        heartbeat_stop, heartbeat_thread = start_run_heartbeat(summary, output_dir, report_path, started, state_lock)
+        try:
+            task_results = evaluator.simple_evaluate(
+                model=adapter,
+                tasks=[task],
+                limit=None,
+                batch_size=batch_size,
+                bootstrap_iters=0,
+                log_samples=False,
+                verbosity="INFO",
+            )
+        finally:
+            heartbeat_stop.set()
+            heartbeat_thread.join(timeout=1.0)
         safe_task_results = json_safe(task_results or {})
         task_result = collect_task_result(task, safe_task_results)
         if task_result:
@@ -341,7 +382,7 @@ def run_full_selected_tasks(
         completed_tasks.append(task)
         summary["completed_tasks"] = completed_tasks
         summary["pending_tasks"] = [item for item in tasks if item not in completed_tasks]
-        persist_run_state(summary, output_dir, report_path, started)
+        persist_run_state(summary, output_dir, report_path, started, state_lock)
         save_json(
             output_dir / "results.json",
             build_results_payload(run_id, model, adapter_path, tasks, None, list(completed_tasks), raw_results),
@@ -351,7 +392,7 @@ def run_full_selected_tasks(
     summary.pop("current_task", None)
     summary["pending_tasks"] = []
     summary["task_metrics"] = collect_task_metrics(raw_results)
-    persist_run_state(summary, output_dir, report_path, started)
+    persist_run_state(summary, output_dir, report_path, started, state_lock)
     save_json(
         output_dir / "results.json",
         build_results_payload(run_id, model, adapter_path, tasks, None, list(tasks), raw_results),

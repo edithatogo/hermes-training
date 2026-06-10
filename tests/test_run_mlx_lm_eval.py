@@ -113,6 +113,25 @@ class RunMlxLmEvalTests(unittest.TestCase):
 
         self.assertIn("Limit: `full`", report)
 
+    def test_render_report_includes_last_update(self) -> None:
+        report = render_report(
+            {
+                "run_id": "run",
+                "created_at": "now",
+                "last_update_at": "later",
+                "model": "model",
+                "adapter": "adapter",
+                "tasks": ["arc"],
+                "limit": None,
+                "status": "running",
+                "output_dir": "/tmp/out",
+                "load_latency_s": 1.0,
+                "total_latency_s": 2.0,
+            }
+        )
+
+        self.assertIn("Last update: later", report)
+
     def test_main_runs_full_mode_incrementally_and_flushes_after_each_task(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             output_dir = Path(tmpdir) / "out"
