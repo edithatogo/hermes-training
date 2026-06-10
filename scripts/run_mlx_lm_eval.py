@@ -147,6 +147,7 @@ def collect_task_metrics(results: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def render_report(summary: dict[str, Any]) -> str:
+    limit_display = summary["limit"] if summary["limit"] is not None else "full"
     lines = [
         f"# MLX lm-eval Direct Run: {summary['run_id']}",
         "",
@@ -154,7 +155,7 @@ def render_report(summary: dict[str, Any]) -> str:
         f"Model: `{summary['model']}`",
         f"Adapter: `{summary.get('adapter', '')}`",
         f"Tasks: `{','.join(summary['tasks'])}`",
-        f"Limit: `{summary['limit']}`",
+        f"Limit: `{limit_display}`",
         "",
         "## Result",
         "",
@@ -244,7 +245,7 @@ def main() -> int:
     parser.add_argument("--model", default="Qwen/Qwen3-4B-MLX-4bit")
     parser.add_argument("--adapter", default="gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter")
     parser.add_argument("--tasks", default="arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande")
-    parser.add_argument("--limit", type=int, default=1)
+    parser.add_argument("--limit", type=int)
     parser.add_argument("--batch-size", default="1")
     parser.add_argument("--max-length", type=int, default=4096)
     parser.add_argument("--run-id", default=f"mlx-lm-eval-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}")
@@ -260,13 +261,14 @@ def main() -> int:
         return 0
 
     tasks = [item.strip() for item in args.tasks.split(",") if item.strip()]
+    limit = None if args.limit == 0 else args.limit
     output_dir = args.output_dir or (resolve_default_output_root() / "standard-benchmarks" / "lm-eval" / args.run_id)
     report_path = args.report or (Path("reports/benchmark/lm-eval") / f"{args.run_id}.md")
     if args.dry_run:
         print(f"model: {args.model}")
         print(f"adapter: {args.adapter}")
         print(f"tasks: {tasks}")
-        print(f"limit: {args.limit}")
+        print(f"limit: {limit}")
         print(f"output_dir: {output_dir}")
         print(f"report: {report_path}")
         return 0
@@ -280,7 +282,7 @@ def main() -> int:
         "model": args.model,
         "adapter": args.adapter,
         "tasks": tasks,
-        "limit": args.limit,
+        "limit": limit,
         "output_dir": str(output_dir),
         "report": str(report_path),
         "max_length": args.max_length,
@@ -296,16 +298,31 @@ def main() -> int:
         results = evaluator.simple_evaluate(
             model=adapter,
             tasks=tasks,
-            limit=args.limit,
+            limit=limit,
             batch_size=args.batch_size,
             bootstrap_iters=0,
-            log_samples=True,
+            log_samples=limit is not None,
             verbosity="INFO",
         )
         summary["status"] = "scored"
-        safe_results = json_safe(results or {})
-        summary["task_metrics"] = collect_task_metrics(safe_results)
-        save_json(output_dir / "results.json", results or {})
+        raw_results = results or {}
+        summary["task_metrics"] = collect_task_metrics(raw_results)
+        if limit is None:
+            save_json(
+                output_dir / "results.json",
+                {
+                    "run_id": args.run_id,
+                    "model": args.model,
+                    "adapter": args.adapter,
+                    "tasks": tasks,
+                    "limit": limit,
+                    "task_metrics": summary.get("task_metrics", {}),
+                    "mode": "metric-only-full-run",
+                },
+            )
+        else:
+            safe_results = json_safe(raw_results)
+            save_json(output_dir / "results.json", results or {})
     except Exception as exc:  # noqa: BLE001
         summary["status"] = "blocked"
         summary["error"] = f"{type(exc).__name__}: {exc}"

@@ -86,6 +86,24 @@ class RunMlxLmEvalTests(unittest.TestCase):
         self.assertIn("## Metrics", report)
         self.assertIn("acc,none", report)
 
+    def test_render_report_shows_full_when_limit_is_none(self) -> None:
+        report = render_report(
+            {
+                "run_id": "run",
+                "created_at": "now",
+                "model": "model",
+                "adapter": "adapter",
+                "tasks": ["arc"],
+                "limit": None,
+                "status": "scored",
+                "output_dir": "/tmp/out",
+                "load_latency_s": 1.0,
+                "total_latency_s": 2.0,
+            }
+        )
+
+        self.assertIn("Limit: `full`", report)
+
 
 if __name__ == "__main__":
     unittest.main()

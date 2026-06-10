@@ -100,7 +100,7 @@ def run_command(command: tuple[str, ...]) -> dict[str, Any]:
     executable = Path(sys.executable).parent / command[0]
     if executable.exists():
         resolved[0] = str(executable)
-    result = subprocess.run(resolved, capture_output=True, text=True, timeout=30, env=env)
+    result = subprocess.run(resolved, capture_output=True, text=True, timeout=30, env=env, cwd="/tmp")
     return {
         "command": resolved,
         "returncode": result.returncode,
