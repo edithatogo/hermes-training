@@ -467,6 +467,7 @@ def main() -> int:
         "total_latency_s": 0.0,
         "started_at": time.time(),
     }
+    started = float(summary["started_at"])
     try:
         adapter = MlxLmEvalAdapter(args.model, args.adapter or None, args.max_length)
         summary["load_latency_s"] = adapter.load_latency_s
@@ -513,7 +514,7 @@ def main() -> int:
                     report_path,
                     args.run_id,
                     args.model,
-                    args.adapter,
+                        args.adapter,
                 )
         else:
             started = float(summary["started_at"])
