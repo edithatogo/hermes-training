@@ -65,6 +65,16 @@ proofs:
     command: "HF_HUB_OFFLINE=1 ./.venv/bin/python -m mlx_lm.server --model /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-1.2B-Instruct/snapshots/6314d2b7cf28a6ae9de9d3e77dcfcd9c9f281c77 --adapter-path /Volumes/PortableSSD/GitHub/hermes-training/lfm2/experiments/lfm25-1.2b-instruct-smoke/lora_adapter --host 127.0.0.1 --port 8096"
     blocker: "Runtime smoke passed through MLX server; direct lfm2/scripts/evaluate.py adapter load was repaired in lfm2 commit 3413720, but a one-prompt direct eval produced a non-compliant response, so this is runtime/load proof only."
 
+  - id: lfm25-8b-a1b-q4-gguf-proof
+    lane_id: gguf-portability
+    model: LiquidAI/LFM2.5-8B-A1B-GGUF
+    run_name: lfm25-8b-a1b-q4km-llamacpp-smoke-20260612
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-8B-A1B-GGUF/snapshots/dfd5fdcad7a1c0d31473fb4ca443b8befbacddf0/LFM2.5-8B-A1B-Q4_K_M.gguf
+    command: "/opt/homebrew/bin/llama-completion -m /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-8B-A1B-GGUF/snapshots/dfd5fdcad7a1c0d31473fb4ca443b8befbacddf0/LFM2.5-8B-A1B-Q4_K_M.gguf --ctx-size 512 --n-predict 8 --temp 0 --seed 1 --no-display-prompt --no-conversation --simple-io --prompt 'Return only JSON: {\"ok\": true}'"
+    blocker: "Runtime load and bounded generation passed through llama-completion from SSD-backed Q4_K_M GGUF, but the output was not compliant JSON. Keep as an 8B LFM runtime baseline only."
+
   - id: lfm2-24b-a2b-q4-gguf-proof
     lane_id: gguf-portability
     model: LiquidAI/LFM2-24B-A2B-GGUF

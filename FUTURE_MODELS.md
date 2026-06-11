@@ -48,7 +48,8 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
 | 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
 | 5 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
-| 6 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
+| 6 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
+| 7 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
 | 7 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
 
 ## Tiny/Small Open-Weight Shortlist
@@ -205,6 +206,7 @@ Acceptance bar:
 | `Qwen/Qwen3-Next-80B-A3B-Instruct` | Official HF weights and a GGUF family are published. Use it as a runtime-experiment target only; it is not a 32GB fine-tune target. | `needs-runtime-proof` |
 | `LiquidAI/LFM2-24B-A2B` | Live Hugging Face API refresh on 2026-05-24 found official base, GGUF, ONNX, and MLX-bf16 package listings plus a NexaAI GGUF. Treat as a specialist runtime experiment; do not make local fine-tune claims before endpoint and memory proofs. | `needs-runtime-proof` |
 | `LiquidAI/LFM2.5-1.2B-Instruct` / `Thinking` | Official model card lists day-one support for llama.cpp, MLX, and vLLM. This is the safest local fine-tune lane in the frontier set. | `ready` |
+| `LiquidAI/LFM2.5-8B-A1B-GGUF` | Official Q4_K_M GGUF was acquired to SSD and load/generation passed through `llama-completion` on 2026-06-12. The bounded JSON prompt produced non-compliant output, so it is a runtime baseline only. | `runtime-proofed; hermes-smoke-blocked` |
 | `microsoft/bitnet-b1.58-2B-4T` | Native BitNet runtime load and 16-token generation passed on 2026-06-12 from the SSD-backed I2_S artifact with 1.32 GB max RSS. The bounded JSON prompt and `-cnv` chat-profile retry were non-compliant, so this is runtime evidence only. | `runtime-proofed; hermes-smoke-blocked` |
 | `openbmb/MiniCPM5-1B-MLX` | Official MLX package acquired through the SSD-backed Hugging Face cache. A one-case direct MLX loglikelihood smoke passed on 2026-06-12, but the 3-case BFCL-style pilot scored 0.000 because outputs did not emit strict Hermes tool-call JSON. | `runtime-proofed; tool-call-blocked` |
 | `Qwen/Qwen3.5-0.8B` / `Qwen/Qwen3.5-2B` | Both tiny MLX candidates are SSD-acquired and one-case loglikelihood proven. The raw BFCL-style role gate scored 0.000 for both; a simple `<tool_call>` wrapper retry for 0.8B also scored 0.000. Use only for prompt-repair/helper/extraction experiments. | `runtime-proofed; tool-call-blocked` |

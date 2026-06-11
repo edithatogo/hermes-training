@@ -398,6 +398,19 @@ candidates:
     first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
     notes: "Reasoning helper candidate. Liquid's January 2026 LFM2.5 Thinking release says it is available on Hugging Face, LEAP, and local inference stacks including llama.cpp, MLX, vLLM, and ONNX Runtime; validate on Hermes prompts before any adapter claim."
 
+  - id: LiquidAI/LFM2.5-8B-A1B-GGUF
+    family: lfm
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: ready
+    parameters: "8B total / 1B active"
+    architecture: "LFM2.5 hybrid A1B architecture, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama-completion Q4_K_M runtime proof is complete; LM Studio endpoint smoke remains optional"
+    first_finetune: "defer; use smaller LFM2.5 or cloud/specialist path first"
+    notes: "Official GGUF repo and Q4_K_M file were verified by Hugging Face API on 2026-06-12 and acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion runtime smoke passed with exit code 0, load time 707.68 ms, generation 109.59 tok/s, and about 5.29 GB max RSS, but the output was not JSON-compliant. Treat as a runtime baseline only."
+
   - id: LiquidAI/LFM2-24B-A2B
     family: lfm
     tier: frontier-runtime

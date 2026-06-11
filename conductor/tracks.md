@@ -327,3 +327,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Future Models Proof Reconciliation
 *Link: [./tracks/future-models-proof-reconciliation_20260612/](./tracks/future-models-proof-reconciliation_20260612/)*
+
+---
+
+## [x] Track: LFM2.5 8B A1B GGUF Runtime Smoke
+*Link: [./tracks/lfm25-8b-gguf-smoke_20260612/](./tracks/lfm25-8b-gguf-smoke_20260612/)*
