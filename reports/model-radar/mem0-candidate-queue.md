@@ -31,8 +31,8 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
 | 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 12 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
-| 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
-| 14 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape |
+| 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 with 1024-dim embeddings; keep the text-matching lane separate |
+| 14 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 text-matching smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
 | 15 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
 
 ## Candidate Commands
