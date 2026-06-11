@@ -38,6 +38,7 @@ class JinaMlxEmbeddingBenchmarkTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             repo_dir = Path(temp_dir)
             (repo_dir / "config.json").write_text('{"hidden_size": 4}\n', encoding="utf-8")
+            (repo_dir / "tokenizer.json").write_text('{"version":"1.0","truncation":null,"padding":null,"added_tokens":[],"normalizer":null,"pre_tokenizer":{"type":"Whitespace"},"post_processor":null,"decoder":null,"model":{"type":"WordLevel","vocab":{"[UNK]":0,"hello":1},"unk_token":"[UNK]"}}\n', encoding="utf-8")
             (repo_dir / "model.py").write_text(
                 "\n".join(
                     [
@@ -56,17 +57,25 @@ class JinaMlxEmbeddingBenchmarkTests(unittest.TestCase):
                         "        return weights",
                         "    def load_weights(self, weights):",
                         "        self.loaded = weights",
+                        "    def parameters(self):",
+                        "        return {}",
+                        "    def encode_text(self, input_ids, attention_mask=None):",
+                        "        return [[1.0, 0.0]]",
                     ]
                 )
                 + "\n",
                 encoding="utf-8",
             )
             sys.modules.pop("model", None)
-            with mock.patch("scripts.run_jina_mlx_embedding_benchmark.mx.load", return_value={"w": 1}):
+            with (
+                mock.patch("scripts.run_jina_mlx_embedding_benchmark.mx.load", return_value={"w": 1}),
+                mock.patch("scripts.run_jina_mlx_embedding_benchmark.mx.eval"),
+            ):
                 model = load_model(repo_dir)
 
-            self.assertEqual(model.config.data["hidden_size"], 4)
-            self.assertEqual(model.loaded, [("w", 1)])
+            self.assertEqual(model.model.config.data["hidden_size"], 4)
+            self.assertEqual(model.model.loaded, [("w", 1)])
+            self.assertEqual(model.encode(["hello"]), [[1.0, 0.0]])
 
 
 if __name__ == "__main__":

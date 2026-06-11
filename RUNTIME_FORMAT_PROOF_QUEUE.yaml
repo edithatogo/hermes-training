@@ -118,12 +118,12 @@ proofs:
   - id: jina-v5-omni-small-mlx-text-matching-proof
     lane_id: mlx-native
     model: jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
-    run_name: jina-v5-omni-small-mlx-text-matching-proof-20260611
+    run_name: jina-mlx-text-matching-smoke-20260612c
     status: completed-runtime-proof
     endpoint: ""
-    artifact_path: ""
-    command: "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx --task-type text-matching --suite benchmarks/embeddings/memory_retrieval_suite.json"
-    blocker: "Text-matching lane is now wired and should be exercised next; the retrieval variant already has a successful smoke."
+    artifact_path: "/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-smoke-20260612c"
+    command: "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx --task-type text-matching --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/jina-mlx-text-matching-smoke-20260612a --suite benchmarks/embeddings/memory_retrieval_suite.json --run-id jina-mlx-text-matching-smoke-20260612c --max-cases 3"
+    blocker: "Local load/add/search proof passed on the 3-case mem0 embedding smoke suite; keep as candidate evidence, not a default embedder switch."
 
   - id: bitnet-rwkv-mamba-native-research-proof
     lane_id: recurrent-ssm-bitnet

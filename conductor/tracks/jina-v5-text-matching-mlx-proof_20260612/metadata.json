@@ -1,0 +1,7 @@
+{
+  "id": "jina-v5-text-matching-mlx-proof_20260612",
+  "title": "Jina v5 Text-Matching MLX Proof",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Prove the Jina v5 omni small text-matching MLX embedding lane on the 3-case mem0 retrieval smoke suite."
+}

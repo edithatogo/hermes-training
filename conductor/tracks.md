@@ -282,3 +282,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: lm-eval Partial Run Reconciliation
 *Link: [./tracks/lm-eval-partial-run-reconciliation_20260612/](./tracks/lm-eval-partial-run-reconciliation_20260612/)*
+
+---
+
+## [x] Track: Jina v5 Text-Matching MLX Proof
+*Link: [./tracks/jina-v5-text-matching-mlx-proof_20260612/](./tracks/jina-v5-text-matching-mlx-proof_20260612/)*

@@ -16,6 +16,33 @@ from pathlib import Path
 from typing import Any
 
 import mlx.core as mx
+from tokenizers import Tokenizer
+
+
+class DirectJinaMlxModel:
+    """Minimal text-only adapter for Jina MLX repos that do not ship utils.py."""
+
+    def __init__(self, model: Any, tokenizer: Tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.current_task: str | None = None
+
+    def switch_task(self, task: str) -> None:
+        self.current_task = task
+
+    def encode(self, texts: list[str], task_type: str | None = None) -> Any:
+        del task_type
+        encoded = self.tokenizer.encode_batch(texts)
+        max_length = max(len(item.ids) for item in encoded)
+        input_ids = []
+        attention_mask = []
+        for item in encoded:
+            pad = max_length - len(item.ids)
+            input_ids.append(item.ids + [0] * pad)
+            attention_mask.append(item.attention_mask + [0] * pad)
+        embeddings = self.model.encode_text(mx.array(input_ids, dtype=mx.int32), mx.array(attention_mask, dtype=mx.int32))
+        mx.eval(embeddings)
+        return embeddings
 
 
 def load_json(path: Path) -> Any:
@@ -143,7 +170,9 @@ def load_model(repo_dir: Path) -> Any:
     weights = mx.load(str(repo_dir / "model.safetensors"))
     weights = model.sanitize(weights)
     model.load_weights(list(weights.items()))
-    return model
+    mx.eval(model.parameters())
+    tokenizer = Tokenizer.from_file(str(repo_dir / "tokenizer.json"))
+    return DirectJinaMlxModel(model, tokenizer)
 
 
 def encode(model: Any, texts: list[str], task_type: str) -> tuple[list[list[float]], float]:
