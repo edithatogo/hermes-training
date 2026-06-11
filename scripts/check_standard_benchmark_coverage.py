@@ -86,6 +86,13 @@ def build_items(candidate: str) -> list[CoverageItem]:
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md"
     )
+    lm_eval_direct_partial_full = (
+        ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md"
+    )
     bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -172,6 +179,9 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="official-candidate",
             status="missing",
             evidence=(
+                str(lm_eval_direct_partial_full.relative_to(ROOT))
+                if lm_eval_direct_partial_full.exists()
+                else
                 str(lm_eval_direct_candidate_pilot.relative_to(ROOT))
                 if lm_eval_direct_candidate_pilot.exists()
                 else str(lm_eval_endpoint_attempt.relative_to(ROOT))
@@ -179,7 +189,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
                 else ""
             ),
             metric="",
-            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter now records bounded selected-task candidate-pilot evidence, but a full selected-task run is still missing.",
+            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. A full selected-task run was attempted but interrupted after ARC Challenge only, so full selected-task coverage is still missing.",
             required_for="general benchmark claim",
         ),
         CoverageItem(

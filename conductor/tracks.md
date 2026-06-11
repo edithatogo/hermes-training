@@ -277,3 +277,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Model Radar Tiny/Small Refresh
 *Link: [./tracks/model-radar-tiny-small-refresh_20260612/](./tracks/model-radar-tiny-small-refresh_20260612/)*
+
+---
+
+## [x] Track: lm-eval Partial Run Reconciliation
+*Link: [./tracks/lm-eval-partial-run-reconciliation_20260612/](./tracks/lm-eval-partial-run-reconciliation_20260612/)*

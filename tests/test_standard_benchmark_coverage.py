@@ -33,6 +33,8 @@ class StandardBenchmarkCoverageTests(unittest.TestCase):
             metrics["lm-eval-selected-candidate-pilot"],
             "limit 25 selected MLX direct candidate-pilot scored",
         )
+        notes = {item["suite"]: item["notes"] for item in summary["items"]}
+        self.assertIn("interrupted after ARC Challenge only", notes["lm-eval-selected"])
 
     def test_markdown_lists_missing_official_suites(self) -> None:
         summary = summarize(build_items("qwen3-4b-strict-toolcall-v4-targeted"), "qwen3-4b-strict-toolcall-v4-targeted", "test-run")

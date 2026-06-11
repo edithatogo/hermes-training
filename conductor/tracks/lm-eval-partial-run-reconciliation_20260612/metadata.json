@@ -1,0 +1,7 @@
+{
+  "id": "lm-eval-partial-run-reconciliation_20260612",
+  "title": "lm-eval Partial Run Reconciliation",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Classify the interrupted full selected lm-eval run as partial evidence without promoting it to a benchmark scorecard."
+}
