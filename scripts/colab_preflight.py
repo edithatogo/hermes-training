@@ -56,6 +56,7 @@ def build_report() -> dict[str, Any]:
         "safe_smoke_commands": [
             "colab run --gpu T4 --timeout 120 scripts/colab_smoke.py",
             "colab run --tpu v5e1 --timeout 180 scripts/colab_smoke.py",
+            "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 --run-id colab-auto-smoke scripts/colab_smoke.py",
         ],
         "notes": [
             "This preflight is read-only and does not create a Colab runtime.",

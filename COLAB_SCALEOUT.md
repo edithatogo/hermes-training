@@ -87,9 +87,43 @@ Capture the local output and emit the report back to:
 /Volumes/PortableSSD/hermes-evals/colab/
 ```
 
+## Availability-Aware Dispatch
+
+Use `scripts/colab_dispatch.py` when a job can run on more than one accelerator
+and should choose based on availability:
+
+```bash
+./.venv/bin/python scripts/colab_dispatch.py \
+  --accelerators gpu:T4,gpu:L4,gpu:A100 \
+  --run-id colab-auto-gpu-smoke-20260611 \
+  scripts/colab_smoke.py
+```
+
+For jobs that really support TPU/XLA or JAX:
+
+```bash
+./.venv/bin/python scripts/colab_dispatch.py \
+  --allow-tpu \
+  --accelerators gpu:T4,gpu:L4,tpu:v5e1,tpu:v6e1 \
+  --run-id colab-auto-gpu-tpu-smoke-20260611 \
+  scripts/colab_smoke.py
+```
+
+The dispatcher tries accelerators in order and stops after the first successful
+run. It writes:
+
+- per-attempt logs under `/Volumes/PortableSSD/hermes-evals/colab/<run-id>/`
+- `summary.json` under the same SSD directory
+- a tracked report under `reports/colab/<run-id>.md`
+
+TPU remains opt-in because most current training and benchmark scripts use CUDA,
+Metal, llama.cpp, or Transformers GPU paths that do not automatically translate
+to PyTorch/XLA.
+
 ## Candidate Job Order
 
-1. Official benchmark environment smoke on a T4 or L4 runtime.
+1. Official benchmark environment smoke on a T4 or L4 runtime through
+   `scripts/colab_dispatch.py`.
 2. Direct `lm_eval` selected-task candidate run for the current Qwen3 v4 adapter.
 3. Gemma 4 QAT GGUF runtime smoke if the runtime supports the package shape.
 4. MiniCPM5-1B fast utility prompt smoke.
@@ -110,3 +144,8 @@ Every Colab run must record:
 
 Use [templates/colab/run-card.md](./templates/colab/run-card.md) for the run
 card shape.
+
+For training jobs, fill out
+[templates/colab/training-job-plan.md](./templates/colab/training-job-plan.md)
+first. TPU should only be included in `scripts/colab_dispatch.py --allow-tpu`
+when that plan marks the script as XLA/JAX compatible.
