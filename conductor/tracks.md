@@ -370,5 +370,10 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Specialist Frontier Agentic Refresh
+*Link: [./tracks/specialist-frontier-refresh_20260612/](./tracks/specialist-frontier-refresh_20260612/)*
+
+---
+
 ## [x] Track: Model Radar Current Release Refresh
 *Link: [./tracks/model-radar-refresh_20260612/](./tracks/model-radar-refresh_20260612/)*
