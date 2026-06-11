@@ -95,6 +95,16 @@ proofs:
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-2B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-2b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
     blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed; next gate is comparing helper/tool-call utility against the 0.8B and 4B lanes."
 
+  - id: minicpm5-1b-mlx-native-smoke
+    lane_id: mlx-native
+    model: openbmb/MiniCPM5-1B-MLX
+    run_name: minicpm5-1b-mlx-loglikelihood-smoke-20260612
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612"
+    command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model openbmb/MiniCPM5-1B-MLX --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id minicpm5-1b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed; next gate is tiny Hermes helper/extraction/tool-call utility comparison against Qwen3.5 0.8B/2B."
+
   - id: north-mini-code-gguf-proof
     lane_id: gguf-portability
     model: CohereLabs/North-Mini-Code-1.0

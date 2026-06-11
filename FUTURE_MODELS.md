@@ -78,6 +78,10 @@ Verified HF ids behind this shortlist:
 - `ibm-granite/granite-4.1-3b`
 - `LGAI-EXAONE/EXAONE-4.0-1.2B`
 - `CohereLabs/North-Mini-Code-1.0`
+- `openbmb/MiniCPM5-1B`
+- `openbmb/MiniCPM5-1B-MLX`
+- `openbmb/MiniCPM5-1B-GGUF`
+- `openbmb/MiniCPM5-1B-SFT`
 
 ## Research Frontier
 
