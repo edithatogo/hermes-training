@@ -380,5 +380,5 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [x] Track: Model Radar Current Release Refresh
-*Link: [./tracks/model-radar-refresh_20260612/](./tracks/model-radar-refresh_20260612/)*
+## [x] Track: Nemotron Frontier Model Refresh
+*Link: [./tracks/nemotron-frontier-refresh_20260612/](./tracks/nemotron-frontier-refresh_20260612/)*

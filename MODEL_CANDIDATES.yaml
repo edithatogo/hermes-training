@@ -4,7 +4,7 @@
 updated: "2026-06-12"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Qwen/Qwen3.5-9B, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, and nvidia/nemotron-3.5-asr-streaming-0.6b. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new 12B Gemma 4, Hermes 4.3, Qwen3.5-9B, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support entries as runtime or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
+latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Qwen/Qwen3.5-9B, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, and nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new 12B Gemma 4, Hermes 4.3, Qwen3.5-9B, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -319,6 +319,58 @@ candidates:
     first_runtime: "NeMo or MLX community conversion smoke"
     first_finetune: "defer"
     notes: "Specialist streaming speech model for low-latency transcription and multimodal agent pipelines. An MLX community conversion exists, but it still needs runtime proof before any promotion."
+
+  - id: nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Multimodal reasoning Omni model"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM multimodal teacher smoke"
+    first_finetune: "defer"
+    notes: "Large multimodal reasoning model that expands the upper-end teacher set for Hermes work. Keep as cloud teacher only."
+
+  - id: nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "120B total / 12B active"
+    architecture: "Large reasoning/chat model with NVFP4 packaging"
+    license: "check model card"
+    first_runtime: "Transformers, vLLM, or SGLang teacher smoke"
+    first_finetune: "defer"
+    notes: "Large collaborative-agent reasoning model. Use as a teacher/reference point, not a local Mac fine-tune target."
+
+  - id: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Reasoning/chat Nano model"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM reasoning smoke"
+    first_finetune: "defer"
+    notes: "Smaller Nemotron reasoning model with explicit reasoning-trace behavior. Use as a teacher or specialist comparison lane only."
+
+  - id: nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "235B total / 22B active"
+    architecture: "Generative reward model"
+    license: "check model card"
+    first_runtime: "Teacher/evaluator smoke only"
+    first_finetune: "defer"
+    notes: "Reward model used in Nemotron training. Keep it in the teacher/evaluator lane rather than the chat lane."
 
   - id: google/gemma-3n-E4B
     family: gemma
