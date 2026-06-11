@@ -83,7 +83,7 @@ proofs:
     endpoint: ""
     artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/qwen35-08b-mlx-loglikelihood-smoke-20260612"
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-0.8B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-08b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
-    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed; next gate is a broader helper/tool-call role decision, not automatic promotion."
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, but the raw 3-case BFCL-style pilot scored 0.000. Next gate is prompt-format repair or helper/extraction role decision, not automatic promotion."
 
   - id: qwen35-2b-mlx-native-smoke
     lane_id: mlx-native
@@ -93,7 +93,7 @@ proofs:
     endpoint: ""
     artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/qwen35-2b-mlx-loglikelihood-smoke-20260612"
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-2B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-2b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
-    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed; next gate is comparing helper/tool-call utility against the 0.8B and 4B lanes."
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, but the raw 3-case BFCL-style pilot scored 0.000. Next gate is comparing prompt-format repair and helper/extraction utility against the 0.8B, MiniCPM, and 4B lanes."
 
   - id: minicpm5-1b-mlx-native-smoke
     lane_id: mlx-native

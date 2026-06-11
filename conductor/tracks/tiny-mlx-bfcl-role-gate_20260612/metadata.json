@@ -1,0 +1,7 @@
+{
+  "id": "tiny-mlx-bfcl-role-gate_20260612",
+  "title": "Tiny MLX BFCL Role Gate",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Compare MiniCPM5 1B MLX and Qwen3.5 0.8B/2B on the same BFCL-style local pilot before promoting tiny helper/tool-call roles."
+}

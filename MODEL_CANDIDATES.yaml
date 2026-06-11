@@ -175,7 +175,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s; keep behind role-specific helper/tool-call gates before any promotion."
+    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; keep behind prompt-repair/helper/extraction gates before any promotion."
 
   - id: Qwen/Qwen3.5-2B
     family: qwen
@@ -188,7 +188,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s; compare against 0.8B and 4B before training or promotion."
+    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; compare against 0.8B, MiniCPM, and 4B before training or promotion."
 
   - id: google/gemma-3n-E4B
     family: gemma
