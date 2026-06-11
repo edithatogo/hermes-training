@@ -63,7 +63,10 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
     run_id = summary.get("run_id", "<run-id>")
     if kind == "embedding":
         endpoint_kind = summary.get("endpoint_kind")
-        if endpoint_kind == "openai-compatible-embeddings":
+        model = str(summary.get("model") or "")
+        if "jina-embeddings-v5-omni" in model and model.endswith("-mlx"):
+            script = "scripts/run_jina_mlx_embedding_benchmark.py"
+        elif endpoint_kind == "openai-compatible-embeddings":
             script = "scripts/run_openai_embedding_benchmark.py"
         elif endpoint_kind == "sentence-transformers":
             script = "scripts/run_sentence_transformers_embedding_benchmark.py"
@@ -77,6 +80,9 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --device {summary['device']} \\")
         if script == "scripts/run_openai_embedding_benchmark.py" and summary.get("base_url"):
             lines.append(f"  --base-url {summary['base_url']} \\")
+        if script == "scripts/run_jina_mlx_embedding_benchmark.py":
+            task_type = summary.get("task_type", summary.get("task", "retrieval"))
+            lines.append(f"  --task-type {task_type} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     if kind == "extraction":
@@ -225,7 +231,13 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         "isolated-fixture-rerank": "reranker",
     }.get(kind, kind)
     endpoint = summary.get("base_url", "")
-    runtime = summary.get("endpoint_kind") or summary.get("strategy") or summary.get("tool") or ("openai-compatible" if endpoint else "")
+    runtime = (
+        summary.get("endpoint_kind")
+        or ("mlx-native" if "mlx" in str(summary.get("model") or "") else "")
+        or summary.get("strategy")
+        or summary.get("tool")
+        or ("openai-compatible" if endpoint else "")
+    )
     output_dir = summary.get("output_dir", "")
     command = "\n".join(command_for_kind(kind, summary))
     decision, reason = decision_for(kind, summary)

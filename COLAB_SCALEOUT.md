@@ -164,15 +164,46 @@ Current TPU caveat: `v5e1` allocation can be transiently unavailable, and
 `v6e1` may require quota or entitlement not present on this account. Keep a GPU
 fallback in the accelerator list unless the job is TPU-only by design.
 
+## Official Benchmark Environment Smoke
+
+The Colab lane now has a self-contained benchmark environment bootstrap smoke:
+
+```bash
+./.venv/bin/python scripts/colab_dispatch.py \
+  --accelerators gpu:T4 \
+  --retries 1 \
+  --timeout 1200 \
+  --run-id colab-benchmark-env-general-t4-20260612 \
+  scripts/colab_benchmark_env_smoke.py \
+    --mode general \
+    --install-profile general-core \
+    --install-timeout 900
+```
+
+Verified on 2026-06-12: `gpu:T4` completed in 77.472s on Tesla T4 with CUDA
+available, `lm_eval` 0.4.12, EvalPlus 0.3.1, HumanEval 1.0.3, MTEB 2.15.3,
+sentence-transformers 5.5.1, torch 2.11.0+cu128, and transformers 5.10.1. The
+tracked report is
+`reports/colab/colab-benchmark-env-general-t4-20260612.md`; raw logs remain on
+the SSD under
+`/Volumes/PortableSSD/hermes-evals/colab/colab-benchmark-env-general-t4-20260612`.
+
+The first GPU/L4 dispatch attempt failed closed because Colab's base image had
+`ipython` without `jedi`; the bootstrap profile now installs `jedi` before
+running `pip check`. L4 was rejected for account quota or entitlement, so T4 is
+the current reliable default for this account.
+
+This is an environment-readiness proof only. It is not a benchmark score and it
+does not download datasets or run model inference.
+
 ## Candidate Job Order
 
-1. Official benchmark environment smoke on a T4 or L4 runtime through
-   `scripts/colab_dispatch.py`.
-2. Direct `lm_eval` selected-task candidate run for the current Qwen3 v4 adapter.
-3. Gemma 4 QAT GGUF runtime smoke if the runtime supports the package shape.
-4. MiniCPM5-1B fast utility prompt smoke.
-5. NVIDIA Nemotron runtime smoke only on an NVIDIA-capable Colab runtime.
-6. TPU-only experiments only after the script has a JAX or PyTorch/XLA path.
+1. Direct `lm_eval` selected-task candidate run for the current Qwen3 v4 adapter
+   on the proven T4 Colab path.
+2. Gemma 4 QAT GGUF runtime smoke if the runtime supports the package shape.
+3. MiniCPM5-1B fast utility prompt smoke.
+4. NVIDIA Nemotron runtime smoke only on an NVIDIA-capable Colab runtime.
+5. TPU-only experiments only after the script has a JAX or PyTorch/XLA path.
 
 ## Run Card Requirements
 

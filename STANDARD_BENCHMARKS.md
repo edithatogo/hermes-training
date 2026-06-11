@@ -68,6 +68,16 @@ The latest environment smoke report is:
 reports/benchmark/manifests/official-benchmark-env-smoke-20260526.md
 ```
 
+Colab GPU scale-out environment smoke is also available for short CUDA-backed
+benchmark setup checks. The current successful proof is:
+
+```text
+reports/colab/colab-benchmark-env-general-t4-20260612.md
+```
+
+It proves package and CLI readiness on a Tesla T4 Colab runtime only; it is not
+a benchmark scorecard.
+
 ## lm-evaluation-harness Starter
 
 Use `lm-eval` for common academic baselines. Record the exact command, task names, model args, seeds, and harness commit/version.
