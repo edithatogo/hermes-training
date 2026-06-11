@@ -61,7 +61,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Qwen | `Qwen3.5 0.8B`, `Qwen3.5 2B` | Easy local fit | Mac/MLX, Mac/Ollama, Colab burst runs |
 | Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
 | Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
-| Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but BFCL strict-format blocked; prompt/profile repair only |
+| Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but BFCL strict-format blocked; score-only native normalizer rescues 1/3 |
 | Google | `Gemma 4 E2B` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; try MLX/profile before scoring |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, general helper lane |
@@ -205,7 +205,7 @@ Acceptance bar:
 | `NousResearch/Hermes-4-14B` | Official safetensors are published. Treat Transformers as the first known path and keep GGUF / FP8 / community quant paths as runtime candidates until this repo records a smoke result. | `needs-runtime-proof` |
 | `google/gemma-4-26B-A4B-it` | Official image-text-to-text safetensors exist. Community GGUF and on-device quants may exist, but Mac runtime support remains `needs-runtime-proof` here. | `needs-runtime-proof` |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | Official QAT q4_0 text GGUF was acquired to SSD and load-proven through `llama-completion` on 2026-06-12. The bounded JSON prompt returned only end-of-text, with llama.cpp token/EOG warnings, so it needs a model-specific prompt profile or MLX proof before scoring. | `runtime-proofed; empty-output-blocked` |
-| `mlx-community/gemma-4-E4B-it-qat-4bit` | MLX package was SSD-acquired and direct MLX scoring passed on 2026-06-12. One-case greedy match was 0.000 and the 3-case BFCL-style pilot scored 0.000 due to Gemma thought/tool fragments rather than strict Hermes JSON. | `runtime-proofed; tool-call-blocked` |
+| `mlx-community/gemma-4-E4B-it-qat-4bit` | MLX package was SSD-acquired and direct MLX scoring passed on 2026-06-12. One-case greedy match was 0.000 and the 3-case BFCL-style pilot scored 0.000 due to Gemma thought/tool fragments rather than strict Hermes JSON. A score-only Gemma-native normalizer rescued 1/3 cases, which is runtime-adapter analysis only. | `runtime-proofed; tool-call-blocked` |
 | `Qwen/Qwen3-Next-80B-A3B-Instruct` | Official HF weights and a GGUF family are published. Use it as a runtime-experiment target only; it is not a 32GB fine-tune target. | `needs-runtime-proof` |
 | `LiquidAI/LFM2-24B-A2B` | Live Hugging Face API refresh on 2026-05-24 found official base, GGUF, ONNX, and MLX-bf16 package listings plus a NexaAI GGUF. Treat as a specialist runtime experiment; do not make local fine-tune claims before endpoint and memory proofs. | `needs-runtime-proof` |
 | `LiquidAI/LFM2.5-1.2B-Instruct` / `Thinking` | Official model card lists day-one support for llama.cpp, MLX, and vLLM. This is the safest local fine-tune lane in the frontier set. | `ready` |

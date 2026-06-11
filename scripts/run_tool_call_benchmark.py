@@ -201,6 +201,54 @@ def parse_tool_call_payload(payload: str) -> dict[str, Any]:
     return {"name": data["name"], "arguments": data["arguments"]}
 
 
+def convert_gemma_native_payload(data: dict[str, Any], allowed_tools: list[str] | None = None) -> dict[str, Any] | None:
+    """Convert Gemma native {"function": name, ...args} payloads to Hermes calls.
+
+    This is runtime-adapter evidence only. Strict benchmark scoring still uses
+    `extract_tool_calls` and requires the Hermes `name` / `arguments` schema.
+    """
+    function_name = data.get("function")
+    if not isinstance(function_name, str) or not function_name:
+        return None
+    if allowed_tools and function_name not in allowed_tools:
+        return None
+    arguments = {key: value for key, value in data.items() if key != "function"}
+    return {"name": function_name, "arguments": arguments}
+
+
+def normalize_gemma_native_tool_calls(text: str, allowed_tools: list[str] | None = None) -> str:
+    """Render Gemma native tool-call fragments as strict Hermes tags.
+
+    The function intentionally returns the original text when no native call can
+    be extracted, so invalid-tool/refusal cases keep their raw forbidden markers
+    for scoring.
+    """
+    converted: list[dict[str, Any]] = []
+    candidates: list[str] = []
+    for block in re.findall(r"<tool_call>\s*(.*?)(?:</tool_call>|</tool_|$)", text, re.DOTALL | re.IGNORECASE):
+        candidates.extend(re.findall(r"\{[^{}]*\}", block, re.DOTALL))
+    if not candidates:
+        candidates.extend(re.findall(r"\{[^{}]*\"function\"\s*:[^{}]*\}", text, re.DOTALL))
+
+    for candidate in candidates:
+        try:
+            data = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(data, dict):
+            continue
+        call = convert_gemma_native_payload(data, allowed_tools)
+        if call is not None:
+            converted.append(call)
+
+    if not converted:
+        return text
+    return "".join(
+        f"<tool_call>{json.dumps(call, separators=(',', ':'), ensure_ascii=False)}</tool_call>"
+        for call in converted
+    )
+
+
 def extract_tool_calls(text: str) -> tuple[list[dict[str, Any]], list[str], str]:
     calls: list[dict[str, Any]] = []
     errors: list[str] = []

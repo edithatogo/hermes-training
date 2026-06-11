@@ -1,0 +1,7 @@
+{
+  "id": "gemma-native-tool-normalizer_20260612",
+  "title": "Gemma Native Tool Normalizer Analysis",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Add score-only analysis support for Gemma native function payloads and record the Gemma 4 E4B normalized BFCL-style pilot result."
+}

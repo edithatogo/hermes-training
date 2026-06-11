@@ -342,3 +342,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 E4B MLX Runtime And Role Smoke
 *Link: [./tracks/gemma4-e4b-mlx-smoke_20260612/](./tracks/gemma4-e4b-mlx-smoke_20260612/)*
+
+---
+
+## [x] Track: Gemma Native Tool Normalizer Analysis
+*Link: [./tracks/gemma-native-tool-normalizer_20260612/](./tracks/gemma-native-tool-normalizer_20260612/)*

@@ -124,6 +124,8 @@ def render_summary(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         lines.insert(6, f"- Base URL: `{summary['base_url']}`")
     if summary.get("adapter"):
         lines.insert(6, f"- Adapter: `{summary['adapter']}`")
+    if summary.get("score_normalizer") and summary.get("score_normalizer") != "none":
+        lines.insert(6, f"- Score normalizer: `{summary['score_normalizer']}`")
     for category in sorted(by_category):
         lines.append(
             f"| {category} | {by_category[category]} | {passed_by_category[category] / by_category[category]:.3f} |"

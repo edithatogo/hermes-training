@@ -15,6 +15,8 @@ from run_endpoint_pilot_benchmark import render_summary, score_case
 from run_tool_call_benchmark import (
     apply_user_prefix,
     build_generation_prompt,
+    extract_allowed_tools,
+    normalize_gemma_native_tool_calls,
     resolve_default_output_root,
     save_jsonl,
 )
@@ -61,6 +63,14 @@ def build_scored_response(response: str, score_prefix: str = "", score_suffix: s
     return f"{score_prefix}{response}{score_suffix}"
 
 
+def apply_score_normalizer(response: str, normalizer: str, messages: list[dict[str, Any]]) -> str:
+    if normalizer == "none":
+        return response
+    if normalizer == "gemma-native-tool-call":
+        return normalize_gemma_native_tool_calls(response, extract_allowed_tools(messages))
+    raise ValueError(f"unsupported score normalizer: {normalizer}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", type=Path, required=True)
@@ -85,6 +95,12 @@ def main() -> int:
         default="",
         help="Optional text appended to the generated response before scoring only; raw response is preserved.",
     )
+    parser.add_argument(
+        "--score-normalizer",
+        choices=("none", "gemma-native-tool-call"),
+        default="none",
+        help="Optional score-only runtime normalizer. Strict raw responses remain preserved.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     ensure_storage_env()
@@ -108,6 +124,7 @@ def main() -> int:
         print(f"assistant_prefill: {args.assistant_prefill!r}")
         print(f"score_prefix: {args.score_prefix!r}")
         print(f"score_suffix: {args.score_suffix!r}")
+        print(f"score_normalizer: {args.score_normalizer!r}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -133,7 +150,8 @@ def main() -> int:
             args.max_tokens,
             args.assistant_prefill,
         )
-        scored_response = build_scored_response(response, args.score_prefix, args.score_suffix)
+        normalized_for_score = apply_score_normalizer(response, args.score_normalizer, messages)
+        scored_response = build_scored_response(normalized_for_score, args.score_prefix, args.score_suffix)
         scored = score_case(case, scored_response)
         row = {
             "id": case["id"],
@@ -160,6 +178,7 @@ def main() -> int:
         "assistant_prefill": args.assistant_prefill,
         "score_prefix": args.score_prefix,
         "score_suffix": args.score_suffix,
+        "score_normalizer": args.score_normalizer,
         "output_dir": str(output_dir),
         "cases": len(rows),
         "passed": passed,

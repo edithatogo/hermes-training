@@ -75,6 +75,25 @@ SSD output:
 
 `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/gemma4-e4b-mlx-local-bfcl-pilot-20260612`
 
+## Score-Only Gemma Native Normalizer
+
+A follow-up analysis run used:
+
+```text
+--score-normalizer gemma-native-tool-call
+```
+
+This preserved raw responses and converted only Gemma native
+`{"function": ...}` fragments into Hermes `<tool_call>` JSON for scoring.
+
+Result: `1/3` cases passed (`0.333`). Only the simple customer lookup case was
+rescued. The parallel call remained incomplete, and the invalid-tool case still
+failed because the raw response contained `delete_customer_record`.
+
+Report:
+
+`reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md`
+
 ## Decision
 
 - Status: `completed-runtime-proof; tool-call-blocked`

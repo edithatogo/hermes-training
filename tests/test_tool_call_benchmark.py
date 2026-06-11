@@ -7,8 +7,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.run_endpoint_pilot_benchmark import apply_assistant_prefill as pilot_assistant_prefill
 from scripts.run_endpoint_tool_call_benchmark import apply_assistant_prefill
-from scripts.run_local_pilot_benchmark import build_scored_response, generate_local
-from scripts.run_tool_call_benchmark import apply_user_prefix, build_generation_prompt
+from scripts.run_local_pilot_benchmark import apply_score_normalizer, build_scored_response, generate_local
+from scripts.run_tool_call_benchmark import (
+    apply_user_prefix,
+    build_generation_prompt,
+    extract_tool_calls,
+    normalize_gemma_native_tool_calls,
+)
 
 
 class ToolCallBenchmarkTests(unittest.TestCase):
@@ -55,6 +60,23 @@ class ToolCallBenchmarkTests(unittest.TestCase):
         wrapped = build_scored_response('{"name":"lookup"}', "<tool_call>", "</tool_call>")
 
         self.assertEqual(wrapped, '<tool_call>{"name":"lookup"}</tool_call>')
+
+    def test_gemma_native_tool_call_normalizer_converts_function_payload(self) -> None:
+        raw = '<|channel>thought\nok<channel|><tool_call>\n{"function":"lookup_customer","customer_id":"CUST-1007"}\n</tool_'
+
+        normalized = normalize_gemma_native_tool_calls(raw, ["lookup_customer"])
+        calls, errors, leftover = extract_tool_calls(normalized)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(leftover, "")
+        self.assertEqual(calls, [{"name": "lookup_customer", "arguments": {"customer_id": "CUST-1007"}}])
+
+    def test_gemma_native_tool_call_normalizer_preserves_unconvertible_refusal_text(self) -> None:
+        raw = "There is no function named delete_customer_record."
+
+        normalized = apply_score_normalizer(raw, "gemma-native-tool-call", [{"role": "user", "content": "x"}])
+
+        self.assertEqual(normalized, raw)
 
 
 if __name__ == "__main__":
