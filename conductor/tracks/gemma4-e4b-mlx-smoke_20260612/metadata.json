@@ -1,0 +1,7 @@
+{
+  "id": "gemma4-e4b-mlx-smoke_20260612",
+  "title": "Gemma 4 E4B MLX Runtime And Role Smoke",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Acquire the Gemma 4 E4B QAT 4-bit MLX package to SSD, run direct MLX loglikelihood and BFCL-style local role gates, and document fail-closed Hermes readiness."
+}

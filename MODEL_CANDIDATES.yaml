@@ -138,6 +138,19 @@ candidates:
     first_finetune: "defer; prefer MLX package or cloud path for adaptation"
     notes: "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. Treat as runtime evidence only."
 
+  - id: mlx-community/gemma-4-E4B-it-qat-4bit
+    family: gemma
+    tier: edge-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: ready
+    parameters: "E4B"
+    architecture: "Gemma 4 QAT 4-bit MLX package"
+    license: "check model card"
+    first_runtime: "direct MLX loglikelihood smoke is complete"
+    first_finetune: "defer until prompt/profile repair produces strict-format behavior"
+    notes: "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name."
+
   - id: unsloth/gemma-4-26B-A4B-it-GGUF
     family: gemma
     tier: frontier-runtime
