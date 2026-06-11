@@ -352,3 +352,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Local Pilot Strict Tool Text Gate
 *Link: [./tracks/local-pilot-strict-tool-text_20260612/](./tracks/local-pilot-strict-tool-text_20260612/)*
+
+---
+
+## [x] Track: EXAONE 4.0 1.2B Runtime Smoke
+*Link: [./tracks/exaone4-12b-runtime-smoke_20260612/](./tracks/exaone4-12b-runtime-smoke_20260612/)*

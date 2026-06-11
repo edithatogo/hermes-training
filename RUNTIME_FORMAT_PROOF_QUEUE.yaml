@@ -95,6 +95,16 @@ proofs:
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model /Volumes/PortableSSD/huggingface/hub/models--mlx-community--gemma-4-E4B-it-qat-4bit/snapshots/0f35c6f6d386f7f74e628bd7c6526ce531212300 --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id gemma4-e4b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
     blocker: "Direct MLX load/scoring passed, but the one-case loglikelihood smoke had greedy match 0.000 and the 3-case BFCL-style pilot scored 0.000. Outputs used Gemma thought/tool fragments rather than strict Hermes JSON."
 
+  - id: exaone4-12b-q4-gguf-proof
+    lane_id: gguf-portability
+    model: LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF
+    run_name: exaone4-12b-q4km-llamacpp-smoke-20260612
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: /Volumes/PortableSSD/huggingface/hub/models--LGAI-EXAONE--EXAONE-4.0-1.2B-GGUF/snapshots/162446400ea4596377a3ce1d3ddffa32971af0a6/EXAONE-4.0-1.2B-Q4_K_M.gguf
+    command: "/opt/homebrew/bin/llama-completion -m /Volumes/PortableSSD/huggingface/hub/models--LGAI-EXAONE--EXAONE-4.0-1.2B-GGUF/snapshots/162446400ea4596377a3ce1d3ddffa32971af0a6/EXAONE-4.0-1.2B-Q4_K_M.gguf --ctx-size 512 --n-predict 32 --temp 0 --seed 1 --no-display-prompt --no-conversation --simple-io --prompt 'Return only JSON: {\"ok\": true}'"
+    blocker: "Official GGUF load/generation passed with under 1GB max RSS, but output was repeated braces rather than valid JSON. The MLX 4-bit package is blocked in the current Transformers/MLX stack by an EXAONE4 config ZeroDivisionError."
+
   - id: lfm2-24b-a2b-q4-gguf-proof
     lane_id: gguf-portability
     model: LiquidAI/LFM2-24B-A2B-GGUF

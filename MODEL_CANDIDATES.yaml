@@ -273,13 +273,13 @@ candidates:
     tier: practical-finetune
     role: local-finetune
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "1.2B"
     architecture: "Dense agentic instruction model"
     license: "check model card"
-    first_runtime: "MLX or GGUF smoke"
+    first_runtime: "Official GGUF Q4_K_M runtime proof complete; MLX 4-bit package currently blocked"
     first_finetune: "MLX-LM LoRA"
-    notes: "Small multilingual helper candidate from the current leaderboard. Good for low-cost adaptation and mem0-adjacent utility work."
+    notes: "Small multilingual helper candidate from the current leaderboard. The `mlx-community/exaone-4.0-1.2b-4bit` package was acquired to SSD but `mlx_lm.load` is blocked by a Transformers EXAONE4 config ZeroDivisionError in this environment. The official `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` Q4_K_M artifact is SSD-acquired and llama-completion runtime-proven with under 1GB max RSS, but output was repeated braces rather than valid JSON. Treat as runtime evidence only."
 
   - id: openbmb/MiniCPM5-1B-MLX
     family: minicpm

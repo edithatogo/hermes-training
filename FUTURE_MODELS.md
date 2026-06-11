@@ -65,7 +65,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Google | `Gemma 4 E2B` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; try MLX/profile before scoring |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, general helper lane |
-| LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | Mac/MLX, Mac/Ollama, lightweight helper lane |
+| LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | GGUF runtime-proven under 1GB RSS; MLX blocked by current config bug; Hermes JSON blocked |
 | Cohere | `North Mini Code` | Local/Colab fit | Code-specialist lane, Colab-first if needed |
 | OpenBMB | `MiniCPM5 1B MLX` | Easy local fit | Tiny helper/extraction candidate; MLX load proven, strict tool-call blocked |
 
@@ -206,6 +206,7 @@ Acceptance bar:
 | `google/gemma-4-26B-A4B-it` | Official image-text-to-text safetensors exist. Community GGUF and on-device quants may exist, but Mac runtime support remains `needs-runtime-proof` here. | `needs-runtime-proof` |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | Official QAT q4_0 text GGUF was acquired to SSD and load-proven through `llama-completion` on 2026-06-12. The bounded JSON prompt returned only end-of-text, with llama.cpp token/EOG warnings, so it needs a model-specific prompt profile or MLX proof before scoring. | `runtime-proofed; empty-output-blocked` |
 | `mlx-community/gemma-4-E4B-it-qat-4bit` | MLX package was SSD-acquired and direct MLX scoring passed on 2026-06-12. One-case greedy match was 0.000 and the raw BFCL-style pilot scored 0.000 due to Gemma thought/tool fragments. A score-only Gemma-native normalizer and permissive prompt profile each reached 1/3, but no-extra-text Hermes strict scoring stayed 0/3. | `runtime-proofed; tool-call-blocked` |
+| `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` / `mlx-community/exaone-4.0-1.2b-4bit` | Official Q4_K_M GGUF was acquired to SSD and load/generation passed through `llama-completion` on 2026-06-12 with under 1GB max RSS, but output repeated braces instead of JSON. The MLX 4-bit package is acquired but blocked by a Transformers EXAONE4 config `ZeroDivisionError`. | `gguf-runtime-proofed; mlx-blocked; hermes-smoke-blocked` |
 | `Qwen/Qwen3-Next-80B-A3B-Instruct` | Official HF weights and a GGUF family are published. Use it as a runtime-experiment target only; it is not a 32GB fine-tune target. | `needs-runtime-proof` |
 | `LiquidAI/LFM2-24B-A2B` | Live Hugging Face API refresh on 2026-05-24 found official base, GGUF, ONNX, and MLX-bf16 package listings plus a NexaAI GGUF. Treat as a specialist runtime experiment; do not make local fine-tune claims before endpoint and memory proofs. | `needs-runtime-proof` |
 | `LiquidAI/LFM2.5-1.2B-Instruct` / `Thinking` | Official model card lists day-one support for llama.cpp, MLX, and vLLM. This is the safest local fine-tune lane in the frontier set. | `ready` |
