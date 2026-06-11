@@ -1,0 +1,8 @@
+{
+  "id": "granite4-1-3b-mlx-native-normalizer_20260612",
+  "title": "Granite 4.1 3B Native-Normalized Local Pilot",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Run Granite 4.1 3B through the MLX smoke harness and a score-only native tool-call normalizer, then document the Hermes-format gap and update the radar."
+}

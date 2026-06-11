@@ -16,6 +16,7 @@ from run_tool_call_benchmark import (
     apply_user_prefix,
     build_generation_prompt,
     extract_allowed_tools,
+    normalize_granite_native_tool_calls,
     normalize_gemma_native_tool_calls,
     resolve_default_output_root,
     save_jsonl,
@@ -68,6 +69,8 @@ def apply_score_normalizer(response: str, normalizer: str, messages: list[dict[s
         return response
     if normalizer == "gemma-native-tool-call":
         return normalize_gemma_native_tool_calls(response, extract_allowed_tools(messages))
+    if normalizer == "granite-native-tool-call":
+        return normalize_granite_native_tool_calls(response, extract_allowed_tools(messages))
     raise ValueError(f"unsupported score normalizer: {normalizer}")
 
 
@@ -97,7 +100,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--score-normalizer",
-        choices=("none", "gemma-native-tool-call"),
+        choices=("none", "gemma-native-tool-call", "granite-native-tool-call"),
         default="none",
         help="Optional score-only runtime normalizer. Strict raw responses remain preserved.",
     )

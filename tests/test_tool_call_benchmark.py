@@ -13,6 +13,7 @@ from scripts.run_tool_call_benchmark import (
     apply_user_prefix,
     build_generation_prompt,
     extract_tool_calls,
+    normalize_granite_native_tool_calls,
     normalize_gemma_native_tool_calls,
 )
 
@@ -78,6 +79,16 @@ class ToolCallBenchmarkTests(unittest.TestCase):
         normalized = apply_score_normalizer(raw, "gemma-native-tool-call", [{"role": "user", "content": "x"}])
 
         self.assertEqual(normalized, raw)
+
+    def test_granite_native_tool_call_normalizer_converts_function_payload(self) -> None:
+        raw = '{"type":"function","function":{"name":"lookup_customer","parameters":{"customer_id":"CUST-1007"}}}'
+
+        normalized = normalize_granite_native_tool_calls(raw, ["lookup_customer"])
+        calls, errors, leftover = extract_tool_calls(normalized)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(leftover, "")
+        self.assertEqual(calls, [{"name": "lookup_customer", "arguments": {"customer_id": "CUST-1007"}}])
 
     def test_endpoint_pilot_can_require_no_extra_tool_text(self) -> None:
         case = {

@@ -260,13 +260,13 @@ candidates:
     tier: practical-finetune
     role: local-finetune
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "3B"
     architecture: "Dense long-context instruct model with tool calling"
     license: apache-2.0
-    first_runtime: "MLX or SGLang/OpenAI-compatible smoke"
+    first_runtime: "SSD-backed MLX direct loglikelihood smoke passed; BFCL-style pilot and native score-only normalizer recorded"
     first_finetune: "MLX-LM LoRA"
-    notes: "Useful 3B instruction/tool-use candidate with current Granite 4.1 packaging and an active Apache license. Good fit for Hermes-style comparison runs."
+    notes: "Useful 3B instruction/tool-use candidate with current Granite 4.1 packaging and an active Apache license. SSD-backed MLX direct loglikelihood smoke passed on 2026-06-12; the raw strict BFCL-style pilot scored 0.000/0.333 depending on gate, and the opt-in Granite native score-only normalizer raised the strict pilot to 0.667 without changing raw outputs. Keep it as a helper/extraction comparison lane, not a strict Hermes default."
 
   - id: LGAI-EXAONE/EXAONE-4.0-1.2B
     family: exaone

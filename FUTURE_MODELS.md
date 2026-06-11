@@ -64,7 +64,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but Hermes no-extra-text strict gate remains 0/3; score-only native normalizer rescues 1/3 |
 | Google | `Gemma 4 E2B` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; try MLX/profile before scoring |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
-| IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, general helper lane |
+| IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
 | LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | GGUF runtime-proven under 1GB RSS; MLX blocked by current config bug; Hermes JSON blocked |
 | Cohere | `North Mini Code` | Local/Colab fit | Code-specialist lane, Colab-first if needed |
 | OpenBMB | `MiniCPM5 1B MLX` | Easy local fit | Tiny helper/extraction candidate; MLX load proven, strict tool-call blocked |

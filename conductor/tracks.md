@@ -260,6 +260,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Granite 4.1 3B Native-Normalized Local Pilot
+*Link: [./tracks/granite4-1-3b-mlx-native-normalizer_20260612/](./tracks/granite4-1-3b-mlx-native-normalizer_20260612/)*
+
+---
+
 ## [x] Track: MLX Direct Loglikelihood Smoke Harness
 *Link: [./tracks/mlx-direct-loglikelihood-smoke_20260526/](./tracks/mlx-direct-loglikelihood-smoke_20260526/)*
 

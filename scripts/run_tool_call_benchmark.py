@@ -249,6 +249,67 @@ def normalize_gemma_native_tool_calls(text: str, allowed_tools: list[str] | None
     )
 
 
+def convert_granite_native_payload(data: dict[str, Any], allowed_tools: list[str] | None = None) -> dict[str, Any] | None:
+    """Convert Granite-style function payloads to Hermes calls.
+
+    Granite local outputs observed in this repo emit raw JSON objects shaped
+    like `{"type":"function","function":{"name":...,"parameters":...}}`
+    or a `<tool_call>` wrapper around that JSON. This is runtime-adapter
+    evidence only; strict benchmark scoring still requires Hermes raw output.
+    """
+    function_block = data.get("function")
+    if not isinstance(function_block, dict):
+        return None
+    function_name = function_block.get("name")
+    if not isinstance(function_name, str) or not function_name:
+        return None
+    if allowed_tools and function_name not in allowed_tools:
+        return None
+    arguments = function_block.get("parameters")
+    if not isinstance(arguments, dict):
+        arguments = {key: value for key, value in function_block.items() if key != "name"}
+        if not arguments:
+            return None
+    return {"name": function_name, "arguments": arguments}
+
+
+def normalize_granite_native_tool_calls(text: str, allowed_tools: list[str] | None = None) -> str:
+    """Render Granite native function payloads as strict Hermes tags."""
+    converted: list[dict[str, Any]] = []
+    candidate_texts: list[str] = [text.strip()]
+    candidate_texts.extend(re.findall(r"<tool_call>\s*(.*?)\s*</tool_call>", text, re.DOTALL | re.IGNORECASE))
+
+    for candidate in candidate_texts:
+        if not candidate:
+            continue
+        candidate = strip_code_fences(candidate)
+        if not (candidate.startswith("{") or candidate.startswith("[")):
+            continue
+        try:
+            data = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(data, dict):
+            call = convert_granite_native_payload(data, allowed_tools)
+            if call is not None:
+                converted.append(call)
+            continue
+        if isinstance(data, list):
+            for item in data:
+                if not isinstance(item, dict):
+                    continue
+                call = convert_granite_native_payload(item, allowed_tools)
+                if call is not None:
+                    converted.append(call)
+
+    if not converted:
+        return text
+    return "".join(
+        f"<tool_call>{json.dumps(call, separators=(',', ':'), ensure_ascii=False)}</tool_call>"
+        for call in converted
+    )
+
+
 def extract_tool_calls(text: str) -> tuple[list[dict[str, Any]], list[str], str]:
     calls: list[dict[str, Any]] = []
     errors: list[str] = []
