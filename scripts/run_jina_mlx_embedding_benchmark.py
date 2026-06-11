@@ -15,6 +15,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import mlx.core as mx
+
 
 def load_json(path: Path) -> Any:
     with path.open(encoding="utf-8") as handle:
@@ -129,9 +131,19 @@ def ensure_repo(repo_id: str, repo_dir: Path, revision: str) -> Path:
 
 def load_model(repo_dir: Path) -> Any:
     sys.path.insert(0, str(repo_dir))
-    from utils import load_model as jina_load_model  # type: ignore
+    utils_path = repo_dir / "utils.py"
+    if utils_path.exists():
+        from utils import load_model as jina_load_model  # type: ignore
 
-    return jina_load_model(str(repo_dir))
+        return jina_load_model(str(repo_dir))
+
+    from model import JinaOmniSmallEmbeddingModel, OmniSmallConfig  # type: ignore
+    config = OmniSmallConfig.from_dict(load_json(repo_dir / "config.json"))
+    model = JinaOmniSmallEmbeddingModel(config)
+    weights = mx.load(str(repo_dir / "model.safetensors"))
+    weights = model.sanitize(weights)
+    model.load_weights(list(weights.items()))
+    return model
 
 
 def encode(model: Any, texts: list[str], task_type: str) -> tuple[list[list[float]], float]:
