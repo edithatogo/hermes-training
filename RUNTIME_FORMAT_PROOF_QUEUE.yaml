@@ -75,6 +75,16 @@ proofs:
     command: "/opt/homebrew/bin/llama-completion -m /Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-8B-A1B-GGUF/snapshots/dfd5fdcad7a1c0d31473fb4ca443b8befbacddf0/LFM2.5-8B-A1B-Q4_K_M.gguf --ctx-size 512 --n-predict 8 --temp 0 --seed 1 --no-display-prompt --no-conversation --simple-io --prompt 'Return only JSON: {\"ok\": true}'"
     blocker: "Runtime load and bounded generation passed through llama-completion from SSD-backed Q4_K_M GGUF, but the output was not compliant JSON. Keep as an 8B LFM runtime baseline only."
 
+  - id: gemma4-e2b-q4-gguf-proof
+    lane_id: gguf-portability
+    model: google/gemma-4-E2B-it-qat-q4_0-gguf
+    run_name: gemma4-e2b-q4-llamacpp-smoke-20260612
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: /Volumes/PortableSSD/huggingface/hub/models--google--gemma-4-E2B-it-qat-q4_0-gguf/snapshots/1894d1fc0a19d86697abd40483f5983c867df03f/gemma-4-E2B_q4_0-it.gguf
+    command: "/opt/homebrew/bin/llama-completion -m /Volumes/PortableSSD/huggingface/hub/models--google--gemma-4-E2B-it-qat-q4_0-gguf/snapshots/1894d1fc0a19d86697abd40483f5983c867df03f/gemma-4-E2B_q4_0-it.gguf --ctx-size 512 --n-predict 16 --temp 0 --seed 1 --no-display-prompt --no-conversation --simple-io --prompt 'Return only JSON: {\"ok\": true}'"
+    blocker: "Runtime load passed and exited cleanly through llama-completion from SSD-backed official QAT q4_0 GGUF, but the output was end-of-text only. Try a model-specific chat template/profile or MLX package before Hermes/BFCL scoring."
+
   - id: lfm2-24b-a2b-q4-gguf-proof
     lane_id: gguf-portability
     model: LiquidAI/LFM2-24B-A2B-GGUF

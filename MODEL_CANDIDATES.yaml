@@ -125,6 +125,19 @@ candidates:
     first_finetune: "experimental smoke only"
     notes: "Validate memory and tool-call stability before training; keep any on-device quant path as needs-runtime-proof."
 
+  - id: google/gemma-4-E2B-it-qat-q4_0-gguf
+    family: gemma
+    tier: edge-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: ready
+    parameters: "E2B"
+    architecture: "Gemma 4 QAT q4_0 GGUF text package"
+    license: "check model card"
+    first_runtime: "llama-completion QAT GGUF runtime proof is complete; model-specific prompt profile remains blocked"
+    first_finetune: "defer; prefer MLX package or cloud path for adaptation"
+    notes: "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. Treat as runtime evidence only."
+
   - id: unsloth/gemma-4-26B-A4B-it-GGUF
     family: gemma
     tier: frontier-runtime
