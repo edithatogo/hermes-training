@@ -1,0 +1,7 @@
+{
+  "id": "model-radar-tiny-small-refresh_20260612",
+  "title": "Model Radar Tiny/Small Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Refresh the tiny/small open-weight model radar and mem0 Jina MLX queue while preserving runtime-proof gates."
+}

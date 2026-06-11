@@ -80,6 +80,18 @@ def command_for(candidate: dict[str, Any]) -> str:
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )
+    if role == "embedder" and runtime == "mlx" and "jina-embeddings-v5-omni-small" in model_id:
+        task_type = "text-matching" if "text-matching" in model_id else "retrieval"
+        return "\n".join(
+            [
+                "# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.",
+                "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\",
+                f"  --model {model_id} \\",
+                f"  --task-type {task_type} \\",
+                "  --suite benchmarks/embeddings/memory_retrieval_suite.json \\",
+                f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
+            ]
+        )
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "\n".join(
             [
@@ -215,6 +227,7 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     role = str(candidate.get("role", ""))
     runtime = first_runtime(candidate)
     dims = candidate.get("embedding_dims")
+    model_id = str(candidate.get("id", ""))
     if status in {"working-default", "installed-baseline"}:
         return "baseline; keep as rollback and compare only"
     if status == "working-default-clean-root-smoked":
@@ -237,6 +250,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "requires model acquisition/load proof and memory-footprint check"
     if role == "embedder" and dims in {"unknown", "variable"}:
         return "verify embedding dimension before creating collection"
+    if role == "embedder" and runtime == "mlx" and "jina-embeddings-v5-omni-small" in model_id:
+        return "custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape"
     if role == "reranker" and runtime != "local-python":
         return "requires model acquisition/load proof; fixed-candidate harness is ready"
     if role == "retriever":

@@ -25,6 +25,8 @@ Use names that include model family and dimension:
 | `BAAI/bge-m3` | `mem0_bge_m3_1024` |
 | `Qwen/Qwen3-Embedding-4B` | `mem0_qwen3_embedding_4b_<dims>` |
 | `jinaai/jina-embeddings-v4` | `mem0_jina_v4_<dims>` |
+| `jinaai/jina-embeddings-v5-omni-small-mlx` | `mem0_jina_v5_omni_small_1024` |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | `mem0_jina_v5_omni_small_1024` |
 | `LiquidAI/LFM2-ColBERT-350M` | `mem0_lfm2_colbert_350m` |
 
 Late-interaction models such as ColBERT do not use the same collection shape as dense embeddings.
@@ -66,6 +68,14 @@ python -m pip install -r requirements-mem0-embeddings.txt
 BGE-M3, Jina embeddings, and Qwen embedding candidates should start on this
 path unless they are first exposed through a local OpenAI-compatible embedding
 server.
+
+The Jina v5 omni MLX variants are Apple Silicon-first candidates and should be
+kept in a dedicated collection until local load/add/search behavior is proven.
+Do not replace `mem0_nomic_768` with them by default.
+
+For the Jina retrieval variant, prefix query text with `Query: ` and document
+text with `Document: ` to match the model card's reference behavior. Keep the
+text-matching variant unprefixed unless the model card says otherwise.
 
 This benchmark is intentionally small. It is useful for quick regression checks and candidate triage; it is not a publication-quality retrieval score.
 

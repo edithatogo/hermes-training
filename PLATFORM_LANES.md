@@ -15,6 +15,15 @@ Hermes Training Hub is organized around Hermes-agent model capability, not one m
 
 Format-specific rules live in `RUNTIME_FORMAT_LANES.yaml`. A model can be in a Mac or specialist platform lane while still using MLX, PEFT/safetensors, KTransformers, LEAP/LFM, native recurrent/SSM/BitNet, hosted API, or GGUF as its primary format lane.
 
+## External Compute Shortlist
+
+These are execution substrates, not model lanes:
+
+- Google Colab is the first remote burst-compute option to try when the job fits a notebook-style workflow.
+- NVIDIA NGC is now on the shortlist for containerized GPU work and specialist-runtime experiments.
+- Azure remains the formal scale-out lane, but only after auth, quota, and cost gates pass.
+- Kaggle is not installed on this machine, so it remains unverified rather than part of the current baseline.
+
 ## Rules
 
 - Local Mac work is constrained to what fits the 32GB M1 Max without swap-heavy runs.

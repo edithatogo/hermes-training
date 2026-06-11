@@ -74,6 +74,23 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertIn("--mode mlx-bge", command_for(candidate))
         self.assertIn("--subprocess-read", command_for(candidate))
 
+    def test_jina_mlx_embedder_uses_dedicated_runner(self) -> None:
+        candidate = {
+            "id": "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx",
+            "role": "embedder",
+            "runtime": ["mlx"],
+            "embedding_dims": 1024,
+            "status": "candidate",
+        }
+
+        self.assertEqual(
+            blocker_for(candidate),
+            "custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape",
+        )
+        command = command_for(candidate)
+        self.assertIn("scripts/run_jina_mlx_embedding_benchmark.py", command)
+        self.assertIn("--task-type text-matching", command)
+
 
 if __name__ == "__main__":
     unittest.main()

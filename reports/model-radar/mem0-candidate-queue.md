@@ -32,7 +32,8 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
 | 12 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 | 13 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | verify embedding dimension before creating collection |
-| 14 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
+| 14 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape |
+| 15 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
 
 ## Candidate Commands
 
@@ -236,7 +237,28 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-# No default command yet.
+# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.
+./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
+  --model jinaai/jina-embeddings-v5-omni-small-mlx \
+  --task-type retrieval \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-jinaai-jina-embeddings-v5-omni-small-mlx-$(date +%Y%m%d-%H%M%S)
+```
+
+### jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
+
+- Role: `embedder`
+- Status: `candidate`
+- Blocker: custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape
+
+```bash
+source scripts/env.sh
+# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.
+./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
+  --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx \
+  --task-type text-matching \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### LiquidAI/LFM2-ColBERT-350M

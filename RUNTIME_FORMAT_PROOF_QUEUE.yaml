@@ -75,6 +75,56 @@ proofs:
     command: "bash scripts/run_lfm2_24b_q4_runtime_proof.sh"
     blocker: "Runtime proof passed; strict held-out tool-call score was 0.375, so this remains runtime/baseline evidence and is not promoted."
 
+  - id: qwen35-0.8b-mlx-native-smoke
+    lane_id: mlx-native
+    model: Qwen/Qwen3.5-0.8B
+    run_name: qwen35-0.8b-mlx-native-smoke-20260611
+    status: blocked-preflight
+    endpoint: ""
+    artifact_path: ""
+    command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-0.8B --suite benchmarks/lm_loglikelihood/smoke.jsonl"
+    blocker: "Tiny-model acquisition/load proof is still needed. Use MLX after a local artifact or a clean HF snapshot is available."
+
+  - id: qwen35-2b-mlx-native-smoke
+    lane_id: mlx-native
+    model: Qwen/Qwen3.5-2B
+    run_name: qwen35-2b-mlx-native-smoke-20260611
+    status: blocked-preflight
+    endpoint: ""
+    artifact_path: ""
+    command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-2B --suite benchmarks/lm_loglikelihood/smoke.jsonl"
+    blocker: "Small-model acquisition/load proof is still needed. Keep this behind Qwen3.5 0.8B unless a quality gap appears."
+
+  - id: north-mini-code-gguf-proof
+    lane_id: gguf-portability
+    model: CohereLabs/North-Mini-Code-1.0
+    run_name: north-mini-code-gguf-proof-20260611
+    status: blocked-preflight
+    endpoint: ""
+    artifact_path: ""
+    command: "llama-server -hf unsloth/North-Mini-Code-1.0-GGUF:UD-Q4_K_M"
+    blocker: "Code-specialist runtime proof is queued, but the GGUF artifact should be acquired and smoke-tested before any benchmark claim."
+
+  - id: jina-v5-omni-small-mlx-retrieval-proof
+    lane_id: mlx-native
+    model: jinaai/jina-embeddings-v5-omni-small-mlx
+    run_name: jina-v5-omni-small-mlx-retrieval-proof-20260611
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: ""
+    command: "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py --model jinaai/jina-embeddings-v5-omni-small-mlx --task-type retrieval --suite benchmarks/embeddings/memory_retrieval_suite.json"
+    blocker: "Local load/add/search proof passed with a 1-case retrieval smoke; keep the lane on the queue for broader coverage only."
+
+  - id: jina-v5-omni-small-mlx-text-matching-proof
+    lane_id: mlx-native
+    model: jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
+    run_name: jina-v5-omni-small-mlx-text-matching-proof-20260611
+    status: completed-runtime-proof
+    endpoint: ""
+    artifact_path: ""
+    command: "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx --task-type text-matching --suite benchmarks/embeddings/memory_retrieval_suite.json"
+    blocker: "Text-matching lane is now wired and should be exercised next; the retrieval variant already has a successful smoke."
+
   - id: bitnet-rwkv-mamba-native-research-proof
     lane_id: recurrent-ssm-bitnet
     model: microsoft/bitnet-b1.58-2B-4T

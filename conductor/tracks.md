@@ -272,3 +272,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Colab Benchmark Environment Scale-Out
 *Link: [./tracks/colab-benchmark-env-scaleout_20260612/](./tracks/colab-benchmark-env-scaleout_20260612/)*
+
+---
+
+## [x] Track: Model Radar Tiny/Small Refresh
+*Link: [./tracks/model-radar-tiny-small-refresh_20260612/](./tracks/model-radar-tiny-small-refresh_20260612/)*

@@ -4,7 +4,7 @@
 updated: "2026-05-26"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-05-26: refreshed official/current sources. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 gained newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. A late parallel refresh found mlx-community/Qwen3-VL-32B-Instruct-4bit as a 19.6GB MLX multimodal runtime candidate and active LiquidAI LFM2/LFM2.5 edge releases. Treat these as runtime smoke/watchlist items behind current text/tool-call and mem0 gates, not local fine-tune targets."
+latest_release_recheck: "2026-06-11: refreshed official/current sources plus the Artificial Analysis open tiny/small leaderboard. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 still has newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. The new tiny/small shortlist to triage is Qwen3.5 0.8B/2B, Gemma 3n E4B, Gemma 4 E2B, Phi-4 Mini, Granite 4.1 3B, Exaone 4.0 1.2B, North Mini Code, plus the already-tracked LFM2.5-1.2B and LFM2.6B family. Treat these as runtime smoke or small local-finetune candidates behind current text/tool-call and mem0 gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -77,7 +77,7 @@ candidates:
     family: qwen
     tier: multimodal-runtime
     role: local-runtime
-    environment: mac-mlx-vlm
+    environment: mac-mlx
     feasibility: needs-runtime-proof
     parameters: "32B, 4-bit MLX package"
     architecture: "Qwen3 vision-language model"
@@ -163,6 +163,110 @@ candidates:
     first_runtime: "MLX server"
     first_finetune: "MLX-LM LoRA"
     notes: "Best first local Hermes adapter target."
+
+  - id: Qwen/Qwen3.5-0.8B
+    family: qwen
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "0.9B"
+    architecture: "Dense transformer, small open-weight Qwen3.5"
+    license: "check model card"
+    first_runtime: "MLX or GGUF smoke before promotion"
+    first_finetune: "MLX-LM LoRA"
+    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. Treat as acquisition and runtime-proof first."
+
+  - id: Qwen/Qwen3.5-2B
+    family: qwen
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Dense transformer, small open-weight Qwen3.5"
+    license: "check model card"
+    first_runtime: "MLX or GGUF smoke before promotion"
+    first_finetune: "MLX-LM LoRA"
+    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. Prefer it over larger models when the task does not need a teacher."
+
+  - id: google/gemma-3n-E4B
+    family: gemma
+    tier: research-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "E4B"
+    architecture: "Multimodal Gemma 3n, text/audio/vision"
+    license: "check model card"
+    first_runtime: "Transformers or LiteRT-LM smoke"
+    first_finetune: "defer"
+    notes: "Multimodal small-model candidate from the current tiny/small leaderboard. Useful for runtime and modality-proof work, not a first local fine-tune target."
+
+  - id: google/gemma-4-E2B
+    family: gemma
+    tier: research-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "E2B"
+    architecture: "Any-to-any multimodal Gemma 4"
+    license: "check model card"
+    first_runtime: "Transformers, LiteRT-LM, or ONNX packaging smoke"
+    first_finetune: "defer"
+    notes: "Small Gemma 4 lane for local runtime proof and tool-use comparison. Keep as a runtime candidate until packaging and memory behavior are recorded."
+
+  - id: microsoft/Phi-4-mini-instruct
+    family: phi
+    tier: practical-finetune
+    role: local-finetune
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "4B"
+    architecture: "Dense Phi-4 mini instruct model"
+    license: "check model card"
+    first_runtime: "Transformers or community GGUF smoke"
+    first_finetune: "PEFT/SFT"
+    notes: "Good tiny-agent candidate for instruction following and function-calling comparison. Useful for mem0 extractor experimentation if the runtime path proves clean."
+
+  - id: ibm-granite/granite-4.1-3b
+    family: granite
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "3B"
+    architecture: "Dense long-context instruct model with tool calling"
+    license: apache-2.0
+    first_runtime: "MLX or SGLang/OpenAI-compatible smoke"
+    first_finetune: "MLX-LM LoRA"
+    notes: "Useful 3B instruction/tool-use candidate with current Granite 4.1 packaging and an active Apache license. Good fit for Hermes-style comparison runs."
+
+  - id: LGAI-EXAONE/EXAONE-4.0-1.2B
+    family: exaone
+    tier: practical-finetune
+    role: local-finetune
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "1.2B"
+    architecture: "Dense agentic instruction model"
+    license: "check model card"
+    first_runtime: "MLX or GGUF smoke"
+    first_finetune: "MLX-LM LoRA"
+    notes: "Small multilingual helper candidate from the current leaderboard. Good for low-cost adaptation and mem0-adjacent utility work."
+
+  - id: CohereLabs/North-Mini-Code-1.0
+    family: cohere
+    tier: research-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Sparse MoE coding-agent model"
+    license: apache-2.0
+    first_runtime: "GGUF smoke through llama.cpp, Ollama, or LM Studio"
+    first_finetune: "defer"
+    notes: "Recent code-specialist open-weight release. More relevant as a runtime and agentic coding baseline than as a first local fine-tune target."
 
   - id: Qwen/Qwen3.6-27B
     family: qwen

@@ -51,6 +51,34 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 6 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
 | 7 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
 
+## Tiny/Small Open-Weight Shortlist
+
+These recent open-weight models from the tiny/small leaderboard are worth triage because they fit the 32GB class locally or through Colab burst compute.
+
+| Family | Candidate | Fit | Suggested lane |
+|---|---|---|---|
+| Qwen | `Qwen3.5 0.8B`, `Qwen3.5 2B` | Easy local fit | Mac/MLX, Mac/Ollama, Colab burst runs |
+| Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
+| Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
+| Google | `Gemma 4 E2B` | Local/Colab fit | Mac/MLX or Colab, runtime proof first |
+| Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
+| IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, general helper lane |
+| LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | Mac/MLX, Mac/Ollama, lightweight helper lane |
+| Cohere | `North Mini Code` | Local/Colab fit | Code-specialist lane, Colab-first if needed |
+
+These are triage candidates, not automatic fine-tune targets. The next step for each is a runtime proof and a role decision: Hermes helper, mem0 extractor, retrieval helper, or watchlist.
+
+Verified HF ids behind this shortlist:
+
+- `Qwen/Qwen3.5-0.8B`
+- `Qwen/Qwen3.5-2B`
+- `google/gemma-3n-E4B`
+- `google/gemma-4-E2B`
+- `microsoft/Phi-4-mini-instruct`
+- `ibm-granite/granite-4.1-3b`
+- `LGAI-EXAONE/EXAONE-4.0-1.2B`
+- `CohereLabs/North-Mini-Code-1.0`
+
 ## Research Frontier
 
 | Family | Candidate | Status | How to Treat It |

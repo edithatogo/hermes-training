@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -77,7 +78,7 @@ def render_queue_card(lane: dict[str, Any], proof: dict[str, Any], output: Path)
         proof.get("artifact_path", ""),
         proof.get("endpoint", ""),
         "codex",
-        "2026-05-24",
+        datetime.now(UTC).strftime("%Y-%m-%d"),
         output.parent,
     )
     return card + "\n## Queue State\n\n" + "\n".join(

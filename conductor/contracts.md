@@ -72,7 +72,7 @@ id: string
 family: string
 tier: string
 role: local-finetune | local-runtime | cloud-teacher | cloud-finetune | retrieval | research-runtime | watchlist
-environment: mac-mlx | mac-ollama | mac-lmstudio | azure-cuda | hf-transformers | specialist-runtime
+environment: mac-mlx | mac-ollama | mac-lmstudio | azure-cuda | hf-transformers | hosted-api | specialist-runtime
 feasibility: ready | needs-auth | needs-runtime-proof | cloud-only | speculative
 parameters: string
 architecture: string
