@@ -2,6 +2,11 @@
 
 Azure is a scale-out lane for Hermes-agent benchmarks, teacher/evaluator runs, dataset review, and selected larger experiments.
 
+For short GPU burst jobs while Azure GPU quota is blocked, use
+[COLAB_SCALEOUT.md](./COLAB_SCALEOUT.md). Colab CLI is a pragmatic execution
+substrate, not a replacement for Azure-managed reproducibility or Mac runtime
+validation.
+
 ## Default Policy
 
 - Account target: `d.a.mordaunt@gmail.com`
