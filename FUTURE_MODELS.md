@@ -7,15 +7,17 @@ Latest scans:
 - [Current release scan](./reports/model-radar/current-release-scan-20260524.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
 
-2026-05-26 refresh: no official Qwen3.7 open-weight lane was verified. The
-only new actionable delta is Qwen3.6 GGUF packaging with bundled MTP /
-self-speculative decoding heads, especially
-`mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` and
-`localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF`. Treat these as runtime latency
-experiments behind the existing Qwen3.6 Q4_K_M proof, not local fine-tune
-targets.
+2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
+Gemma 4 12B it plus Unsloth GGUF/qat packages, and Qwen3.5-9B. No verified
+official Qwen3.7 open-weight lane surfaced in the current Hugging Face search.
+Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments behind the
+existing Qwen3.6 proof, and treat the new 12B Gemma 4, Hermes 4.3, and
+Qwen3.5-9B entries as runtime/helper candidates rather than automatic
+promotion targets.
 
-No official Qwen3.7 open-weight local lane was verified. Qwen3.7-Max/Plus should be treated as API/preview/proprietary until official weights or a supported hosted workflow are verified.
+No verified official Qwen3.7 open-weight local lane was found. Qwen3.7-Max/Plus
+should be treated as API/preview/proprietary until official weights or a
+supported hosted workflow are verified.
 
 ## Selection Rules
 
@@ -46,11 +48,13 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 1 | Qwen | `Qwen/Qwen3.6-35B-A3B`, `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`, `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4`, MTP GGUF packages | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo and MLX-packaged candidates verified on 2026-05-24; 2026-05-26 refresh added MTP/speculative-decoding GGUF packages for runtime latency experiments. |
 | 2 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
 | 3 | Gemma | `google/gemma-4-26B-A4B-it` | 26B total / 4B active | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF model exists; GGUF/quant path must be validated for tool-call stability. |
-| 4 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
-| 5 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
-| 6 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
-| 7 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
-| 7 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
+| 4 | Gemma | `google/gemma-4-12B-it` / `google/gemma-4-12B` | 12B | Runtime yes, fine-tune possible | Mid-size Mac/Colab candidate | Newer verified 12B Gemma 4 family, useful before jumping to 26B/31B. |
+| 5 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
+| 6 | Qwen | `Qwen/Qwen3.5-9B` | 9B | Fine-tune possible, verify | Mid-size helper / tool candidate | New mid-size Qwen3.5 release that sits between the tiny local lanes and the larger Qwen3.6 frontier packages. |
+| 7 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
+| 8 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
+| 9 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
+| 10 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
 
 ## Tiny/Small Open-Weight Shortlist
 
@@ -63,8 +67,10 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
 | Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but Hermes no-extra-text strict gate remains 0/3; score-only native normalizer rescues 1/3 |
 | Google | `Gemma 4 E2B` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; try MLX/profile before scoring |
+| Google | `Gemma 4 12B` | Local/Colab fit | Newer mid-size Gemma 4 lane; verify runtime and memory behavior before promotion |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
+| Qwen | `Qwen3.5 9B` | Local/Colab fit | Mid-size helper/tool candidate, stronger than the tiny 0.8B/2B lanes if it proves stable |
 | LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | GGUF runtime-proven under 1GB RSS; MLX blocked by current config bug; Hermes JSON blocked |
 | Cohere | `North Mini Code` | Local/Colab fit | Code-specialist lane, Colab-first if needed |
 | OpenBMB | `MiniCPM5 1B MLX` | Easy local fit | Tiny helper/extraction candidate; MLX load proven, strict tool-call blocked |
@@ -75,8 +81,11 @@ Verified HF ids behind this shortlist:
 
 - `Qwen/Qwen3.5-0.8B`
 - `Qwen/Qwen3.5-2B`
+- `Qwen/Qwen3.5-9B`
 - `google/gemma-3n-E4B`
 - `google/gemma-4-E2B`
+- `google/gemma-4-12B`
+- `google/gemma-4-12B-it`
 - `microsoft/Phi-4-mini-instruct`
 - `ibm-granite/granite-4.1-3b`
 - `LGAI-EXAONE/EXAONE-4.0-1.2B`

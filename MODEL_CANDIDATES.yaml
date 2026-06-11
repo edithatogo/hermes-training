@@ -1,10 +1,10 @@
 # Machine-readable model radar for Hermes-agent model lanes.
 # Update with: python3 scripts/check_model_candidates.py
 
-updated: "2026-05-26"
+updated: "2026-06-12"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-06-11: refreshed official/current sources plus the Artificial Analysis open tiny/small leaderboard. No verified public Qwen3.7 open-weight lane was found. Qwen3.6 still has newer GGUF runtime packages with bundled MTP/speculative-decoding heads, including mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF, localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF, and byteshape/Qwen3.6-35B-A3B-MTP-GGUF. The new tiny/small shortlist to triage is Qwen3.5 0.8B/2B, Gemma 3n E4B, Gemma 4 E2B, Phi-4 Mini, Granite 4.1 3B, Exaone 4.0 1.2B, North Mini Code, plus the already-tracked LFM2.5-1.2B and LFM2.6B family. Treat these as runtime smoke or small local-finetune candidates behind current text/tool-call and mem0 gates, not automatic promotion targets."
+latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, and Qwen/Qwen3.5-9B. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new 12B Gemma 4, Hermes 4.3, and Qwen3.5-9B entries as runtime or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -112,6 +112,32 @@ candidates:
     first_finetune: "defer"
     notes: "Recent NousResearch GGUF packaging for Hermes 4.3 36B. Treat as a runtime proof candidate, not a local fine-tune target on 32GB."
 
+  - id: google/gemma-4-12B-it
+    family: gemma
+    tier: frontier-runtime
+    role: local-finetune
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "12B"
+    architecture: "Dense Gemma 4 any-to-any instruct model"
+    license: "check model card"
+    first_runtime: "Transformers or MLX/GGUF smoke"
+    first_finetune: "defer until runtime and memory behavior are proven"
+    notes: "New mid-size Gemma 4 candidate surfaced in the current Hugging Face search. More plausible than 26B/31B for burst-colab or quantized local experimentation, but it still needs a runtime proof before any promotion."
+
+  - id: google/gemma-4-12B
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "12B"
+    architecture: "Dense Gemma 4 any-to-any base model"
+    license: "check model card"
+    first_runtime: "Transformers or MLX/GGUF smoke"
+    first_finetune: "defer"
+    notes: "Base 12B Gemma 4 candidate. Keep as a runtime/packaging comparison point until a concrete Mac or Colab path is proven."
+
   - id: google/gemma-4-26B-A4B-it
     family: gemma
     tier: frontier-runtime
@@ -215,6 +241,19 @@ candidates:
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
     notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; compare against 0.8B, MiniCPM, and 4B before training or promotion."
+
+  - id: Qwen/Qwen3.5-9B
+    family: qwen
+    tier: practical-finetune
+    role: local-finetune
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "9B"
+    architecture: "Dense transformer, mid-size open-weight Qwen3.5"
+    license: "check model card"
+    first_runtime: "Transformers or MLX/GGUF smoke"
+    first_finetune: "PEFT/MLX-LM LoRA after runtime proof"
+    notes: "New mid-size Qwen3.5 candidate that sits between the tiny helper lanes and the larger Qwen3.6 frontier. Useful for Colab-assisted experiments and stronger tool-use comparison if it proves stable on the target runtime stack."
 
   - id: google/gemma-3n-E4B
     family: gemma
