@@ -188,7 +188,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. Prefer it over larger models when the task does not need a teacher."
+    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s; compare against 0.8B and 4B before training or promotion."
 
   - id: google/gemma-3n-E4B
     family: gemma

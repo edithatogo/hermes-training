@@ -292,3 +292,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3.5 0.8B MLX Smoke
 *Link: [./tracks/qwen35-08b-mlx-smoke_20260612/](./tracks/qwen35-08b-mlx-smoke_20260612/)*
+
+---
+
+## [x] Track: Qwen3.5 2B MLX Smoke
+*Link: [./tracks/qwen35-2b-mlx-smoke_20260612/](./tracks/qwen35-2b-mlx-smoke_20260612/)*
