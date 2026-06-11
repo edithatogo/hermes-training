@@ -18,12 +18,13 @@ class ColabDispatchTests(unittest.TestCase):
 
     def test_extract_observed_runtime_from_colab_log(self) -> None:
         observed = extract_observed_runtime(
-            '{"cuda_available": true, "cuda_device_name": "Tesla T4", "torch_xla_available": false}'
+            '{"cuda_available": true, "cuda_device_name": "Tesla T4", "torch_xla_available": false, "backend": "cuda"}'
         )
 
         self.assertEqual(observed["cuda_available"], "true")
         self.assertEqual(observed["cuda_device_name"], "Tesla T4")
         self.assertEqual(observed["torch_xla_available"], "false")
+        self.assertEqual(observed["training_backend"], "cuda")
 
     def test_slugify_keeps_run_id_filesystem_safe(self) -> None:
         self.assertEqual(slugify("Colab TPU/GPU smoke 2026"), "Colab-TPU-GPU-smoke-2026")

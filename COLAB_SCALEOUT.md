@@ -13,6 +13,19 @@ Verified local status on 2026-06-11:
 - T4 CUDA smoke passed
 - TPU `v5e1` smoke passed through `torch_xla` / `xla:0`
 
+Adaptive training status on 2026-06-12:
+
+- availability-aware training dispatch selected `gpu:T4` and completed a tiny
+  PyTorch training run on CUDA
+- retry-enabled `gpu:T4` training completed successfully
+- forced `tpu:v5e1` training was blocked by transient Colab assignment/socket
+  errors before the script could run
+- forced `tpu:v6e1` training was rejected by Colab for quota or entitlement
+
+Policy: use GPU-first dispatch for real training. Include TPU only when the
+script is explicitly JAX/PyTorch-XLA compatible and the run can tolerate Colab
+TPU availability failures.
+
 Use Colab CLI for:
 
 - bounded official benchmark scorecards that need CUDA but not a durable cluster
@@ -95,6 +108,7 @@ and should choose based on availability:
 ```bash
 ./.venv/bin/python scripts/colab_dispatch.py \
   --accelerators gpu:T4,gpu:L4,gpu:A100 \
+  --retries 1 \
   --run-id colab-auto-gpu-smoke-20260611 \
   scripts/colab_smoke.py
 ```
@@ -105,6 +119,7 @@ For jobs that really support TPU/XLA or JAX:
 ./.venv/bin/python scripts/colab_dispatch.py \
   --allow-tpu \
   --accelerators gpu:T4,gpu:L4,tpu:v5e1,tpu:v6e1 \
+  --retries 1 \
   --run-id colab-auto-gpu-tpu-smoke-20260611 \
   scripts/colab_smoke.py
 ```
@@ -119,6 +134,35 @@ run. It writes:
 TPU remains opt-in because most current training and benchmark scripts use CUDA,
 Metal, llama.cpp, or Transformers GPU paths that do not automatically translate
 to PyTorch/XLA.
+
+The adaptive training smoke proves this policy with a tiny synthetic PyTorch
+training job:
+
+```bash
+./.venv/bin/python scripts/colab_dispatch.py \
+  --allow-tpu \
+  --accelerators gpu:T4,tpu:v5e1 \
+  --retries 1 \
+  --timeout 240 \
+  --run-id colab-adaptive-train-auto-20260612 \
+  scripts/colab_adaptive_train_smoke.py 8 16
+```
+
+To force TPU/XLA training proof:
+
+```bash
+./.venv/bin/python scripts/colab_dispatch.py \
+  --allow-tpu \
+  --accelerators tpu:v5e1 \
+  --retries 1 \
+  --timeout 300 \
+  --run-id colab-adaptive-train-tpu-v5e1-20260612 \
+  scripts/colab_adaptive_train_smoke.py 8 16
+```
+
+Current TPU caveat: `v5e1` allocation can be transiently unavailable, and
+`v6e1` may require quota or entitlement not present on this account. Keep a GPU
+fallback in the accelerator list unless the job is TPU-only by design.
 
 ## Candidate Job Order
 

@@ -71,14 +71,17 @@ def run_colab(
     timeout_s: float,
     output_dir: Path,
     dry_run: bool,
+    attempt_index: int,
 ) -> dict[str, Any]:
     command = ["colab", "run", *accelerator.colab_args, "--timeout", str(timeout_s), str(script), *script_args]
-    log_path = output_dir / f"{accelerator.label}.log"
+    log_suffix = f"{accelerator.label}.log" if attempt_index == 1 else f"{accelerator.label}-attempt{attempt_index}.log"
+    log_path = output_dir / log_suffix
     started = time.time()
     if dry_run:
         return {
             "accelerator": accelerator.__dict__,
             "status": "planned",
+            "attempt_index": attempt_index,
             "command": command,
             "quoted_command": shlex.join(command),
             "log": str(log_path),
@@ -91,6 +94,7 @@ def run_colab(
     return {
         "accelerator": accelerator.__dict__,
         "status": "scored" if process.returncode == 0 else "blocked",
+        "attempt_index": attempt_index,
         "returncode": process.returncode,
         "command": command,
         "quoted_command": shlex.join(command),
@@ -108,6 +112,8 @@ def extract_observed_runtime(log_text: str) -> dict[str, str]:
         (r'"cuda_available":\s*(true|false)', "cuda_available"),
         (r'"xla_device":\s*"([^"]+)"', "xla_device"),
         (r'"torch_xla_available":\s*(true|false)', "torch_xla_available"),
+        (r'"backend":\s*"([^"]+)"', "training_backend"),
+        (r'"device_name":\s*"([^"]+)"', "training_device_name"),
     ]:
         match = re.search(pattern, log_text)
         if match:
@@ -144,6 +150,8 @@ def main() -> int:
     parser.add_argument("--accelerators", default=DEFAULT_ACCELERATORS)
     parser.add_argument("--allow-tpu", action="store_true", help="Allow TPU candidates in the accelerator list.")
     parser.add_argument("--timeout", type=float, default=180.0)
+    parser.add_argument("--retries", type=int, default=0, help="Retry each accelerator this many times after the first failed attempt.")
+    parser.add_argument("--retry-delay-s", type=float, default=5.0)
     parser.add_argument("--run-id", default=f"colab-dispatch-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--report", type=Path)
@@ -161,10 +169,23 @@ def main() -> int:
     attempts: list[dict[str, Any]] = []
     status = "blocked"
     for accelerator in accelerators:
-        attempt = run_colab(accelerator, args.script, args.script_args, args.timeout, output_dir, args.dry_run)
-        attempts.append(attempt)
-        if attempt["status"] in {"planned", "scored"}:
-            status = attempt["status"]
+        for attempt_index in range(1, args.retries + 2):
+            attempt = run_colab(
+                accelerator,
+                args.script,
+                args.script_args,
+                args.timeout,
+                output_dir,
+                args.dry_run,
+                attempt_index,
+            )
+            attempts.append(attempt)
+            if attempt["status"] in {"planned", "scored"}:
+                status = attempt["status"]
+                break
+            if attempt_index <= args.retries and args.retry_delay_s > 0 and not args.dry_run:
+                time.sleep(args.retry_delay_s)
+        if status in {"planned", "scored"}:
             if not args.dry_run:
                 break
 

@@ -21,6 +21,7 @@ CUDA-only default:
 ```bash
 ./.venv/bin/python scripts/colab_dispatch.py \
   --accelerators gpu:T4,gpu:L4,gpu:A100 \
+  --retries 1 \
   --timeout 1800 \
   --run-id <run-id> \
   <script> <args>
@@ -32,6 +33,7 @@ CUDA or TPU/XLA:
 ./.venv/bin/python scripts/colab_dispatch.py \
   --allow-tpu \
   --accelerators gpu:T4,gpu:L4,tpu:v5e1,tpu:v6e1,gpu:A100 \
+  --retries 1 \
   --timeout 1800 \
   --run-id <run-id> \
   <script> <args>
