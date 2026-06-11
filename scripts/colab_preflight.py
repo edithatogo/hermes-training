@@ -54,9 +54,8 @@ def build_report() -> dict[str, Any]:
         "storage_root_exists": storage_root.exists(),
         "recommended_install": "uv tool install google-colab-cli",
         "safe_smoke_commands": [
-            "colab new --gpu T4",
-            "echo \"import torch; print(torch.cuda.is_available())\" | colab exec",
-            "colab stop",
+            "colab run --gpu T4 --timeout 120 scripts/colab_smoke.py",
+            "colab run --tpu v5e1 --timeout 180 scripts/colab_smoke.py",
         ],
         "notes": [
             "This preflight is read-only and does not create a Colab runtime.",

@@ -6,6 +6,13 @@ but it can close a practical gap while Azure GPU quota is unavailable.
 
 ## When To Use It
 
+Verified local status on 2026-06-11:
+
+- `colab` is installed at `/Users/doughnut/.local/bin/colab`
+- version `0.5.9`
+- T4 CUDA smoke passed
+- TPU `v5e1` smoke passed through `torch_xla` / `xla:0`
+
 Use Colab CLI for:
 
 - bounded official benchmark scorecards that need CUDA but not a durable cluster
@@ -13,6 +20,8 @@ Use Colab CLI for:
   Nemotron candidates when artifacts can be synced back immediately
 - runtime smoke tests for CUDA/NVIDIA-only packages before deciding whether an
   Azure job is worth requesting
+- TPU-compatible JAX or PyTorch/XLA experiments, especially small architecture
+  probes that do not depend on CUDA-specific kernels
 - short LoRA or QLoRA experiments where checkpoint loss is acceptable and every
   artifact is downloaded at the end of the run
 
@@ -23,6 +32,7 @@ Do not use Colab CLI for:
 - long-running training where preemption would waste too much work
 - private dataset publication without a separate privacy and credential review
 - claims that require a reproducible managed cluster or fixed cloud image
+- CUDA-only scripts on TPU runtimes
 
 ## Install
 
@@ -62,10 +72,16 @@ After confirming the account and any Colab plan/compute-unit constraints, run a
 single disposable GPU smoke:
 
 ```bash
-colab run --gpu T4 scripts/colab_smoke.py --output-dir /content/hermes-colab-smoke
+colab run --gpu T4 --timeout 120 scripts/colab_smoke.py
 ```
 
-Then download or emit the report back to:
+For TPU:
+
+```bash
+colab run --tpu v5e1 --timeout 180 scripts/colab_smoke.py
+```
+
+Capture the local output and emit the report back to:
 
 ```text
 /Volumes/PortableSSD/hermes-evals/colab/
@@ -78,6 +94,7 @@ Then download or emit the report back to:
 3. Gemma 4 QAT GGUF runtime smoke if the runtime supports the package shape.
 4. MiniCPM5-1B fast utility prompt smoke.
 5. NVIDIA Nemotron runtime smoke only on an NVIDIA-capable Colab runtime.
+6. TPU-only experiments only after the script has a JAX or PyTorch/XLA path.
 
 ## Run Card Requirements
 
