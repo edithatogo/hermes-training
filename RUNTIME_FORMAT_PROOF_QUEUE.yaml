@@ -78,12 +78,12 @@ proofs:
   - id: qwen35-0.8b-mlx-native-smoke
     lane_id: mlx-native
     model: Qwen/Qwen3.5-0.8B
-    run_name: qwen35-0.8b-mlx-native-smoke-20260611
-    status: blocked-preflight
+    run_name: qwen35-08b-mlx-loglikelihood-smoke-20260612
+    status: completed-runtime-proof
     endpoint: ""
-    artifact_path: ""
-    command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-0.8B --suite benchmarks/lm_loglikelihood/smoke.jsonl"
-    blocker: "Tiny-model acquisition/load proof is still needed. Use MLX after a local artifact or a clean HF snapshot is available."
+    artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/qwen35-08b-mlx-loglikelihood-smoke-20260612"
+    command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-0.8B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-08b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed; next gate is a broader helper/tool-call role decision, not automatic promotion."
 
   - id: qwen35-2b-mlx-native-smoke
     lane_id: mlx-native

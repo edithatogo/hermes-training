@@ -175,7 +175,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. Treat as acquisition and runtime-proof first."
+    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s; keep behind role-specific helper/tool-call gates before any promotion."
 
   - id: Qwen/Qwen3.5-2B
     family: qwen

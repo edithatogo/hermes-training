@@ -1,0 +1,7 @@
+{
+  "id": "qwen35-08b-mlx-smoke_20260612",
+  "title": "Qwen3.5 0.8B MLX Smoke",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Prove SSD-backed acquisition and direct MLX loglikelihood scoring for Qwen/Qwen3.5-0.8B."
+}
