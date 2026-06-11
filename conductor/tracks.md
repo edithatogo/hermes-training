@@ -297,3 +297,33 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3.5 2B MLX Smoke
 *Link: [./tracks/qwen35-2b-mlx-smoke_20260612/](./tracks/qwen35-2b-mlx-smoke_20260612/)*
+
+---
+
+## [x] Track: MiniCPM5 1B MLX Smoke
+*Link: [./tracks/minicpm5-1b-mlx-smoke_20260612/](./tracks/minicpm5-1b-mlx-smoke_20260612/)*
+
+---
+
+## [x] Track: North Mini Code GGUF Runtime Smoke
+*Link: [./tracks/north-mini-code-gguf-smoke_20260612/](./tracks/north-mini-code-gguf-smoke_20260612/)*
+
+---
+
+## [x] Track: BitNet Native Runtime Smoke
+*Link: [./tracks/bitnet-native-smoke_20260612/](./tracks/bitnet-native-smoke_20260612/)*
+
+---
+
+## [x] Track: Tiny MLX BFCL Role Gate
+*Link: [./tracks/tiny-mlx-bfcl-role-gate_20260612/](./tracks/tiny-mlx-bfcl-role-gate_20260612/)*
+
+---
+
+## [x] Track: Local Pilot Score Wrapper
+*Link: [./tracks/local-pilot-score-wrapper_20260612/](./tracks/local-pilot-score-wrapper_20260612/)*
+
+---
+
+## [x] Track: Future Models Proof Reconciliation
+*Link: [./tracks/future-models-proof-reconciliation_20260612/](./tracks/future-models-proof-reconciliation_20260612/)*

@@ -65,6 +65,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, general helper lane |
 | LG AI Research | `Exaone 4.0 1.2B` | Easy local fit | Mac/MLX, Mac/Ollama, lightweight helper lane |
 | Cohere | `North Mini Code` | Local/Colab fit | Code-specialist lane, Colab-first if needed |
+| OpenBMB | `MiniCPM5 1B MLX` | Easy local fit | Tiny helper/extraction candidate; MLX load proven, strict tool-call blocked |
 
 These are triage candidates, not automatic fine-tune targets. The next step for each is a runtime proof and a role decision: Hermes helper, mem0 extractor, retrieval helper, or watchlist.
 
@@ -90,7 +91,7 @@ Verified HF ids behind this shortlist:
 | Qwen3-Next | `Qwen/Qwen3-Next-80B-A3B-Instruct`, Qwen3-Coder-Next | Real HF models/reports exist; local repo has Qwen3Next converter support | Runtime experiment first. Too large for first local fine-tune, but important for subquadratic/linear-attention roadmap. |
 | Mamba-3 | State-space / selective SSM family | Current architecture family, not a drop-in Hermes model track yet | Watchlist. Add only after weights + Mac runtime + tokenizer are real. |
 | RWKV-7 | `BlinkDL/rwkv7-g1`, `BlinkDL/rwkv-7-world` exact checkpoints | Real recurrent family with public checkpoints; no official 7B World checkpoint verified | Runtime experiment. Tool-calling chat quality must be tested. |
-| BitNet b1.58 | Microsoft BitNet / QVAC BitLoRA ecosystem | Real inference ecosystem; fine-tune path emerging | Research track. Do not block core Hermes work on it. |
+| BitNet b1.58 | Microsoft BitNet / QVAC BitLoRA ecosystem | Native runtime load/generation is locally proven; fine-tune path emerging | Research track. Prompt-compliance and non-interactive Hermes task smokes still block use. |
 | Recursive wrappers | `mit-oasys/rlm-qwen3-8b-v0.1` and RLM-style harnesses | Real experimental checkpoint plus architecture/harness idea | Build only after a clear runtime harness and reproducible dataset objective exist. |
 
 ## Claims To Treat Carefully
@@ -192,7 +193,7 @@ Acceptance bar:
 | LFM2 8B-A1B / 24B-A2B | Check per build | Not needed | Local Ollama has converter work | Improving | Check | 8B-A1B is the safer LFM runtime target; 24B-A2B now has GGUF, ONNX, and MLX-bf16 package listings and should be treated as a runtime experiment before fine-tuning. |
 | Mamba-3 | Research | No | No | No | No | Architecture watchlist until weights/runtime mature. |
 | RWKV7 / rwkv-7-world | Limited | No | Check | Mixed | Mixed | Use exact public checkpoint sizes; tool-call quality must be tested. |
-| BitNet | No | No | No | Check separate runtimes | No | Research track, not core pipeline. |
+| BitNet | No | No | No | Native BitNet runtime proven; GGUF/endpoint path separate | No | Research track only; prompt-compliance failed. |
 
 ## Quantization And Runtime Notes
 
@@ -204,7 +205,10 @@ Acceptance bar:
 | `Qwen/Qwen3-Next-80B-A3B-Instruct` | Official HF weights and a GGUF family are published. Use it as a runtime-experiment target only; it is not a 32GB fine-tune target. | `needs-runtime-proof` |
 | `LiquidAI/LFM2-24B-A2B` | Live Hugging Face API refresh on 2026-05-24 found official base, GGUF, ONNX, and MLX-bf16 package listings plus a NexaAI GGUF. Treat as a specialist runtime experiment; do not make local fine-tune claims before endpoint and memory proofs. | `needs-runtime-proof` |
 | `LiquidAI/LFM2.5-1.2B-Instruct` / `Thinking` | Official model card lists day-one support for llama.cpp, MLX, and vLLM. This is the safest local fine-tune lane in the frontier set. | `ready` |
-| `microsoft/bitnet-b1.58-2B-4T` | Official HF weights exist, but the native BitNet runtime path still needs an actual repo-specific smoke before we treat it as supported. | `needs-runtime-proof` |
+| `microsoft/bitnet-b1.58-2B-4T` | Native BitNet runtime load and 16-token generation passed on 2026-06-12 from the SSD-backed I2_S artifact with 1.32 GB max RSS. The bounded JSON prompt and `-cnv` chat-profile retry were non-compliant, so this is runtime evidence only. | `runtime-proofed; hermes-smoke-blocked` |
+| `openbmb/MiniCPM5-1B-MLX` | Official MLX package acquired through the SSD-backed Hugging Face cache. A one-case direct MLX loglikelihood smoke passed on 2026-06-12, but the 3-case BFCL-style pilot scored 0.000 because outputs did not emit strict Hermes tool-call JSON. | `runtime-proofed; tool-call-blocked` |
+| `Qwen/Qwen3.5-0.8B` / `Qwen/Qwen3.5-2B` | Both tiny MLX candidates are SSD-acquired and one-case loglikelihood proven. The raw BFCL-style role gate scored 0.000 for both; a simple `<tool_call>` wrapper retry for 0.8B also scored 0.000. Use only for prompt-repair/helper/extraction experiments. | `runtime-proofed; tool-call-blocked` |
+| `CohereLabs/North-Mini-Code-1.0` / `unsloth/North-Mini-Code-1.0-GGUF` | The 18G Q4_K_M GGUF artifact was acquired on SSD, but Homebrew llama.cpp 9290 failed before generation with `unknown model architecture: 'cohere2moe'`. Do not retry the same runtime until `cohere2moe` support is present. | `runtime-blocked` |
 | `BAAI/bge-m3` | Official retrieval model with FlagEmbedding / sentence-transformers usage. Treat as retrieval-only, not a chat quantization target. | `ready` |
 | `jinaai/jina-embeddings-v4` | Official multimodal retrieval model. Use Transformers or sentence-transformers and keep it in the retrieval lane. | `needs-runtime-proof` |
 | `LiquidAI/LFM2-ColBERT-350M` | Official late-interaction retriever with PyLate / sentence-transformers usage. Retrieval and reranking only; do not treat it as a generation model. | `needs-runtime-proof` |
