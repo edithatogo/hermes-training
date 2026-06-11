@@ -1,0 +1,8 @@
+{
+  "id": "emerging-frontier-refresh_20260612",
+  "title": "Emerging Frontier Multimodal and 1-Bit Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the radar with Gemma 4 31B-it, MiniCPM-o 4.5, DeepSeek-V4-Flash, Nemotron Ultra, and the BitNet/QVAC fine-tuning path."
+}

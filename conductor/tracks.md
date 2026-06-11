@@ -382,3 +382,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Nemotron Frontier Model Refresh
 *Link: [./tracks/nemotron-frontier-refresh_20260612/](./tracks/nemotron-frontier-refresh_20260612/)*
+
+---
+
+## [x] Track: Emerging Frontier Multimodal and 1-Bit Refresh
+*Link: [./tracks/emerging-frontier-refresh_20260612/](./tracks/emerging-frontier-refresh_20260612/)*
