@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.run_endpoint_pilot_benchmark import apply_assistant_prefill as pilot_assistant_prefill
 from scripts.run_endpoint_tool_call_benchmark import apply_assistant_prefill
-from scripts.run_local_pilot_benchmark import generate_local
+from scripts.run_local_pilot_benchmark import build_scored_response, generate_local
 from scripts.run_tool_call_benchmark import apply_user_prefix, build_generation_prompt
 
 
@@ -50,6 +50,11 @@ class ToolCallBenchmarkTests(unittest.TestCase):
 
     def test_local_pilot_generate_local_is_importable(self) -> None:
         self.assertTrue(callable(generate_local))
+
+    def test_local_pilot_score_wrapper_preserves_generated_response_shape(self) -> None:
+        wrapped = build_scored_response('{"name":"lookup"}', "<tool_call>", "</tool_call>")
+
+        self.assertEqual(wrapped, '<tool_call>{"name":"lookup"}</tool_call>')
 
 
 if __name__ == "__main__":

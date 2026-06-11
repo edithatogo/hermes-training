@@ -1,0 +1,7 @@
+{
+  "id": "local-pilot-score-wrapper_20260612",
+  "title": "Local Pilot Score Wrapper",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Add explicit score-prefix/suffix support for local pilot prompt-repair experiments and record the failed Qwen3.5 0.8B wrapper retry."
+}

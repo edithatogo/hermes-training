@@ -57,6 +57,10 @@ def generate_local(
     return response.strip(), time.time() - started
 
 
+def build_scored_response(response: str, score_prefix: str = "", score_suffix: str = "") -> str:
+    return f"{score_prefix}{response}{score_suffix}"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", type=Path, required=True)
@@ -70,6 +74,16 @@ def main() -> int:
         "--assistant-prefill",
         default="",
         help="Optional assistant-side prefill appended to the generation prompt.",
+    )
+    parser.add_argument(
+        "--score-prefix",
+        default="",
+        help="Optional text prepended to the generated response before scoring only; raw response is preserved.",
+    )
+    parser.add_argument(
+        "--score-suffix",
+        default="",
+        help="Optional text appended to the generated response before scoring only; raw response is preserved.",
     )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -92,6 +106,8 @@ def main() -> int:
         print(f"adapter: {args.adapter or '(none)'}")
         print(f"user_prefix: {args.user_prefix}")
         print(f"assistant_prefill: {args.assistant_prefill!r}")
+        print(f"score_prefix: {args.score_prefix!r}")
+        print(f"score_suffix: {args.score_suffix!r}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -117,16 +133,21 @@ def main() -> int:
             args.max_tokens,
             args.assistant_prefill,
         )
-        scored = score_case(case, response)
+        scored_response = build_scored_response(response, args.score_prefix, args.score_suffix)
+        scored = score_case(case, scored_response)
         row = {
             "id": case["id"],
             "category": case["category"],
             "response": response,
+            "scored_response": scored_response if scored_response != response else "",
             "latency_s": round(latency_s, 3),
             **scored,
         }
         rows.append(row)
-        responses.append({"id": case["id"], "response": response, "latency_s": round(latency_s, 3)})
+        response_row = {"id": case["id"], "response": response, "latency_s": round(latency_s, 3)}
+        if scored_response != response:
+            response_row["scored_response"] = scored_response
+        responses.append(response_row)
 
     passed = sum(1 for row in rows if row["pass"])
     summary = {
@@ -137,6 +158,8 @@ def main() -> int:
         "adapter": args.adapter or "",
         "user_prefix": args.user_prefix,
         "assistant_prefill": args.assistant_prefill,
+        "score_prefix": args.score_prefix,
+        "score_suffix": args.score_suffix,
         "output_dir": str(output_dir),
         "cases": len(rows),
         "passed": passed,
