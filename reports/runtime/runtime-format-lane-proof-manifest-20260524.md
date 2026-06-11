@@ -1,6 +1,6 @@
 # Runtime Format Lane Proof Manifest
 
-Date: 2026-05-24
+Date: 2026-06-12
 
 This manifest turns `RUNTIME_FORMAT_LANES.yaml` into executable proof-card work. It does not claim any new runtime proof by itself.
 
@@ -51,7 +51,7 @@ completed SSD-side proof cards from being reset to pending state.
 | `unsloth-cloud` | Qwen3.6 or Gemma 4 small LoRA smoke | Azure preflight, pinned revision, token audit, adapter run card | blocked by useful GPU quota |
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | weight prep record, KTransformers launch, invocation/endpoint contract | blocked by specialist preflight |
 | `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` or LFM2.5 1.2B | LEAP/MLX/ONNX task-specific smoke, no response-collapse regression | LFM2.5 1.2B MLX adapter runtime smoke complete; direct evaluator load repaired but response quality failed |
-| `recurrent-ssm-bitnet` | RWKV7, BitNet b1.58, Mamba/SSM, RLM-Qwen3 | native runtime install, invocation contract, comparability caveat | blocked by specialist preflight |
+| `recurrent-ssm-bitnet` | RWKV7, BitNet b1.58, Mamba/SSM, RLM-Qwen3 | native runtime install, invocation contract, comparability caveat | BitNet native runtime proof complete; RWKV/Mamba remain blocked |
 | `hosted-frontier-api` | Qwen3.7-Max | provider/model/date/terms, teacher prompt manifest, cost note | API-only teacher lane |
 
 ## Promotion Rule
@@ -90,8 +90,9 @@ A lane proof card can promote a model only to the evidence type it actually prov
 
 - Preflight report: `reports/runtime/specialist-runtime-preflight-20260526.md`
 - Machine-readable report: `reports/runtime/specialist-runtime-preflight-20260526.json`
-- Result: KTransformers, LEAP, RWKV, BitNet, and Mamba/SSM native lanes are checked and blocked, not merely unstarted.
-- Decision: no specialist lane moves to runtime smoke until native runtime command/module and exact SSD artifact path are both present.
+- Result: KTransformers, LEAP, RWKV, and Mamba/SSM native lanes are checked and blocked, not merely unstarted. BitNet now has a local native runtime and SSD-backed model artifact.
+- BitNet proof: `reports/runtime/bitnet-b158-2b-native-smoke-20260612.md`
+- Decision: BitNet moves only to runtime-proof evidence; it is not promoted for Hermes use because the bounded JSON and chat-profile smokes were non-compliant. Other specialist lanes stay blocked until native runtime command/module and exact SSD artifact path are both present.
 
 ## Queued Frontier Follow-Up
 
