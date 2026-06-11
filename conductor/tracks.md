@@ -287,3 +287,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Jina v5 Text-Matching MLX Proof
 *Link: [./tracks/jina-v5-text-matching-mlx-proof_20260612/](./tracks/jina-v5-text-matching-mlx-proof_20260612/)*
+
+---
+
+## [x] Track: Qwen3.5 0.8B MLX Smoke
+*Link: [./tracks/qwen35-08b-mlx-smoke_20260612/](./tracks/qwen35-08b-mlx-smoke_20260612/)*
