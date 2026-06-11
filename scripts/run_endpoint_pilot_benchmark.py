@@ -47,7 +47,7 @@ def json_from_response(response: str) -> Any:
     return json.loads(stripped)
 
 
-def score_case(case: dict[str, Any], response: str) -> dict[str, Any]:
+def score_case(case: dict[str, Any], response: str, require_no_extra_tool_text: bool = False) -> dict[str, Any]:
     expected = case["expected"]
     category = case["category"]
     normalized_response = normalize_text(response)
@@ -90,13 +90,21 @@ def score_case(case: dict[str, Any], response: str) -> dict[str, Any]:
         }
 
     if category == "tool_call_exact":
-        calls, errors, _ = extract_tool_calls(response)
-        passed = calls == expected["tool_calls"]
+        calls, errors, leftover = extract_tool_calls(response)
+        no_extra_text_ok = not require_no_extra_tool_text or not leftover.strip()
+        passed = calls == expected["tool_calls"] and no_extra_text_ok
+        reason = ""
+        if not passed:
+            reason = "tool calls did not exactly match"
+            if calls == expected["tool_calls"] and not no_extra_text_ok:
+                reason = "tool calls matched but extra text was present"
         return {
             "pass": passed,
-            "reason": "" if passed else "tool calls did not exactly match",
+            "reason": reason,
             "tool_calls": calls,
             "parse_errors": errors,
+            "leftover": leftover,
+            "no_extra_text_ok": no_extra_text_ok,
         }
 
     raise ValueError(f"unsupported pilot category: {category}")
@@ -126,6 +134,8 @@ def render_summary(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         lines.insert(6, f"- Adapter: `{summary['adapter']}`")
     if summary.get("score_normalizer") and summary.get("score_normalizer") != "none":
         lines.insert(6, f"- Score normalizer: `{summary['score_normalizer']}`")
+    if summary.get("require_no_extra_tool_text"):
+        lines.insert(6, "- Tool text strictness: `no extra text around tool calls`")
     for category in sorted(by_category):
         lines.append(
             f"| {category} | {by_category[category]} | {passed_by_category[category] / by_category[category]:.3f} |"
@@ -153,6 +163,7 @@ def main() -> int:
         default="",
         help="Optional assistant-side prefill appended as the final assistant message for compatible endpoints.",
     )
+    parser.add_argument("--require-no-extra-tool-text", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -169,6 +180,7 @@ def main() -> int:
         print(f"output_dir: {output_dir}")
         print(f"user_prefix: {args.user_prefix}")
         print(f"assistant_prefill: {args.assistant_prefill!r}")
+        print(f"require_no_extra_tool_text: {args.require_no_extra_tool_text}")
         return 0
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -183,7 +195,7 @@ def main() -> int:
             args.max_tokens,
             args.timeout_s,
         )
-        scored = score_case(case, response)
+        scored = score_case(case, response, args.require_no_extra_tool_text)
         row = {
             "id": case["id"],
             "category": case["category"],
@@ -203,6 +215,7 @@ def main() -> int:
         "model": args.model,
         "user_prefix": args.user_prefix,
         "assistant_prefill": args.assistant_prefill,
+        "require_no_extra_tool_text": args.require_no_extra_tool_text,
         "output_dir": str(output_dir),
         "cases": len(rows),
         "passed": passed,

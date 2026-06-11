@@ -347,3 +347,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma Native Tool Normalizer Analysis
 *Link: [./tracks/gemma-native-tool-normalizer_20260612/](./tracks/gemma-native-tool-normalizer_20260612/)*
+
+---
+
+## [x] Track: Local Pilot Strict Tool Text Gate
+*Link: [./tracks/local-pilot-strict-tool-text_20260612/](./tracks/local-pilot-strict-tool-text_20260612/)*

@@ -149,7 +149,7 @@ candidates:
     license: "check model card"
     first_runtime: "direct MLX loglikelihood smoke is complete"
     first_finetune: "defer until prompt/profile repair produces strict-format behavior"
-    notes: "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name. A score-only Gemma-native normalizer rescued 1/3 cases, so this is runtime-adapter analysis evidence only, not promotion evidence."
+    notes: "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name. A score-only Gemma-native normalizer rescued 1/3 cases, and a prompt profile reached 1/3 under permissive parsed-tool scoring, but no-extra-text Hermes strict scoring remained 0/3. Treat this as runtime-adapter analysis evidence only, not promotion evidence."
 
   - id: unsloth/gemma-4-26B-A4B-it-GGUF
     family: gemma

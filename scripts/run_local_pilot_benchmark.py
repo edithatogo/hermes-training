@@ -101,6 +101,7 @@ def main() -> int:
         default="none",
         help="Optional score-only runtime normalizer. Strict raw responses remain preserved.",
     )
+    parser.add_argument("--require-no-extra-tool-text", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     ensure_storage_env()
@@ -125,6 +126,7 @@ def main() -> int:
         print(f"score_prefix: {args.score_prefix!r}")
         print(f"score_suffix: {args.score_suffix!r}")
         print(f"score_normalizer: {args.score_normalizer!r}")
+        print(f"require_no_extra_tool_text: {args.require_no_extra_tool_text}")
         print(f"output_dir: {output_dir}")
         return 0
 
@@ -152,7 +154,7 @@ def main() -> int:
         )
         normalized_for_score = apply_score_normalizer(response, args.score_normalizer, messages)
         scored_response = build_scored_response(normalized_for_score, args.score_prefix, args.score_suffix)
-        scored = score_case(case, scored_response)
+        scored = score_case(case, scored_response, args.require_no_extra_tool_text)
         row = {
             "id": case["id"],
             "category": case["category"],
@@ -179,6 +181,7 @@ def main() -> int:
         "score_prefix": args.score_prefix,
         "score_suffix": args.score_suffix,
         "score_normalizer": args.score_normalizer,
+        "require_no_extra_tool_text": args.require_no_extra_tool_text,
         "output_dir": str(output_dir),
         "cases": len(rows),
         "passed": passed,

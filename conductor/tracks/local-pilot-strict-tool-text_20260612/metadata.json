@@ -1,0 +1,7 @@
+{
+  "id": "local-pilot-strict-tool-text_20260612",
+  "title": "Local Pilot Strict Tool Text Gate",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Add an opt-in no-extra-text scoring gate for local and endpoint BFCL-style pilots and record the Gemma 4 E4B strict-profile result."
+}

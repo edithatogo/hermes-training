@@ -59,6 +59,13 @@ the parallel tool-call case because no complete native call was emitted in the
 bounded response. It did not rescue the invalid-tool case because the raw text
 still contained the forbidden `delete_customer_record` marker.
 
+## Strict No-Extra Follow-Up
+
+The later strict-profile run with `--require-no-extra-tool-text` scored `0.000`.
+The simple lookup contained a correct parsed tool call, but still failed Hermes
+strict scoring because Gemma thought text preceded the call. Treat this report
+as runtime-adapter analysis only.
+
 ## Decision
 
 - Status: `runtime-adapter-analysis; not-promoted`

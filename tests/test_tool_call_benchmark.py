@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.run_endpoint_pilot_benchmark import apply_assistant_prefill as pilot_assistant_prefill
+from scripts.run_endpoint_pilot_benchmark import score_case as score_pilot_case
 from scripts.run_endpoint_tool_call_benchmark import apply_assistant_prefill
 from scripts.run_local_pilot_benchmark import apply_score_normalizer, build_scored_response, generate_local
 from scripts.run_tool_call_benchmark import (
@@ -77,6 +78,20 @@ class ToolCallBenchmarkTests(unittest.TestCase):
         normalized = apply_score_normalizer(raw, "gemma-native-tool-call", [{"role": "user", "content": "x"}])
 
         self.assertEqual(normalized, raw)
+
+    def test_endpoint_pilot_can_require_no_extra_tool_text(self) -> None:
+        case = {
+            "category": "tool_call_exact",
+            "expected": {"tool_calls": [{"name": "lookup", "arguments": {"id": "1"}}]},
+        }
+        response = 'thinking\n<tool_call>{"name":"lookup","arguments":{"id":"1"}}</tool_call>'
+
+        permissive = score_pilot_case(case, response)
+        strict = score_pilot_case(case, response, require_no_extra_tool_text=True)
+
+        self.assertTrue(permissive["pass"])
+        self.assertFalse(strict["pass"])
+        self.assertEqual(strict["reason"], "tool calls matched but extra text was present")
 
 
 if __name__ == "__main__":
