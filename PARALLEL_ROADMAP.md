@@ -34,10 +34,15 @@ This roadmap defines the remaining work as parallel Conductor lanes. It is inten
 
 ## Current Model Scan Notes
 
-The latest refresh still did not find an official Qwen3.7 open-weight lane. Relevant newly surfaced or refreshed candidates include:
+The 2026-06-11 refresh still did not find an official Qwen3.7 open-weight lane. The newly actionable local candidates are now LFM2.5-8B-A1B and Gemma 4 QAT packaging; Qwen3-Coder-Next is a cloud/specialist baseline rather than a Mac fine-tune target. Relevant candidates include:
 
+- `LiquidAI/LFM2.5-8B-A1B`
+- `LiquidAI/LFM2.5-8B-A1B-GGUF`
+- `google/gemma-4-26B-A4B-it-qat-q4_0-gguf`
+- `unsloth/gemma-4-26B-A4B-it-qat-GGUF`
 - `Qwen/Qwen3.6-27B`
 - `Qwen/Qwen3.6-35B-A3B`
+- `nvidia/Qwen3.6-35B-A3B-NVFP4`
 - `unsloth/Qwen3.6-27B-UD-MLX-4bit`
 - `unsloth/Qwen3.6-27B-MTP-GGUF`
 - `unsloth/Qwen3.6-35B-A3B-MTP-GGUF`
@@ -47,6 +52,8 @@ The latest refresh still did not find an official Qwen3.7 open-weight lane. Rele
 - `NousResearch/Hermes-4-14B`
 - `NousResearch/Hermes-4.3-36B`
 - `NousResearch/Hermes-4.3-36B-GGUF`
+- `Qwen/Qwen3-Coder-Next`
+- `Qwen/Qwen3-VL-8B-Instruct-GGUF`
 - `LiquidAI/LFM2-24B-A2B-GGUF`
 - `microsoft/bitnet-b1.58-2B-4T`
 - `RWKV/RWKV7-Goose-World3-2.9B-HF`

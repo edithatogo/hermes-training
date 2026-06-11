@@ -7,6 +7,7 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | Candidate | Lane | First Runtime | Decision State | Next Action | Publication State |
 |---|---|---|---|---|---|
 | `Qwen/Qwen3-4B-MLX-4bit` v4 targeted LoRA | Mac-local fine-tune | MLX local generation/server | publishable narrow adapter candidate | Keep v4 as current strict Hermes tool-call adapter; broader claims need official benchmarks | public adapter approved, dataset separate |
+| `LiquidAI/LFM2.5-8B-A1B` | Mac-local runtime/teacher | MLX / llama.cpp / ONNX / LEAP | priority runtime-proof candidate | Run SSD-cached MLX or GGUF smoke, then Hermes prompt smoke; do not fine-tune locally until quality gate passes | blocked |
 | `LiquidAI/LFM2.5-1.2B-Instruct` | Mac-local fine-tune | MLX / llama.cpp | runtime/load proof only | MLX server smoke passed, but direct eval quality remains non-compliant; use safer recipe only after candidate selection | blocked |
 | `LiquidAI/LFM2.5-1.2B-Thinking` | Mac-local fine-tune | MLX / llama.cpp | runtime-proof candidate | Run local Hermes smoke before training | blocked |
 | `Qwen/Qwen3.6-27B` | frontier runtime/teacher | Transformers / GGUF / MLX quant | runtime-proof candidate | Check local artifact or approved download plan | blocked |
@@ -19,7 +20,9 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `NousResearch/Hermes-4.3-36B` | Hermes baseline/teacher | Transformers / GGUF | cloud/runtime candidate | Treat as teacher baseline after runtime proof | blocked |
 | `NousResearch/Hermes-4.3-36B-GGUF` | Mac-local runtime | LM Studio / llama.cpp | runtime-proof candidate | Smoke only if local GGUF exists or user approves download | blocked |
 | `google/gemma-4-26B-A4B-it` | frontier runtime/teacher | Transformers / GGUF | runtime-proof candidate | Tool-call stability check after runtime proof | blocked |
-| `unsloth/gemma-4-26B-A4B-it-GGUF` | Mac-local runtime | LM Studio / Ollama | runtime-proof candidate | GGUF smoke candidate under SSD policy | blocked |
+| `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` | Mac-local runtime | llama.cpp / LM Studio / Ollama | priority runtime-proof candidate | QAT Q4_0 GGUF should be smoked before generic Gemma 4 GGUF variants | blocked |
+| `unsloth/gemma-4-26B-A4B-it-qat-GGUF` | Mac-local runtime | llama.cpp / LM Studio / Ollama | runtime-proof candidate | Alternate QAT GGUF packaging; validate only if Google QAT path is blocked or lower quality | blocked |
+| `unsloth/gemma-4-26B-A4B-it-GGUF` | Mac-local runtime | LM Studio / Ollama | secondary runtime-proof candidate | Keep behind QAT packaging unless a specific runtime requires this package | blocked |
 | `nvidia/Gemma-4-26B-A4B-NVFP4` | specialist/cloud runtime | NVIDIA stack | research-runtime candidate | Azure/specialist proof only | blocked |
 | `LiquidAI/LFM2-ColBERT-350M` | retrieval | PyLate / sentence-transformers | retrieval candidate | Add retrieval smoke/MTEB-style lane | no chat adapter publication |
 | `Qwen/Qwen3-Embedding-4B` | retrieval | sentence-transformers / Transformers | retrieval candidate | Batch/memory smoke before claims | no chat adapter publication |
@@ -28,6 +31,8 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `LiquidAI/LFM2-24B-A2B-GGUF` | efficient LFM runtime | llama.cpp GGUF | runtime-proven baseline | Use as LFM comparison lane; strict held-out score is `0.375` and IFEval/coding pilots are `1.000` | runtime-only |
 | `LiquidAI/LFM2-8B-A1B-GGUF` | efficient LFM runtime | llama.cpp / LM Studio | watchlist | Consider only if a smaller LFM runtime is needed after 24B evidence | blocked |
 | `XiaomiMiMo/MiMo-V2-Flash` | large MoE research runtime | KTransformers / specialist GGUF / Azure | watchlist | Do not download locally first; test via Azure/specialist quant only after Qwen3.6 and Gemma queues clear | blocked |
+| `Qwen/Qwen3-Coder-Next` | coding-agent baseline | SGLang / vLLM / Docker Model Runner / GGUF quant | cloud/specialist runtime candidate | Add Azure or specialist runtime smoke; not a 32GB Mac fine-tune target | blocked |
+| `Qwen/Qwen3-VL-8B-Instruct-GGUF` | multimodal Hermes-agent runtime | llama.cpp / LM Studio / Ollama | multimodal runtime candidate | Smoke after text/tool-call and mem0 lanes if GUI/screenshot agent work becomes priority | blocked |
 | `RWKV/RWKV7-Goose-World3-2.9B-HF` | recurrent research runtime | Transformers / specialist runtime | watchlist | Add after runtime harness proof | blocked |
 | `microsoft/bitnet-b1.58-2B-4T` | ternary research runtime | BitNet runtime | watchlist | Runtime proof before benchmark claims | blocked |
 | `mit-oasys/rlm-qwen3-8b-v0.1` | recursive research runtime | custom RLM harness | watchlist | Harness proof before Hermes claims | blocked |
@@ -40,9 +45,10 @@ behavior. Run runtime and benchmark selection across better bases before broader
 claims:
 
 1. Keep Qwen3 v4 as the public/recommended local strict Hermes tool-call adapter.
-2. Use LM Studio Qwen3, Hermes 4 14B, Qwen3.6 35B-A3B, and LFM2 24B-A2B as runtime baselines, not publication candidates.
-3. Use BGE-M3 as the retrieval baseline while LFM2-ColBERT and Qwen retrieval candidates are triaged.
-4. Keep research runtimes watchlisted until they can serve reproducible Hermes prompts.
+2. Next local runtime proofs should prioritize LFM2.5-8B-A1B and Gemma 4 26B-A4B QAT before adding more Qwen3.6 variants.
+3. Use Hermes 4 14B, Qwen3.6 35B-A3B, and LFM2 24B-A2B as runtime baselines, not publication candidates.
+4. Use BGE-M3 as the retrieval baseline while LFM2-ColBERT and Qwen retrieval candidates are triaged.
+5. Keep Qwen3-Coder-Next, RWKV, BitNet, Mamba, MiMo, and Qwen3-VL watchlisted until they can serve reproducible Hermes prompts.
 
 ## Synthesis
 

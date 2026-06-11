@@ -161,6 +161,70 @@ Another live Hugging Face API spot check was run while the larger direct MLX
   remain visible. Continue treating LFM2-24B as an efficient runtime/teacher
   lane rather than a local M1 fine-tune target.
 
+## 2026-06-11 Refresh
+
+Two weeks after the 2026-05-26 radar pass, the live Hugging Face/API and web
+refresh changes the local priority order but does not change the Qwen3.7
+guardrail.
+
+### Decisions
+
+- Keep `Qwen3.7` out of local runtime, training, Azure, GitHub, and Hugging Face
+  publication lanes. Hugging Face API search returned one non-official
+  `RscriptSQwen/Qwen3.7-plus` result with zero downloads, and no official
+  `Qwen/Qwen3.7*` or `Qwen3.7-Max` open-weight model was verified. Web results
+  still describe Qwen3.7/Qwen3.7-Max as closed or not-yet-open-weight.
+- Promote `LiquidAI/LFM2.5-8B-A1B` to the next high-priority Mac-local runtime
+  proof candidate. Liquid describes it as an 8B-total / 1B-active edge model for
+  fast tool calling, with 128K context, day-one llama.cpp, MLX, vLLM, SGLang,
+  ONNX, and LEAP support, and sub-6 GB laptop-class inference in Liquid's own
+  testing. This is a runtime/baseline candidate first, not an immediate local
+  fine-tune target until a Hermes prompt smoke and quality gate pass.
+- Add Gemma 4 26B-A4B QAT/GGUF as a stronger local runtime proof candidate than
+  the previous generic Gemma 4 GGUF watch item. Google published QAT Q4_0 GGUF
+  packaging for Gemma 4, and Unsloth/Ollama packages are now visible. Treat this
+  as LM Studio/Ollama/llama.cpp proof work, not a Mac M1 fine-tune.
+- Add `Qwen/Qwen3-Coder-Next` as a cloud/specialist coding-agent baseline. It is
+  open weight and architecturally relevant: 80B total / 3B active, hybrid
+  Gated-DeltaNet, attention, and MoE, 256K context, and tool-call parser support
+  through SGLang/vLLM. It is not a 32GB Mac fine-tune target.
+- Add `Qwen/Qwen3-VL-8B-Instruct-GGUF` as the smaller Qwen multimodal runtime
+  candidate for GUI/screenshot Hermes-agent experiments. Keep it after the text
+  and mem0 lanes unless multimodal local tool use becomes the priority.
+- Keep `Hermes-4-14B` and `Hermes-4.3-36B` in their previous roles. New June
+  results are packaging updates, not a new Hermes base generation.
+- Keep BitNet, Mamba-3, RWKV7, MiMo V2 Flash, and Qwen3-Next as specialist
+  runtime lanes. Current results are interesting, but none should displace the
+  immediate local LFM2.5/Gemma QAT/Qwen3.6/Hermes baseline queue without a
+  runtime harness proof.
+
+### Actionable Queue
+
+| Priority | Candidate | First proof | Why now |
+|---:|---|---|---|
+| 1 | `LiquidAI/LFM2.5-8B-A1B` / `LiquidAI/LFM2.5-8B-A1B-GGUF` | MLX or llama.cpp smoke, then Hermes prompt smoke | New official edge-agent release; best fit for Mac-local tool-calling latency. |
+| 2 | `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` or `unsloth/gemma-4-26B-A4B-it-qat-GGUF` | LM Studio/Ollama/llama.cpp smoke | New QAT packaging may make the 26B-A4B lane more practical locally. |
+| 3 | `Qwen/Qwen3-Coder-Next` | Azure/specialist runtime smoke | Strong open-weight coding-agent baseline with only 3B active parameters, but too large for Mac fine-tune. |
+| 4 | `Qwen/Qwen3-VL-8B-Instruct-GGUF` | multimodal local runtime smoke | Smaller Qwen VL option for GUI/screenshot agent tasks. |
+| 5 | `nvidia/Qwen3.6-35B-A3B-NVFP4` | Azure/NVIDIA runtime proof only | Newer NVIDIA packaging, not useful for M1 local execution. |
+
+### Live API Highlights
+
+- `LiquidAI/LFM2.5-8B-A1B`: modified `2026-06-10`; `LiquidAI/LFM2.5-Audio-1.5B-JP`
+  modified `2026-06-11`; `LiquidAI/LFM2.5-8B-A1B-GGUF` modified `2026-05-29`.
+- `google/gemma-4-26B-A4B-it`: modified `2026-06-03`;
+  `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` modified `2026-06-05`;
+  `unsloth/gemma-4-26B-A4B-it-qat-GGUF` modified `2026-06-10`.
+- `Qwen/Qwen3-Coder-Next`: remains the relevant Qwen subquadratic/hybrid coding
+  candidate; `Qwen/Qwen3.6-35B-A3B` remains the canonical open Qwen frontier
+  runtime/teacher lane, with `nvidia/Qwen3.6-35B-A3B-NVFP4` now visible as a
+  cloud/NVIDIA packaging option.
+- `Qwen/Qwen3-Embedding-0.6B`, `Qwen/Qwen3-Embedding-4B`,
+  `Qwen/Qwen3-Embedding-8B`, `Qwen/Qwen3-Reranker-0.6B`,
+  `Qwen/Qwen3-Reranker-4B`, and `Qwen/Qwen3-VL-*` embedding/reranker variants
+  remain visible. The current mem0 lane should finish reranker prompt/latency
+  work before acquiring more large retrieval models.
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -175,5 +239,7 @@ Another live Hugging Face API spot check was run while the larger direct MLX
 - Hugging Face pages checked on 2026-05-26: `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` and `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF`
 - Hugging Face pages checked on 2026-05-26 late refresh: `mlx-community/Qwen3-VL-32B-Instruct-4bit`, `LiquidAI` organization models, `LiquidAI/LFM2.5-Audio-1.5B`, and `NousResearch/eval-Hermes-4-14B-reasoning`
 - Live Hugging Face API spot check on 2026-05-26 for `Qwen3.7`, `Qwen3.6-35B-A3B`, `Hermes-4-14B`, and `LFM2-24B-A2B`
+- Live Hugging Face API searches on 2026-06-11 for `Qwen3.7`, `Qwen3.7-Max`, `Qwen4`, `Qwen3.6-35B-A3B`, `Qwen3-Next`, `Qwen3-Coder-Next`, `Hermes-4.3`, `Hermes-4.4`, `Hermes-5`, `Hermes-4-14B`, `Gemma 4 26B A4B`, `LFM2.5`, `LFM2-24B-A2B`, `LFM3`, `LFM2 ColBERT`, `RWKV7`, `Mamba-3`, `BitNet b1.58`, `MiMo V2 Flash`, `Qwen3 Embedding`, `Qwen3 Reranker`, and `jina embeddings v5 mlx`
+- Web pages checked on 2026-06-11: Liquid AI LFM2.5-8B-A1B release blog, `LiquidAI/LFM2.5-8B-A1B`, Google Gemma 4 QAT release, `google/gemma-4-26B-A4B-it-qat-q4_0-gguf`, `Qwen/Qwen3-Coder-Next`, and `Qwen/Qwen3-VL-8B-Instruct-GGUF`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.
