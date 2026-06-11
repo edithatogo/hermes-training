@@ -1,0 +1,7 @@
+{
+  "id": "bitnet-native-smoke_20260612",
+  "title": "BitNet Native Runtime Smoke",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "description": "Refresh specialist runtime preflight, prove the local BitNet native runtime can load the SSD-backed 2B ternary model, and record the prompt-compliance gap."
+}

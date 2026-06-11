@@ -128,12 +128,12 @@ proofs:
   - id: bitnet-rwkv-mamba-native-research-proof
     lane_id: recurrent-ssm-bitnet
     model: microsoft/bitnet-b1.58-2B-4T
-    run_name: bitnet-rwkv-mamba-native-research-proof-20260524
-    status: blocked-preflight
+    run_name: bitnet-b158-2b-native-smoke-20260612
+    status: completed-runtime-proof
     endpoint: ""
-    artifact_path: ""
-    command: "<native-runtime> --model <checkpoint>"
-    blocker: "Read-only specialist preflight found no native RWKV, BitNet, or Mamba runtime module/CLI with exact SSD checkpoint ready for smoke."
+    artifact_path: "/Volumes/PortableSSD/GitHub/BitNet/models/BitNet-b1.58-2B-4T/ggml-model-i2_s.gguf"
+    command: "/Volumes/PortableSSD/GitHub/BitNet/bin/bitnet -p 'Return only JSON: {\"ok\": true}' -n 16 -c 512 -temp 0"
+    blocker: "Native BitNet load and generation passed from SSD-backed artifacts, but the bounded output was not instruction-compliant JSON. Keep as runtime evidence only until prompt/profile and Hermes task smokes pass."
 
   - id: qwen37-max-hosted-teacher-proof
     lane_id: hosted-frontier-api

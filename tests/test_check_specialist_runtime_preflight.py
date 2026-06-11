@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.check_specialist_runtime_preflight import Probe, artifact_status, evaluate_probe, render_markdown
+from scripts.check_specialist_runtime_preflight import Probe, artifact_status, command_status, evaluate_probe, render_markdown
 
 
 class SpecialistRuntimePreflightTests(unittest.TestCase):
@@ -32,6 +32,17 @@ class SpecialistRuntimePreflightTests(unittest.TestCase):
 
             self.assertTrue(result["present"])
             self.assertEqual(result["kind"], "directory")
+
+    def test_command_status_detects_absolute_executable(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            executable = Path(tmp) / "runtime"
+            executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            executable.chmod(0o755)
+
+            result = command_status(str(executable))
+
+            self.assertTrue(result["present"])
+            self.assertEqual(result["path"], str(executable))
 
     def test_markdown_records_no_promotion_decision(self) -> None:
         markdown = render_markdown(

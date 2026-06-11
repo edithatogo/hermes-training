@@ -76,7 +76,7 @@ PROBES = (
         lane_id="recurrent-ssm-bitnet",
         model="microsoft/bitnet-b1.58-2B-4T",
         runtime="BitNet native runtime",
-        commands=("bitnet", "bitnet-cli"),
+        commands=("bitnet", "bitnet-cli", str(SSD_ROOT / "GitHub" / "BitNet" / "bin" / "bitnet")),
         modules=("bitnet",),
         artifact_paths=(
             SSD_ROOT / "huggingface" / "hub" / "models--microsoft--bitnet-b1.58-2B-4T",
@@ -102,7 +102,11 @@ PROBES = (
 
 
 def command_status(command: str) -> dict[str, Any]:
-    path = shutil.which(command)
+    command_path = Path(command)
+    if command_path.is_absolute():
+        path = str(command_path) if command_path.is_file() and os.access(command_path, os.X_OK) else None
+    else:
+        path = shutil.which(command)
     return {"name": command, "present": bool(path), "path": path or ""}
 
 

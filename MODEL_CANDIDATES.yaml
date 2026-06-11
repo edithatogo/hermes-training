@@ -481,13 +481,13 @@ candidates:
     tier: research-finetune
     role: research-runtime
     environment: specialist-runtime
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "2B"
     architecture: "1.58-bit ternary transformer"
     license: mit
     first_runtime: "BitNet runtime"
     first_finetune: "BitLoRA/QVAC-style path after proof"
-    notes: "Promising memory direction; not core Hermes track yet. Keep native BitNet runtime support as needs-runtime-proof; do not force through GGUF before native runtime evidence exists."
+    notes: "Promising memory direction; not core Hermes track yet. Native BitNet runtime load and 16-token generation passed on 2026-06-12 from the SSD-backed 1.10 GiB I2_S model, but the output failed a JSON-only prompt. Treat as runtime evidence only until prompt/profile and Hermes task smokes pass."
 
   - id: jinaai/jina-embeddings-v4
     family: embeddings

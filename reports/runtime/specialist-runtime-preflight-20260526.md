@@ -1,6 +1,6 @@
 # Specialist Runtime Preflight
 
-Date: 2026-05-25T18:36:26.646687+00:00
+Date: 2026-06-11T15:53:30.641857+00:00
 SSD root: `/Volumes/PortableSSD`
 Policy: read-only; no installs, downloads, compute creation, or model conversion
 
@@ -11,7 +11,7 @@ Policy: read-only; no installs, downloads, compute creation, or model conversion
 | `ktransformers-moe` | `Qwen/Qwen3.6-35B-A3B` | KTransformers | `blocked` | runtime command/module not found; no matching SSD artifact path found |
 | `liquid-leap-lfm` | `LiquidAI/LFM2-8B-A1B` | LEAP/LFM specialist runtime | `blocked` | runtime command/module not found |
 | `recurrent-ssm-bitnet` | `RWKV/RWKV7-Goose-World3-2.9B-HF` | RWKV native runtime | `blocked` | runtime command/module not found; no matching SSD artifact path found |
-| `recurrent-ssm-bitnet` | `microsoft/bitnet-b1.58-2B-4T` | BitNet native runtime | `blocked` | runtime command/module not found |
+| `recurrent-ssm-bitnet` | `microsoft/bitnet-b1.58-2B-4T` | BitNet native runtime | `ready-for-smoke` | none |
 | `recurrent-ssm-bitnet` | `state-spaces/mamba-family-watchlist` | Mamba/SSM native runtime | `blocked` | runtime command/module not found; no matching SSD artifact path found |
 
 ## Details
@@ -62,12 +62,13 @@ Policy: read-only; no installs, downloads, compute creation, or model conversion
 
 - Minimum pass: BitNet runtime plus exact cached checkpoint or local runtime checkout.
 - Notes: Ternary/BitNet claims require the native runtime path, not generic transformer loading.
-- Status: `blocked`
+- Status: `ready-for-smoke`
 
 | Check | Name/path | Present |
 |---|---|---:|
 | command | `bitnet` | `false` |
 | command | `bitnet-cli` | `false` |
+| command | `/Volumes/PortableSSD/GitHub/BitNet/bin/bitnet` | `true` |
 | python module | `bitnet` | `false` |
 | artifact | `/Volumes/PortableSSD/huggingface/hub/models--microsoft--bitnet-b1.58-2B-4T` | `false` |
 | artifact | `/Volumes/PortableSSD/GitHub/BitNet` | `true` |
