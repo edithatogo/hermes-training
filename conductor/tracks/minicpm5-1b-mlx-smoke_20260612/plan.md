@@ -9,6 +9,8 @@
 
 - [x] Task: acquire the MLX artifact through the SSD-backed Hugging Face cache.
 - [x] Task: run a one-case direct MLX loglikelihood smoke.
+- [x] Task: run a 3-case BFCL-style local pilot to check strict Hermes
+  tool-call utility.
 
 ## Phase 3: Evidence And Validation
 
@@ -21,5 +23,5 @@
 - Current estimate: 9.8 / 10
 - Evidence: one-case MLX direct loglikelihood smoke passed with greedy match
   1.000, score latency 0.600s, and 592M SSD cache footprint.
-- Gaps: no Hermes adapter, extraction/tool-call smoke, or publication benchmark
-  is claimed.
+- Gaps: the BFCL-style local pilot scored 0.000, so no Hermes adapter,
+  tool-call readiness, or publication benchmark is claimed.

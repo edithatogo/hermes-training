@@ -266,7 +266,7 @@ candidates:
     license: apache-2.0
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
-    notes: "Official MLX package for MiniCPM5 1B. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. Candidate for tiny Hermes helper, extraction, and tool-call utility smokes; not promoted as a default."
+    notes: "Official MLX package for MiniCPM5 1B. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as tiny helper/extraction candidate; not promoted as a tool-call default."
 
   - id: CohereLabs/North-Mini-Code-1.0
     family: cohere
