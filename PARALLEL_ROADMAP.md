@@ -38,8 +38,14 @@ The 2026-06-11 refresh still did not find an official Qwen3.7 open-weight lane. 
 
 - `LiquidAI/LFM2.5-8B-A1B`
 - `LiquidAI/LFM2.5-8B-A1B-GGUF`
+- `google/gemma-4-E4B-it-qat-q4_0-gguf`
+- `google/gemma-4-12B-it-qat-q4_0-gguf`
 - `google/gemma-4-26B-A4B-it-qat-q4_0-gguf`
+- `google/gemma-4-31B-it-qat-q4_0-gguf`
 - `unsloth/gemma-4-26B-A4B-it-qat-GGUF`
+- `openbmb/MiniCPM5-1B`
+- `openbmb/MiniCPM5-1B-GGUF`
+- `openbmb/MiniCPM5-1B-MLX`
 - `Qwen/Qwen3.6-27B`
 - `Qwen/Qwen3.6-35B-A3B`
 - `nvidia/Qwen3.6-35B-A3B-NVFP4`
@@ -55,7 +61,9 @@ The 2026-06-11 refresh still did not find an official Qwen3.7 open-weight lane. 
 - `Qwen/Qwen3-Coder-Next`
 - `Qwen/Qwen3-VL-8B-Instruct-GGUF`
 - `LiquidAI/LFM2-24B-A2B-GGUF`
-- `microsoft/bitnet-b1.58-2B-4T`
+- `microsoft/bitnet-b1.58-2B-4T-gguf`
+- `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4`
+- `nvidia/NVIDIA-Nemotron-Nano-9B-v2`
 - `RWKV/RWKV7-Goose-World3-2.9B-HF`
 
 These are candidates for runtime proof or watchlist triage, not automatic training targets.

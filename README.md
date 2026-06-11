@@ -39,11 +39,12 @@ Conductor planning now lives in structured `conductor/` directories:
 | Priority | Family | Candidate | Why | Preferred runtime |
 |---|---|---|---|---|
 | 1 | LFM | `LiquidAI/LFM2.5-8B-A1B` | New edge-agent MoE release; 8B total / 1B active, 128K context, explicit tool-calling focus | MLX, llama.cpp/GGUF, ONNX, LEAP |
-| 2 | Gemma | `google/gemma-4-26B-A4B-it-qat-q4_0-gguf`, `unsloth/gemma-4-26B-A4B-it-qat-GGUF` | New QAT packaging makes the 26B-A4B lane more practical locally | llama.cpp, LM Studio, Ollama |
-| 3 | Qwen | `Qwen/Qwen3.6-35B-A3B` | Current official open-weight frontier Qwen baseline; 35B total, 3B active | KTransformers, Ollama/LM Studio GGUF, Transformers |
-| 4 | Hermes | `NousResearch/Hermes-4-14B`, `NousResearch/Hermes-4.3-36B` | Hermes-aligned baselines; no newer official Hermes generation verified | Ollama/LM Studio GGUF, Transformers |
-| 5 | Qwen small | `Qwen/Qwen3-4B-MLX-4bit` | Current strict Hermes tool-call adapter base that fits 32GB comfortably | MLX, Ollama experimental, GGUF |
-| 6 | Specialist runtime | `Qwen/Qwen3-Coder-Next`, `Qwen/Qwen3-VL-8B-Instruct-GGUF`, Qwen3-Next, Mamba-3, `BlinkDL/rwkv7-g1`, `microsoft/bitnet-b1.58-2B-4T`, `mit-oasys/rlm-qwen3-8b-v0.1` | Hybrid/subquadratic/multimodal/recurrent/ternary/recursive architecture experiments | Experimental; validate runtime support first |
+| 2 | Gemma | `google/gemma-4-E4B-it-qat-q4_0-gguf`, `google/gemma-4-12B-it-qat-q4_0-gguf`, `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` | New QAT GGUF family; E4B/12B are better first Mac proofs than 26B/31B | llama.cpp, LM Studio, Ollama |
+| 3 | MiniCPM | `openbmb/MiniCPM5-1B`, `openbmb/MiniCPM5-1B-GGUF`, `openbmb/MiniCPM5-1B-MLX` | Top tiny-model discovery result; low-risk fast Mac runtime lane | MLX, GGUF, Transformers |
+| 4 | Qwen | `Qwen/Qwen3.6-35B-A3B` | Current official open-weight frontier Qwen baseline; 35B total, 3B active | KTransformers, Ollama/LM Studio GGUF, Transformers |
+| 5 | Hermes | `NousResearch/Hermes-4-14B`, `NousResearch/Hermes-4.3-36B` | Hermes-aligned baselines; no newer official Hermes generation verified | Ollama/LM Studio GGUF, Transformers |
+| 6 | Qwen small | `Qwen/Qwen3-4B-MLX-4bit` | Current strict Hermes tool-call adapter base that fits 32GB comfortably | MLX, Ollama experimental, GGUF |
+| 7 | Specialist runtime | `Qwen/Qwen3-Coder-Next`, `Qwen/Qwen3-VL-8B-Instruct-GGUF`, `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4`, `microsoft/bitnet-b1.58-2B-4T-gguf`, Qwen3-Next, Mamba-3, `BlinkDL/rwkv7-g1`, `mit-oasys/rlm-qwen3-8b-v0.1` | Hybrid/subquadratic/multimodal/NVIDIA/ternary/recurrent/recursive architecture experiments | Experimental; validate runtime support first |
 
 See [PROJECT_LAYOUT.md](./PROJECT_LAYOUT.md) for the high-level lane map, [PLATFORM_LANES.md](./PLATFORM_LANES.md) for the platform abstraction, [RUNTIME_FORMAT_LANES.yaml](./RUNTIME_FORMAT_LANES.yaml) for the format/runtime ladder, [MODEL_CANDIDATES.yaml](./MODEL_CANDIDATES.yaml) for the machine-readable Hermes/chat radar, [mem0/MODEL_CANDIDATES.yaml](./mem0/MODEL_CANDIDATES.yaml) for memory/extraction/embedding candidates, [FUTURE_MODELS.md](./FUTURE_MODELS.md) for model notes, [FRAMEWORKS.md](./FRAMEWORKS.md) for framework choices, [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) for cloud acceleration, and [RUNTIME_TARGETS.md](./RUNTIME_TARGETS.md) plus [mem0/RUNTIME_TARGETS.md](./mem0/RUNTIME_TARGETS.md) for runtime rules.
 

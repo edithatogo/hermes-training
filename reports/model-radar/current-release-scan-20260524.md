@@ -225,6 +225,51 @@ guardrail.
   remain visible. The current mem0 lane should finish reranker prompt/latency
   work before acquiring more large retrieval models.
 
+### 2026-06-11 Artificial Analysis Follow-Up
+
+The Artificial Analysis small and tiny open-source leaderboards add several
+missing candidates to the repo radar:
+
+- Gemma 4 has more relevant sizes than the first June pass captured. Artificial
+  Analysis ranks Gemma 4 31B, 26B A4B, 12B, E4B, and E2B among small/tiny open
+  models. Hugging Face confirms official Google QAT GGUF packages for 31B, 26B
+  A4B, 12B, E4B, and E2B, plus active Unsloth QAT GGUF mirrors. For this Mac,
+  proof order should be E4B or 12B first, then 26B A4B, then 31B only if the
+  QAT GGUF runtime is stable and memory headroom is acceptable.
+- NVIDIA candidates are more prominent than the earlier model radar reflected.
+  Artificial Analysis lists Nemotron Cascade 2 30B A3B, Nemotron 3 Nano 30B A3B,
+  Nemotron 3 Nano Omni 30B A3B, Nemotron Nano 12B v2 VL, and Nemotron Nano 9B
+  v2. Hugging Face confirms NVIDIA NVFP4/FP8/BF16 packages for the 30B A3B and
+  VL families. These should be Azure/NVIDIA or specialist-runtime proofs first;
+  community GGUF variants can be local experiments only after local Gemma/LFM
+  priorities are clear.
+- MiniCPM should be added as a real tiny local lane. Artificial Analysis ranks
+  MiniCPM5-1B at the top of its tiny open-source board, and Hugging Face confirms
+  `openbmb/MiniCPM5-1B`, official GGUF, official MLX, and SFT packages. This is
+  a good low-risk Mac-local smoke candidate for fast Hermes utility prompts, but
+  not a likely replacement for the current Qwen3 v4 strict tool-call adapter.
+- The 1-bit lane remains BitNet-first. Hugging Face confirms
+  `microsoft/bitnet-b1.58-2B-4T-gguf`, BF16, and base packages, plus a small MLX
+  community conversion. Keep this as a specialist runtime/efficiency lane until
+  the BitNet runtime proves actual local throughput and Hermes prompt stability.
+- The combined Artificial Analysis tiny/small leaderboard is useful as a
+  discovery page but not sufficient evidence for local open weights by itself.
+  It surfaced current API-only rows such as Qwen3.7 Max/Plus alongside open
+  rows, so every local track still needs a verified primary model repository or
+  supported runtime package before promotion.
+
+### Revised Local Proof Order
+
+| Priority | Candidate | First proof | Reason |
+|---:|---|---|---|
+| 1 | `LiquidAI/LFM2.5-8B-A1B` / GGUF | MLX or llama.cpp smoke | Best new edge-agent fit. |
+| 2 | `google/gemma-4-E4B-it-qat-q4_0-gguf` | llama.cpp / LM Studio / Ollama smoke | Smallest practical Gemma 4 QAT local proof. |
+| 3 | `google/gemma-4-12B-it-qat-q4_0-gguf` | llama.cpp / LM Studio / Ollama smoke | Stronger Gemma 4 local baseline before 26B/31B. |
+| 4 | `openbmb/MiniCPM5-1B` / GGUF / MLX | MLX or GGUF smoke | Fast tiny utility/runtime lane. |
+| 5 | `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` | llama.cpp / LM Studio smoke | Larger MoE/A4B Gemma candidate after smaller QAT proofs. |
+| 6 | `microsoft/bitnet-b1.58-2B-4T-gguf` | BitNet/llama.cpp specialist smoke | 1-bit efficiency experiment. |
+| 7 | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4` | Azure/NVIDIA smoke | Cloud/specialist baseline; not a Mac-first lane. |
+
 ## Sources
 
 - Hugging Face Qwen model search: `https://huggingface.co/models?search=Qwen%2FQwen3`
@@ -240,6 +285,8 @@ guardrail.
 - Hugging Face pages checked on 2026-05-26 late refresh: `mlx-community/Qwen3-VL-32B-Instruct-4bit`, `LiquidAI` organization models, `LiquidAI/LFM2.5-Audio-1.5B`, and `NousResearch/eval-Hermes-4-14B-reasoning`
 - Live Hugging Face API spot check on 2026-05-26 for `Qwen3.7`, `Qwen3.6-35B-A3B`, `Hermes-4-14B`, and `LFM2-24B-A2B`
 - Live Hugging Face API searches on 2026-06-11 for `Qwen3.7`, `Qwen3.7-Max`, `Qwen4`, `Qwen3.6-35B-A3B`, `Qwen3-Next`, `Qwen3-Coder-Next`, `Hermes-4.3`, `Hermes-4.4`, `Hermes-5`, `Hermes-4-14B`, `Gemma 4 26B A4B`, `LFM2.5`, `LFM2-24B-A2B`, `LFM3`, `LFM2 ColBERT`, `RWKV7`, `Mamba-3`, `BitNet b1.58`, `MiMo V2 Flash`, `Qwen3 Embedding`, `Qwen3 Reranker`, and `jina embeddings v5 mlx`
+- Live Hugging Face API searches on 2026-06-11 follow-up for `Gemma 4 31B`, `Gemma 4 12B`, `Gemma 4 E4B`, `Gemma 4 E2B`, `NVIDIA Nemotron 3 Nano 30B A3B`, `NVIDIA Nemotron Nano 9B V2`, `NVIDIA Nemotron Nano 12B v2 VL`, `MiniCPM5-1B`, `MiniCPM-V 4.6 1.3B`, `OpenBMB MiniCPM5`, `1bit LLM`, `1-bit LLM`, `BitNet 1.58`, and `BitNet b1.58`
 - Web pages checked on 2026-06-11: Liquid AI LFM2.5-8B-A1B release blog, `LiquidAI/LFM2.5-8B-A1B`, Google Gemma 4 QAT release, `google/gemma-4-26B-A4B-it-qat-q4_0-gguf`, `Qwen/Qwen3-Coder-Next`, and `Qwen/Qwen3-VL-8B-Instruct-GGUF`
+- Web pages checked on 2026-06-11 follow-up: Artificial Analysis small open-source leaderboard, Artificial Analysis tiny open-source leaderboard, Artificial Analysis combined tiny/small leaderboard, `google/gemma-4-31B-it-qat-q4_0-gguf`, `google/gemma-4-12B-it-qat-q4_0-gguf`, `google/gemma-4-E4B-it-qat-q4_0-gguf`, `openbmb/MiniCPM5-1B`, `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4`, and `microsoft/bitnet-b1.58-2B-4T-gguf`
 - Qwen3.7-Max web refresh: TechNode, GIGAZINE, VentureBeat, BenchLM, and related coverage describe a proprietary/API-preview model, not an open-weight local artifact.
 - Hugging Face pages checked on 2026-05-24: `SandLogicTechnologies/Hermes-4-14B-GGUF`, `mradermacher/Hermes-4-14B-GGUF`, `XiaomiMiMo/MiMo-V2-Flash`, `LiquidAI/LFM2-8B-A1B-GGUF`, and Hugging Face model search results for `Qwen3.7`.

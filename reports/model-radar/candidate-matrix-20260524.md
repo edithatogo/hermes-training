@@ -20,7 +20,11 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `NousResearch/Hermes-4.3-36B` | Hermes baseline/teacher | Transformers / GGUF | cloud/runtime candidate | Treat as teacher baseline after runtime proof | blocked |
 | `NousResearch/Hermes-4.3-36B-GGUF` | Mac-local runtime | LM Studio / llama.cpp | runtime-proof candidate | Smoke only if local GGUF exists or user approves download | blocked |
 | `google/gemma-4-26B-A4B-it` | frontier runtime/teacher | Transformers / GGUF | runtime-proof candidate | Tool-call stability check after runtime proof | blocked |
+| `google/gemma-4-E4B-it-qat-q4_0-gguf` | Mac-local runtime | llama.cpp / LM Studio / Ollama | priority runtime-proof candidate | Smoke first among Gemma 4 QAT packages; smaller than 12B/26B/31B and likely best M1 proof target | blocked |
+| `google/gemma-4-E2B-it-qat-q4_0-gguf` | Mac-local runtime | llama.cpp / LM Studio / Ollama | tiny Gemma runtime candidate | Smoke only if E4B is too slow or utility latency matters more than quality | blocked |
+| `google/gemma-4-12B-it-qat-q4_0-gguf` | Mac-local runtime | llama.cpp / LM Studio / Ollama | priority runtime-proof candidate | Smoke after E4B; better quality target before 26B A4B/31B | blocked |
 | `google/gemma-4-26B-A4B-it-qat-q4_0-gguf` | Mac-local runtime | llama.cpp / LM Studio / Ollama | priority runtime-proof candidate | QAT Q4_0 GGUF should be smoked before generic Gemma 4 GGUF variants | blocked |
+| `google/gemma-4-31B-it-qat-q4_0-gguf` | Mac-local or Azure runtime | llama.cpp / LM Studio / Azure | secondary runtime-proof candidate | Artificial Analysis ranks 31B highly, but on 32GB Mac this follows E4B/12B/26B proof | blocked |
 | `unsloth/gemma-4-26B-A4B-it-qat-GGUF` | Mac-local runtime | llama.cpp / LM Studio / Ollama | runtime-proof candidate | Alternate QAT GGUF packaging; validate only if Google QAT path is blocked or lower quality | blocked |
 | `unsloth/gemma-4-26B-A4B-it-GGUF` | Mac-local runtime | LM Studio / Ollama | secondary runtime-proof candidate | Keep behind QAT packaging unless a specific runtime requires this package | blocked |
 | `nvidia/Gemma-4-26B-A4B-NVFP4` | specialist/cloud runtime | NVIDIA stack | research-runtime candidate | Azure/specialist proof only | blocked |
@@ -30,6 +34,12 @@ This matrix turns the current model radar into execution decisions. It is not a 
 | `BAAI/bge-m3` | retrieval baseline | FlagEmbedding / sentence-transformers | ready baseline | Use as practical retrieval baseline | no chat adapter publication |
 | `LiquidAI/LFM2-24B-A2B-GGUF` | efficient LFM runtime | llama.cpp GGUF | runtime-proven baseline | Use as LFM comparison lane; strict held-out score is `0.375` and IFEval/coding pilots are `1.000` | runtime-only |
 | `LiquidAI/LFM2-8B-A1B-GGUF` | efficient LFM runtime | llama.cpp / LM Studio | watchlist | Consider only if a smaller LFM runtime is needed after 24B evidence | blocked |
+| `openbmb/MiniCPM5-1B` | tiny local runtime | MLX / GGUF / Transformers | priority tiny runtime-proof candidate | Artificial Analysis ranks it top of tiny open models; run fast Hermes utility prompt smoke, not replacement adapter training | blocked |
+| `openbmb/MiniCPM5-1B-GGUF` / `openbmb/MiniCPM5-1B-MLX` | tiny local runtime | llama.cpp / MLX | priority tiny runtime-proof candidate | Prefer official GGUF/MLX packages for Mac smoke | blocked |
+| `microsoft/bitnet-b1.58-2B-4T-gguf` | 1-bit efficiency runtime | BitNet / llama.cpp specialist path | specialist runtime candidate | Runtime and throughput proof before any Hermes benchmark claim | blocked |
+| `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4` | NVIDIA/cloud baseline | NVIDIA stack / Azure | cloud/specialist runtime candidate | Strong small-board candidate, but NVFP4 is not a Mac-first runtime | blocked |
+| `nvidia/NVIDIA-Nemotron-Nano-9B-v2` | NVIDIA/cloud/local GGUF fallback | NVIDIA stack / community GGUF / MLX community | runtime-watch candidate | Smaller NVIDIA lane; local proof only if GGUF/MLX packaging beats Gemma/LFM priorities | blocked |
+| `nvidia/NVIDIA-Nemotron-Nano-12B-v2-VL-BF16` | multimodal cloud baseline | NVIDIA stack / community GGUF | cloud/specialist multimodal candidate | Track for GUI/screenshot agent comparisons after Qwen3-VL proof | blocked |
 | `XiaomiMiMo/MiMo-V2-Flash` | large MoE research runtime | KTransformers / specialist GGUF / Azure | watchlist | Do not download locally first; test via Azure/specialist quant only after Qwen3.6 and Gemma queues clear | blocked |
 | `Qwen/Qwen3-Coder-Next` | coding-agent baseline | SGLang / vLLM / Docker Model Runner / GGUF quant | cloud/specialist runtime candidate | Add Azure or specialist runtime smoke; not a 32GB Mac fine-tune target | blocked |
 | `Qwen/Qwen3-VL-8B-Instruct-GGUF` | multimodal Hermes-agent runtime | llama.cpp / LM Studio / Ollama | multimodal runtime candidate | Smoke after text/tool-call and mem0 lanes if GUI/screenshot agent work becomes priority | blocked |
@@ -45,10 +55,10 @@ behavior. Run runtime and benchmark selection across better bases before broader
 claims:
 
 1. Keep Qwen3 v4 as the public/recommended local strict Hermes tool-call adapter.
-2. Next local runtime proofs should prioritize LFM2.5-8B-A1B and Gemma 4 26B-A4B QAT before adding more Qwen3.6 variants.
-3. Use Hermes 4 14B, Qwen3.6 35B-A3B, and LFM2 24B-A2B as runtime baselines, not publication candidates.
+2. Next local runtime proofs should prioritize LFM2.5-8B-A1B, Gemma 4 E4B/12B QAT, and MiniCPM5-1B before adding more Qwen3.6 variants.
+3. Use Gemma 4 26B A4B/31B QAT, Hermes 4 14B, Qwen3.6 35B-A3B, and LFM2 24B-A2B as larger comparison baselines, not publication candidates.
 4. Use BGE-M3 as the retrieval baseline while LFM2-ColBERT and Qwen retrieval candidates are triaged.
-5. Keep Qwen3-Coder-Next, RWKV, BitNet, Mamba, MiMo, and Qwen3-VL watchlisted until they can serve reproducible Hermes prompts.
+5. Keep Qwen3-Coder-Next, NVIDIA Nemotron, RWKV, BitNet, Mamba, MiMo, and Qwen3-VL watchlisted until they can serve reproducible Hermes prompts.
 
 ## Synthesis
 
