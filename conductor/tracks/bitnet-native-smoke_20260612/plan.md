@@ -11,6 +11,8 @@
 - [x] Task: run the local BitNet wrapper from the BitNet checkout with a tiny
   deterministic prompt.
 - [x] Task: capture load, generation, timing, and memory evidence.
+- [x] Task: test conversation mode and record that it is interactive and still
+  non-compliant under the bounded JSON prompt.
 
 ## Phase 3: Documentation And Validation
 
@@ -24,5 +26,6 @@
 - Current estimate: 9.6 / 10
 - Evidence: native BitNet load and 16-token generation completed from SSD-backed
   artifacts with exit code 0.
-- Gaps: output was not instruction-compliant JSON, so this is a runtime proof
-  only and not a Hermes readiness claim.
+- Gaps: output was not instruction-compliant JSON, and conversation mode is
+  interactive rather than a clean batch benchmark profile, so this is a runtime
+  proof only and not a Hermes readiness claim.

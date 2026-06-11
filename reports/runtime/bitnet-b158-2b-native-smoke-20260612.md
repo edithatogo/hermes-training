@@ -6,6 +6,7 @@ Model: `microsoft/bitnet-b1.58-2B-4T`
 Runtime: `/Volumes/PortableSSD/GitHub/BitNet/bin/bitnet`
 Model file: `/Volumes/PortableSSD/GitHub/BitNet/models/BitNet-b1.58-2B-4T/ggml-model-i2_s.gguf`
 Output log: `/Volumes/PortableSSD/hermes-evals/runtime-format-lanes/recurrent-ssm-bitnet/bitnet-b158-2b-native-smoke-20260612/bitnet.log`
+Chat-profile retry log: `/Volumes/PortableSSD/hermes-evals/runtime-format-lanes/recurrent-ssm-bitnet/bitnet-b158-2b-chat-profile-smoke-20260612/bitnet-chat.log`
 
 ## Result
 
@@ -44,11 +45,31 @@ eval time = 41124.72 ms / 15 runs
 total time = 61790.34 ms / 26 tokens
 ```
 
+## Chat-Profile Retry
+
+A second bounded retry used the native runtime's `-cnv` conversation mode with
+the prompt `You are a strict JSON emitter. Return exactly {"ok":true} and no
+other text.`
+
+That path is not suitable for unattended Hermes benchmarking as currently
+wrapped:
+
+- `-cnv` enters interactive mode and waits for further input.
+- The generated text was still non-compliant.
+- The process was stopped with `SIGTERM` after 151.06s wall time.
+
+The relevant generated fragment was:
+
+```text
+fence VID/ad improve workiae carrying/design made reach recommendation continue.ie mitigate annotate ...
+```
+
 ## Decision
 
 This is a completed native runtime proof for the recurrent/SSM/BitNet lane. It
 does not promote BitNet as a Hermes model. The runtime can load and generate on
 the Mac from SSD-backed artifacts, but prompt-following quality is poor on this
-bounded smoke. Next work should test an instruct/chat prompt profile, a
-conversation-mode prompt, and a small deterministic Hermes extraction/tool-call
-suite before any training or default-runtime claim.
+bounded smoke, and conversation mode is currently interactive rather than a
+clean batch profile. Next work should add a non-interactive prompt wrapper and a
+small deterministic Hermes extraction/tool-call suite before any training or
+default-runtime claim.
