@@ -98,12 +98,12 @@ proofs:
   - id: north-mini-code-gguf-proof
     lane_id: gguf-portability
     model: CohereLabs/North-Mini-Code-1.0
-    run_name: north-mini-code-gguf-proof-20260611
-    status: blocked-preflight
+    run_name: north-mini-code-gguf-q4km-smoke-20260612
+    status: blocked-runtime-proof
     endpoint: ""
-    artifact_path: ""
-    command: "llama-server -hf unsloth/North-Mini-Code-1.0-GGUF:UD-Q4_K_M"
-    blocker: "Code-specialist runtime proof is queued, but the GGUF artifact should be acquired and smoke-tested before any benchmark claim."
+    artifact_path: "/Volumes/PortableSSD/huggingface/hub/models--unsloth--North-Mini-Code-1.0-GGUF"
+    command: "llama-cli --hf-repo unsloth/North-Mini-Code-1.0-GGUF --hf-file North-Mini-Code-1.0-UD-Q4_K_M.gguf --ctx-size 1024 --n-predict 16 --temp 0 --seed 1 --prompt 'Write a Python function add(a, b). Return only code.'"
+    blocker: "GGUF artifact acquisition passed on the SSD, but Homebrew llama.cpp 9290 failed to load it with unknown model architecture 'cohere2moe'. Retry only after a runtime with cohere2moe support is available."
 
   - id: jina-v5-omni-small-mlx-retrieval-proof
     lane_id: mlx-native

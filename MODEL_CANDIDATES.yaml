@@ -264,9 +264,9 @@ candidates:
     parameters: "30B total / 3B active"
     architecture: "Sparse MoE coding-agent model"
     license: apache-2.0
-    first_runtime: "GGUF smoke through llama.cpp, Ollama, or LM Studio"
+    first_runtime: "retry with a runtime that supports GGUF architecture cohere2moe"
     first_finetune: "defer"
-    notes: "Recent code-specialist open-weight release. More relevant as a runtime and agentic coding baseline than as a first local fine-tune target."
+    notes: "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture 'cohere2moe'. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
 
   - id: Qwen/Qwen3.6-27B
     family: qwen
