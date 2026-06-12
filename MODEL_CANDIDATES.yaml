@@ -827,6 +827,45 @@ candidates:
     first_finetune: "defer"
     notes: "MLX-converted Qwen3-TTS packaging for Apple Silicon. Use as the Mac-local speech-generation comparison point once the audio runtime is validated."
 
+  - id: Qwen/Qwen3-Omni-30B-A3B-Instruct
+    family: qwen
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Unified multimodal text/image/audio/video model"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Official Qwen3-Omni multimodal checkpoint. Useful as a broad support/teacher lane for audio and video workflows, not as a Mac-local chat fine-tune target."
+
+  - id: Qwen/Qwen3-Omni-30B-A3B-Captioner
+    family: qwen
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Audio captioning specialization of Qwen3-Omni"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Official audio-captioning specialization derived from Qwen3-Omni. Keep it as a specialist support lane for audio understanding and caption generation."
+
+  - id: microsoft/Phi-4-multimodal-instruct
+    family: microsoft
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "multimodal"
+    architecture: "Text/image/audio multimodal foundation model"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Official Phi-4 multimodal checkpoint. Useful as a compact multimodal comparison point for speech and image workflows, not as a Hermes text target."
+
   - id: CohereLabs/cohere-transcribe-03-2026
     family: cohere
     tier: research-runtime

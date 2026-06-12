@@ -15,6 +15,7 @@ Latest scans:
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
 - [ASR support follow-up](./reports/model-radar/asr-support-follow-up-current-release-scan-20260612.md)
 - [TTS support follow-up](./reports/model-radar/tts-support-follow-up-current-release-scan-20260612.md)
+- [Multimodal support follow-up](./reports/model-radar/multimodal-support-follow-up-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
@@ -33,6 +34,8 @@ ASR support now also includes `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcri
 and `nvidia/parakeet-tdt-0.6b-v3`.
 Speech synthesis now also includes `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign` and
 `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16`.
+Broader multimodal support now also includes `Qwen/Qwen3-Omni-30B-A3B-Instruct`,
+`Qwen/Qwen3-Omni-30B-A3B-Captioner`, and `microsoft/Phi-4-multimodal-instruct`.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes

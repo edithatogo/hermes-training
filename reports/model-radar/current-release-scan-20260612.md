@@ -20,6 +20,7 @@ Pro M1 Max with 32 GB unified memory.
 | NVIDIA | `nvidia/instant-nurec`, `nvidia/omni-dreams-models` | Fresh physical-AI / world-model support lanes from NVIDIA. |
 | ASR | `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcribe-03-2026`, `nvidia/parakeet-tdt-0.6b-v3` | Fresh speech-support lanes for transcription and streaming ASR. |
 | TTS | `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`, `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16` | Fresh speech-output lane with an explicit MLX Mac packaging path. |
+| Multimodal | `Qwen/Qwen3-Omni-30B-A3B-Instruct`, `Qwen/Qwen3-Omni-30B-A3B-Captioner`, `microsoft/Phi-4-multimodal-instruct` | Fresh broad multimodal support lanes for text, image, audio, and video workflows. |
 | Qwen | `Qwen/Qwen3.5-9B` | Useful mid-size Qwen step between the already-tested tiny lanes and the larger Qwen3.6 frontier packages. |
 | MiniCPM | `openbmb/MiniCPM5-1B` | Official 1B release remains a valid tiny helper/extractor candidate. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | Official 4B base plus fresh GGUF and MLX packaging for Mac-local runtime use. |
@@ -49,6 +50,8 @@ Pro M1 Max with 32 GB unified memory.
   `CohereLabs/cohere-transcribe-03-2026`, and `nvidia/parakeet-tdt-0.6b-v3`.
 - The same speech pass also surfaced `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`
   and `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16`.
+- The broader multimodal pass also surfaced `Qwen/Qwen3-Omni-30B-A3B-Instruct`,
+  `Qwen/Qwen3-Omni-30B-A3B-Captioner`, and `microsoft/Phi-4-multimodal-instruct`.
 - That means Qwen3.7 remains watchlist-only until an actual open-weight repo or
   supported hosted workflow is published.
 
@@ -74,6 +77,8 @@ Pro M1 Max with 32 GB unified memory.
   `nvidia/parakeet-tdt-0.6b-v3` to the machine-readable radar as speech-support lanes.
 - Add `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign` and
   `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16` to the machine-readable radar.
+- Add `Qwen/Qwen3-Omni-30B-A3B-Instruct`, `Qwen/Qwen3-Omni-30B-A3B-Captioner`,
+  and `microsoft/Phi-4-multimodal-instruct` to the machine-readable radar.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.
