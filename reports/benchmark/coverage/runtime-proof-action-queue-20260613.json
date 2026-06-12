@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T14:36:23.870444+00:00",
+  "created_at": "2026-06-12T14:40:52.966942+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -885,9 +885,9 @@
       "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama-completion QAT GGUF runtime proof is complete; model-specific prompt profile remains blocked",
+      "first_runtime": "llama.cpp QAT GGUF runtime proof and strict endpoint pilot are complete; model-specific prompt/profile repair remains required",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model google-gemma-4-e2b-it-qat-q4-0-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id google-gemma-4-e2b-it-qat-q4-0-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. Treat as runtime evidence only."
+      "notes": "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/gemma4-e2b-q4-llamacpp-strict-bfcl-pilot-20260613.md` scored `1/3` (`0.333`): invalid-tool refusal passed, but both real tool-call cases failed due to non-Hermes tool-call schemas. Treat as runtime/adapter-repair evidence only; do not promote."
     },
     {
       "id": "Qwen/Qwen3-4B-MLX-4bit",

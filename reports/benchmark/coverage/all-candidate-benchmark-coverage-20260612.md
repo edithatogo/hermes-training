@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:36:23.731983+00:00`
+Created: `2026-06-12T14:40:53.820138+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 141 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 7 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
 | mem0 | `smoke-or-pilot-only` | 1 |
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 140 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 8 |
 
 ## Benchmark Policy
 
@@ -66,6 +66,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-26B-A4B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-31B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-31B` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/gemma4-e2b-q4-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md`<br>`reports/runtime/gemma4-e2b-q4-llamacpp-smoke-20260612.md` |
 | hermes | `google/gemma-4-E2B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -215,7 +216,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-26B-A4B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `google/gemma-4-E2B-it` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
