@@ -2,26 +2,30 @@
 
 ## Phase 1: Support-Lane Source Audit
 
-- [ ] Task: Read the completed scan report and roadmap entries.
-    - [ ] Extract teacher/reference models.
-    - [ ] Extract NVIDIA/NGC opportunities.
-    - [ ] Extract multimodal, audio, ASR, TTS, omni, and packaging candidates.
-- [ ] Task: Assign explicit roles.
-    - [ ] Mark candidates as teacher, evaluator, retriever, multimodal extractor, audio support, packaging proof, or watchlist.
-    - [ ] Flag candidates that are not local fine-tune targets.
-- [ ] Task: Conductor - User Manual Verification 'Support-Lane Source Audit' (Protocol in workflow.md)
+- [x] Task: Read the completed scan report and roadmap entries.
+    - [x] Extract teacher/reference models.
+    - [x] Extract NVIDIA/NGC opportunities.
+    - [x] Extract multimodal, audio, ASR, TTS, omni, and packaging candidates.
+    - Evidence: `reports/model-radar/current-release-scan-20260612.md`, `reports/model-radar/support-lane-surface-refresh-current-release-scan-20260612.md`, `reports/model-radar/asr-support-follow-up-current-release-scan-20260612.md`, `reports/model-radar/tts-support-follow-up-current-release-scan-20260612.md`, `reports/model-radar/multimodal-support-follow-up-current-release-scan-20260612.md`, `reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md`
+- [x] Task: Assign explicit roles.
+    - [x] Mark candidates as teacher, evaluator, retriever, multimodal extractor, audio support, packaging proof, or watchlist.
+    - [x] Flag candidates that are not local fine-tune targets.
+    - Evidence: `MODEL_CANDIDATES.yaml`, `FUTURE_MODELS.md`, `reports/model-radar/current-release-scan-20260612.md`
+- [x] Task: Conductor - User Manual Verification 'Support-Lane Source Audit' (Protocol in workflow.md)
 
 ## Phase 2: Evaluation Design
 
-- [ ] Task: Define support-lane benchmark hooks.
-    - [ ] Map teacher models to data-generation or comparison tasks.
-    - [ ] Map multimodal models to retrieval or evidence extraction tests.
-    - [ ] Map audio/ASR/TTS models to future support harnesses.
-- [ ] Task: Define backend policies.
-    - [ ] Prefer Colab for bounded, sanitized experiments.
-    - [ ] Use NGC only after API-key and entitlement checks.
-    - [ ] Use Azure only after subscription and quota checks.
-- [ ] Task: Conductor - User Manual Verification 'Evaluation Design' (Protocol in workflow.md)
+- [x] Task: Define support-lane benchmark hooks.
+    - [x] Map teacher models to data-generation or comparison tasks.
+    - [x] Map multimodal models to retrieval or evidence extraction tests.
+    - [x] Map audio/ASR/TTS models to future support harnesses.
+    - Evidence: `reports/model-radar/current-release-scan-20260612.md`, `reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md`, `reports/model-radar/asr-support-follow-up-current-release-scan-20260612.md`, `reports/model-radar/tts-support-follow-up-current-release-scan-20260612.md`, `reports/model-radar/multimodal-support-follow-up-current-release-scan-20260612.md`
+- [x] Task: Define backend policies.
+    - [x] Prefer Colab for bounded, sanitized experiments.
+    - [x] Use NGC only after API-key and entitlement checks.
+    - [x] Use Azure only after subscription and quota checks.
+    - Evidence: `COLAB_SCALEOUT.md`, `AZURE_SCALEOUT.md`, `scripts/colab_preflight.py`, `scripts/colab_dispatch.py`
+- [x] Task: Conductor - User Manual Verification 'Evaluation Design' (Protocol in workflow.md)
 
 ## Phase 3: Bounded Proof Execution
 
@@ -29,6 +33,7 @@
     - [ ] Execute local proof where packaging is already available.
     - [ ] Execute Colab proof for sanitized support benchmarks where local load is excessive.
     - [ ] Document blocked NGC or Azure proofs with exact auth/quota blocker.
+    - Note: source-verification and lane classification are complete; runtime proof for the newest support lanes remains the next action.
 - [ ] Task: Capture output restrictions.
     - [ ] Record license, redistribution, and publication restrictions.
     - [ ] Keep restricted outputs out of public artifacts unless approved.
