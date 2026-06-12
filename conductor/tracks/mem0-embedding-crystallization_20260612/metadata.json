@@ -1,0 +1,8 @@
+{
+  "track_id": "mem0-embedding-crystallization_20260612",
+  "title": "mem0 and Embedding Crystallization",
+  "status": "completed",
+  "created_at": "2026-06-12T00:00:00Z",
+  "updated_at": "2026-06-12T00:00:00Z",
+  "description": "Freeze the mem0 model queue and embedding lane so the project can iterate beyond nomic while keeping the live mem0 path stable."
+}

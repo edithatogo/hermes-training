@@ -463,6 +463,32 @@ candidates:
     first_finetune: "defer"
     notes: "Community GGUF packaging for Gemma 4 31B-it is visible. Useful as a packaging/runtime comparison point, not a local training target."
 
+  - id: unsloth/gemma-4-31B-it-GGUF
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "31B"
+    architecture: "Gemma 4 31B instruction model, Unsloth GGUF packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_finetune: "defer"
+    notes: "Fresh Unsloth Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
+
+  - id: ggml-org/gemma-4-31B-it-GGUF
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "31B"
+    architecture: "Gemma 4 31B instruction model, ggml-org GGUF packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_finetune: "defer"
+    notes: "Fresh ggml-org Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
+
   - id: bartowski/google_gemma-4-31B-it-GGUF
     family: gemma
     tier: frontier-runtime
@@ -1151,6 +1177,19 @@ candidates:
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
     notes: "Official MLX package for MiniCPM5 1B. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as tiny helper/extraction candidate; not promoted as a tool-call default."
+
+  - id: openbmb/MiniCPM5-1B-GGUF
+    family: minicpm
+    tier: edge-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "1B"
+    architecture: "MiniCPM5 1B, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke"
+    first_finetune: "defer"
+    notes: "Official GGUF packaging lane for MiniCPM5-1B. Use as a tiny local-runtime comparison point only."
 
   - id: Nanbeige/Nanbeige4.1-3B
     family: nanbeige

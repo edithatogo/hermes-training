@@ -1,0 +1,8 @@
+{
+  "track_id": "cross-runtime-lane-expansion_20260612",
+  "title": "Cross Runtime Lane Expansion",
+  "status": "completed",
+  "created_at": "2026-06-12T00:00:00Z",
+  "updated_at": "2026-06-12T06:22:36Z",
+  "description": "Expand the runtime matrix across llama.cpp, Ollama, LM Studio, MLX, Metal-specific paths, and external execution lanes such as Colab, Azure, Kaggle, and NVIDIA tooling."
+}

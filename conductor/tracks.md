@@ -240,6 +240,21 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Hermes Shortlist Crystallization
+*Link: [./tracks/hermes-shortlist-crystallization_20260612/](./tracks/hermes-shortlist-crystallization_20260612/)*
+
+---
+
+## [x] Track: mem0 and Embedding Crystallization
+*Link: [./tracks/mem0-embedding-crystallization_20260612/](./tracks/mem0-embedding-crystallization_20260612/)*
+
+---
+
+## [x] Track: Cross Runtime Lane Expansion
+*Link: [./tracks/cross-runtime-lane-expansion_20260612/](./tracks/cross-runtime-lane-expansion_20260612/)*
+
+---
+
 ## [x] Track: mem0 Multi-Result Rerank Replay Harness
 *Link: [./tracks/mem0-multiretrieval-rerank-replay_20260526/](./tracks/mem0-multiretrieval-rerank-replay_20260526/)*
 
@@ -527,3 +542,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 31B Community GGUF Refresh
 *Link: [./tracks/gemma4-31b-community-gguf-refresh_20260612/](./tracks/gemma4-31b-community-gguf-refresh_20260612/)*
+
+---
+
+## [x] Track: Gemma 4 31B and MiniCPM5-1B Packaging Follow-up
+*Link: [./tracks/gemma4-31b-minicpm5-packaging-followup_20260612/](./tracks/gemma4-31b-minicpm5-packaging-followup_20260612/)*

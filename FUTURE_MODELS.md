@@ -16,6 +16,7 @@ Latest scans:
 - [Jina v5 omni multimodal retrieval refresh](./reports/model-radar/jina-v5-omni-multimodal-retrieval-current-release-scan-20260612.md)
 - [Gemma 4 31B and MiniCPM-o 4.5 packaging refresh](./reports/model-radar/gemma4-31b-minicpm-o4-5-packaging-current-release-scan-20260612.md)
 - [Gemma 4 31B community GGUF refresh](./reports/model-radar/gemma4-31b-community-gguf-current-release-scan-20260612.md)
+- [Gemma 4 31B and MiniCPM5-1B packaging follow-up](./reports/model-radar/gemma4-31b-minicpm5-packaging-followup-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 - [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
@@ -61,6 +62,9 @@ The Gemma 4 31B packaging lane now also includes the official
 The Gemma 4 31B lane now also includes `bartowski/google_gemma-4-31B-it-GGUF`
 as a fresh community GGUF pack published today. Use it as a packaging/runtime
 comparison point only.
+The refreshed search also surfaced `unsloth/gemma-4-31B-it-GGUF`,
+`ggml-org/gemma-4-31B-it-GGUF`, and `openbmb/MiniCPM5-1B-GGUF` as additional
+packaging/runtime comparison points.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 E2B-it, 12B/31B, Hermes

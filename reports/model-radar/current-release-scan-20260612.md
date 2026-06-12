@@ -17,7 +17,7 @@ Pro M1 Max with 32 GB unified memory.
 | Gemma | `google/gemma-4-12B-it`, `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF` | New mid-size Gemma 4 family members that are more plausible Mac/Colab candidates than the larger 26B/31B variants. |
 | Gemma | `google/gemma-4-E2B-it`, `litert-community/gemma-4-E2B-it-litert-lm`, `mlx-community/gemma-4-e2b-it-4bit` | Official instruction-tuned E2B lane plus fresh LiteRT and MLX packaging. The smallest useful Gemma 4 follow-up to the q4_0 smoke. |
 | Gemma / Qwen / MiniCPM | `google/gemma-4-31B`, `Qwen/Qwen3-Coder-Next`, `openbmb/MiniCPM-V-4.6-GPTQ` | Follow-up scan additions: official base repos and packaging lanes that matter for teacher/runtime comparisons. |
-| Packaging | `google/gemma-4-31B-it-qat-q4_0-gguf`, `bartowski/google_gemma-4-31B-it-GGUF`, `openbmb/MiniCPM-o-4_5-gguf` | Fresh GGUF packaging lanes surfaced in the latest model search. Strong local packaging comparison points for Gemma 4 31B and MiniCPM-o 4.5. |
+| Packaging | `google/gemma-4-31B-it-qat-q4_0-gguf`, `bartowski/google_gemma-4-31B-it-GGUF`, `unsloth/gemma-4-31B-it-GGUF`, `ggml-org/gemma-4-31B-it-GGUF`, `openbmb/MiniCPM-o-4_5-gguf`, `openbmb/MiniCPM5-1B-GGUF` | Fresh GGUF packaging lanes surfaced in the latest model search. Strong local packaging comparison points for Gemma 4 31B, MiniCPM-o 4.5, and MiniCPM5-1B. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b` | New base/evaluator and speech-support checkpoints from the Nemotron family. |
 | NVIDIA | `nvidia/instant-nurec`, `nvidia/omni-dreams-models` | Fresh physical-AI / world-model support lanes from NVIDIA. |
 | ASR | `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcribe-03-2026`, `nvidia/parakeet-tdt-0.6b-v3` | Fresh speech-support lanes for transcription and streaming ASR. |
@@ -59,6 +59,9 @@ Pro M1 Max with 32 GB unified memory.
   Nemotron 3 Ultra GenRM checkpoint, and the English streaming ASR checkpoint.
 - The same pass also surfaced `nvidia/instant-nurec` and `nvidia/omni-dreams-models`
   as physical-AI / world-model support lanes.
+- The freshest packaging pass also surfaced `unsloth/gemma-4-31B-it-GGUF`,
+  `ggml-org/gemma-4-31B-it-GGUF`, and `openbmb/MiniCPM5-1B-GGUF` as additional
+  local comparison points for Gemma 4 31B and the tiny MiniCPM5 helper lane.
 - The latest ASR pass surfaced `Qwen/Qwen3-ASR-1.7B`,
   `CohereLabs/cohere-transcribe-03-2026`, and `nvidia/parakeet-tdt-0.6b-v3`.
 - The same speech pass also surfaced `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`
@@ -109,6 +112,8 @@ Pro M1 Max with 32 GB unified memory.
 - Add the Gemma 4 31B QAT GGUF and MiniCPM-o 4.5 GGUF packaging lanes to the
   machine-readable radar.
 - Add the fresh bartowski Gemma 4 31B GGUF packaging lane to the machine-readable radar.
+- Add the fresh Unsloth and ggml-org Gemma 4 31B GGUF packaging lanes, plus
+  the official MiniCPM5-1B-GGUF lane, to the machine-readable radar.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.
