@@ -9,11 +9,13 @@ Latest scans:
 - [Harmonic-Hermes / Harmonic-9B scan](./reports/model-radar/harmonic-hermes-current-release-scan-20260612.md)
 - [Nemotron 3 Nano 4B packaging scan](./reports/model-radar/nemotron3-nano-4b-packaging-current-release-scan-20260612.md)
 - [Hermes-Qwen3.5 SFT v7 scan](./reports/model-radar/hermes-qwen35-sft-v7-current-release-scan-20260612.md)
+- [Qwen3.6 35B 2-bit MLX scan](./reports/model-radar/qwen36-35b-2bit-mlx-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
 Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4 packaging,
-Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B and its FP8/GGUF/MLX packaging,
+Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX packaging and its
+FP8/GGUF/MLX packaging,
 MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
 MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Command A+, Step 3.7 Flash,
 DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B,
@@ -23,7 +25,8 @@ No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
 4.3, Harmonic-9B/Harmonic-Hermes-9B, Hermes-Qwen3.5 SFT v7 packs, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B,
-Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA,
+Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX,
+MiniCPM-o 4.5, MiniCPM-SALA,
 AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B,
 Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
 Nex-N2-mini, Nemotron support entries, and Nemotron frontier entries as
@@ -108,6 +111,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Qwen | `Qwen3-Embedding-4B`, `Qwen3-Reranker-4B` | Local/Colab fit | Retrieval lane for Hermes memory and RAG; compare against BGE-M3 and Jina embeddings |
 | Qwen | `Qwen3.5 27B` | Dense teacher fit | Mac GGUF/MLX packaging or Colab burst runs; dense mid-size comparison point |
 | Qwen | `Qwen3.6 27B` | Dense small-model fit | Mac GGUF/MLX packaging or Colab burst runs; dense frontier comparison point |
+| Qwen | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | Local fit | Fresh 2-bit MLX local-runtime candidate with tool-calling/agentic tags |
 | Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
 | Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
 | Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but Hermes no-extra-text strict gate remains 0/3; score-only native normalizer rescues 1/3 |

@@ -462,3 +462,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Hermes-Qwen3.5 SFT v7 Refresh
 *Link: [./tracks/hermes-qwen35-sft-v7-refresh_20260612/](./tracks/hermes-qwen35-sft-v7-refresh_20260612/)*
+
+---
+
+## [x] Track: Qwen3.6 35B 2-bit MLX Refresh
+*Link: [./tracks/qwen36-35b-2bit-mlx-refresh_20260612/](./tracks/qwen36-35b-2bit-mlx-refresh_20260612/)*

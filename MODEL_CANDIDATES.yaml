@@ -21,6 +21,19 @@ candidates:
     first_finetune: "defer; smoke adapter only after memory proof"
     notes: "Official repo metadata was verified by Hugging Face API on 2026-05-24. The local Q4_K_M GGUF artifact is now acquired under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4` and runtime-proven through llama.cpp in `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`. Treat this as a runtime/teacher baseline only: strict Hermes tool-call pass was `0.000`, and GGUF proof does not count as KTransformers or official-weight fine-tune evidence."
 
+  - id: ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming
+    family: qwen
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "35B total / 3B active"
+    architecture: "Qwen3.6 MoE, 2-bit MLX packaging"
+    license: "check model card"
+    first_runtime: "MLX on Apple Silicon"
+    first_finetune: "defer"
+    notes: "Fresh 2026-06-12 MLX packaging with function-calling/tool-calling/agentic tags. This is the newest small-footprint Qwen3.6 local-runtime comparison point and should be validated before promotion."
+
   - id: baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX
     family: qwen
     tier: frontier-runtime

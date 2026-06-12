@@ -1,0 +1,8 @@
+{
+  "id": "qwen36-35b-2bit-mlx-refresh_20260612",
+  "title": "Qwen3.6 35B 2-bit MLX Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the radar with the ManiacLabs Qwen3.6 35B 2-bit MLX local-runtime pack."
+}
