@@ -103,3 +103,18 @@ used by mem0's OpenAI embedder provider with an output-local 1024-dim Qdrant
 collection. It still reached only 0.800 top-1 after close-margin reranking on
 the live add/search fixture, so it remains side-by-side evidence rather than a
 default replacement.
+
+## Differentiation Gate
+
+The 2026-06-13 differentiation suite adds harder near-duplicate operational
+memory cases because the expanded suite was no longer separating candidates.
+
+| Model | Dims | Top-1 | Recall@3 | p50 latency | Decision |
+|---|---:|---:|---:|---:|---|
+| `BAAI/bge-m3` | 1024 | 0.900 | 1.000 | 0.109s | strongest current differentiator; still side-by-side only |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | 1024 | 0.700 | 0.900 | 0.025s | fast but missed role/path/runtime boundary cases |
+| `nomic-embed-text:latest` | 768 | 0.600 | 0.800 | 0.019s | keep default rollback, but not the quality leader on this suite |
+
+Use `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` for
+future promotion claims. The older expanded suite remains a regression gate,
+not the final differentiator.

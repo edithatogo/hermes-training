@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:18:20.445026+00:00`
+Created: `2026-06-12T14:30:20.959493+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 140 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 8 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 3 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -80,7 +80,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-31B-it-qat-q4_0-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/Gemma-4-31B-IT-NVFP4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/Gemma-4-26B-A4B-NVFP4` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `Qwen/Qwen3.5-0.8B` | `blocked` | blocked by empty/no-content generation under the strict prompt |  |
+| hermes | `Qwen/Qwen3.5-0.8B` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md` |
 | hermes | `Qwen/Qwen3.5-2B` | `blocked` | blocked by empty/no-content generation under the strict prompt |  |
 | hermes | `Qwen/Qwen3.5-9B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-4B-Instruct-2507` | `blocked` | blocked until runtime artifact/load proof exists |  |

@@ -105,6 +105,21 @@ source scripts/env.sh
   --run-id mem0-current-nomic-recency-reranked-$(date +%Y%m%d-%H%M%S)
 ```
 
+Run the live fixture differentiation suite when the current live fixture is too
+easy:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_mem0_isolated_fixture_rerank.py \
+  --suite benchmarks/mem0_memory/live_fixture_differentiation_suite.json \
+  --run-id mem0-live-fixture-differentiation-$(date +%Y%m%d-%H%M%S) \
+  --skip-qwen3
+```
+
+The 2026-06-13 run returned four to five candidates per query and dropped both
+vector and close-margin top-1 to `0.750`, exposing boundary cases that the
+previous fixture hid.
+
 Run a lower-level Ollama embedding retrieval check:
 
 ```bash
@@ -116,6 +131,28 @@ source scripts/env.sh
 ```
 
 Use this before changing mem0 collections. It tests whether the embedding model ranks relevant memory documents above close distractors without involving extraction or Qdrant write behavior.
+
+Run the harder differentiation suite when smoke and expanded scores are too
+similar to choose between candidates:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_ollama_embedding_benchmark.py \
+  --model nomic-embed-text:latest \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
+  --run-id embedding-nomic-differentiation-$(date +%Y%m%d-%H%M%S)
+
+./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
+  --model BAAI/bge-m3 \
+  --device cpu \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
+  --run-id embedding-bge-m3-differentiation-$(date +%Y%m%d-%H%M%S)
+```
+
+The 2026-06-13 differentiation run separated current candidates: BGE-M3 reached
+top-1 `0.900`, Jina v5 text-matching MLX reached `0.700`, and the nomic
+default reached `0.600`. Treat the older expanded suite as a regression gate,
+not the final promotion differentiator.
 
 Run the same embedding suite through an OpenAI-compatible endpoint:
 
