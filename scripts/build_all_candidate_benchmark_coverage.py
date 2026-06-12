@@ -122,12 +122,14 @@ def blocked_reason(item: dict[str, Any], notes: str, project: str) -> str:
     normalized_text = normalize(text)
     if (
         "unsupported" in text
+        or "not installed" in text
+        or "missing runtime" in text
         or "missing-cohere2moe" in normalized_text
         or "unknown-model-architecture-cohere2moe" in normalized_text
         or "parameters-not-in-model" in normalized_text
     ):
         return "blocked by current local runtime support"
-    if ("timed out" in text or "stalled" in text) and not has_positive_evidence:
+    if ("timed out" in text or re.search(r"\bstalled\b", text)) and not has_positive_evidence:
         return "blocked by local timeout/stall; needs cloud/offload or narrower harness"
     if "empty" in text or "no assistant content" in text:
         return "blocked by empty/no-content generation under the strict prompt"

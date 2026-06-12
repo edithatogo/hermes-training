@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T16:11:38.551807+00:00`
+Created: `2026-06-12T16:16:20.311328+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 145 |
+| hermes | `blocked` | 146 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 6 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 12 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 2 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -42,7 +42,8 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | Project | Candidate | State | Blocked reason | Evidence |
 |---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `blocked` | blocked by current local runtime support | `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md` |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `qwen3.7-open-weights-watch` | `blocked` | blocked because open local weights or a supported public runtime are not verified |  |
@@ -188,14 +189,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mit-oasys/rlm-qwen3-8b-v0.1` | `blocked` | blocked because open local weights or a supported public runtime are not verified |  |
 | mem0 | `google/embeddinggemma-300m` | `blocked` | blocked on gated/authenticated model access | `reports/benchmark/mem0/embedding-google-embeddinggemma-300m-blocked-20260612.md` |
 | mem0 | `jinaai/jina-embeddings-v4` | `blocked` | blocked by current local runtime support |  |
-| mem0 | `hermes3:8b` | `blocked` | blocked by local timeout/stall; needs cloud/offload or narrower harness | `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md`<br>`reports/benchmark/mem0/extraction-hermes3-8b-expanded-examples-20260524.md`<br>`reports/benchmark/mem0/run-cards/extraction-hermes3-8b-expanded-examples-20260524.md` |
 
 ## Every Candidate
 
 | Project | Candidate | Role | Status | Benchmark kind | Coverage | Appropriateness / next gate |
 |---|---|---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | cloud-teacher | `ready` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `NousResearch/Hermes-4-14B` | cloud-teacher | `ready` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
@@ -366,5 +367,5 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | mem0 | `mem0-created-at-rank-reranker` | reranker | `live-read-wrapper-smoked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `LiquidAI/LFM2-ColBERT-350M` | retriever | `source-model-benchmarked` | late-interaction retriever suite plus separate index proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `sam860/LFM2:2.6b` | extractor | `working-default-clean-root-smoked` | memory extraction JSON/durability suite | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
-| mem0 | `hermes3:8b` | extractor | `installed-baseline` | memory extraction JSON/durability suite | `blocked` | blocked by local timeout/stall; needs cloud/offload or narrower harness |
+| mem0 | `hermes3:8b` | extractor | `installed-baseline` | memory extraction JSON/durability suite | `benchmarked-not-necessarily-promoted` | role-appropriate benchmark still needs promotion-grade coverage review |
 | mem0 | `NousResearch/Hermes-4-14B` | extractor | `extraction-benchmarked-not-promoted` | memory extraction JSON/durability suite | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |

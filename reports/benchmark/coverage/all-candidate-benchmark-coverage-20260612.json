@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T16:11:38.551807+00:00",
-  "candidate_count": 174,
+  "created_at": "2026-06-12T16:16:20.311328+00:00",
+  "candidate_count": 175,
   "counts": {
-    "mem0": {
-      "benchmarked-not-necessarily-promoted": 11,
-      "blocked": 3,
-      "smoke-or-pilot-only": 1,
-      "benchmarked-not-promoted": 1
-    },
     "hermes": {
-      "blocked": 145,
+      "blocked": 146,
       "benchmarked-not-promoted": 5,
       "smoke-or-pilot-only": 6,
       "evidence-present-needs-review": 2
+    },
+    "mem0": {
+      "benchmarked-not-necessarily-promoted": 12,
+      "blocked": 2,
+      "smoke-or-pilot-only": 1,
+      "benchmarked-not-promoted": 1
     }
   },
   "rows": [
@@ -37,7 +37,22 @@
       "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
       "role": "local-runtime",
       "family": "qwen",
-      "environment_or_runtime": "mac-mlx",
+      "environment_or_runtime": "specialist-runtime",
+      "feasibility_or_status": "needs-runtime-proof",
+      "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by current local runtime support",
+      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "evidence": [
+        "reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md"
+      ]
+    },
+    {
+      "project": "hermes",
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
+      "role": "local-runtime",
+      "family": "qwen",
+      "environment_or_runtime": "mac-lmstudio",
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
@@ -2419,9 +2434,9 @@
       ],
       "feasibility_or_status": "installed-baseline",
       "benchmark_kind": "memory extraction JSON/durability suite",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by local timeout/stall; needs cloud/offload or narrower harness",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "coverage_state": "benchmarked-not-necessarily-promoted",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "role-appropriate benchmark still needs promotion-grade coverage review",
       "evidence": [
         "reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md",
         "reports/benchmark/mem0/extraction-hermes3-8b-expanded-examples-20260524.md",

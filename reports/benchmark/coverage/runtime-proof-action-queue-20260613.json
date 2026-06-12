@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:11:38.692293+00:00",
+  "created_at": "2026-06-12T16:16:20.454374+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -95,19 +95,19 @@
       "notes": "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture `cohere2moe`; see `reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md`. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
     },
     {
-      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
       "family": "qwen",
       "role": "local-runtime",
-      "environment": "mac-mlx",
+      "environment": "mac-lmstudio",
       "parameters": "35B total / 3B active",
       "size_bucket": "small",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
-      "first_runtime": "MLX on Apple Silicon",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-maniac-nonstreaming-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh 2026-06-12 MLX packaging with function-calling/tool-calling/agentic tags. This is the newest small-footprint Qwen3.6 local-runtime comparison point and should be validated before promotion."
+      "first_runtime": "llama.cpp or LM Studio strict endpoint pilot",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. Hugging Face metadata on 2026-06-13 shows a single `qwen3.6-35b-a3b-iq2xxs-q2k.gguf` artifact of about 12.6G. Prefer this local-runtime path over the Maniac-engine nonstreaming repo until `lme-serve` is installed."
     },
     {
       "id": "Mungert/Nanbeige4.1-3B-GGUF",
@@ -2178,6 +2178,21 @@
       "first_runtime": "LiteRT-LM packaging smoke",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/check_specialist_runtime_preflight.py\n# Follow with the runtime-specific smoke from the candidate's track plan.",
       "notes": "Community packaging for the official Gemma 4 E2B-it model card. Useful for desktop/mobile deployment comparison, not a training target."
+    },
+    {
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
+      "family": "qwen",
+      "role": "local-runtime",
+      "environment": "specialist-runtime",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "feasibility": "needs-runtime-proof",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by current local runtime support",
+      "lane": "specialist-runtime-proof",
+      "first_runtime": "Maniac lme-serve specialist runtime",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/check_specialist_runtime_preflight.py\n# Follow with the runtime-specific smoke from the candidate's track plan.",
+      "notes": "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime is blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. Use as a specialist-runtime candidate only after Maniac is installed. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
     },
     {
       "id": "Qwen/Qwen3-Next-80B-A3B-Instruct",

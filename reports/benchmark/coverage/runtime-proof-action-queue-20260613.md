@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T16:11:38.693393+00:00`
+Created: `2026-06-12T16:16:20.455548+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -15,7 +15,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 4 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked by current local runtime support |
 | 5 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked by current local runtime support |
 | 6 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
-| 7 | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 7 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 8 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-runtime-proof` | 3B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 9 | `Nanbeige/Nanbeige4.1-3B` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 10 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
@@ -42,7 +42,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | `cloud-teacher-proof` | 12 |
 | `mac-runtime-proof` | 53 |
 | `prompt-profile-repair` | 12 |
-| `specialist-runtime-proof` | 9 |
+| `specialist-runtime-proof` | 10 |
 | `support-model-proof` | 67 |
 | `watchlist` | 5 |
 
@@ -123,7 +123,7 @@ source scripts/env.sh
   --run-id coherelabs-north-mini-code-1-0-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
-### ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming
+### ManiacLabs/Qwen3.6-35B-A3B-2bit
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
@@ -131,11 +131,7 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-# Acquire the MLX model to the SSD Hugging Face cache first.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py \
-  --model ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-maniac-nonstreaming-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
 ```
 
 ### Mungert/Nanbeige4.1-3B-GGUF
