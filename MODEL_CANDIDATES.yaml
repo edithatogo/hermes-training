@@ -801,6 +801,32 @@ candidates:
     first_finetune: "defer"
     notes: "Official Qwen ASR release with streaming/offline support and broad language coverage. Useful as a speech-support lane for Hermes workflows, not as a chat fine-tune target."
 
+  - id: Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign
+    family: qwen
+    tier: research-runtime
+    role: research-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "1.7B"
+    architecture: "Text-to-speech / voice design model"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Official Qwen3-TTS voice-design checkpoint with cloning and speech generation support. Useful as a speech-output support lane for Hermes workflows, not as a chat target."
+
+  - id: mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16
+    family: qwen
+    tier: research-runtime
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "1.7B"
+    architecture: "Text-to-speech / voice design model, MLX packaging"
+    license: "check model card"
+    first_runtime: "MLX audio runtime smoke"
+    first_finetune: "defer"
+    notes: "MLX-converted Qwen3-TTS packaging for Apple Silicon. Use as the Mac-local speech-generation comparison point once the audio runtime is validated."
+
   - id: CohereLabs/cohere-transcribe-03-2026
     family: cohere
     tier: research-runtime
