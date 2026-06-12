@@ -369,9 +369,9 @@ candidates:
     parameters: "E2B"
     architecture: "Gemma 4 any-to-any instruction model"
     license: "check model card"
-    first_runtime: "Transformers, LiteRT-LM, or MLX packaging smoke"
+    first_runtime: "Transformers Gemma 4 runtime-support retry, LiteRT-LM, or MLX packaging smoke"
     first_finetune: "defer"
-    notes: "Official instruction-tuned E2B lane surfaced in the current Hugging Face search. Use it as the base reference for small Gemma 4 local-runtime comparisons and keep it separate from the already-proved q4_0 GGUF smoke."
+    notes: "Official instruction-tuned E2B lane surfaced in the current Hugging Face search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md`. Use it as the base reference for small Gemma 4 local-runtime comparisons only after a Transformers source/nightly, LiteRT-LM, or other Gemma 4 capable runtime is available; keep separate from the already-proved q4_0 GGUF smoke."
 
   - id: google/gemma-4-E2B-it-qat-mobile-transformers
     family: gemma
@@ -1162,9 +1162,9 @@ candidates:
     parameters: "E2B"
     architecture: "Any-to-any multimodal Gemma 4"
     license: "check model card"
-    first_runtime: "Transformers, LiteRT-LM, or ONNX packaging smoke"
+    first_runtime: "Transformers Gemma 4 runtime-support retry, LiteRT-LM, or ONNX packaging smoke"
     first_finetune: "defer"
-    notes: "Small Gemma 4 lane for local runtime proof and tool-use comparison. Keep as a runtime candidate until packaging and memory behavior are recorded."
+    notes: "Small Gemma 4 lane for local runtime proof and tool-use comparison. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md`. Keep as a runtime candidate until a Gemma 4 capable Transformers, LiteRT-LM, or ONNX path records packaging and memory behavior."
 
   - id: microsoft/Phi-4-mini-instruct
     family: phi

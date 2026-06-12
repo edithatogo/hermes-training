@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:05:44.501599+00:00",
+  "created_at": "2026-06-12T16:08:24.320123+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -13,11 +13,11 @@
       "size_bucket": "tiny",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by current local runtime support",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers, LiteRT-LM, or ONNX packaging smoke",
+      "first_runtime": "Transformers Gemma 4 runtime-support retry, LiteRT-LM, or ONNX packaging smoke",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Small Gemma 4 lane for local runtime proof and tool-use comparison. Keep as a runtime candidate until packaging and memory behavior are recorded."
+      "notes": "Small Gemma 4 lane for local runtime proof and tool-use comparison. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md`. Keep as a runtime candidate until a Gemma 4 capable Transformers, LiteRT-LM, or ONNX path records packaging and memory behavior."
     },
     {
       "id": "google/gemma-4-E2B-it",
@@ -28,11 +28,11 @@
       "size_bucket": "tiny",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by current local runtime support",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers, LiteRT-LM, or MLX packaging smoke",
+      "first_runtime": "Transformers Gemma 4 runtime-support retry, LiteRT-LM, or MLX packaging smoke",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Official instruction-tuned E2B lane surfaced in the current Hugging Face search. Use it as the base reference for small Gemma 4 local-runtime comparisons and keep it separate from the already-proved q4_0 GGUF smoke."
+      "notes": "Official instruction-tuned E2B lane surfaced in the current Hugging Face search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md`. Use it as the base reference for small Gemma 4 local-runtime comparisons only after a Transformers source/nightly, LiteRT-LM, or other Gemma 4 capable runtime is available; keep separate from the already-proved q4_0 GGUF smoke."
     },
     {
       "id": "google/gemma-4-E2B-it-qat-mobile-transformers",

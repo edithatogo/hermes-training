@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T16:05:44.355364+00:00`
+Created: `2026-06-12T16:08:24.173776+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 145 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 6 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 3 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -66,7 +66,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-31B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-31B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/gemma4-e2b-q4-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md`<br>`reports/runtime/gemma4-e2b-q4-llamacpp-smoke-20260612.md` |
-| hermes | `google/gemma-4-E2B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `google/gemma-4-E2B-it` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md` |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-it-qat-mobile-transformers-load-failure-20260613.md` |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mlx-community/gemma-4-e2b-it-4bit` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-mlx-4bit-load-failure-20260613.md` |
@@ -126,7 +126,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/MiniMax-M3-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-3n-E4B` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `google/gemma-4-E2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `google/gemma-4-E2B` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md` |
 | hermes | `microsoft/Phi-4-mini-instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `ibm-granite/granite-4.1-3b` | `blocked` | blocked by strict Hermes tool-call formatting failure |  |
 | hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md` |
@@ -221,7 +221,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-31B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `google/gemma-4-E2B-it` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `google/gemma-4-E2B-it` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mlx-community/gemma-4-e2b-it-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
@@ -282,7 +282,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/MiniMax-M3-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-3n-E4B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `google/gemma-4-E2B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `google/gemma-4-E2B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `microsoft/Phi-4-mini-instruct` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `ibm-granite/granite-4.1-3b` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
