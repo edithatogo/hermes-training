@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T14:56:19.299575+00:00",
+  "created_at": "2026-06-12T14:59:10.289484+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -867,12 +867,12 @@
       "parameters": "8B total / 1B active",
       "size_bucket": "tiny",
       "feasibility": "ready",
-      "coverage_state": "smoke-or-pilot-only",
-      "blocked_reason": "",
-      "lane": "mac-runtime-proof",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "prompt-profile-repair",
       "first_runtime": "llama-completion Q4_K_M runtime proof is complete; LM Studio endpoint smoke remains optional",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model liquidai-lfm2-5-8b-a1b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id liquidai-lfm2-5-8b-a1b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Official GGUF repo and Q4_K_M file were verified by Hugging Face API on 2026-06-12 and acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion runtime smoke passed with exit code 0, load time 707.68 ms, generation 109.59 tok/s, and about 5.29 GB max RSS, but the output was not JSON-compliant. Treat as a runtime baseline only."
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model LiquidAI/LFM2.5-8B-A1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id liquidai-lfm2-5-8b-a1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Official GGUF repo and Q4_K_M file were verified by Hugging Face API on 2026-06-12 and acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion runtime smoke passed with exit code 0, load time 707.68 ms, generation 109.59 tok/s, and about 5.29 GB max RSS, but the output was not JSON-compliant. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` scored `0/3` (`0.000`): it refused/omitted valid tool calls and repeated the unavailable delete tool name in the invalid-tool case. Treat as a runtime baseline only; do not promote without prompt/profile repair."
     },
     {
       "id": "google/gemma-4-E2B-it-qat-q4_0-gguf",
