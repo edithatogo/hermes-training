@@ -10,13 +10,15 @@ Latest scans:
 - [Nemotron 3 Nano 4B packaging scan](./reports/model-radar/nemotron3-nano-4b-packaging-current-release-scan-20260612.md)
 - [Hermes-Qwen3.5 SFT v7 scan](./reports/model-radar/hermes-qwen35-sft-v7-current-release-scan-20260612.md)
 - [Qwen3.6 35B 2-bit MLX scan](./reports/model-radar/qwen36-35b-2bit-mlx-current-release-scan-20260612.md)
+- [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
-Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4 packaging,
+Unsloth GGUF/qat packages, Gemma 4 31B-it, Gemma 4 31B base, and its NVFP4 packaging,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX packaging and its
 FP8/GGUF/MLX packaging,
 MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
+MiniCPM-V-4.6-GPTQ,
 MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Command A+, Step 3.7 Flash,
 DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B,
 Nemotron-Labs-Diffusion-VLM-8B, Nex-N2-mini, Nemotron 3.5 support models, and
