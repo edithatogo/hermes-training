@@ -9,14 +9,15 @@ Latest scans:
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Gemma 4 12B it plus Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4
-packaging, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report,
-MiniCPM-V-4.6, Command A+, Step 3.7 Flash, DeepSeek-V4-Flash and
-DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B, Nemotron-Labs-Diffusion-VLM-8B,
-Nex-N2-mini, Nemotron 3.5 support models, and the larger Nemotron frontier set.
+packaging, Qwen3.5-9B, Qwen3.6-27B and its FP8/GGUF/MLX packaging, MiniCPM-o 4.5,
+MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6, Command A+, Step 3.7 Flash,
+DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B,
+Nemotron-Labs-Diffusion-VLM-8B, Nex-N2-mini, Nemotron 3.5 support models, and
+the larger Nemotron frontier set.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
-4.3, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
+4.3, Qwen3.5-9B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
 Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
 Nex-N2-mini, Nemotron support entries, and Nemotron frontier entries as
 runtime/helper, teacher, or specialist candidates rather than automatic
@@ -53,12 +54,13 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | Rank | Family | Candidate | Params | Fit | Role | Notes |
 |---|---|---:|---:|---|---|---|
 | 1 | Qwen | `Qwen/Qwen3.6-35B-A3B`, `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX`, `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4`, MTP GGUF packages | 35B total / 3B active | Inference yes, local fine-tune risky | Primary open-weight frontier runtime target | Official HF repo and MLX-packaged candidates verified on 2026-05-24; 2026-05-26 refresh added MTP/speculative-decoding GGUF packages for runtime latency experiments. |
-| 2 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
-| 3 | Gemma | `google/gemma-4-26B-A4B-it` / `google/gemma-4-31B-it` | 26B / 31B | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF models exist; 31B is the larger teacher baseline and both need runtime proof plus tool-call stability testing. |
-| 4 | Gemma | `google/gemma-4-12B-it` / `google/gemma-4-12B` | 12B | Runtime yes, fine-tune possible | Mid-size Mac/Colab candidate | Newer verified 12B Gemma 4 family, useful before jumping to 26B/31B. |
-| 5 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
-| 6 | Qwen | `Qwen/Qwen3.5-9B` | 9B | Fine-tune possible, verify | Mid-size helper / tool candidate | New mid-size Qwen3.5 release that sits between the tiny local lanes and the larger Qwen3.6 frontier packages. |
-| 7 | Cohere | `CohereLabs/command-a-plus-05-2026-w4a4` | 218B total / 25B active | Teacher yes, local fine-tune no | Agentic multimodal teacher | New open-source Command A+ release with a W4A4 path and vision support. |
+| 2 | Qwen | `Qwen/Qwen3.6-27B`, `unsloth/Qwen3.6-27B-GGUF`, `Qwen/Qwen3.6-27B-FP8` | 27B | Inference yes, local fine-tune risky | Dense small-model frontier target | Artificial Analysis now places Qwen3.6 27B among the highest-intelligence small open-source models. Use this as a dense comparison point before the larger MoE lane. |
+| 3 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
+| 4 | Gemma | `google/gemma-4-26B-A4B-it` / `google/gemma-4-31B-it` | 26B / 31B | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF models exist; 31B is the larger teacher baseline and both need runtime proof plus tool-call stability testing. |
+| 5 | Gemma | `google/gemma-4-12B-it` / `google/gemma-4-12B` | 12B | Runtime yes, fine-tune possible | Mid-size Mac/Colab candidate | Newer verified 12B Gemma 4 family, useful before jumping to 26B/31B. |
+| 6 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
+| 7 | Qwen | `Qwen/Qwen3.5-9B` | 9B | Fine-tune possible, verify | Mid-size helper / tool candidate | New mid-size Qwen3.5 release that sits between the tiny local lanes and the larger Qwen3.6 frontier packages. |
+| 8 | Cohere | `CohereLabs/command-a-plus-05-2026-w4a4` | 218B total / 25B active | Teacher yes, local fine-tune no | Agentic multimodal teacher | New open-source Command A+ release with a W4A4 path and vision support. |
 | 8 | StepFun | `stepfun-ai/Step-3.7-Flash` | 198B total / ~11B active | Teacher yes, local fine-tune no | Agentic and reasoning-heavy teacher | Large sparse MoE vision-language model with tool/workflow benchmark claims. |
 | 9 | Nex-AGI | `nex-agi/Nex-N2-mini` | 9B | Runtime yes, fine-tune maybe later | Small agentic runtime candidate | Community MLX conversions already exist, so it is a plausible Mac or Colab runtime path. |
 | 10 | OpenBMB | `openbmb/MiniCPM-o-4_5` | 9B | Runtime yes, fine-tune maybe later | Multimodal helper / runtime lane | Official audio/vision MiniCPM release with visible GGUF and community MLX packaging. Good candidate for local helper workflows on Mac or Colab. |
@@ -85,6 +87,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Family | Candidate | Fit | Suggested lane |
 |---|---|---|---|
 | Qwen | `Qwen3.5 0.8B`, `Qwen3.5 2B` | Easy local fit | Mac/MLX, Mac/Ollama, Colab burst runs |
+| Qwen | `Qwen3.6 27B` | Dense small-model fit | Mac GGUF/MLX packaging or Colab burst runs; dense frontier comparison point |
 | Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
 | Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
 | Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but Hermes no-extra-text strict gate remains 0/3; score-only native normalizer rescues 1/3 |
@@ -247,6 +250,7 @@ Acceptance bar:
 | Model | Current note | Status |
 |---|---|---|
 | `Qwen/Qwen3.6-35B-A3B` | Official HF weights are in Transformers format and the model card lists Transformers, vLLM, SGLang, and KTransformers compatibility. Keep LM Studio/Ollama/GGUF paths as `needs-runtime-proof` until a Mac run is recorded. | `needs-runtime-proof` |
+| `Qwen/Qwen3.6-27B` | Official HF weights are published, and current searches surface FP8, GGUF, and MLX packaging. Treat as the denser Qwen3.6 comparison point rather than a first local fine-tune target. | `needs-runtime-proof` |
 | `NousResearch/Hermes-4-14B` | Official safetensors are published. Treat Transformers as the first known path and keep GGUF / FP8 / community quant paths as runtime candidates until this repo records a smoke result. | `needs-runtime-proof` |
 | `google/gemma-4-26B-A4B-it` | Official image-text-to-text safetensors exist. Community GGUF and on-device quants may exist, but Mac runtime support remains `needs-runtime-proof` here. | `needs-runtime-proof` |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | Official QAT q4_0 text GGUF was acquired to SSD and load-proven through `llama-completion` on 2026-06-12. The bounded JSON prompt returned only end-of-text, with llama.cpp token/EOG warnings, so it needs a model-specific prompt profile or MLX proof before scoring. | `runtime-proofed; empty-output-blocked` |
@@ -277,9 +281,10 @@ Acceptance bar:
 
 ## Sources Checked
 
-- Qwen/Qwen3.6-35B-A3B model card.
+- Qwen/Qwen3.6-35B-A3B and Qwen/Qwen3.6-27B model cards.
 - NousResearch/Hermes-4-14B Hugging Face repo and Hermes 4 technical report.
 - google/gemma-4-26B-A4B-it, google/gemma-4-31B-it, and LM Studio / NVIDIA quantized Gemma 4 model cards.
+- Google Gemma 4 collection and Unsloth Gemma 4 collection.
 - openbmb/MiniCPM-o-4_5 and MiniCPM-o-4_5-gguf model cards.
 - DeepSeek-V4-Flash model card and NVIDIA Nemotron 3 Ultra model cards.
 - LiquidAI/LFM2.5 model card, Liquid LEAP fine-tuning docs, and the BitNet / QVAC BitLoRA fine-tuning blog.

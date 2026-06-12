@@ -397,3 +397,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Agentic Research and Diffusion Refresh
 *Link: [./tracks/agentic-research-diffusion-refresh_20260612/](./tracks/agentic-research-diffusion-refresh_20260612/)*
+
+---
+
+## [x] Track: Qwen3.6 27B and Gemma 4 Packaging Refresh
+*Link: [./tracks/qwen36-27b-gemma4-packaging-refresh_20260612/](./tracks/qwen36-27b-gemma4-packaging-refresh_20260612/)*
