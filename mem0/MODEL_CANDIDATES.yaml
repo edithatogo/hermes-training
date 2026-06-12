@@ -185,9 +185,9 @@ candidates:
       - lm-studio-gguf
       - transformers
     embedding_dims: null
-    status: runtime-proven-extraction-needed
+    status: extraction-benchmarked-not-promoted
     first_gate: extraction-smoke
-    notes: "Hermes-aligned teacher/baseline candidate. Local GGUF runtime and endpoint pilots are already documented in reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md and reports/benchmark/endpoint-pilots/hermes4-14b-q4-llamacpp-pilots-20260524.md, but mem0 extraction quality has not yet been benchmarked against the LFM2 rollback extractor."
+    notes: "Hermes-aligned teacher/baseline candidate. Local GGUF runtime and endpoint pilots are documented in reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md and reports/benchmark/endpoint-pilots/hermes4-14b-q4-llamacpp-pilots-20260524.md. 2026-06-13 mem0 extraction smoke via llama.cpp reached pass rate 0.286 and JSON validity 0.286, with only 2/7 cases passing, so do not promote it as a mem0 extractor; keep sam860/LFM2:2.6b as the rollback/default extractor. Evidence: reports/benchmark/mem0/run-cards/extraction-hermes4-14b-q4-smoke-20260613.md."
 
 collections:
   - name: mem0_nomic_768

@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T13:37:28.763471+00:00`
+Created: `2026-06-12T14:08:48.845687+00:00`
 
 ## Direct Answer
 
@@ -13,14 +13,14 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 
 | Project | Coverage state | Count |
 |---|---|---:|
+| mem0 | `benchmarked-not-necessarily-promoted` | 10 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 3 |
+| mem0 | `smoke-or-pilot-only` | 2 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 140 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 8 |
-| mem0 | `benchmarked-not-necessarily-promoted` | 9 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 4 |
-| mem0 | `smoke-or-pilot-only` | 2 |
 
 ## Benchmark Policy
 
@@ -180,7 +180,6 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | mem0 | `google/embeddinggemma-300m` | `blocked` | blocked on gated/authenticated model access | `reports/benchmark/mem0/embedding-google-embeddinggemma-300m-blocked-20260612.md` |
 | mem0 | `jinaai/jina-embeddings-v4` | `blocked` | blocked by current local runtime support |  |
 | mem0 | `hermes3:8b` | `blocked` | blocked by local timeout/stall; needs cloud/offload or narrower harness | `reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md`<br>`reports/benchmark/mem0/extraction-hermes3-8b-expanded-examples-20260524.md`<br>`reports/benchmark/mem0/run-cards/extraction-hermes3-8b-expanded-examples-20260524.md` |
-| mem0 | `NousResearch/Hermes-4-14B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 
 ## Every Candidate
 
@@ -346,7 +345,7 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | mem0 | `google/embeddinggemma-300m` | embedder | `access-gated` | embedding retrieval suite plus collection migration proof | `blocked` | blocked on gated/authenticated model access |
 | mem0 | `jinaai/jina-embeddings-v4` | embedder | `runtime-blocked` | embedding retrieval suite plus collection migration proof | `blocked` | blocked by current local runtime support |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | `candidate` | embedding retrieval suite plus collection migration proof | `smoke-or-pilot-only` | not blocked permanently; benchmark gate is still missing or incomplete |
-| mem0 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | `candidate` | embedding retrieval suite plus collection migration proof | `benchmarked-not-promoted` | not blocked permanently; benchmark gate is still missing or incomplete |
+| mem0 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Embedding-4B` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Reranker-4B` | reranker | `source-model-benchmarked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | `source-model-benchmarked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
@@ -356,4 +355,4 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | mem0 | `LiquidAI/LFM2-ColBERT-350M` | retriever | `source-model-benchmarked` | late-interaction retriever suite plus separate index proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `sam860/LFM2:2.6b` | extractor | `working-default-clean-root-smoked` | memory extraction JSON/durability suite | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `hermes3:8b` | extractor | `installed-baseline` | memory extraction JSON/durability suite | `blocked` | blocked by local timeout/stall; needs cloud/offload or narrower harness |
-| mem0 | `NousResearch/Hermes-4-14B` | extractor | `runtime-proof-needed` | memory extraction JSON/durability suite | `blocked` | blocked until runtime artifact/load proof exists |
+| mem0 | `NousResearch/Hermes-4-14B` | extractor | `extraction-benchmarked-not-promoted` | memory extraction JSON/durability suite | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |

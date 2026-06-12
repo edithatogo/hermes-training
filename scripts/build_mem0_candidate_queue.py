@@ -24,6 +24,7 @@ STATUS_ORDER = {
     "live-read-wrapper-smoked": 1,
     "isolated-fixture-proven": 1,
     "benchmarked-cpu-mps-not-promoted": 2,
+    "extraction-benchmarked-not-promoted": 2,
     "fixed-suite-benchmarked": 2,
     "source-model-benchmarked": 2,
     "installed-baseline": 3,
@@ -190,6 +191,18 @@ def command_for(candidate: dict[str, Any]) -> str:
             ]
         )
     if role == "extractor":
+        if model_id == "NousResearch/Hermes-4-14B":
+            return "\n".join(
+                [
+                    "# Hermes 4 Q4 has already failed this gate at 2/7; rerun only after a prompt/template change.",
+                    "# First expose the local Hermes 4 GGUF through llama.cpp on http://127.0.0.1:8092/v1.",
+                    "./.venv/bin/python scripts/run_openai_memory_extraction_benchmark.py \\",
+                    "  --model hermes-4-14b-q4 \\",
+                    "  --base-url http://127.0.0.1:8092/v1 \\",
+                    "  --suite benchmarks/mem0_extraction/smoke_suite.json \\",
+                    "  --run-id extraction-hermes4-14b-q4-smoke-$(date +%Y%m%d-%H%M%S)",
+                ]
+            )
         if status == "runtime-proof-needed" or runtime.endswith("-gguf"):
             return "\n".join(
                 [
@@ -238,12 +251,22 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof"
     if status == "benchmarked-cpu-mps-not-promoted":
         return "benchmarked but not promoted; keep separate collection or artifact"
+    if status == "extraction-benchmarked-not-promoted":
+        return "extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor"
     if status == "fixed-suite-benchmarked":
         return "fixed suite passed; run expanded replay and isolated fixture before live integration"
     if status == "source-model-benchmarked":
         if candidate.get("id") == "onnx-community/Qwen3-Reranker-0.6B-ONNX":
             return "source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof"
-        return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
+        if candidate.get("id") == "Qwen/Qwen3-Reranker-4B":
+            return "quality proof passed, but CPU latency is too high for default promotion without acceleration or live replay proof"
+        if candidate.get("id") == "Qwen/Qwen3-Embedding-4B":
+            return "expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking"
+        if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx":
+            return "expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch"
+        if candidate.get("id") == "LiquidAI/LFM2-ColBERT-350M":
+            return "expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read"
+        return "source HF model passed fixed and expanded suites; keep as benchmarked-not-promoted until a role-specific promotion gate passes"
     if status == "candidate-runtime-id-verified" and role == "reranker" and runtime == "mlx":
         return "model repo verified; MLX load/scoring proof is ready before live mem0 integration"
     if candidate.get("id") == "google/embeddinggemma-300m":
