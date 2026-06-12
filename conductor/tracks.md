@@ -402,3 +402,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3.6 27B and Gemma 4 Packaging Refresh
 *Link: [./tracks/qwen36-27b-gemma4-packaging-refresh_20260612/](./tracks/qwen36-27b-gemma4-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: Tiny and Small Thoughtful Refresh
+*Link: [./tracks/tiny-small-thoughtful-refresh_20260612/](./tracks/tiny-small-thoughtful-refresh_20260612/)*
