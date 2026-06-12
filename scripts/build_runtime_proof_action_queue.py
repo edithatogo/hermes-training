@@ -85,7 +85,10 @@ def lane_for(item: dict[str, Any], coverage_state: str, blocked_reason: str) -> 
         return "watchlist"
     if role == "retrieval" or any(keyword in searchable for keyword in SUPPORT_KEYWORDS):
         return "support-model-proof"
-    if "strict Hermes tool-call formatting failure" in blocked_reason:
+    if (
+        "strict Hermes tool-call formatting failure" in blocked_reason
+        or "empty/no-content generation under the strict prompt" in blocked_reason
+    ):
         return "prompt-profile-repair"
     if env in LOCAL_ENVS:
         return "mac-runtime-proof"

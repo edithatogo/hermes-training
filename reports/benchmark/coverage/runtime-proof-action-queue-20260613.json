@@ -1,39 +1,9 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T15:10:10.753420+00:00",
+  "created_at": "2026-06-12T15:11:05.174965+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
-    {
-      "id": "Qwen/Qwen3.5-0.8B",
-      "family": "qwen",
-      "role": "local-finetune",
-      "environment": "mac-mlx",
-      "parameters": "0.9B",
-      "size_bucket": "tiny",
-      "feasibility": "ready",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "MLX or GGUF smoke before promotion",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-5-0-8b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-0-8b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 1.47s average latency, 78.09 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response returned no assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md`."
-    },
-    {
-      "id": "Qwen/Qwen3.5-2B",
-      "family": "qwen",
-      "role": "local-finetune",
-      "environment": "mac-mlx",
-      "parameters": "2B",
-      "size_bucket": "tiny",
-      "feasibility": "ready",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "MLX or GGUF smoke before promotion",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-5-2b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-2b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response did not complete with assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md`."
-    },
     {
       "id": "google/gemma-4-E2B",
       "family": "gemma",
@@ -138,21 +108,6 @@
       "first_runtime": "Transformers or multimodal smoke",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
       "notes": "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Good as a lightweight multimodal packaging comparison point."
-    },
-    {
-      "id": "openbmb/MiniCPM5-1B-MLX",
-      "family": "minicpm",
-      "role": "local-finetune",
-      "environment": "mac-mlx",
-      "parameters": "1B",
-      "size_bucket": "tiny",
-      "feasibility": "ready",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "MLX direct loglikelihood smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-mlx-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. 2026-06-13 offline SSD-cached strict BFCL rerun also scored 0.000 and is recorded at `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
     },
     {
       "id": "CohereLabs/North-Mini-Code-1.0",
@@ -875,6 +830,36 @@
       "notes": "Official GGUF repo and Q4_K_M file were verified by Hugging Face API on 2026-06-12 and acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion runtime smoke passed with exit code 0, load time 707.68 ms, generation 109.59 tok/s, and about 5.29 GB max RSS, but the output was not JSON-compliant. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` scored `0/3` (`0.000`): it refused/omitted valid tool calls and repeated the unavailable delete tool name in the invalid-tool case. Treat as a runtime baseline only; do not promote without prompt/profile repair."
     },
     {
+      "id": "Qwen/Qwen3.5-0.8B",
+      "family": "qwen",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "0.9B",
+      "size_bucket": "tiny",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "MLX or GGUF smoke before promotion",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-0.8B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-0-8b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 1.47s average latency, 78.09 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response returned no assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md`."
+    },
+    {
+      "id": "Qwen/Qwen3.5-2B",
+      "family": "qwen",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "2B",
+      "size_bucket": "tiny",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "MLX or GGUF smoke before promotion",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-2b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response did not complete with assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md`."
+    },
+    {
       "id": "google/gemma-4-E2B-it-qat-q4_0-gguf",
       "family": "gemma",
       "role": "local-runtime",
@@ -903,6 +888,21 @@
       "first_runtime": "llama.cpp strict endpoint pilot complete",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF packaging lane for MiniCPM5-1B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 193-204 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted tool-shaped text rather than parseable tool calls and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Use as a tiny local-runtime comparison point only; do not promote as a Hermes tool-call default."
+    },
+    {
+      "id": "openbmb/MiniCPM5-1B-MLX",
+      "family": "minicpm",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "1B",
+      "size_bucket": "tiny",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "MLX direct loglikelihood smoke",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-mlx-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. 2026-06-13 offline SSD-cached strict BFCL rerun also scored 0.000 and is recorded at `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
     },
     {
       "id": "Qwen/Qwen3-4B-MLX-4bit",

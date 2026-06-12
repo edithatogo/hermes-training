@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T15:10:10.755433+00:00`
+Created: `2026-06-12T15:11:05.176517+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -9,76 +9,44 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 
 | Priority | Candidate | Lane | Params | Environment | Coverage | Next proof |
 |---:|---|---|---|---|---|---|
-| 1 | `Qwen/Qwen3.5-0.8B` | `mac-runtime-proof` | 0.9B | `mac-mlx` | `blocked` | blocked by empty/no-content generation under the strict prompt |
-| 2 | `Qwen/Qwen3.5-2B` | `mac-runtime-proof` | 2B | `mac-mlx` | `blocked` | blocked by empty/no-content generation under the strict prompt |
-| 3 | `google/gemma-4-E2B` | `mac-runtime-proof` | E2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 4 | `google/gemma-4-E2B-it` | `mac-runtime-proof` | E2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 5 | `google/gemma-4-E2B-it-qat-mobile-transformers` | `mac-runtime-proof` | 2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 6 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `mac-runtime-proof` | 0.8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 7 | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | `mac-runtime-proof` | 2B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 8 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked by current local runtime support |
-| 9 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 10 | `openbmb/MiniCPM5-1B-MLX` | `mac-runtime-proof` | 1B | `mac-mlx` | `blocked` | blocked by empty/no-content generation under the strict prompt |
-| 11 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
-| 12 | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 13 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-runtime-proof` | 3B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 14 | `Nanbeige/Nanbeige4.1-3B` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 15 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 16 | `Qwen/Qwen3-Coder-Next-GGUF` | `mac-runtime-proof` | 80B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 17 | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 18 | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 19 | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 20 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 21 | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 22 | `microsoft/Phi-4-mini-instruct` | `mac-runtime-proof` | 4B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 23 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 24 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `mac-runtime-proof` | 4B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 25 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 1 | `google/gemma-4-E2B` | `mac-runtime-proof` | E2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 2 | `google/gemma-4-E2B-it` | `mac-runtime-proof` | E2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 3 | `google/gemma-4-E2B-it-qat-mobile-transformers` | `mac-runtime-proof` | 2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 4 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `mac-runtime-proof` | 0.8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 5 | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | `mac-runtime-proof` | 2B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 6 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked by current local runtime support |
+| 7 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 8 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
+| 9 | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 10 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-runtime-proof` | 3B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 11 | `Nanbeige/Nanbeige4.1-3B` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 12 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 13 | `Qwen/Qwen3-Coder-Next-GGUF` | `mac-runtime-proof` | 80B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 14 | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 15 | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 16 | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 17 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 18 | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 19 | `microsoft/Phi-4-mini-instruct` | `mac-runtime-proof` | 4B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 20 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 21 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `mac-runtime-proof` | 4B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 22 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 23 | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 24 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 25 | `unsloth/North-Mini-Code-1.0-GGUF` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
 
 ## Lane Counts
 
 | Lane | Count |
 |---|---:|
 | `cloud-teacher-proof` | 12 |
-| `mac-runtime-proof` | 59 |
-| `prompt-profile-repair` | 6 |
+| `mac-runtime-proof` | 56 |
+| `prompt-profile-repair` | 9 |
 | `specialist-runtime-proof` | 9 |
 | `support-model-proof` | 67 |
 | `watchlist` | 5 |
 
 ## Command Templates
-
-### Qwen/Qwen3.5-0.8B
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked by empty/no-content generation under the strict prompt
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model qwen-qwen3-5-0-8b \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id qwen-qwen3-5-0-8b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
-### Qwen/Qwen3.5-2B
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked by empty/no-content generation under the strict prompt
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model qwen-qwen3-5-2b \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id qwen-qwen3-5-2b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
 
 ### google/gemma-4-E2B
 
@@ -161,21 +129,6 @@ source scripts/env.sh
 ./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
 ```
 
-### openbmb/MiniCPM5-1B-MLX
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked by empty/no-content generation under the strict prompt
-
-```bash
-source scripts/env.sh
-# Acquire the MLX model to the SSD Hugging Face cache first.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py \
-  --model openbmb/MiniCPM5-1B-MLX \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id openbmb-minicpm5-1b-mlx-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
 ### CohereLabs/North-Mini-Code-1.0
 
 - Lane: `mac-runtime-proof`
@@ -205,6 +158,49 @@ source scripts/env.sh
   --model ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
   --run-id maniaclabs-qwen3-6-35b-a3b-2bit-maniac-nonstreaming-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### Mungert/Nanbeige4.1-3B-GGUF
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model mungert-nanbeige4-1-3b-gguf \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id mungert-nanbeige4-1-3b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### Nanbeige/Nanbeige4.1-3B
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model nanbeige-nanbeige4-1-3b \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id nanbeige-nanbeige4-1-3b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### Qwen/Qwen3-Coder-Next
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
 ```
 
 ## Policy
