@@ -1,10 +1,11 @@
 # Machine-readable model radar for Hermes-agent model lanes.
 # Update with: python3 scripts/check_model_candidates.py
 
-updated: "2026-06-12"
+updated: "2026-06-13"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
 latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, DJLougen/Harmonic-9B and Harmonic-Hermes-9B GGUF packaging plus mradermacher/Harmonic-Hermes-9B-i1-GGUF, Gemma 4 E2B-it and its LiteRT/MLX packaging plus google/gemma-4-E2B-it-qat-q4_0-gguf and google/gemma-4-E2B-it-qat-mobile-transformers, Gemma 4 12B it and its Unsloth GGUF/qat packages plus unsloth/gemma-4-12b-it-GGUF, unsloth/gemma-4-12B-it-qat-GGUF, batiai/gemma-4-12B-it-GGUF, DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF, and OpenYourMind/gemma-4-12B-it-abliterated-uncensored, Gemma 4 31B-it and its base repo / GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, Qwen/Qwen3.5-27B and its GGUF packaging, Qwen/Qwen3.6-27B and its FP8/GGUF/MLX packaging, Qwen/Qwen3-4B-Instruct-2507 and Qwen/Qwen3-4B-Thinking-2507, Qwen/Qwen3-Coder-Next and Qwen/Qwen3-Coder-Next-GGUF, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, Qwen/Qwen3-Embedding-0.6B, Qwen/Qwen3-Reranker-0.6B, Qwen/Qwen3-VL-Embedding-2B, Qwen/Qwen3-VL-Embedding-8B, Qwen/Qwen3-VL-Reranker-8B, aiteza/Qwen3-VL-Embedding-8B-GGUF, mradermacher/Qwen3-VL-Reranker-8B-GGUF, Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit, and mlx-community/Qwen3-VL-Embedding-2B-8bit, jinaai/jina-embeddings-v5-omni-small, jinaai/jina-embeddings-v5-omni-nano, jinaai/jina-embeddings-v5-omni-small-mlx, jinaai/jina-embeddings-v5-omni-nano-mlx, jinaai/jina-embeddings-v5-omni-small-text-matching-mlx, jinaai/jina-embeddings-v5-omni-nano-retrieval-mlx, and onnx-community/jina-embeddings-v5-omni-nano-ONNX, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, openbmb/AgentCPM-Report and AgentCPM-Report-GGUF, openbmb/MiniCPM-V-4.6 and MiniCPM-V-4.6-GGUF plus MiniCPM-V-4.6-GPTQ, openbmb/MiniCPM-V-4.6-Thinking and MiniCPM-V-4.6-Thinking-gguf, Nanbeige/Nanbeige4.1-3B and Nanbeige4.1-3B-GGUF, nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16, nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF, unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF, mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit, google/diffusiongemma-26B-A4B-it, nvidia/diffusiongemma-26B-A4B-it-NVFP4, mlx-community/diffusiongemma-26B-A4B-it-mxfp4, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nvidia/Nemotron-Labs-Diffusion-14B, nvidia/Nemotron-Labs-Diffusion-VLM-8B, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 E2B-it, 12B/31B, Harmonic-9B/Harmonic-Hermes-9B, Hermes 4.3, Qwen3.4B 2507 releases, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B, Qwen3-Embedding-0.6B, Qwen3-Reranker-0.6B, Qwen3-VL Embedding/Reranker and their packaging lanes, Jina v5 omni multimodal retrieval family and packaging lanes, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Nemotron 3 Nano 4B, DiffusionGemma, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
+latest_release_recheck_20260613: "No-download June 13 live refresh found MiniMaxAI/MiniMax-M3 and unsloth/MiniMax-M3-GGUF as new frontier agent/coding MoE lanes, plus MiMo-V2.5 quant/MLX packaging updates. Qwen3.7 still has no verified official open-weight Qwen repo; only a low-signal RscriptSQwen/Qwen3.7-plus entry surfaced, so keep Qwen3.7 watchlist-only."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -1099,6 +1100,45 @@ candidates:
     first_runtime: "vLLM or hosted evaluation smoke"
     first_finetune: "defer"
     notes: "Base variant of the DeepSeek V4 Flash line. Track as a packaging/runtime reference only."
+
+  - id: MiniMaxAI/MiniMax-M3
+    family: minimax
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "MoE, check model card"
+    architecture: "MiniMax M3 multimodal MoE for agent/coding workflows"
+    license: "check model card"
+    first_runtime: "vLLM/specialist CUDA smoke or hosted endpoint proof"
+    first_finetune: "defer"
+    notes: "2026-06-13 no-download refresh found `MiniMaxAI/MiniMax-M3` and `MiniMaxAI/MiniMax-M3-MXFP8` modified on 2026-06-12 with multimodal, MoE, agent, and coding tags. Treat as a frontier cloud/specialist teacher/runtime lane until license, parameter shape, and runtime proof are recorded."
+
+  - id: unsloth/MiniMax-M3-GGUF
+    family: minimax
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "MoE, check model card"
+    architecture: "MiniMax M3 GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke only after size/runtime support check"
+    first_finetune: "defer"
+    notes: "2026-06-13 no-download refresh found fresh Unsloth GGUF packaging for MiniMax M3. This may be too large or too new for the current Mac runtime; use as a packaging/watchlist lane until an exact quant, disk estimate, and runtime support check are recorded."
+
+  - id: XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash
+    family: mimo
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "MoE, check model card"
+    architecture: "MiMo V2.5 Pro FP4/DFlash long-context agent model"
+    license: "check model card"
+    first_runtime: "specialist CUDA/vLLM smoke"
+    first_finetune: "defer"
+    notes: "2026-06-13 no-download refresh found the official-looking MiMo V2.5 Pro FP4/DFlash lane plus AWQ and MLX community packaging. Track as a long-context specialist runtime candidate, not a 32GB Mac local fine-tune target."
 
   - id: google/gemma-3n-E4B
     family: gemma

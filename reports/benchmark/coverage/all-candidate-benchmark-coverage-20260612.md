@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T15:06:42.414840+00:00`
+Created: `2026-06-12T15:10:10.613325+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 143 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 5 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 146 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 5 |
 
 ## Benchmark Policy
 
@@ -123,6 +123,9 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mlx-community/diffusiongemma-26B-A4B-it-mxfp4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `deepseek-ai/DeepSeek-V4-Flash` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `deepseek-ai/DeepSeek-V4-Flash-Base` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `MiniMaxAI/MiniMax-M3` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `unsloth/MiniMax-M3-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-3n-E4B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-E2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `microsoft/Phi-4-mini-instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -276,6 +279,9 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mlx-community/diffusiongemma-26B-A4B-it-mxfp4` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `deepseek-ai/DeepSeek-V4-Flash` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `deepseek-ai/DeepSeek-V4-Flash-Base` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `MiniMaxAI/MiniMax-M3` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `unsloth/MiniMax-M3-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-3n-E4B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-E2B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `microsoft/Phi-4-mini-instruct` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

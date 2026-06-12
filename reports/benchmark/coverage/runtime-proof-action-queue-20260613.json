@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T15:06:42.549607+00:00",
+  "created_at": "2026-06-12T15:10:10.753420+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -843,6 +843,21 @@
       "first_runtime": "LM Studio or llama.cpp smoke only",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nousresearch-hermes-4-3-36b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nousresearch-hermes-4-3-36b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent NousResearch GGUF packaging for Hermes 4.3 36B. Treat as a runtime proof candidate, not a local fine-tune target on 32GB."
+    },
+    {
+      "id": "unsloth/MiniMax-M3-GGUF",
+      "family": "minimax",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "MoE, check model card",
+      "size_bucket": "cloud-only",
+      "feasibility": "needs-runtime-proof",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "lane": "mac-runtime-proof",
+      "first_runtime": "llama.cpp or LM Studio smoke only after size/runtime support check",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-minimax-m3-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-minimax-m3-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "notes": "2026-06-13 no-download refresh found fresh Unsloth GGUF packaging for MiniMax M3. This may be too large or too new for the current Mac runtime; use as a packaging/watchlist lane until an exact quant, disk estimate, and runtime support check are recorded."
     },
     {
       "id": "LiquidAI/LFM2.5-8B-A1B-GGUF",
@@ -1743,6 +1758,36 @@
       "first_runtime": "MLX, ONNX, or GGUF when available",
       "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
       "notes": "Vision-language edge candidate for UI/screenshot workflows; not a chat/tool-call SFT target."
+    },
+    {
+      "id": "MiniMaxAI/MiniMax-M3",
+      "family": "minimax",
+      "role": "cloud-teacher",
+      "environment": "specialist-runtime",
+      "parameters": "MoE, check model card",
+      "size_bucket": "cloud-only",
+      "feasibility": "needs-runtime-proof",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "lane": "support-model-proof",
+      "first_runtime": "vLLM/specialist CUDA smoke or hosted endpoint proof",
+      "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "2026-06-13 no-download refresh found `MiniMaxAI/MiniMax-M3` and `MiniMaxAI/MiniMax-M3-MXFP8` modified on 2026-06-12 with multimodal, MoE, agent, and coding tags. Treat as a frontier cloud/specialist teacher/runtime lane until license, parameter shape, and runtime proof are recorded."
+    },
+    {
+      "id": "XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash",
+      "family": "mimo",
+      "role": "cloud-teacher",
+      "environment": "specialist-runtime",
+      "parameters": "MoE, check model card",
+      "size_bucket": "cloud-only",
+      "feasibility": "needs-runtime-proof",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "lane": "support-model-proof",
+      "first_runtime": "specialist CUDA/vLLM smoke",
+      "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "2026-06-13 no-download refresh found the official-looking MiMo V2.5 Pro FP4/DFlash lane plus AWQ and MLX community packaging. Track as a long-context specialist runtime candidate, not a 32GB Mac local fine-tune target."
     },
     {
       "id": "jinaai/jina-embeddings-v4",

@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T15:06:42.414840+00:00",
-  "candidate_count": 171,
+  "created_at": "2026-06-12T15:10:10.613325+00:00",
+  "candidate_count": 174,
   "counts": {
-    "hermes": {
-      "blocked": 143,
-      "benchmarked-not-promoted": 5,
-      "smoke-or-pilot-only": 5,
-      "evidence-present-needs-review": 2
-    },
     "mem0": {
       "benchmarked-not-necessarily-promoted": 11,
       "blocked": 3,
       "smoke-or-pilot-only": 1,
       "benchmarked-not-promoted": 1
+    },
+    "hermes": {
+      "blocked": 146,
+      "benchmarked-not-promoted": 5,
+      "smoke-or-pilot-only": 5,
+      "evidence-present-needs-review": 2
     }
   },
   "rows": [
@@ -1120,6 +1120,45 @@
       "role": "cloud-teacher",
       "family": "deepseek",
       "environment_or_runtime": "azure-cuda",
+      "feasibility_or_status": "needs-runtime-proof",
+      "benchmark_kind": "cloud teacher/runtime smoke plus Hermes strict tool-call sample",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "evidence": []
+    },
+    {
+      "project": "hermes",
+      "id": "MiniMaxAI/MiniMax-M3",
+      "role": "cloud-teacher",
+      "family": "minimax",
+      "environment_or_runtime": "specialist-runtime",
+      "feasibility_or_status": "needs-runtime-proof",
+      "benchmark_kind": "cloud teacher/runtime smoke plus Hermes strict tool-call sample",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "evidence": []
+    },
+    {
+      "project": "hermes",
+      "id": "unsloth/MiniMax-M3-GGUF",
+      "role": "local-runtime",
+      "family": "minimax",
+      "environment_or_runtime": "mac-lmstudio",
+      "feasibility_or_status": "needs-runtime-proof",
+      "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "evidence": []
+    },
+    {
+      "project": "hermes",
+      "id": "XiaomiMiMo/MiMo-V2.5-Pro-FP4-DFlash",
+      "role": "cloud-teacher",
+      "family": "mimo",
+      "environment_or_runtime": "specialist-runtime",
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "cloud teacher/runtime smoke plus Hermes strict tool-call sample",
       "coverage_state": "blocked",
