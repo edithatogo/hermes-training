@@ -447,3 +447,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 12B Unsloth Refresh
 *Link: [./tracks/gemma4-12b-unsloth-refresh_20260612/](./tracks/gemma4-12b-unsloth-refresh_20260612/)*
+
+---
+
+## [x] Track: Gemma 4 12B Community Packaging Refresh
+*Link: [./tracks/gemma4-12b-community-packaging-refresh_20260612/](./tracks/gemma4-12b-community-packaging-refresh_20260612/)*

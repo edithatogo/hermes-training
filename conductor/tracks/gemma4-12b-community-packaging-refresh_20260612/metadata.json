@@ -1,0 +1,8 @@
+{
+  "id": "gemma4-12b-community-packaging-refresh_20260612",
+  "title": "Gemma 4 12B Community Packaging Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the radar with the new community Gemma 4 12B GGUF packagers and abliterated variants."
+}

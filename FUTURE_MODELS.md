@@ -62,7 +62,7 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 2 | Qwen | `Qwen/Qwen3.6-27B`, `unsloth/Qwen3.6-27B-GGUF`, `Qwen/Qwen3.6-27B-FP8` | 27B | Inference yes, local fine-tune risky | Dense small-model frontier target | Artificial Analysis now places Qwen3.6 27B among the highest-intelligence small open-source models. Use this as a dense comparison point before the larger MoE lane. |
 | 3 | Hermes | `NousResearch/Hermes-4-14B` / `NousResearch/Hermes-4.3-36B` | 14B / 36B | Inference yes, local LoRA tight or cloud-only | Baseline and calibration target | Hermes 4.3 36B is the newer public Hermes release; use 14B as the smaller first runtime target. |
 | 4 | Gemma | `google/gemma-4-26B-A4B-it` / `google/gemma-4-31B-it` | 26B / 31B | Inference yes, local fine-tune risky | Multimodal/agentic MoE target | Official HF models exist; 31B is the larger teacher baseline and both need runtime proof plus tool-call stability testing. |
-| 5 | Gemma | `google/gemma-4-12B-it` / `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF` | 12B | Runtime yes, fine-tune possible | Mid-size Mac/Colab candidate | Newer verified 12B Gemma 4 family plus fresh Unsloth GGUF/QAT packaging; useful before jumping to 26B/31B. |
+| 5 | Gemma | `google/gemma-4-12B-it` / `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF`, `batiai/gemma-4-12B-it-GGUF`, `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | 12B | Runtime yes, fine-tune possible | Mid-size Mac/Colab candidate | Newer verified 12B Gemma 4 family plus fresh Unsloth and community GGUF/QAT packaging; useful before jumping to 26B/31B. |
 | 6 | Qwen | `Qwen/Qwen3-4B-MLX-4bit` | 4B | Fine-tune yes | First training track | Local training is proven, but strict tool-call formatting needs better target data before scaling. |
 | 7 | Qwen | `Qwen/Qwen3.5-27B` | 27B | Teacher yes, local fine-tune no | Dense mid-size teacher | Current HF repo plus community GGUF packaging make it a good comparison bridge between 9B and Qwen3.6-27B. |
 | 8 | Cohere | `CohereLabs/command-a-plus-05-2026-w4a4` | 218B total / 25B active | Teacher yes, local fine-tune no | Agentic multimodal teacher | New open-source Command A+ release with a W4A4 path and vision support. |
@@ -111,6 +111,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Google | `Gemma 4 E2B`, `Gemma 4 E2B QAT Mobile` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; the mobile package is a fresh lightweight comparison point |
 | Google | `Gemma 4 12B` | Local/Colab fit | Newer mid-size Gemma 4 lane; verify runtime and memory behavior before promotion |
 | Google/Unsloth | `Gemma 4 12B GGUF`, `Gemma 4 12B QAT GGUF` | Local fit | Fresh packaging lanes for the 12B Gemma 4 family; compare against the native Transformers release |
+| Community | `batiai/gemma-4-12B-it-GGUF`, `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | Local fit | New community GGUF packagers with explicit local-runtime instructions |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
 | Qwen | `Qwen3.5 9B` | Local/Colab fit | Mid-size helper/tool candidate, stronger than the tiny 0.8B/2B lanes if it proves stable |
@@ -163,6 +164,8 @@ Verified HF ids behind this shortlist:
 - `google/gemma-4-12B-it`
 - `unsloth/gemma-4-12b-it-GGUF`
 - `unsloth/gemma-4-12B-it-qat-GGUF`
+- `batiai/gemma-4-12B-it-GGUF`
+- `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF`
 - `microsoft/Phi-4-mini-instruct`
 - `ibm-granite/granite-4.1-3b`
 - `LGAI-EXAONE/EXAONE-4.0-1.2B`
