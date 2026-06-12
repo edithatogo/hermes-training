@@ -51,6 +51,8 @@ Executed subsets in this slice:
 | `Qwen/Qwen3.5-0.8B` | Hermes-local 100 | `qwen35-08b-expanded-hermes-local-20260612` | `1.47s` | `78.09` | `0.000` | pass |
 | `Qwen/Qwen3.5-2B` | Hermes-local 100 | `qwen35-2b-expanded-hermes-local-20260612` | `2.32s` | `78.57` | `0.000` | pass |
 | `openbmb/MiniCPM5-1B-MLX` | Hermes-local 100 | `minicpm5-1b-expanded-hermes-local-20260612` | `0.54s` | `74.30` | `0.060` | pass with empty-rate caveat |
+| `Qwen/Qwen3.5-0.8B` | lm-eval official pilot | `qwen35-08b-official-lm-eval-smoke-20260612` | `2.82s` | n/a | n/a | scored |
+| `Qwen/Qwen3.5-2B` | lm-eval official pilot | `qwen35-2b-official-lm-eval-smoke-20260612` | `1.22s` | n/a | n/a | scored |
 
 ## Interpretation
 
@@ -62,3 +64,6 @@ expanded set, so it remains a weaker helper/extraction comparison point.
 
 The current evidence is sufficient to keep the helper lane explicitly marked
 as blocked for promotion while preserving the raw outputs for later comparison.
+The new lm-eval official-pilot smokes add a bounded official benchmark signal
+for the 0.8B and 2B helper lanes, but they do not change the strict Hermes
+tool-call promotion decision.

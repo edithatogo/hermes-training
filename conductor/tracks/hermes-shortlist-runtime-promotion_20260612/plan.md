@@ -56,7 +56,7 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.2 / 10
-- Evidence: SSD-first runtime and benchmark proofs are recorded, readiness and candidate consistency checks pass, and the shortlist is separated into promoted runtime, helper/extraction, and blocked lanes.
-- Gaps: manual verification tasks remain open; phase 4 checkpoint commit/push is pending; broader official benchmark coverage is still incomplete for the helper/runtime comparison lanes.
-- Decision: keep the track in progress until the remaining checkpoint and verification steps are closed.
+- Current estimate: 9.5 / 10
+- Evidence: SSD-first runtime and benchmark proofs are recorded, readiness and candidate consistency checks pass, the shortlist is separated into promoted runtime, helper/extraction, and blocked lanes, and direct MLX lm-eval official-pilot smokes now exist for Qwen3.5 0.8B and 2B.
+- Gaps: manual verification tasks remain open; broader official candidate coverage is still incomplete for the helper/runtime comparison lanes.
+- Decision: keep the track in progress until the remaining verification steps are closed.

@@ -38,7 +38,7 @@ The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.
 The execution track now has BFCL, IFEval, and coding pilot outputs for Qwen3.5 0.8B, plus BFCL output for Qwen3.5 2B and MiniCPM5 1B MLX. All of those runs are still blocked at `0.000`, so the lane remains a comparison surface rather than a promotion target.
 The 100-prompt Hermes-local pass now exists for Qwen3.5 0.8B, Qwen3.5 2B, and MiniCPM5 1B MLX. Keep using those results as helper/extraction evidence only; MiniCPM5 still shows a non-zero empty-response rate and is not the strongest prompt-format candidate.
 
-The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in.
+The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in. 2026-06-12 follow-up: `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` now also have direct MLX lm-eval official-pilot smokes on ARC Challenge and HellaSwag at limit 10, but that still does not make them strict Hermes tool-call defaults.
 
 mem0 and embedding are now crystallized too: `BAAI/bge-m3` remains the current retrieval baseline, `jinaai/jina-embeddings-v5-omni-small` and `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` are the strongest alternate lanes, `google/embeddinggemma-300m` is the next baseline to compare, and `Qwen/Qwen3-Embedding-4B` plus `Qwen/Qwen3-Reranker-4B` are follow-on candidates.
 
