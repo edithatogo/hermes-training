@@ -34,6 +34,7 @@ Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` r
 
 The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`; use it for the Qwen3.5 0.8B/2B and MiniCPM5-1B-MLX comparison path only.
 The execution track now has BFCL, IFEval, and coding pilot outputs for Qwen3.5 0.8B, plus BFCL output for Qwen3.5 2B and MiniCPM5 1B MLX. All of those runs are still blocked at `0.000`, so the lane remains a comparison surface rather than a promotion target.
+The 100-prompt Hermes-local pass now exists for Qwen3.5 0.8B, Qwen3.5 2B, and MiniCPM5 1B MLX. Keep using those results as helper/extraction evidence only; MiniCPM5 still shows a non-zero empty-response rate and is not the strongest prompt-format candidate.
 
 The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in.
 

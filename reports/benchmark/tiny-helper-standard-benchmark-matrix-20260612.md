@@ -46,7 +46,7 @@ The audited category mix matches the repo plan:
 
 | Area | Primary benchmark | Current status for tiny-helper lane |
 |---|---|---|
-| Hermes-local | Expanded local prompt set, tool-call validator | Partially proven, but strict tool-call shape still fails |
+| Hermes-local | Expanded local prompt set, tool-call validator | 100-prompt pass recorded for Qwen3.5 0.8B/2B and MiniCPM5 1B MLX; strict tool-call shape still fails |
 | Instruction following | IFEval + expanded Hermes-local eval | Tiny Qwen helper IFEval pilot ran and failed at `0.000` |
 | Function/tool calling | BFCL subset + held-out strict local suite | Local tiny BFCL-style gate failed; held-out gate not yet justified |
 | Coding | HumanEval / MBPP | Tiny Qwen helper coding pilot ran and failed at `0.000` |

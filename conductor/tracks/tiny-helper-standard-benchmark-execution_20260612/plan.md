@@ -9,7 +9,7 @@
 
 ## Phase 2: Benchmark Execution
 
-- [ ] Task: run the Hermes-local expanded prompt set for the tiny helper
+- [x] Task: run the Hermes-local expanded prompt set for the tiny helper
   candidates.
 - [x] Task: run the applicable BFCL-style subset for the lane.
 - [x] Task: run any lightweight IFEval or coding subset that the repo already
@@ -22,7 +22,7 @@
 - [x] Task: update `HANDOFF.md`, `FUTURE_MODELS.md`, and any related radar
   notes with the execution outcome.
 - [x] Task: run validation and whitespace checks.
-- [ ] Task: mark the track complete only after the evidence is recorded.
+- [x] Task: mark the track complete only after the evidence is recorded.
 
 ## Health Check
 
@@ -30,5 +30,5 @@
 - Current estimate: 9.55 / 10
 - Evidence: prompt coverage is already valid at 100 prompts per set, and the
   tiny helper lane has a dedicated runtime profile.
-- Gaps: the expanded prompt-set execution and the remaining blocked subsets
-  are still pending.
+- Gaps: the lane still fails strict tool-call promotion, and MiniCPM5 shows a
+  non-zero empty-response rate on the expanded pass.
