@@ -18,6 +18,7 @@ Pro M1 Max with 32 GB unified memory.
 | Gemma / Qwen / MiniCPM | `google/gemma-4-31B`, `Qwen/Qwen3-Coder-Next`, `openbmb/MiniCPM-V-4.6-GPTQ` | Follow-up scan additions: official base repos and packaging lanes that matter for teacher/runtime comparisons. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b` | New base/evaluator and speech-support checkpoints from the Nemotron family. |
 | NVIDIA | `nvidia/instant-nurec`, `nvidia/omni-dreams-models` | Fresh physical-AI / world-model support lanes from NVIDIA. |
+| ASR | `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcribe-03-2026`, `nvidia/parakeet-tdt-0.6b-v3` | Fresh speech-support lanes for transcription and streaming ASR. |
 | Qwen | `Qwen/Qwen3.5-9B` | Useful mid-size Qwen step between the already-tested tiny lanes and the larger Qwen3.6 frontier packages. |
 | MiniCPM | `openbmb/MiniCPM5-1B` | Official 1B release remains a valid tiny helper/extractor candidate. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | Official 4B base plus fresh GGUF and MLX packaging for Mac-local runtime use. |
@@ -43,6 +44,8 @@ Pro M1 Max with 32 GB unified memory.
   Nemotron 3 Ultra GenRM checkpoint, and the English streaming ASR checkpoint.
 - The same pass also surfaced `nvidia/instant-nurec` and `nvidia/omni-dreams-models`
   as physical-AI / world-model support lanes.
+- The latest ASR pass surfaced `Qwen/Qwen3-ASR-1.7B`,
+  `CohereLabs/cohere-transcribe-03-2026`, and `nvidia/parakeet-tdt-0.6b-v3`.
 - That means Qwen3.7 remains watchlist-only until an actual open-weight repo or
   supported hosted workflow is published.
 
@@ -64,6 +67,8 @@ Pro M1 Max with 32 GB unified memory.
   ASR checkpoints to the machine-readable radar.
 - Add `nvidia/instant-nurec` and `nvidia/omni-dreams-models` to the
   machine-readable radar as support lanes.
+- Add `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcribe-03-2026`, and
+  `nvidia/parakeet-tdt-0.6b-v3` to the machine-readable radar as speech-support lanes.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.

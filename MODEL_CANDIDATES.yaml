@@ -788,6 +788,45 @@ candidates:
     first_finetune: "defer"
     notes: "English streaming ASR checkpoint surfaced alongside the multilingual 3.5 release. Useful as a speech support lane, not a Hermes text target."
 
+  - id: Qwen/Qwen3-ASR-1.7B
+    family: qwen
+    tier: research-runtime
+    role: research-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "1.7B"
+    architecture: "Unified streaming/offline ASR model"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM ASR smoke"
+    first_finetune: "defer"
+    notes: "Official Qwen ASR release with streaming/offline support and broad language coverage. Useful as a speech-support lane for Hermes workflows, not as a chat fine-tune target."
+
+  - id: CohereLabs/cohere-transcribe-03-2026
+    family: cohere
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Automatic speech recognition / transcription model"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Fresh Cohere transcription model surfaced in the current HF search. Keep it as an audio transcription support lane only."
+
+  - id: nvidia/parakeet-tdt-0.6b-v3
+    family: nvidia
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "0.6B"
+    architecture: "Multilingual ASR model"
+    license: "check model card"
+    first_runtime: "Transformers or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Current NVIDIA Parakeet v3 release extends English speech recognition to multilingual ASR. Useful as a transcription support lane, not as a Hermes chat target."
+
   - id: nvidia/instant-nurec
     family: nvidia
     tier: research-runtime
