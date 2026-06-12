@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T17:49:15.077951+00:00`
+Created: `2026-06-12T18:02:23.329548+00:00`
 
 ## Direct Answer
 
@@ -129,7 +129,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-3n-E4B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-E2B` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-official-transformers-load-failure-20260613.md` |
 | hermes | `microsoft/Phi-4-mini-instruct` | `blocked` | blocked by current local runtime support | `reports/runtime/phi4-mini-instruct-transformers-sliding-window-cache-blocker-20260613.md` |
-| hermes | `ibm-granite/granite-4.1-3b` | `blocked` | blocked by strict Hermes tool-call formatting failure |  |
+| hermes | `ibm-granite/granite-4.1-3b` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/granite41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md` |
 | hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-MLX` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`<br>`reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`<br>`reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
