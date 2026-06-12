@@ -1,0 +1,8 @@
+{
+  "track_id": "tiny-helper-role-repair_20260612",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-06-12T06:40:16Z",
+  "updated_at": "2026-06-12T06:40:16Z",
+  "description": "Repair strict Hermes-compatible helper output for the smallest local models and lock down the best tiny helper lane."
+}

@@ -260,6 +260,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [ ] Track: Tiny helper role repair
+*Link: [./tracks/tiny-helper-role-repair_20260612/](./tracks/tiny-helper-role-repair_20260612/)*
+
+---
+
 ## [x] Track: Support Lane Surface Refresh
 *Link: [./tracks/support-lane-surface-refresh_20260612/](./tracks/support-lane-surface-refresh_20260612/)*
 
