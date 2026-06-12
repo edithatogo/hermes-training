@@ -1188,9 +1188,9 @@ candidates:
     parameters: "4B"
     architecture: "Dense Phi-4 mini instruct model"
     license: "check model card"
-    first_runtime: "Transformers or community GGUF smoke"
+    first_runtime: "Transformers remote-code import blocked; community GGUF or pinned compatible Transformers retry needed"
     first_finetune: "PEFT/SFT"
-    notes: "Good tiny-agent candidate for instruction following and function-calling comparison. Useful for mem0 extractor experimentation if the runtime path proves clean."
+    notes: "Good tiny-agent candidate for instruction following and function-calling comparison. The 2026-06-13 local Transformers pilot with `--trust-remote-code` failed before weight download or generation because the model's remote `modeling_phi3.py` imports `SlidingWindowCache`, which is absent from the installed Transformers cache utilities; see `reports/runtime/phi4-mini-instruct-transformers-sliding-window-cache-blocker-20260613.md`. Useful for mem0 extractor experimentation only after a compatible pinned Transformers version, patched remote-code path, or community GGUF runtime is proven."
 
   - id: ibm-granite/granite-4.1-3b
     family: granite
