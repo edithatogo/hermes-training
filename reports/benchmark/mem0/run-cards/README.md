@@ -43,6 +43,8 @@ runtime endpoint against the current mem0 default.
 | [mem0-fixture-close-margin-recency-20260526](./mem0-fixture-close-margin-recency-20260526.md) | memory+rerank fixture | keep testing |
 | [mem0-fixture-qwen3-06b-recency-20260526](./mem0-fixture-qwen3-06b-recency-20260526.md) | memory+rerank fixture | keep testing |
 | [retriever-lfm2-colbert-20260612](./retriever-lfm2-colbert-20260612.md) | retriever | keep testing |
+| [embedding-qwen3-4b-smoke-20260612](./embedding-qwen3-4b-smoke-20260612.md) | embedder | keep testing |
+| [rerank-qwen3-4b-fixed-smoke-20260612](./rerank-qwen3-4b-fixed-smoke-20260612.md) | reranker candidate | keep testing |
 
 ## Generate
 

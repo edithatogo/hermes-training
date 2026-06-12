@@ -27,11 +27,11 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 6 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
 | 7 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 | 8 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | candidate | transformers | rerank-smoke | requires model acquisition/load proof; fixed-candidate harness is ready |
+| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | source-model-benchmarked | transformers | rerank-smoke | 2026-06-12 CPU fixed-suite smoke passed at top-1 1.000 / recall@3 1.000; p50 3.082s, so keep as quality ceiling until accelerated/live replay proof |
 | 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 11 | `Qwen/Qwen3-Embedding-4B` | embedder | candidate | transformers | local-embedding-smoke | requires model acquisition/load proof and memory-footprint check |
-| 12 | `google/embeddinggemma-300m` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost |
-| 13 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
+| 11 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | 2026-06-12 CPU smoke passed at top-1 1.000 / recall@3 1.000 with 2560-dim embeddings; p50 2.155s / p95 11.578s |
+| 12 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | 2026-06-12 direct smoke returned Hugging Face gated repo 403; requires account access before benchmark |
+| 13 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | trust-remote-code path needs pillow/peft and still fails on SlidingWindowCache import in current Transformers stack |
 | 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
 | 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
 | 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | 2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000; keep isolated from `mem0_nomic_768` until larger replay and rollback comparison land |
@@ -169,18 +169,20 @@ source scripts/env.sh
 ### Qwen/Qwen3-Reranker-4B
 
 - Role: `reranker`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof; fixed-candidate harness is ready
+- Status: `source-model-benchmarked`
+- Evidence: `reports/benchmark/mem0/rerank-qwen3-4b-fixed-smoke-20260612.md`
+- Blocker: quality proof passed, but CPU p50 3.082s / p95 9.131s is too heavy for default promotion without live replay or acceleration
 
 ```bash
 source scripts/env.sh
-# First ensure the model is available in the SSD Hugging Face cache.
+HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
 ./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
   --strategy qwen3_causal_lm \
   --model Qwen/Qwen3-Reranker-4B \
-  --qwen3-device auto \
+  --qwen3-device cpu \
+  --qwen3-max-length 1024 \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-qwen-qwen3-reranker-4b-$(date +%Y%m%d-%H%M%S)
+  --run-id rerank-qwen3-4b-fixed-smoke-$(date +%Y%m%d)
 ```
 
 ### flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16
@@ -203,29 +205,33 @@ source scripts/env.sh
 ### Qwen/Qwen3-Embedding-4B
 
 - Role: `embedder`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof and memory-footprint check
+- Status: `source-model-benchmarked`
+- Evidence: `reports/benchmark/mem0/embedding-qwen3-4b-smoke-20260612.md`
+- Blocker: quality smoke passed, but requires a separate 2560-dim collection and larger replay before any default switch
 
 ```bash
 source scripts/env.sh
+HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model Qwen/Qwen3-Embedding-4B \
-  --device mps \
+  --device cpu \
   --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-qwen-qwen3-embedding-4b-$(date +%Y%m%d-%H%M%S)
+  --run-id embedding-qwen3-4b-smoke-$(date +%Y%m%d)
 ```
 
 ### google/embeddinggemma-300m
 
 - Role: `embedder`
-- Status: `candidate`
-- Blocker: Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost
+- Status: `access-gated`
+- Evidence: `reports/benchmark/mem0/embedding-google-embeddinggemma-300m-blocked-20260612.md`
+- Blocker: Hugging Face returned a gated repo 403 on 2026-06-12; benchmark cannot run until the account has access
 
 ```bash
 source scripts/env.sh
+HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model google/embeddinggemma-300m \
-  --device mps \
+  --device cpu \
   --suite benchmarks/embeddings/memory_retrieval_suite.json \
   --run-id embedding-google-embeddinggemma-300m-$(date +%Y%m%d-%H%M%S)
 ```
@@ -233,14 +239,17 @@ source scripts/env.sh
 ### jinaai/jina-embeddings-v4
 
 - Role: `embedder`
-- Status: `candidate`
-- Blocker: requires model acquisition/load proof and memory-footprint check
+- Status: `runtime-blocked`
+- Evidence: `reports/benchmark/mem0/embedding-jina-v4-runtime-blocked-20260612.md`
+- Blocker: trust-remote-code load gets past custom modules after pillow/peft are installed, then fails on `SlidingWindowCache` import in the current Transformers stack
 
 ```bash
 source scripts/env.sh
+HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model jinaai/jina-embeddings-v4 \
-  --device mps \
+  --device cpu \
+  --trust-remote-code \
   --suite benchmarks/embeddings/memory_retrieval_suite.json \
   --run-id embedding-jinaai-jina-embeddings-v4-$(date +%Y%m%d-%H%M%S)
 ```
