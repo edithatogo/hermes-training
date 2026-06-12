@@ -23,6 +23,25 @@ The relevant candidates are:
 | `openbmb/MiniCPM5-1B-MLX` | One-case MLX loglikelihood smoke passed; helper role still blocked by strict formatting | Raw 3-case tiny BFCL-style pilot failed at `0.000` | MLX-load-proven |
 | `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` | Runtime proof only; repeated-brace output is not a strict Hermes candidate | Not promoted | GGUF runtime-proven |
 
+## Prompt Coverage Check
+
+The repo's standard prompt sets already satisfy the documented coverage target.
+
+| Prompt set | Total | Coverage result |
+|---|---:|---|
+| `gemma4/eval/prompts.jsonl` | 100 | Pass |
+| `lfm2/eval/prompts.jsonl` | 100 | Pass |
+
+The audited category mix matches the repo plan:
+
+- tool_use: 25
+- code: 20
+- long_context: 15
+- reasoning: 15
+- safety: 10
+- factual: 10
+- formatting: 5
+
 ## Standard Benchmark Matrix
 
 | Area | Primary benchmark | Current status for tiny-helper lane |
