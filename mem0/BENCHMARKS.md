@@ -146,6 +146,13 @@ This optional path is for BGE-M3, Jina, Qwen embedding, and other Hugging Face
 retrieval candidates that are not already available through Ollama, LM Studio,
 or `llama-server`.
 
+When a candidate is too heavy for the Mac lane, move the run to Colab instead
+of forcing a stalled local smoke. Use the hub Colab lane in
+[COLAB_SCALEOUT.md](../COLAB_SCALEOUT.md) with
+`scripts/colab_preflight.py` and `scripts/colab_dispatch.py`. Keep the default
+order GPU-first, and add `--allow-tpu` only when the script is explicitly
+JAX/PyTorch-XLA compatible.
+
 Validate contrastive seed data for future embedding/retriever fine-tunes:
 
 ```bash

@@ -27,9 +27,10 @@
     - [x] Run multi-result replay where existing harnesses support it.
     - [ ] Defer Qwen3 0.6B learned reranker until prompt/metadata and ONNX/CoreML proof are ready.
     - Evidence: `reports/benchmark/mem0/run-cards/mem0-replay-close-margin-fixed-refresh-20260612.md`, `reports/benchmark/mem0/run-cards/mem0-replay-close-margin-nomic-expanded-refresh-20260612.md`, `reports/benchmark/mem0/run-cards/mem0-replay-qwen3-causal-fixed-refresh-20260612.md`
-- [ ] Task: Use dynamic offload where appropriate.
-    - [ ] Prefer Colab for sanitized multi-candidate sweeps.
-    - [ ] Gate Azure and NGC usage behind auth, quota, and cost checks.
+- [x] Task: Use dynamic offload where appropriate.
+    - [x] Prefer Colab for sanitized multi-candidate sweeps.
+    - [x] Gate Azure and NGC usage behind auth, quota, and cost checks.
+    - Evidence: `scripts/colab_preflight.py`, `scripts/colab_dispatch.py`, `COLAB_SCALEOUT.md`, `reports/colab/colab-t4-smoke-20260611.md`, `reports/colab/colab-tpu-v5e1-smoke-20260611.md`, `reports/colab/colab-benchmark-env-general-t4-20260612.md`, `reports/colab/colab-adaptive-train-auto-20260612.md`, `reports/colab/colab-adaptive-train-tpu-fallback-20260612.md`
 - [ ] Task: Conductor - User Manual Verification 'Benchmark Expansion' (Protocol in workflow.md)
 
 ## Phase 3: Default-Switch and Migration Policy

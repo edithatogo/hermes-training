@@ -58,6 +58,12 @@ source scripts/env.sh
 
 Output: `reports/model-radar/mem0-candidate-queue.md`.
 
+For heavier embedding, reranker, or training sweeps that should move off the
+Mac, use the hub Colab lane in [COLAB_SCALEOUT.md](../COLAB_SCALEOUT.md). The
+supported pattern is `scripts/colab_preflight.py` followed by
+`scripts/colab_dispatch.py`, with GPU-first ordering and TPU only for
+JAX/PyTorch-XLA-compatible jobs.
+
 ## Promotion Gates
 
 Read-wrapper integration is not the same as default mem0 config promotion. A
