@@ -422,3 +422,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Mobile Packaging Refresh
 *Link: [./tracks/mobile-packaging-refresh_20260612/](./tracks/mobile-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: Qwen 2507 and Coder-Next Refresh
+*Link: [./tracks/qwen2507-coder-next-refresh_20260612/](./tracks/qwen2507-coder-next-refresh_20260612/)*

@@ -18,12 +18,12 @@ the larger Nemotron frontier set.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
-4.3, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA,
-AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B,
-Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
-Nex-N2-mini, Nemotron support entries, and Nemotron frontier entries as
-runtime/helper, teacher, or specialist candidates rather than automatic
-promotion targets.
+4.3, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B,
+MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
+MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Command A+, Step 3.7 Flash,
+DeepSeek-V4-Flash, Nemotron-Labs-Diffusion, Nex-N2-mini, Nemotron support
+entries, and Nemotron frontier entries as runtime/helper, teacher, or
+specialist candidates rather than automatic promotion targets.
 
 No verified official Qwen3.7 open-weight local lane was found. Qwen3.7-Max/Plus
 should be treated as API/preview/proprietary until official weights or a
@@ -83,6 +83,8 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 26 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
 | 27 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
 | 28 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
+| 29 | Qwen | `Qwen/Qwen3-4B-Instruct-2507`, `Qwen/Qwen3-4B-Thinking-2507` | 4B | Runtime yes, fine-tune possible | Current Qwen refresh | Official 2507 releases with 256K context and stronger thinking/non-thinking behavior. Good hosted or burst-compute comparison points. |
+| 30 | Qwen | `Qwen/Qwen3-Coder-Next-GGUF` | 80B total / 3B active | Runtime yes, local fine-tune no | Coding-agent runtime lane | Official GGUF tree exposes Q4_K_M and Hermes Agent setup, making it the strongest current Qwen specialist runtime lane for Hermes workflows. |
 
 ## Tiny/Small Open-Weight Shortlist
 
@@ -91,6 +93,8 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Family | Candidate | Fit | Suggested lane |
 |---|---|---|---|
 | Qwen | `Qwen3.5 0.8B`, `Qwen3.5 2B` | Easy local fit | Mac/MLX, Mac/Ollama, Colab burst runs |
+| Qwen | `Qwen3-4B-Instruct-2507`, `Qwen3-4B-Thinking-2507` | Local/Colab fit | Current Qwen refresh for hosted or burst GPU runs; no Mac-native packaging verified in this refresh |
+| Qwen | `Qwen3-Coder-Next-GGUF` | Local runtime fit | Hermes Agent-compatible coding-agent baseline, best Qwen specialist runtime lane |
 | Qwen | `Qwen3.5 27B` | Dense teacher fit | Mac GGUF/MLX packaging or Colab burst runs; dense mid-size comparison point |
 | Qwen | `Qwen3.6 27B` | Dense small-model fit | Mac GGUF/MLX packaging or Colab burst runs; dense frontier comparison point |
 | Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
@@ -131,6 +135,10 @@ Verified HF ids behind this shortlist:
 - `Qwen/Qwen3.5-2B`
 - `Qwen/Qwen3.5-9B`
 - `Qwen/Qwen3.5-27B`
+- `Qwen/Qwen3-4B-Instruct-2507`
+- `Qwen/Qwen3-4B-Thinking-2507`
+- `Qwen/Qwen3-Coder-Next`
+- `Qwen/Qwen3-Coder-Next-GGUF`
 - `google/gemma-3n-E4B`
 - `google/gemma-4-E2B`
 - `google/gemma-4-E2B-it-qat-mobile-transformers`
@@ -296,6 +304,7 @@ Acceptance bar:
 ## Sources Checked
 
 - Qwen/Qwen3.6-35B-A3B and Qwen/Qwen3.6-27B model cards.
+- Qwen/Qwen3-4B-Instruct-2507, Qwen/Qwen3-4B-Thinking-2507, Qwen/Qwen3-Coder-Next, and Qwen/Qwen3-Coder-Next-GGUF model cards.
 - NousResearch/Hermes-4-14B Hugging Face repo and Hermes 4 technical report.
 - google/gemma-4-26B-A4B-it, google/gemma-4-31B-it, and LM Studio / NVIDIA quantized Gemma 4 model cards.
 - Google Gemma 4 collection and Unsloth Gemma 4 collection.
