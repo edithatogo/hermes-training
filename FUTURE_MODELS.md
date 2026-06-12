@@ -4,6 +4,7 @@ This file is the model-selection radar for Hermes fine-tunes on a MacBook Pro M1
 
 Latest scans:
 
+- [Live HF refresh 2026-06-12](./reports/model-radar/live-hf-refresh-20260612.md)
 - [Current release scan](./reports/model-radar/current-release-scan-20260612.md)
 - [Tiny helper role repair](./reports/model-radar/tiny-helper-role-repair-current-release-scan-20260612.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
@@ -270,7 +271,7 @@ Verified HF ids behind this shortlist:
 | Qwen3-Next | `Qwen/Qwen3-Next-80B-A3B-Instruct`, Qwen3-Coder-Next | Real HF models/reports exist; local repo has Qwen3Next converter support | Runtime experiment first. Too large for first local fine-tune, but important for subquadratic/linear-attention roadmap. |
 | Mamba-3 | State-space / selective SSM family | Current architecture family, not a drop-in Hermes model track yet | Watchlist. Add only after weights + Mac runtime + tokenizer are real. |
 | RWKV-7 | `BlinkDL/rwkv7-g1`, `BlinkDL/rwkv-7-world` exact checkpoints | Real recurrent family with public checkpoints; no official 7B World checkpoint verified | Runtime experiment. Tool-calling chat quality must be tested. |
-| DiffusionGemma | `google/diffusiongemma-26B-A4B-it`, `nvidia/diffusiongemma-26B-A4B-it-NVFP4`, `mlx-community/diffusiongemma-26B-A4B-it-mxfp4` | Fresh official diffusion-family release plus fresh packaging variants | Research/runtime. Useful for multimodal diffusion and decoding experiments, not a Hermes adapter target. |
+| DiffusionGemma | `google/diffusiongemma-26B-A4B-it`, `nvidia/diffusiongemma-26B-A4B-it-NVFP4`, `mlx-community/diffusiongemma-26B-A4B-it-nvfp4` | Fresh official diffusion-family release plus fresh packaging variants | Research/runtime. Useful for multimodal diffusion and decoding experiments, not a Hermes adapter target. |
 | BitNet b1.58 | Microsoft BitNet / QVAC BitLoRA ecosystem | Native runtime load/generation is locally proven; fine-tune path emerging | Research track. Prompt-compliance and non-interactive Hermes task smokes still block use. |
 | Recursive wrappers | `mit-oasys/rlm-qwen3-8b-v0.1` and RLM-style harnesses | Real experimental checkpoint plus architecture/harness idea | Build only after a clear runtime harness and reproducible dataset objective exist. |
 
@@ -332,10 +333,10 @@ Recommended path:
 
 ## Unsupported Qwen3.7 Rumor Guardrail
 
-As of 2026-05-24, Qwen3.7 should not be treated as a current public local model lane:
+As of 2026-06-12, Qwen3.7 should not be treated as a current public local model lane:
 
 - No official Hugging Face open-weight repositories were verified under `Qwen/Qwen3.7-*`.
-- Current Qwen3.7-Max/Plus reporting describes API/preview/proprietary availability, not redistributable local weights.
+- Current Qwen3.7-Max/Plus reporting describes API/preview/proprietary availability, and the live search only surfaced third-party `Qwen3.7-plus` traces, not redistributable official local weights.
 - Do not create MLX, Ollama, LM Studio, Azure fine-tune, GitHub publication, or Hugging Face publication tracks for Qwen3.7 until official weights, license, and runtime artifacts exist.
 
 Promotion trigger: add a track only after an official Qwen model repo, quantized Mac runtime path, or clearly supported hosted API workflow is available and documented.
