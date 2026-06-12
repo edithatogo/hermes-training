@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T19:47:18.864543+00:00`
+Created: `2026-06-12T19:51:50.522074+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 7 |
-| hermes | `blocked` | 143 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 7 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 12 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 7 |
+| hermes | `blocked` | 143 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 7 |
 
 ## Benchmark Policy
 

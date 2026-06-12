@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T19:47:18.864543+00:00",
+  "created_at": "2026-06-12T19:51:50.522074+00:00",
   "candidate_count": 175,
   "counts": {
-    "hermes": {
-      "blocked": 143,
-      "benchmarked-not-promoted": 7,
-      "smoke-or-pilot-only": 7,
-      "evidence-present-needs-review": 2
-    },
     "mem0": {
       "benchmarked-not-necessarily-promoted": 12,
       "blocked": 2,
       "smoke-or-pilot-only": 1,
       "benchmarked-not-promoted": 1
+    },
+    "hermes": {
+      "blocked": 143,
+      "benchmarked-not-promoted": 7,
+      "smoke-or-pilot-only": 7,
+      "evidence-present-needs-review": 2
     }
   },
   "rows": [

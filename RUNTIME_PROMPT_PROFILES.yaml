@@ -1,6 +1,6 @@
 # Prompt/runtime contracts that are required for specific Hermes local candidates.
 
-updated: "2026-05-25"
+updated: "2026-06-13"
 policy: "Prompt profiles are runtime conditions, not training data. A candidate that depends on a profile must record it in benchmark commands, runtime cards, and publication notes."
 
 profiles:
@@ -52,3 +52,31 @@ profiles:
       - Do not claim Hermes-strict tool-call compliance from this profile.
       - Do not add assistant prefill or empty-think normalization to this lane; the purpose is to keep the tiny helper comparison raw and reproducible.
       - Use this profile only for helper/extraction comparison or regression notes, not for publication claims.
+
+  - id: gemma4-26b-refusal-system-suffix
+    model_family: Gemma 4
+    applies_to:
+      - unsloth/gemma-4-26B-A4B-it-GGUF
+    system_prefix: ""
+    system_suffix: " If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Do not repeat unavailable tool names."
+    user_prefix: ""
+    assistant_prefill: ""
+    endpoint_strategy: "Append the system suffix to each benchmark/system instruction when using the OpenAI-compatible llama.cpp endpoint. Use a 512-token output budget for strict BFCL pilot scoring; 256 tokens truncated the profiled parallel tool-call case."
+    required_for:
+      - strict Hermes invalid-tool refusal without echoing unavailable tool names
+      - Gemma 4 26B-A4B MXFP4_MOE local comparison lane
+    evidence:
+      raw_bfcl_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613
+      user_prefix_tradeoff_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-refusal-profile-v2-bfcl-pilot-20260613
+      system_suffix_truncated_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-bfcl-pilot-20260613
+      system_suffix_512_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-512-bfcl-pilot-20260613
+      report: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md
+    strict_result:
+      raw_bfcl_pass_rate: 0.667
+      system_suffix_512_bfcl_pass_rate: 1.0
+      coding_pilot_pass_rate: 1.0
+      ifeval_pilot_pass_rate: 1.0
+    limitations:
+      - This is a prompt/runtime profile, not fine-tuning evidence.
+      - The 256-token system-suffix rerun fixed refusal but truncated the parallel tool-call case; keep the 512-token budget for this profile.
+      - Broader BFCL, safety/refusal, and coding suites are still required before promoting this as the Hermes default.

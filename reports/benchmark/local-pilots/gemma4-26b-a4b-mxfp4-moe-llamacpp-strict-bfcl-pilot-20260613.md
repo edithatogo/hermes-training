@@ -12,12 +12,16 @@ Expanded pilot result on the same local artifact:
 
 - Coding pilot: `3/3`, pass rate `1.000`.
 - IFEval pilot: `3/3`, pass rate `1.000`.
+- BFCL with `gemma4-26b-refusal-system-suffix` profile and `max_tokens=512`:
+  `3/3`, pass rate `1.000`.
 
 This is the strongest frontier local proof in the current Qwen3.6/Gemma 4
 comparison slice. It is runtime-proven on the M1 Max, produced exact Hermes
 tool-call syntax for both BFCL tool-call cases, and passed the small coding and
-instruction-following pilots. It is not promoted to default yet because the
-strict invalid-tool refusal case failed and the evidence is still pilot-scale.
+instruction-following pilots. A system-suffix runtime profile also repaired the
+strict invalid-tool refusal case. It is not promoted to default yet because the
+evidence is still pilot-scale and broader BFCL/safety/coding coverage is still
+required.
 
 ## Artifact
 
@@ -43,7 +47,7 @@ Server:
   --jinja
 ```
 
-Pilot:
+Raw strict BFCL pilot:
 
 ```bash
 source scripts/env.sh
@@ -54,6 +58,20 @@ source scripts/env.sh
   --run-id gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613 \
   --max-tokens 256 \
   --require-no-extra-tool-text
+```
+
+Profiled strict BFCL pilot:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --base-url http://127.0.0.1:18094/v1 \
+  --model gemma4-26b-a4b-mxfp4-moe \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-512-bfcl-pilot-20260613 \
+  --max-tokens 512 \
+  --require-no-extra-tool-text \
+  --system-suffix " If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Do not repeat unavailable tool names."
 ```
 
 SSD output:
@@ -69,6 +87,31 @@ SSD output:
 | `bfcl-simple-customer-lookup` | pass | Exact single Hermes `<tool_call>` with `name` and `arguments`; no extra text. |
 | `bfcl-parallel-ticket-routing` | pass | Exact two-call Hermes `<tool_call>` sequence; no extra text. |
 | `bfcl-invalid-tool` | fail | Correctly refused, but repeated the unavailable forbidden delete tool name and missed the strict refusal wording check. |
+
+### BFCL With Refusal System Profile
+
+Run ID: `gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-512-bfcl-pilot-20260613`
+
+Profile: `gemma4-26b-refusal-system-suffix`
+
+SSD output:
+
+`/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-512-bfcl-pilot-20260613`
+
+| Case | Result | Note |
+|---|---:|---|
+| `bfcl-simple-customer-lookup` | pass | Exact single Hermes `<tool_call>` with `name` and `arguments`; no extra text. |
+| `bfcl-parallel-ticket-routing` | pass | Exact two-call Hermes `<tool_call>` sequence; no extra text. |
+| `bfcl-invalid-tool` | pass | Returned the required refusal without repeating the unavailable tool name. |
+
+Profile tradeoff checks:
+
+- User-prefix profile v1/v2 fixed invalid-tool refusal but caused the parallel
+  tool-call case to return blank.
+- System-suffix profile with `max_tokens=256` fixed invalid-tool refusal but
+  truncated the parallel tool-call payload.
+- System-suffix profile with `max_tokens=512` passed all three strict BFCL pilot
+  cases.
 
 ### Coding Pilot
 
@@ -105,10 +148,12 @@ SSD output:
 - Server logs showed about `50` eval tokens/s on the BFCL pilot cases and about
   `30-48` eval tokens/s during the concurrent coding and IFEval pilots.
 - The local prompt template was detected as `peg-gemma4`.
+- The strict 3/3 repair requires the `gemma4-26b-refusal-system-suffix` profile
+  and `max_tokens=512`.
 
 ## Decision
 
-- Status: `runtime-proven; strict-endpoint-pilot-complete; not-default-yet`
+- Status: `runtime-proven; profile-repaired-strict-pilot-complete; not-default-yet`
 - Keep as the best frontier Gemma local comparison lane.
-- Next useful proof is a broader BFCL run and a refusal-format prompt profile to
-  check whether the remaining failure can be fixed without fine-tuning.
+- Next useful proof is a broader BFCL run and safety/refusal benchmark pass using
+  the profile, followed by an unprofiled-vs-profiled comparison report.
