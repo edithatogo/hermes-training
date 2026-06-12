@@ -246,12 +246,38 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "source HF model passed fixed and expanded suites; ONNX bridge still needs runtime proof"
     if status == "candidate-runtime-id-verified" and role == "reranker" and runtime == "mlx":
         return "model repo verified; MLX load/scoring proof is ready before live mem0 integration"
+    if candidate.get("id") == "google/embeddinggemma-300m":
+        return (
+            "Official Google retrieval baseline for mem0 comparison. Gated model with "
+            "2048-token context and configurable 128-768 embedding dimensions; the "
+            "first direct smoke returned a Hugging Face 403, so keep it behind a "
+            "separate collection until access is granted and a challenger wins on "
+            "quality, latency, and migration cost"
+        )
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"
+    if role == "embedder" and runtime == "mlx" and "jina-embeddings-v5-omni-small" in model_id:
+        if model_id.endswith("text-matching-mlx"):
+            return (
+                "2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at "
+                "top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with "
+                "1024-dim embeddings; keep as candidate evidence, not a default "
+                "embedder switch"
+            )
+        return (
+            "2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / "
+            "MRR 1.000 on the 1-case metadata-database query with 1024-dim "
+            "embeddings; verify collection shape before any default switch"
+        )
     if role == "embedder" and dims in {"unknown", "variable"}:
         return "verify embedding dimension before creating collection"
-    if role == "embedder" and runtime == "mlx" and "jina-embeddings-v5-omni-small" in model_id:
-        return "custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape"
+    if candidate.get("id") == "Qwen/Qwen3-Embedding-4B":
+        return (
+            "Potential high-quality local embedder. Runtime and memory footprint must "
+            "be proven on the M1 Max before use; the first direct MPS smoke cached "
+            "the repo but stalled before producing a benchmark summary, so keep it "
+            "queued until a cached or offloaded path is available"
+        )
     if role == "reranker" and runtime != "local-python":
         return "requires model acquisition/load proof; fixed-candidate harness is ready"
     if role == "retriever":

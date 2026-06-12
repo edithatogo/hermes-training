@@ -20,6 +20,7 @@ The current working setup is:
 | Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
+The next baseline comparison candidate is `google/embeddinggemma-300m`, which should use a separate 768-dimension collection until it is proven to outperform the current default.
 
 ## Structure
 
@@ -83,6 +84,28 @@ Every mem0 candidate must pass these gates before becoming the default:
 | rollback | old working config can be restored | saved config path and collection name |
 
 Use a new Qdrant collection when embedding dimensions change. Never mix 768, 1024, 1536, or late-interaction indexes in one collection.
+
+## Default-Switch Policy
+
+Do not switch the mem0 default embedder or reranker unless the challenger has:
+
+| Criterion | Minimum bar |
+|---|---|
+| Retrieval quality | Top-1 and Recall@3 at least match the current default on the same fixture class |
+| Recency handling | Recency-conflict pass rate is 1.000 on the replay suite |
+| Distractor handling | Distractor-resistance pass rate is 1.000 on the replay suite |
+| Latency | p50/p95 stay within the current daily-use budget for the same hardware path |
+| Footprint | The model fits the target index/runtime without swapping or unsupported runtime hacks |
+| Reproducibility | Run card, exact model ID, collection name, and rollback command are recorded |
+| Rollback | `nomic-embed-text:latest` and `mem0_nomic_768` remain intact and restorable |
+
+Migration plan if a challenger wins:
+
+1. Create a separate collection for the new embedding dimensions or index shape.
+2. Replay the smoke and recency/distractor suites against both old and new paths.
+3. Stage the new default behind an explicit config diff and run card.
+4. Keep the old collection and config available until a full rollback smoke passes.
+5. Restore the previous config with `mem0 cmd search` if the new path regresses.
 
 ## Candidate Roles
 

@@ -35,6 +35,19 @@ candidates:
     first_gate: mteb-retrieval-smoke
     notes: "Strong practical retrieval baseline. Use a separate Qdrant collection because dimensions differ from nomic. 2026-05-26: CPU and MPS sentence-transformers smokes completed from SSD cache at 1024 dims. Expanded CPU suite reached top-1 0.917 / recall@3 1.000, but still missed current-vs-old preference without reranking."
 
+  - id: google/embeddinggemma-300m
+    role: embedder
+    family: embeddinggemma
+    runtime:
+      - sentence-transformers
+      - litert
+      - mlx-if-supported
+      - gguf-if-supported
+    embedding_dims: 768
+    status: candidate
+    first_gate: mteb-retrieval-smoke
+    notes: "Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost."
+
   - id: jinaai/jina-embeddings-v4
     role: embedder
     family: multilingual-multimodal-embedding
@@ -77,7 +90,7 @@ candidates:
     embedding_dims: unknown
     status: candidate
     first_gate: local-embedding-smoke
-    notes: "Potential high-quality local embedder. Runtime and memory footprint must be proven on the M1 Max before use."
+    notes: "Potential high-quality local embedder. Runtime and memory footprint must be proven on the M1 Max before use; the first direct MPS smoke cached the repo but stalled before producing a benchmark summary, so keep it queued until a cached or offloaded path is available."
 
   - id: Qwen/Qwen3-Reranker-4B
     role: reranker
@@ -189,6 +202,13 @@ collections:
     compatible_models:
       - BAAI/bge-m3
     status: config-created-not-default
+
+  - name: mem0_embeddinggemma_300m_768
+    dims: 768
+    role: candidate
+    compatible_models:
+      - google/embeddinggemma-300m
+    status: planned
 
   - name: mem0_qwen3_embedding_4b
     dims: verify-before-create

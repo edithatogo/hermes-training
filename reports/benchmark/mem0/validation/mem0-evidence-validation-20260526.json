@@ -1,16 +1,16 @@
 {
-  "created_at": "2026-05-25T19:21:24.667994+00:00",
+  "created_at": "2026-06-12T09:44:45.350514+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 64
+    "passed": 71
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 6,
+    "embedding": 10,
     "extraction": 8,
     "reranking": 25,
-    "replay": 9,
+    "replay": 12,
     "isolated-fixture": 5
   },
   "missing_kinds": [],
@@ -94,6 +94,13 @@
     },
     {
       "kind": "embedding",
+      "path": "embedding-benchmark/embedding-baai-bge-m3-refresh-20260612/summary.json",
+      "run_id": "embedding-baai-bge-m3-refresh-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
       "path": "embedding-benchmark/embedding-bge-m3-cpu-expanded-20260526/summary.json",
       "run_id": "embedding-bge-m3-cpu-expanded-20260526",
       "status": "passed",
@@ -131,6 +138,27 @@
       "kind": "embedding",
       "path": "embedding-benchmark/embedding-nomic-smoke-20260524/summary.json",
       "run_id": "embedding-nomic-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/jina-mlx-retrieval-smoke-20260612b/summary.json",
+      "run_id": "jina-mlx-retrieval-smoke-20260612b",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/jina-mlx-text-matching-smoke-20260612b/summary.json",
+      "run_id": "jina-mlx-text-matching-smoke-20260612b",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/jina-mlx-text-matching-smoke-20260612c/summary.json",
+      "run_id": "jina-mlx-text-matching-smoke-20260612c",
       "status": "passed",
       "errors": []
     },
@@ -381,8 +409,22 @@
     },
     {
       "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-close-margin-fixed-refresh-20260612/summary.json",
+      "run_id": "mem0-replay-close-margin-fixed-refresh-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
       "path": "mem0-reranking-replay/mem0-replay-close-margin-nomic-expanded-20260526/summary.json",
       "run_id": "mem0-replay-close-margin-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-close-margin-nomic-expanded-refresh-20260612/summary.json",
+      "run_id": "mem0-replay-close-margin-nomic-expanded-refresh-20260612",
       "status": "passed",
       "errors": []
     },
@@ -404,6 +446,13 @@
       "kind": "replay",
       "path": "mem0-reranking-replay/mem0-replay-qwen3-06b-warm-nomic-expanded-20260526/summary.json",
       "run_id": "mem0-replay-qwen3-06b-warm-nomic-expanded-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "replay",
+      "path": "mem0-reranking-replay/mem0-replay-qwen3-causal-fixed-refresh-20260612/summary.json",
+      "run_id": "mem0-replay-qwen3-causal-fixed-refresh-20260612",
       "status": "passed",
       "errors": []
     },
