@@ -152,9 +152,9 @@ candidates:
       - llama.cpp-after-local-patch
       - mlx-if-supported
     embedding_dims: late-interaction
-    status: candidate
+    status: source-model-benchmarked
     first_gate: colbert-index-smoke
-    notes: "Promising mem0/RAG direction. Needs its own index shape and API; do not put ColBERT vectors in the nomic Qdrant collection."
+    notes: "2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000. Keep separate index/service shape and do not put ColBERT vectors in the nomic Qdrant collection."
 
   - id: sam860/LFM2:2.6b
     role: extractor

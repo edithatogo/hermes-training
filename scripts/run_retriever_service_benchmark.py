@@ -80,6 +80,15 @@ def retrieve(base_url: str, query: str, documents: list[dict[str, Any]], top_k: 
     return [item for item in results if isinstance(item, dict)], latency_s
 
 
+def health(base_url: str, timeout_s: float) -> dict[str, Any]:
+    response = requests.get(base_url.rstrip("/") + "/health", timeout=timeout_s)
+    response.raise_for_status()
+    data = response.json()
+    if not isinstance(data, dict):
+        raise ValueError("health response must be a JSON object")
+    return data
+
+
 def reciprocal_rank(ranked_ids: list[str], relevant_ids: set[str]) -> float:
     for index, doc_id in enumerate(ranked_ids, 1):
         if doc_id in relevant_ids:
@@ -166,6 +175,7 @@ def main() -> int:
         return 0
 
     output_dir.mkdir(parents=True, exist_ok=True)
+    health_info = health(args.base_url, args.timeout_s)
     rows: list[dict[str, Any]] = []
     latencies: list[float] = []
     for index, case in enumerate(suite, 1):
@@ -195,6 +205,10 @@ def main() -> int:
         "suite": str(args.suite),
         "output_dir": str(output_dir),
         "base_url": args.base_url,
+        "endpoint_kind": "retriever-service",
+        "model_id": health_info.get("model_id"),
+        "index_id": health_info.get("index_id"),
+        "device": health_info.get("device"),
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),

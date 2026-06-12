@@ -69,7 +69,7 @@ def resolve_default_output_root() -> Path:
     return Path.cwd() / ".local-storage" / "hermes-evals"
 
 
-def load_model(model_id: str, device: str | None) -> Any:
+def load_model(model_id: str, device: str | None, trust_remote_code: bool = False) -> Any:
     try:
         from sentence_transformers import SentenceTransformer
     except ModuleNotFoundError as exc:
@@ -80,6 +80,8 @@ def load_model(model_id: str, device: str | None) -> Any:
     kwargs: dict[str, Any] = {}
     if device:
         kwargs["device"] = device
+    if trust_remote_code:
+        kwargs["trust_remote_code"] = True
     return SentenceTransformer(model_id, **kwargs)
 
 
@@ -171,6 +173,7 @@ def main() -> int:
     parser.add_argument("--model", default="BAAI/bge-m3")
     parser.add_argument("--device", help="Optional sentence-transformers device, for example cpu or mps.")
     parser.add_argument("--no-normalize", action="store_true")
+    parser.add_argument("--trust-remote-code", action="store_true")
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -195,10 +198,11 @@ def main() -> int:
         print(f"model: {args.model}")
         print(f"device: {args.device or 'auto'}")
         print(f"normalize: {not args.no_normalize}")
+        print(f"trust_remote_code: {args.trust_remote_code}")
         print(f"output_dir: {output_dir}")
         return 0
 
-    model = load_model(args.model, args.device)
+    model = load_model(args.model, args.device, trust_remote_code=args.trust_remote_code)
     output_dir.mkdir(parents=True, exist_ok=True)
     rows: list[dict[str, Any]] = []
     latencies: list[float] = []
@@ -249,6 +253,7 @@ def main() -> int:
         "device": args.device or "auto",
         "endpoint_kind": "sentence-transformers",
         "normalize_embeddings": not args.no_normalize,
+        "trust_remote_code": args.trust_remote_code,
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),

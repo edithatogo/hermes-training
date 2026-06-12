@@ -23,7 +23,7 @@ Date: 2026-05-24
 | `jinaai/jina-embeddings-v4` | Needs first model acquisition/load proof now that deps are installed. | `requirements-mem0-embeddings.txt` |
 | `Qwen/Qwen3-Embedding-4B` | Needs first model acquisition/load proof plus likely memory-footprint proof. | `reports/model-radar/mem0-candidate-queue.md` |
 | `Qwen/Qwen3-Reranker-4B` | Reached Hugging Face model fetch but did not complete in the available window. | `scripts/run_fixed_reranking_benchmark.py` |
-| `LiquidAI/LFM2-ColBERT-350M` | Needs separate late-interaction index/service. | `mem0/RUNTIME_TARGETS.md` |
+| `LiquidAI/LFM2-ColBERT-350M` | Separate late-interaction index/service is now benchmarked locally on MPS; still keep it isolated from dense collections until a larger replay and rollback comparison land. | `reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md` |
 
 ## Decision
 

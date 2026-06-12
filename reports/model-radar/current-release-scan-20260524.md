@@ -98,8 +98,9 @@ reranking, and Apple Silicon paths.
   reranker builds. They are good Apple Silicon reranker candidates for the
   expanded mem0 suite.
 - `LiquidAI/LFM2-ColBERT-350M` remains the primary late-interaction retrieval
-  candidate, but it requires a separate ColBERT index path rather than reuse of
-  the dense Qdrant collections.
+  candidate, and the local retriever-service smoke now passes on MPS. It still
+  requires a separate ColBERT index path rather than reuse of the dense Qdrant
+  collections, plus a larger replay comparison before default promotion.
 
 ## 2026-05-26 Qwen3.6 MTP Packaging Delta
 

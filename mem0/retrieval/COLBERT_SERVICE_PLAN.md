@@ -97,3 +97,18 @@ Required metrics:
 Do not wire this service into live mem0 until it beats or ties
 `nomic-embed-text:latest` on recall and latency, and has a rollback path back
 to `mem0_nomic_768`.
+
+## Smoke Result
+
+2026-06-12: the local `LiquidAI/LFM2-ColBERT-350M` service completed the
+memory retrieval smoke suite on MPS with:
+
+- Top-1 accuracy: 1.000
+- Recall@3: 1.000
+- MRR: 1.000
+- nDCG@3: 1.000
+- Query latency p50: 0.149s
+- Query latency p95: 0.200s
+
+That satisfies the first service gate, but not the larger replay and rollback
+comparison needed for default promotion.

@@ -34,7 +34,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 13 | `jinaai/jina-embeddings-v4` | embedder | candidate | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 | 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
 | 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
-| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | candidate | transformers | colbert-index-smoke | needs separate index/service shape |
+| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | 2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000; keep isolated from `mem0_nomic_768` until larger replay and rollback comparison land |
 
 ## Candidate Commands
 
@@ -280,11 +280,14 @@ source scripts/env.sh
 ### LiquidAI/LFM2-ColBERT-350M
 
 - Role: `retriever`
-- Status: `candidate`
+- Status: `source-model-benchmarked`
 - Blocker: needs separate index/service shape
+- Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md`
 
 ```bash
 source scripts/env.sh
-# Build a separate retriever service/index before benchmarking.
-# Do not reuse the dense Qdrant collection for late-interaction vectors.
+./.venv/bin/python scripts/run_retriever_service_benchmark.py \
+  --base-url http://127.0.0.1:8765 \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id retriever-lfm2-colbert-20260612
 ```

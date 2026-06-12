@@ -18,6 +18,8 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def infer_kind(path: Path, summary: dict[str, Any]) -> str:
     text = str(path)
+    if "mem0-retriever-benchmark" in text or summary.get("endpoint_kind") == "retriever-service":
+        return "retriever-service"
     if "mem0-isolated-fixture-rerank" in text:
         return "isolated-fixture-rerank"
     if "mem0-reranking-replay" in text:
@@ -128,6 +130,14 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append("  --keep-fixture \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
+    if kind == "retriever-service":
+        lines = [
+            "./.venv/bin/python scripts/run_retriever_service_benchmark.py \\",
+            f"  --base-url {summary.get('base_url', 'http://127.0.0.1:8765')} \\",
+            f"  --suite {suite} \\",
+            f"  --run-id {run_id}",
+        ]
+        return lines
     lines = [
         "./.venv/bin/python scripts/run_mem0_memory_benchmark.py \\",
         f"  --tool {summary.get('tool', 'cmd')} \\",
@@ -167,6 +177,16 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
         return (
             "keep testing",
             "The endpoint path is proven, but the embedding model still needs a recency or reranking fix before promotion beyond the current default.",
+        )
+    if kind == "retriever-service":
+        if summary.get("top1_accuracy") == 1.0 and summary.get("recall_at_3") == 1.0:
+            return (
+                "keep testing",
+                "The late-interaction retriever passed the smoke suite, but it still needs a larger replay set and a clear rollback comparison before default promotion.",
+            )
+        return (
+            "keep testing",
+            "The retriever service did not reach the strict smoke gate and should remain a candidate.",
         )
     if kind == "extraction":
         if (
@@ -220,7 +240,7 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
 
 
 def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
-    model = summary.get("model") or summary.get("tool") or ""
+    model = summary.get("model_id") or summary.get("model") or summary.get("tool") or ""
     role = {
         "embedding": "embedder",
         "extraction": "extractor",
@@ -229,6 +249,7 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         "reranking": "reranker",
         "reranking-replay": "reranker",
         "isolated-fixture-rerank": "reranker",
+        "retriever-service": "retriever",
     }.get(kind, kind)
     endpoint = summary.get("base_url", "")
     runtime = (
@@ -238,6 +259,8 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         or summary.get("tool")
         or ("openai-compatible" if endpoint else "")
     )
+    if kind == "retriever-service":
+        runtime = f"retriever-service ({summary.get('device') or 'cpu'})"
     output_dir = summary.get("output_dir", "")
     command = "\n".join(command_for_kind(kind, summary))
     decision, reason = decision_for(kind, summary)
@@ -257,9 +280,9 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         f"| Model/tool | `{model}` |" if model else "| Model/tool | |",
         f"| Runtime | {runtime} |",
         f"| Endpoint | `{endpoint}` |" if endpoint else "| Endpoint | |",
-        f"| Collection or index | `{summary.get('collection_name', '')}` |" if summary.get("collection_name") else "| Collection or index | |",
+        f"| Collection or index | `{summary.get('index_id') or summary.get('collection_name') or ''}` |" if summary.get("index_id") or summary.get("collection_name") else "| Collection or index | |",
         f"| Embedding dims | {metric(summary, 'embedding_dims')} |",
-        "| Distance metric | cosine / configured vector-store metric |",
+        "| Distance metric | MaxSim / late-interaction |" if kind == "retriever-service" else "| Distance metric | cosine / configured vector-store metric |",
         f"| Output | `{output_dir}` |" if output_dir else "| Output | |",
         "",
         "## Command",
@@ -281,8 +304,8 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         f"| Distractor resistance pass rate | {metric(summary, 'distractor_resistance_pass_rate', 'rerank_distractor_resistance_pass_rate')} |",
         f"| JSON validity rate | {metric(summary, 'json_validity_rate')} |",
         f"| Add latency p50 | {metric(summary, 'add_latency_p50_s')} |",
-        f"| Search/embed/extract latency p50 | {metric(summary, 'search_latency_p50_s', 'embed_latency_p50_s', 'latency_p50_s')} |",
-        f"| Search/embed/extract latency p95 | {metric(summary, 'search_latency_p95_s', 'embed_latency_p95_s', 'latency_p95_s')} |",
+        f"| Search/embed/extract latency p50 | {metric(summary, 'search_latency_p50_s', 'embed_latency_p50_s', 'latency_p50_s', 'query_latency_p50_s')} |",
+        f"| Search/embed/extract latency p95 | {metric(summary, 'search_latency_p95_s', 'embed_latency_p95_s', 'latency_p95_s', 'query_latency_p95_s')} |",
         f"| Rerank latency p50 | {metric(summary, 'rerank_latency_p50_s')} |",
         "",
         "## Decision",

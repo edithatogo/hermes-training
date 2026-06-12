@@ -10,6 +10,7 @@
 | embedding | embedding-nomic-smoke-20260524 | nomic-embed-text:latest | 0.667 |  | 0.667 | 1.000 |  | 0.021 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-smoke-20260524` |
 | embedding | jina-mlx-retrieval-smoke-20260612b | jinaai/jina-embeddings-v5-omni-small-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.029 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-retrieval-smoke-20260612b` |
 | embedding | jina-mlx-text-matching-smoke-20260612c | jinaai/jina-embeddings-v5-omni-small-text-matching-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.022 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-smoke-20260612c` |
+| retriever | retriever-lfm2-colbert-20260612 | LiquidAI/LFM2-ColBERT-350M | 1.000 |  | 1.000 | 1.000 |  | 0.149 | `/Volumes/PortableSSD/hermes-evals/mem0-retriever-benchmark/retriever-lfm2-colbert-20260612` |
 | extraction | extraction-hermes3-8b-expanded-examples-20260524 | hermes3:8b | 0.571 |  |  |  | 0.714 | 1.476 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-examples-20260524` |
 | extraction | extraction-hermes3-8b-expanded-strict-20260524 | hermes3:8b | 0.429 |  |  |  | 0.714 | 0.720 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-strict-20260524` |
 | extraction | extraction-hermes3-8b-smoke-20260524 | hermes3:8b | 0.333 |  |  |  | 0.333 | 1.031 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-smoke-20260524` |
