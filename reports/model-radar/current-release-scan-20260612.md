@@ -18,6 +18,7 @@ Pro M1 Max with 32 GB unified memory.
 | Gemma | `google/gemma-4-E2B-it`, `litert-community/gemma-4-E2B-it-litert-lm`, `mlx-community/gemma-4-e2b-it-4bit` | Official instruction-tuned E2B lane plus fresh LiteRT and MLX packaging. The smallest useful Gemma 4 follow-up to the q4_0 smoke. |
 | Gemma / Qwen / MiniCPM | `google/gemma-4-31B`, `Qwen/Qwen3-Coder-Next`, `openbmb/MiniCPM-V-4.6-GPTQ` | Follow-up scan additions: official base repos and packaging lanes that matter for teacher/runtime comparisons. |
 | Packaging | `google/gemma-4-31B-it-qat-q4_0-gguf`, `bartowski/google_gemma-4-31B-it-GGUF`, `unsloth/gemma-4-31B-it-GGUF`, `ggml-org/gemma-4-31B-it-GGUF`, `openbmb/MiniCPM-o-4_5-gguf`, `openbmb/MiniCPM5-1B-GGUF` | Fresh GGUF packaging lanes surfaced in the latest model search. Strong local packaging comparison points for Gemma 4 31B, MiniCPM-o 4.5, and MiniCPM5-1B. |
+| DiffusionGemma | `google/diffusiongemma-26B-A4B-it`, `nvidia/diffusiongemma-26B-A4B-it-NVFP4`, `mlx-community/diffusiongemma-26B-A4B-it-nvfp4` | Fresh diffusion-family packaging surfaced in the live refresh. Useful as a research/runtime lane for multimodal decoding experiments, not a Hermes adapter target. |
 | Packaging | `unsloth/North-Mini-Code-1.0-GGUF` | Fresh code-specialist GGUF packaging surfaced today for North-Mini-Code. Strong comparison point even though the current runtime is still blocked by missing `cohere2moe` support in llama.cpp. |
 | Support | `deepseek-ai/DeepSeek-V4-Pro`, `nvidia/LocateAnything-3B`, `bosonai/higgs-audio-v3-tts-4b` | Fresh cloud-teacher and helper/support lanes surfaced in the latest HF refresh. DeepSeek V4 Pro is a long-context teacher/reference; LocateAnything-3B is a visual grounding lane; Higgs Audio v3 adds a fresh voice-agent / TTS comparison point. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b` | New base/evaluator and speech-support checkpoints from the Nemotron family. |
@@ -68,6 +69,9 @@ Pro M1 Max with 32 GB unified memory.
   `unsloth/North-Mini-Code-1.0-GGUF`, which is useful as packaging evidence
   even though the current runtime remains blocked by missing `cohere2moe`
   support.
+- The live 2026-06-12 refresh also surfaced `nvidia/diffusiongemma-26B-A4B-it-NVFP4`
+  and `mlx-community/diffusiongemma-26B-A4B-it-nvfp4` as fresh diffusion-family
+  packaging lanes.
 - The latest support-lane pass also surfaced `deepseek-ai/DeepSeek-V4-Pro`,
   `nvidia/LocateAnything-3B`, and `bosonai/higgs-audio-v3-tts-4b` as fresh
   comparison points for cloud-teacher, visual grounding, and speech-agent work.
@@ -128,6 +132,8 @@ Pro M1 Max with 32 GB unified memory.
   supports `cohere2moe`.
 - Add the fresh DeepSeek V4 Pro, LocateAnything-3B, and Higgs Audio v3 support
   lanes to the machine-readable radar.
+- Add the fresh DiffusionGemma packaging lanes to the machine-readable radar as
+  research/runtime evidence, not a Hermes adapter target.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.
