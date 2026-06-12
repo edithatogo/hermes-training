@@ -50,6 +50,7 @@ runtime endpoint against the current mem0 default.
 | [embedding-qwen3-4b-smoke-20260612](./embedding-qwen3-4b-smoke-20260612.md) | embedder | keep testing |
 | [rerank-qwen3-4b-fixed-smoke-20260612](./rerank-qwen3-4b-fixed-smoke-20260612.md) | reranker candidate | keep testing |
 | [embedding-qwen3-4b-expanded-20260612](./embedding-qwen3-4b-expanded-20260612.md) | embedder | keep testing |
+| [jina-mlx-retrieval-expanded-20260613](./jina-mlx-retrieval-expanded-20260613.md) | embedder | keep testing |
 | [jina-mlx-text-matching-expanded-20260612](./jina-mlx-text-matching-expanded-20260612.md) | embedder | keep testing |
 | [qwen3-4b-expanded-rerank-20260612](./qwen3-4b-expanded-rerank-20260612.md) | reranker candidate | keep testing |
 | [lfm2-colbert-qwen3-06b-rerank-20260612](./lfm2-colbert-qwen3-06b-rerank-20260612.md) | reranker candidate | keep testing |

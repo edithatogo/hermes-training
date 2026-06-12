@@ -262,6 +262,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
             return "quality proof passed, but CPU latency is too high for default promotion without acceleration or live replay proof"
         if candidate.get("id") == "Qwen/Qwen3-Embedding-4B":
             return "expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking"
+        if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-mlx":
+            return "expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now"
         if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx":
             return "expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch"
         if candidate.get("id") == "LiquidAI/LFM2-ColBERT-350M":

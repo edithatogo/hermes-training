@@ -27,12 +27,12 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 6 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
 | 7 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
 | 8 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking |
-| 9 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | expanded-embedding-suite | expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch |
-| 10 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
-| 11 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
-| 12 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 13 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
+| 9 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | source-model-benchmarked | mlx | local-embedding-smoke | expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now |
+| 10 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | expanded-embedding-suite | expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch |
+| 11 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
+| 12 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
+| 13 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
+| 14 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
 | 15 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost |
 | 16 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 
@@ -165,6 +165,22 @@ source scripts/env.sh
   --run-id embedding-qwen-qwen3-embedding-4b-$(date +%Y%m%d-%H%M%S)
 ```
 
+### jinaai/jina-embeddings-v5-omni-small-mlx
+
+- Role: `embedder`
+- Status: `source-model-benchmarked`
+- Blocker: expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now
+
+```bash
+source scripts/env.sh
+# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.
+./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
+  --model jinaai/jina-embeddings-v5-omni-small-mlx \
+  --task-type retrieval \
+  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --run-id embedding-jinaai-jina-embeddings-v5-omni-small-mlx-$(date +%Y%m%d-%H%M%S)
+```
+
 ### jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
 
 - Role: `embedder`
@@ -240,22 +256,6 @@ source scripts/env.sh
   --mlx-max-length 1024 \
   --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
   --run-id rerank-flaglow-baai-bge-reranker-v2-m3-mlx-fp16-$(date +%Y%m%d-%H%M%S)
-```
-
-### jinaai/jina-embeddings-v5-omni-small-mlx
-
-- Role: `embedder`
-- Status: `candidate`
-- Blocker: 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch
-
-```bash
-source scripts/env.sh
-# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.
-./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
-  --model jinaai/jina-embeddings-v5-omni-small-mlx \
-  --task-type retrieval \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-jinaai-jina-embeddings-v5-omni-small-mlx-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### google/embeddinggemma-300m

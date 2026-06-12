@@ -12,6 +12,7 @@
 | embedding | embedding-qwen3-06b-smoke-20260612 | Qwen/Qwen3-Embedding-0.6B | 0.667 |  | 0.667 | 1.000 |  | 0.192 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-06b-smoke-20260612` |
 | embedding | embedding-qwen3-4b-expanded-20260612 | Qwen/Qwen3-Embedding-4B | 0.917 |  | 0.917 | 1.000 |  | 1.534 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-4b-expanded-20260612` |
 | embedding | embedding-qwen3-4b-smoke-20260612 | Qwen/Qwen3-Embedding-4B | 1.000 |  | 1.000 | 1.000 |  | 2.155 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-4b-smoke-20260612` |
+| embedding | jina-mlx-retrieval-expanded-20260613 | jinaai/jina-embeddings-v5-omni-small-mlx | 0.833 |  | 0.833 | 1.000 |  | 0.020 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-retrieval-expanded-20260613` |
 | embedding | jina-mlx-retrieval-smoke-20260612b | jinaai/jina-embeddings-v5-omni-small-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.029 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-retrieval-smoke-20260612b` |
 | embedding | jina-mlx-text-matching-expanded-20260612 | jinaai/jina-embeddings-v5-omni-small-text-matching-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.019 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-expanded-20260612` |
 | embedding | jina-mlx-text-matching-smoke-20260612b | jinaai/jina-embeddings-v5-omni-small-text-matching-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.037 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-smoke-20260612b` |
@@ -19,6 +20,7 @@
 | extraction | extraction-hermes3-8b-expanded-examples-20260524 | hermes3:8b | 0.571 |  |  |  | 0.714 | 1.476 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-examples-20260524` |
 | extraction | extraction-hermes3-8b-expanded-strict-20260524 | hermes3:8b | 0.429 |  |  |  | 0.714 | 0.720 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-strict-20260524` |
 | extraction | extraction-hermes3-8b-smoke-20260524 | hermes3:8b | 0.333 |  |  |  | 0.333 | 1.031 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-smoke-20260524` |
+| extraction | extraction-hermes4-14b-q4-smoke-20260613 | hermes-4-14b-q4 | 0.286 |  |  |  | 0.286 | 0.355 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes4-14b-q4-smoke-20260613` |
 | extraction | extraction-lfm2-2-6b-clean-root-20260526 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 0.874 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-clean-root-20260526` |
 | extraction | extraction-lfm2-2-6b-expanded-examples-20260524 | sam860/LFM2:2.6b | 1.000 |  |  |  | 1.000 | 1.847 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-examples-20260524` |
 | extraction | extraction-lfm2-2-6b-expanded-strict-20260524 | sam860/LFM2:2.6b | 0.571 |  |  |  | 1.000 | 0.758 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-lfm2-2-6b-expanded-strict-20260524` |

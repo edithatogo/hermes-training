@@ -67,9 +67,9 @@ candidates:
     runtime:
       - mlx
     embedding_dims: variable
-    status: candidate
+    status: source-model-benchmarked
     first_gate: local-embedding-smoke
-    notes: "2026-05-26 Hugging Face refresh found Jina v5 omni MLX variants. 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings. Candidate for Apple Silicon embedding comparison; text-matching lane has now passed separately."
+    notes: "2026-05-26 Hugging Face refresh found Jina v5 omni MLX variants. 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings. 2026-06-13 expanded retrieval suite reached top-1 0.833 / recall@3 1.000 / MRR 0.917 with p50 0.020s, missing two close recency/update cases; keep as benchmarked evidence, not a default switch. Evidence: reports/benchmark/mem0/jina-mlx-retrieval-expanded-20260613.md."
 
   - id: jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
     role: embedder

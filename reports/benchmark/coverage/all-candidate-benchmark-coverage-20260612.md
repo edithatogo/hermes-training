@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:08:48.845687+00:00`
+Created: `2026-06-12T14:12:03.187260+00:00`
 
 ## Direct Answer
 
@@ -13,10 +13,10 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 10 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 2 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 140 |
 | hermes | `evidence-present-needs-review` | 2 |
@@ -344,7 +344,7 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | mem0 | `BAAI/bge-m3` | embedder | `benchmarked-cpu-mps-not-promoted` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `google/embeddinggemma-300m` | embedder | `access-gated` | embedding retrieval suite plus collection migration proof | `blocked` | blocked on gated/authenticated model access |
 | mem0 | `jinaai/jina-embeddings-v4` | embedder | `runtime-blocked` | embedding retrieval suite plus collection migration proof | `blocked` | blocked by current local runtime support |
-| mem0 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | `candidate` | embedding retrieval suite plus collection migration proof | `smoke-or-pilot-only` | not blocked permanently; benchmark gate is still missing or incomplete |
+| mem0 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Embedding-4B` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Reranker-4B` | reranker | `source-model-benchmarked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
