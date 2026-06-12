@@ -581,7 +581,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Cross-Runtime Proof Matrix Execution
+## [x] Track: Cross-Runtime Proof Matrix Execution
 *Link: [./tracks/cross-runtime-proof-matrix_20260612/](./tracks/cross-runtime-proof-matrix_20260612/)*
 
 ---
