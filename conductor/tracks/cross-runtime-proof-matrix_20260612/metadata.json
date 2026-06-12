@@ -1,0 +1,8 @@
+{
+  "track_id": "cross-runtime-proof-matrix_20260612",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-12T07:42:24Z",
+  "updated_at": "2026-06-12T07:42:24Z",
+  "description": "Build and execute a cross-runtime proof matrix for llama.cpp, Ollama, LM Studio, MLX, Colab, Azure, NVIDIA/NGC, and Mac/Metal routes."
+}

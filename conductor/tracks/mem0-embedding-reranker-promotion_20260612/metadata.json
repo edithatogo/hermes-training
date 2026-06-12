@@ -1,0 +1,8 @@
+{
+  "track_id": "mem0-embedding-reranker-promotion_20260612",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-12T07:42:24Z",
+  "updated_at": "2026-06-12T07:42:24Z",
+  "description": "Execute the mem0 embedding, retrieval, and reranker roadmap with strict latency, quality, and migration gates."
+}
