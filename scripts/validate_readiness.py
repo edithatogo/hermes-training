@@ -248,6 +248,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/smoke_official_benchmark_env.py",
         ROOT / "scripts/run_mlx_lm_eval.py",
         ROOT / "scripts/materialize_publication_dataset.py",
+        ROOT / "scripts/audit_tool_call_data.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
         ROOT / "scripts/check_conductor_track_consistency.py",
@@ -257,6 +258,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
         ROOT / "scripts/run_colbert_read_stack_smoke.py",
+        ROOT / "gemma4/data/strict_tool_call/tools/materialize_free_text_copy_splits_v6.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],

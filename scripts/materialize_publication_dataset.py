@@ -12,6 +12,7 @@ DEFAULT_ALLOWED_SOURCES = (
     "strict_tool_call_expansion_v1",
     "strict_tool_call_expansion_v2_format_guard",
     "strict_tool_call_expansion_v4_targeted",
+    "strict_tool_call_expansion_v6_free_text_copy",
 )
 DEFAULT_SPLIT_MAP = {
     "train": "train",
