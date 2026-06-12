@@ -170,13 +170,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "9B"
     architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Fresh Hermes-style local runtime pack. Treat as the leading new Hermes-Qwen3.5 comparison lane for Mac-local work."
+    notes: "Fresh Hermes-style local runtime pack. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 20-21 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted malformed strict envelopes, used `parameters` instead of `arguments` in the parallel case, omitted the second required call, and refused but still mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-9b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Prefer the 2B Hermes-Qwen3.5 lane over this 9B lane for prompt/profile repair; not promoted."
 
   - id: mkadrlik/Hermes-Qwen3.5-4B-SFT-v7
     family: hermes
