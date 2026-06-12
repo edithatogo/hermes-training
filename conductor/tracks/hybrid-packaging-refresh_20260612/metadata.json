@@ -1,0 +1,8 @@
+{
+  "id": "hybrid-packaging-refresh_20260612",
+  "title": "Hybrid Attention and Quantized Packaging Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the radar with MiniCPM-SALA, Gemma 4 31B NVFP4 packaging, and the DeepSeek V4 base variant."
+}

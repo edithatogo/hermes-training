@@ -387,3 +387,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Emerging Frontier Multimodal and 1-Bit Refresh
 *Link: [./tracks/emerging-frontier-refresh_20260612/](./tracks/emerging-frontier-refresh_20260612/)*
+
+---
+
+## [x] Track: Hybrid Attention and Quantized Packaging Refresh
+*Link: [./tracks/hybrid-packaging-refresh_20260612/](./tracks/hybrid-packaging-refresh_20260612/)*

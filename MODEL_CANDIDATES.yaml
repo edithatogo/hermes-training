@@ -4,7 +4,7 @@
 updated: "2026-06-12"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Gemma 4 31B-it and its GGUF packaging, Qwen/Qwen3.5-9B, openbmb/MiniCPM-o-4_5 and its GGUF packaging, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, and nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 12B/31B, Hermes 4.3, Qwen3.5-9B, MiniCPM-o 4.5, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
+latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Gemma 4 31B-it and its GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 12B/31B, Hermes 4.3, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -216,6 +216,19 @@ candidates:
     first_finetune: "defer"
     notes: "Community GGUF packaging for Gemma 4 31B-it is visible. Useful as a packaging/runtime comparison point, not a local training target."
 
+  - id: nvidia/Gemma-4-31B-IT-NVFP4
+    family: gemma
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "31B"
+    architecture: "Gemma 4 31B instruction model, NVFP4 packaging"
+    license: "check model card"
+    first_runtime: "NVIDIA/cloud or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Quantized Gemma 4 31B packaging published by NVIDIA. Use as a cloud packaging comparison only."
+
   - id: nvidia/Gemma-4-26B-A4B-NVFP4
     family: gemma
     tier: frontier-runtime
@@ -424,6 +437,19 @@ candidates:
     first_finetune: "defer"
     notes: "Preview long-context teacher with a 1M token claim. Useful as a benchmark reference and cloud teacher, not a Mac local training target."
 
+  - id: deepseek-ai/DeepSeek-V4-Flash-Base
+    family: deepseek
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "284B total / 13B active"
+    architecture: "Sparse MoE long-context base model"
+    license: "check model card"
+    first_runtime: "vLLM or hosted evaluation smoke"
+    first_finetune: "defer"
+    notes: "Base variant of the DeepSeek V4 Flash line. Track as a packaging/runtime reference only."
+
   - id: google/gemma-3n-E4B
     family: gemma
     tier: research-runtime
@@ -514,6 +540,19 @@ candidates:
     first_runtime: "Transformers, GGUF, or MLX smoke"
     first_finetune: "defer"
     notes: "New multimodal MiniCPM release with audio and vision support. Official HF repo plus GGUF and community MLX packaging are visible, so it is a plausible Mac/Colab helper lane."
+
+  - id: openbmb/MiniCPM-SALA
+    family: minicpm
+    tier: research-runtime
+    role: local-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "long-context hybrid"
+    architecture: "Sparse + linear attention hybrid model"
+    license: "check model card"
+    first_runtime: "Transformers or community conversion smoke"
+    first_finetune: "defer"
+    notes: "MiniCPM-SALA is a hybrid sparse/linear-attention model aimed at long context. Treat as a research/runtime lane for context-heavy helper workflows, not a Hermes default."
 
   - id: CohereLabs/North-Mini-Code-1.0
     family: cohere
