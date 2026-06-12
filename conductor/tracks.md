@@ -270,7 +270,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Tiny helper standard benchmark execution
+## [~] Track: Tiny helper standard benchmark execution
 *Link: [./tracks/tiny-helper-standard-benchmark-execution_20260612/](./tracks/tiny-helper-standard-benchmark-execution_20260612/)*
 
 ---
@@ -572,3 +572,33 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 31B and MiniCPM5-1B Packaging Follow-up
 *Link: [./tracks/gemma4-31b-minicpm5-packaging-followup_20260612/](./tracks/gemma4-31b-minicpm5-packaging-followup_20260612/)*
+
+---
+
+## [ ] Track: Hermes Shortlist Runtime and Promotion Execution
+*Link: [./tracks/hermes-shortlist-runtime-promotion_20260612/](./tracks/hermes-shortlist-runtime-promotion_20260612/)*
+
+---
+
+## [ ] Track: mem0 Embedding and Reranker Promotion Execution
+*Link: [./tracks/mem0-embedding-reranker-promotion_20260612/](./tracks/mem0-embedding-reranker-promotion_20260612/)*
+
+---
+
+## [ ] Track: Cross-Runtime Proof Matrix Execution
+*Link: [./tracks/cross-runtime-proof-matrix_20260612/](./tracks/cross-runtime-proof-matrix_20260612/)*
+
+---
+
+## [ ] Track: Frontier Teacher and Support Lane Evaluation
+*Link: [./tracks/frontier-support-evaluation_20260612/](./tracks/frontier-support-evaluation_20260612/)*
+
+---
+
+## [ ] Track: Roadmap Regression and Publication Gate
+*Link: [./tracks/roadmap-regression-publication-gate_20260612/](./tracks/roadmap-regression-publication-gate_20260612/)*
+
+---
+
+## [ ] Track: Cloud Dynamic Benchmark Orchestration
+*Link: [./tracks/cloud-dynamic-benchmark-orchestration_20260612/](./tracks/cloud-dynamic-benchmark-orchestration_20260612/)*

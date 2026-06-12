@@ -47,9 +47,9 @@ The audited category mix matches the repo plan:
 | Area | Primary benchmark | Current status for tiny-helper lane |
 |---|---|---|
 | Hermes-local | Expanded local prompt set, tool-call validator | Partially proven, but strict tool-call shape still fails |
-| Instruction following | IFEval + expanded Hermes-local eval | Not yet run for this lane |
+| Instruction following | IFEval + expanded Hermes-local eval | Tiny Qwen helper IFEval pilot ran and failed at `0.000` |
 | Function/tool calling | BFCL subset + held-out strict local suite | Local tiny BFCL-style gate failed; held-out gate not yet justified |
-| Coding | HumanEval / MBPP | Not yet run for this lane |
+| Coding | HumanEval / MBPP | Tiny Qwen helper coding pilot ran and failed at `0.000` |
 | Safety/refusal | XSTest / SimpleSafetyTests / HarmBench subset | Not yet run for this lane |
 | Long context | RULER | Not applicable to these tiny helper lanes |
 | Retrieval/embedding | MTEB / retrieval eval | Not applicable unless the lane is repurposed as an embedder |

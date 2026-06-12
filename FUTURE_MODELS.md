@@ -33,6 +33,7 @@ Roadmap update: the new hybrid-packaging candidates are not a blanket fine-tune 
 Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` remains the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are the helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B stay in the teacher/runtime comparison set.
 
 The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`; use it for the Qwen3.5 0.8B/2B and MiniCPM5-1B-MLX comparison path only.
+The execution track now has BFCL, IFEval, and coding pilot outputs for Qwen3.5 0.8B, plus BFCL output for Qwen3.5 2B and MiniCPM5 1B MLX. All of those runs are still blocked at `0.000`, so the lane remains a comparison surface rather than a promotion target.
 
 The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in.
 
