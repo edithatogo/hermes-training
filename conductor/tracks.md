@@ -432,3 +432,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen Retrieval Refresh
 *Link: [./tracks/qwen-retrieval-refresh_20260612/](./tracks/qwen-retrieval-refresh_20260612/)*
+
+---
+
+## [x] Track: Qwen Retrieval Tiny Refresh
+*Link: [./tracks/qwen-retrieval-tiny-refresh_20260612/](./tracks/qwen-retrieval-tiny-refresh_20260612/)*
