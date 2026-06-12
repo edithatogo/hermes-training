@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:43:23.516165+00:00`
+Created: `2026-06-12T14:53:00.120890+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 141 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 7 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 3 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -70,7 +70,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-E2B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `mlx-community/gemma-4-e2b-it-4bit` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `mlx-community/gemma-4-e2b-it-4bit` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-mlx-4bit-load-failure-20260613.md` |
 | hermes | `mlx-community/gemma-4-E4B-it-qat-4bit` | `blocked` | blocked by strict Hermes tool-call formatting failure |  |
 | hermes | `google/gemma-4-E4B-it-qat-mobile-transformers` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `unsloth/gemma-4-26B-A4B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -220,7 +220,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-E2B-it` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `mlx-community/gemma-4-e2b-it-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `mlx-community/gemma-4-e2b-it-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `mlx-community/gemma-4-E4B-it-qat-4bit` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `google/gemma-4-E4B-it-qat-mobile-transformers` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `unsloth/gemma-4-26B-A4B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

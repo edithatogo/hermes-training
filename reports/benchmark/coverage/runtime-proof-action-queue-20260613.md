@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T14:43:23.671850+00:00`
+Created: `2026-06-12T14:53:00.265859+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -16,7 +16,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 5 | `google/gemma-4-E2B-it-qat-mobile-transformers` | `mac-runtime-proof` | 2B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 6 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `mac-runtime-proof` | 0.8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 7 | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | `mac-runtime-proof` | 2B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 8 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 8 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked by current local runtime support |
 | 9 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 10 | `openbmb/MiniCPM5-1B-GGUF` | `mac-runtime-proof` | 1B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 11 | `openbmb/MiniCPM5-1B-MLX` | `mac-runtime-proof` | 1B | `mac-mlx` | `blocked` | blocked by empty/no-content generation under the strict prompt |
@@ -139,7 +139,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked by current local runtime support
 
 ```bash
 source scripts/env.sh
