@@ -112,3 +112,19 @@ memory retrieval smoke suite on MPS with:
 
 That satisfies the first service gate, but not the larger replay and rollback
 comparison needed for default promotion.
+
+## Hermes Tool Fixture Smoke
+
+2026-06-12: `scripts/hermes_mem0_tool.py --mode colbert-qwen3` successfully
+called the local ColBERT service against
+`benchmarks/embeddings/memory_retrieval_expanded_suite.json`, then reranked the
+eight returned candidates with `Qwen/Qwen3-Reranker-0.6B`. The query "Which
+collection stores the current mem0 vectors?" returned `target-collection` as
+the top memory with no mem0 config mutation.
+
+Evidence:
+`reports/benchmark/mem0/hermes-tool-colbert-qwen3-fixture-smoke-20260612.md`
+
+This proves the Hermes command surface can call the candidate stack. It does
+not yet prove live mem0 default integration because the document source is an
+explicit fixture rather than the live memory store.

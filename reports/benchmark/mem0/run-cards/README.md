@@ -50,6 +50,7 @@ runtime endpoint against the current mem0 default.
 | [embedding-qwen3-4b-expanded-20260612](./embedding-qwen3-4b-expanded-20260612.md) | embedder | keep testing |
 | [qwen3-4b-expanded-rerank-20260612](./qwen3-4b-expanded-rerank-20260612.md) | reranker candidate | keep testing |
 | [lfm2-colbert-qwen3-06b-rerank-20260612](./lfm2-colbert-qwen3-06b-rerank-20260612.md) | reranker candidate | keep testing |
+| [hermes-tool-colbert-qwen3-fixture-smoke-20260612](../hermes-tool-colbert-qwen3-fixture-smoke-20260612.md) | Hermes tool fixture smoke | keep testing |
 
 ## Generate
 

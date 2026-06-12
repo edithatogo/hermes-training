@@ -53,9 +53,15 @@ def rerank_search_results(
     qwen3_local_files_only: bool = False,
     qwen3_server_url: str | None = None,
     mlx_max_length: int = 8192,
+    retriever_service_url: str | None = None,
+    retriever_timeout_s: float = 120.0,
 ) -> tuple[list[dict[str, Any]], float]:
     if not results:
         return [], 0.0
+    if strategy == "retriever_service":
+        if not retriever_service_url:
+            raise ValueError("--retriever-service-url is required for retriever_service")
+        return retriever_service_rerank(retriever_service_url, query, results, retriever_timeout_s)
     if strategy == "qwen3_causal_lm":
         if not model:
             raise ValueError("--model is required for qwen3_causal_lm")
@@ -86,6 +92,85 @@ def rerank_search_results(
     rerank_started = time.time()
     ranked = rerank_results(results, strategy, recency_weight)
     return ranked, time.time() - rerank_started
+
+
+def memory_text(item: dict[str, Any]) -> str:
+    for key in ("memory", "text", "content"):
+        value = item.get(key)
+        if isinstance(value, str) and value.strip():
+            return value
+    return json.dumps(item, ensure_ascii=False, sort_keys=True)
+
+
+def memory_id(item: dict[str, Any], index: int) -> str:
+    value = item.get("id") or item.get("memory_id")
+    if isinstance(value, str) and value:
+        return value
+    return f"mem0-result-{index}"
+
+
+def retriever_service_rerank(
+    service_url: str,
+    query: str,
+    results: list[dict[str, Any]],
+    timeout_s: float,
+) -> tuple[list[dict[str, Any]], float]:
+    documents = []
+    by_doc_id: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(results, 1):
+        doc_id = memory_id(item, index)
+        document = {
+            "doc_id": doc_id,
+            "text": memory_text(item),
+            "created_at": item.get("created_at", ""),
+            "score": item.get("score"),
+            "metadata": item.get("metadata", {}),
+        }
+        documents.append(document)
+        by_doc_id[doc_id] = item
+    payload = {"query": query, "top_k": len(documents), "documents": documents}
+    started = time.time()
+    request = Request(
+        service_url.rstrip("/") + "/retrieve",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=timeout_s) as response:
+            response_payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        raise RuntimeError(f"retriever service returned HTTP {exc.code}: {exc.read().decode('utf-8')}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"retriever service unavailable: {exc.reason}") from exc
+    ranked_results = response_payload.get("results")
+    if not isinstance(ranked_results, list):
+        raise RuntimeError("retriever service response missing results list")
+    ranked: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for result in ranked_results:
+        if not isinstance(result, dict):
+            continue
+        doc_id = str(result.get("doc_id") or result.get("id") or "")
+        original = by_doc_id.get(doc_id)
+        if original is None:
+            continue
+        seen.add(doc_id)
+        enriched = dict(original)
+        enriched["base_score"] = float(original.get("score") or 0.0)
+        enriched["rerank_score"] = float(result.get("score") or 0.0)
+        enriched["retriever_score"] = enriched["rerank_score"]
+        enriched["retriever_doc_id"] = doc_id
+        ranked.append(enriched)
+    for doc_id, original in by_doc_id.items():
+        if doc_id in seen:
+            continue
+        enriched = dict(original)
+        enriched["base_score"] = float(original.get("score") or 0.0)
+        enriched["rerank_score"] = float("-inf")
+        enriched["retriever_doc_id"] = doc_id
+        ranked.append(enriched)
+    return ranked, time.time() - started
 
 
 def qwen3_server_rerank(
@@ -142,6 +227,7 @@ def main() -> int:
             "benchmark_order",
             "qwen3_causal_lm",
             "mlx_cross_encoder",
+            "retriever_service",
         ),
         default="score_plus_created_at_rank",
     )
@@ -155,6 +241,8 @@ def main() -> int:
     )
     parser.add_argument("--qwen3-server-url", help="Warm local Qwen3 reranker service URL.")
     parser.add_argument("--mlx-max-length", type=int, default=8192)
+    parser.add_argument("--retriever-service-url", default="http://127.0.0.1:8765")
+    parser.add_argument("--retriever-timeout-s", type=float, default=120.0)
     parser.add_argument(
         "--qwen3-instruction",
         default="Retrieve memories that answer the query for a local Hermes agent.",
@@ -179,6 +267,8 @@ def main() -> int:
             args.qwen3_local_files_only,
             args.qwen3_server_url,
             args.mlx_max_length,
+            args.retriever_service_url,
+            args.retriever_timeout_s,
         )
     except (RuntimeError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
@@ -205,6 +295,8 @@ def main() -> int:
         output["qwen3_server_url"] = args.qwen3_server_url or ""
     if args.strategy == "mlx_cross_encoder":
         output["mlx_max_length"] = args.mlx_max_length
+    if args.strategy == "retriever_service":
+        output["retriever_service_url"] = args.retriever_service_url
     if args.include_raw:
         output["raw_mem0_output"] = raw
     print(json.dumps(output, indent=2, ensure_ascii=False))

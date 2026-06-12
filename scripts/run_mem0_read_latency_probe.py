@@ -243,6 +243,11 @@ def build_read_args(args: argparse.Namespace, query: str) -> argparse.Namespace:
         qwen3_local_files_only=args.qwen3_local_files_only,
         qwen3_server_url=args.qwen3_server_url,
         mlx_max_length=args.mlx_max_length,
+        retriever_service_url=args.retriever_service_url,
+        retriever_timeout_s=args.retriever_timeout_s,
+        retriever_index_id=args.retriever_index_id,
+        retriever_top_k=args.retriever_top_k,
+        document_fixture=args.document_fixture,
         fallback_to_vector=args.fallback_to_vector,
         include_raw=args.include_raw,
         cache_path=args.cache_path,
@@ -289,6 +294,16 @@ def build_mem0_read_command(args: argparse.Namespace, query: str) -> list[str]:
         command.append("--qwen3-local-files-only")
     if args.qwen3_server_url:
         command.extend(["--qwen3-server-url", args.qwen3_server_url])
+    if args.retriever_service_url:
+        command.extend(["--retriever-service-url", args.retriever_service_url])
+    if args.retriever_timeout_s:
+        command.extend(["--retriever-timeout-s", str(args.retriever_timeout_s)])
+    if args.retriever_index_id:
+        command.extend(["--retriever-index-id", args.retriever_index_id])
+    if args.retriever_top_k:
+        command.extend(["--retriever-top-k", str(args.retriever_top_k)])
+    if args.document_fixture:
+        command.extend(["--document-fixture", str(args.document_fixture)])
     return command
 
 
@@ -320,7 +335,7 @@ def main() -> int:
     parser.add_argument("--run-id", default=f"mem0-read-latency-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--tool", default="cmd")
-    parser.add_argument("--mode", choices=("close-margin", "vector", "qwen3", "mlx-bge"), default="close-margin")
+    parser.add_argument("--mode", choices=("close-margin", "vector", "qwen3", "mlx-bge", "colbert", "colbert-qwen3"), default="close-margin")
     parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--timeout-s", type=float, default=120.0)
     parser.add_argument("--include-raw", action="store_true")
@@ -334,6 +349,11 @@ def main() -> int:
     parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
+    parser.add_argument("--retriever-service-url", default="http://127.0.0.1:8765")
+    parser.add_argument("--retriever-timeout-s", type=float, default=120.0)
+    parser.add_argument("--retriever-index-id", default="")
+    parser.add_argument("--retriever-top-k", type=int, default=8)
+    parser.add_argument("--document-fixture", type=Path)
     parser.add_argument("--qwen3-instruction", default="Retrieve memories that answer the query for a local Hermes agent.")
     parser.add_argument("--read-wall-timeout-s", type=float, default=0.0, help="Optional outer wall-clock timeout for each guarded read, including model load.")
     parser.add_argument("--subprocess-read", action="store_true", help="Run each guarded read in a child process so wall timeouts can kill model load/fetch hangs.")

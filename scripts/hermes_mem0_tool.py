@@ -12,9 +12,10 @@ try:
 except ModuleNotFoundError:
     from scripts.mem0_read import run_guarded_read
 
-VALID_MODES = {"close-margin", "vector", "qwen3", "mlx-bge"}
+VALID_MODES = {"close-margin", "vector", "qwen3", "mlx-bge", "colbert", "colbert-qwen3"}
 DEFAULT_MLX_BGE_MODEL = "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit"
 DEFAULT_CACHE_TTL_S = 300.0
+DEFAULT_RETRIEVER_SERVICE_URL = "http://127.0.0.1:8765"
 
 
 def load_payload(stdin_text: str, query: str | None) -> dict[str, Any]:
@@ -70,6 +71,9 @@ def build_read_args(args: argparse.Namespace, payload: dict[str, Any]) -> argpar
     mlx_max_length = int_value(payload.get("mlx_max_length"), args.mlx_max_length)
     if mlx_max_length <= 0:
         raise ValueError("mlx_max_length must be > 0")
+    retriever_timeout_s = float_value(payload.get("retriever_timeout_s"), args.retriever_timeout_s)
+    if retriever_timeout_s <= 0:
+        raise ValueError("retriever_timeout_s must be > 0")
     return argparse.Namespace(
         query=query.strip(),
         tool=str(payload.get("tool") or args.tool),
@@ -83,6 +87,11 @@ def build_read_args(args: argparse.Namespace, payload: dict[str, Any]) -> argpar
         qwen3_local_files_only=bool_value(payload.get("qwen3_local_files_only"), args.qwen3_local_files_only),
         qwen3_server_url=payload.get("qwen3_server_url") or args.qwen3_server_url,
         mlx_max_length=mlx_max_length,
+        retriever_service_url=str(payload.get("retriever_service_url") or args.retriever_service_url),
+        retriever_timeout_s=retriever_timeout_s,
+        retriever_index_id=str(payload.get("retriever_index_id") or args.retriever_index_id),
+        retriever_top_k=int_value(payload.get("retriever_top_k"), args.retriever_top_k),
+        document_fixture=payload.get("document_fixture") or args.document_fixture,
         fallback_to_vector=bool_value(payload.get("fallback_to_vector"), args.fallback_to_vector),
         include_raw=bool_value(payload.get("include_raw"), args.include_raw),
         cache_path=payload.get("cache_path") or args.cache_path,
@@ -122,6 +131,8 @@ def render_tool_result(read_output: dict[str, Any]) -> dict[str, Any]:
             "mem0_search_s": read_output.get("mem0_search_latency_s", 0.0),
             "rerank_s": read_output.get("rerank_latency_s", 0.0),
         },
+        "retriever_service_url": read_output.get("retriever_service_url", ""),
+        "document_fixture_path": read_output.get("document_fixture_path", ""),
         "memories": memories,
     }
 
@@ -144,6 +155,11 @@ def main() -> int:
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
     parser.add_argument("--mlx-max-length", type=int, default=1024)
+    parser.add_argument("--retriever-service-url", default=DEFAULT_RETRIEVER_SERVICE_URL)
+    parser.add_argument("--retriever-timeout-s", type=float, default=120.0)
+    parser.add_argument("--retriever-index-id", default="")
+    parser.add_argument("--retriever-top-k", type=int, default=8)
+    parser.add_argument("--document-fixture")
     parser.add_argument("--qwen3-instruction", default="Retrieve memories that answer the query for a local Hermes agent.")
     args = parser.parse_args()
 

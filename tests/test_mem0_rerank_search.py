@@ -137,6 +137,46 @@ class Mem0RerankSearchTests(unittest.TestCase):
             1024,
         )
 
+    def test_retriever_service_strategy_posts_memories_as_documents(self) -> None:
+        class FakeResponse:
+            def __enter__(self) -> "FakeResponse":
+                return self
+
+            def __exit__(self, *_: object) -> None:
+                return None
+
+            def read(self) -> bytes:
+                return (
+                    b'{"results": ['
+                    b'{"doc_id": "target", "score": 10.0},'
+                    b'{"doc_id": "old", "score": 2.0}'
+                    b"]}"
+                )
+
+        results = [
+            {"id": "old", "memory": "Old collection was mem0_old.", "score": 0.91},
+            {"id": "target", "memory": "Current collection is mem0_nomic_768.", "score": 0.88},
+        ]
+        with patch("scripts.mem0_rerank_search.urlopen", return_value=FakeResponse()) as opened:
+            ranked, _ = rerank_search_results(
+                "What is the active mem0 collection?",
+                results,
+                "retriever_service",
+                0.20,
+                None,
+                "cpu",
+                4096,
+                "Retrieve relevant memory",
+                retriever_service_url="http://127.0.0.1:8765",
+            )
+
+        request = opened.call_args.args[0]
+        payload = request.data.decode("utf-8")
+        self.assertEqual(request.full_url, "http://127.0.0.1:8765/retrieve")
+        self.assertIn('"doc_id": "target"', payload)
+        self.assertEqual(ranked[0]["id"], "target")
+        self.assertEqual(ranked[0]["retriever_score"], 10.0)
+
     def test_qwen3_server_rerank_posts_json(self) -> None:
         class FakeResponse:
             def __enter__(self) -> "FakeResponse":

@@ -34,7 +34,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 13 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | trust-remote-code path needs pillow/peft and still fails on SlidingWindowCache import in current Transformers stack |
 | 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
 | 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
-| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | expanded-retriever-suite | 2026-06-12 expanded retriever-service suite reached top-1 0.917 / recall@3 1.000; with Qwen3-0.6B reranking reached top-1 1.000, keep isolated until live wrapper integration |
+| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | expanded-retriever-suite | 2026-06-12 expanded retriever-service suite reached top-1 0.917 / recall@3 1.000; with Qwen3-0.6B reranking reached top-1 1.000; opt-in `colbert` read mode is wired pending broader live probes |
 
 ## Candidate Commands
 
@@ -293,8 +293,10 @@ source scripts/env.sh
 
 - Role: `retriever`
 - Status: `source-model-benchmarked`
-- Blocker: needs separate index/service shape and live-wrapper integration
+- Blocker: opt-in read-wrapper mode and service-down fallback exist; needs broader live cold/warm latency probes and service lifecycle evidence
 - Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`
+- Wrapper smoke: `reports/benchmark/mem0/colbert-read-wrapper-smoke-20260612.md`
+- Fallback smoke: `reports/benchmark/mem0/colbert-service-down-fallback-20260612.md`
 
 ```bash
 source scripts/env.sh

@@ -49,8 +49,35 @@ HERMES_PLUGINS_DEBUG=1 hermes tools list
 - Default mode: `close-margin`.
 - Rollback mode: `vector`.
 - Experimental mode: `qwen3` with optional `fallback_to_vector`.
+- Experimental service mode: `colbert` reranks normal mem0 CLI results through
+  the local ColBERT retriever service.
+- Experimental fixture mode: `colbert-qwen3` retrieves from an explicit JSON
+  document fixture through the ColBERT service and then reranks with Qwen3.
 - Cache: opt-in TTL, default `300s` for this command wrapper.
 
 Use `refresh_cache: true` after memory writes or when validating a changed
 store. Do not wire this as an automatic every-turn prelude; use it as an
 explicit or cached memory-read tool.
+
+## ColBERT + Qwen3 Fixture Mode
+
+Use this only when the local ColBERT service is already running. It is useful
+for integration checks and controlled fixtures, not live default mem0 reads:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/hermes_mem0_tool.py \
+  --query "Which collection stores the current mem0 vectors?" \
+  --mode colbert-qwen3 \
+  --document-fixture benchmarks/embeddings/memory_retrieval_expanded_suite.json \
+  --retriever-service-url http://127.0.0.1:8765 \
+  --retriever-top-k 8 \
+  --qwen3-device cpu \
+  --qwen3-max-length 1024 \
+  --qwen3-local-files-only
+```
+
+The 2026-06-12 fixture smoke passed and is recorded in
+`reports/benchmark/mem0/hermes-tool-colbert-qwen3-fixture-smoke-20260612.md`.
+Keep this mode opt-in until live mem0 indexing, service lifecycle, and rollback
+behavior are proven.
