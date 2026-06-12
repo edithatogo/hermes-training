@@ -33,11 +33,12 @@
     - [x] Execute local proof where packaging is already available.
     - [ ] Execute Colab proof for sanitized support benchmarks where local load is excessive.
     - [x] Document blocked NGC or Azure proofs with exact auth/quota blocker.
+    - [x] Capture output restrictions.
     - Note: source-verification and lane classification are complete; runtime proof for the newest support lanes remains the next action.
     - Evidence: `reports/runtime/cross-runtime-proof-matrix-20260612.md`, `reports/runtime/support-lane-proof-queue-20260612.md`, `reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md`, `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`
-- [ ] Task: Capture output restrictions.
-    - [ ] Record license, redistribution, and publication restrictions.
-    - [ ] Keep restricted outputs out of public artifacts unless approved.
+- [x] Task: Capture output restrictions.
+    - [x] Record license, redistribution, and publication restrictions.
+    - [x] Keep restricted outputs out of public artifacts unless approved.
 - [ ] Task: Conductor - User Manual Verification 'Bounded Proof Execution' (Protocol in workflow.md)
 
 ## Phase 4: Roadmap Reconciliation

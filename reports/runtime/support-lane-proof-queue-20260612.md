@@ -24,6 +24,8 @@ proof-state artifact, not a promotion claim.
 - Azure remains blocked until login, subscription, region, quota, and cost gates pass.
 - NGC remains blocked until API key, entitlement, and model/container checks pass.
 - Colab is the default offload path for sanitized support proofs.
+- Keep any restricted or private outputs out of public artifacts until an explicit
+  publication review approves them.
 
 ## Interpretation
 
