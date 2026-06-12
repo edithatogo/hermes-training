@@ -4,6 +4,7 @@ This project must distinguish pipeline proof from quality proof.
 
 Use [STANDARD_BENCHMARKS.md](./STANDARD_BENCHMARKS.md) for the broader standardized suite that should accompany GitHub and Hugging Face publication. Use [AZURE_SCALEOUT.md](./AZURE_SCALEOUT.md) when benchmark breadth or teacher/evaluator runs should move to Azure.
 Use [RETRIEVAL_MEMORY.md](./RETRIEVAL_MEMORY.md) for the retrieval-specific lane decisions, serving shape, and publication rules. Use [mem0/BENCHMARKS.md](./mem0/BENCHMARKS.md) for mem0 add/search, recency, distractor, extraction, embedding, and reranking benchmarks.
+Use [runtime-proof-action-queue-20260613.md](./reports/benchmark/coverage/runtime-proof-action-queue-20260613.md) when continuing the blocked Hermes candidate backlog. It is generated from `MODEL_CANDIDATES.yaml` plus the all-candidate coverage report and separates Mac runtime, support-model, prompt-profile, cloud teacher, specialist-runtime, and watchlist work.
 
 ## Current Result
 

@@ -1,0 +1,372 @@
+[
+  {
+    "id": "adapter-version-boundary",
+    "category": "version_disambiguation",
+    "query": "Which Qwen3 adapter is recommended for strict Hermes tool calls after the v5 pilot?",
+    "documents": [
+      {
+        "id": "target-v4-current",
+        "text": "Qwen3 v4 targeted remains the recommended strict Hermes tool-call adapter after v5 regressed on the held-out strict gate.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-v5-pilot",
+        "text": "Qwen3 v5 pilot-polish improved the BFCL-style pilot but is a non-promotion because held-out strict pass regressed.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-v4-dataset",
+        "text": "The Qwen3 v4 cleaned synthetic-only dataset is a publishable-scope candidate only after explicit approval and re-audit.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-qwen35-helper",
+        "text": "Qwen3.5 0.8B and 2B are helper lanes, not the recommended strict Hermes tool-call adapter.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-smoke",
+        "text": "The early Qwen3 4B smoke adapter was a local MLX proof rather than the current strict tool-call recommendation.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-publication",
+        "text": "Public release claims require the standard benchmark coverage gate, not only a local strict held-out score.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "embedder-default-vs-best-score",
+    "category": "role_boundary",
+    "query": "Which embedder remains the default rollback despite Jina v5 scoring higher on the expanded suite?",
+    "documents": [
+      {
+        "id": "target-nomic-default",
+        "text": "nomic-embed-text:latest remains the default rollback embedder in the mem0_nomic_768 collection.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-jina-score",
+        "text": "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx scored 1.000 on the expanded retrieval suite but is not promoted.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-bge",
+        "text": "BAAI/bge-m3 reached 0.917 on the expanded suite and requires a separate mem0_bge_m3_1024 collection.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-qwen4b",
+        "text": "Qwen/Qwen3-Embedding-4B is benchmarked but too slow for a default local mem0 path without further live proof.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-colbert",
+        "text": "LFM2-ColBERT is a late-interaction retriever and must not be stored as dense vectors in the nomic collection.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-collection",
+        "text": "The candidate Jina collection name is mem0_jina_v5_omni_small_1024.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "colbert-quality-boundary",
+    "category": "model_ranking_boundary",
+    "query": "Which mem0 read path beat ColBERT on the multi-result recency fixture?",
+    "documents": [
+      {
+        "id": "target-close-margin",
+        "text": "The close-margin guarded read reached 1.000 on the multi-result fixture and beat ColBERT on recency-sensitive local memory.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-colbert-score",
+        "text": "ColBERT reached 0.833 on the six-case isolated mem0 fixture and improved over raw vector ordering.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-vector",
+        "text": "Raw vector ordering reached 0.667 on the same multi-result fixture.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-qwen-rerank",
+        "text": "Qwen3-Reranker-0.6B fixed derived ColBERT expanded reranking, but that was not the live mem0 fixture winner.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-service",
+        "text": "The ColBERT lifecycle smoke proved service start, query, stop, and fallback behavior.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-multicandidate",
+        "text": "The isolated ColBERT fixture returned three to five candidates per query.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "dataset-publish-scope",
+    "category": "approval_boundary",
+    "query": "Which dataset scope was approved for Hugging Face publication?",
+    "documents": [
+      {
+        "id": "target-synthetic-only",
+        "text": "The cleaned synthetic-only dataset at /Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526 was approved for the Hugging Face dataset repo.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-mixed-sources",
+        "text": "The mixed-source training data is not the approved publication scope.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-heldout",
+        "text": "Held-out benchmark prompts must remain separate from dataset publication rows.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-adapter",
+        "text": "The Qwen3 v4 adapter publication evidence is separate from the dataset repository approval.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-dryrun",
+        "text": "The dry-run report confirms rows and overlap checks but does not itself publish the dataset.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-repo",
+        "text": "The approved dataset repository is edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "cloud-backend-priority",
+    "category": "operational_priority",
+    "query": "Which cloud backend should be tried first for sanitized bounded benchmark jobs?",
+    "documents": [
+      {
+        "id": "target-colab",
+        "text": "Use Colab first for sanitized bounded benchmark or smoke jobs through scripts/colab_dispatch.py.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-azure",
+        "text": "Azure remains blocked until login, quota, and cost checks pass.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-ngc",
+        "text": "NGC remains blocked until API key and entitlement checks pass.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-kaggle",
+        "text": "Kaggle remains blocked when the CLI is absent from PATH or credentials are missing.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-local",
+        "text": "Local Mac/MLX remains useful for small bounded tests but should not carry heavy training when Colab is available.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-azure-student",
+        "text": "The Azure for Students account has zero useful GPU-family quota in sampled regions.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "storage-artifact-boundary",
+    "category": "path_scope",
+    "query": "Where should raw benchmark outputs be stored instead of committed reports?",
+    "documents": [
+      {
+        "id": "target-evals",
+        "text": "Raw benchmark outputs should stay under /Volumes/PortableSSD/hermes-evals.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-reports",
+        "text": "Short benchmark report markdown files belong under reports/benchmark in Git.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-exports",
+        "text": "Large model exports should stay under /Volumes/PortableSSD/hermes-exports.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-cache",
+        "text": "Hugging Face model cache artifacts should stay under /Volumes/PortableSSD/huggingface.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-github",
+        "text": "Source code, benchmark fixtures, and concise reports should stay under /Volumes/PortableSSD/GitHub/hermes-training.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-indexes",
+        "text": "Late-interaction ColBERT indexes should stay under /Volumes/PortableSSD/hermes-indexes.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "runtime-validation-boundary",
+    "category": "runtime_surface",
+    "query": "Which Qwen3 GGUF runtime path is validated after Ollama import failed?",
+    "documents": [
+      {
+        "id": "target-llamacpp-lmstudio",
+        "text": "Direct llama.cpp and LM Studio are validated GGUF runtime paths for the Qwen3 4B package.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-ollama-failed",
+        "text": "Ollama GGUF import failed because the daemon dropped during model creation.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-mlx",
+        "text": "MLX server passed an OpenAI-compatible smoke for the Qwen3 4B adapter, but this query asks about GGUF runtime paths.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-safetensors",
+        "text": "The fused safetensors export exists but is not the validated GGUF runtime path.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-lm-eval",
+        "text": "The direct MLX lm-eval adapter provides loglikelihood scoring and is unrelated to GGUF serving.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-ollama-retest",
+        "text": "Ollama should only be retested after upgrading or replacing the crashing Qwen3 GGUF import path.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "jina-cache-completeness",
+    "category": "cache_integrity",
+    "query": "What must a cached Jina MLX repo contain before local-files-only benchmarking?",
+    "documents": [
+      {
+        "id": "target-source-weights",
+        "text": "A cached Jina MLX repo must contain loadable source files and safetensors weights before local-files-only benchmarking.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-source-only",
+        "text": "A source-only git checkout with model.py and tokenizer.json but no model.safetensors is incomplete.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-hf-cli",
+        "text": "The Jina runner now uses huggingface_hub.snapshot_download instead of deprecated huggingface-cli download.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-run-dir",
+        "text": "Run-specific output directories belong under hermes-evals and do not prove model cache completeness.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-lfs-index",
+        "text": "A model.safetensors.index.json file alone is not the same as the loaded safetensors payload.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-revision",
+        "text": "The revision string controls the Hugging Face snapshot but does not replace missing local weights.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "tiny-helper-promotion-boundary",
+    "category": "negative_capability",
+    "query": "Which tiny helper lane should not be treated as Hermes-strict tool-call compliant?",
+    "documents": [
+      {
+        "id": "target-tiny-helper",
+        "text": "The tiny-helper-no-prefill lane for Qwen3.5 0.8B, Qwen3.5 2B, and MiniCPM5 1B should not be treated as Hermes-strict tool-call compliant.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-v4-strict",
+        "text": "Qwen3 v4 targeted is the current strict Hermes tool-call adapter.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-minicpm-load",
+        "text": "MiniCPM5 1B MLX is load-proven and useful for helper comparison, but that does not make it strict-tool compliant.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-qwen35-loglikelihood",
+        "text": "Qwen3.5 helper lanes have loglikelihood and prompt-output evidence, not strict tool-call promotion evidence.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-official-pilot",
+        "text": "Tiny helper standard benchmark pilots are recorded separately from strict Hermes tool-call publication gates.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-training",
+        "text": "A future helper fine-tune must still pass role-specific gates before promotion.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "azure-quota-no-compute",
+    "category": "blocked_action",
+    "query": "What should happen before creating Azure ML compute for these benchmarks?",
+    "documents": [
+      {
+        "id": "target-quota-cost",
+        "text": "Run az login, quota checks, and explicit cost approval before creating Azure ML compute.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-student-login",
+        "text": "The Azure student subscription login exists, but useful GPU-family quota still needs confirmation.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-create-now",
+        "text": "Do not create Azure ML workspaces or compute before quota and cost gates pass.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-colab",
+        "text": "Colab is the first offload path for bounded sanitized jobs, but it does not authorize Azure compute creation.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-ngc",
+        "text": "NVIDIA NGC is a separate backend blocked on key and entitlement checks.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-local",
+        "text": "Local validation can continue while Azure remains blocked.",
+        "relevant": false
+      }
+    ]
+  }
+]

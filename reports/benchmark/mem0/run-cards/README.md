@@ -25,6 +25,7 @@ runtime endpoint against the current mem0 default.
 | [extraction-lfm2-2-6b-clean-root-20260526](./extraction-lfm2-2-6b-clean-root-20260526.md) | extractor | keep testing |
 | [extraction-hermes4-14b-q4-smoke-20260613](./extraction-hermes4-14b-q4-smoke-20260613.md) | extractor | reject for mem0 default |
 | [embedding-nomic-expanded-20260526](./embedding-nomic-expanded-20260526.md) | embedder | keep testing |
+| [embedding-nomic-differentiation-20260613](./embedding-nomic-differentiation-20260613.md) | embedder | keep testing |
 | [nomic-expanded-vector-rerank-20260526](./nomic-expanded-vector-rerank-20260526.md) | reranker baseline | keep testing |
 | [nomic-expanded-created-at-rank-20260526](./nomic-expanded-created-at-rank-20260526.md) | reranker baseline | keep testing |
 | [nomic-expanded-lexical-rerank-20260526](./nomic-expanded-lexical-rerank-20260526.md) | reranker baseline | keep testing |
@@ -51,13 +52,16 @@ runtime endpoint against the current mem0 default.
 | [embedding-qwen3-4b-smoke-20260612](./embedding-qwen3-4b-smoke-20260612.md) | embedder | keep testing |
 | [rerank-qwen3-4b-fixed-smoke-20260612](./rerank-qwen3-4b-fixed-smoke-20260612.md) | reranker candidate | keep testing |
 | [embedding-qwen3-4b-expanded-20260612](./embedding-qwen3-4b-expanded-20260612.md) | embedder | keep testing |
+| [embedding-bge-m3-differentiation-20260613](./embedding-bge-m3-differentiation-20260613.md) | embedder | keep testing |
 | [jina-mlx-retrieval-expanded-20260613](./jina-mlx-retrieval-expanded-20260613.md) | embedder | keep testing |
 | [jina-mlx-text-matching-expanded-20260612](./jina-mlx-text-matching-expanded-20260612.md) | embedder | keep testing |
+| [jina-mlx-text-matching-differentiation-20260613](./jina-mlx-text-matching-differentiation-20260613.md) | embedder | keep testing |
 | [qwen3-4b-expanded-rerank-20260612](./qwen3-4b-expanded-rerank-20260612.md) | reranker candidate | keep testing |
 | [lfm2-colbert-qwen3-06b-rerank-20260612](./lfm2-colbert-qwen3-06b-rerank-20260612.md) | reranker candidate | keep testing |
 | [hermes-tool-colbert-qwen3-fixture-smoke-20260612](../hermes-tool-colbert-qwen3-fixture-smoke-20260612.md) | Hermes tool fixture smoke | keep testing |
 | [mem0-colbert-stack-20260612-read-stack-smoke](../mem0-colbert-stack-20260612-read-stack-smoke.md) | ColBERT service lifecycle | keep opt-in |
 | [mem0-live-fixture-colbert-rerank-20260612](../mem0-live-fixture-colbert-rerank-20260612.md) | ColBERT isolated fixture | keep opt-in |
+| [mem0-live-fixture-differentiation-20260613](./mem0-live-fixture-differentiation-20260613.md) | isolated fixture reranker | keep testing |
 
 ## Generate
 

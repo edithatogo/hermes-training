@@ -230,6 +230,23 @@ Current expanded embedding-derived reranker scores:
 | nomic | `score_plus_created_at_rank_close_margin` | 0.917 | 1.000 | 1.000 |
 | nomic | `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` | 1.000 | 1.000 | 1.000 |
 
+Current hard differentiation embedding scores:
+
+| Model | Runtime | Top-1 | Recall@3 | MRR | Decision |
+|---|---|---:|---:|---:|---|
+| `BAAI/bge-m3` | `sentence-transformers` CPU | 0.900 | 1.000 | 0.933 | keep testing; strongest isolated differentiation score |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.700 | 0.900 | 0.825 | keep testing; not default-ready on this harder suite |
+| `nomic-embed-text:latest` | Ollama embeddings | 0.600 | 0.800 | 0.750 | keep as rollback/default until live guarded replacement passes |
+
+The differentiation suite is
+`benchmarks/embeddings/memory_retrieval_differentiation_suite.json`. It is
+designed to catch cases where a candidate retrieves a plausible but operationally
+wrong model, collection, cloud backend, or artifact path. These isolated
+embedding scores do not override the live isolated-fixture result: the default
+read path remains `nomic-embed-text:latest` plus the close-margin guarded wrapper
+until a replacement passes collection migration, live multi-result retrieval, and
+rollback checks.
+
 Run a read-only reranked search against the live mem0 store:
 
 ```bash
@@ -390,10 +407,13 @@ Current isolated fixture comparison:
 | `vector` | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.000s |
 | `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000s |
 | `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` warm service | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.491s |
+| hard differentiation fixture with default embedder | 0.750 | 0.750 | 0.875 | 0.000 | 0.667 | 0.000s |
 
 The fixture returned 3-5 candidates per query from an output-local Qdrant
 store. Qwen3 remains a candidate, but this live fixture promotes the
-close-margin wrapper as the next low-risk integration target.
+close-margin wrapper as the next low-risk integration target. The harder
+differentiation fixture shows that even the guarded path still needs more
+recency and distractor work before an embedder swap or collection migration.
 
 Run an Ollama memory-extraction smoke test:
 

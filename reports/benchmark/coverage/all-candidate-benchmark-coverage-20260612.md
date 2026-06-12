@@ -9,6 +9,10 @@ No: the repo has benchmark evidence for the active Hermes and mem0 lanes, but no
 
 The three-case smokes are appropriate only as liveness and regression checks. They are not sufficiently discriminating when multiple candidates tie. Promotion requires the role-specific expanded suites recorded below.
 
+## Runtime-Proof Queue
+
+The executable follow-up queue is generated at [`runtime-proof-action-queue-20260613.md`](./runtime-proof-action-queue-20260613.md). It separates Mac runtime proofs, prompt-profile repairs, support-model proofs, cloud teacher proofs, specialist runtime proofs, and watchlist entries so the remaining blocked Hermes candidates can be worked in bounded batches.
+
 ## Counts
 
 | Project | Coverage state | Count |

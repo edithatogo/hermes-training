@@ -36,12 +36,58 @@ class RunMem0IsolatedFixtureRerankTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            config_path = write_fixture_config(base, root / "out", "Fixture Run 2026")
+            config_path = write_fixture_config(
+                base,
+                root / "out",
+                "Fixture Run 2026",
+                embedder_provider=None,
+                embedder_model=None,
+                embedder_base_url=None,
+                embedding_dims=None,
+                embedder_api_key="local-fixture",
+            )
             config = json.loads(config_path.read_text(encoding="utf-8"))
 
         self.assertEqual(config["vector_store"]["config"]["collection_name"], "mem0_fixture_fixture_run_2026")
         self.assertTrue(config["vector_store"]["config"]["path"].endswith("/out/qdrant"))
         self.assertTrue(config["history_db_path"].endswith("/out/history.db"))
+
+    def test_write_fixture_config_can_override_embedder(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base = root / "base.json"
+            base.write_text(
+                json.dumps(
+                    {
+                        "vector_store": {
+                            "provider": "qdrant",
+                            "config": {
+                                "collection_name": "mem0_nomic_768",
+                                "embedding_model_dims": 768,
+                                "path": "/Users/doughnut/.mem0/qdrant",
+                            },
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            config_path = write_fixture_config(
+                base,
+                root / "out",
+                "Jina Fixture",
+                embedder_provider="openai",
+                embedder_model="jinaai/jina-embeddings-v5-omni-small-text-matching-mlx",
+                embedder_base_url="http://127.0.0.1:8094/v1",
+                embedding_dims=1024,
+                embedder_api_key="local-fixture",
+            )
+            config = json.loads(config_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(config["vector_store"]["config"]["embedding_model_dims"], 1024)
+        self.assertEqual(config["embedder"]["provider"], "openai")
+        self.assertEqual(config["embedder"]["config"]["model"], "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx")
+        self.assertEqual(config["embedder"]["config"]["openai_base_url"], "http://127.0.0.1:8094/v1")
 
     def test_annotate_relevance_marks_expected_fragments(self) -> None:
         case = {"expected": {"must_retrieve_any": ["nomic-embed-text"]}}

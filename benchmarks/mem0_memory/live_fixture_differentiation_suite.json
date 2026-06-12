@@ -1,0 +1,146 @@
+[
+  {
+    "id": "fixture-adapter-version-boundary",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "Fixture adapter current: Qwen3 v4 targeted remains the recommended strict Hermes tool-call adapter after v5 regressed.",
+      "Fixture adapter distractor: Qwen3 v5 pilot-polish improved a BFCL-style pilot but is not promoted.",
+      "Fixture adapter distractor: Qwen3.5 helper models are not strict Hermes tool-call adapters.",
+      "Fixture adapter distractor: Qwen3 v4 dataset publication is a separate approval question."
+    ],
+    "query": "Which Qwen3 adapter remains recommended after the v5 pilot?",
+    "expected": {
+      "must_retrieve_any": [
+        "Qwen3 v4 targeted"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Qwen3 v4 targeted"
+    }
+  },
+  {
+    "id": "fixture-default-vs-best-embedder",
+    "category": "tool_state_recall",
+    "setup_memories": [
+      "Fixture embedder default: nomic-embed-text:latest remains the default rollback embedder in mem0_nomic_768.",
+      "Fixture embedder score: Jina v5 text-matching MLX scored higher on the expanded suite but is not promoted.",
+      "Fixture embedder candidate: BGE-M3 needs a separate 1024 dimension collection.",
+      "Fixture embedder candidate: Qwen3-Embedding-4B is benchmarked but not the local default."
+    ],
+    "query": "Which embedder remains the default rollback despite higher-scoring candidates?",
+    "expected": {
+      "must_retrieve_any": [
+        "nomic-embed-text:latest"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "nomic-embed-text:latest"
+    }
+  },
+  {
+    "id": "fixture-colbert-loses-to-close-margin",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "Fixture ColBERT result: ColBERT reached 0.833 on the isolated multi-result mem0 fixture.",
+      "Fixture close-margin result: close-margin guarded read reached 1.000 and beat ColBERT on recency-sensitive local memory.",
+      "Fixture vector result: raw vector ordering reached 0.667 on the same fixture.",
+      "Fixture service result: the ColBERT lifecycle smoke proved service start and fallback behavior."
+    ],
+    "query": "Which read path beat ColBERT on the recency-sensitive fixture?",
+    "expected": {
+      "must_retrieve_any": [
+        "close-margin guarded read"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "close-margin guarded read"
+    }
+  },
+  {
+    "id": "fixture-artifact-vs-report-path",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Fixture raw outputs: raw benchmark outputs should stay under /Volumes/PortableSSD/hermes-evals.",
+      "Fixture reports: short benchmark report markdown files should be committed under reports/benchmark.",
+      "Fixture exports: large GGUF and safetensors exports should stay under /Volumes/PortableSSD/hermes-exports.",
+      "Fixture caches: model caches should stay under /Volumes/PortableSSD/huggingface."
+    ],
+    "query": "Where should raw benchmark outputs be stored?",
+    "expected": {
+      "must_retrieve_any": [
+        "/Volumes/PortableSSD/hermes-evals"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "/Volumes/PortableSSD/hermes-evals"
+    }
+  },
+  {
+    "id": "fixture-colab-first-cloud",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Fixture cloud priority: use Colab first for sanitized bounded benchmark or smoke jobs.",
+      "Fixture cloud blocker: Azure requires login, quota checks, and cost approval before compute creation.",
+      "Fixture cloud blocker: NGC requires API key and entitlement checks.",
+      "Fixture cloud blocker: Kaggle requires the CLI and credentials before dispatch."
+    ],
+    "query": "Which cloud backend should be tried first for bounded benchmark jobs?",
+    "expected": {
+      "must_retrieve_any": [
+        "Colab first"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "Colab first"
+    }
+  },
+  {
+    "id": "fixture-jina-cache-completeness",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "Fixture Jina cache rule: a cached Jina MLX repo must contain source files and safetensors weights before local-files-only benchmarking.",
+      "Fixture Jina incomplete: model.py plus tokenizer.json without model.safetensors is not a complete cache.",
+      "Fixture Jina runner: the Jina runner uses huggingface_hub.snapshot_download instead of deprecated huggingface-cli download.",
+      "Fixture Jina output: run output directories under hermes-evals do not prove model cache completeness."
+    ],
+    "query": "What must a cached Jina MLX repo contain before local-files-only benchmarking?",
+    "expected": {
+      "must_retrieve_any": [
+        "source files and safetensors weights"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "source files and safetensors weights"
+    }
+  },
+  {
+    "id": "fixture-gguf-runtime-boundary",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "Fixture GGUF validated: direct llama.cpp and LM Studio are validated GGUF runtime paths for the Qwen3 4B package.",
+      "Fixture GGUF failed: Ollama GGUF import failed because the daemon dropped during model creation.",
+      "Fixture MLX validated: MLX server passed an OpenAI-compatible smoke, but that is not the GGUF runtime path.",
+      "Fixture export: fused safetensors exist separately from GGUF serving."
+    ],
+    "query": "Which GGUF runtime path is validated after the Ollama import failure?",
+    "expected": {
+      "must_retrieve_any": [
+        "direct llama.cpp and LM Studio"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "direct llama.cpp and LM Studio"
+    }
+  },
+  {
+    "id": "fixture-azure-no-compute",
+    "category": "direct_recall",
+    "setup_memories": [
+      "Fixture Azure gate: run az login, quota checks, and explicit cost approval before creating Azure ML compute.",
+      "Fixture Azure status: the Azure student subscription has no useful GPU-family quota in sampled regions.",
+      "Fixture Azure blocker: do not create workspaces or compute before quota and cost gates pass.",
+      "Fixture local fallback: continue local validation while Azure remains blocked."
+    ],
+    "query": "What must happen before creating Azure ML compute?",
+    "expected": {
+      "must_retrieve_any": [
+        "az login, quota checks, and explicit cost approval"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "az login, quota checks, and explicit cost approval"
+    }
+  }
+]
