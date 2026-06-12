@@ -4,7 +4,7 @@
 updated: "2026-06-12"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Gemma 4 31B-it and its GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 12B/31B, Hermes 4.3, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
+latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, Gemma 4 12B it and its Unsloth GGUF/qat packages, Gemma 4 31B-it and its GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, openbmb/AgentCPM-Report and AgentCPM-Report-GGUF, openbmb/MiniCPM-V-4.6 and MiniCPM-V-4.6-gguf, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nvidia/Nemotron-Labs-Diffusion-14B, nvidia/Nemotron-Labs-Diffusion-VLM-8B, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 12B/31B, Hermes 4.3, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -424,6 +424,32 @@ candidates:
     first_finetune: "defer"
     notes: "Very large frontier teacher model with explicit reasoning traces. Keep it in the cloud-teacher lane only; the NVFP4 packaging is a secondary cloud/runtime path."
 
+  - id: nvidia/Nemotron-Labs-Diffusion-14B
+    family: nvidia
+    tier: research-runtime
+    role: local-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "14B"
+    architecture: "Tri-mode AR/diffusion/self-speculation language model"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM smoke"
+    first_finetune: "defer"
+    notes: "Nemotron-Labs-Diffusion supports AR decoding, diffusion-based parallel decoding, and self-speculation through attention switching. Strong research/runtime candidate for speed experiments."
+
+  - id: nvidia/Nemotron-Labs-Diffusion-VLM-8B
+    family: nvidia
+    tier: research-runtime
+    role: local-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Tri-mode diffusion VLM"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM multimodal smoke"
+    first_finetune: "defer"
+    notes: "Multimodal diffusion VLM from the same family. Useful for speed and modality experiments, not a Hermes default."
+
   - id: deepseek-ai/DeepSeek-V4-Flash
     family: deepseek
     tier: frontier-runtime
@@ -553,6 +579,58 @@ candidates:
     first_runtime: "Transformers or community conversion smoke"
     first_finetune: "defer"
     notes: "MiniCPM-SALA is a hybrid sparse/linear-attention model aimed at long context. Treat as a research/runtime lane for context-heavy helper workflows, not a Hermes default."
+
+  - id: openbmb/AgentCPM-Report
+    family: openbmb
+    tier: research-runtime
+    role: local-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Deep research agent"
+    license: "check model card"
+    first_runtime: "Transformers or community conversion smoke"
+    first_finetune: "defer"
+    notes: "AgentCPM-Report is an 8B deep research agent aimed at open-ended long-horizon research workflows. Useful for comparison against Hermes agent flows, not a default chat fine-tune target."
+
+  - id: openbmb/AgentCPM-Report-GGUF
+    family: openbmb
+    tier: research-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Deep research agent, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke"
+    first_finetune: "defer"
+    notes: "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only."
+
+  - id: openbmb/MiniCPM-V-4.6
+    family: minicpm
+    tier: frontier-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "9B"
+    architecture: "High-resolution multimodal VLM"
+    license: "check model card"
+    first_runtime: "Transformers or multimodal endpoint smoke"
+    first_finetune: "defer"
+    notes: "MiniCPM-V 4.6 is the edge-deployment-friendly MiniCPM vision-language model. Good for OCR, document parsing, and multimodal helper workflows."
+
+  - id: openbmb/MiniCPM-V-4.6-gguf
+    family: minicpm
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "9B"
+    architecture: "High-resolution multimodal VLM, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio multimodal smoke"
+    first_finetune: "defer"
+    notes: "GGUF packaging for MiniCPM-V 4.6. Useful as a local multimodal packaging comparison point."
 
   - id: CohereLabs/North-Mini-Code-1.0
     family: cohere

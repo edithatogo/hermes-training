@@ -9,13 +9,15 @@ Latest scans:
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Gemma 4 12B it plus Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4
-packaging, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, Command A+, Step 3.7 Flash,
-DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nex-N2-mini, Nemotron 3.5
-support models, and the larger Nemotron frontier set. No verified official
-Qwen3.7 open-weight lane surfaced in the current Hugging Face search. Keep
-Qwen3.6 MTP GGUF packages as runtime-latency experiments behind the existing
-Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes 4.3, Qwen3.5-9B,
-MiniCPM-o 4.5, MiniCPM-SALA, Command A+, Step 3.7 Flash, DeepSeek-V4-Flash,
+packaging, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report,
+MiniCPM-V-4.6, Command A+, Step 3.7 Flash, DeepSeek-V4-Flash and
+DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B, Nemotron-Labs-Diffusion-VLM-8B,
+Nex-N2-mini, Nemotron 3.5 support models, and the larger Nemotron frontier set.
+No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
+Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
+behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
+4.3, Qwen3.5-9B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
+Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
 Nex-N2-mini, Nemotron support entries, and Nemotron frontier entries as
 runtime/helper, teacher, or specialist candidates rather than automatic
 promotion targets.
@@ -60,17 +62,21 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 8 | StepFun | `stepfun-ai/Step-3.7-Flash` | 198B total / ~11B active | Teacher yes, local fine-tune no | Agentic and reasoning-heavy teacher | Large sparse MoE vision-language model with tool/workflow benchmark claims. |
 | 9 | Nex-AGI | `nex-agi/Nex-N2-mini` | 9B | Runtime yes, fine-tune maybe later | Small agentic runtime candidate | Community MLX conversions already exist, so it is a plausible Mac or Colab runtime path. |
 | 10 | OpenBMB | `openbmb/MiniCPM-o-4_5` | 9B | Runtime yes, fine-tune maybe later | Multimodal helper / runtime lane | Official audio/vision MiniCPM release with visible GGUF and community MLX packaging. Good candidate for local helper workflows on Mac or Colab. |
-| 11 | NVIDIA | `nvidia/Nemotron-3.5-Content-Safety` | safety classifier | Runtime yes, fine-tune no | Specialist support lane | Safety moderator with custom-policy enforcement; keep out of Hermes text-generation lanes. |
-| 12 | NVIDIA | `nvidia/nemotron-3.5-asr-streaming-0.6b` | 0.6B | Runtime yes, fine-tune no | Speech / ASR support lane | Streaming ASR model for low-latency transcription and multimodal pipelines. |
-| 13 | NVIDIA | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Multimodal reasoning teacher | Expands the upper-end comparison set for Hermes-style work. |
-| 14 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4` / `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | 120B / 550B total | Teacher yes, local fine-tune no | Large collaborative-agent teacher | High-end reasoning/chat models with NVFP4 and BF16 packaging. Keep them in the cloud-teacher lane only. |
-| 15 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Reasoning/chat teacher | Smaller Nemotron reasoning model with explicit reasoning-trace behavior. |
-| 16 | NVIDIA | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | 235B total / 22B active | Teacher/evaluator only | Reward model / evaluator lane | Used in Nemotron training; keep it out of the chat lane. |
-| 17 | DeepSeek | `deepseek-ai/DeepSeek-V4-Flash` | 284B total / 13B active | Teacher yes, local fine-tune no | Long-context cloud teacher | Frontier long-context MoE with a 1M token claim. Use as benchmark reference, not a 32GB local training target. |
-| 18 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
-| 19 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
-| 20 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
-| 21 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
+| 11 | OpenBMB | `openbmb/MiniCPM-V-4.6` | 9B | Runtime yes, fine-tune maybe later | Multimodal helper / runtime lane | Edge-deployment-friendly VLM for OCR and document parsing. |
+| 12 | OpenBMB | `openbmb/AgentCPM-Report` | 8B | Runtime yes, fine-tune maybe later | Deep research agent | Open-ended deep research agent with long-horizon comparison value for Hermes workflows. |
+| 13 | NVIDIA | `nvidia/Nemotron-Labs-Diffusion-14B` | 14B | Runtime yes, fine-tune no | Speed/reasoning research lane | Tri-mode AR/diffusion/self-speculation language model. Use as a decoding-speed reference, not a default Hermes target. |
+| 14 | NVIDIA | `nvidia/Nemotron-Labs-Diffusion-VLM-8B` | 8B | Runtime yes, fine-tune no | Multimodal speed/reasoning research lane | Diffusion VLM from the same family; useful for modality and parallel-decoding experiments. |
+| 15 | NVIDIA | `nvidia/Nemotron-3.5-Content-Safety` | safety classifier | Runtime yes, fine-tune no | Specialist support lane | Safety moderator with custom-policy enforcement; keep out of Hermes text-generation lanes. |
+| 16 | NVIDIA | `nvidia/nemotron-3.5-asr-streaming-0.6b` | 0.6B | Runtime yes, fine-tune no | Speech / ASR support lane | Streaming ASR model for low-latency transcription and multimodal pipelines. |
+| 17 | NVIDIA | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Multimodal reasoning teacher | Expands the upper-end comparison set for Hermes-style work. |
+| 18 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4` / `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | 120B / 550B total | Teacher yes, local fine-tune no | Large collaborative-agent teacher | High-end reasoning/chat models with NVFP4 and BF16 packaging. Keep them in the cloud-teacher lane only. |
+| 19 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Reasoning/chat teacher | Smaller Nemotron reasoning model with explicit reasoning-trace behavior. |
+| 20 | NVIDIA | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | 235B total / 22B active | Teacher/evaluator only | Reward model / evaluator lane | Used in Nemotron training; keep it out of the chat lane. |
+| 21 | DeepSeek | `deepseek-ai/DeepSeek-V4-Flash` / `deepseek-ai/DeepSeek-V4-Flash-Base` | 284B total / 13B active | Teacher yes, local fine-tune no | Long-context cloud teacher | Frontier long-context MoE and its base variant; use as benchmark reference, not a 32GB local training target. |
+| 22 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
+| 23 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
+| 24 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
+| 25 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
 
 ## Tiny/Small Open-Weight Shortlist
 
@@ -91,7 +97,11 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | StepFun | `Step 3.7 Flash` | Teacher / cloud fit | Large sparse-MoE teacher with strong agentic benchmark claims |
 | Nex-AGI | `Nex-N2-mini` | Local/Colab fit | Small agentic runtime candidate with MLX community conversions already published |
 | OpenBMB | `MiniCPM-o 4.5` | Local/Colab fit | Multimodal voice/vision helper with visible GGUF and MLX packaging, useful for non-text agent workflows |
+| OpenBMB | `MiniCPM-V-4.6` | Local/Colab fit | Edge-deployment-friendly VLM for OCR, PDF parsing, and multimodal helper workflows |
 | OpenBMB | `MiniCPM-SALA` | Research/runtime | Long-context hybrid sparse/linear-attention model for context-heavy helper work |
+| OpenBMB | `AgentCPM-Report` | Research/runtime | Deep-research agent lane for long-horizon Hermes comparison and orchestration experiments |
+| NVIDIA | `Nemotron-Labs-Diffusion-14B` | Research/runtime | Tri-mode AR/diffusion/self-speculation lane for speed and decoding experiments |
+| NVIDIA | `Nemotron-Labs-Diffusion-VLM-8B` | Research/runtime | Multimodal diffusion lane for parallel-decoding and modality experiments |
 | NVIDIA | `Nemotron 3.5 Content Safety` | Specialist support | Safety moderator for policy enforcement and moderation |
 | NVIDIA | `Nemotron 3.5 ASR Streaming 0.6B` | Specialist support | Low-latency streaming speech-to-text lane, not a Hermes text model |
 | NVIDIA | `Nemotron 3 Nano Omni 30B-A3B Reasoning` | Teacher / cloud fit | Multimodal reasoning teacher with a stronger agentic comparison baseline |
@@ -253,6 +263,10 @@ Acceptance bar:
 | `nvidia/Gemma-4-31B-IT-NVFP4` | NVIDIA-published quantized packaging for Gemma 4 31B. Keep as a cloud packaging comparison only. | `needs-runtime-proof` |
 | `openbmb/MiniCPM-o-4_5` / `openbmb/MiniCPM-o-4_5-gguf` | Official multimodal MiniCPM release with visible GGUF packaging and community MLX coverage. Use for helper and non-text agent workflows after runtime proof. | `needs-runtime-proof` |
 | `openbmb/MiniCPM-SALA` | Hybrid sparse/linear-attention long-context model. Treat as research/runtime only until a concrete helper workflow and runtime proof exist. | `needs-runtime-proof` |
+| `openbmb/AgentCPM-Report` / `openbmb/AgentCPM-Report-GGUF` | Deep research agent and GGUF packaging. Keep in the research/runtime lane only. | `needs-runtime-proof` |
+| `openbmb/MiniCPM-V-4.6` / `openbmb/MiniCPM-V-4.6-gguf` | Edge-deployment-friendly VLM with visible GGUF packaging. Use as a multimodal helper/runtime lane. | `needs-runtime-proof` |
+| `nvidia/Nemotron-Labs-Diffusion-14B` | Tri-mode AR/diffusion/self-speculation text model. Use as a speed/reasoning reference only. | `needs-runtime-proof` |
+| `nvidia/Nemotron-Labs-Diffusion-VLM-8B` | Multimodal diffusion VLM from the same family. Use for modality and parallel-decoding experiments. | `needs-runtime-proof` |
 | `deepseek-ai/DeepSeek-V4-Flash` | Official preview MoE long-context model. Keep as cloud-teacher/reference only until a real endpoint or local runtime proof exists. | `needs-runtime-proof` |
 | `deepseek-ai/DeepSeek-V4-Flash-Base` | Base variant of the DeepSeek V4 Flash line. Track only as a packaging/runtime reference. | `needs-runtime-proof` |
 | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | Frontier-scale Nemotron 3 Ultra model with explicit reasoning traces. Cloud-teacher only. | `needs-runtime-proof` |
