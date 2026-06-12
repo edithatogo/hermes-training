@@ -3,6 +3,6 @@
   "title": "Hermes Shortlist Crystallization",
   "status": "completed",
   "created_at": "2026-06-12T00:00:00Z",
-  "updated_at": "2026-06-12T00:00:00Z",
+  "updated_at": "2026-06-12T06:22:36Z",
   "description": "Freeze the Hermes shortlist, separate training candidates from runtime and helper lanes, and keep the benchmark gates explicit."
 }

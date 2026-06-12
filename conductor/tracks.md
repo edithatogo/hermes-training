@@ -255,6 +255,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: North-Mini-Code GGUF Packaging Refresh
+*Link: [./tracks/north-mini-code-gguf-refresh_20260612/](./tracks/north-mini-code-gguf-refresh_20260612/)*
+
+---
+
 ## [x] Track: mem0 Multi-Result Rerank Replay Harness
 *Link: [./tracks/mem0-multiretrieval-rerank-replay_20260526/](./tracks/mem0-multiretrieval-rerank-replay_20260526/)*
 

@@ -17,6 +17,7 @@ Latest scans:
 - [Gemma 4 31B and MiniCPM-o 4.5 packaging refresh](./reports/model-radar/gemma4-31b-minicpm-o4-5-packaging-current-release-scan-20260612.md)
 - [Gemma 4 31B community GGUF refresh](./reports/model-radar/gemma4-31b-community-gguf-current-release-scan-20260612.md)
 - [Gemma 4 31B and MiniCPM5-1B packaging follow-up](./reports/model-radar/gemma4-31b-minicpm5-packaging-followup-current-release-scan-20260612.md)
+- [North-Mini-Code GGUF packaging refresh](./reports/model-radar/north-mini-code-gguf-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 - [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
@@ -26,6 +27,8 @@ Latest scans:
 - [Hybrid attention and quantized packaging refresh](./reports/model-radar/hybrid-packaging-current-release-scan-20260612.md)
 
 Roadmap update: the new hybrid-packaging candidates are not a blanket fine-tune expansion. Treat `openbmb/MiniCPM-SALA` as a specialist long-context runtime lane, `nvidia/Gemma-4-31B-IT-NVFP4` as a cloud packaging comparison point, and `deepseek-ai/DeepSeek-V4-Flash-Base` as a base/reference packaging lane. The next local work should stay in the prove-runtime, decide-role, then fine-tune sequence rather than jumping directly to training.
+
+Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` remains the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are the helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B stay in the teacher/runtime comparison set.
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 E2B-it plus
@@ -65,6 +68,9 @@ comparison point only.
 The refreshed search also surfaced `unsloth/gemma-4-31B-it-GGUF`,
 `ggml-org/gemma-4-31B-it-GGUF`, and `openbmb/MiniCPM5-1B-GGUF` as additional
 packaging/runtime comparison points.
+The current search also surfaced `unsloth/North-Mini-Code-1.0-GGUF` as a fresh
+packaging-only lane. Keep it in the radar even though the runtime remains
+blocked by missing `cohere2moe` support.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 E2B-it, 12B/31B, Hermes

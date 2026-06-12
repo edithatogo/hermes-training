@@ -552,7 +552,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX server"
     first_finetune: "MLX-LM LoRA"
-    notes: "Best first local Hermes adapter target."
+    notes: "Primary Hermes adapter target and current first local training lane. Keep this as the main fine-tune candidate until a better local proof exists."
 
   - id: Qwen/Qwen3.5-0.8B
     family: qwen
@@ -565,7 +565,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Tiny local candidate for fast helper, extractor, or mem0-adjacent prompt-format experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; keep behind prompt-repair/helper/extraction gates before any promotion."
+    notes: "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; keep behind prompt-repair/helper/extraction gates before any promotion."
 
   - id: Qwen/Qwen3.5-2B
     family: qwen
@@ -578,7 +578,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Small local candidate for Hermes helper, extraction, and prompt-format adaptation. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; compare against 0.8B, MiniCPM, and 4B before training or promotion."
+    notes: "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; compare against 0.8B, MiniCPM, and 4B before training or promotion."
 
   - id: Qwen/Qwen3.5-9B
     family: qwen
@@ -1176,7 +1176,7 @@ candidates:
     license: apache-2.0
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
-    notes: "Official MLX package for MiniCPM5 1B. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as tiny helper/extraction candidate; not promoted as a tool-call default."
+    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as a tiny helper candidate; not promoted as a tool-call default."
 
   - id: openbmb/MiniCPM5-1B-GGUF
     family: minicpm
@@ -1398,6 +1398,19 @@ candidates:
     first_runtime: "retry with a runtime that supports GGUF architecture cohere2moe"
     first_finetune: "defer"
     notes: "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture 'cohere2moe'. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
+
+  - id: unsloth/North-Mini-Code-1.0-GGUF
+    family: cohere
+    tier: research-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "30B total / 3B active"
+    architecture: "Sparse MoE coding-agent model, GGUF packaging"
+    license: apache-2.0
+    first_runtime: "retry only after a runtime supports cohere2moe GGUF"
+    first_finetune: "defer"
+    notes: "Fresh Unsloth GGUF packaging published today for North-Mini-Code. The runtime is still blocked by llama.cpp's missing `cohere2moe` support, so this is packaging evidence only."
 
   - id: Qwen/Qwen3.6-27B
     family: qwen
