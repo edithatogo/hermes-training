@@ -200,6 +200,7 @@ Current gaps:
 - The Q4_K_M GGUF passed direct `llama-completion` validation and LM Studio smoke. Ollama GGUF import failed because the daemon dropped during model creation, so direct llama.cpp and LM Studio are the validated GGUF runtime paths for now.
 - Populated publication/evidence bundles exist for Qwen3 smoke, failed Qwen3 attempts, Qwen3 v4 public adapter evidence, and Qwen3 v5 non-promotion evidence.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Current 2026-06-12 check shows about 233 GiB free on `/` and about 252 GiB free on `/Volumes/PortableSSD`; keep model caches, benchmark outputs, and exports on the SSD.
+- Roadmap regression and publication gate is reconciled in `reports/publication/roadmap-regression-publication-gate-20260612.md`. Treat benchmark/runtime reports as execution evidence, root and mem0 `MODEL_CANDIDATES.yaml` as structured state, `FUTURE_MODELS.md` as synthesis, and this handoff as the operator next-action summary. GitHub docs/code are publishable after validation, but Hugging Face datasets/models/adapters still require explicit artifact-scope and license approval.
 
 ## Next Actions
 
@@ -212,6 +213,7 @@ Current gaps:
 7. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
 8. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
 9. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
+10. Resume the in-progress mem0 lane by patching `scripts/run_jina_mlx_embedding_benchmark.py` away from deprecated `huggingface-cli` usage. Resume the frontier lane with `scripts/check_specialist_runtime_preflight.py --output <md> --json-output <json>` rather than the rejected `--output-md/--output-json` flags.
 
 ## Key Files
 

@@ -591,7 +591,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Roadmap Regression and Publication Gate
+## [x] Track: Roadmap Regression and Publication Gate
 *Link: [./tracks/roadmap-regression-publication-gate_20260612/](./tracks/roadmap-regression-publication-gate_20260612/)*
 
 ---
