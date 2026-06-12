@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T14:33:50.385018+00:00",
+  "created_at": "2026-06-12T14:36:23.731983+00:00",
   "candidate_count": 171,
   "counts": {
-    "hermes": {
-      "blocked": 140,
-      "benchmarked-not-promoted": 5,
-      "smoke-or-pilot-only": 8,
-      "evidence-present-needs-review": 2
-    },
     "mem0": {
       "benchmarked-not-necessarily-promoted": 11,
       "blocked": 3,
       "smoke-or-pilot-only": 1,
       "benchmarked-not-promoted": 1
+    },
+    "hermes": {
+      "blocked": 140,
+      "benchmarked-not-promoted": 5,
+      "smoke-or-pilot-only": 8,
+      "evidence-present-needs-review": 2
     }
   },
   "rows": [
@@ -1200,6 +1200,7 @@
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
       "evidence": [
         "reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md",
         "reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md"
       ]
     },

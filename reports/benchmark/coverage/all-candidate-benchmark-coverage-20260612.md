@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:33:50.385018+00:00`
+Created: `2026-06-12T14:36:23.731983+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 140 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 8 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 140 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 8 |
 
 ## Benchmark Policy
 
@@ -126,7 +126,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-E2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `microsoft/Phi-4-mini-instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `ibm-granite/granite-4.1-3b` | `blocked` | blocked by strict Hermes tool-call formatting failure |  |
-| hermes | `openbmb/MiniCPM5-1B-MLX` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`<br>`reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md` |
+| hermes | `openbmb/MiniCPM5-1B-MLX` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`<br>`reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`<br>`reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Mungert/Nanbeige4.1-3B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |

@@ -1176,7 +1176,7 @@ candidates:
     license: apache-2.0
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
-    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
+    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. 2026-06-13 offline SSD-cached strict BFCL rerun also scored 0.000 and is recorded at `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
 
   - id: openbmb/MiniCPM5-1B-GGUF
     family: minicpm
