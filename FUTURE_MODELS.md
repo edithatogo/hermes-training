@@ -10,6 +10,7 @@ Latest scans:
 - [Nemotron 3 Nano 4B packaging scan](./reports/model-radar/nemotron3-nano-4b-packaging-current-release-scan-20260612.md)
 - [Hermes-Qwen3.5 SFT v7 scan](./reports/model-radar/hermes-qwen35-sft-v7-current-release-scan-20260612.md)
 - [Qwen3.6 35B 2-bit MLX scan](./reports/model-radar/qwen36-35b-2bit-mlx-current-release-scan-20260612.md)
+- [Gemma 4 E2B-it packaging refresh](./reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 - [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
@@ -18,8 +19,9 @@ Latest scans:
 - [Multimodal support follow-up](./reports/model-radar/multimodal-support-follow-up-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
-Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
-Unsloth GGUF/qat packages, Gemma 4 31B-it, Gemma 4 31B base, and its NVFP4 packaging,
+Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 E2B-it plus
+LiteRT/MLX packaging, Gemma 4 12B it plus Unsloth GGUF/qat packages,
+Gemma 4 31B-it, Gemma 4 31B base, and its NVFP4 packaging,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX packaging and its
 FP8/GGUF/MLX packaging,
 MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
@@ -38,7 +40,7 @@ Broader multimodal support now also includes `Qwen/Qwen3-Omni-30B-A3B-Instruct`,
 `Qwen/Qwen3-Omni-30B-A3B-Captioner`, and `microsoft/Phi-4-multimodal-instruct`.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
-behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
+behind the existing Qwen3.6 proof, and treat the new Gemma 4 E2B-it, 12B/31B, Hermes
 4.3, Harmonic-9B/Harmonic-Hermes-9B, Hermes-Qwen3.5 SFT v7 packs, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX,
 MiniCPM-o 4.5, MiniCPM-SALA,

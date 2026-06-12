@@ -497,3 +497,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3.6 35B 2-bit MLX Refresh
 *Link: [./tracks/qwen36-35b-2bit-mlx-refresh_20260612/](./tracks/qwen36-35b-2bit-mlx-refresh_20260612/)*
+
+---
+
+## [x] Track: Gemma 4 E2B-it Packaging Refresh
+*Link: [./tracks/gemma4-e2b-it-packaging-refresh_20260612/](./tracks/gemma4-e2b-it-packaging-refresh_20260612/)*

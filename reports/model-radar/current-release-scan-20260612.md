@@ -15,6 +15,7 @@ Pro M1 Max with 32 GB unified memory.
 | Hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7`, `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-2B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh`, `mkadrlik/Hermes-27B-SFT-v7` | Fresh Hermes-style Qwen3.5 GGUF packs; the 9B lane is the main new local runtime comparison point. |
 | Qwen | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | Fresh 2-bit MLX local-runtime candidate with explicit tool-calling and agentic tags. |
 | Gemma | `google/gemma-4-12B-it`, `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF` | New mid-size Gemma 4 family members that are more plausible Mac/Colab candidates than the larger 26B/31B variants. |
+| Gemma | `google/gemma-4-E2B-it`, `litert-community/gemma-4-E2B-it-litert-lm`, `mlx-community/gemma-4-e2b-it-4bit` | Official instruction-tuned E2B lane plus fresh LiteRT and MLX packaging. The smallest useful Gemma 4 follow-up to the q4_0 smoke. |
 | Gemma / Qwen / MiniCPM | `google/gemma-4-31B`, `Qwen/Qwen3-Coder-Next`, `openbmb/MiniCPM-V-4.6-GPTQ` | Follow-up scan additions: official base repos and packaging lanes that matter for teacher/runtime comparisons. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b` | New base/evaluator and speech-support checkpoints from the Nemotron family. |
 | NVIDIA | `nvidia/instant-nurec`, `nvidia/omni-dreams-models` | Fresh physical-AI / world-model support lanes from NVIDIA. |
@@ -40,6 +41,9 @@ Pro M1 Max with 32 GB unified memory.
   treated as a fresh Qwen3.6 local-runtime candidate for Apple Silicon.
 - The Gemma 4 12B family now has verified Unsloth GGUF and QAT packaging, so
   the 12B lane is no longer just a native Transformers reference.
+- The official Gemma 4 E2B-it lane is now surfaced, along with LiteRT and MLX
+  packaging, and should be treated as the smallest practical Gemma 4
+  comparison point for Mac-local helper workflows.
 - The follow-up scan also surfaced the official Gemma 4 31B base repo, the
   official Qwen3-Coder-Next base repo, and a MiniCPM-V-4.6 GPTQ packaging lane.
 - The latest NVIDIA pass surfaced the Nemotron 3 Ultra base checkpoint, the
@@ -59,6 +63,8 @@ Pro M1 Max with 32 GB unified memory.
 
 - Add the verified 12B Gemma 4, Hermes 4.3, and Qwen3.5-9B entries to the
   machine-readable radar.
+- Add the official Gemma 4 E2B-it base repo plus LiteRT and MLX packaging to
+  the machine-readable radar.
 - Add the Harmonic-9B backbone and Harmonic-Hermes-9B packaging to the
   machine-readable radar.
 - Add the Gemma 4 12B Unsloth GGUF and QAT packaging to the machine-readable

@@ -1,0 +1,8 @@
+{
+  "track_id": "gemma4-e2b-it-packaging-refresh_20260612",
+  "title": "Gemma 4 E2B-it Packaging Refresh",
+  "status": "completed",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the model radar with the official Gemma 4 E2B-it repo and its LiteRT/MLX packaging lanes."
+}
