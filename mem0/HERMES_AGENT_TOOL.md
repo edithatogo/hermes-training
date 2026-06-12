@@ -102,5 +102,11 @@ candidates, ranks the right memory first, and has acceptable p50/p95 latency.
 2026-06-12 lifecycle smoke evidence:
 `reports/benchmark/mem0/mem0-colbert-stack-20260612-read-stack-smoke.md`.
 It passed service-up and service-down fallback checks, but the live mem0
-queries returned only one candidate each, so it is not default-promotion
+queries returned singleton candidate sets, so it is not default-promotion
 evidence.
+
+2026-06-12 multi-result fixture evidence:
+`reports/benchmark/mem0/mem0-live-fixture-colbert-rerank-20260612.md`.
+ColBERT completed the six-case isolated mem0 fixture with 3-5 candidates per
+query and reached pass/top-1 `0.833`, improving over raw vector ordering
+`0.667` but trailing the default close-margin guarded read at `1.000`.

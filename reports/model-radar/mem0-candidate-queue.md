@@ -33,8 +33,8 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 12 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | 2026-06-12 direct smoke returned Hugging Face gated repo 403; requires account access before benchmark |
 | 13 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | trust-remote-code path needs pillow/peft and still fails on SlidingWindowCache import in current Transformers stack |
 | 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
-| 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
-| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | expanded-retriever-suite | 2026-06-12 expanded retriever-service suite reached top-1 0.917 / recall@3 1.000; with Qwen3-0.6B reranking reached top-1 1.000; opt-in `colbert` read mode is wired pending broader live probes |
+| 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | expanded-embedding-suite | 2026-06-12 expanded suite reached top-1 1.000 / recall@3 1.000 with 1024-dim embeddings and p50 0.019s; not promoted until 1024-dim collection migration plus live add/search rollback proof |
+| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | expanded-retriever-suite | 2026-06-12 expanded retriever suite reached top-1 0.917 / recall@3 1.000; isolated mem0 fixture reached top-1 0.833 on 3-5 candidate sets, trailing close-margin 1.000; keep opt-in |
 
 ## Candidate Commands
 
@@ -276,28 +276,31 @@ source scripts/env.sh
 ### jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
 
 - Role: `embedder`
-- Status: `candidate`
-- Blocker: 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch
+- Status: `source-model-benchmarked`
+- Blocker: expanded suite passed at top-1 1.000 / recall@3 1.000 with p50 0.019s, but default promotion requires a 1024-dim collection migration plan plus live add/search rollback proof
 
 ```bash
 source scripts/env.sh
-# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.
+# Jina MLX embeddings are custom-code repos; load them through the dedicated MLX benchmark runner.
 ./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
   --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx \
   --task-type text-matching \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-$(date +%Y%m%d-%H%M%S)
+  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/jina-mlx-text-matching-smoke-20260612b \
+  --local-files-only \
+  --suite benchmarks/embeddings/memory_retrieval_expanded_suite.json \
+  --run-id jina-mlx-text-matching-expanded-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### LiquidAI/LFM2-ColBERT-350M
 
 - Role: `retriever`
 - Status: `source-model-benchmarked`
-- Blocker: opt-in read-wrapper mode and service-down fallback exist; needs broader live cold/warm latency probes with multi-result mem0 queries and service supervision evidence
+- Blocker: opt-in read-wrapper mode and service-down fallback exist; multi-result fixture is now proven but trails the close-margin default on recency-sensitive memory
 - Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`
 - Wrapper smoke: `reports/benchmark/mem0/colbert-read-wrapper-smoke-20260612.md`
 - Fallback smoke: `reports/benchmark/mem0/colbert-service-down-fallback-20260612.md`
 - Lifecycle smoke: `reports/benchmark/mem0/mem0-colbert-stack-20260612-read-stack-smoke.md`
+- Multi-result fixture: `reports/benchmark/mem0/mem0-live-fixture-colbert-rerank-20260612.md`
 
 ```bash
 source scripts/env.sh

@@ -38,6 +38,7 @@ runtime endpoint against the current mem0 default.
 | [mem0-replay-qwen3-06b-warm-bge-expanded-20260526](./mem0-replay-qwen3-06b-warm-bge-expanded-20260526.md) | reranker replay | keep testing |
 | [mem0-replay-qwen3-06b-warm-nomic-expanded-20260526](./mem0-replay-qwen3-06b-warm-nomic-expanded-20260526.md) | reranker replay | keep testing |
 | [mem0-live-fixture-qwen3-multiretrieval-rerank-20260526](./mem0-live-fixture-qwen3-multiretrieval-rerank-20260526.md) | isolated fixture reranker | keep testing |
+| [mem0-live-fixture-colbert-rerank-20260612](./mem0-live-fixture-colbert-rerank-20260612.md) | isolated fixture reranker | keep testing |
 | [mem0-guarded-read-wrapper-smoke-20260526](../mem0-guarded-read-wrapper-smoke-20260526.md) | guarded read wrapper | keep testing |
 | [guarded-close-margin-read-wrapper-20260526](./guarded-close-margin-read-wrapper-20260526.md) | isolated fixture reranker | keep testing |
 | [mem0-fixture-close-margin-recency-20260526](./mem0-fixture-close-margin-recency-20260526.md) | memory+rerank fixture | keep testing |
@@ -48,10 +49,12 @@ runtime endpoint against the current mem0 default.
 | [embedding-qwen3-4b-smoke-20260612](./embedding-qwen3-4b-smoke-20260612.md) | embedder | keep testing |
 | [rerank-qwen3-4b-fixed-smoke-20260612](./rerank-qwen3-4b-fixed-smoke-20260612.md) | reranker candidate | keep testing |
 | [embedding-qwen3-4b-expanded-20260612](./embedding-qwen3-4b-expanded-20260612.md) | embedder | keep testing |
+| [jina-mlx-text-matching-expanded-20260612](./jina-mlx-text-matching-expanded-20260612.md) | embedder | keep testing |
 | [qwen3-4b-expanded-rerank-20260612](./qwen3-4b-expanded-rerank-20260612.md) | reranker candidate | keep testing |
 | [lfm2-colbert-qwen3-06b-rerank-20260612](./lfm2-colbert-qwen3-06b-rerank-20260612.md) | reranker candidate | keep testing |
 | [hermes-tool-colbert-qwen3-fixture-smoke-20260612](../hermes-tool-colbert-qwen3-fixture-smoke-20260612.md) | Hermes tool fixture smoke | keep testing |
 | [mem0-colbert-stack-20260612-read-stack-smoke](../mem0-colbert-stack-20260612-read-stack-smoke.md) | ColBERT service lifecycle | keep opt-in |
+| [mem0-live-fixture-colbert-rerank-20260612](../mem0-live-fixture-colbert-rerank-20260612.md) | ColBERT isolated fixture | keep opt-in |
 
 ## Generate
 

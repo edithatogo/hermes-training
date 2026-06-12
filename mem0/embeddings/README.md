@@ -88,7 +88,10 @@ rollback embedder:
 |---|---:|---:|---:|---:|---|
 | `nomic-embed-text:latest` | 768 | 0.833 | 1.000 | 0.021s | keep default |
 | `BAAI/bge-m3` | 1024 | 0.917 | 1.000 | 0.097s | side-by-side only |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | 1024 | 1.000 | 1.000 | 0.019s | side-by-side only |
 
 Do not switch the live mem0 collection from `mem0_nomic_768` until a candidate
-beats the expanded suite and has a larger live-read gate. BGE-M3 remains useful
-for comparison, but its 1024-dimensional vectors require `mem0_bge_m3_1024`.
+beats the expanded suite and has a larger live-read gate. BGE-M3 and Jina v5
+remain useful for comparison, but their 1024-dimensional vectors require
+dedicated collections such as `mem0_bge_m3_1024` or
+`mem0_jina_v5_omni_small_1024`.

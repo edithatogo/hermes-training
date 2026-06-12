@@ -1,17 +1,17 @@
 {
-  "created_at": "2026-06-12T13:50:38.654157+00:00",
+  "created_at": "2026-06-12T13:57:28.771919+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 79
+    "passed": 81
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 13,
+    "embedding": 14,
     "extraction": 8,
     "reranking": 28,
     "replay": 12,
-    "isolated-fixture": 5,
+    "isolated-fixture": 6,
     "retriever": 2
   },
   "missing_kinds": [],
@@ -167,6 +167,13 @@
       "kind": "embedding",
       "path": "embedding-benchmark/jina-mlx-retrieval-smoke-20260612b/summary.json",
       "run_id": "jina-mlx-retrieval-smoke-20260612b",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/jina-mlx-text-matching-expanded-20260612/summary.json",
+      "run_id": "jina-mlx-text-matching-expanded-20260612",
       "status": "passed",
       "errors": []
     },
@@ -531,6 +538,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-isolated-fixture-qwen3-20260526/summary.json",
       "run_id": "mem0-isolated-fixture-qwen3-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-colbert-rerank-20260612/summary.json",
+      "run_id": "mem0-live-fixture-colbert-rerank-20260612",
       "status": "passed",
       "errors": []
     },

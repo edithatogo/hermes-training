@@ -85,6 +85,10 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         if script == "scripts/run_jina_mlx_embedding_benchmark.py":
             task_type = summary.get("task_type", summary.get("task", "retrieval"))
             lines.append(f"  --task-type {task_type} \\")
+            if summary.get("repo_dir"):
+                lines.append(f"  --repo-dir {summary['repo_dir']} \\")
+            if summary.get("local_files_only"):
+                lines.append("  --local-files-only \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     if kind == "extraction":
@@ -128,6 +132,16 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --mlx-max-length {summary['mlx_max_length']} \\")
         if kind == "isolated-fixture-rerank" and summary.get("kept_fixture"):
             lines.append("  --keep-fixture \\")
+        strategies = summary.get("strategies")
+        if kind == "isolated-fixture-rerank" and isinstance(strategies, dict):
+            if not any(str(strategy).startswith("qwen3_causal_lm") for strategy in strategies):
+                lines.append("  --skip-qwen3 \\")
+            if "retriever_service" in strategies:
+                lines.append("  --include-colbert \\")
+                if summary.get("retriever_service_url"):
+                    lines.append(f"  --retriever-service-url {summary['retriever_service_url']} \\")
+                if summary.get("retriever_timeout_s"):
+                    lines.append(f"  --retriever-timeout-s {summary['retriever_timeout_s']} \\")
         lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
         return lines
     if kind == "retriever-service":
@@ -174,6 +188,11 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
             "The current mem0 path is functional and rollback-safe, but this run did not reach the strict 1.000 pass gate.",
         )
     if kind == "embedding":
+        if summary.get("top1_accuracy") == 1.0 and int(summary.get("cases") or 0) >= 12:
+            return (
+                "keep testing",
+                "The embedding benchmark passed the expanded suite, but default promotion still needs a deliberate 1024-dim collection migration plan plus live mem0 add/search rollback proof.",
+            )
         return (
             "keep testing",
             "The endpoint path is proven, but the embedding model still needs a recency or reranking fix before promotion beyond the current default.",

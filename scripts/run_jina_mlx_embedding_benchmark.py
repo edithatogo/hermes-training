@@ -6,7 +6,6 @@ import argparse
 import json
 import math
 import os
-import shutil
 import statistics
 import subprocess
 import sys
@@ -16,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 import mlx.core as mx
+from huggingface_hub import snapshot_download
 from tokenizers import Tokenizer
 
 
@@ -116,43 +116,51 @@ def resolve_default_repo_root() -> Path:
     return Path.cwd() / ".local-storage" / "huggingface" / "hub" / "jina-mlx"
 
 
-def ensure_repo(repo_id: str, repo_dir: Path, revision: str) -> Path:
-    if (repo_dir / "model.py").exists() or (repo_dir / "utils.py").exists():
+def repo_cache_name(repo_id: str) -> str:
+    return repo_id.rstrip("/").split("/")[-1]
+
+
+def repo_is_loadable(repo_dir: Path) -> bool:
+    has_source = (repo_dir / "model.py").exists() or (repo_dir / "utils.py").exists()
+    has_weights = any(
+        path.name.endswith(".safetensors") and not path.name.endswith(".index.json")
+        for path in repo_dir.glob("*.safetensors")
+    )
+    return has_source and has_weights
+
+
+def ensure_repo(repo_id: str, repo_dir: Path, revision: str, *, local_files_only: bool) -> Path:
+    if repo_is_loadable(repo_dir):
         return repo_dir
     repo_dir.parent.mkdir(parents=True, exist_ok=True)
-    if repo_dir.exists():
-        shutil.rmtree(repo_dir)
     try:
-        download_cmd = [
-            "huggingface-cli",
-            "download",
-            "--local-dir",
-            str(repo_dir),
-        ]
-        if revision:
-            download_cmd.extend(["--revision", revision])
-        download_cmd.append(repo_id)
-        result = subprocess.run(download_cmd, check=False, capture_output=True, text=True)
-        if result.returncode != 0:
-            raise RuntimeError(
-                f"failed to download {repo_id} into {repo_dir}: {result.stderr.strip() or result.stdout.strip()}"
-            )
+        snapshot_download(
+            repo_id=repo_id,
+            revision=revision or None,
+            local_dir=repo_dir,
+            local_files_only=local_files_only,
+        )
     except Exception as exc:  # noqa: BLE001
+        if local_files_only:
+            raise RuntimeError(
+                f"failed to load cached {repo_id} into {repo_dir} with local_files_only=true: {exc}"
+            ) from exc
         clone_cmd = [
             "git",
             "clone",
             "--depth",
             "1",
-            "--branch",
-            revision,
-            f"https://huggingface.co/{repo_id}",
-            str(repo_dir),
         ]
+        if revision:
+            clone_cmd.extend(["--branch", revision])
+        clone_cmd.extend([f"https://huggingface.co/{repo_id}", str(repo_dir)])
         result = subprocess.run(clone_cmd, check=False, capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(
                 f"failed to fetch {repo_id} into {repo_dir}: {result.stderr.strip() or result.stdout.strip()}"
             ) from exc
+    if not repo_is_loadable(repo_dir):
+        raise RuntimeError(f"{repo_dir} is missing loadable Jina MLX source or safetensors weights")
     return repo_dir
 
 
@@ -283,6 +291,7 @@ def main() -> int:
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--max-cases", type=int, default=0)
+    parser.add_argument("--local-files-only", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -295,7 +304,7 @@ def main() -> int:
 
     run_id = args.run_id or f"jina-mlx-embedding-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"
     output_dir = args.output_dir or (resolve_default_output_root() / "embedding-benchmark" / run_id)
-    repo_dir = args.repo_dir or (resolve_default_repo_root() / run_id)
+    repo_dir = args.repo_dir or (resolve_default_repo_root() / repo_cache_name(args.model))
 
     if args.dry_run:
         print(f"suite: {args.suite}")
@@ -303,11 +312,12 @@ def main() -> int:
         print(f"model: {args.model}")
         print(f"task_type: {args.task_type}")
         print(f"max_cases: {args.max_cases or 'all'}")
+        print(f"local_files_only: {args.local_files_only}")
         print(f"repo_dir: {repo_dir}")
         print(f"output_dir: {output_dir}")
         return 0
 
-    repo_dir = ensure_repo(args.model, repo_dir, args.revision)
+    repo_dir = ensure_repo(args.model, repo_dir, args.revision, local_files_only=args.local_files_only)
     model = load_model(repo_dir)
     if hasattr(model, "switch_task"):
         model.switch_task(args.task_type)
@@ -363,6 +373,7 @@ def main() -> int:
         "repo_dir": str(repo_dir),
         "model": args.model,
         "task_type": args.task_type,
+        "local_files_only": args.local_files_only,
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / cases if cases else 0.0,
         "recall_at_3": sum(row["recall_at_3"] for row in rows) / cases if cases else 0.0,

@@ -175,3 +175,21 @@ two-query lifecycle smoke with local files only:
 This is lifecycle evidence only because the live mem0 queries returned
 singleton candidate sets. It does not satisfy the multi-result
 default-promotion rule.
+
+## Multi-Result Fixture Result
+
+2026-06-12: `LiquidAI/LFM2-ColBERT-350M` completed the isolated live mem0
+fixture with real add/search results and `3` to `5` returned candidates per
+query:
+
+- `retriever_service`: pass/top-1 `0.833`, recall@3 `1.000`, MRR `0.917`,
+  p50 rerank `0.288s`;
+- raw vector ordering: pass/top-1 `0.667`, recall@3 `1.000`;
+- close-margin guarded read: pass/top-1 `1.000`, recall@3 `1.000`.
+
+Evidence:
+`reports/benchmark/mem0/mem0-live-fixture-colbert-rerank-20260612.md`
+
+ColBERT is now multi-result proven, but it is not the default recommendation
+because it missed the current-vs-old embedder recency conflict that the
+close-margin guarded read fixed.
