@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T18:02:23.457883+00:00",
+  "created_at": "2026-06-12T18:09:28.999047+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -213,21 +213,6 @@
       "first_runtime": "Transformers remote-code import blocked; community GGUF or pinned compatible Transformers retry needed",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model microsoft-phi-4-mini-instruct \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id microsoft-phi-4-mini-instruct-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Good tiny-agent candidate for instruction following and function-calling comparison. The 2026-06-13 local Transformers pilot with `--trust-remote-code` failed before weight download or generation because the model's remote `modeling_phi3.py` imports `SlidingWindowCache`, which is absent from the installed Transformers cache utilities; see `reports/runtime/phi4-mini-instruct-transformers-sliding-window-cache-blocker-20260613.md`. Useful for mem0 extractor experimentation only after a compatible pinned Transformers version, patched remote-code path, or community GGUF runtime is proven."
-    },
-    {
-      "id": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
-      "family": "nvidia",
-      "role": "local-runtime",
-      "environment": "mac-mlx",
-      "parameters": "4B",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "MLX",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Apple-silicon-friendly 4-bit MLX packaging. Use as the Mac-local alternative to GGUF if the MLX path stays stable."
     },
     {
       "id": "mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF",
@@ -918,6 +903,21 @@
       "first_runtime": "llama.cpp strict endpoint pilot complete",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-4B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Smaller Hermes-Qwen3.5 pack. SSD-backed Q8_0 llama.cpp endpoint pilot completed on 2026-06-13 at about 45-46 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it nearly emitted the simple lookup payload but left stray marker text, over-generated unrelated tools in the parallel case, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-4b-sft-v7-q8-llamacpp-strict-bfcl-pilot-20260613.md`. Prefer the 2B Hermes-Qwen3.5 lane over this 4B Q8 lane for prompt/profile repair; not promoted."
+    },
+    {
+      "id": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
+      "family": "nvidia",
+      "role": "local-runtime",
+      "environment": "mac-mlx",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "MLX strict local pilot complete",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Apple-silicon-friendly 4-bit MLX packaging. SSD-backed MLX strict BFCL-style pilot completed on 2026-06-13 and scored 0/3 (`0.000`): outputs leaked reasoning, repeated `<|im_end|>`, used non-Hermes tool-call wrappers, and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md`. Use only as a Mac-local runtime comparison point against the GGUF proof; do not promote."
     },
     {
       "id": "mlx-community/gemma-4-E4B-it-qat-4bit",

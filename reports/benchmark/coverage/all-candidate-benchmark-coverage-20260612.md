@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T18:02:23.329548+00:00`
+Created: `2026-06-12T18:09:28.870533+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 146 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 6 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 12 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 146 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 6 |
 
 ## Benchmark Policy
 
@@ -100,7 +100,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md` |
 | hermes | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -256,7 +256,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |

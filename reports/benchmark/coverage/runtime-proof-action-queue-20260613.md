@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T18:02:23.459011+00:00`
+Created: `2026-06-12T18:09:29.000653+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -23,25 +23,25 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 12 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 13 | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 14 | `microsoft/Phi-4-mini-instruct` | `mac-runtime-proof` | 4B | `hf-transformers` | `blocked` | blocked by current local runtime support |
-| 15 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `mac-runtime-proof` | 4B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 16 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 17 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 18 | `unsloth/North-Mini-Code-1.0-GGUF` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
-| 19 | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 20 | `unsloth/gemma-4-26B-A4B-it-GGUF` | `mac-runtime-proof` | 26B total / 4B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 21 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 22 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 23 | `LiquidAI/LFM2-8B-A1B` | `mac-runtime-proof` | 8B-ish / low active parameter count | `mac-ollama` | `blocked` | blocked by current local runtime support |
-| 24 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 25 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 15 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 16 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 17 | `unsloth/North-Mini-Code-1.0-GGUF` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
+| 18 | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 19 | `unsloth/gemma-4-26B-A4B-it-GGUF` | `mac-runtime-proof` | 26B total / 4B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 20 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 21 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 22 | `LiquidAI/LFM2-8B-A1B` | `mac-runtime-proof` | 8B-ish / low active parameter count | `mac-ollama` | `blocked` | blocked by current local runtime support |
+| 23 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 24 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 25 | `nex-agi/Nex-N2-mini` | `mac-runtime-proof` | 9B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
 
 ## Lane Counts
 
 | Lane | Count |
 |---|---:|
 | `cloud-teacher-proof` | 12 |
-| `mac-runtime-proof` | 49 |
-| `prompt-profile-repair` | 16 |
+| `mac-runtime-proof` | 48 |
+| `prompt-profile-repair` | 17 |
 | `specialist-runtime-proof` | 10 |
 | `support-model-proof` | 67 |
 | `watchlist` | 5 |

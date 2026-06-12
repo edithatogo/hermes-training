@@ -820,13 +820,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "4B"
     architecture: "Nemotron 3 Nano 4B MLX quantized packaging"
     license: "check model card"
-    first_runtime: "MLX"
+    first_runtime: "MLX strict local pilot complete"
     first_finetune: "defer"
-    notes: "Apple-silicon-friendly 4-bit MLX packaging. Use as the Mac-local alternative to GGUF if the MLX path stays stable."
+    notes: "Apple-silicon-friendly 4-bit MLX packaging. SSD-backed MLX strict BFCL-style pilot completed on 2026-06-13 and scored 0/3 (`0.000`): outputs leaked reasoning, repeated `<|im_end|>`, used non-Hermes tool-call wrappers, and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md`. Use only as a Mac-local runtime comparison point against the GGUF proof; do not promote."
 
   - id: nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603
     family: nvidia
