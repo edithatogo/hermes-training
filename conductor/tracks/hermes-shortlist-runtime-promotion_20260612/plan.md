@@ -17,35 +17,46 @@
     - [x] Confirm `colab sessions` and available runtime state.
     - [x] Package the smallest reproducible job script for each offloaded benchmark.
     - [x] Download only bounded result artifacts back into the repo.
-- [ ] Task: Use Mac/Metal paths for local proof and parity.
-    - [ ] Run MLX proof where a candidate has MLX packaging.
-    - [ ] Run llama.cpp, Ollama, or LM Studio proof where GGUF or OpenAI-compatible runtime coverage exists.
-- [ ] Task: Gate Azure and NVIDIA/NGC execution.
-    - [ ] Run Azure login/quota/capacity preflight before any Azure job.
-    - [ ] Run NGC API-key and container/model availability preflight before any NVIDIA job.
-    - [ ] Stop before paid execution or restricted-license downloads unless approved.
+- [x] Task: Use Mac/Metal paths for local proof and parity.
+    - [x] Run MLX proof where a candidate has MLX packaging.
+    - [x] Run llama.cpp, Ollama, or LM Studio proof where GGUF or OpenAI-compatible runtime coverage exists.
+- [x] Task: Gate Azure and NVIDIA/NGC execution.
+    - [x] Run Azure login/quota/capacity preflight before any Azure job.
+    - [x] Run NGC API-key and container/model availability preflight before any NVIDIA job.
+    - [x] Stop before paid execution or restricted-license downloads unless approved.
 - [ ] Task: Conductor - User Manual Verification 'Dynamic Runtime Execution' (Protocol in workflow.md)
 
 ## Phase 3: Benchmark and Promotion Gate
 
-- [ ] Task: Execute strict Hermes benchmark slices.
-    - [ ] Run standard benchmark coverage for each candidate where runtime proof exists.
-    - [ ] Include strict tool-call, role, formatting, and local pilot gates.
-    - [ ] Capture failures as first-class evidence rather than retrying without explanation.
-- [ ] Task: Make promotion decisions.
-    - [ ] Promote only candidates that pass runtime, benchmark, and format gates.
-    - [ ] Keep helper candidates separate from main Hermes runtime candidates.
-    - [ ] Record rejected or blocked candidates with concrete blocker text.
+- [x] Task: Execute strict Hermes benchmark slices.
+    - [x] Run standard benchmark coverage for each candidate where runtime proof exists.
+    - [x] Include strict tool-call, role, formatting, and local pilot gates.
+    - [x] Capture failures as first-class evidence rather than retrying without explanation.
+    - Evidence: `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`, `reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md`, `reports/benchmark/official-ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526.md`.
+- [x] Task: Make promotion decisions.
+    - [x] Promote only candidates that pass runtime, benchmark, and format gates.
+    - [x] Keep helper candidates separate from main Hermes runtime candidates.
+    - [x] Record rejected or blocked candidates with concrete blocker text.
+    - Evidence: `MODEL_CANDIDATES.yaml`, `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`, `reports/runtime/hermes-shortlist-mac-metal-parity-20260612.md`.
 - [ ] Task: Conductor - User Manual Verification 'Benchmark and Promotion Gate' (Protocol in workflow.md)
 
 ## Phase 4: Documentation and Registry Reconciliation
 
-- [ ] Task: Update roadmap and candidate artifacts.
-    - [ ] Update `FUTURE_MODELS.md`.
-    - [ ] Update `MODEL_CANDIDATES.yaml`.
-    - [ ] Update relevant benchmark reports and runtime proof queues.
+- [x] Task: Update roadmap and candidate artifacts.
+    - [x] Update `FUTURE_MODELS.md`.
+    - [x] Update `MODEL_CANDIDATES.yaml`.
+    - [x] Update relevant benchmark reports and runtime proof queues.
+    - Evidence: `FUTURE_MODELS.md`, `MODEL_CANDIDATES.yaml`, `reports/runtime/cloud-gate-preflight-20260612.md`, `reports/runtime/hermes-shortlist-mac-metal-parity-20260612.md`.
 - [ ] Task: Validate and checkpoint.
-    - [ ] Rerun readiness and candidate consistency checks.
+    - [x] Rerun readiness and candidate consistency checks.
     - [ ] Update track status and summarize remaining blockers.
     - [ ] Commit and push only reproducible, non-secret artifacts.
 - [ ] Task: Conductor - User Manual Verification 'Documentation and Registry Reconciliation' (Protocol in workflow.md)
+
+## Health Check
+
+- Target: >= 9.5 / 10
+- Current estimate: 9.2 / 10
+- Evidence: SSD-first runtime and benchmark proofs are recorded, readiness and candidate consistency checks pass, and the shortlist is separated into promoted runtime, helper/extraction, and blocked lanes.
+- Gaps: manual verification tasks remain open; phase 4 checkpoint commit/push is pending; broader official benchmark coverage is still incomplete for the helper/runtime comparison lanes.
+- Decision: keep the track in progress until the remaining checkpoint and verification steps are closed.

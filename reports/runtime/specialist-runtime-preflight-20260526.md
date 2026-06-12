@@ -1,6 +1,6 @@
 # Specialist Runtime Preflight
 
-Date: 2026-06-11T15:53:30.641857+00:00
+Date: 2026-06-12T08:18:29.021299+00:00
 SSD root: `/Volumes/PortableSSD`
 Policy: read-only; no installs, downloads, compute creation, or model conversion
 
