@@ -127,6 +127,8 @@ def blocked_reason(item: dict[str, Any], notes: str, project: str) -> str:
         or "missing-cohere2moe" in normalized_text
         or "unknown-model-architecture-cohere2moe" in normalized_text
         or "parameters-not-in-model" in normalized_text
+        or "histogram_mps" in normalized_text
+        or "notimplementederror" in normalized_text
     ):
         return "blocked by current local runtime support"
     if ("timed out" in text or re.search(r"\bstalled\b", text)) and not has_positive_evidence:

@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T17:17:00.826667+00:00`
+Created: `2026-06-12T17:47:40.157336+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 146 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 6 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 12 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 146 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 6 |
 
 ## Benchmark Policy
 
@@ -166,7 +166,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `LiquidAI/LFM2.5-350M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-VL-450M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-Audio-1.5B` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `LiquidAI/LFM2-8B-A1B` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `LiquidAI/LFM2-8B-A1B` | `blocked` | blocked by current local runtime support | `reports/runtime/lfm2-8b-a1b-transformers-mps-histogram-blocker-20260613.md` |
 | hermes | `Qwen/Qwen3-Next-80B-A3B-Instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `jinaai/jina-embeddings-v4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-VL-Embedding-2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -325,7 +325,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `LiquidAI/LFM2.5-350M` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `LiquidAI/LFM2.5-VL-450M` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `LiquidAI/LFM2.5-Audio-1.5B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `LiquidAI/LFM2-8B-A1B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `LiquidAI/LFM2-8B-A1B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `LiquidAI/LFM2-ColBERT-350M` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `Qwen/Qwen3-Next-80B-A3B-Instruct` | research-runtime | `needs-runtime-proof` | specialist runtime proof | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `microsoft/bitnet-b1.58-2B-4T` | research-runtime | `ready` | specialist runtime proof | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |

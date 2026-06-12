@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T17:17:00.954108+00:00",
+  "created_at": "2026-06-12T17:47:40.305785+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -343,11 +343,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by current local runtime support",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Ollama/GGUF",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model liquidai-lfm2-8b-a1b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id liquidai-lfm2-8b-a1b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Local Ollama tree has LFM2 converter work. Prefer Liquid/MLX/LEAP-family proof before falling back to GGUF portability."
+      "first_runtime": "Transformers MPS load succeeds; generation blocked by missing MPS MoE kernel",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "Local Ollama tree has LFM2 converter work. The full `LiquidAI/LFM2-8B-A1B` safetensor set was acquired to `/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2-8B-A1B` on 2026-06-13 and loaded in the Transformers MPS runner, but generation failed on the first BFCL pilot case because `transformers.models.lfm2_moe` routes MoE experts through `torch.histc`, which raises `NotImplementedError: \"histogram_mps\" not implemented for 'Int'` on MPS. Evidence is recorded at `reports/runtime/lfm2-8b-a1b-transformers-mps-histogram-blocker-20260613.md`. Next proof should use CPU only for a very small smoke, a patched PyTorch/MPS path, MLX/LEAP, ONNX, or a GGUF/Ollama conversion; do not promote from the current MPS blocker."
     },
     {
       "id": "Qwen/Qwen3.5-9B",

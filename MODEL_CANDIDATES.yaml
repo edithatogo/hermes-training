@@ -1721,9 +1721,9 @@ candidates:
     parameters: "8B-ish / low active parameter count"
     architecture: "LFM2 hybrid/MoE-style architecture"
     license: "check model card"
-    first_runtime: "Ollama/GGUF"
+    first_runtime: "Transformers MPS load succeeds; generation blocked by missing MPS MoE kernel"
     first_finetune: "MLX or LEAP after runtime proof"
-    notes: "Local Ollama tree has LFM2 converter work. Prefer Liquid/MLX/LEAP-family proof before falling back to GGUF portability."
+    notes: "Local Ollama tree has LFM2 converter work. The full `LiquidAI/LFM2-8B-A1B` safetensor set was acquired to `/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2-8B-A1B` on 2026-06-13 and loaded in the Transformers MPS runner, but generation failed on the first BFCL pilot case because `transformers.models.lfm2_moe` routes MoE experts through `torch.histc`, which raises `NotImplementedError: \"histogram_mps\" not implemented for 'Int'` on MPS. Evidence is recorded at `reports/runtime/lfm2-8b-a1b-transformers-mps-histogram-blocker-20260613.md`. Next proof should use CPU only for a very small smoke, a patched PyTorch/MPS path, MLX/LEAP, ONNX, or a GGUF/Ollama conversion; do not promote from the current MPS blocker."
 
   - id: LiquidAI/LFM2-ColBERT-350M
     family: embeddings
