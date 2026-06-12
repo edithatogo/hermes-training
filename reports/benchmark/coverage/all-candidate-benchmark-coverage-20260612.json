@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T14:59:10.149305+00:00",
+  "created_at": "2026-06-12T15:04:44.759679+00:00",
   "candidate_count": 171,
   "counts": {
-    "mem0": {
-      "benchmarked-not-necessarily-promoted": 11,
-      "blocked": 3,
-      "smoke-or-pilot-only": 1,
-      "benchmarked-not-promoted": 1
-    },
     "hermes": {
       "blocked": 143,
       "benchmarked-not-promoted": 5,
       "smoke-or-pilot-only": 5,
       "evidence-present-needs-review": 2
+    },
+    "mem0": {
+      "benchmarked-not-necessarily-promoted": 11,
+      "blocked": 3,
+      "smoke-or-pilot-only": 1,
+      "benchmarked-not-promoted": 1
     }
   },
   "rows": [
@@ -1214,12 +1214,14 @@
       "role": "local-runtime",
       "family": "minicpm",
       "environment_or_runtime": "mac-lmstudio",
-      "feasibility_or_status": "needs-runtime-proof",
+      "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",

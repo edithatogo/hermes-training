@@ -1183,13 +1183,13 @@ candidates:
     tier: edge-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "1B"
     architecture: "MiniCPM5 1B, GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio smoke"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Official GGUF packaging lane for MiniCPM5-1B. Use as a tiny local-runtime comparison point only."
+    notes: "Official GGUF packaging lane for MiniCPM5-1B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 193-204 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted tool-shaped text rather than parseable tool calls and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Use as a tiny local-runtime comparison point only; do not promote as a Hermes tool-call default."
 
   - id: Nanbeige/Nanbeige4.1-3B
     family: nanbeige
