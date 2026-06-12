@@ -596,5 +596,5 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Cloud Dynamic Benchmark Orchestration
+## [x] Track: Cloud Dynamic Benchmark Orchestration
 *Link: [./tracks/cloud-dynamic-benchmark-orchestration_20260612/](./tracks/cloud-dynamic-benchmark-orchestration_20260612/)*

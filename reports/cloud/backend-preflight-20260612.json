@@ -1,0 +1,98 @@
+{
+  "created_at": "2026-06-12T09:36:13.946948+00:00",
+  "storage_root": "/Volumes/PortableSSD",
+  "storage_root_exists": true,
+  "policy": {
+    "no_paid_compute_without_approval": true,
+    "no_private_data_uploads": true,
+    "no_model_or_dataset_publication": true,
+    "artifact_root": "/Volumes/PortableSSD/hermes-evals",
+    "tracked_report_root": "reports/cloud"
+  },
+  "backends": {
+    "colab": {
+      "status": "ready",
+      "route": "primary",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "version"
+        ],
+        "returncode": 0,
+        "stdout": "Version: 0.5.9",
+        "stderr": ""
+      },
+      "sessions": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "sessions"
+        ],
+        "returncode": 0,
+        "stdout": "[colab] A new version of Colab CLI is available: 0.5.11 (current: 0.5.9)\n[colab] Run 'colab update' to update.\n[colab] To silence this check, set \"enable_update_check\": false in ~/.config/colab-cli/settings.json\n\n[colab] No active sessions found on server.",
+        "stderr": ""
+      },
+      "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
+      "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient."
+    },
+    "azure": {
+      "status": "blocked",
+      "route": "prepared",
+      "account": {
+        "installed": true,
+        "path": "/opt/homebrew/bin/az",
+        "command": [
+          "az",
+          "account",
+          "show",
+          "-o",
+          "json"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ERROR: Please run 'az login' to setup account."
+      },
+      "detail": "ERROR: Please run 'az login' to setup account.",
+      "stop_condition": "missing login, wrong subscription, absent Azure ML extension, zero GPU quota, or no cost approval",
+      "next_action": "Run az login only when the user is ready; then use scripts/azure_preflight.py before any job."
+    },
+    "ngc": {
+      "status": "blocked",
+      "route": "prepared",
+      "config": {
+        "installed": true,
+        "path": "/usr/local/bin/ngc",
+        "command": [
+          "ngc",
+          "config",
+          "current"
+        ],
+        "returncode": 0,
+        "stdout": "+-------------+-------+---------------+\n| key         | value | source        |\n+-------------+-------+---------------+\n| format_type | ascii | default value |\n+-------------+-------+---------------+",
+        "stderr": ""
+      },
+      "stop_condition": "missing API key, org/team, entitlement, container access, model access, or license approval",
+      "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof."
+    },
+    "kaggle": {
+      "status": "blocked",
+      "route": "future",
+      "version": {
+        "installed": false,
+        "path": "",
+        "command": [
+          "kaggle",
+          "--version"
+        ],
+        "returncode": null,
+        "stdout": "",
+        "stderr": "kaggle not found on PATH"
+      },
+      "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
+      "next_action": "Install and authenticate Kaggle CLI before adding Kaggle execution jobs."
+    }
+  }
+}

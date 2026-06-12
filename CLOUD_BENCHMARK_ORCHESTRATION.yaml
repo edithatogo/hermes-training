@@ -1,0 +1,116 @@
+# Dynamic benchmark orchestration registry.
+updated: "2026-06-12"
+artifact_root: "/Volumes/PortableSSD/hermes-evals"
+tracked_report_roots:
+  - reports/cloud
+  - reports/colab
+  - reports/azure
+
+global_stop_conditions:
+  - missing_credentials
+  - paid_compute_without_explicit_approval
+  - restricted_license_or_terms
+  - private_data_or_secret_upload
+  - unbounded_artifact_size
+  - provider_quota_or_entitlement_missing
+
+backends:
+  local:
+    status: ready
+    purpose: "Mac/Metal, MLX, Ollama, LM Studio, llama.cpp, and repo-native validation."
+    command_policy: "Run directly after source scripts/env.sh."
+    artifact_policy: "SSD-backed outputs only."
+  colab:
+    status: ready
+    purpose: "Primary burst backend for sanitized CUDA or XLA-compatible smokes and benchmark slices."
+    launcher: "scripts/colab_dispatch.py"
+    accelerator_policy: "GPU-first: gpu:T4,gpu:L4,gpu:A100. TPU only with --allow-tpu and XLA/JAX compatibility."
+    artifact_policy: "Download summary.json, log tails, and tracked reports; no checkpoint sync unless separately approved."
+  azure:
+    status: blocked-until-login-quota-cost
+    purpose: "Managed benchmark, teacher/evaluator, and larger experiment lane."
+    preflight: "scripts/azure_preflight.py --check-quota --region <region>"
+    artifact_policy: "No compute before login, subscription, Azure ML extension, GPU quota, and cost approval pass."
+  ngc:
+    status: blocked-until-api-key-entitlement
+    purpose: "NVIDIA container/model/runtime proof lane for NIM, Nemotron, and specialist CUDA packages."
+    preflight: "ngc config current plus non-secret org/team/container/model entitlement checks"
+    artifact_policy: "No NGC job or pull before API key, license, and entitlement proof."
+  kaggle:
+    status: future-until-cli-auth
+    purpose: "Future notebook/GPU fallback for public-data benchmark slices."
+    preflight: "kaggle --version and authenticated account check"
+    artifact_policy: "No private data or long-running unbounded notebooks."
+
+job_profiles:
+  hermes-runtime-smoke:
+    owner_track: hermes-shortlist-runtime-promotion_20260612
+    preferred_backends:
+      - local
+      - colab
+    colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 --timeout 180 --run-id <run-id> scripts/colab_smoke.py"
+    result_contract:
+      - runtime_summary_json
+      - tracked_run_card
+      - no_model_cache_committed
+  standard-benchmark-slice:
+    owner_track: hermes-shortlist-runtime-promotion_20260612
+    preferred_backends:
+      - colab
+      - azure
+    colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4 --timeout 1200 --run-id <run-id> scripts/colab_benchmark_env_smoke.py --mode general --install-profile general-core --install-timeout 900"
+    result_contract:
+      - benchmark_manifest
+      - environment_versions
+      - scorecard_or_blocker_report
+  mem0-embedding-reranker-sweep:
+    owner_track: mem0-embedding-reranker-promotion_20260612
+    preferred_backends:
+      - local
+      - colab
+    colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4 --timeout 900 --run-id <run-id> scripts/colab_benchmark_env_smoke.py --mode general --install-profile general-core"
+    result_contract:
+      - retrieval_suite_id
+      - model_id
+      - collection_dims
+      - top1_recall_mrr_ndcg
+      - migration_gate
+  runtime-packaging-proof:
+    owner_track: cross-runtime-proof-matrix_20260612
+    preferred_backends:
+      - local
+      - colab
+      - ngc
+    colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 --timeout 300 --run-id <run-id> scripts/colab_smoke.py"
+    result_contract:
+      - runtime
+      - command
+      - returncode
+      - log_tail
+      - local_vs_cloud_boundary
+  frontier-support-evaluation:
+    owner_track: frontier-support-evaluation_20260612
+    preferred_backends:
+      - colab
+      - azure
+      - ngc
+    colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 --timeout 1200 --run-id <run-id> scripts/colab_benchmark_env_smoke.py --mode bfcl --install-profile bfcl-core"
+    result_contract:
+      - model_id
+      - provider
+      - license_state
+      - benchmark_slice
+      - publication_boundary
+
+parallel_policy:
+  max_local_heavy_jobs: 1
+  max_colab_sessions: 1
+  max_paid_cloud_jobs: 0
+  duplicate_download_policy: "reuse provider cache when available; do not copy remote caches into git"
+  scheduling_order:
+    - preflight
+    - dry_run_plan
+    - smallest_smoke
+    - benchmark_slice
+    - report_sync
+    - metadata_update
