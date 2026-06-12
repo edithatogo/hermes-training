@@ -11,6 +11,7 @@ Latest scans:
 - [Hermes-Qwen3.5 SFT v7 scan](./reports/model-radar/hermes-qwen35-sft-v7-current-release-scan-20260612.md)
 - [Qwen3.6 35B 2-bit MLX scan](./reports/model-radar/qwen36-35b-2bit-mlx-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
+- [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
@@ -21,8 +22,8 @@ MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
 MiniCPM-V-4.6-GPTQ,
 MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Command A+, Step 3.7 Flash,
 DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B,
-Nemotron-Labs-Diffusion-VLM-8B, Nex-N2-mini, Nemotron 3.5 support models, and
-the larger Nemotron frontier set.
+Nemotron-Labs-Diffusion-VLM-8B, Nex-N2-mini, Nemotron 3.5 support models,
+Nemotron 3 Ultra base/GenRM/speech checkpoints, and the larger Nemotron frontier set.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes

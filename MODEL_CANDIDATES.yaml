@@ -749,6 +749,45 @@ candidates:
     first_finetune: "defer"
     notes: "Very large frontier teacher model with explicit reasoning traces. Keep it in the cloud-teacher lane only; the NVFP4 packaging is a secondary cloud/runtime path."
 
+  - id: nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "550B total / 55B active"
+    architecture: "Nemotron 3 Ultra base model"
+    license: "check model card"
+    first_runtime: "Transformers or vLLM teacher smoke"
+    first_finetune: "defer"
+    notes: "Official base checkpoint for the Nemotron 3 Ultra family. Keep it in the teacher lane for base-model comparison and not as a local fine-tune target."
+
+  - id: nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM
+    family: nvidia
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "550B total / 55B active"
+    architecture: "Nemotron 3 Ultra generative reward model"
+    license: "check model card"
+    first_runtime: "Teacher/evaluator smoke only"
+    first_finetune: "defer"
+    notes: "Official GenRM checkpoint for the Nemotron 3 Ultra family. Keep it in the evaluator lane rather than the chat lane."
+
+  - id: nvidia/nemotron-speech-streaming-en-0.6b
+    family: nvidia
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "0.6B"
+    architecture: "English streaming ASR model"
+    license: "check model card"
+    first_runtime: "NeMo or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "English streaming ASR checkpoint surfaced alongside the multilingual 3.5 release. Useful as a speech support lane, not a Hermes text target."
+
   - id: nvidia/Nemotron-Labs-Diffusion-14B
     family: nvidia
     tier: research-runtime

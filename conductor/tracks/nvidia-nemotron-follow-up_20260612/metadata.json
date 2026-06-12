@@ -1,0 +1,8 @@
+{
+  "id": "nvidia-nemotron-follow-up_20260612",
+  "title": "NVIDIA Nemotron Follow-Up",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Follow up the model radar with Nemotron Ultra base, GenRM, and English streaming ASR repos."
+}
