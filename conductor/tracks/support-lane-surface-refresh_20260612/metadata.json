@@ -1,0 +1,8 @@
+{
+  "track_id": "support-lane-surface-refresh_20260612",
+  "title": "Support Lane Surface Refresh",
+  "status": "completed",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the model radar with DeepSeek V4 Pro, LocateAnything-3B, and Higgs Audio v3 as support-lane additions."
+}

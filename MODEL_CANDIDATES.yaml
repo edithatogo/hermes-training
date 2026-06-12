@@ -1412,6 +1412,45 @@ candidates:
     first_finetune: "defer"
     notes: "Fresh Unsloth GGUF packaging published today for North-Mini-Code. The runtime is still blocked by llama.cpp's missing `cohere2moe` support, so this is packaging evidence only."
 
+  - id: deepseek-ai/DeepSeek-V4-Pro
+    family: deepseek
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: hosted-api
+    feasibility: needs-runtime-proof
+    parameters: "1.6T total / 49B active"
+    architecture: "DeepSeek-V4 preview MoE, instruct checkpoint"
+    license: "check model card"
+    first_runtime: "hosted API or specialist CUDA runtime"
+    first_finetune: "defer"
+    notes: "Fresh DeepSeek V4 Pro preview checkpoint. Use as a long-context cloud teacher/reference only; do not treat it as a 32GB local training target."
+
+  - id: nvidia/LocateAnything-3B
+    family: nvidia
+    tier: edge-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "3B"
+    architecture: "Vision-language grounding / visual localization model"
+    license: "check model card"
+    first_runtime: "Transformers smoke or demo-backed endpoint proof"
+    first_finetune: "defer"
+    notes: "Fresh visual grounding lane from NVIDIA. Useful for Hermes multimodal helper workflows and GUI localization, but still needs runtime proof."
+
+  - id: bosonai/higgs-audio-v3-tts-4b
+    family: boson
+    tier: edge-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "4B"
+    architecture: "Conversational speech synthesis / voice-agent model"
+    license: "check model card"
+    first_runtime: "Transformers TTS smoke or hosted demo proof"
+    first_finetune: "defer"
+    notes: "Fresh speech/voice-agent lane from Boson AI. Useful for Hermes speech workflows and audio companion scenarios, but still needs runtime proof."
+
   - id: Qwen/Qwen3.6-27B
     family: qwen
     tier: frontier-runtime
@@ -1696,7 +1735,7 @@ candidates:
     license: "check model card"
     first_runtime: "sentence-transformers or Transformers embedding path"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Practical Qwen retrieval candidate for 32GB-class local evaluation; verify batching/runtime before making retrieval claims."
+    notes: "Mem0 shortlist follow-on embedder. Practical Qwen retrieval candidate for 32GB-class local evaluation; verify batching/runtime before making retrieval claims."
 
   - id: Qwen/Qwen3-Reranker-4B
     family: reranker
@@ -1709,7 +1748,7 @@ candidates:
     license: "check model card"
     first_runtime: "sentence-transformers CrossEncoder or Transformers"
     first_finetune: "reranker fine-tuning only"
-    notes: "Use after dense retrieval to improve Hermes memory precision; do not treat as a chat model."
+    notes: "Mem0 shortlist follow-on reranker. Use after dense retrieval to improve Hermes memory precision; do not treat as a chat model."
 
   - id: Qwen/Qwen3-VL-Embedding-2B
     family: qwen-vl
@@ -1839,7 +1878,7 @@ candidates:
     license: "check model card"
     first_runtime: "sentence-transformers or Transformers multimodal embedding path"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Official Jina omni multimodal embedder for Hermes RAG and cross-modal search. Keep it separate from chat generation and use it as a retrieval baseline."
+    notes: "Strong mem0 shortlist alternate and Hermes RAG/cross-modal baseline. Keep it separate from chat generation and use it as a retrieval baseline."
 
   - id: jinaai/jina-embeddings-v5-omni-nano
     family: jina
@@ -1891,7 +1930,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX inference smoke"
     first_finetune: "defer"
-    notes: "Task-specific Jina omni packaging for text matching. Useful for pairing with retrieval and reranking experiments."
+    notes: "Current mem0-style MLX retrieval candidate. Useful for pairing with retrieval and reranking experiments."
 
   - id: jinaai/jina-embeddings-v5-omni-nano-retrieval-mlx
     family: jina
@@ -1930,7 +1969,7 @@ candidates:
     license: mit
     first_runtime: "FlagEmbedding or sentence-transformers"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Strong practical baseline for retrieval before riskier frontier embedding models; treat as retrieval-only, not a chat quantization target."
+    notes: "Current mem0 default baseline and strongest practical retrieval reference before riskier frontier embedding models; treat as retrieval-only, not a chat quantization target."
 
   - id: BlinkDL/rwkv7-g1
     family: rwkv

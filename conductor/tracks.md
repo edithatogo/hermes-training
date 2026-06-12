@@ -260,6 +260,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Support Lane Surface Refresh
+*Link: [./tracks/support-lane-surface-refresh_20260612/](./tracks/support-lane-surface-refresh_20260612/)*
+
+---
+
 ## [x] Track: mem0 Multi-Result Rerank Replay Harness
 *Link: [./tracks/mem0-multiretrieval-rerank-replay_20260526/](./tracks/mem0-multiretrieval-rerank-replay_20260526/)*
 
