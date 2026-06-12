@@ -1,6 +1,6 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T16:16:20.311328+00:00",
+  "created_at": "2026-06-12T16:41:31.999366+00:00",
   "candidate_count": 175,
   "counts": {
     "hermes": {
@@ -53,12 +53,14 @@
       "role": "local-runtime",
       "family": "qwen",
       "environment_or_runtime": "mac-lmstudio",
-      "feasibility_or_status": "needs-runtime-proof",
+      "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",

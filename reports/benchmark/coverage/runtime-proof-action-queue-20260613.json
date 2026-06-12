@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:16:20.454374+00:00",
+  "created_at": "2026-06-12T16:41:32.128180+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -93,21 +93,6 @@
       "first_runtime": "retry with a runtime that supports GGUF architecture cohere2moe",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model coherelabs-north-mini-code-1-0 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id coherelabs-north-mini-code-1-0-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture `cohere2moe`; see `reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md`. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
-    },
-    {
-      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
-      "family": "qwen",
-      "role": "local-runtime",
-      "environment": "mac-lmstudio",
-      "parameters": "35B total / 3B active",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio strict endpoint pilot",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. Hugging Face metadata on 2026-06-13 shows a single `qwen3.6-35b-a3b-iq2xxs-q2k.gguf` artifact of about 12.6G. Prefer this local-runtime path over the Maniac-engine nonstreaming repo until `lme-serve` is installed."
     },
     {
       "id": "Mungert/Nanbeige4.1-3B-GGUF",
@@ -873,6 +858,21 @@
       "first_runtime": "MLX direct loglikelihood smoke",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-mlx-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. 2026-06-13 offline SSD-cached strict BFCL rerun also scored 0.000 and is recorded at `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
+    },
+    {
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
+      "family": "qwen",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "llama.cpp strict endpoint pilot complete",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ManiacLabs/Qwen3.6-35B-A3B-2bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. SSD-backed llama.cpp endpoint pilot completed on 2026-06-13 at about 42-43 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple and invalid-tool cases returned empty assistant content, and the parallel case emitted a malformed partial tool-call fragment. Evidence is recorded at `reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md`. Keep as a runtime-proven Qwen3.6 35B-A3B 2-bit comparison point; not promoted."
     },
     {
       "id": "Qwen/Qwen3-4B-MLX-4bit",

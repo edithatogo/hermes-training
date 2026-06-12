@@ -40,13 +40,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "35B total / 3B active"
     architecture: "Qwen3.6 MoE, 2-bit GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio strict endpoint pilot"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. Hugging Face metadata on 2026-06-13 shows a single `qwen3.6-35b-a3b-iq2xxs-q2k.gguf` artifact of about 12.6G. Prefer this local-runtime path over the Maniac-engine nonstreaming repo until `lme-serve` is installed."
+    notes: "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. SSD-backed llama.cpp endpoint pilot completed on 2026-06-13 at about 42-43 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple and invalid-tool cases returned empty assistant content, and the parallel case emitted a malformed partial tool-call fragment. Evidence is recorded at `reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md`. Keep as a runtime-proven Qwen3.6 35B-A3B 2-bit comparison point; not promoted."
 
   - id: baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX
     family: qwen

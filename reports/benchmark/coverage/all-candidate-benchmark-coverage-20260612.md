@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T16:16:20.311328+00:00`
+Created: `2026-06-12T16:41:31.999366+00:00`
 
 ## Direct Answer
 
@@ -43,7 +43,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 |---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` |
 | hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `blocked` | blocked by current local runtime support | `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md` |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `qwen3.7-open-weights-watch` | `blocked` | blocked because open local weights or a supported public runtime are not verified |  |
@@ -196,7 +196,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 |---|---|---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | cloud-teacher | `ready` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `NousResearch/Hermes-4-14B` | cloud-teacher | `ready` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
