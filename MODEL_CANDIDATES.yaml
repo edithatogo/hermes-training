@@ -1305,9 +1305,9 @@ candidates:
     parameters: "1B"
     architecture: "MiniCPM-V 4.6 BNB quantized package"
     license: "check model card"
-    first_runtime: "Transformers or multimodal smoke"
+    first_runtime: "Transformers MiniCPM-V 4.6 runtime-support retry or multimodal smoke"
     first_finetune: "defer"
-    notes: "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Good as a lightweight multimodal packaging comparison point."
+    notes: "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: minicpmv4_6` is unsupported/not recognized; see `reports/runtime/minicpm-v-4-6-bnb-transformers-load-failure-20260613.md`. Good as a lightweight multimodal packaging comparison point only after a source/nightly Transformers, GGUF, MLX, or LiteRT path supports the architecture."
 
   - id: openbmb/MiniCPM-V-4.6-Thinking-gguf
     family: minicpm

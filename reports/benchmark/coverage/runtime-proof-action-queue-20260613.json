@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:08:24.320123+00:00",
+  "created_at": "2026-06-12T16:11:38.692293+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -73,11 +73,11 @@
       "size_bucket": "tiny",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by current local runtime support",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or multimodal smoke",
+      "first_runtime": "Transformers MiniCPM-V 4.6 runtime-support retry or multimodal smoke",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Good as a lightweight multimodal packaging comparison point."
+      "notes": "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: minicpmv4_6` is unsupported/not recognized; see `reports/runtime/minicpm-v-4-6-bnb-transformers-load-failure-20260613.md`. Good as a lightweight multimodal packaging comparison point only after a source/nightly Transformers, GGUF, MLX, or LiteRT path supports the architecture."
     },
     {
       "id": "CohereLabs/North-Mini-Code-1.0",

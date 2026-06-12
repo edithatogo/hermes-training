@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T16:08:24.322191+00:00`
+Created: `2026-06-12T16:11:38.693393+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -13,7 +13,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 2 | `google/gemma-4-E2B-it` | `mac-runtime-proof` | E2B | `hf-transformers` | `blocked` | blocked by current local runtime support |
 | 3 | `google/gemma-4-E2B-it-qat-mobile-transformers` | `mac-runtime-proof` | 2B | `hf-transformers` | `blocked` | blocked by current local runtime support |
 | 4 | `mlx-community/gemma-4-e2b-it-4bit` | `mac-runtime-proof` | E2B | `mac-mlx` | `blocked` | blocked by current local runtime support |
-| 5 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 5 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked by current local runtime support |
 | 6 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
 | 7 | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
 | 8 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-runtime-proof` | 3B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
@@ -100,7 +100,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked by current local runtime support
 
 ```bash
 source scripts/env.sh
