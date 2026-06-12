@@ -205,6 +205,10 @@ does not download datasets or run model inference.
 4. NVIDIA Nemotron runtime smoke only on an NVIDIA-capable Colab runtime.
 5. TPU-only experiments only after the script has a JAX or PyTorch/XLA path.
 
+The smallest reusable packaging sheet for the current shortlist is
+`reports/colab/hermes-shortlist-colab-packaging-20260612.md`. Use it as the
+run-book for the bounded smoke / environment / adaptive-training jobs above.
+
 ## Run Card Requirements
 
 Every Colab run must record:

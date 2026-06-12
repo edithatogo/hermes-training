@@ -571,7 +571,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [ ] Track: Hermes Shortlist Runtime and Promotion Execution
+## [~] Track: Hermes Shortlist Runtime and Promotion Execution
 *Link: [./tracks/hermes-shortlist-runtime-promotion_20260612/](./tracks/hermes-shortlist-runtime-promotion_20260612/)*
 
 ---

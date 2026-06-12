@@ -2,21 +2,21 @@
 
 ## Phase 1: Evidence Baseline and Role Lock
 
-- [ ] Task: Read `FUTURE_MODELS.md`, `MODEL_CANDIDATES.yaml`, `HANDOFF.md`, and the current scan report.
-    - [ ] Confirm the exact Hermes candidates and their intended roles.
-    - [ ] Separate local fine-tune targets, helper/extraction targets, and teacher/reference models.
-    - [ ] Record any stale, duplicated, or contradictory candidate states before execution.
-- [ ] Task: Run baseline validation before edits.
-    - [ ] Run `source scripts/env.sh && ./.venv/bin/python scripts/validate_readiness.py`.
-    - [ ] Run the model-candidate consistency check if candidate metadata changes are planned.
+- [x] Task: Read `FUTURE_MODELS.md`, `MODEL_CANDIDATES.yaml`, `HANDOFF.md`, and the current scan report.
+    - [x] Confirm the exact Hermes candidates and their intended roles.
+    - [x] Separate local fine-tune targets, helper/extraction targets, and teacher/reference models.
+    - [x] Record any stale, duplicated, or contradictory candidate states before execution.
+- [x] Task: Run baseline validation before edits.
+    - [x] Run `source scripts/env.sh && ./.venv/bin/python scripts/validate_readiness.py`.
+    - [x] Run the model-candidate consistency check if candidate metadata changes are planned.
 - [ ] Task: Conductor - User Manual Verification 'Evidence Baseline and Role Lock' (Protocol in workflow.md)
 
 ## Phase 2: Dynamic Runtime Execution
 
-- [ ] Task: Prefer Colab CLI for heavy benchmark or smoke execution.
-    - [ ] Confirm `colab sessions` and available runtime state.
-    - [ ] Package the smallest reproducible job script for each offloaded benchmark.
-    - [ ] Download only bounded result artifacts back into the repo.
+- [x] Task: Prefer Colab CLI for heavy benchmark or smoke execution.
+    - [x] Confirm `colab sessions` and available runtime state.
+    - [x] Package the smallest reproducible job script for each offloaded benchmark.
+    - [x] Download only bounded result artifacts back into the repo.
 - [ ] Task: Use Mac/Metal paths for local proof and parity.
     - [ ] Run MLX proof where a candidate has MLX packaging.
     - [ ] Run llama.cpp, Ollama, or LM Studio proof where GGUF or OpenAI-compatible runtime coverage exists.

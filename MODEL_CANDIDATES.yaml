@@ -559,26 +559,26 @@ candidates:
     tier: practical-finetune
     role: local-finetune
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "0.9B"
     architecture: "Dense transformer, small open-weight Qwen3.5"
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and should stay behind prompt-repair/helper/extraction gates before any promotion."
+    notes: "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 1.47s average latency, 78.09 average words, and 0.000 empty rate. The lane remains blocked for strict Hermes promotion, but the runtime evidence is now complete and the role stays helper/extraction-focused via `tiny-helper-no-prefill`."
 
   - id: Qwen/Qwen3.5-2B
     family: qwen
     tier: practical-finetune
     role: local-finetune
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "2B"
     architecture: "Dense transformer, small open-weight Qwen3.5"
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`, so compare against 0.8B, MiniCPM, and 4B before training or promotion."
+    notes: "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. The lane remains blocked for strict Hermes promotion, but the runtime evidence is now complete and the role stays helper/extraction-focused via `tiny-helper-no-prefill`."
 
   - id: Qwen/Qwen3.5-9B
     family: qwen
@@ -1176,7 +1176,7 @@ candidates:
     license: apache-2.0
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
-    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
+    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
 
   - id: openbmb/MiniCPM5-1B-GGUF
     family: minicpm

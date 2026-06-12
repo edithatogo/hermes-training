@@ -133,7 +133,7 @@ proofs:
     endpoint: ""
     artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/qwen35-08b-mlx-loglikelihood-smoke-20260612"
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-0.8B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-08b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
-    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, but the raw 3-case BFCL-style pilot scored 0.000. Next gate is prompt-format repair or helper/extraction role decision, not automatic promotion."
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, and the 100-prompt Hermes-local pass completed at 1.47s average latency with 0.000 empty rate. The raw 3-case BFCL-style pilot still scored 0.000, so this remains helper/extraction evidence only rather than a strict Hermes promotion."
 
   - id: qwen35-2b-mlx-native-smoke
     lane_id: mlx-native
@@ -143,7 +143,7 @@ proofs:
     endpoint: ""
     artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/qwen35-2b-mlx-loglikelihood-smoke-20260612"
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model Qwen/Qwen3.5-2B --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id qwen35-2b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
-    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, but the raw 3-case BFCL-style pilot scored 0.000. Next gate is comparing prompt-format repair and helper/extraction utility against the 0.8B, MiniCPM, and 4B lanes."
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, and the 100-prompt Hermes-local pass completed at 2.32s average latency with 0.000 empty rate. The raw 3-case BFCL-style pilot still scored 0.000, so this remains helper/extraction evidence only rather than a strict Hermes promotion."
 
   - id: minicpm5-1b-mlx-native-smoke
     lane_id: mlx-native
@@ -153,7 +153,7 @@ proofs:
     endpoint: ""
     artifact_path: "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612"
     command: "./.venv/bin/python scripts/run_mlx_loglikelihood_smoke.py --model openbmb/MiniCPM5-1B-MLX --suite benchmarks/lm_loglikelihood/smoke.jsonl --run-id minicpm5-1b-mlx-loglikelihood-smoke-20260612 --max-cases 1 --max-length 1024"
-    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, but the 3-case BFCL-style local pilot scored 0.000. Next gate is prompt-format repair or helper/extraction comparison against Qwen3.5 0.8B/2B."
+    blocker: "SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed, and the 100-prompt Hermes-local pass completed at 0.54s average latency with a 0.060 empty rate. The 3-case BFCL-style local pilot still scored 0.000, so this remains helper/extraction evidence only and is not a strict Hermes default."
 
   - id: north-mini-code-gguf-proof
     lane_id: gguf-portability
