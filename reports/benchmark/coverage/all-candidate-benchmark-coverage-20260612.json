@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T19:13:37.196567+00:00",
+  "created_at": "2026-06-12T19:43:56.309624+00:00",
   "candidate_count": 175,
   "counts": {
+    "hermes": {
+      "blocked": 143,
+      "benchmarked-not-promoted": 7,
+      "smoke-or-pilot-only": 7,
+      "evidence-present-needs-review": 2
+    },
     "mem0": {
       "benchmarked-not-necessarily-promoted": 12,
       "blocked": 2,
       "smoke-or-pilot-only": 1,
       "benchmarked-not-promoted": 1
-    },
-    "hermes": {
-      "blocked": 144,
-      "benchmarked-not-promoted": 7,
-      "smoke-or-pilot-only": 6,
-      "evidence-present-needs-review": 2
     }
   },
   "rows": [
@@ -497,12 +497,14 @@
       "role": "local-runtime",
       "family": "gemma",
       "environment_or_runtime": "mac-lmstudio",
-      "feasibility_or_status": "needs-runtime-proof",
+      "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "coverage_state": "smoke-or-pilot-only",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "evidence": [
+        "reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",

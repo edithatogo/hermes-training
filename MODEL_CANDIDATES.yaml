@@ -456,13 +456,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "26B total / 4B active"
     architecture: "Sparse MoE, multimodal Gemma 4, GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or Ollama GGUF smoke"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Recent Unsloth GGUF path for Gemma 4 26B A4B. Candidate for runtime proof and tool-call comparison only."
+    notes: "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; strict BFCL-style Hermes pilot scored 2/3. The two tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed about 50 eval tok/s. The only failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until broader BFCL/IFEval/coding suites pass."
 
   - id: lmstudio-community/gemma-4-31B-it-GGUF
     family: gemma
