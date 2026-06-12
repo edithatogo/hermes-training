@@ -788,6 +788,32 @@ candidates:
     first_finetune: "defer"
     notes: "English streaming ASR checkpoint surfaced alongside the multilingual 3.5 release. Useful as a speech support lane, not a Hermes text target."
 
+  - id: nvidia/instant-nurec
+    family: nvidia
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "unknown"
+    architecture: "Physical AI / synthetic-data generation model"
+    license: "check model card"
+    first_runtime: "Transformers or NVIDIA stack smoke"
+    first_finetune: "defer"
+    notes: "Fresh NVIDIA physical-AI model with code hosted in a standalone GitHub repo. Relevant as a support lane for synthetic data and 3D scene generation, not as a Hermes chat target."
+
+  - id: nvidia/omni-dreams-models
+    family: nvidia
+    tier: research-runtime
+    role: research-runtime
+    environment: specialist-runtime
+    feasibility: needs-runtime-proof
+    parameters: "unknown"
+    architecture: "Action-conditioned generative world model"
+    license: "check model card"
+    first_runtime: "Transformers or NVIDIA stack smoke"
+    first_finetune: "defer"
+    notes: "Fresh NVIDIA world-model lane for autonomous-driving simulation and synthetic camera generation. Useful for multimodal support experimentation, not for local Hermes text fine-tuning."
+
   - id: nvidia/Nemotron-Labs-Diffusion-14B
     family: nvidia
     tier: research-runtime
