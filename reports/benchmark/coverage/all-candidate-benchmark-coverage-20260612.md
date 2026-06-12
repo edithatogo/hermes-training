@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:53:00.120890+00:00`
+Created: `2026-06-12T14:56:19.154425+00:00`
 
 ## Direct Answer
 
@@ -18,9 +18,9 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | Project | Coverage state | Count |
 |---|---|---:|
 | hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 141 |
+| hermes | `blocked` | 142 |
 | hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 7 |
+| hermes | `smoke-or-pilot-only` | 6 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
@@ -127,6 +127,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-E2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `microsoft/Phi-4-mini-instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `ibm-granite/granite-4.1-3b` | `blocked` | blocked by strict Hermes tool-call formatting failure |  |
+| hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-MLX` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`<br>`reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`<br>`reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -278,7 +279,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `google/gemma-4-E2B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `microsoft/Phi-4-mini-instruct` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `ibm-granite/granite-4.1-3b` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `openbmb/MiniCPM5-1B-MLX` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

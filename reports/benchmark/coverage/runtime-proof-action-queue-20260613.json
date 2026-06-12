@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T14:53:00.263947+00:00",
+  "created_at": "2026-06-12T14:56:19.299575+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -980,6 +980,21 @@
       "notes": "Fresh Cohere transcription model surfaced in the current HF search. Keep it as an audio transcription support lane only."
     },
     {
+      "id": "LGAI-EXAONE/EXAONE-4.0-1.2B",
+      "family": "exaone",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "1.2B",
+      "size_bucket": "tiny",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "support-model-proof",
+      "first_runtime": "Official GGUF Q4_K_M runtime proof complete; MLX 4-bit package currently blocked",
+      "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "Small multilingual helper candidate from the current leaderboard. The `mlx-community/exaone-4.0-1.2b-4bit` package was acquired to SSD but `mlx_lm.load` is blocked by a Transformers EXAONE4 config ZeroDivisionError in this environment. The official `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` Q4_K_M artifact is SSD-acquired and llama-completion runtime-proven with under 1GB max RSS, but output was repeated braces rather than valid JSON. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` scored `0/3` (`0.000`): it refused listed tools, wrote prose instead of tool calls, and suggested the unavailable delete function. Treat as runtime evidence only and keep it as a comparison lane, not the tiny-helper default."
+    },
+    {
       "id": "LiquidAI/LFM2.5-Audio-1.5B",
       "family": "lfm",
       "role": "local-runtime",
@@ -1803,21 +1818,6 @@
       "first_runtime": "Transformers, vLLM, or SGLang safety smoke",
       "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
       "notes": "Specialist support model for moderation and custom policy enforcement. Keep it out of Hermes text-generation lanes."
-    },
-    {
-      "id": "LGAI-EXAONE/EXAONE-4.0-1.2B",
-      "family": "exaone",
-      "role": "local-finetune",
-      "environment": "mac-mlx",
-      "parameters": "1.2B",
-      "size_bucket": "tiny",
-      "feasibility": "ready",
-      "coverage_state": "smoke-or-pilot-only",
-      "blocked_reason": "",
-      "lane": "support-model-proof",
-      "first_runtime": "Official GGUF Q4_K_M runtime proof complete; MLX 4-bit package currently blocked",
-      "next_command": "source scripts/env.sh\n# Run a role-specific smoke only after license/runtime checks; keep raw artifacts on /Volumes/PortableSSD.\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Small multilingual helper candidate from the current leaderboard. The `mlx-community/exaone-4.0-1.2b-4bit` package was acquired to SSD but `mlx_lm.load` is blocked by a Transformers EXAONE4 config ZeroDivisionError in this environment. The official `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` Q4_K_M artifact is SSD-acquired and llama-completion runtime-proven with under 1GB max RSS, but output was repeated braces rather than valid JSON. Treat as runtime evidence only and keep it as a comparison lane, not the tiny-helper default."
     },
     {
       "id": "LiquidAI/LFM2.5-1.2B-Instruct",

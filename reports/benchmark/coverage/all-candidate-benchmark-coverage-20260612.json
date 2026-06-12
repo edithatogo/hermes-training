@@ -1,12 +1,12 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T14:53:00.120890+00:00",
+  "created_at": "2026-06-12T14:56:19.154425+00:00",
   "candidate_count": 171,
   "counts": {
     "hermes": {
-      "blocked": 141,
+      "blocked": 142,
       "benchmarked-not-promoted": 5,
-      "smoke-or-pilot-only": 7,
+      "smoke-or-pilot-only": 6,
       "evidence-present-needs-review": 2
     },
     "mem0": {
@@ -1183,10 +1183,11 @@
       "environment_or_runtime": "mac-mlx",
       "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "smoke-or-pilot-only",
-      "blocked_reason": "",
-      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
       "evidence": [
+        "reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
         "reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md"
       ]
     },
