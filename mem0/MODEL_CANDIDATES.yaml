@@ -185,9 +185,9 @@ candidates:
       - lm-studio-gguf
       - transformers
     embedding_dims: null
-    status: runtime-proof-needed
-    first_gate: endpoint-smoke
-    notes: "Teacher/baseline candidate for memory extraction once a local artifact or endpoint is available."
+    status: runtime-proven-extraction-needed
+    first_gate: extraction-smoke
+    notes: "Hermes-aligned teacher/baseline candidate. Local GGUF runtime and endpoint pilots are already documented in reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md and reports/benchmark/endpoint-pilots/hermes4-14b-q4-llamacpp-pilots-20260524.md, but mem0 extraction quality has not yet been benchmarked against the LFM2 rollback extractor."
 
 collections:
   - name: mem0_nomic_768

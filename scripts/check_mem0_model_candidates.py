@@ -22,6 +22,7 @@ STATUSES = {
     "candidate",
     "planned",
     "runtime-proof-needed",
+    "runtime-proven-extraction-needed",
     "benchmarked-cpu-mps-not-promoted",
     "candidate-runtime-id-verified",
     "access-gated",
