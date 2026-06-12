@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-12T14:40:52.969838+00:00`
+Created: `2026-06-12T14:43:23.671850+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -20,7 +20,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 9 | `openbmb/MiniCPM-V-4.6-BNB` | `mac-runtime-proof` | 1B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 10 | `openbmb/MiniCPM5-1B-GGUF` | `mac-runtime-proof` | 1B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 11 | `openbmb/MiniCPM5-1B-MLX` | `mac-runtime-proof` | 1B | `mac-mlx` | `blocked` | blocked by empty/no-content generation under the strict prompt |
-| 12 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 12 | `CohereLabs/North-Mini-Code-1.0` | `mac-runtime-proof` | 30B total / 3B active | `mac-lmstudio` | `blocked` | blocked by current local runtime support |
 | 13 | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
 | 14 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-runtime-proof` | 3B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 15 | `Nanbeige/Nanbeige4.1-3B` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
@@ -40,8 +40,8 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | Lane | Count |
 |---|---:|
 | `cloud-teacher-proof` | 12 |
-| `mac-runtime-proof` | 61 |
-| `prompt-profile-repair` | 3 |
+| `mac-runtime-proof` | 60 |
+| `prompt-profile-repair` | 4 |
 | `specialist-runtime-proof` | 9 |
 | `support-model-proof` | 65 |
 | `watchlist` | 5 |
@@ -196,7 +196,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked by current local runtime support
 
 ```bash
 source scripts/env.sh

@@ -1397,7 +1397,7 @@ candidates:
     license: apache-2.0
     first_runtime: "retry with a runtime that supports GGUF architecture cohere2moe"
     first_finetune: "defer"
-    notes: "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture 'cohere2moe'. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
+    notes: "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture `cohere2moe`; see `reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md`. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
 
   - id: unsloth/North-Mini-Code-1.0-GGUF
     family: cohere
@@ -1410,7 +1410,7 @@ candidates:
     license: apache-2.0
     first_runtime: "retry only after a runtime supports cohere2moe GGUF"
     first_finetune: "defer"
-    notes: "Fresh Unsloth GGUF packaging published today for North-Mini-Code. The runtime is still blocked by llama.cpp's missing `cohere2moe` support, so this is packaging evidence only."
+    notes: "Fresh Unsloth GGUF packaging published today for North-Mini-Code. The runtime is still blocked by llama.cpp's unknown model architecture `cohere2moe` failure in `reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md`, so this is packaging and blocked-runtime evidence only."
 
   - id: deepseek-ai/DeepSeek-V4-Pro
     family: deepseek

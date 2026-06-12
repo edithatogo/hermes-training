@@ -50,6 +50,8 @@ def evidence_paths(candidate_id: str, notes: str, reports: list[Path]) -> list[s
         "LiquidAI/LFM2.5-1.2B-Thinking": ["lfm25-1.2b-thinking", "LFM2.5-1.2B-Thinking"],
         "LiquidAI/LFM2.5-8B-A1B-GGUF": ["lfm25-8b-a1b", "LFM2.5-8B-A1B"],
         "microsoft/bitnet-b1.58-2B-4T": ["bitnet-b158-2b", "BitNet-b1.58-2B-4T"],
+        "CohereLabs/North-Mini-Code-1.0": ["north-mini-code", "North-Mini-Code-1.0"],
+        "unsloth/North-Mini-Code-1.0-GGUF": ["north-mini-code", "North-Mini-Code-1.0", "north-mini-code-gguf"],
         "Qwen/Qwen3-Embedding-0.6B": ["qwen3-embedding-0.6b", "qwen3-06b-embedding"],
         "Qwen/Qwen3-Reranker-0.6B": ["qwen3-0-6b", "qwen3-06b", "Qwen3-Reranker-0.6B"],
     }
@@ -115,7 +117,8 @@ def blocked_reason(item: dict[str, Any], notes: str, project: str) -> str:
         return "blocked on gated/authenticated model access"
     if "no verified public" in text or feasibility in {"speculative", "hosted-preview-only"} or role == "watchlist":
         return "blocked because open local weights or a supported public runtime are not verified"
-    if "unsupported" in text or "missing cohere2moe" in text:
+    normalized_text = normalize(text)
+    if "unsupported" in text or "missing-cohere2moe" in normalized_text or "unknown-model-architecture-cohere2moe" in normalized_text:
         return "blocked by current local runtime support"
     if ("timed out" in text or "stalled" in text) and not has_positive_evidence:
         return "blocked by local timeout/stall; needs cloud/offload or narrower harness"

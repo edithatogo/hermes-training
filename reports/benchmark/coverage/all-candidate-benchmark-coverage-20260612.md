@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T14:40:53.820138+00:00`
+Created: `2026-06-12T14:43:23.516165+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 141 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 7 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 11 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 3 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 141 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 7 |
 
 ## Benchmark Policy
 
@@ -144,8 +144,8 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `CohereLabs/North-Mini-Code-1.0` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `unsloth/North-Mini-Code-1.0-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `CohereLabs/North-Mini-Code-1.0` | `blocked` | blocked by current local runtime support | `reports/model-radar/north-mini-code-gguf-current-release-scan-20260612.md`<br>`reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md` |
+| hermes | `unsloth/North-Mini-Code-1.0-GGUF` | `blocked` | blocked by current local runtime support | `reports/model-radar/north-mini-code-gguf-current-release-scan-20260612.md`<br>`reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md` |
 | hermes | `deepseek-ai/DeepSeek-V4-Pro` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/LocateAnything-3B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `bosonai/higgs-audio-v3-tts-4b` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -296,8 +296,8 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `CohereLabs/North-Mini-Code-1.0` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `unsloth/North-Mini-Code-1.0-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `CohereLabs/North-Mini-Code-1.0` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
+| hermes | `unsloth/North-Mini-Code-1.0-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `deepseek-ai/DeepSeek-V4-Pro` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/LocateAnything-3B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `bosonai/higgs-audio-v3-tts-4b` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
