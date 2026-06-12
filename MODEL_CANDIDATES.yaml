@@ -1262,13 +1262,13 @@ candidates:
     tier: edge-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "3B"
     architecture: "Compact reasoning-aligned dense model, GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio smoke"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Community GGUF packaging for Nanbeige4.1-3B. Treat as a local runtime comparison point only."
+    notes: "Community GGUF packaging for Nanbeige4.1-3B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 71-72 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): all three cases returned empty assistant content. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as a fast local runtime comparison point only; not promoted."
 
   - id: openbmb/MiniCPM-o-4_5
     family: minicpm

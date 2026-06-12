@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T16:41:31.999366+00:00`
+Created: `2026-06-12T16:49:21.238158+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 5 |
-| hermes | `blocked` | 146 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 6 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 12 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 146 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 6 |
 
 ## Benchmark Policy
 
@@ -134,7 +134,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/MiniCPM5-1B-MLX` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`<br>`reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`<br>`reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md` |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `Mungert/Nanbeige4.1-3B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `Mungert/Nanbeige4.1-3B-GGUF` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `openbmb/MiniCPM-o-4_5` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-o-4_5-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -290,7 +290,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/MiniCPM5-1B-MLX` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `Mungert/Nanbeige4.1-3B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `Mungert/Nanbeige4.1-3B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `openbmb/MiniCPM-o-4_5` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-o-4_5-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
