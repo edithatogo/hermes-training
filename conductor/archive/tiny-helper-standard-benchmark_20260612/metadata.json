@@ -1,0 +1,8 @@
+{
+  "track_id": "tiny-helper-standard-benchmark_20260612",
+  "type": "chore",
+  "status": "completed",
+  "created_at": "2026-06-12T06:49:00Z",
+  "updated_at": "2026-06-12T06:52:01Z",
+  "description": "Document the standard benchmark matrix and publication status for the tiny helper lane."
+}

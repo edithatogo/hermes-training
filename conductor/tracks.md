@@ -265,6 +265,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Tiny helper standard benchmark
+*Link: [./archive/tiny-helper-standard-benchmark_20260612/](./archive/tiny-helper-standard-benchmark_20260612/)*
+
+---
+
 ## [x] Track: Support Lane Surface Refresh
 *Link: [./tracks/support-lane-surface-refresh_20260612/](./tracks/support-lane-surface-refresh_20260612/)*
 

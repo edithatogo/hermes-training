@@ -34,6 +34,8 @@ Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` r
 
 The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`; use it for the Qwen3.5 0.8B/2B and MiniCPM5-1B-MLX comparison path only.
 
+The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in.
+
 mem0 and embedding are now crystallized too: `BAAI/bge-m3` remains the current retrieval baseline, `jinaai/jina-embeddings-v5-omni-small` and `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` are the strongest alternate lanes, `google/embeddinggemma-300m` is the next baseline to compare, and `Qwen/Qwen3-Embedding-4B` plus `Qwen/Qwen3-Reranker-4B` are follow-on candidates.
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
