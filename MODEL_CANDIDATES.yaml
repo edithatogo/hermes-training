@@ -53,13 +53,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-mlx
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "35B total / 3B active"
     architecture: "Sparse MoE Qwen3.6, MLX quantized packaging"
     license: "check model card"
-    first_runtime: "MLX server smoke after explicit download approval"
+    first_runtime: "MLX strict local pilot complete"
     first_finetune: "defer"
-    notes: "Verified by Hugging Face API on 2026-05-24. Candidate Mac runtime artifact because the repo title targets roughly 19GB RAM, but no local artifact is present yet."
+    notes: "Verified by Hugging Face API on 2026-05-24. SSD-backed MLX artifact acquired and loaded on 2026-06-13; load time was about 1901s and the strict Hermes BFCL-style pilot scored 0/3. The model is runtime-proven on Mac but not promoted: it leaks planning/thinking text, emits malformed or unterminated `<tool_call>` wrappers, and mentions the forbidden unavailable delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/qwen36-35b-a3b-ram19gb-mlx-strict-bfcl-pilot-20260613.md`."
 
   - id: deepsweet/Qwen3.6-35B-A3B-MLX-oQ4
     family: qwen

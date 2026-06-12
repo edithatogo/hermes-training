@@ -1,6 +1,6 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T18:09:28.870533+00:00",
+  "created_at": "2026-06-12T18:44:02.930131+00:00",
   "candidate_count": 175,
   "counts": {
     "mem0": {
@@ -10,8 +10,8 @@
       "benchmarked-not-promoted": 1
     },
     "hermes": {
-      "blocked": 146,
-      "benchmarked-not-promoted": 5,
+      "blocked": 145,
+      "benchmarked-not-promoted": 6,
       "smoke-or-pilot-only": 6,
       "evidence-present-needs-review": 2
     }
@@ -68,12 +68,14 @@
       "role": "local-runtime",
       "family": "qwen",
       "environment_or_runtime": "mac-mlx",
-      "feasibility_or_status": "needs-runtime-proof",
+      "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "coverage_state": "benchmarked-not-promoted",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "evidence": [
+        "reports/benchmark/local-pilots/qwen36-35b-a3b-ram19gb-mlx-strict-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",
