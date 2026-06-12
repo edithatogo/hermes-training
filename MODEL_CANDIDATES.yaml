@@ -1249,13 +1249,13 @@ candidates:
     tier: edge-runtime
     role: local-runtime
     environment: hf-transformers
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "3B"
     architecture: "Compact reasoning-aligned dense model"
     license: "check model card"
-    first_runtime: "Transformers or community GGUF smoke"
+    first_runtime: "Transformers strict local pilot complete"
     first_finetune: "defer"
-    notes: "Small open-source model surfaced in the current tiny-model leaderboard. It is a plausible Hermes helper/extractor comparison point, but still needs runtime proof."
+    notes: "Small open-source model surfaced in the current tiny-model leaderboard. SSD-backed Transformers MPS/FP16 pilot completed on 2026-06-13 using `scripts/run_transformers_pilot_benchmark.py`, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple lookup produced the exact expected tool call but included `<think>` reasoning text, the parallel case produced reasoning only, and the invalid-tool case refused but mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md`. Plausible prompt/profile repair candidate; not promoted."
 
   - id: Mungert/Nanbeige4.1-3B-GGUF
     family: nanbeige

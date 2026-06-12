@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:49:21.387579+00:00",
+  "created_at": "2026-06-12T17:08:21.348579+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -93,21 +93,6 @@
       "first_runtime": "retry with a runtime that supports GGUF architecture cohere2moe",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model coherelabs-north-mini-code-1-0 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id coherelabs-north-mini-code-1-0-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent code-specialist open-weight release. The 18G Unsloth Q4_K_M GGUF artifact was acquired to the SSD on 2026-06-12, but Homebrew llama.cpp 9290 failed before generation with unknown model architecture `cohere2moe`; see `reports/runtime/north-mini-code-gguf-q4km-smoke-20260612.md`. Keep as a code-specialist watchlist model until llama.cpp, LM Studio, or a safetensors/Transformers path can load it."
-    },
-    {
-      "id": "Nanbeige/Nanbeige4.1-3B",
-      "family": "nanbeige",
-      "role": "local-runtime",
-      "environment": "hf-transformers",
-      "parameters": "3B",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or community GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nanbeige-nanbeige4-1-3b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nanbeige-nanbeige4-1-3b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Small open-source model surfaced in the current tiny-model leaderboard. It is a plausible Hermes helper/extractor comparison point, but still needs runtime proof."
     },
     {
       "id": "Qwen/Qwen3-Coder-Next",
@@ -873,6 +858,21 @@
       "first_runtime": "llama.cpp strict endpoint pilot complete",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Mungert/Nanbeige4.1-3B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mungert-nanbeige4-1-3b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF packaging for Nanbeige4.1-3B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 71-72 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): all three cases returned empty assistant content. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as a fast local runtime comparison point only; not promoted."
+    },
+    {
+      "id": "Nanbeige/Nanbeige4.1-3B",
+      "family": "nanbeige",
+      "role": "local-runtime",
+      "environment": "hf-transformers",
+      "parameters": "3B",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "Transformers strict local pilot complete",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Nanbeige/Nanbeige4.1-3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nanbeige-nanbeige4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Small open-source model surfaced in the current tiny-model leaderboard. SSD-backed Transformers MPS/FP16 pilot completed on 2026-06-13 using `scripts/run_transformers_pilot_benchmark.py`, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple lookup produced the exact expected tool call but included `<think>` reasoning text, the parallel case produced reasoning only, and the invalid-tool case refused but mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md`. Plausible prompt/profile repair candidate; not promoted."
     },
     {
       "id": "Qwen/Qwen3-4B-MLX-4bit",
