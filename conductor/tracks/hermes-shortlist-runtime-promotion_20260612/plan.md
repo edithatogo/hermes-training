@@ -49,8 +49,8 @@
     - Evidence: `FUTURE_MODELS.md`, `MODEL_CANDIDATES.yaml`, `reports/runtime/cloud-gate-preflight-20260612.md`, `reports/runtime/hermes-shortlist-mac-metal-parity-20260612.md`.
 - [ ] Task: Validate and checkpoint.
     - [x] Rerun readiness and candidate consistency checks.
-    - [ ] Update track status and summarize remaining blockers.
-    - [ ] Commit and push only reproducible, non-secret artifacts.
+    - [x] Update track status and summarize remaining blockers.
+    - [x] Commit and push only reproducible, non-secret artifacts.
 - [ ] Task: Conductor - User Manual Verification 'Documentation and Registry Reconciliation' (Protocol in workflow.md)
 
 ## Health Check
