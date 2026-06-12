@@ -463,6 +463,19 @@ candidates:
     first_finetune: "defer"
     notes: "Community GGUF packaging for Gemma 4 31B-it is visible. Useful as a packaging/runtime comparison point, not a local training target."
 
+  - id: bartowski/google_gemma-4-31B-it-GGUF
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "31B"
+    architecture: "Gemma 4 31B instruction model, community GGUF packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_finetune: "defer"
+    notes: "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes."
+
   - id: google/gemma-4-31B-it-qat-q4_0-gguf
     family: gemma
     tier: frontier-runtime
