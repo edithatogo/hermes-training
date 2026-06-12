@@ -14,6 +14,7 @@ Latest scans:
 - [EmbeddingGemma retrieval refresh](./reports/model-radar/embeddinggemma-retrieval-refresh-current-release-scan-20260612.md)
 - [Qwen3-VL multimodal retrieval refresh](./reports/model-radar/qwen3-vl-retrieval-current-release-scan-20260612.md)
 - [Jina v5 omni multimodal retrieval refresh](./reports/model-radar/jina-v5-omni-multimodal-retrieval-current-release-scan-20260612.md)
+- [Gemma 4 31B and MiniCPM-o 4.5 packaging refresh](./reports/model-radar/gemma4-31b-minicpm-o4-5-packaging-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 - [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
@@ -53,6 +54,9 @@ MLX/GGUF packaging lanes for the 2B embedder and 8B embedder/reranker.
 The Jina omni retrieval lane now also includes `jinaai/jina-embeddings-v5-omni-small`,
 `jinaai/jina-embeddings-v5-omni-nano`, the MLX task variants, and the ONNX
 browser/WebGPU export. Treat it as a compact cross-modal retrieval baseline.
+The Gemma 4 31B packaging lane now also includes the official
+`google/gemma-4-31B-it-qat-q4_0-gguf` pack, and the MiniCPM-o lane now includes
+`openbmb/MiniCPM-o-4_5-gguf` for explicit local packaging comparison.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 E2B-it, 12B/31B, Hermes

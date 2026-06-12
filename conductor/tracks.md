@@ -517,3 +517,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Jina V5 Omni Multimodal Retrieval Refresh
 *Link: [./tracks/jina-v5-omni-multimodal-retrieval-refresh_20260612/](./tracks/jina-v5-omni-multimodal-retrieval-refresh_20260612/)*
+
+---
+
+## [x] Track: Gemma 4 31B and MiniCPM-o 4.5 Packaging Refresh
+*Link: [./tracks/gemma4-31b-minicpm-o4-5-packaging-refresh_20260612/](./tracks/gemma4-31b-minicpm-o4-5-packaging-refresh_20260612/)*

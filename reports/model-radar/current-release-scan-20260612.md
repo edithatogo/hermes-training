@@ -17,6 +17,7 @@ Pro M1 Max with 32 GB unified memory.
 | Gemma | `google/gemma-4-12B-it`, `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF` | New mid-size Gemma 4 family members that are more plausible Mac/Colab candidates than the larger 26B/31B variants. |
 | Gemma | `google/gemma-4-E2B-it`, `litert-community/gemma-4-E2B-it-litert-lm`, `mlx-community/gemma-4-e2b-it-4bit` | Official instruction-tuned E2B lane plus fresh LiteRT and MLX packaging. The smallest useful Gemma 4 follow-up to the q4_0 smoke. |
 | Gemma / Qwen / MiniCPM | `google/gemma-4-31B`, `Qwen/Qwen3-Coder-Next`, `openbmb/MiniCPM-V-4.6-GPTQ` | Follow-up scan additions: official base repos and packaging lanes that matter for teacher/runtime comparisons. |
+| Packaging | `google/gemma-4-31B-it-qat-q4_0-gguf`, `openbmb/MiniCPM-o-4_5-gguf` | Fresh GGUF packaging lanes surfaced in the latest model search. Strong local packaging comparison points for Gemma 4 31B and MiniCPM-o 4.5. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b` | New base/evaluator and speech-support checkpoints from the Nemotron family. |
 | NVIDIA | `nvidia/instant-nurec`, `nvidia/omni-dreams-models` | Fresh physical-AI / world-model support lanes from NVIDIA. |
 | ASR | `Qwen/Qwen3-ASR-1.7B`, `CohereLabs/cohere-transcribe-03-2026`, `nvidia/parakeet-tdt-0.6b-v3` | Fresh speech-support lanes for transcription and streaming ASR. |
@@ -51,7 +52,8 @@ Pro M1 Max with 32 GB unified memory.
   along with LiteRT, MLX, and GGUF packaging. Treat it as the next Hermes
   memory/RAG comparison point.
 - The follow-up scan also surfaced the official Gemma 4 31B base repo, the
-  official Qwen3-Coder-Next base repo, and a MiniCPM-V-4.6 GPTQ packaging lane.
+  official Qwen3-Coder-Next base repo, a MiniCPM-V-4.6 GPTQ packaging lane, and
+  the explicit Gemma 4 31B QAT GGUF and MiniCPM-o 4.5 GGUF packaging lanes.
 - The latest NVIDIA pass surfaced the Nemotron 3 Ultra base checkpoint, the
   Nemotron 3 Ultra GenRM checkpoint, and the English streaming ASR checkpoint.
 - The same pass also surfaced `nvidia/instant-nurec` and `nvidia/omni-dreams-models`
@@ -103,6 +105,8 @@ Pro M1 Max with 32 GB unified memory.
   Mac packaging lanes to the machine-readable radar.
 - Add the Jina v5 omni multimodal retrieval family and its MLX/browser lanes to
   the machine-readable radar.
+- Add the Gemma 4 31B QAT GGUF and MiniCPM-o 4.5 GGUF packaging lanes to the
+  machine-readable radar.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.

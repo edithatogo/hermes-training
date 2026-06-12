@@ -463,6 +463,19 @@ candidates:
     first_finetune: "defer"
     notes: "Community GGUF packaging for Gemma 4 31B-it is visible. Useful as a packaging/runtime comparison point, not a local training target."
 
+  - id: google/gemma-4-31B-it-qat-q4_0-gguf
+    family: gemma
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "31B"
+    architecture: "Gemma 4 31B instruction model, QAT q4_0 GGUF packaging"
+    license: "check model card"
+    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_finetune: "defer"
+    notes: "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only."
+
   - id: nvidia/Gemma-4-31B-IT-NVFP4
     family: gemma
     tier: frontier-runtime
@@ -1164,6 +1177,19 @@ candidates:
     first_runtime: "Transformers, GGUF, or MLX smoke"
     first_finetune: "defer"
     notes: "New multimodal MiniCPM release with audio and vision support. Official HF repo plus GGUF and community MLX packaging are visible, so it is a plausible Mac/Colab helper lane."
+
+  - id: openbmb/MiniCPM-o-4_5-gguf
+    family: minicpm
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "9B"
+    architecture: "MiniCPM-o 4.5 multimodal model, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio multimodal smoke"
+    first_finetune: "defer"
+    notes: "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point."
 
   - id: openbmb/MiniCPM-V-4.6-Thinking
     family: minicpm
