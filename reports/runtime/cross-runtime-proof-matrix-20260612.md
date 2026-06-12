@@ -32,6 +32,12 @@ This report is the current execution checkpoint for `cross-runtime-proof-matrix_
 | mem0 embedding/reranker lanes | Ollama, sentence-transformers, MLX | Colab only with sanitized fixtures | Nomic, BGE-M3, Jina MLX, Qwen3 0.6B reranker, and MLX BGE reranker evidence exists; default switch remains gated by mem0 migration policy. |
 | Qwen3-VL / multimodal retrieval lanes | MLX/Transformers where available | Colab for sanitized multimodal fixtures | Candidate proof only; do not mix with text-only Hermes promotion gates. |
 | NVIDIA Nemotron / NVFP4 support lanes | NGC/NVIDIA stack after API-key and entitlement proof | Azure only if license and quota allow | Current state is gated; no NGC execution should start from the local repo yet. |
+| DeepSeek V4 Pro teacher/reference | Hosted API or specialist CUDA runtime | Colab only for sanitized comparison fixtures | Cloud-teacher lane only; do not attempt local fitting on the 32GB Mac. |
+| NVIDIA LocateAnything-3B / Phi-4 multimodal helper lanes | Transformers or specialist multimodal runtime | Colab for sanitized visual helper fixtures | Support lanes for screenshot, GUI localization, and speech/image comparison, not Hermes chat targets. |
+| Qwen3 ASR / TTS support lanes | Transformers, specialist speech runtime, or MLX where packaged | Colab for sanitized audio fixtures | Speech plumbing and voice-agent support only; keep outputs out of Hermes chat promotion claims. |
+| Qwen3 Omni and multimodal support lanes | Transformers or specialist multimodal runtime | Colab for sanitized multimodal fixtures | Broad text/image/audio/video support lanes; benchmark as helpers or teachers, not chat defaults. |
+| Jina v5 omni multimodal retrieval lanes | sentence-transformers / Transformers / MLX / browser WebGPU | Colab for sanitized cross-modal retrieval fixtures | Retrieval-first support lane for screenshots, documents, video, and audio search. |
+| MiniCPM-o / MiniCPM-V support lanes | MLX, GGUF, or specialist multimodal runtime where packaged | Colab for sanitized multimodal fixtures | Local helper/runtime comparison lanes, useful for OCR and voice workflows. |
 | Specialist research lanes: BitNet, RWKV, Mamba, RLM | Native runtime only | Colab/Azure only for isolated research benchmarks | BitNet native runtime proof exists; other specialist lanes remain blocked or watchlist until native runtime/artifacts are present. |
 
 ## Duplicate and Obsolete Queue Notes

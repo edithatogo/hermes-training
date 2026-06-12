@@ -29,11 +29,12 @@
 
 ## Phase 3: Bounded Proof Execution
 
-- [ ] Task: Run only the smallest useful support proofs.
+- [~] Task: Run only the smallest useful support proofs.
     - [ ] Execute local proof where packaging is already available.
     - [ ] Execute Colab proof for sanitized support benchmarks where local load is excessive.
     - [ ] Document blocked NGC or Azure proofs with exact auth/quota blocker.
     - Note: source-verification and lane classification are complete; runtime proof for the newest support lanes remains the next action.
+    - Evidence: `reports/runtime/cross-runtime-proof-matrix-20260612.md`
 - [ ] Task: Capture output restrictions.
     - [ ] Record license, redistribution, and publication restrictions.
     - [ ] Keep restricted outputs out of public artifacts unless approved.
