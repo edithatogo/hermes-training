@@ -502,3 +502,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 E2B-it Packaging Refresh
 *Link: [./tracks/gemma4-e2b-it-packaging-refresh_20260612/](./tracks/gemma4-e2b-it-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: EmbeddingGemma Retrieval Refresh
+*Link: [./tracks/embeddinggemma-retrieval-refresh_20260612/](./tracks/embeddinggemma-retrieval-refresh_20260612/)*

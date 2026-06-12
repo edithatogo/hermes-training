@@ -23,6 +23,7 @@ Pro M1 Max with 32 GB unified memory.
 | TTS | `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`, `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16` | Fresh speech-output lane with an explicit MLX Mac packaging path. |
 | Multimodal | `Qwen/Qwen3-Omni-30B-A3B-Instruct`, `Qwen/Qwen3-Omni-30B-A3B-Captioner`, `microsoft/Phi-4-multimodal-instruct` | Fresh broad multimodal support lanes for text, image, audio, and video workflows. |
 | Qwen | `Qwen/Qwen3.5-9B` | Useful mid-size Qwen step between the already-tested tiny lanes and the larger Qwen3.6 frontier packages. |
+| Embeddings | `google/embeddinggemma-300m`, `litert-community/embeddinggemma-300m`, `mlx-community/embeddinggemma-300m-4bit`, `lmstudio-community/embeddinggemma-300m-qat-GGUF` | Official Google embedding baseline plus fresh LiteRT, MLX, and GGUF packaging. Good as the next Hermes memory/RAG comparison point. |
 | MiniCPM | `openbmb/MiniCPM5-1B` | Official 1B release remains a valid tiny helper/extractor candidate. |
 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | Official 4B base plus fresh GGUF and MLX packaging for Mac-local runtime use. |
 | BitNet | `microsoft/bitnet-b1.58-2B-4T` and the existing BitNet ecosystem | Keep as a specialist runtime/research lane; local runtime proof exists, but Hermes compliance still blocks promotion. |
@@ -44,6 +45,9 @@ Pro M1 Max with 32 GB unified memory.
 - The official Gemma 4 E2B-it lane is now surfaced, along with LiteRT and MLX
   packaging, and should be treated as the smallest practical Gemma 4
   comparison point for Mac-local helper workflows.
+- The official `google/embeddinggemma-300m` retrieval baseline is now surfaced
+  along with LiteRT, MLX, and GGUF packaging. Treat it as the next Hermes
+  memory/RAG comparison point.
 - The follow-up scan also surfaced the official Gemma 4 31B base repo, the
   official Qwen3-Coder-Next base repo, and a MiniCPM-V-4.6 GPTQ packaging lane.
 - The latest NVIDIA pass surfaced the Nemotron 3 Ultra base checkpoint, the
@@ -65,6 +69,8 @@ Pro M1 Max with 32 GB unified memory.
   machine-readable radar.
 - Add the official Gemma 4 E2B-it base repo plus LiteRT and MLX packaging to
   the machine-readable radar.
+- Add the official `google/embeddinggemma-300m` retrieval baseline plus LiteRT,
+  MLX, and GGUF packaging to the machine-readable radar.
 - Add the Harmonic-9B backbone and Harmonic-Hermes-9B packaging to the
   machine-readable radar.
 - Add the Gemma 4 12B Unsloth GGUF and QAT packaging to the machine-readable
