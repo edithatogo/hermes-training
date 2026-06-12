@@ -5,6 +5,7 @@ This file is the model-selection radar for Hermes fine-tunes on a MacBook Pro M1
 Latest scans:
 
 - [Current release scan](./reports/model-radar/current-release-scan-20260612.md)
+- [Tiny helper role repair](./reports/model-radar/tiny-helper-role-repair-current-release-scan-20260612.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
 - [Harmonic-Hermes / Harmonic-9B scan](./reports/model-radar/harmonic-hermes-current-release-scan-20260612.md)
 - [Nemotron 3 Nano 4B packaging scan](./reports/model-radar/nemotron3-nano-4b-packaging-current-release-scan-20260612.md)
@@ -30,6 +31,8 @@ Latest scans:
 Roadmap update: the new hybrid-packaging candidates are not a blanket fine-tune expansion. Treat `openbmb/MiniCPM-SALA` as a specialist long-context runtime lane, `nvidia/Gemma-4-31B-IT-NVFP4` as a cloud packaging comparison point, and `deepseek-ai/DeepSeek-V4-Flash-Base` as a base/reference packaging lane. The next local work should stay in the prove-runtime, decide-role, then fine-tune sequence rather than jumping directly to training.
 
 Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` remains the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are the helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B stay in the teacher/runtime comparison set.
+
+The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`; use it for the Qwen3.5 0.8B/2B and MiniCPM5-1B-MLX comparison path only.
 
 mem0 and embedding are now crystallized too: `BAAI/bge-m3` remains the current retrieval baseline, `jinaai/jina-embeddings-v5-omni-small` and `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` are the strongest alternate lanes, `google/embeddinggemma-300m` is the next baseline to compare, and `Qwen/Qwen3-Embedding-4B` plus `Qwen/Qwen3-Reranker-4B` are follow-on candidates.
 

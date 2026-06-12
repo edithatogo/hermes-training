@@ -144,6 +144,12 @@ Qwen3 strict tool-call v4 targeted adapter requires profile
 With that profile, the local held-out strict tool-call gate passed at `1.000`;
 without assistant prefill, strict pass remains `0.250`.
 
+The tiny helper/extraction lane is now codified as
+`tiny-helper-no-prefill` for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and
+`openbmb/MiniCPM5-1B-MLX`. It keeps the raw local endpoint untouched and
+documents the lane as helper/extraction evidence only, not Hermes-strict
+tool-call compliance.
+
 Examples:
 
 ```bash

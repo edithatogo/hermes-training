@@ -27,3 +27,28 @@ profiles:
       - Do not claim strict pass without the profile.
       - Do not assume every OpenAI-compatible endpoint accepts assistant prefill messages.
       - Empty-think normalization remains runtime integration evidence unless the prefill profile is explicitly used in the benchmark.
+
+  - id: tiny-helper-no-prefill
+    model_family: tiny-helper
+    applies_to:
+      - Qwen/Qwen3.5-0.8B
+      - Qwen/Qwen3.5-2B
+      - openbmb/MiniCPM5-1B-MLX
+    user_prefix: ""
+    assistant_prefill: ""
+    endpoint_strategy: "Use the raw local endpoint without assistant prefill or empty-think normalization. This profile is for helper/extraction comparison only and does not claim strict Hermes tool-call compliance."
+    required_for:
+      - tiny helper/extraction comparison lane
+      - strict Hermes role repair documentation
+    evidence:
+      qwen35_08b_loglikelihood: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/mlx-loglikelihood/qwen35-08b-mlx-loglikelihood-smoke-20260612.md
+      qwen35_2b_loglikelihood: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/mlx-loglikelihood/qwen35-2b-mlx-loglikelihood-smoke-20260612.md
+      minicpm5_1b_loglikelihood: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md
+      tiny_role_gate: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/local-pilots/tiny-mlx-bfcl-role-gate-20260612.md
+    strict_result:
+      strict_tool_call_pass_rate: 0.0
+      helper_lane_documented_rate: 1.0
+    limitations:
+      - Do not claim Hermes-strict tool-call compliance from this profile.
+      - Do not add assistant prefill or empty-think normalization to this lane; the purpose is to keep the tiny helper comparison raw and reproducible.
+      - Use this profile only for helper/extraction comparison or regression notes, not for publication claims.

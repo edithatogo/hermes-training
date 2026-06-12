@@ -565,7 +565,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; keep behind prompt-repair/helper/extraction gates before any promotion."
+    notes: "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and should stay behind prompt-repair/helper/extraction gates before any promotion."
 
   - id: Qwen/Qwen3.5-2B
     family: qwen
@@ -578,7 +578,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF smoke before promotion"
     first_finetune: "MLX-LM LoRA"
-    notes: "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; compare against 0.8B, MiniCPM, and 4B before training or promotion."
+    notes: "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`, so compare against 0.8B, MiniCPM, and 4B before training or promotion."
 
   - id: Qwen/Qwen3.5-9B
     family: qwen
@@ -1163,7 +1163,7 @@ candidates:
     license: "check model card"
     first_runtime: "Official GGUF Q4_K_M runtime proof complete; MLX 4-bit package currently blocked"
     first_finetune: "MLX-LM LoRA"
-    notes: "Small multilingual helper candidate from the current leaderboard. The `mlx-community/exaone-4.0-1.2b-4bit` package was acquired to SSD but `mlx_lm.load` is blocked by a Transformers EXAONE4 config ZeroDivisionError in this environment. The official `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` Q4_K_M artifact is SSD-acquired and llama-completion runtime-proven with under 1GB max RSS, but output was repeated braces rather than valid JSON. Treat as runtime evidence only."
+    notes: "Small multilingual helper candidate from the current leaderboard. The `mlx-community/exaone-4.0-1.2b-4bit` package was acquired to SSD but `mlx_lm.load` is blocked by a Transformers EXAONE4 config ZeroDivisionError in this environment. The official `LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF` Q4_K_M artifact is SSD-acquired and llama-completion runtime-proven with under 1GB max RSS, but output was repeated braces rather than valid JSON. Treat as runtime evidence only and keep it as a comparison lane, not the tiny-helper default."
 
   - id: openbmb/MiniCPM5-1B-MLX
     family: minicpm
@@ -1176,7 +1176,7 @@ candidates:
     license: apache-2.0
     first_runtime: "MLX direct loglikelihood smoke"
     first_finetune: "MLX-LM LoRA after Hermes role decision"
-    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as a tiny helper candidate; not promoted as a tool-call default."
+    notes: "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
 
   - id: openbmb/MiniCPM5-1B-GGUF
     family: minicpm
