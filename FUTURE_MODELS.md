@@ -152,6 +152,7 @@ Verified HF ids behind this shortlist:
 | Qwen3-Next | `Qwen/Qwen3-Next-80B-A3B-Instruct`, Qwen3-Coder-Next | Real HF models/reports exist; local repo has Qwen3Next converter support | Runtime experiment first. Too large for first local fine-tune, but important for subquadratic/linear-attention roadmap. |
 | Mamba-3 | State-space / selective SSM family | Current architecture family, not a drop-in Hermes model track yet | Watchlist. Add only after weights + Mac runtime + tokenizer are real. |
 | RWKV-7 | `BlinkDL/rwkv7-g1`, `BlinkDL/rwkv-7-world` exact checkpoints | Real recurrent family with public checkpoints; no official 7B World checkpoint verified | Runtime experiment. Tool-calling chat quality must be tested. |
+| DiffusionGemma | `google/diffusiongemma-26B-A4B-it` | Fresh official diffusion-family release | Research/runtime. Useful for multimodal diffusion and decoding experiments, not a Hermes adapter target. |
 | BitNet b1.58 | Microsoft BitNet / QVAC BitLoRA ecosystem | Native runtime load/generation is locally proven; fine-tune path emerging | Research track. Prompt-compliance and non-interactive Hermes task smokes still block use. |
 | Recursive wrappers | `mit-oasys/rlm-qwen3-8b-v0.1` and RLM-style harnesses | Real experimental checkpoint plus architecture/harness idea | Build only after a clear runtime harness and reproducible dataset objective exist. |
 

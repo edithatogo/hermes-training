@@ -407,3 +407,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Tiny and Small Thoughtful Refresh
 *Link: [./tracks/tiny-small-thoughtful-refresh_20260612/](./tracks/tiny-small-thoughtful-refresh_20260612/)*
+
+---
+
+## [x] Track: DiffusionGemma Research Refresh
+*Link: [./tracks/diffusiongemma-research-refresh_20260612/](./tracks/diffusiongemma-research-refresh_20260612/)*
