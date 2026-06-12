@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T14:30:21.109313+00:00",
+  "created_at": "2026-06-12T14:33:50.519786+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -32,7 +32,7 @@
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX or GGUF smoke before promotion",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-5-2b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-2b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response did not complete with assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion."
+      "notes": "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response did not complete with assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md`."
     },
     {
       "id": "google/gemma-4-E2B",

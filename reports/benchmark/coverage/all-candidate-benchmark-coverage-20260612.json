@@ -1,6 +1,6 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T14:30:20.959493+00:00",
+  "created_at": "2026-06-12T14:33:50.385018+00:00",
   "candidate_count": 171,
   "counts": {
     "hermes": {
@@ -596,7 +596,9 @@
       "coverage_state": "blocked",
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",
