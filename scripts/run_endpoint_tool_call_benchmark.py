@@ -61,12 +61,29 @@ def apply_assistant_prefill(messages: list[dict[str, Any]], assistant_prefill: s
     return updated
 
 
+def apply_system_affixes(
+    messages: list[dict[str, Any]], system_prefix: str = "", system_suffix: str = ""
+) -> list[dict[str, Any]]:
+    if not system_prefix and not system_suffix:
+        return messages
+    updated = [dict(message) for message in messages]
+    for message in updated:
+        if message.get("role") == "system":
+            content = str(message.get("content", ""))
+            message["content"] = f"{system_prefix}{content}{system_suffix}"
+            return updated
+    updated.insert(0, {"role": "system", "content": f"{system_prefix}{system_suffix}"})
+    return updated
+
+
 def build_summary(
     run_id: str,
     suite: Path,
     output_dir: Path,
     base_url: str,
     model: str,
+    system_prefix: str,
+    system_suffix: str,
     user_prefix: str,
     assistant_prefill: str,
     rows: list[dict[str, Any]],
@@ -105,6 +122,8 @@ def build_summary(
         "base_url": base_url,
         "model": model,
         "adapter": "(endpoint)",
+        "system_prefix": system_prefix,
+        "system_suffix": system_suffix,
         "user_prefix": user_prefix,
         "assistant_prefill": assistant_prefill,
         "cases": cases,
@@ -141,6 +160,8 @@ def main() -> int:
     )
     parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--timeout-s", type=float, default=120.0)
+    parser.add_argument("--system-prefix", default="")
+    parser.add_argument("--system-suffix", default="")
     parser.add_argument("--user-prefix", default="")
     parser.add_argument(
         "--assistant-prefill",
@@ -167,6 +188,8 @@ def main() -> int:
         print(f"categories: {dict(categories)}")
         print(f"base_url: {args.base_url}")
         print(f"model: {args.model}")
+        print(f"system_prefix: {args.system_prefix}")
+        print(f"system_suffix: {args.system_suffix}")
         print(f"user_prefix: {args.user_prefix}")
         print(f"assistant_prefill: {args.assistant_prefill!r}")
         print(f"output_dir: {output_dir}")
@@ -183,7 +206,13 @@ def main() -> int:
         response, latency_s = endpoint_chat(
             args.base_url,
             args.model,
-            apply_assistant_prefill(apply_user_prefix(messages, args.user_prefix), args.assistant_prefill),
+            apply_assistant_prefill(
+                apply_user_prefix(
+                    apply_system_affixes(messages, args.system_prefix, args.system_suffix),
+                    args.user_prefix,
+                ),
+                args.assistant_prefill,
+            ),
             args.max_tokens,
             args.timeout_s,
         )
@@ -204,6 +233,8 @@ def main() -> int:
         output_dir,
         args.base_url,
         args.model,
+        args.system_prefix,
+        args.system_suffix,
         args.user_prefix,
         args.assistant_prefill,
         rows,

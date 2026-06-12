@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T19:51:50.522074+00:00`
+Created: `2026-06-12T23:50:23.472222+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 12 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 2 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 7 |
 | hermes | `blocked` | 143 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 7 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 12 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 2 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -42,7 +42,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | Project | Candidate | State | Blocked reason | Evidence |
 |---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md` |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `blocked` | blocked by current local runtime support | `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md` |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | `blocked` | blocked because open local weights or a supported public runtime are not verified | `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md` |
 | hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `qwen3.7-open-weights-watch` | `blocked` | blocked because open local weights or a supported public runtime are not verified |  |
@@ -192,7 +192,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | Project | Candidate | Role | Status | Benchmark kind | Coverage | Appropriateness / next gate |
 |---|---|---|---|---|---|---|
 | hermes | `Qwen/Qwen3.6-35B-A3B` | cloud-teacher | `ready` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
+| hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming` | watchlist | `speculative` | watchlist only | `blocked` | blocked because open local weights or a supported public runtime are not verified |
 | hermes | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

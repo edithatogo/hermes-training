@@ -12,16 +12,16 @@ cache completeness, runtime surface, and blocked-action decisions.
 
 | Suite | Cases | Purpose |
 |---|---:|---|
-| `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` | 10 | Isolated embedding retrieval with six close documents per query |
-| `benchmarks/mem0_memory/live_fixture_differentiation_suite.json` | 8 | Real mem0 add/search fixture with four setup memories per query |
+| `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` | 14 | Isolated embedding retrieval with six close documents per query |
+| `benchmarks/mem0_memory/live_fixture_differentiation_suite.json` | 11 | Real mem0 add/search fixture with four setup memories per query |
 
 ## Embedding Results
 
 | Model | Runtime | Dims | Top-1 | Recall@3 | MRR | nDCG@3 | p50 embed |
 |---|---|---:|---:|---:|---:|---:|---:|
-| `BAAI/bge-m3` | sentence-transformers CPU | 1024 | 0.900 | 1.000 | 0.933 | 0.950 | 0.109s |
-| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX cached local files | 1024 | 0.700 | 0.900 | 0.825 | 0.826 | 0.025s |
-| `nomic-embed-text:latest` | Ollama | 768 | 0.600 | 0.800 | 0.750 | 0.726 | 0.019s |
+| `BAAI/bge-m3` | sentence-transformers CPU | 1024 | 0.929 | 1.000 | 0.952 | 0.964 | 0.115s |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX cached local files | 1024 | 0.786 | 0.929 | 0.875 | 0.876 | 0.026s |
+| `nomic-embed-text:latest` | Ollama | 768 | 0.714 | 0.857 | 0.821 | 0.804 | 0.020s |
 
 ## Miss Patterns
 
@@ -35,23 +35,26 @@ cache completeness, runtime surface, and blocked-action decisions.
 
 | Strategy | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
 |---|---:|---:|---:|---:|---:|---:|
-| `vector` | 0.750 | 0.875 | 0.792 | 0.812 | 0.000 | 0.667 |
-| `score_plus_created_at_rank_close_margin` | 0.750 | 0.875 | 0.792 | 0.812 | 0.000 | 0.667 |
+| `vector` | 0.818 | 0.909 | 0.848 | 0.864 | 0.500 | 0.750 |
+| `score_plus_created_at_rank_close_margin` | 0.636 | 0.909 | 0.742 | 0.785 | 0.500 | 0.500 |
 
 The live fixture used an output-local `MEM0_CONFIG_PATH`, isolated Qdrant path,
-and no default collection mutation. It shows the current guarded mem0 path
-still struggles with some operational-boundary and recency cases, so further
-promotion decisions should use this differentiation suite alongside the easier
-expanded suite.
+and no default collection mutation. The expanded fixture shows that the
+close-margin wrapper is not always safer than raw vector ordering; it should
+remain guarded until the added role-boundary and sidecar-reranker cases pass.
 
 ## Raw Evidence
 
 | Run | Output |
 |---|---|
 | `embedding-bge-m3-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-differentiation-20260613` |
+| `embedding-bge-m3-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-differentiation-expanded-20260613` |
 | `jina-mlx-text-matching-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-differentiation-20260613` |
+| `jina-mlx-text-matching-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-differentiation-expanded-20260613` |
 | `embedding-nomic-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-differentiation-20260613` |
+| `embedding-nomic-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-differentiation-expanded-20260613` |
 | `mem0-live-fixture-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-20260613` |
+| `mem0-live-fixture-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-expanded-20260613` |
 
 ## Decision
 

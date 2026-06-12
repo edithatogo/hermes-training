@@ -1,17 +1,17 @@
 {
-  "created_at": "2026-06-12T14:33:04.710396+00:00",
+  "created_at": "2026-06-12T23:50:32.697660+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 88
+    "passed": 92
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 18,
+    "embedding": 21,
     "extraction": 9,
     "reranking": 28,
     "replay": 12,
-    "isolated-fixture": 8,
+    "isolated-fixture": 9,
     "retriever": 2
   },
   "missing_kinds": [],
@@ -123,6 +123,13 @@
     },
     {
       "kind": "embedding",
+      "path": "embedding-benchmark/embedding-bge-m3-differentiation-expanded-20260613/summary.json",
+      "run_id": "embedding-bge-m3-differentiation-expanded-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
       "path": "embedding-benchmark/embedding-bge-m3-mps-smoke-20260526/summary.json",
       "run_id": "embedding-bge-m3-mps-smoke-20260526",
       "status": "passed",
@@ -132,6 +139,13 @@
       "kind": "embedding",
       "path": "embedding-benchmark/embedding-nomic-differentiation-20260613/summary.json",
       "run_id": "embedding-nomic-differentiation-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-nomic-differentiation-expanded-20260613/summary.json",
+      "run_id": "embedding-nomic-differentiation-expanded-20260613",
       "status": "passed",
       "errors": []
     },
@@ -195,6 +209,13 @@
       "kind": "embedding",
       "path": "embedding-benchmark/jina-mlx-text-matching-differentiation-20260613/summary.json",
       "run_id": "jina-mlx-text-matching-differentiation-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/jina-mlx-text-matching-differentiation-expanded-20260613/summary.json",
+      "run_id": "jina-mlx-text-matching-differentiation-expanded-20260613",
       "status": "passed",
       "errors": []
     },
@@ -594,6 +615,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-20260613/summary.json",
       "run_id": "mem0-live-fixture-differentiation-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-expanded-20260613/summary.json",
+      "run_id": "mem0-live-fixture-differentiation-expanded-20260613",
       "status": "passed",
       "errors": []
     },

@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T19:51:50.656458+00:00",
+  "created_at": "2026-06-12T23:50:22.469134+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -947,7 +947,7 @@
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-26b-a4b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-gemma-4-26b-a4b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; raw strict BFCL-style Hermes pilot scored 2/3, coding pilot scored 3/3, and IFEval pilot scored 3/3. The two raw tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed roughly 30-50 eval tok/s depending on pilot/concurrency. The raw BFCL failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. The `gemma4-26b-refusal-system-suffix` runtime profile with 512 max tokens repaired this pilot to 3/3 without breaking valid tool calls. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until broader BFCL, safety/refusal, and coding suites pass."
+      "notes": "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; raw strict BFCL-style Hermes pilot scored 2/3, coding pilot scored 3/3, and IFEval pilot scored 3/3. The two raw tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed roughly 30-50 eval tok/s depending on pilot/concurrency. The raw BFCL failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. The `gemma4-26b-refusal-system-suffix` runtime profile with 512 max tokens repaired this pilot to 3/3 without breaking valid tool calls. The same profile scored 7/8 (`0.875`) on the full local held-out Hermes tool-call suite with JSON validity 1.000, invalid-tool handling 1.000, and multi-turn repair 1.000; the remaining blocker is one free-text argument expansion in `notify_care_team.arguments.message`. A stricter v2 prompt was rejected because it did not improve pass rate and lowered JSON validity. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md` and `reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until the held-out tool-call gate reaches 1.000 and broader BFCL, safety/refusal, and coding suites pass."
     },
     {
       "id": "mkadrlik/Hermes-Qwen3.5-9B-SFT-v7",
@@ -2180,21 +2180,6 @@
       "notes": "Community packaging for the official Gemma 4 E2B-it model card. Useful for desktop/mobile deployment comparison, not a training target."
     },
     {
-      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
-      "family": "qwen",
-      "role": "local-runtime",
-      "environment": "specialist-runtime",
-      "parameters": "35B total / 3B active",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by current local runtime support",
-      "lane": "specialist-runtime-proof",
-      "first_runtime": "Maniac lme-serve specialist runtime",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/check_specialist_runtime_preflight.py\n# Follow with the runtime-specific smoke from the candidate's track plan.",
-      "notes": "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime is blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. Use as a specialist-runtime candidate only after Maniac is installed. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
-    },
-    {
       "id": "Qwen/Qwen3-Next-80B-A3B-Instruct",
       "family": "qwen-next",
       "role": "research-runtime",
@@ -2313,6 +2298,21 @@
       "first_runtime": "BitNet runtime",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/check_specialist_runtime_preflight.py\n# Follow with the runtime-specific smoke from the candidate's track plan.",
       "notes": "Promising memory direction; not core Hermes track yet. Native BitNet runtime load and 16-token generation passed on 2026-06-12 from the SSD-backed 1.10 GiB I2_S model, but the output failed a JSON-only prompt. Treat as runtime evidence only until prompt/profile and Hermes task smokes pass."
+    },
+    {
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
+      "family": "qwen",
+      "role": "watchlist",
+      "environment": "specialist-runtime",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "feasibility": "speculative",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by current local runtime support",
+      "lane": "watchlist",
+      "first_runtime": "Maniac lme-serve specialist runtime",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags was initially tracked as a specialist-runtime candidate. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime was blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. A 2026-06-13 Hugging Face API recheck returned 404 for this repo, so keep it as speculative/watchlist only unless the repo reappears. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
     },
     {
       "id": "BlinkDL/rwkv-7-world",

@@ -111,10 +111,11 @@ memory cases because the expanded suite was no longer separating candidates.
 
 | Model | Dims | Top-1 | Recall@3 | p50 latency | Decision |
 |---|---:|---:|---:|---:|---|
-| `BAAI/bge-m3` | 1024 | 0.900 | 1.000 | 0.109s | strongest current differentiator; still side-by-side only |
-| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | 1024 | 0.700 | 0.900 | 0.025s | fast but missed role/path/runtime boundary cases |
-| `nomic-embed-text:latest` | 768 | 0.600 | 0.800 | 0.019s | keep default rollback, but not the quality leader on this suite |
+| `BAAI/bge-m3` | 1024 | 0.929 | 1.000 | 0.115s | strongest current differentiator; still side-by-side only |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | 1024 | 0.786 | 0.929 | 0.026s | fast but missed role/path/runtime boundary cases |
+| `nomic-embed-text:latest` | 768 | 0.714 | 0.857 | 0.020s | keep default rollback, but not the quality leader on this suite |
 
 Use `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` for
-future promotion claims. The older expanded suite remains a regression gate,
-not the final differentiator.
+future promotion claims. It now contains 14 near-duplicate operational memory
+cases; the older expanded suite remains a regression gate, not the final
+differentiator.

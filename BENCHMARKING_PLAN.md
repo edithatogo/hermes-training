@@ -170,7 +170,8 @@ mem0 differentiation suites before making promotion claims:
 - `benchmarks/embeddings/memory_retrieval_differentiation_suite.json`
 - `benchmarks/mem0_memory/live_fixture_differentiation_suite.json`
 
-The 2026-06-13 differentiation run separated BGE-M3, Jina v5 text-matching
+The expanded 2026-06-13 differentiation gate has 14 isolated embedding cases
+and 11 live mem0 fixture cases. It separated BGE-M3, Jina v5 text-matching
 MLX, and nomic on operational-boundary cases; see
 `reports/benchmark/mem0/embedding-differentiation-suite-20260613.md`.
 

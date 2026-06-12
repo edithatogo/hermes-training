@@ -142,5 +142,59 @@
       "must_not_retrieve_any": [],
       "top_result_should_contain": "az login, quota checks, and explicit cost approval"
     }
+  },
+  {
+    "id": "fixture-runtime-proof-before-promotion",
+    "category": "tool_state_recall",
+    "setup_memories": [
+      "Fixture runtime promotion: a fine-tuned Hermes candidate needs MLX, llama.cpp, LM Studio, and Ollama proof before promotion.",
+      "Fixture training result: LoRA training completion is useful evidence but does not replace cross-runtime proof.",
+      "Fixture publication result: pushing an adapter to Hugging Face is separate from proving all runtime surfaces.",
+      "Fixture pilot result: standard benchmark pilots compare quality but do not prove packaging compatibility."
+    ],
+    "query": "What proof is still required before promoting a fine-tuned Hermes candidate?",
+    "expected": {
+      "must_retrieve_any": [
+        "MLX, llama.cpp, LM Studio, and Ollama proof"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "MLX, llama.cpp, LM Studio, and Ollama proof"
+    }
+  },
+  {
+    "id": "fixture-embedder-component-role",
+    "category": "distractor_resistance",
+    "setup_memories": [
+      "Fixture mem0 embedder role: the embedder turns user text and memories into vectors for similarity search.",
+      "Fixture mem0 extractor role: the extractor decides what facts should be stored.",
+      "Fixture mem0 reranker role: the reranker reorders retrieved candidates after vector search.",
+      "Fixture vector database role: Qdrant stores and searches vectors but does not generate embeddings."
+    ],
+    "query": "Which mem0 component turns text into vectors?",
+    "expected": {
+      "must_retrieve_any": [
+        "embedder turns user text and memories into vectors"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "embedder turns user text and memories into vectors"
+    }
+  },
+  {
+    "id": "fixture-reranker-guarded-sidecar",
+    "category": "recency_conflict",
+    "setup_memories": [
+      "Fixture reranker policy: an expensive quality-improving reranker remains a guarded sidecar until latency and rollback gates pass.",
+      "Fixture default policy: the default vector search path remains available as rollback.",
+      "Fixture score policy: a single better retrieval score does not justify immediate default promotion.",
+      "Fixture extractor policy: extractor quality is separate from reranker latency."
+    ],
+    "query": "How should an expensive reranker be used before latency and rollback gates pass?",
+    "expected": {
+      "must_retrieve_any": [
+        "guarded sidecar"
+      ],
+      "must_not_retrieve_any": [],
+      "top_result_should_contain": "guarded sidecar"
+    }
   }
 ]

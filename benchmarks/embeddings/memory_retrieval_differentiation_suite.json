@@ -368,5 +368,153 @@
         "relevant": false
       }
     ]
+  },
+  {
+    "id": "fine-tune-vs-runtime-proof-boundary",
+    "category": "role_boundary",
+    "query": "Which evidence is still required before promoting a fine-tuned Hermes candidate across runtimes?",
+    "documents": [
+      {
+        "id": "target-runtime-proof-matrix",
+        "text": "A fine-tuned Hermes candidate still needs a cross-runtime proof matrix across MLX, llama.cpp, LM Studio, and Ollama before promotion.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-training-loss",
+        "text": "A completed LoRA training run and low validation loss are useful but do not replace runtime proof.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-hf-push",
+        "text": "Pushing an adapter to Hugging Face is publication evidence, not a proof that all local runtimes load and answer correctly.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-dataset",
+        "text": "The cleaned synthetic-only dataset publication gate is separate from model runtime promotion.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-single-mlx",
+        "text": "A single MLX smoke proves one runtime surface only.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-standard-pilot",
+        "text": "Standard benchmark pilots help compare candidates but do not prove packaging compatibility across runtimes.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "mem0-extractor-vs-embedder-boundary",
+    "category": "role_boundary",
+    "query": "Which mem0 component is responsible for turning user text into vectors for search?",
+    "documents": [
+      {
+        "id": "target-embedder",
+        "text": "The mem0 embedder turns user text and memories into vectors for similarity search.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-extractor",
+        "text": "The mem0 extractor decides what facts should be stored, but it is not the vector encoder.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-reranker",
+        "text": "The mem0 reranker reorders retrieved candidates after vector search.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-vector-db",
+        "text": "Qdrant stores and searches vectors, but it does not generate embeddings by itself.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-llm-runtime",
+        "text": "Ollama or MLX can serve models, but the component role still depends on whether the model is used as embedder, extractor, or reranker.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-memory-cli",
+        "text": "The mem0 CLI triggers add and search workflows, not the semantic role of the model.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "recency-vs-historical-best-boundary",
+    "category": "version_disambiguation",
+    "query": "When a newer run regresses, which Hermes adapter should remain preferred?",
+    "documents": [
+      {
+        "id": "target-current-best",
+        "text": "When a newer run regresses on held-out strict tool calls, keep the older current-best Qwen3 v4 targeted adapter preferred.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-newer-v5",
+        "text": "The newer Qwen3 v5 pilot-polish run is not automatically preferred because it regressed on the held-out strict gate.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-first-smoke",
+        "text": "The first Qwen3 strict smoke is historical liveness evidence only.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-helper",
+        "text": "Qwen3.5 helper models may be newer but are not strict Hermes adapter defaults.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-public",
+        "text": "A public Hugging Face repo can host non-promoted experiments as long as the model card says so.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-cloud",
+        "text": "Cloud offload changes where a benchmark runs, not which adapter is preferred after regression.",
+        "relevant": false
+      }
+    ]
+  },
+  {
+    "id": "reranker-latency-quality-boundary",
+    "category": "model_ranking_boundary",
+    "query": "Which reranking path should remain guarded when quality improves but latency or runtime cost is high?",
+    "documents": [
+      {
+        "id": "target-sidecar-reranker",
+        "text": "A quality-improving but expensive reranker should remain a guarded sidecar path until latency and rollback gates pass.",
+        "relevant": true
+      },
+      {
+        "id": "distractor-default-vector",
+        "text": "The default vector search path stays available as rollback even when reranking improves some cases.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-promote-immediately",
+        "text": "A single better retrieval score does not justify immediate default promotion when runtime cost is high.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-qwen-reranker",
+        "text": "Qwen3 rerankers can be benchmarked as candidates, but promotion still needs live latency and rollback proof.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-colbert",
+        "text": "ColBERT is a specialist late-interaction retriever with separate index lifecycle requirements.",
+        "relevant": false
+      },
+      {
+        "id": "distractor-extractor",
+        "text": "Extractor quality is measured by memory extraction correctness, not reranker latency.",
+        "relevant": false
+      }
+    ]
   }
 ]

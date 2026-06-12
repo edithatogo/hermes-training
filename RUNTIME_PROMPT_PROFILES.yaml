@@ -70,13 +70,23 @@ profiles:
       user_prefix_tradeoff_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-refusal-profile-v2-bfcl-pilot-20260613
       system_suffix_truncated_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-bfcl-pilot-20260613
       system_suffix_512_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-system-refusal-profile-512-bfcl-pilot-20260613
+      heldout_toolcall_run: /Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613
+      rejected_v2_heldout_toolcall_run: /Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/gemma4-26b-a4b-mxfp4-moe-profile-v2-heldout-toolcall-20260613
       report: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md
+      heldout_report: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md
     strict_result:
       raw_bfcl_pass_rate: 0.667
       system_suffix_512_bfcl_pass_rate: 1.0
+      heldout_toolcall_pass_rate: 0.875
+      heldout_toolcall_json_valid_rate: 1.0
+      heldout_toolcall_argument_accuracy_rate: 0.833
+      heldout_toolcall_invalid_tool_handling_rate: 1.0
+      heldout_toolcall_multi_turn_repair_rate: 1.0
       coding_pilot_pass_rate: 1.0
       ifeval_pilot_pass_rate: 1.0
     limitations:
       - This is a prompt/runtime profile, not fine-tuning evidence.
       - The 256-token system-suffix rerun fixed refusal but truncated the parallel tool-call case; keep the 512-token budget for this profile.
+      - Full held-out local tool-call pass rate is 0.875; one argument-correctness case still expands a free-text argument instead of copying the expected phrase exactly.
+      - A stricter v2 system suffix was tested and rejected because it preserved the 0.875 pass rate but lowered JSON validity to 0.833 by producing a non-Hermes function/parameters schema on the same lab-order case.
       - Broader BFCL, safety/refusal, and coding suites are still required before promoting this as the Hermes default.

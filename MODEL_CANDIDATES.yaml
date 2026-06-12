@@ -25,15 +25,15 @@ candidates:
   - id: ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming
     family: qwen
     tier: frontier-runtime
-    role: local-runtime
+    role: watchlist
     environment: specialist-runtime
-    feasibility: needs-runtime-proof
+    feasibility: speculative
     parameters: "35B total / 3B active"
     architecture: "Qwen3.6 MoE, 2-bit Maniac-engine resident package with expert sidecar"
     license: "check model card"
     first_runtime: "Maniac lme-serve specialist runtime"
     first_finetune: "defer"
-    notes: "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime is blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. Use as a specialist-runtime candidate only after Maniac is installed. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
+    notes: "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags was initially tracked as a specialist-runtime candidate. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime was blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. A 2026-06-13 Hugging Face API recheck returned 404 for this repo, so keep it as speculative/watchlist only unless the repo reappears. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
 
   - id: ManiacLabs/Qwen3.6-35B-A3B-2bit
     family: qwen
@@ -462,7 +462,7 @@ candidates:
     license: "check model card"
     first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; raw strict BFCL-style Hermes pilot scored 2/3, coding pilot scored 3/3, and IFEval pilot scored 3/3. The two raw tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed roughly 30-50 eval tok/s depending on pilot/concurrency. The raw BFCL failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. The `gemma4-26b-refusal-system-suffix` runtime profile with 512 max tokens repaired this pilot to 3/3 without breaking valid tool calls. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until broader BFCL, safety/refusal, and coding suites pass."
+    notes: "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; raw strict BFCL-style Hermes pilot scored 2/3, coding pilot scored 3/3, and IFEval pilot scored 3/3. The two raw tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed roughly 30-50 eval tok/s depending on pilot/concurrency. The raw BFCL failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. The `gemma4-26b-refusal-system-suffix` runtime profile with 512 max tokens repaired this pilot to 3/3 without breaking valid tool calls. The same profile scored 7/8 (`0.875`) on the full local held-out Hermes tool-call suite with JSON validity 1.000, invalid-tool handling 1.000, and multi-turn repair 1.000; the remaining blocker is one free-text argument expansion in `notify_care_team.arguments.message`. A stricter v2 prompt was rejected because it did not improve pass rate and lowered JSON validity. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md` and `reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until the held-out tool-call gate reaches 1.000 and broader BFCL, safety/refusal, and coding suites pass."
 
   - id: lmstudio-community/gemma-4-31B-it-GGUF
     family: gemma

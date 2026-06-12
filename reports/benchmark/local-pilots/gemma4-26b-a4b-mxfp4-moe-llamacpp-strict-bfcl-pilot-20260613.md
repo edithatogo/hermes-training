@@ -14,14 +14,16 @@ Expanded pilot result on the same local artifact:
 - IFEval pilot: `3/3`, pass rate `1.000`.
 - BFCL with `gemma4-26b-refusal-system-suffix` profile and `max_tokens=512`:
   `3/3`, pass rate `1.000`.
+- Full held-out local Hermes tool-call suite with the same profile:
+  `7/8`, pass rate `0.875`.
 
 This is the strongest frontier local proof in the current Qwen3.6/Gemma 4
 comparison slice. It is runtime-proven on the M1 Max, produced exact Hermes
 tool-call syntax for both BFCL tool-call cases, and passed the small coding and
 instruction-following pilots. A system-suffix runtime profile also repaired the
 strict invalid-tool refusal case. It is not promoted to default yet because the
-evidence is still pilot-scale and broader BFCL/safety/coding coverage is still
-required.
+held-out evidence still has one strict argument-copying failure and broader
+BFCL/safety/coding coverage is still required.
 
 ## Artifact
 
@@ -141,6 +143,36 @@ SSD output:
 | `ifeval-bullets-count` | pass | Returned exactly three bullet lines. |
 | `ifeval-forbidden-word` | pass | Avoided the forbidden word and returned the required phrase. |
 
+### Held-Out Local Tool-Call Suite
+
+Run ID: `gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613`
+
+Profile: `gemma4-26b-refusal-system-suffix`
+
+SSD output:
+
+`/Volumes/PortableSSD/hermes-evals/endpoint-tool-call-benchmark/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613`
+
+Report:
+
+`reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md`
+
+| Metric | Result |
+|---|---:|
+| Cases | `8` |
+| Passed | `7` |
+| Pass rate | `0.875` |
+| JSON validity rate | `1.000` |
+| Argument correctness rate | `0.833` |
+| Invalid-tool handling rate | `1.000` |
+| Multi-turn repair rate | `1.000` |
+
+The single strict failure was `heldout-argument-correctness-lab-order`: Gemma
+produced valid Hermes tool-call JSON and correct tool names, but expanded the
+free-text `message` argument instead of copying the expected phrase exactly. A
+stricter v2 suffix was tested and rejected because it kept the pass rate at
+`0.875` while lowering JSON validity to `0.833`.
+
 ## Runtime Notes
 
 - llama.cpp emitted Gemma control-token warnings during load, but the model
@@ -153,7 +185,9 @@ SSD output:
 
 ## Decision
 
-- Status: `runtime-proven; profile-repaired-strict-pilot-complete; not-default-yet`
+- Status:
+  `runtime-proven; profile-repaired-strict-pilot-complete; heldout-toolcall-0.875; not-default-yet`
 - Keep as the best frontier Gemma local comparison lane.
-- Next useful proof is a broader BFCL run and safety/refusal benchmark pass using
-  the profile, followed by an unprofiled-vs-profiled comparison report.
+- Next useful proof is a tool-call fine-tune or runtime-adapter repair for exact
+  free-text argument copying, followed by a repeated held-out gate and broader
+  BFCL/safety/coding benchmark pass using the profile.

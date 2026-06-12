@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T19:51:50.522074+00:00",
+  "created_at": "2026-06-12T23:50:23.472222+00:00",
   "candidate_count": 175,
   "counts": {
-    "mem0": {
-      "benchmarked-not-necessarily-promoted": 12,
-      "blocked": 2,
-      "smoke-or-pilot-only": 1,
-      "benchmarked-not-promoted": 1
-    },
     "hermes": {
       "blocked": 143,
       "benchmarked-not-promoted": 7,
       "smoke-or-pilot-only": 7,
       "evidence-present-needs-review": 2
+    },
+    "mem0": {
+      "benchmarked-not-necessarily-promoted": 12,
+      "blocked": 2,
+      "smoke-or-pilot-only": 1,
+      "benchmarked-not-promoted": 1
     }
   },
   "rows": [
@@ -35,13 +35,13 @@
     {
       "project": "hermes",
       "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
-      "role": "local-runtime",
+      "role": "watchlist",
       "family": "qwen",
       "environment_or_runtime": "specialist-runtime",
-      "feasibility_or_status": "needs-runtime-proof",
-      "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
+      "feasibility_or_status": "speculative",
+      "benchmark_kind": "watchlist only",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked by current local runtime support",
+      "blocked_reason": "blocked because open local weights or a supported public runtime are not verified",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
       "evidence": [
         "reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md"
@@ -503,6 +503,7 @@
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
       "evidence": [
+        "reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md",
         "reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md"
       ]
     },
@@ -2146,7 +2147,8 @@
         "reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md",
         "reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md",
         "reports/benchmark/mem0/run-cards/embedding-baai-bge-m3-refresh-20260612.md",
-        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md"
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md"
       ]
     },
     {
@@ -2235,7 +2237,8 @@
         "reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md",
         "reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md",
         "reports/benchmark/mem0/run-cards/embedding-baai-bge-m3-refresh-20260612.md",
-        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md"
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md"
       ]
     },
     {

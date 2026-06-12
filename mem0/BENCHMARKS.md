@@ -116,9 +116,9 @@ source scripts/env.sh
   --skip-qwen3
 ```
 
-The 2026-06-13 run returned four to five candidates per query and dropped both
-vector and close-margin top-1 to `0.750`, exposing boundary cases that the
-previous fixture hid.
+The expanded 2026-06-13 run returned four to five candidates per query. Vector
+top-1 reached `0.818`, while close-margin reranking dropped to `0.636`,
+exposing boundary cases that the previous fixture hid.
 
 Run a lower-level Ollama embedding retrieval check:
 
@@ -149,10 +149,10 @@ source scripts/env.sh
   --run-id embedding-bge-m3-differentiation-$(date +%Y%m%d-%H%M%S)
 ```
 
-The 2026-06-13 differentiation run separated current candidates: BGE-M3 reached
-top-1 `0.900`, Jina v5 text-matching MLX reached `0.700`, and the nomic
-default reached `0.600`. Treat the older expanded suite as a regression gate,
-not the final promotion differentiator.
+The expanded 2026-06-13 differentiation run separated current candidates:
+BGE-M3 reached top-1 `0.929`, Jina v5 text-matching MLX reached `0.786`, and
+the nomic default reached `0.714`. Treat the older expanded suite as a
+regression gate, not the final promotion differentiator.
 
 Run the same embedding suite through an OpenAI-compatible endpoint:
 
@@ -271,18 +271,18 @@ Current hard differentiation embedding scores:
 
 | Model | Runtime | Top-1 | Recall@3 | MRR | Decision |
 |---|---|---:|---:|---:|---|
-| `BAAI/bge-m3` | `sentence-transformers` CPU | 0.900 | 1.000 | 0.933 | keep testing; strongest isolated differentiation score |
-| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.700 | 0.900 | 0.825 | keep testing; not default-ready on this harder suite |
-| `nomic-embed-text:latest` | Ollama embeddings | 0.600 | 0.800 | 0.750 | keep as rollback/default until live guarded replacement passes |
+| `BAAI/bge-m3` | `sentence-transformers` CPU | 0.929 | 1.000 | 0.952 | keep testing; strongest isolated differentiation score |
+| `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.786 | 0.929 | 0.875 | keep testing; not default-ready on this harder suite |
+| `nomic-embed-text:latest` | Ollama embeddings | 0.714 | 0.857 | 0.821 | keep as rollback/default until live guarded replacement passes |
 
 The differentiation suite is
-`benchmarks/embeddings/memory_retrieval_differentiation_suite.json`. It is
-designed to catch cases where a candidate retrieves a plausible but operationally
-wrong model, collection, cloud backend, or artifact path. These isolated
-embedding scores do not override the live isolated-fixture result: the default
-read path remains `nomic-embed-text:latest` plus the close-margin guarded wrapper
-until a replacement passes collection migration, live multi-result retrieval, and
-rollback checks.
+`benchmarks/embeddings/memory_retrieval_differentiation_suite.json`. It now has
+14 cases designed to catch plausible but operationally wrong model, collection,
+cloud backend, runtime, component-role, sidecar-reranker, or artifact-path
+retrieval. These isolated embedding scores do not override the live
+isolated-fixture result: the default read path remains `nomic-embed-text:latest`
+until a replacement passes collection migration, live multi-result retrieval,
+and rollback checks.
 
 Run a read-only reranked search against the live mem0 store:
 
@@ -444,13 +444,15 @@ Current isolated fixture comparison:
 | `vector` | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.000s |
 | `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000s |
 | `qwen3_causal_lm` / `Qwen/Qwen3-Reranker-0.6B` warm service | 0.667 | 0.667 | 1.000 | 0.500 | 1.000 | 0.491s |
-| hard differentiation fixture with default embedder | 0.750 | 0.750 | 0.875 | 0.000 | 0.667 | 0.000s |
+| hard differentiation fixture with default embedder | 0.818 | 0.818 | 0.909 | 0.500 | 0.750 | 0.000s |
+| hard differentiation fixture with close-margin rerank | 0.636 | 0.636 | 0.909 | 0.500 | 0.500 | 0.000s |
 
 The fixture returned 3-5 candidates per query from an output-local Qdrant
 store. Qwen3 remains a candidate, but this live fixture promotes the
-close-margin wrapper as the next low-risk integration target. The harder
-differentiation fixture shows that even the guarded path still needs more
-recency and distractor work before an embedder swap or collection migration.
+close-margin wrapper as a useful but still guarded integration target. The
+expanded differentiation fixture shows that close-margin reranking can regress
+on harder role-boundary and sidecar-reranker cases, so it should not be promoted
+as an unconditional default before the added cases pass.
 
 Run an Ollama memory-extraction smoke test:
 
