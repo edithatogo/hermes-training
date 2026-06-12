@@ -1,0 +1,8 @@
+{
+  "id": "harmonic-hermes-refresh_20260612",
+  "title": "Harmonic Hermes Refresh",
+  "status": "complete",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the radar with the Harmonic-9B backbone and Harmonic-Hermes-9B GGUF/MLX packaging."
+}

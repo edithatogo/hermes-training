@@ -6,11 +6,13 @@ Latest scans:
 
 - [Current release scan](./reports/model-radar/current-release-scan-20260524.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
+- [Harmonic-Hermes / Harmonic-9B scan](./reports/model-radar/harmonic-hermes-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
-Gemma 4 12B it plus Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4
-packaging, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B and its FP8/GGUF/MLX
-packaging, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
+Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
+Unsloth GGUF/qat packages, Gemma 4 31B-it and its NVFP4 packaging,
+Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B and its FP8/GGUF/MLX packaging,
+MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
 MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Command A+, Step 3.7 Flash,
 DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, Nemotron-Labs-Diffusion-14B,
 Nemotron-Labs-Diffusion-VLM-8B, Nex-N2-mini, Nemotron 3.5 support models, and
@@ -18,7 +20,7 @@ the larger Nemotron frontier set.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 12B/31B, Hermes
-4.3, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B,
+4.3, Harmonic-9B/Harmonic-Hermes-9B, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA,
 AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B,
 Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
@@ -111,6 +113,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
 | Qwen | `Qwen3.5 9B` | Local/Colab fit | Mid-size helper/tool candidate, stronger than the tiny 0.8B/2B lanes if it proves stable |
+| Hermes | `Harmonic-9B`, `Harmonic-Hermes-9B-GGUF`, `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | Local fit | Stage 2 agentic fine-tune on Harmonic-9B; good Hermes-style Mac runtime comparison lane |
 | Cohere | `Command A+ 05 2026` | Teacher / cloud fit | Agentic multimodal teacher candidate, not a local Mac fine-tune target |
 | StepFun | `Step 3.7 Flash` | Teacher / cloud fit | Large sparse-MoE teacher with strong agentic benchmark claims |
 | Nex-AGI | `Nex-N2-mini` | Local/Colab fit | Small agentic runtime candidate with MLX community conversions already published |
@@ -149,6 +152,9 @@ Verified HF ids behind this shortlist:
 - `Qwen/Qwen3-Reranker-0.6B`
 - `Qwen/Qwen3-Embedding-4B`
 - `Qwen/Qwen3-Reranker-4B`
+- `DJLougen/Harmonic-9B`
+- `DJLougen/Harmonic-Hermes-9B-GGUF`
+- `mradermacher/Harmonic-Hermes-9B-i1-GGUF`
 - `google/gemma-3n-E4B`
 - `google/gemma-4-E2B`
 - `google/gemma-4-E2B-it-qat-mobile-transformers`
