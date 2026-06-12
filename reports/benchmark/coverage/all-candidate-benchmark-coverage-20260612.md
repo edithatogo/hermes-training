@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T12:53:38.186667+00:00`
+Created: `2026-06-12T13:37:28.763471+00:00`
 
 ## Direct Answer
 
@@ -13,11 +13,10 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 1 |
-| hermes | `blocked` | 143 |
-| hermes | `evidence-present-needs-review` | 1 |
-| hermes | `needs-benchmark` | 6 |
-| hermes | `smoke-or-pilot-only` | 4 |
+| hermes | `benchmarked-not-promoted` | 5 |
+| hermes | `blocked` | 140 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 8 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 9 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 4 |
@@ -158,11 +157,8 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | hermes | `LiquidAI/LFM2.5-VL-450M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-Audio-1.5B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2-8B-A1B` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `LiquidAI/LFM2-ColBERT-350M` | `blocked` | blocked until runtime artifact/load proof exists | `reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md` |
 | hermes | `Qwen/Qwen3-Next-80B-A3B-Instruct` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `jinaai/jina-embeddings-v4` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `Qwen/Qwen3-Embedding-4B` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `Qwen/Qwen3-Reranker-4B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-VL-Embedding-2B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-VL-Embedding-8B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-VL-Reranker-8B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -216,7 +212,7 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | hermes | `google/gemma-4-26B-A4B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `google/gemma-4-E2B-it-qat-q4_0-gguf` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `google/gemma-4-E2B-it` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-E2B-it-qat-mobile-transformers` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
@@ -278,7 +274,7 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | hermes | `google/gemma-4-E2B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `microsoft/Phi-4-mini-instruct` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `ibm-granite/granite-4.1-3b` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `LGAI-EXAONE/EXAONE-4.0-1.2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `openbmb/MiniCPM5-1B-MLX` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `openbmb/MiniCPM5-1B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Nanbeige/Nanbeige4.1-3B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
@@ -310,20 +306,20 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `LiquidAI/LFM2.5-1.2B-Instruct` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
-| hermes | `LiquidAI/LFM2.5-1.2B-Thinking` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `LiquidAI/LFM2.5-1.2B-Instruct` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `LiquidAI/LFM2.5-1.2B-Thinking` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `LiquidAI/LFM2.5-8B-A1B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `LiquidAI/LFM2-24B-A2B` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | strict tool-call gate is appropriate for Hermes promotion; pilot ties must be broken with official/expanded suites |
 | hermes | `LiquidAI/LFM2.5-350M` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `LiquidAI/LFM2.5-VL-450M` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `LiquidAI/LFM2.5-Audio-1.5B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `LiquidAI/LFM2-8B-A1B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `LiquidAI/LFM2-ColBERT-350M` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `LiquidAI/LFM2-ColBERT-350M` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `Qwen/Qwen3-Next-80B-A3B-Instruct` | research-runtime | `needs-runtime-proof` | specialist runtime proof | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `microsoft/bitnet-b1.58-2B-4T` | research-runtime | `ready` | specialist runtime proof | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `jinaai/jina-embeddings-v4` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `Qwen/Qwen3-Embedding-4B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `Qwen/Qwen3-Reranker-4B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `Qwen/Qwen3-Embedding-4B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `Qwen/Qwen3-Reranker-4B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `Qwen/Qwen3-VL-Embedding-2B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3-VL-Embedding-8B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3-VL-Reranker-8B` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
@@ -331,8 +327,8 @@ The three-case smokes are appropriate only as liveness and regression checks. Th
 | hermes | `aiteza/Qwen3-VL-Embedding-8B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mradermacher/Qwen3-VL-Reranker-8B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `Qwen/Qwen3-Embedding-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
-| hermes | `Qwen/Qwen3-Reranker-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `needs-benchmark` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `Qwen/Qwen3-Embedding-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| hermes | `Qwen/Qwen3-Reranker-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `evidence-present-needs-review` | requires expanded/adversarial retrieval replay before default promotion |
 | hermes | `jinaai/jina-embeddings-v5-omni-small` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `jinaai/jina-embeddings-v5-omni-nano` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `jinaai/jina-embeddings-v5-omni-small-mlx` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

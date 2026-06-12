@@ -1592,7 +1592,7 @@ candidates:
     license: "check model card"
     first_runtime: "MLX or GGUF"
     first_finetune: "LEAP, MLX, TRL, or Unsloth recipe after local proof"
-    notes: "Reasoning helper candidate. Liquid's January 2026 LFM2.5 Thinking release says it is available on Hugging Face, LEAP, and local inference stacks including llama.cpp, MLX, vLLM, and ONNX Runtime; validate on Hermes prompts before any adapter claim."
+    notes: "Reasoning helper candidate. Liquid's January 2026 LFM2.5 Thinking release says it is available on Hugging Face, LEAP, and local inference stacks including llama.cpp, MLX, vLLM, and ONNX Runtime. 2026-06-12 MLX direct loglikelihood smoke loaded from the SSD cache and scored one continuation, but greedy match was 0.000 and cold load was 417.060s; see `reports/benchmark/mlx-loglikelihood/lfm25-1.2b-thinking-mlx-loglikelihood-smoke-20260612.md`. Treat as runtime-proven but benchmark-failing until a narrower Hermes prompt harness or cloud/offloaded standard run improves it."
 
   - id: LiquidAI/LFM2.5-8B-A1B-GGUF
     family: lfm
@@ -1683,7 +1683,7 @@ candidates:
     license: "check model card"
     first_runtime: "PyLate / sentence-transformers path"
     first_finetune: "contrastive retriever tuning, not SFT"
-    notes: "Use for Hermes memory/RAG rather than chat generation; retrieval smoke should come before any benchmark claim."
+    notes: "Use for Hermes memory/RAG rather than chat generation. 2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000, then the expanded 12-case suite reached top-1 0.917 / recall@3 1.000 with p50 0.238s; see `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`. Runtime is proven, but this remains a separate index/retriever candidate until the semantic-margin miss, expanded replay, and rollback/default isolation are complete."
 
   - id: Qwen/Qwen3-Next-80B-A3B-Instruct
     family: qwen-next
@@ -1735,7 +1735,7 @@ candidates:
     license: "check model card"
     first_runtime: "sentence-transformers or Transformers embedding path"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Mem0 shortlist follow-on embedder. Practical Qwen retrieval candidate for 32GB-class local evaluation; verify batching/runtime before making retrieval claims."
+    notes: "Mem0 shortlist follow-on embedder. 2026-06-12 CPU sentence-transformers path passed the 3-case smoke at top-1 1.000 / recall@3 1.000, then reached top-1 0.917 / recall@3 1.000 / MRR 0.958 on the 12-case expanded suite with 2560-dim embeddings and p50 1.534s; see `reports/benchmark/mem0/embedding-qwen3-4b-expanded-20260612.md`. Strong retrieval candidate, but not a default replacement until the extractor-preference recency miss is fixed by reranking or collection policy."
 
   - id: Qwen/Qwen3-Reranker-4B
     family: reranker
@@ -1748,7 +1748,7 @@ candidates:
     license: "check model card"
     first_runtime: "sentence-transformers CrossEncoder or Transformers"
     first_finetune: "reranker fine-tuning only"
-    notes: "Mem0 shortlist follow-on reranker. Use after dense retrieval to improve Hermes memory precision; do not treat as a chat model."
+    notes: "Mem0 shortlist follow-on reranker. 2026-06-12 CPU causal-LM scoring passed the fixed 6-case reranking suite and the Qwen3-Embedding-4B expanded-derived 12-case suite at top-1 1.000 / recall@3 1.000, fixing the dense embedding miss; see `reports/benchmark/mem0/qwen3-4b-expanded-rerank-20260612.md`. p50/p95 rerank latency was 4.943s / 10.564s and the MPS path timed out after 900s, so keep it as quality ceiling/teacher evidence rather than default runtime."
 
   - id: Qwen/Qwen3-VL-Embedding-2B
     family: qwen-vl
@@ -1852,7 +1852,7 @@ candidates:
     license: apache-2.0
     first_runtime: "sentence-transformers or Transformers embedding path"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Official small Qwen retrieval model and a better 32GB-class Hermes memory candidate than the 4B embedder. Pair with the reranker for a lighter retrieval stack."
+    notes: "Official small Qwen retrieval model and a better 32GB-class Hermes memory candidate than the 4B embedder. 2026-06-12 CPU sentence-transformers smoke reached top-1 0.667 / recall@3 1.000 / MRR 0.833 with 1024-dim embeddings and p50 0.192s; see `reports/benchmark/mem0/embedding-qwen3-06b-smoke-20260612.md`. Runtime is unblocked but not promoted, because the recency-preference miss means it needs reranking or expanded-suite improvement before promotion."
 
   - id: Qwen/Qwen3-Reranker-0.6B
     family: reranker

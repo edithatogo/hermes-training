@@ -1,17 +1,18 @@
 {
-  "created_at": "2026-06-12T12:53:37.452178+00:00",
+  "created_at": "2026-06-12T13:37:44.245622+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 73
+    "passed": 79
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 11,
+    "embedding": 13,
     "extraction": 8,
-    "reranking": 26,
+    "reranking": 28,
     "replay": 12,
-    "isolated-fixture": 5
+    "isolated-fixture": 5,
+    "retriever": 2
   },
   "missing_kinds": [],
   "items": [
@@ -138,6 +139,20 @@
       "kind": "embedding",
       "path": "embedding-benchmark/embedding-nomic-smoke-20260524/summary.json",
       "run_id": "embedding-nomic-smoke-20260524",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-qwen3-06b-smoke-20260612/summary.json",
+      "run_id": "embedding-qwen3-06b-smoke-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embedding-qwen3-4b-expanded-20260612/summary.json",
+      "run_id": "embedding-qwen3-4b-expanded-20260612",
       "status": "passed",
       "errors": []
     },
@@ -297,6 +312,13 @@
     },
     {
       "kind": "reranking",
+      "path": "mem0-reranking-benchmark/lfm2-colbert-qwen3-06b-rerank-20260612/summary.json",
+      "run_id": "lfm2-colbert-qwen3-06b-rerank-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
       "path": "mem0-reranking-benchmark/nomic-expanded-close-margin-rerank-20260526/summary.json",
       "run_id": "nomic-expanded-close-margin-rerank-20260526",
       "status": "passed",
@@ -348,6 +370,13 @@
       "kind": "reranking",
       "path": "mem0-reranking-benchmark/qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526/summary.json",
       "run_id": "qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "reranking",
+      "path": "mem0-reranking-benchmark/qwen3-4b-expanded-rerank-20260612/summary.json",
+      "run_id": "qwen3-4b-expanded-rerank-20260612",
       "status": "passed",
       "errors": []
     },
@@ -523,6 +552,20 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-qwen3-multiretrieval-rerank-20260526/summary.json",
       "run_id": "mem0-live-fixture-qwen3-multiretrieval-rerank-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "retriever",
+      "path": "mem0-retriever-benchmark/retriever-lfm2-colbert-20260612/summary.json",
+      "run_id": "retriever-lfm2-colbert-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "retriever",
+      "path": "mem0-retriever-benchmark/retriever-lfm2-colbert-expanded-20260612/summary.json",
+      "run_id": "retriever-lfm2-colbert-expanded-20260612",
       "status": "passed",
       "errors": []
     }

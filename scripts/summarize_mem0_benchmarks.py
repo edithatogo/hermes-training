@@ -24,6 +24,12 @@ def format_float(value: Any) -> str:
 
 def infer_kind(path: Path, summary: dict[str, Any]) -> str:
     text = str(path)
+    if "mem0-retriever-benchmark" in text or summary.get("endpoint_kind") == "retriever-service":
+        return "retriever"
+    if "mem0-isolated-fixture-rerank" in text:
+        return "isolated-fixture"
+    if "mem0-reranking-replay" in text:
+        return "replay"
     if "mem0-reranking-benchmark" in text:
         return "reranking"
     if "embedding-benchmark" in text:
@@ -47,7 +53,7 @@ def render_markdown(rows: list[dict[str, Any]]) -> str:
     for row in rows:
         summary = row["summary"]
         kind = row["kind"]
-        model_or_tool = summary.get("model") or summary.get("tool") or ""
+        model_or_tool = summary.get("model") or summary.get("tool") or summary.get("model_id") or ""
         if kind == "reranking" and not model_or_tool:
             model_or_tool = summary.get("strategy") or ""
         raw_pass = summary.get("pass_rate", summary.get("top1_accuracy"))
@@ -55,7 +61,16 @@ def render_markdown(rows: list[dict[str, Any]]) -> str:
         top1 = summary.get("top1_expected_rate", summary.get("top1_accuracy"))
         recall = summary.get("recall_at_k", summary.get("recall_at_3"))
         json_valid = summary.get("json_validity_rate")
-        latency = summary.get("search_latency_p50_s", summary.get("latency_p50_s", summary.get("embed_latency_p50_s", summary.get("rerank_latency_p50_s"))))
+        latency = summary.get(
+            "search_latency_p50_s",
+            summary.get(
+                "latency_p50_s",
+                summary.get(
+                    "embed_latency_p50_s",
+                    summary.get("rerank_latency_p50_s", summary.get("query_latency_p50_s")),
+                ),
+            ),
+        )
         output = summary.get("output_dir", "")
         lines.append(
             "| "
@@ -88,7 +103,10 @@ def main() -> int:
     rows: list[dict[str, Any]] = []
     for path in args.paths:
         summary = load_summary(path)
-        rows.append({"path": path, "kind": infer_kind(path, summary), "summary": summary})
+        kind = infer_kind(path, summary)
+        if kind in {"memory", "memory+rerank"} and not summary.get("output_dir"):
+            continue
+        rows.append({"path": path, "kind": kind, "summary": summary})
     rows.sort(key=lambda row: (row["kind"], str(row["summary"].get("run_id", ""))))
     markdown = render_markdown(rows)
     if args.output:

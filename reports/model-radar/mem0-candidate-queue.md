@@ -23,18 +23,18 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
 | 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | isolated-fixture-proven | mlx | multi-query-cold-warm-latency-probe | first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof |
 | 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
-| 5 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
+| 5 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | expanded-derived-rerank | source Qwen/Qwen3-Reranker-0.6B fixed LFM2-ColBERT expanded retrieval to top-1 1.000; ONNX package remains blocked pending bounded CPU/CoreML proof |
 | 6 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | mteb-retrieval-smoke | benchmarked but not promoted; keep separate collection or artifact |
 | 7 | `NousResearch/Hermes-4-14B` | extractor | runtime-proof-needed | ollama-gguf | endpoint-smoke | needs local artifact or endpoint proof |
 | 8 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | source-model-benchmarked | transformers | rerank-smoke | 2026-06-12 CPU fixed-suite smoke passed at top-1 1.000 / recall@3 1.000; p50 3.082s, so keep as quality ceiling until accelerated/live replay proof |
+| 9 | `Qwen/Qwen3-Reranker-4B` | reranker | source-model-benchmarked | transformers | expanded-derived-rerank | 2026-06-12 CPU expanded-derived rerank passed at top-1 1.000 / recall@3 1.000; p50 4.943s, so keep as quality ceiling until accelerated/live replay proof |
 | 10 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 11 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | 2026-06-12 CPU smoke passed at top-1 1.000 / recall@3 1.000 with 2560-dim embeddings; p50 2.155s / p95 11.578s |
+| 11 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | expanded-embedding-suite | 2026-06-12 CPU expanded suite reached top-1 0.917 / recall@3 1.000 with 2560-dim embeddings; p50 1.534s |
 | 12 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | 2026-06-12 direct smoke returned Hugging Face gated repo 403; requires account access before benchmark |
 | 13 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | trust-remote-code path needs pillow/peft and still fails on SlidingWindowCache import in current Transformers stack |
 | 14 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-11 retrieval smoke passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 on the 1-case metadata-database query with 1024-dim embeddings; verify collection shape before any default switch |
 | 15 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | candidate | mlx | local-embedding-smoke | 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings; keep as candidate evidence, not a default embedder switch |
-| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | 2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000; keep isolated from `mem0_nomic_768` until larger replay and rollback comparison land |
+| 16 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | expanded-retriever-suite | 2026-06-12 expanded retriever-service suite reached top-1 0.917 / recall@3 1.000; with Qwen3-0.6B reranking reached top-1 1.000, keep isolated until live wrapper integration |
 
 ## Candidate Commands
 
@@ -106,16 +106,19 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `source-model-benchmarked`
-- Blocker: source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof
+- Evidence: `reports/benchmark/mem0/lfm2-colbert-qwen3-06b-rerank-20260612.md`
+- Blocker: source Qwen/Qwen3-Reranker-0.6B passed suites, including LFM2-ColBERT expanded-derived reranking; ONNX package remains blocked pending bounded CPU/CoreML proof
 
 ```bash
 source scripts/env.sh
-# ONNX candidate is Transformers.js-oriented; this fail-closed bridge proof keeps Node tooling on the SSD.
-./.venv/bin/python scripts/run_qwen3_onnx_transformersjs_smoke.py \
-  --run-id qwen3-0-6b-onnx-transformersjs-$(date +%Y%m%d-%H%M%S) \
-  --limit-cases 1 \
-  --max-length 512 \
-  --timeout-s 180
+HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggingface/hub \
+./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \
+  --strategy qwen3_causal_lm \
+  --model Qwen/Qwen3-Reranker-0.6B \
+  --qwen3-device cpu \
+  --qwen3-max-length 1024 \
+  --suite /Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/lfm2-colbert-expanded-derived-reranking-20260612/candidate-suite.json \
+  --run-id lfm2-colbert-qwen3-06b-rerank-$(date +%Y%m%d)
 ```
 
 ### BAAI/bge-m3
@@ -170,8 +173,8 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `source-model-benchmarked`
-- Evidence: `reports/benchmark/mem0/rerank-qwen3-4b-fixed-smoke-20260612.md`
-- Blocker: quality proof passed, but CPU p50 3.082s / p95 9.131s is too heavy for default promotion without live replay or acceleration
+- Evidence: `reports/benchmark/mem0/qwen3-4b-expanded-rerank-20260612.md`
+- Blocker: quality proof passed, but CPU p50 4.943s / p95 10.564s on the expanded-derived suite is too heavy for default promotion without live replay or acceleration
 
 ```bash
 source scripts/env.sh
@@ -181,8 +184,8 @@ HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggi
   --model Qwen/Qwen3-Reranker-4B \
   --qwen3-device cpu \
   --qwen3-max-length 1024 \
-  --suite benchmarks/mem0_reranking/fixed_candidate_suite.json \
-  --run-id rerank-qwen3-4b-fixed-smoke-$(date +%Y%m%d)
+  --suite /Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-4b-expanded-derived-reranking-20260612/candidate-suite.json \
+  --run-id qwen3-4b-expanded-rerank-$(date +%Y%m%d)
 ```
 
 ### flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16
@@ -206,8 +209,8 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `source-model-benchmarked`
-- Evidence: `reports/benchmark/mem0/embedding-qwen3-4b-smoke-20260612.md`
-- Blocker: quality smoke passed, but requires a separate 2560-dim collection and larger replay before any default switch
+- Evidence: `reports/benchmark/mem0/embedding-qwen3-4b-expanded-20260612.md`
+- Blocker: expanded suite reached top-1 0.917 and missed one recency case, so it requires reranking plus a separate 2560-dim collection before any default switch
 
 ```bash
 source scripts/env.sh
@@ -215,8 +218,8 @@ HF_HOME=/Volumes/PortableSSD/huggingface HF_HUB_CACHE=/Volumes/PortableSSD/huggi
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model Qwen/Qwen3-Embedding-4B \
   --device cpu \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-qwen3-4b-smoke-$(date +%Y%m%d)
+  --suite benchmarks/embeddings/memory_retrieval_expanded_suite.json \
+  --run-id embedding-qwen3-4b-expanded-$(date +%Y%m%d)
 ```
 
 ### google/embeddinggemma-300m
@@ -290,13 +293,13 @@ source scripts/env.sh
 
 - Role: `retriever`
 - Status: `source-model-benchmarked`
-- Blocker: needs separate index/service shape
-- Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md`
+- Blocker: needs separate index/service shape and live-wrapper integration
+- Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`
 
 ```bash
 source scripts/env.sh
 ./.venv/bin/python scripts/run_retriever_service_benchmark.py \
   --base-url http://127.0.0.1:8765 \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id retriever-lfm2-colbert-20260612
+  --suite benchmarks/embeddings/memory_retrieval_expanded_suite.json \
+  --run-id retriever-lfm2-colbert-expanded-$(date +%Y%m%d)
 ```

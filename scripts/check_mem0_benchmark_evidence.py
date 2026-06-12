@@ -69,6 +69,7 @@ SOURCES = (
     EvidenceSource("reranking", "mem0-reranking-benchmark/**/summary.json"),
     EvidenceSource("replay", "mem0-reranking-replay/**/summary.json"),
     EvidenceSource("isolated-fixture", "mem0-isolated-fixture-rerank/**/summary.json"),
+    EvidenceSource("retriever", "mem0-retriever-benchmark/**/summary.json"),
 )
 
 
@@ -170,6 +171,32 @@ def validate_embedding(summary: dict[str, Any]) -> list[str]:
     dims = summary.get("embedding_dims")
     if dims is not None and (not isinstance(dims, int) or isinstance(dims, bool) or dims <= 0):
         errors.append("embedding_dims must be a positive integer")
+    return errors
+
+
+def validate_retriever(summary: dict[str, Any]) -> list[str]:
+    required = {
+        "run_id",
+        "created_at",
+        "suite",
+        "output_dir",
+        "base_url",
+        "endpoint_kind",
+        "model_id",
+        "index_id",
+        "device",
+        "cases",
+        "top1_accuracy",
+        "recall_at_3",
+        "mrr",
+        "ndcg_at_3",
+        "query_latency_mean_s",
+        "query_latency_p50_s",
+        "query_latency_p95_s",
+    }
+    errors = [f"missing {field}" for field in missing(summary, required)]
+    if summary.get("endpoint_kind") != "retriever-service":
+        errors.append("endpoint_kind must be retriever-service")
     return errors
 
 
@@ -340,6 +367,7 @@ VALIDATORS = {
     "reranking": lambda path, summary: validate_reranking(summary),
     "replay": lambda path, summary: validate_replay(summary),
     "isolated-fixture": lambda path, summary: validate_isolated_fixture(summary),
+    "retriever": lambda path, summary: validate_retriever(summary),
 }
 
 

@@ -1,14 +1,13 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T12:53:38.186667+00:00",
+  "created_at": "2026-06-12T13:37:28.763471+00:00",
   "candidate_count": 171,
   "counts": {
     "hermes": {
-      "blocked": 143,
-      "benchmarked-not-promoted": 1,
-      "needs-benchmark": 6,
-      "smoke-or-pilot-only": 4,
-      "evidence-present-needs-review": 1
+      "blocked": 140,
+      "benchmarked-not-promoted": 5,
+      "smoke-or-pilot-only": 8,
+      "evidence-present-needs-review": 2
     },
     "mem0": {
       "benchmarked-not-necessarily-promoted": 9,
@@ -368,10 +367,13 @@
       "environment_or_runtime": "mac-lmstudio",
       "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md",
+        "reports/runtime/gemma4-e2b-q4-llamacpp-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1174,10 +1176,12 @@
       "environment_or_runtime": "mac-mlx",
       "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1593,10 +1597,12 @@
       "environment_or_runtime": "mac-mlx",
       "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/lfm25-1.2b-instruct-smoke-mlx-proof-20260526.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1606,10 +1612,12 @@
       "environment_or_runtime": "mac-mlx",
       "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "benchmarked-not-promoted",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/mlx-loglikelihood/lfm25-1.2b-thinking-mlx-loglikelihood-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1622,7 +1630,9 @@
       "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1700,11 +1710,12 @@
       "environment_or_runtime": "retrieval",
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "mem0 retrieval / embedding-reranking benchmark",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
+      "coverage_state": "smoke-or-pilot-only",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
       "evidence": [
-        "reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md"
+        "reports/benchmark/mem0/retriever-lfm2-colbert-350m-20260612.md",
+        "reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md"
       ]
     },
     {
@@ -1731,7 +1742,9 @@
       "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/bitnet-b158-2b-native-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1754,10 +1767,12 @@
       "environment_or_runtime": "retrieval",
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "mem0 retrieval / embedding-reranking benchmark",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "coverage_state": "benchmarked-not-promoted",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "evidence": [
+        "reports/benchmark/mem0/embedding-qwen3-4b-expanded-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1767,10 +1782,12 @@
       "environment_or_runtime": "retrieval",
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "mem0 retrieval / embedding-reranking benchmark",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "coverage_state": "benchmarked-not-promoted",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "evidence": [
+        "reports/benchmark/mem0/qwen3-4b-expanded-rerank-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1871,10 +1888,12 @@
       "environment_or_runtime": "retrieval",
       "feasibility_or_status": "ready",
       "benchmark_kind": "mem0 retrieval / embedding-reranking benchmark",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "benchmarked-not-promoted",
       "blocked_reason": "",
       "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/mem0/embedding-qwen3-06b-smoke-20260612.md"
+      ]
     },
     {
       "project": "hermes",
@@ -1884,10 +1903,26 @@
       "environment_or_runtime": "retrieval",
       "feasibility_or_status": "ready",
       "benchmark_kind": "mem0 retrieval / embedding-reranking benchmark",
-      "coverage_state": "needs-benchmark",
+      "coverage_state": "evidence-present-needs-review",
       "blocked_reason": "",
-      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
-      "evidence": []
+      "benchmark_appropriateness": "requires expanded/adversarial retrieval replay before default promotion",
+      "evidence": [
+        "reports/benchmark/mem0/embedding-qwen3-06b-smoke-20260612.md",
+        "reports/benchmark/mem0/lfm2-colbert-qwen3-06b-rerank-20260612.md",
+        "reports/benchmark/mem0/qwen3-0-6b-live-rerank-smoke-20260526.md",
+        "reports/benchmark/mem0/qwen3-0-6b-onnx-transformersjs-bridge-20260526.md",
+        "reports/benchmark/mem0/qwen3-0-6b-reranker-20260526.md",
+        "reports/benchmark/mem0/qwen3-0-6b-warm-service-rerank-smoke-20260526.md",
+        "reports/benchmark/mem0/run-cards/embedding-qwen3-06b-smoke-20260612.md",
+        "reports/benchmark/mem0/run-cards/lfm2-colbert-qwen3-06b-rerank-20260612.md",
+        "reports/benchmark/mem0/run-cards/mem0-fixture-qwen3-06b-recency-20260526.md",
+        "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-bge-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-fixed-20260526.md",
+        "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-nomic-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/qwen3-0-6b-bge-expanded-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/qwen3-0-6b-nomic-expanded-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/rerank-qwen3-0-6b-fixed-20260526.md"
+      ]
     },
     {
       "project": "hermes",

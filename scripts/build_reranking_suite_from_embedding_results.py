@@ -44,11 +44,17 @@ def build_suite(embedding_suite: list[dict[str, Any]], result_rows: list[dict[st
         docs_by_id = {doc["id"]: doc for doc in case["documents"]}
         candidates: list[dict[str, Any]] = []
         for ranked_doc in row["ranked_docs"]:
-            doc = docs_by_id[ranked_doc["id"]]
+            if isinstance(ranked_doc, str):
+                ranked_doc_id = ranked_doc
+                score = 0.0
+            else:
+                ranked_doc_id = ranked_doc["id"]
+                score = ranked_doc["score"]
+            doc = docs_by_id[ranked_doc_id]
             candidate = {
                 "id": doc["id"],
                 "text": doc["text"],
-                "score": ranked_doc["score"],
+                "score": score,
                 "relevant": bool(doc.get("relevant")),
             }
             if "created_at" in doc:

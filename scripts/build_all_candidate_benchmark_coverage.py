@@ -43,7 +43,17 @@ def evidence_paths(candidate_id: str, notes: str, reports: list[Path]) -> list[s
     for match in re.findall(r"`([^`]*(?:reports|/Volumes/PortableSSD/hermes-evals)[^`]*)`", notes):
         if match.startswith("reports/"):
             paths.add(match)
-    needles = {candidate_id, normalize(candidate_id)}
+    aliases = {
+        "google/gemma-4-E2B-it-qat-q4_0-gguf": ["gemma4-e2b", "gemma-4-E2B"],
+        "LGAI-EXAONE/EXAONE-4.0-1.2B": ["exaone4-12b", "EXAONE-4.0-1.2B-GGUF"],
+        "LiquidAI/LFM2.5-1.2B-Instruct": ["lfm25-1.2b-instruct", "LFM2.5-1.2B-Instruct"],
+        "LiquidAI/LFM2.5-1.2B-Thinking": ["lfm25-1.2b-thinking", "LFM2.5-1.2B-Thinking"],
+        "LiquidAI/LFM2.5-8B-A1B-GGUF": ["lfm25-8b-a1b", "LFM2.5-8B-A1B"],
+        "microsoft/bitnet-b1.58-2B-4T": ["bitnet-b158-2b", "BitNet-b1.58-2B-4T"],
+        "Qwen/Qwen3-Embedding-0.6B": ["qwen3-embedding-0.6b", "qwen3-06b-embedding"],
+        "Qwen/Qwen3-Reranker-0.6B": ["qwen3-0-6b", "qwen3-06b", "Qwen3-Reranker-0.6B"],
+    }
+    needles = {candidate_id, normalize(candidate_id), *aliases.get(candidate_id, [])}
     leaf = candidate_id.split("/")[-1].replace(":", "-")
     needles.add(leaf)
     needles.add(normalize(leaf))
@@ -113,7 +123,7 @@ def blocked_reason(item: dict[str, Any], notes: str, project: str) -> str:
         return "blocked by empty/no-content generation under the strict prompt"
     if "strict" in text and ("0.000" in text or "failed" in text or "formatting" in text):
         return "blocked by strict Hermes tool-call formatting failure"
-    if status == "runtime-proof-needed" or feasibility == "needs-runtime-proof":
+    if (status == "runtime-proof-needed" or feasibility == "needs-runtime-proof") and not has_positive_evidence:
         return "blocked until runtime artifact/load proof exists"
     if feasibility == "cloud-only" or env == "azure-cuda":
         return "blocked from local Mac benchmark; requires cloud capacity and cost/auth gate"
@@ -140,8 +150,10 @@ def quality_state(item: dict[str, Any], evidence: list[str], reason: str, projec
         "installed-baseline",
     }:
         return "benchmarked-not-necessarily-promoted"
-    if project == "hermes" and evidence and any(token in notes for token in ["runtime-proven", "passed", "completed", "scored", "smoke"]):
+    if project == "hermes" and evidence and any(token in notes for token in ["runtime-proven", "passed", "completed", "scored", "smoke", "reached"]):
         if any(token in notes for token in ["strict held-out score was `0.250`", "strict hermes tool-call pass was `0.000`", "0.000", "0/3"]):
+            return "benchmarked-not-promoted"
+        if any(token in notes for token in ["not promoted", "not a default replacement", "quality ceiling", "benchmark-failing"]):
             return "benchmarked-not-promoted"
         return "smoke-or-pilot-only"
     if any(token in notes for token in ["passed", "reached", "completed", "scored", "smoke passed"]):

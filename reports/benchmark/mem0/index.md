@@ -2,16 +2,19 @@
 
 | Kind | Run ID | Model/Tool | Raw Pass | Rerank Pass | Top-1 | Recall@k/3 | JSON Valid | Latency p50 | Output |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|
+| embedding | embedding-baai-bge-m3-refresh-20260612 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.142 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-baai-bge-m3-refresh-20260612` |
 | embedding | embedding-bge-m3-cpu-expanded-20260526 | BAAI/bge-m3 | 0.917 |  | 0.917 | 1.000 |  | 0.097 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-cpu-expanded-20260526` |
 | embedding | embedding-bge-m3-cpu-smoke-20260526 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.098 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-cpu-smoke-20260526` |
 | embedding | embedding-bge-m3-mps-smoke-20260526 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.126 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-bge-m3-mps-smoke-20260526` |
 | embedding | embedding-nomic-expanded-20260526 | nomic-embed-text:latest | 0.833 |  | 0.833 | 1.000 |  | 0.021 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-expanded-20260526` |
 | embedding | embedding-nomic-openai-ollama-smoke-20260524 | nomic-embed-text:latest | 0.667 |  | 0.667 | 1.000 |  | 0.025 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-openai-ollama-smoke-20260524` |
 | embedding | embedding-nomic-smoke-20260524 | nomic-embed-text:latest | 0.667 |  | 0.667 | 1.000 |  | 0.021 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-smoke-20260524` |
+| embedding | embedding-qwen3-06b-smoke-20260612 | Qwen/Qwen3-Embedding-0.6B | 0.667 |  | 0.667 | 1.000 |  | 0.192 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-06b-smoke-20260612` |
+| embedding | embedding-qwen3-4b-expanded-20260612 | Qwen/Qwen3-Embedding-4B | 0.917 |  | 0.917 | 1.000 |  | 1.534 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-4b-expanded-20260612` |
 | embedding | embedding-qwen3-4b-smoke-20260612 | Qwen/Qwen3-Embedding-4B | 1.000 |  | 1.000 | 1.000 |  | 2.155 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-qwen3-4b-smoke-20260612` |
 | embedding | jina-mlx-retrieval-smoke-20260612b | jinaai/jina-embeddings-v5-omni-small-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.029 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-retrieval-smoke-20260612b` |
+| embedding | jina-mlx-text-matching-smoke-20260612b | jinaai/jina-embeddings-v5-omni-small-text-matching-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.037 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-smoke-20260612b` |
 | embedding | jina-mlx-text-matching-smoke-20260612c | jinaai/jina-embeddings-v5-omni-small-text-matching-mlx | 1.000 |  | 1.000 | 1.000 |  | 0.022 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/jina-mlx-text-matching-smoke-20260612c` |
-| retriever | retriever-lfm2-colbert-20260612 | LiquidAI/LFM2-ColBERT-350M | 1.000 |  | 1.000 | 1.000 |  | 0.149 | `/Volumes/PortableSSD/hermes-evals/mem0-retriever-benchmark/retriever-lfm2-colbert-20260612` |
 | extraction | extraction-hermes3-8b-expanded-examples-20260524 | hermes3:8b | 0.571 |  |  |  | 0.714 | 1.476 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-examples-20260524` |
 | extraction | extraction-hermes3-8b-expanded-strict-20260524 | hermes3:8b | 0.429 |  |  |  | 0.714 | 0.720 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-expanded-strict-20260524` |
 | extraction | extraction-hermes3-8b-smoke-20260524 | hermes3:8b | 0.333 |  |  |  | 0.333 | 1.031 | `/Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/extraction-hermes3-8b-smoke-20260524` |
@@ -35,6 +38,7 @@
 | reranking | fixed-rerank-lexical-overlap-expanded-20260524 | lexical_overlap | 0.833 |  | 0.833 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-lexical-overlap-expanded-20260524` |
 | reranking | fixed-rerank-vector-20260524 | vector | 0.667 |  | 0.667 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-vector-20260524` |
 | reranking | fixed-rerank-vector-expanded-20260524 | vector | 0.667 |  | 0.667 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/fixed-rerank-vector-expanded-20260524` |
+| reranking | lfm2-colbert-qwen3-06b-rerank-20260612 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.750 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/lfm2-colbert-qwen3-06b-rerank-20260612` |
 | reranking | nomic-expanded-close-margin-rerank-20260526 | score_plus_created_at_rank_close_margin | 0.917 |  | 0.917 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/nomic-expanded-close-margin-rerank-20260526` |
 | reranking | nomic-expanded-created-at-rank-20260526 | score_plus_created_at_rank | 0.750 |  | 0.750 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/nomic-expanded-created-at-rank-20260526` |
 | reranking | nomic-expanded-lexical-rerank-20260526 | lexical_overlap | 0.917 |  | 0.917 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/nomic-expanded-lexical-rerank-20260526` |
@@ -43,6 +47,7 @@
 | reranking | qwen3-0-6b-nomic-expanded-rerank-20260526 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.314 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-0-6b-nomic-expanded-rerank-20260526` |
 | reranking | qwen3-0-6b-onnx-transformersjs-bridge-20260526 | onnx-community/Qwen3-Reranker-0.6B-ONNX | 0.000 |  | 0.000 | 0.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-0-6b-onnx-transformersjs-bridge-20260526` |
 | reranking | qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526 | onnx-community/Qwen3-Reranker-0.6B-ONNX | 0.000 |  | 0.000 | 0.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526` |
+| reranking | qwen3-4b-expanded-rerank-20260612 | Qwen/Qwen3-Reranker-4B | 1.000 |  | 1.000 | 1.000 |  | 4.943 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/qwen3-4b-expanded-rerank-20260612` |
 | reranking | rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-20260526 | flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit | 1.000 |  | 1.000 | 1.000 |  | 0.065 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-20260526` |
 | reranking | rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-bge-expanded-20260526 | flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit | 0.917 |  | 0.917 | 1.000 |  | 0.140 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-bge-expanded-20260526` |
 | reranking | rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-nomic-expanded-20260526 | flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit | 0.917 |  | 0.917 | 1.000 |  | 0.161 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-nomic-expanded-20260526` |
@@ -51,3 +56,5 @@
 | reranking | rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-nomic-expanded-20260526 | flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit | 1.000 |  | 1.000 | 1.000 |  | 0.091 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-nomic-expanded-20260526` |
 | reranking | rerank-qwen3-0-6b-fixed-20260526 | Qwen/Qwen3-Reranker-0.6B | 1.000 |  | 1.000 | 1.000 |  | 0.222 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-qwen3-0-6b-fixed-20260526` |
 | reranking | rerank-qwen3-4b-fixed-smoke-20260612 | Qwen/Qwen3-Reranker-4B | 1.000 |  | 1.000 | 1.000 |  | 3.082 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/rerank-qwen3-4b-fixed-smoke-20260612` |
+| retriever | retriever-lfm2-colbert-20260612 | LiquidAI/LFM2-ColBERT-350M | 1.000 |  | 1.000 | 1.000 |  | 0.149 | `/Volumes/PortableSSD/hermes-evals/mem0-retriever-benchmark/retriever-lfm2-colbert-20260612` |
+| retriever | retriever-lfm2-colbert-expanded-20260612 | LiquidAI/LFM2-ColBERT-350M | 0.917 |  | 0.917 | 1.000 |  | 0.238 | `/Volumes/PortableSSD/hermes-evals/mem0-retriever-benchmark/retriever-lfm2-colbert-expanded-20260612` |
