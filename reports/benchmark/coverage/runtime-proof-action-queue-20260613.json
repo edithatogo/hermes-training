@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T15:20:44.802692+00:00",
+  "created_at": "2026-06-12T15:35:16.014828+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -258,21 +258,6 @@
       "first_runtime": "Transformers or community GGUF smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model microsoft-phi-4-mini-instruct \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id microsoft-phi-4-mini-instruct-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Good tiny-agent candidate for instruction following and function-calling comparison. Useful for mem0 extractor experimentation if the runtime path proves clean."
-    },
-    {
-      "id": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
-      "family": "hermes",
-      "role": "local-runtime",
-      "environment": "mac-lmstudio",
-      "parameters": "4B",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Smaller Hermes-Qwen3.5 pack. Useful as a size-down comparison point if the 9B lane is too heavy."
     },
     {
       "id": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
@@ -948,6 +933,21 @@
       "first_runtime": "SSD-backed MLX direct loglikelihood smoke passed; BFCL-style pilot and native score-only normalizer recorded",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ibm-granite/granite-4.1-3b \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id ibm-granite-granite-4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Useful 3B instruction/tool-use candidate with current Granite 4.1 packaging and an active Apache license. SSD-backed MLX direct loglikelihood smoke passed on 2026-06-12; the raw strict BFCL-style pilot scored 0.000/0.333 depending on gate, and the opt-in Granite native score-only normalizer raised the strict pilot to 0.667 without changing raw outputs. Keep it as a helper/extraction comparison lane, not a strict Hermes default."
+    },
+    {
+      "id": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "family": "hermes",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "llama.cpp strict endpoint pilot complete",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-4B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Smaller Hermes-Qwen3.5 pack. SSD-backed Q8_0 llama.cpp endpoint pilot completed on 2026-06-13 at about 45-46 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it nearly emitted the simple lookup payload but left stray marker text, over-generated unrelated tools in the parallel case, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-4b-sft-v7-q8-llamacpp-strict-bfcl-pilot-20260613.md`. Prefer the 2B Hermes-Qwen3.5 lane over this 4B Q8 lane for prompt/profile repair; not promoted."
     },
     {
       "id": "mlx-community/gemma-4-E4B-it-qat-4bit",
