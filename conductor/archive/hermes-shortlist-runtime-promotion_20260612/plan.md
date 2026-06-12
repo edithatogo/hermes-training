@@ -9,7 +9,7 @@
 - [x] Task: Run baseline validation before edits.
     - [x] Run `source scripts/env.sh && ./.venv/bin/python scripts/validate_readiness.py`.
     - [x] Run the model-candidate consistency check if candidate metadata changes are planned.
-- [ ] Task: Conductor - User Manual Verification 'Evidence Baseline and Role Lock' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Evidence Baseline and Role Lock' (Protocol in workflow.md)
 
 ## Phase 2: Dynamic Runtime Execution
 
@@ -24,7 +24,7 @@
     - [x] Run Azure login/quota/capacity preflight before any Azure job.
     - [x] Run NGC API-key and container/model availability preflight before any NVIDIA job.
     - [x] Stop before paid execution or restricted-license downloads unless approved.
-- [ ] Task: Conductor - User Manual Verification 'Dynamic Runtime Execution' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Dynamic Runtime Execution' (Protocol in workflow.md)
 
 ## Phase 3: Benchmark and Promotion Gate
 
@@ -38,7 +38,7 @@
     - [x] Keep helper candidates separate from main Hermes runtime candidates.
     - [x] Record rejected or blocked candidates with concrete blocker text.
     - Evidence: `MODEL_CANDIDATES.yaml`, `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`, `reports/runtime/hermes-shortlist-mac-metal-parity-20260612.md`.
-- [ ] Task: Conductor - User Manual Verification 'Benchmark and Promotion Gate' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Benchmark and Promotion Gate' (Protocol in workflow.md)
 
 ## Phase 4: Documentation and Registry Reconciliation
 
@@ -47,16 +47,16 @@
     - [x] Update `MODEL_CANDIDATES.yaml`.
     - [x] Update relevant benchmark reports and runtime proof queues.
     - Evidence: `FUTURE_MODELS.md`, `MODEL_CANDIDATES.yaml`, `reports/runtime/cloud-gate-preflight-20260612.md`, `reports/runtime/hermes-shortlist-mac-metal-parity-20260612.md`.
-- [ ] Task: Validate and checkpoint.
+- [x] Task: Validate and checkpoint.
     - [x] Rerun readiness and candidate consistency checks.
     - [x] Update track status and summarize remaining blockers.
     - [x] Commit and push only reproducible, non-secret artifacts.
-- [ ] Task: Conductor - User Manual Verification 'Documentation and Registry Reconciliation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Documentation and Registry Reconciliation' (Protocol in workflow.md)
 
 ## Health Check
 
 - Target: >= 9.5 / 10
 - Current estimate: 9.5 / 10
 - Evidence: SSD-first runtime and benchmark proofs are recorded, readiness and candidate consistency checks pass, the shortlist is separated into promoted runtime, helper/extraction, and blocked lanes, and direct MLX lm-eval official-pilot smokes now exist for Qwen3.5 0.8B and 2B.
-- Gaps: manual verification tasks remain open; broader official candidate coverage is still incomplete for the helper/runtime comparison lanes.
-- Decision: keep the track in progress until the remaining verification steps are closed.
+- Gaps: broader official candidate coverage continues in separate follow-on tracks, but this track's required verification and promotion evidence is now closed.
+- Decision: complete; archive the track after registry reconciliation.
