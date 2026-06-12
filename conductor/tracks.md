@@ -507,3 +507,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: EmbeddingGemma Retrieval Refresh
 *Link: [./tracks/embeddinggemma-retrieval-refresh_20260612/](./tracks/embeddinggemma-retrieval-refresh_20260612/)*
+
+---
+
+## [x] Track: Qwen3-VL Multimodal Retrieval Refresh
+*Link: [./tracks/qwen3-vl-retrieval-refresh_20260612/](./tracks/qwen3-vl-retrieval-refresh_20260612/)*

@@ -4,7 +4,7 @@
 updated: "2026-06-12"
 project_target: "Hermes agents on bleeding-edge local, cloud, retrieval, and specialist-runtime models"
 local_hardware_target: "MacBook Pro M1 Max, 32GB unified memory"
-latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, DJLougen/Harmonic-9B and Harmonic-Hermes-9B GGUF packaging plus mradermacher/Harmonic-Hermes-9B-i1-GGUF, Gemma 4 E2B-it and its LiteRT/MLX packaging plus google/gemma-4-E2B-it-qat-q4_0-gguf and google/gemma-4-E2B-it-qat-mobile-transformers, Gemma 4 12B it and its Unsloth GGUF/qat packages plus unsloth/gemma-4-12b-it-GGUF, unsloth/gemma-4-12B-it-qat-GGUF, batiai/gemma-4-12B-it-GGUF, DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF, and OpenYourMind/gemma-4-12B-it-abliterated-uncensored, Gemma 4 31B-it and its base repo / GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, Qwen/Qwen3.5-27B and its GGUF packaging, Qwen/Qwen3.6-27B and its FP8/GGUF/MLX packaging, Qwen/Qwen3-4B-Instruct-2507 and Qwen/Qwen3-4B-Thinking-2507, Qwen/Qwen3-Coder-Next and Qwen/Qwen3-Coder-Next-GGUF, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, Qwen/Qwen3-Embedding-0.6B, and Qwen/Qwen3-Reranker-0.6B, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, openbmb/AgentCPM-Report and AgentCPM-Report-GGUF, openbmb/MiniCPM-V-4.6 and MiniCPM-V-4.6-GGUF plus MiniCPM-V-4.6-GPTQ, openbmb/MiniCPM-V-4.6-Thinking and MiniCPM-V-4.6-Thinking-gguf, Nanbeige/Nanbeige4.1-3B and Nanbeige4.1-3B-GGUF, nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16, nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF, unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF, mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit, google/diffusiongemma-26B-A4B-it, nvidia/diffusiongemma-26B-A4B-it-NVFP4, mlx-community/diffusiongemma-26B-A4B-it-mxfp4, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nvidia/Nemotron-Labs-Diffusion-14B, nvidia/Nemotron-Labs-Diffusion-VLM-8B, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 E2B-it, 12B/31B, Harmonic-9B/Harmonic-Hermes-9B, Hermes 4.3, Qwen3.4B 2507 releases, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B, Qwen3-Embedding-0.6B, Qwen3-Reranker-0.6B, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Nemotron 3 Nano 4B, DiffusionGemma, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
+latest_release_recheck: "2026-06-12: refreshed official/current sources and current Hugging Face search. Verified new open-weight candidates relevant to Hermes work are Hermes 4.3 36B / GGUF, DJLougen/Harmonic-9B and Harmonic-Hermes-9B GGUF packaging plus mradermacher/Harmonic-Hermes-9B-i1-GGUF, Gemma 4 E2B-it and its LiteRT/MLX packaging plus google/gemma-4-E2B-it-qat-q4_0-gguf and google/gemma-4-E2B-it-qat-mobile-transformers, Gemma 4 12B it and its Unsloth GGUF/qat packages plus unsloth/gemma-4-12b-it-GGUF, unsloth/gemma-4-12B-it-qat-GGUF, batiai/gemma-4-12B-it-GGUF, DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF, and OpenYourMind/gemma-4-12B-it-abliterated-uncensored, Gemma 4 31B-it and its base repo / GGUF packaging plus NVFP4 packaging, Qwen/Qwen3.5-9B, Qwen/Qwen3.5-27B and its GGUF packaging, Qwen/Qwen3.6-27B and its FP8/GGUF/MLX packaging, Qwen/Qwen3-4B-Instruct-2507 and Qwen/Qwen3-4B-Thinking-2507, Qwen/Qwen3-Coder-Next and Qwen/Qwen3-Coder-Next-GGUF, Qwen/Qwen3-Embedding-4B, Qwen/Qwen3-Reranker-4B, Qwen/Qwen3-Embedding-0.6B, Qwen/Qwen3-Reranker-0.6B, Qwen/Qwen3-VL-Embedding-2B, Qwen/Qwen3-VL-Embedding-8B, Qwen/Qwen3-VL-Reranker-8B, aiteza/Qwen3-VL-Embedding-8B-GGUF, mradermacher/Qwen3-VL-Reranker-8B-GGUF, Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit, and mlx-community/Qwen3-VL-Embedding-2B-8bit, openbmb/MiniCPM-o-4_5 and its GGUF packaging, openbmb/MiniCPM-SALA, openbmb/AgentCPM-Report and AgentCPM-Report-GGUF, openbmb/MiniCPM-V-4.6 and MiniCPM-V-4.6-GGUF plus MiniCPM-V-4.6-GPTQ, openbmb/MiniCPM-V-4.6-Thinking and MiniCPM-V-4.6-Thinking-gguf, Nanbeige/Nanbeige4.1-3B and Nanbeige4.1-3B-GGUF, nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16, nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF, unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF, mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit, google/diffusiongemma-26B-A4B-it, nvidia/diffusiongemma-26B-A4B-it-NVFP4, mlx-community/diffusiongemma-26B-A4B-it-mxfp4, CohereLabs/command-a-plus-05-2026-w4a4, stepfun-ai/Step-3.7-Flash, DeepSeek-V4-Flash and DeepSeek-V4-Flash-Base, nvidia/Nemotron-Labs-Diffusion-14B, nvidia/Nemotron-Labs-Diffusion-VLM-8B, nex-agi/Nex-N2-mini, nvidia/Nemotron-3.5-Content-Safety, nvidia/nemotron-3.5-asr-streaming-0.6b, nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16, nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4, nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16, nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603, and nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No verified public Qwen3.7 open-weight lane was found in the official search checked for this refresh. Treat the new Gemma 4 E2B-it, 12B/31B, Harmonic-9B/Harmonic-Hermes-9B, Hermes 4.3, Qwen3.4B 2507 releases, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B, Qwen3-Embedding-0.6B, Qwen3-Reranker-0.6B, Qwen3-VL Embedding/Reranker and their packaging lanes, Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B, Nemotron 3 Nano 4B, DiffusionGemma, DeepSeek-V4-Flash, Command A+, Step 3.7 Flash, Nex-N2-mini, and Nemotron support/frontier entries as runtime, teacher, or helper candidates behind the same strict text/tool-call gates, not automatic promotion targets."
 format_ladder: "RUNTIME_FORMAT_LANES.yaml is authoritative: GGUF is a portability/runtime lane; MLX, PEFT/safetensors, Unsloth, KTransformers, LEAP/LFM, native research runtimes, and hosted APIs remain first-class when they are the stronger path."
 
 candidates:
@@ -1619,6 +1619,97 @@ candidates:
     first_runtime: "sentence-transformers CrossEncoder or Transformers"
     first_finetune: "reranker fine-tuning only"
     notes: "Use after dense retrieval to improve Hermes memory precision; do not treat as a chat model."
+
+  - id: Qwen/Qwen3-VL-Embedding-2B
+    family: qwen-vl
+    tier: retrieval
+    role: retrieval
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Multimodal retrieval embedder for text, images, screenshots, and video"
+    license: "check model card"
+    first_runtime: "sentence-transformers or Transformers with structured multimodal inputs"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Official multimodal retrieval candidate for Hermes workflows that need screenshot, document-image, or video search. Keep it in the retrieval lane, not chat SFT."
+
+  - id: Qwen/Qwen3-VL-Embedding-8B
+    family: qwen-vl
+    tier: retrieval
+    role: retrieval
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Multimodal retrieval embedder for text, images, screenshots, and video"
+    license: "check model card"
+    first_runtime: "sentence-transformers or Transformers with structured multimodal inputs"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Official higher-capacity Qwen multimodal retrieval candidate. Use when the 2B lane underfits the task or when comparing retrieval quality across modalities."
+
+  - id: Qwen/Qwen3-VL-Reranker-8B
+    family: qwen-vl
+    tier: retrieval
+    role: retrieval
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Multimodal reranker for text, images, screenshots, and video"
+    license: "check model card"
+    first_runtime: "sentence-transformers CrossEncoder or Transformers with multimodal inputs"
+    first_finetune: "reranker fine-tuning only"
+    notes: "Official multimodal reranker to pair with Qwen3-VL embedding. Use after dense retrieval to improve Hermes memory precision on cross-modal corpora."
+
+  - id: mlx-community/Qwen3-VL-Embedding-2B-8bit
+    family: qwen-vl
+    tier: retrieval
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Qwen3-VL multimodal retrieval embedder, 8-bit MLX packaging"
+    license: "check model card"
+    first_runtime: "MLX smoke with structured multimodal inputs"
+    first_finetune: "defer"
+    notes: "Fresh Mac-local packaging lane for the smaller Qwen3-VL embedder. Useful for Hermes screenshot/document-image retrieval experiments on 32GB-class Apple Silicon."
+
+  - id: aiteza/Qwen3-VL-Embedding-8B-GGUF
+    family: qwen-vl
+    tier: retrieval
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Qwen3-VL multimodal retrieval embedder, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke with structured multimodal inputs"
+    first_finetune: "defer"
+    notes: "Community GGUF lane for the official 8B multimodal embedder. Treat as runtime evidence only."
+
+  - id: mradermacher/Qwen3-VL-Reranker-8B-GGUF
+    family: qwen-vl
+    tier: retrieval
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Qwen3-VL multimodal reranker, GGUF packaging"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio smoke with structured multimodal inputs"
+    first_finetune: "defer"
+    notes: "Community GGUF lane for the official 8B multimodal reranker. Use as a Mac runtime comparison point only."
+
+  - id: Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit
+    family: qwen-vl
+    tier: retrieval
+    role: local-runtime
+    environment: mac-mlx
+    feasibility: needs-runtime-proof
+    parameters: "8B"
+    architecture: "Qwen3-VL multimodal reranker, 4-bit MLX packaging"
+    license: "check model card"
+    first_runtime: "MLX smoke with structured multimodal inputs"
+    first_finetune: "defer"
+    notes: "Fresh Mac-local MLX packaging lane for the multimodal reranker. Good as a local comparison target if the GGUF lane is too slow or too lossy."
 
   - id: Qwen/Qwen3-Embedding-0.6B
     family: embeddings

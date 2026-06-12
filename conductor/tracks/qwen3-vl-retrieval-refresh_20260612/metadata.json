@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-vl-retrieval-refresh_20260612",
+  "title": "Qwen3-VL Multimodal Retrieval Refresh",
+  "status": "completed",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the model radar with Qwen3-VL multimodal retrieval models and their MLX/GGUF packaging lanes."
+}
