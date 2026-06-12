@@ -382,9 +382,9 @@ candidates:
     parameters: "2B"
     architecture: "Gemma 4 QAT Mobile any-to-any package"
     license: "check model card"
-    first_runtime: "Transformers or MLX smoke"
+    first_runtime: "Transformers Gemma 4 runtime-support retry"
     first_finetune: "defer"
-    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a lightweight on-device runtime comparison point only."
+    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-it-qat-mobile-transformers-load-failure-20260613.md`. Keep as a lightweight on-device runtime comparison point only after a Transformers source/nightly or official Gemma 4 support upgrade."
 
   - id: litert-community/gemma-4-E2B-it-litert-lm
     family: gemma

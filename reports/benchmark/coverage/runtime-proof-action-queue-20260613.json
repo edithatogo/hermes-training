@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T16:01:10.174459+00:00",
+  "created_at": "2026-06-12T16:05:44.501599+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -43,11 +43,11 @@
       "size_bucket": "tiny",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by current local runtime support",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or MLX smoke",
+      "first_runtime": "Transformers Gemma 4 runtime-support retry",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a lightweight on-device runtime comparison point only."
+      "notes": "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Config/processor proof reached the SSD cache on 2026-06-13, but the local `transformers 5.3.0` stack failed before weight loading or generation because `model_type: gemma4` is unsupported/not recognized; see `reports/runtime/gemma4-e2b-it-qat-mobile-transformers-load-failure-20260613.md`. Keep as a lightweight on-device runtime comparison point only after a Transformers source/nightly or official Gemma 4 support upgrade."
     },
     {
       "id": "mlx-community/gemma-4-e2b-it-4bit",
