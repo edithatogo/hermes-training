@@ -151,6 +151,71 @@ candidates:
     first_finetune: "defer"
     notes: "Alternative GGUF packaging for the Harmonic-Hermes agentic fine-tune. Use it as a Mac runtime comparison point and keep it runtime-only until a smoke passes."
 
+  - id: mkadrlik/Hermes-Qwen3.5-9B-SFT-v7
+    family: hermes
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "9B"
+    architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio"
+    first_finetune: "defer"
+    notes: "Fresh Hermes-style local runtime pack. Treat as the leading new Hermes-Qwen3.5 comparison lane for Mac-local work."
+
+  - id: mkadrlik/Hermes-Qwen3.5-4B-SFT-v7
+    family: hermes
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "4B"
+    architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio"
+    first_finetune: "defer"
+    notes: "Smaller Hermes-Qwen3.5 pack. Useful as a size-down comparison point if the 9B lane is too heavy."
+
+  - id: mkadrlik/hermes-Qwen3.5-2B-SFT-v7
+    family: hermes
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio"
+    first_finetune: "defer"
+    notes: "Compact Hermes-Qwen3.5 pack. Useful as a tiny comparison lane for helper/extractor behavior."
+
+  - id: mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh
+    family: hermes
+    tier: frontier-runtime
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: needs-runtime-proof
+    parameters: "0.8B"
+    architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
+    license: "check model card"
+    first_runtime: "llama.cpp or LM Studio"
+    first_finetune: "defer"
+    notes: "Fresh tiny Hermes-Qwen3.5 pack. Useful for the low-cost helper lane and for strict-format regression checks."
+
+  - id: mkadrlik/Hermes-27B-SFT-v7
+    family: hermes
+    tier: frontier-runtime
+    role: cloud-teacher
+    environment: azure-cuda
+    feasibility: needs-runtime-proof
+    parameters: "27B"
+    architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
+    license: "check model card"
+    first_runtime: "cloud or specialist runtime smoke"
+    first_finetune: "defer"
+    notes: "Larger Hermes-Qwen3.5 pack. Keep as a teacher/runtime comparison lane rather than a first local fine-tune target."
+
   - id: google/gemma-4-12B-it
     family: gemma
     tier: frontier-runtime

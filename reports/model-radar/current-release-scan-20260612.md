@@ -12,6 +12,7 @@ Pro M1 Max with 32 GB unified memory.
 |---|---|---|
 | Hermes | `NousResearch/Hermes-4.3-36B` and `NousResearch/Hermes-4.3-36B-GGUF` | Newer public Hermes release than the 14B baseline; useful as teacher/runtime baseline only. |
 | Hermes | `DJLougen/Harmonic-9B`, `DJLougen/Harmonic-Hermes-9B-GGUF`, `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | Stage 2 agentic fine-tune on Harmonic-9B with direct GGUF local lanes; the closest new Hermes-style local runtime path in this refresh. |
+| Hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7`, `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-2B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh`, `mkadrlik/Hermes-27B-SFT-v7` | Fresh Hermes-style Qwen3.5 GGUF packs; the 9B lane is the main new local runtime comparison point. |
 | Gemma | `google/gemma-4-12B-it`, `google/gemma-4-12B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF` | New mid-size Gemma 4 family members that are more plausible Mac/Colab candidates than the larger 26B/31B variants. |
 | Qwen | `Qwen/Qwen3.5-9B` | Useful mid-size Qwen step between the already-tested tiny lanes and the larger Qwen3.6 frontier packages. |
 | MiniCPM | `openbmb/MiniCPM5-1B` | Official 1B release remains a valid tiny helper/extractor candidate. |
@@ -25,6 +26,9 @@ Pro M1 Max with 32 GB unified memory.
 - The Harmonic-9B backbone and Harmonic-Hermes-9B GGUF packaging are now
   verified and should be treated as the new Hermes-style local runtime lane for
   this refresh.
+- The Hermes-Qwen3.5 SFT v7 local packs are now verified and should be treated
+  as a fresh Hermes-style comparison lane, with the 9B pack as the primary
+  local runtime candidate.
 - The Gemma 4 12B family now has verified Unsloth GGUF and QAT packaging, so
   the 12B lane is no longer just a native Transformers reference.
 - That means Qwen3.7 remains watchlist-only until an actual open-weight repo or
@@ -38,6 +42,7 @@ Pro M1 Max with 32 GB unified memory.
   machine-readable radar.
 - Add the Gemma 4 12B Unsloth GGUF and QAT packaging to the machine-readable
   radar.
+- Add the Hermes-Qwen3.5 SFT v7 packs to the machine-readable radar.
 - Add the official Nemotron 3 Nano 4B base plus GGUF and MLX packaging to the
   machine-readable radar.
 - Keep Qwen3.7 on the watchlist.

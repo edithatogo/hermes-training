@@ -457,3 +457,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Nemotron 3 Nano 4B Packaging Refresh
 *Link: [./tracks/nemotron3-nano-4b-packaging-refresh_20260612/](./tracks/nemotron3-nano-4b-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: Hermes-Qwen3.5 SFT v7 Refresh
+*Link: [./tracks/hermes-qwen35-sft-v7-refresh_20260612/](./tracks/hermes-qwen35-sft-v7-refresh_20260612/)*
