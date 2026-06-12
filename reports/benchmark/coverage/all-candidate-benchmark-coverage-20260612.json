@@ -1,6 +1,6 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-12T17:08:21.217040+00:00",
+  "created_at": "2026-06-12T17:17:00.826667+00:00",
   "candidate_count": 175,
   "counts": {
     "hermes": {
@@ -837,12 +837,14 @@
       "role": "local-runtime",
       "family": "nvidia",
       "environment_or_runtime": "mac-lmstudio",
-      "feasibility_or_status": "needs-runtime-proof",
+      "feasibility_or_status": "ready",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ]
     },
     {
       "project": "hermes",

@@ -794,13 +794,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "4B"
     architecture: "Nemotron 3 Nano 4B GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio"
+    first_runtime: "llama.cpp strict local pilot complete"
     first_finetune: "defer"
-    notes: "Official GGUF packaging for the 4B Nemotron base. Strongest direct local-runtime lane for this refresh."
+    notes: "Official GGUF packaging for the 4B Nemotron base. `NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf` was acquired to the SSD Hugging Face cache and served through llama.cpp on 2026-06-13. Strict BFCL-style Hermes endpoint pilot scored 0/3 (`0.000`): simple lookup emitted tool-shaped content plus fabricated customer text in an unparsable wrapper, parallel calls used a DSML-style schema not parsed by Hermes, and invalid-tool refusal mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as runtime/adapter-repair evidence only; do not promote."
 
   - id: unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF
     family: nvidia

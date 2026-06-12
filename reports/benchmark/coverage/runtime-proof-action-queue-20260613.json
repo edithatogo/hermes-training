@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T17:08:21.348579+00:00",
+  "created_at": "2026-06-12T17:17:00.954108+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -243,21 +243,6 @@
       "first_runtime": "llama.cpp or LM Studio only after confirming MTP-supporting runtime build",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mudler-qwen3-6-35b-a3b-apex-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mudler-qwen3-6-35b-a3b-apex-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "2026-05-26 refresh found this current LocalAI/APEX GGUF packaging. Model card says llama.cpp PR/commit support is needed for --draft-mtp and that MTP adds about 2.5 percent size over non-MTP. Candidate for latency/runtime proof only; do not download unless it closes a Qwen3.6 runtime gap."
-    },
-    {
-      "id": "nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF",
-      "family": "nvidia",
-      "role": "local-runtime",
-      "environment": "mac-lmstudio",
-      "parameters": "4B",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nvidia-nvidia-nemotron-3-nano-4b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nvidia-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Official GGUF packaging for the 4B Nemotron base. Strongest direct local-runtime lane for this refresh."
     },
     {
       "id": "unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF",
@@ -948,6 +933,21 @@
       "first_runtime": "direct MLX loglikelihood smoke is complete",
       "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/gemma-4-E4B-it-qat-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mlx-community-gemma-4-e4b-it-qat-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name. A score-only Gemma-native normalizer rescued 1/3 cases, and a prompt profile reached 1/3 under permissive parsed-tool scoring, but no-extra-text Hermes strict scoring remained 0/3. Treat this as runtime-adapter analysis evidence only, not promotion evidence."
+    },
+    {
+      "id": "nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF",
+      "family": "nvidia",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "lane": "prompt-profile-repair",
+      "first_runtime": "llama.cpp strict local pilot complete",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nvidia-nvidia-nemotron-3-nano-4b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Official GGUF packaging for the 4B Nemotron base. `NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf` was acquired to the SSD Hugging Face cache and served through llama.cpp on 2026-06-13. Strict BFCL-style Hermes endpoint pilot scored 0/3 (`0.000`): simple lookup emitted tool-shaped content plus fabricated customer text in an unparsable wrapper, parallel calls used a DSML-style schema not parsed by Hermes, and invalid-tool refusal mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as runtime/adapter-repair evidence only; do not promote."
     },
     {
       "id": "mkadrlik/Hermes-Qwen3.5-9B-SFT-v7",
