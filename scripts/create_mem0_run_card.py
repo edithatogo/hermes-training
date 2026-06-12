@@ -233,6 +233,14 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
             "The replay suite did not reach the strict 1.000 top-1 gate and should remain a comparison baseline.",
         )
     if kind == "isolated-fixture-rerank":
+        strategies = summary.get("strategies")
+        if isinstance(strategies, dict) and "retriever_service" in strategies:
+            retriever_metrics = strategies.get("retriever_service")
+            if isinstance(retriever_metrics, dict) and retriever_metrics.get("top1_accuracy") != 1.0:
+                return (
+                    "keep testing",
+                    "The isolated fixture produced multi-result mem0 evidence, but ColBERT did not beat the current guarded read path; keep the retriever service opt-in.",
+                )
         if summary.get("top1_accuracy") == 1.0 and summary.get("input_count_min", 0) >= 3:
             return (
                 "keep testing",
@@ -256,6 +264,38 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
         "keep testing",
         "Compare against the current default and relevant recency, distractor, latency, and rollback gates before promotion.",
     )
+
+
+def strategy_comparison_lines(summary: dict[str, Any]) -> list[str]:
+    strategies = summary.get("strategies")
+    if not isinstance(strategies, dict) or not strategies:
+        return []
+    lines = [
+        "## Strategy Comparison",
+        "",
+        "| Strategy | Pass | Top-1 | Recall@3 | MRR | nDCG@3 | p50 rerank |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    for strategy, metrics in strategies.items():
+        if not isinstance(metrics, dict):
+            continue
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    f"`{strategy}`",
+                    metric(metrics, "pass_rate"),
+                    metric(metrics, "top1_accuracy"),
+                    metric(metrics, "recall_at_3"),
+                    metric(metrics, "mrr"),
+                    metric(metrics, "ndcg_at_3"),
+                    metric(metrics, "rerank_latency_p50_s"),
+                ]
+            )
+            + " |"
+        )
+    lines.append("")
+    return lines
 
 
 def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
@@ -327,6 +367,7 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         f"| Search/embed/extract latency p95 | {metric(summary, 'search_latency_p95_s', 'embed_latency_p95_s', 'latency_p95_s', 'query_latency_p95_s')} |",
         f"| Rerank latency p50 | {metric(summary, 'rerank_latency_p50_s')} |",
         "",
+        *strategy_comparison_lines(summary),
         "## Decision",
         "",
         f"Promote / keep testing / reject: {decision}",

@@ -46,10 +46,18 @@ source scripts/env.sh
 | Search/embed/extract latency p95 | 2.908 |
 | Rerank latency p50 | 0.000 |
 
+## Strategy Comparison
+
+| Strategy | Pass | Top-1 | Recall@3 | MRR | nDCG@3 | p50 rerank |
+|---|---:|---:|---:|---:|---:|---:|
+| `vector` | 0.667 | 0.667 | 1.000 | 0.833 | 0.877 | 0.000 |
+| `score_plus_created_at_rank_close_margin` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000 |
+| `retriever_service` | 0.833 | 0.833 | 1.000 | 0.917 | 0.938 | 0.288 |
+
 ## Decision
 
 Promote / keep testing / reject: keep testing
 
-Reason: The isolated fixture passed the live add/search multi-result gate without touching defaults; require a deliberate default-integration plan before promotion.
+Reason: The isolated fixture produced multi-result mem0 evidence, but ColBERT did not beat the current guarded read path; keep the retriever service opt-in.
 
 Rollback: Keep `nomic-embed-text:latest`, `mem0_nomic_768`, and `sam860/LFM2:2.6b` available unless this card documents a safer replacement.

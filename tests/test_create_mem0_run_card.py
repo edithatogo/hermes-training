@@ -2,7 +2,7 @@ import unittest
 
 from pathlib import Path
 
-from scripts.create_mem0_run_card import command_for_kind, decision_for, infer_kind
+from scripts.create_mem0_run_card import command_for_kind, decision_for, infer_kind, render_card
 
 
 class CreateMem0RunCardTests(unittest.TestCase):
@@ -117,6 +117,70 @@ class CreateMem0RunCardTests(unittest.TestCase):
         self.assertIn("--mlx-max-length 1024", command)
         self.assertIn("--keep-fixture", command)
         self.assertNotIn("--qwen3-model flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit", command)
+
+    def test_isolated_fixture_colbert_command_and_decision_stay_opt_in(self) -> None:
+        summary = {
+            "run_id": "fixture",
+            "strategy": "score_plus_created_at_rank_close_margin",
+            "suite": "suite.json",
+            "top1_accuracy": 1.0,
+            "input_count_min": 3,
+            "retriever_service_url": "http://127.0.0.1:8765",
+            "retriever_timeout_s": 120.0,
+            "strategies": {
+                "score_plus_created_at_rank_close_margin": {
+                    "top1_accuracy": 1.0,
+                    "pass_rate": 1.0,
+                    "mrr": 1.0,
+                },
+                "retriever_service": {
+                    "top1_accuracy": 0.833,
+                    "pass_rate": 0.833,
+                    "mrr": 0.917,
+                },
+            },
+        }
+
+        command = "\n".join(command_for_kind("isolated-fixture-rerank", summary))
+        decision, reason = decision_for("isolated-fixture-rerank", summary)
+
+        self.assertIn("--skip-qwen3", command)
+        self.assertIn("--include-colbert", command)
+        self.assertIn("--retriever-service-url http://127.0.0.1:8765", command)
+        self.assertEqual(decision, "keep testing")
+        self.assertIn("ColBERT did not beat", reason)
+
+    def test_render_card_includes_strategy_comparison_table(self) -> None:
+        summary = {
+            "run_id": "fixture",
+            "created_at": "2026-06-12T00:00:00+00:00",
+            "suite": "suite.json",
+            "strategy": "score_plus_created_at_rank_close_margin",
+            "top1_accuracy": 1.0,
+            "strategies": {
+                "score_plus_created_at_rank_close_margin": {
+                    "pass_rate": 1.0,
+                    "top1_accuracy": 1.0,
+                    "recall_at_3": 1.0,
+                    "mrr": 1.0,
+                    "ndcg_at_3": 1.0,
+                    "rerank_latency_p50_s": 0.0,
+                },
+                "retriever_service": {
+                    "pass_rate": 0.833,
+                    "top1_accuracy": 0.833,
+                    "recall_at_3": 1.0,
+                    "mrr": 0.917,
+                    "ndcg_at_3": 0.938,
+                    "rerank_latency_p50_s": 0.288,
+                },
+            },
+        }
+
+        card = render_card("isolated-fixture-rerank", summary, Path("/tmp/summary.json"))
+
+        self.assertIn("## Strategy Comparison", card)
+        self.assertIn("`retriever_service` | 0.833 | 0.833", card)
 
 
 if __name__ == "__main__":
