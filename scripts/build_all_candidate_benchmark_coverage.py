@@ -53,6 +53,7 @@ def evidence_paths(candidate_id: str, notes: str, reports: list[Path]) -> list[s
         "CohereLabs/North-Mini-Code-1.0": ["north-mini-code", "North-Mini-Code-1.0"],
         "unsloth/North-Mini-Code-1.0-GGUF": ["north-mini-code", "North-Mini-Code-1.0", "north-mini-code-gguf"],
         "mlx-community/gemma-4-e2b-it-4bit": ["gemma4-e2b-mlx", "gemma-4-e2b-it-4bit"],
+        "mlx-community/gemma-4-E4B-it-qat-4bit": ["gemma4-e4b", "gemma-4-E4B-it-qat-4bit"],
         "Qwen/Qwen3-Embedding-0.6B": ["qwen3-embedding-0.6b", "qwen3-06b-embedding"],
         "Qwen/Qwen3-Reranker-0.6B": ["qwen3-0-6b", "qwen3-06b", "Qwen3-Reranker-0.6B"],
     }
