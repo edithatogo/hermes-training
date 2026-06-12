@@ -98,6 +98,25 @@ Do not wire this service into live mem0 until it beats or ties
 `nomic-embed-text:latest` on recall and latency, and has a rollback path back
 to `mem0_nomic_768`.
 
+## Lifecycle Smoke
+
+Use the service lifecycle smoke before any default-integration decision. It
+starts the local ColBERT service with SSD-backed caches, waits for `/health`,
+runs the opt-in `mem0_read.py --mode colbert` wrapper, stops the service, and
+then verifies `--fallback-to-vector`.
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_colbert_read_stack_smoke.py \
+  --local-files-only \
+  --run-id-prefix mem0-colbert-stack-$(date +%Y%m%d-%H%M%S)
+```
+
+The generated report is written under `reports/benchmark/mem0/`. Raw probe
+outputs stay on the external SSD under
+`/Volumes/PortableSSD/hermes-evals/mem0-read-latency/`, and service logs stay
+under `/Volumes/PortableSSD/hermes-evals/service-logs/`.
+
 ## Smoke Result
 
 2026-06-12: the local `LiquidAI/LFM2-ColBERT-350M` service completed the
@@ -128,3 +147,31 @@ Evidence:
 This proves the Hermes command surface can call the candidate stack. It does
 not yet prove live mem0 default integration because the document source is an
 explicit fixture rather than the live memory store.
+
+## Default Promotion Rule
+
+Keep ColBERT opt-in unless all of these are true:
+
+- the lifecycle smoke passes service-up and service-down fallback checks;
+- at least one live mem0 probe returns multiple candidates and ranks the target
+  correctly through the retriever service;
+- p50/p95 total read latency is acceptable for a Hermes memory-read tool;
+- fallback returns useful vector-ordered results when the service is absent;
+- the service lifecycle is supervised outside the agent process.
+
+## Lifecycle Smoke Result
+
+2026-06-12: `scripts/run_colbert_read_stack_smoke.py` passed a bounded
+two-query lifecycle smoke with local files only:
+
+- service health: `LiquidAI/LFM2-ColBERT-350M` on MPS;
+- service-up reads: success `2`, fallback `0`, p50 total `3.099s`, retriever
+  latency `0.238s`;
+- service-down fallback: success `1`, fallback `1`, p50 total `2.898s`;
+- raw outputs: `/Volumes/PortableSSD/hermes-evals/mem0-read-latency/`;
+- report:
+  `reports/benchmark/mem0/mem0-colbert-stack-20260612-read-stack-smoke.md`.
+
+This is lifecycle evidence only because the live mem0 queries returned
+singleton candidate sets. It does not satisfy the multi-result
+default-promotion rule.

@@ -255,6 +255,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_official_benchmark_manifests.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
+        ROOT / "scripts/run_colbert_read_stack_smoke.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],

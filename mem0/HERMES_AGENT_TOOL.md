@@ -81,3 +81,26 @@ The 2026-06-12 fixture smoke passed and is recorded in
 `reports/benchmark/mem0/hermes-tool-colbert-qwen3-fixture-smoke-20260612.md`.
 Keep this mode opt-in until live mem0 indexing, service lifecycle, and rollback
 behavior are proven.
+
+## ColBERT Live Wrapper Lifecycle Smoke
+
+Use this before considering `colbert` as a daily Hermes memory-read mode:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_colbert_read_stack_smoke.py \
+  --local-files-only \
+  --run-id-prefix mem0-colbert-stack-$(date +%Y%m%d-%H%M%S)
+```
+
+The smoke starts `scripts/lfm2_colbert_service.py`, waits for `/health`, probes
+`scripts/mem0_read.py --mode colbert --fallback-to-vector`, stops the service,
+and verifies that the wrapper falls back to vector ordering when the service is
+down. Keep this path opt-in unless a live probe has multiple returned mem0
+candidates, ranks the right memory first, and has acceptable p50/p95 latency.
+
+2026-06-12 lifecycle smoke evidence:
+`reports/benchmark/mem0/mem0-colbert-stack-20260612-read-stack-smoke.md`.
+It passed service-up and service-down fallback checks, but the live mem0
+queries returned only one candidate each, so it is not default-promotion
+evidence.

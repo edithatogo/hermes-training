@@ -293,10 +293,11 @@ source scripts/env.sh
 
 - Role: `retriever`
 - Status: `source-model-benchmarked`
-- Blocker: opt-in read-wrapper mode and service-down fallback exist; needs broader live cold/warm latency probes and service lifecycle evidence
+- Blocker: opt-in read-wrapper mode and service-down fallback exist; needs broader live cold/warm latency probes with multi-result mem0 queries and service supervision evidence
 - Evidence: `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`
 - Wrapper smoke: `reports/benchmark/mem0/colbert-read-wrapper-smoke-20260612.md`
 - Fallback smoke: `reports/benchmark/mem0/colbert-service-down-fallback-20260612.md`
+- Lifecycle smoke: `reports/benchmark/mem0/mem0-colbert-stack-20260612-read-stack-smoke.md`
 
 ```bash
 source scripts/env.sh
@@ -304,4 +305,8 @@ source scripts/env.sh
   --base-url http://127.0.0.1:8765 \
   --suite benchmarks/embeddings/memory_retrieval_expanded_suite.json \
   --run-id retriever-lfm2-colbert-expanded-$(date +%Y%m%d)
+
+./.venv/bin/python scripts/run_colbert_read_stack_smoke.py \
+  --local-files-only \
+  --run-id-prefix mem0-colbert-stack-$(date +%Y%m%d-%H%M%S)
 ```
