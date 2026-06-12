@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T15:10:10.613325+00:00`
+Created: `2026-06-12T15:15:34.484876+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 3 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 5 |
 | hermes | `blocked` | 146 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 5 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 11 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 3 |
+| mem0 | `smoke-or-pilot-only` | 1 |
 
 ## Benchmark Policy
 
@@ -55,7 +55,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/hermes-qwen35-08b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `mkadrlik/Hermes-27B-SFT-v7` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-12B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-12B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -210,7 +210,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `mkadrlik/Hermes-27B-SFT-v7` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-12B-it` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-12B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

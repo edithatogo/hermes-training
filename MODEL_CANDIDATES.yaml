@@ -209,13 +209,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "0.8B"
     architecture: "Hermes/Qwen3.5 SFT pack in GGUF"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio"
+    first_runtime: "llama.cpp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "Fresh tiny Hermes-Qwen3.5 pack. Useful for the low-cost helper lane and for strict-format regression checks."
+    notes: "Fresh tiny Hermes-Qwen3.5 pack. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 114-119 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted JSON-ish tool objects wrapped in non-parseable marker text, returned an empty response for the parallel case, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-08b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Keep as a low-cost format-repair comparison lane only; do not promote as a Hermes tool-call default."
 
   - id: mkadrlik/Hermes-27B-SFT-v7
     family: hermes
