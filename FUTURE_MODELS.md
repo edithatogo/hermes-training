@@ -7,6 +7,7 @@ Latest scans:
 - [Current release scan](./reports/model-radar/current-release-scan-20260524.md)
 - [Qwen3.7/Qwen3.6/Hermes 4 availability check](./reports/model-radar/qwen37-qwen36-hermes4-check-20260524.md)
 - [Harmonic-Hermes / Harmonic-9B scan](./reports/model-radar/harmonic-hermes-current-release-scan-20260612.md)
+- [Nemotron 3 Nano 4B packaging scan](./reports/model-radar/nemotron3-nano-4b-packaging-current-release-scan-20260612.md)
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 12B it plus
@@ -80,17 +81,17 @@ Use the narrowest gate that proves the role, and do not publish beyond the gate.
 | 20 | NVIDIA | `nvidia/Nemotron-3-Nano-Omni-30B-A3B-Reasoning-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Multimodal reasoning teacher | Expands the upper-end comparison set for Hermes-style work. |
 | 21 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4` / `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | 120B / 550B total | Teacher yes, local fine-tune no | Large collaborative-agent teacher | High-end reasoning/chat models with NVFP4 and BF16 packaging. Keep them in the cloud-teacher lane only. |
 | 22 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | 30B total / 3B active | Teacher yes, local fine-tune no | Reasoning/chat teacher | Smaller Nemotron reasoning model with explicit reasoning-trace behavior. |
-| 23 | NVIDIA | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | 235B total / 22B active | Teacher/evaluator only | Reward model / evaluator lane | Used in Nemotron training; keep it out of the chat lane. |
-| 24 | DeepSeek | `deepseek-ai/DeepSeek-V4-Flash` / `deepseek-ai/DeepSeek-V4-Flash-Base` | 284B total / 13B active | Teacher yes, local fine-tune no | Long-context cloud teacher | Frontier long-context MoE and its base variant; use as benchmark reference, not a 32GB local training target. |
-| 25 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
-| 26 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
-| 27 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
-| 28 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
-| 29 | Qwen | `Qwen/Qwen3-4B-Instruct-2507`, `Qwen/Qwen3-4B-Thinking-2507` | 4B | Runtime yes, fine-tune possible | Current Qwen refresh | Official 2507 releases with 256K context and stronger thinking/non-thinking behavior. Good hosted or burst-compute comparison points. |
-| 30 | Qwen | `Qwen/Qwen3-Coder-Next-GGUF` | 80B total / 3B active | Runtime yes, local fine-tune no | Coding-agent runtime lane | Official GGUF tree exposes Q4_K_M and Hermes Agent setup, making it the strongest current Qwen specialist runtime lane for Hermes workflows. |
-| 31 | Qwen | `Qwen/Qwen3-Embedding-0.6B`, `Qwen/Qwen3-Reranker-0.6B` | 0.6B | Retrieval | Hermes memory/RAG fit | Official small Qwen retrieval models. Better 32GB-class fit than the 4B pair; the reranker already has local benchmark evidence. |
-| 32 | Qwen | `Qwen/Qwen3-Embedding-4B`, `Qwen/Qwen3-Reranker-4B` | embedding / reranker | Retrieval | Retrieval support lane | Official Qwen retrieval models. Use for Hermes memory and RAG, not chat SFT. |
-| 33 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
+| 23 | NVIDIA | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | 4B | Runtime yes, fine-tune maybe later | Small helper/runtime lane | Official 4B base plus fresh GGUF and MLX packaging for Mac-local use. |
+| 24 | NVIDIA | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | 235B total / 22B active | Teacher/evaluator only | Reward model / evaluator lane | Used in Nemotron training; keep it out of the chat lane. |
+| 25 | DeepSeek | `deepseek-ai/DeepSeek-V4-Flash` / `deepseek-ai/DeepSeek-V4-Flash-Base` | 284B total / 13B active | Teacher yes, local fine-tune no | Long-context cloud teacher | Frontier long-context MoE and its base variant; use as benchmark reference, not a 32GB local training target. |
+| 26 | LFM | `LiquidAI/LFM2.5-1.2B-Instruct` / Thinking | 1.2B | Fine-tune yes | Low-latency helper model | Official card lists llama.cpp, MLX, vLLM support and Unsloth/TRL fine-tuning recipes. |
+| 27 | LFM | `LiquidAI/LFM2.5-8B-A1B-GGUF` | 8B total / 1B active | Inference yes, local fine-tune defer | 8B LFM runtime baseline | Q4_K_M GGUF is SSD-acquired and runtime-proven through llama-completion; Hermes JSON prompt compliance failed. |
+| 28 | LFM | `LiquidAI/LFM2-8B-A1B` | 8B-ish hybrid | Fine-tune possible, verify | Experimental LFM track | Local Ollama has LFM2 converter changes; validate before long runs. |
+| 29 | Ministral | `mlx-community/Ministral-3-8B-Instruct-2512-4bit` | 8B | Fine-tune possible | Apache 2.0 8B baseline | Useful if Qwen/Gemma/LFM tool behavior regresses. |
+| 30 | Qwen | `Qwen/Qwen3-4B-Instruct-2507`, `Qwen/Qwen3-4B-Thinking-2507` | 4B | Runtime yes, fine-tune possible | Current Qwen refresh | Official 2507 releases with 256K context and stronger thinking/non-thinking behavior. Good hosted or burst-compute comparison points. |
+| 31 | Qwen | `Qwen/Qwen3-Coder-Next-GGUF` | 80B total / 3B active | Runtime yes, local fine-tune no | Coding-agent runtime lane | Official GGUF tree exposes Q4_K_M and Hermes Agent setup, making it the strongest current Qwen specialist runtime lane for Hermes workflows. |
+| 32 | Qwen | `Qwen/Qwen3-Embedding-0.6B`, `Qwen/Qwen3-Reranker-0.6B` | 0.6B | Retrieval | Hermes memory/RAG fit | Official small Qwen retrieval models. Better 32GB-class fit than the 4B pair; the reranker already has local benchmark evidence. |
+| 33 | Qwen | `Qwen/Qwen3-Embedding-4B`, `Qwen/Qwen3-Reranker-4B` | embedding / reranker | Retrieval | Retrieval support lane | Official Qwen retrieval models. Use for Hermes memory and RAG, not chat SFT. |
 
 ## Tiny/Small Open-Weight Shortlist
 
@@ -115,6 +116,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
 | Qwen | `Qwen3.5 9B` | Local/Colab fit | Mid-size helper/tool candidate, stronger than the tiny 0.8B/2B lanes if it proves stable |
+| NVIDIA | `NVIDIA-Nemotron-3-Nano-4B-BF16`, `NVIDIA-Nemotron-3-Nano-4B-GGUF`, `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | Local/Colab fit | Small helper/runtime lane with official base plus GGUF and MLX packaging |
 | Hermes | `Harmonic-9B`, `Harmonic-Hermes-9B-GGUF`, `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | Local fit | Stage 2 agentic fine-tune on Harmonic-9B; good Hermes-style Mac runtime comparison lane |
 | Cohere | `Command A+ 05 2026` | Teacher / cloud fit | Agentic multimodal teacher candidate, not a local Mac fine-tune target |
 | StepFun | `Step 3.7 Flash` | Teacher / cloud fit | Large sparse-MoE teacher with strong agentic benchmark claims |
@@ -174,6 +176,10 @@ Verified HF ids behind this shortlist:
 - `openbmb/MiniCPM5-1B-MLX`
 - `openbmb/MiniCPM5-1B-GGUF`
 - `openbmb/MiniCPM5-1B-SFT`
+- `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`
+- `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`
+- `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF`
+- `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit`
 - `openbmb/MiniCPM-V-4.6-Thinking`
 - `openbmb/MiniCPM-V-4.6-BNB`
 - `Nanbeige/Nanbeige4.1-3B`

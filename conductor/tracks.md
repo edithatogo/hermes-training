@@ -452,3 +452,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Gemma 4 12B Community Packaging Refresh
 *Link: [./tracks/gemma4-12b-community-packaging-refresh_20260612/](./tracks/gemma4-12b-community-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: Nemotron 3 Nano 4B Packaging Refresh
+*Link: [./tracks/nemotron3-nano-4b-packaging-refresh_20260612/](./tracks/nemotron3-nano-4b-packaging-refresh_20260612/)*
