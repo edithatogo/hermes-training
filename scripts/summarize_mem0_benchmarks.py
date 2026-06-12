@@ -98,12 +98,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--include-unknown", action="store_true", help="Include summaries that do not match a mem0 benchmark kind.")
     args = parser.parse_args()
 
     rows: list[dict[str, Any]] = []
     for path in args.paths:
         summary = load_summary(path)
         kind = infer_kind(path, summary)
+        if kind == "unknown" and not args.include_unknown:
+            continue
         if kind in {"memory", "memory+rerank"} and not summary.get("output_dir"):
             continue
         rows.append({"path": path, "kind": kind, "summary": summary})

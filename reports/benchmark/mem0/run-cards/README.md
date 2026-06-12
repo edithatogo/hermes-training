@@ -44,6 +44,7 @@ runtime endpoint against the current mem0 default.
 | [guarded-close-margin-read-wrapper-20260526](./guarded-close-margin-read-wrapper-20260526.md) | isolated fixture reranker | keep testing |
 | [mem0-fixture-close-margin-recency-20260526](./mem0-fixture-close-margin-recency-20260526.md) | memory+rerank fixture | keep testing |
 | [mem0-fixture-qwen3-06b-recency-20260526](./mem0-fixture-qwen3-06b-recency-20260526.md) | memory+rerank fixture | keep testing |
+| [mem0-fixture-jina-v5-text-matching-20260613](./mem0-fixture-jina-v5-text-matching-20260613.md) | memory+embedder fixture | keep testing |
 | [retriever-lfm2-colbert-20260612](./retriever-lfm2-colbert-20260612.md) | retriever | keep testing |
 | [retriever-lfm2-colbert-expanded-20260612](./retriever-lfm2-colbert-expanded-20260612.md) | retriever | keep testing |
 | [embedding-qwen3-06b-smoke-20260612](./embedding-qwen3-06b-smoke-20260612.md) | embedder | keep testing |

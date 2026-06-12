@@ -55,7 +55,17 @@ def safe_collection_suffix(run_id: str) -> str:
     return suffix[:64] or datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
 
 
-def write_fixture_config(base_config_path: Path, output_dir: Path, run_id: str) -> Path:
+def write_fixture_config(
+    base_config_path: Path,
+    output_dir: Path,
+    run_id: str,
+    *,
+    embedder_provider: str | None,
+    embedder_model: str | None,
+    embedder_base_url: str | None,
+    embedding_dims: int | None,
+    embedder_api_key: str,
+) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     config = load_json(base_config_path)
     if not isinstance(config, dict):
@@ -65,9 +75,28 @@ def write_fixture_config(base_config_path: Path, output_dir: Path, run_id: str) 
     vector_config["collection_name"] = f"mem0_fixture_{safe_collection_suffix(run_id)}"
     vector_config["path"] = str(output_dir / "qdrant")
     vector_config["on_disk"] = True
+    if embedding_dims:
+        vector_config["embedding_model_dims"] = embedding_dims
     vector_store["provider"] = vector_store.get("provider") or "qdrant"
     vector_store["config"] = vector_config
     config["vector_store"] = vector_store
+    if embedder_provider:
+        embedder_config: dict[str, Any] = {}
+        if embedder_model:
+            embedder_config["model"] = embedder_model
+        if embedding_dims:
+            embedder_config["embedding_dims"] = embedding_dims
+        if embedder_provider == "openai":
+            if embedder_base_url:
+                embedder_config["openai_base_url"] = embedder_base_url
+            embedder_config["api_key"] = embedder_api_key
+        elif embedder_provider == "lmstudio":
+            if embedder_base_url:
+                embedder_config["lmstudio_base_url"] = embedder_base_url
+            embedder_config["api_key"] = embedder_api_key
+        elif embedder_base_url:
+            embedder_config[f"{embedder_provider}_base_url"] = embedder_base_url
+        config["embedder"] = {"provider": embedder_provider, "config": embedder_config}
     config["history_db_path"] = str(output_dir / "history.db")
     config["fixture_run_id"] = run_id
     config_path = output_dir / "mem0-fixture-config.json"
@@ -287,6 +316,11 @@ def main() -> int:
     parser.add_argument("--retriever-service-url", default="http://127.0.0.1:8765")
     parser.add_argument("--retriever-timeout-s", type=float, default=120.0)
     parser.add_argument("--keep-fixture", action="store_true", help="Keep output-local qdrant/history files after the run.")
+    parser.add_argument("--embedder-provider", choices=("openai", "lmstudio", "ollama"))
+    parser.add_argument("--embedder-model")
+    parser.add_argument("--embedder-base-url")
+    parser.add_argument("--embedding-dims", type=int)
+    parser.add_argument("--embedder-api-key", default="local-fixture")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -314,11 +348,24 @@ def main() -> int:
         print(f"base_config: {args.base_config}")
         print(f"fixture_config: {config_path}")
         print(f"output_dir: {output_dir}")
+        print(f"embedder_provider: {args.embedder_provider or 'base-config'}")
+        print(f"embedder_model: {args.embedder_model or 'base-config'}")
+        print(f"embedder_base_url: {args.embedder_base_url or 'base-config'}")
+        print(f"embedding_dims: {args.embedding_dims or 'base-config'}")
         print(f"strategies: {[strategy if model is None else f'{strategy}:{model}' for strategy, model in strategies]}")
         return 0
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    config_path = write_fixture_config(args.base_config, output_dir, args.run_id)
+    config_path = write_fixture_config(
+        args.base_config,
+        output_dir,
+        args.run_id,
+        embedder_provider=args.embedder_provider,
+        embedder_model=args.embedder_model,
+        embedder_base_url=args.embedder_base_url,
+        embedding_dims=args.embedding_dims,
+        embedder_api_key=args.embedder_api_key,
+    )
     fixture_config = load_json(config_path)
     collection_name = fixture_config["vector_store"]["config"]["collection_name"]
     env = build_mem0_env(config_path)
@@ -397,6 +444,10 @@ def main() -> int:
         "fixture_config_path": str(config_path),
         "collection_name": collection_name,
         "fixture_qdrant_path": str(output_dir / "qdrant"),
+        "embedder_provider": args.embedder_provider or "",
+        "embedder_model": args.embedder_model or "",
+        "embedder_base_url": args.embedder_base_url or "",
+        "embedding_dims": args.embedding_dims or fixture_config.get("embedder", {}).get("config", {}).get("embedding_dims", ""),
         "kept_fixture": args.keep_fixture,
         "cases": len(rows),
         "add_latency_p50_s": percentile(add_latencies, 0.50),

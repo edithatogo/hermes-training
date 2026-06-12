@@ -79,7 +79,7 @@ candidates:
     embedding_dims: 1024
     status: source-model-benchmarked
     first_gate: expanded-embedding-suite
-    notes: "Text-matching-targeted Jina v5 omni MLX variant. 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings. The expanded 12-case suite then passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with p50 embedding latency 0.019s from cached MLX artifacts. Keep as benchmarked-not-promoted evidence; do not replace the nomic default without a 1024-dim collection migration plan plus live add/search rollback proof."
+    notes: "Text-matching-targeted Jina v5 omni MLX variant. 2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with 1024-dim embeddings. The expanded 12-case suite then passed at top-1 1.000 / recall@3 1.000 / MRR 1.000 / nDCG@3 1.000 with p50 embedding latency 0.019s from cached MLX artifacts. 2026-06-13 isolated live mem0 fixture through scripts/jina_mlx_embedding_server.py proved the 1024-dim OpenAI-compatible endpoint/config path but reached only top-1 0.800 after close-margin reranking because the tool-state current-collection case still preferred an older collection memory. Keep as benchmarked-not-promoted evidence; do not replace the nomic default."
 
   - id: Qwen/Qwen3-Embedding-4B
     role: embedder
@@ -224,4 +224,4 @@ collections:
     compatible_models:
       - jinaai/jina-embeddings-v5-omni-small-mlx
       - jinaai/jina-embeddings-v5-omni-small-text-matching-mlx
-    status: planned
+    status: live-fixture-benchmarked-not-default

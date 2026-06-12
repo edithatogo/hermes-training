@@ -1,9 +1,9 @@
 {
-  "created_at": "2026-06-12T14:12:39.975172+00:00",
+  "created_at": "2026-06-12T14:18:59.166661+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 83
+    "passed": 84
   },
   "by_kind": {
     "memory": 11,
@@ -11,7 +11,7 @@
     "extraction": 9,
     "reranking": 28,
     "replay": 12,
-    "isolated-fixture": 6,
+    "isolated-fixture": 7,
     "retriever": 2
   },
   "missing_kinds": [],
@@ -545,6 +545,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/guarded-close-margin-read-wrapper-20260526/summary.json",
       "run_id": "guarded-close-margin-read-wrapper-20260526",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-fixture-jina-v5-text-matching-20260613/summary.json",
+      "run_id": "mem0-fixture-jina-v5-text-matching-20260613",
       "status": "passed",
       "errors": []
     },
