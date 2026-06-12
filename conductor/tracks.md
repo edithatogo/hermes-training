@@ -417,3 +417,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: DiffusionGemma Packaging Refresh
 *Link: [./tracks/diffusiongemma-packaging-refresh_20260612/](./tracks/diffusiongemma-packaging-refresh_20260612/)*
+
+---
+
+## [x] Track: Mobile Packaging Refresh
+*Link: [./tracks/mobile-packaging-refresh_20260612/](./tracks/mobile-packaging-refresh_20260612/)*

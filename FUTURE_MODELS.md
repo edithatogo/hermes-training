@@ -96,7 +96,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | Liquid | `LFM2.5-1.2B-Instruct`, `LFM2 2.6B` | Easy local fit | Mac/MLX, Mac/Ollama, mem0 extraction/helper |
 | Google | `Gemma 3n E4B Instruct` | Local/Colab fit | Mac/MLX or Colab, then GGUF if needed |
 | Google | `Gemma 4 E4B MLX` | Local/Colab fit | MLX load proven but Hermes no-extra-text strict gate remains 0/3; score-only native normalizer rescues 1/3 |
-| Google | `Gemma 4 E2B` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; try MLX/profile before scoring |
+| Google | `Gemma 4 E2B`, `Gemma 4 E2B QAT Mobile` | Local/Colab fit | Official QAT q4_0 GGUF runtime-proven but empty-output blocked; the mobile package is a fresh lightweight comparison point |
 | Google | `Gemma 4 12B` | Local/Colab fit | Newer mid-size Gemma 4 lane; verify runtime and memory behavior before promotion |
 | Microsoft | `Phi-4 Mini` | Easy local fit | Mac/MLX, Mac/Ollama, safety/extractor experiments |
 | IBM | `Granite 4.1 3B` | Easy local fit | Mac/MLX, Mac/Ollama, helper/extraction lane; raw strict BFCL pilot 1/3, native-normalized strict pilot 2/3 |
@@ -107,6 +107,7 @@ These recent open-weight models from the tiny/small leaderboard are worth triage
 | OpenBMB | `MiniCPM-o 4.5` | Local/Colab fit | Multimodal voice/vision helper with visible GGUF and MLX packaging, useful for non-text agent workflows |
 | OpenBMB | `MiniCPM-V-4.6` | Local/Colab fit | Edge-deployment-friendly VLM for OCR, PDF parsing, and multimodal helper workflows |
 | OpenBMB | `MiniCPM-V-4.6-Thinking` | Local/Colab fit | Multimodal helper workflows with a reasoning-oriented comparison point |
+| OpenBMB | `MiniCPM-V-4.6-BNB` | Local/Colab fit | Lightweight multimodal packaging comparison point |
 | OpenBMB | `MiniCPM-SALA` | Research/runtime | Long-context hybrid sparse/linear-attention model for context-heavy helper work |
 | OpenBMB | `AgentCPM-Report` | Research/runtime | Deep-research agent lane for long-horizon Hermes comparison and orchestration experiments |
 | Nanbeige | `Nanbeige4.1-3B` | Local/Colab fit | Tiny reasoning/helper lane with plausible extraction value |
@@ -132,6 +133,7 @@ Verified HF ids behind this shortlist:
 - `Qwen/Qwen3.5-27B`
 - `google/gemma-3n-E4B`
 - `google/gemma-4-E2B`
+- `google/gemma-4-E2B-it-qat-mobile-transformers`
 - `google/gemma-4-12B`
 - `google/gemma-4-12B-it`
 - `microsoft/Phi-4-mini-instruct`
@@ -143,6 +145,7 @@ Verified HF ids behind this shortlist:
 - `openbmb/MiniCPM5-1B-GGUF`
 - `openbmb/MiniCPM5-1B-SFT`
 - `openbmb/MiniCPM-V-4.6-Thinking`
+- `openbmb/MiniCPM-V-4.6-BNB`
 - `Nanbeige/Nanbeige4.1-3B`
 
 ## Research Frontier

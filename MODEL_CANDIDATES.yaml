@@ -177,6 +177,19 @@ candidates:
     first_finetune: "defer; prefer MLX package or cloud path for adaptation"
     notes: "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. Treat as runtime evidence only."
 
+  - id: google/gemma-4-E2B-it-qat-mobile-transformers
+    family: gemma
+    tier: edge-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "2B"
+    architecture: "Gemma 4 QAT Mobile any-to-any package"
+    license: "check model card"
+    first_runtime: "Transformers or MLX smoke"
+    first_finetune: "defer"
+    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a lightweight on-device runtime comparison point only."
+
   - id: mlx-community/gemma-4-E4B-it-qat-4bit
     family: gemma
     tier: edge-runtime
@@ -189,6 +202,19 @@ candidates:
     first_runtime: "direct MLX loglikelihood smoke is complete"
     first_finetune: "defer until prompt/profile repair produces strict-format behavior"
     notes: "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name. A score-only Gemma-native normalizer rescued 1/3 cases, and a prompt profile reached 1/3 under permissive parsed-tool scoring, but no-extra-text Hermes strict scoring remained 0/3. Treat this as runtime-adapter analysis evidence only, not promotion evidence."
+
+  - id: google/gemma-4-E4B-it-qat-mobile-transformers
+    family: gemma
+    tier: edge-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "3B"
+    architecture: "Gemma 4 QAT Mobile any-to-any package"
+    license: "check model card"
+    first_runtime: "Transformers or MLX smoke"
+    first_finetune: "defer"
+    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a slightly larger mobile/runtime comparison point only."
 
   - id: unsloth/gemma-4-26B-A4B-it-GGUF
     family: gemma
@@ -657,6 +683,19 @@ candidates:
     first_runtime: "Transformers or multimodal endpoint smoke"
     first_finetune: "defer"
     notes: "Thinking variant surfaced in the current HF search. Use as a helper/runtime comparison point for multimodal reasoning, not as a first training target."
+
+  - id: openbmb/MiniCPM-V-4.6-BNB
+    family: minicpm
+    tier: frontier-runtime
+    role: local-runtime
+    environment: hf-transformers
+    feasibility: needs-runtime-proof
+    parameters: "1B"
+    architecture: "MiniCPM-V 4.6 BNB quantized package"
+    license: "check model card"
+    first_runtime: "Transformers or multimodal smoke"
+    first_finetune: "defer"
+    notes: "Fresh MiniCPM-V 4.6 BNB packaging surfaced in the live search. Good as a lightweight multimodal packaging comparison point."
 
   - id: openbmb/MiniCPM-V-4.6-Thinking-gguf
     family: minicpm
