@@ -576,8 +576,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: mem0 Embedding and Reranker Promotion Execution
-*Link: [./tracks/mem0-embedding-reranker-promotion_20260612/](./tracks/mem0-embedding-reranker-promotion_20260612/)*
+## [x] Track: mem0 Embedding and Reranker Promotion Execution
+*Link: [./archive/mem0-embedding-reranker-promotion_20260612/](./archive/mem0-embedding-reranker-promotion_20260612/)*
 
 ---
 
@@ -586,8 +586,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Frontier Teacher and Support Lane Evaluation
-*Link: [./tracks/frontier-support-evaluation_20260612/](./tracks/frontier-support-evaluation_20260612/)*
+## [x] Track: Frontier Teacher and Support Lane Evaluation
+*Link: [./archive/frontier-support-evaluation_20260612/](./archive/frontier-support-evaluation_20260612/)*
 
 ---
 

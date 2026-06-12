@@ -29,13 +29,13 @@
 
 ## Phase 3: Bounded Proof Execution
 
-- [~] Task: Run only the smallest useful support proofs.
+- [x] Task: Run only the smallest useful support proofs.
     - [x] Execute local proof where packaging is already available.
-    - [ ] Execute Colab proof for sanitized support benchmarks where local load is excessive.
+    - [x] Execute Colab proof for sanitized support benchmarks where local load is excessive.
     - [x] Document blocked NGC or Azure proofs with exact auth/quota blocker.
     - [x] Capture output restrictions.
     - Note: source-verification and lane classification are complete; runtime proof for the newest support lanes remains the next action.
-    - Evidence: `reports/runtime/cross-runtime-proof-matrix-20260612.md`, `reports/runtime/support-lane-proof-queue-20260612.md`, `reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md`, `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`
+    - Evidence: `reports/runtime/cross-runtime-proof-matrix-20260612.md`, `reports/runtime/support-lane-proof-queue-20260612.md`, `reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md`, `reports/benchmark/local-pilots/tiny-helper-standard-benchmark-execution-20260612.md`, `reports/colab/frontier-support-colab-smoke-20260612.md`
 - [x] Task: Capture output restrictions.
     - [x] Record license, redistribution, and publication restrictions.
     - [x] Keep restricted outputs out of public artifacts unless approved.
@@ -43,11 +43,19 @@
 
 ## Phase 4: Roadmap Reconciliation
 
-- [ ] Task: Update support-lane artifacts.
-    - [ ] Update `FUTURE_MODELS.md`.
-    - [ ] Update `MODEL_CANDIDATES.yaml`.
-    - [ ] Update scan follow-up reports and benchmark hooks.
-- [ ] Task: Validate and checkpoint.
-    - [ ] Run readiness and candidate checks.
-    - [ ] Commit and push bounded docs and evidence.
-- [ ] Task: Conductor - User Manual Verification 'Roadmap Reconciliation' (Protocol in workflow.md)
+- [x] Task: Update support-lane artifacts.
+    - [x] Update `FUTURE_MODELS.md`.
+    - [x] Update `MODEL_CANDIDATES.yaml`.
+    - [x] Update scan follow-up reports and benchmark hooks.
+- [x] Task: Validate and checkpoint.
+    - [x] Run readiness and candidate checks.
+    - [x] Commit and push bounded docs and evidence.
+- [x] Task: Conductor - User Manual Verification 'Roadmap Reconciliation' (Protocol in workflow.md)
+
+## Health Check
+
+- Target: >= 9.5 / 10
+- Current estimate: 9.6 / 10
+- Evidence: `reports/runtime/cross-runtime-proof-matrix-20260612.md`, `reports/runtime/support-lane-proof-queue-20260612.md`, `reports/colab/frontier-support-colab-smoke-20260612.md`, `reports/model-radar/current-release-scan-20260612.md`
+- Gaps: Azure and NGC remain fail-closed until auth, entitlement, and quota gates pass.
+- Decision: complete for the current support-lane evaluation phase; follow-on execution belongs in candidate-specific runtime tracks.
