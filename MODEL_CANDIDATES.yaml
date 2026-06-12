@@ -1613,13 +1613,13 @@ candidates:
     tier: frontier-runtime
     role: local-runtime
     environment: mac-lmstudio
-    feasibility: needs-runtime-proof
+    feasibility: ready
     parameters: "35B total / 3B active"
     architecture: "Sparse MoE Qwen3.6 with bundled MTP speculative-decoding head"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio smoke with MTP flags"
+    first_runtime: "llama.cpp draft-mtp strict endpoint pilot complete"
     first_finetune: "defer"
-    notes: "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. Treat as a runtime latency experiment only; do not acquire until it closes a concrete Qwen3.6 latency/quality gap."
+    notes: "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. SSD-backed IQ4_XS-3.53bpw artifact acquired and run through Homebrew llama.cpp on 2026-06-13 with `--spec-type draft-mtp --spec-draft-n-max 4`; strict BFCL-style Hermes pilot scored 0/3. Runtime and MTP are proven on the M1 Max, with roughly 37-40 eval tok/s and draft acceptance about 0.61-0.70 in the pilot, but the model is not promoted because it emits non-Hermes tool schemas (`parameters` / OpenAI wrappers) and a blank invalid-tool refusal. Evidence is recorded at `reports/benchmark/local-pilots/byteshape-qwen36-35b-a3b-mtp-iq4xs-llamacpp-strict-bfcl-pilot-20260613.md`."
 
   - id: LiquidAI/LFM2.5-1.2B-Instruct
     family: lfm

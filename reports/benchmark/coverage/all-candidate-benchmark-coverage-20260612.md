@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-12T18:44:02.930131+00:00`
+Created: `2026-06-12T19:13:37.196567+00:00`
 
 ## Direct Answer
 
@@ -21,8 +21,8 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
-| hermes | `benchmarked-not-promoted` | 6 |
-| hermes | `blocked` | 145 |
+| hermes | `benchmarked-not-promoted` | 7 |
+| hermes | `blocked` | 144 |
 | hermes | `evidence-present-needs-review` | 2 |
 | hermes | `smoke-or-pilot-only` | 6 |
 
@@ -160,7 +160,6 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md` |
 | hermes | `LiquidAI/LFM2.5-350M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-VL-450M` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -316,7 +315,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `byteshape/Qwen3.6-35B-A3B-MTP-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `LiquidAI/LFM2.5-1.2B-Instruct` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `LiquidAI/LFM2.5-1.2B-Thinking` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `LiquidAI/LFM2.5-8B-A1B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |

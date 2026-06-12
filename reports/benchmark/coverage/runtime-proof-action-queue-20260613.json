@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T18:44:03.064055+00:00",
+  "created_at": "2026-06-12T19:13:37.327443+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -123,21 +123,6 @@
       "first_runtime": "llama.cpp or Hermes Agent smoke through the documented GGUF path",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-coder-next-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-coder-next-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF tree exposes Q4_K_M and a Hermes Agent recipe in the model card. This is the strongest current Qwen coding-agent runtime lane for Hermes-local workflows, but it remains a runtime/proof target rather than a Mac fine-tune target."
-    },
-    {
-      "id": "byteshape/Qwen3.6-35B-A3B-MTP-GGUF",
-      "family": "qwen",
-      "role": "local-runtime",
-      "environment": "mac-lmstudio",
-      "parameters": "35B total / 3B active",
-      "size_bucket": "small",
-      "feasibility": "needs-runtime-proof",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
-      "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio smoke with MTP flags",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model byteshape-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id byteshape-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. Treat as a runtime latency experiment only; do not acquire until it closes a concrete Qwen3.6 latency/quality gap."
     },
     {
       "id": "deepsweet/Qwen3.6-35B-A3B-MLX-oQ4",
@@ -873,6 +858,21 @@
       "first_runtime": "MLX strict local pilot complete",
       "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id baa-ai-qwen3-6-35b-a3b-ram-19gb-mlx-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Verified by Hugging Face API on 2026-05-24. SSD-backed MLX artifact acquired and loaded on 2026-06-13; load time was about 1901s and the strict Hermes BFCL-style pilot scored 0/3. The model is runtime-proven on Mac but not promoted: it leaks planning/thinking text, emits malformed or unterminated `<tool_call>` wrappers, and mentions the forbidden unavailable delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/qwen36-35b-a3b-ram19gb-mlx-strict-bfcl-pilot-20260613.md`."
+    },
+    {
+      "id": "byteshape/Qwen3.6-35B-A3B-MTP-GGUF",
+      "family": "qwen",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "feasibility": "ready",
+      "coverage_state": "benchmarked-not-promoted",
+      "blocked_reason": "",
+      "lane": "mac-runtime-proof",
+      "first_runtime": "llama.cpp draft-mtp strict endpoint pilot complete",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model byteshape-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id byteshape-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "notes": "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. SSD-backed IQ4_XS-3.53bpw artifact acquired and run through Homebrew llama.cpp on 2026-06-13 with `--spec-type draft-mtp --spec-draft-n-max 4`; strict BFCL-style Hermes pilot scored 0/3. Runtime and MTP are proven on the M1 Max, with roughly 37-40 eval tok/s and draft acceptance about 0.61-0.70 in the pilot, but the model is not promoted because it emits non-Hermes tool schemas (`parameters` / OpenAI wrappers) and a blank invalid-tool refusal. Evidence is recorded at `reports/benchmark/local-pilots/byteshape-qwen36-35b-a3b-mtp-iq4xs-llamacpp-strict-bfcl-pilot-20260613.md`."
     },
     {
       "id": "ibm-granite/granite-4.1-3b",
