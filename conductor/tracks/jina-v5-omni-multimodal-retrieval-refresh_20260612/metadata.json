@@ -1,0 +1,8 @@
+{
+  "track_id": "jina-v5-omni-multimodal-retrieval-refresh_20260612",
+  "title": "Jina V5 Omni Multimodal Retrieval Refresh",
+  "status": "completed",
+  "created_at": "2026-06-12",
+  "updated_at": "2026-06-12",
+  "description": "Refresh the model radar with Jina v5 omni multimodal retrieval models and their MLX/ONNX packaging lanes."
+}

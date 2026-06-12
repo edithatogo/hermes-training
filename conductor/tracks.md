@@ -512,3 +512,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3-VL Multimodal Retrieval Refresh
 *Link: [./tracks/qwen3-vl-retrieval-refresh_20260612/](./tracks/qwen3-vl-retrieval-refresh_20260612/)*
+
+---
+
+## [x] Track: Jina V5 Omni Multimodal Retrieval Refresh
+*Link: [./tracks/jina-v5-omni-multimodal-retrieval-refresh_20260612/](./tracks/jina-v5-omni-multimodal-retrieval-refresh_20260612/)*

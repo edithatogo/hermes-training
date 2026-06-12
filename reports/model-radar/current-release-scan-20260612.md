@@ -23,6 +23,7 @@ Pro M1 Max with 32 GB unified memory.
 | TTS | `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`, `mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-bf16` | Fresh speech-output lane with an explicit MLX Mac packaging path. |
 | Multimodal | `Qwen/Qwen3-Omni-30B-A3B-Instruct`, `Qwen/Qwen3-Omni-30B-A3B-Captioner`, `microsoft/Phi-4-multimodal-instruct` | Fresh broad multimodal support lanes for text, image, audio, and video workflows. |
 | Multimodal retrieval | `Qwen/Qwen3-VL-Embedding-2B`, `Qwen/Qwen3-VL-Embedding-8B`, `Qwen/Qwen3-VL-Reranker-8B`, `mlx-community/Qwen3-VL-Embedding-2B-8bit`, `aiteza/Qwen3-VL-Embedding-8B-GGUF`, `mradermacher/Qwen3-VL-Reranker-8B-GGUF`, `Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit` | Official multimodal retrieval pair plus fresh GGUF and MLX packaging. Strong next-step lane for screenshot, document-image, and video retrieval on Hermes workflows. |
+| Multimodal retrieval | `jinaai/jina-embeddings-v5-omni-small`, `jinaai/jina-embeddings-v5-omni-nano`, `jinaai/jina-embeddings-v5-omni-small-mlx`, `jinaai/jina-embeddings-v5-omni-nano-mlx`, `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx`, `jinaai/jina-embeddings-v5-omni-nano-retrieval-mlx`, `onnx-community/jina-embeddings-v5-omni-nano-ONNX` | Fresh Jina v5 omni multimodal retrieval family with MLX and browser/WebGPU packaging. Strong fit for Hermes cross-modal search and client-side retrieval. |
 | Qwen | `Qwen/Qwen3.5-9B` | Useful mid-size Qwen step between the already-tested tiny lanes and the larger Qwen3.6 frontier packages. |
 | Embeddings | `google/embeddinggemma-300m`, `litert-community/embeddinggemma-300m`, `mlx-community/embeddinggemma-300m-4bit`, `lmstudio-community/embeddinggemma-300m-qat-GGUF` | Official Google embedding baseline plus fresh LiteRT, MLX, and GGUF packaging. Good as the next Hermes memory/RAG comparison point. |
 | MiniCPM | `openbmb/MiniCPM5-1B` | Official 1B release remains a valid tiny helper/extractor candidate. |
@@ -64,6 +65,9 @@ Pro M1 Max with 32 GB unified memory.
 - The multimodal retrieval pass also surfaced `Qwen/Qwen3-VL-Embedding-2B`,
   `Qwen/Qwen3-VL-Embedding-8B`, `Qwen/Qwen3-VL-Reranker-8B`, plus MLX and
   GGUF packaging lanes for the 2B embedder and 8B embedder/reranker.
+- The Jina omni retrieval pass also surfaced `jinaai/jina-embeddings-v5-omni-small`,
+  `jinaai/jina-embeddings-v5-omni-nano`, MLX packaging for both sizes, and an
+  ONNX browser/WebGPU lane for the nano model.
 - That means Qwen3.7 remains watchlist-only until an actual open-weight repo or
   supported hosted workflow is published.
 
@@ -97,6 +101,8 @@ Pro M1 Max with 32 GB unified memory.
   and `microsoft/Phi-4-multimodal-instruct` to the machine-readable radar.
 - Add the Qwen3-VL multimodal retrieval embedding and reranker pair plus the
   Mac packaging lanes to the machine-readable radar.
+- Add the Jina v5 omni multimodal retrieval family and its MLX/browser lanes to
+  the machine-readable radar.
 - Keep Qwen3.7 on the watchlist.
 - Treat everything here as source verification only; runtime proof remains a
   separate gate.

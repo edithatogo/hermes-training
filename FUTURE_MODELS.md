@@ -13,12 +13,16 @@ Latest scans:
 - [Gemma 4 E2B-it packaging refresh](./reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md)
 - [EmbeddingGemma retrieval refresh](./reports/model-radar/embeddinggemma-retrieval-refresh-current-release-scan-20260612.md)
 - [Qwen3-VL multimodal retrieval refresh](./reports/model-radar/qwen3-vl-retrieval-current-release-scan-20260612.md)
+- [Jina v5 omni multimodal retrieval refresh](./reports/model-radar/jina-v5-omni-multimodal-retrieval-current-release-scan-20260612.md)
 - [Base-model release follow-up](./reports/model-radar/base-model-refresh-current-release-scan-20260612.md)
 - [NVIDIA Nemotron follow-up](./reports/model-radar/nvidia-nemotron-follow-up-current-release-scan-20260612.md)
 - [NVIDIA physical-AI follow-up](./reports/model-radar/nvidia-physical-ai-follow-up-current-release-scan-20260612.md)
 - [ASR support follow-up](./reports/model-radar/asr-support-follow-up-current-release-scan-20260612.md)
 - [TTS support follow-up](./reports/model-radar/tts-support-follow-up-current-release-scan-20260612.md)
 - [Multimodal support follow-up](./reports/model-radar/multimodal-support-follow-up-current-release-scan-20260612.md)
+- [Hybrid attention and quantized packaging refresh](./reports/model-radar/hybrid-packaging-current-release-scan-20260612.md)
+
+Roadmap update: the new hybrid-packaging candidates are not a blanket fine-tune expansion. Treat `openbmb/MiniCPM-SALA` as a specialist long-context runtime lane, `nvidia/Gemma-4-31B-IT-NVFP4` as a cloud packaging comparison point, and `deepseek-ai/DeepSeek-V4-Flash-Base` as a base/reference packaging lane. The next local work should stay in the prove-runtime, decide-role, then fine-tune sequence rather than jumping directly to training.
 
 2026-06-12 refresh: the newest verified actionables are Hermes 4.3 36B / GGUF,
 Harmonic-9B and Harmonic-Hermes-9B GGUF packaging, Gemma 4 E2B-it plus
@@ -26,6 +30,7 @@ LiteRT/MLX packaging, Gemma 4 12B it plus Unsloth GGUF/qat packages,
 Gemma 4 31B-it, Gemma 4 31B base, and its NVFP4 packaging,
 EmbeddingGemma 300M plus LiteRT/MLX/GGUF packaging,
 Qwen3-VL Embedding/Reranker plus MLX/GGUF packaging,
+Jina v5 omni multimodal retrieval family plus MLX/browser lanes,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX packaging and its
 FP8/GGUF/MLX packaging,
 MiniCPM-o 4.5, MiniCPM-SALA, AgentCPM-Report, MiniCPM-V-4.6,
@@ -45,12 +50,15 @@ Broader multimodal support now also includes `Qwen/Qwen3-Omni-30B-A3B-Instruct`,
 The multimodal retrieval lane now also includes `Qwen/Qwen3-VL-Embedding-2B`,
 `Qwen/Qwen3-VL-Embedding-8B`, `Qwen/Qwen3-VL-Reranker-8B`, and the fresh
 MLX/GGUF packaging lanes for the 2B embedder and 8B embedder/reranker.
+The Jina omni retrieval lane now also includes `jinaai/jina-embeddings-v5-omni-small`,
+`jinaai/jina-embeddings-v5-omni-nano`, the MLX task variants, and the ONNX
+browser/WebGPU export. Treat it as a compact cross-modal retrieval baseline.
 No verified official Qwen3.7 open-weight lane surfaced in the current Hugging
 Face search. Keep Qwen3.6 MTP GGUF packages as runtime-latency experiments
 behind the existing Qwen3.6 proof, and treat the new Gemma 4 E2B-it, 12B/31B, Hermes
 4.3, Harmonic-9B/Harmonic-Hermes-9B, Hermes-Qwen3.5 SFT v7 packs, Qwen3-4B 2507, Qwen3-Coder-Next, Qwen3-Embedding-4B, Qwen3-Reranker-4B,
 Qwen3.5-9B, Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B 2-bit MLX,
-EmbeddingGemma 300M, Qwen3-VL Embedding/Reranker,
+EmbeddingGemma 300M, Qwen3-VL Embedding/Reranker, Jina v5 omni multimodal retrieval,
 MiniCPM-o 4.5, MiniCPM-SALA,
 AgentCPM-Report, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, Nanbeige4.1-3B,
 Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion,
