@@ -131,6 +131,11 @@ Complete:
   adaptive scripts such as `scripts/colab_adaptive_train_smoke.py`; PEFT
   lm-eval, MLX scoring, and llama.cpp/GGUF endpoint pilots stay GPU or
   persistent-backend only.
+- Runtime proof queue triage now separates known local runtime/converter support
+  blockers into `runtime-support-upgrade`. Do not rerun those candidates until
+  the relevant runtime, converter, or source package changes; use the
+  `mac-runtime-proof` lane for candidates that can still produce new local
+  evidence.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.

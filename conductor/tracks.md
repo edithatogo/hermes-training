@@ -240,6 +240,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Runtime Proof Queue Support Blockers
+*Link: [./tracks/runtime-proof-queue-support-blockers_20260613/](./tracks/runtime-proof-queue-support-blockers_20260613/)*
+
+---
+
 ## [x] Track: Qwen3 0.6B Live mem0 Rerank Wrapper
 *Link: [./tracks/qwen3-06b-live-mem0-rerank_20260526/](./tracks/qwen3-06b-live-mem0-rerank_20260526/)*
 

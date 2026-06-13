@@ -90,6 +90,8 @@ def lane_for(item: dict[str, Any], coverage_state: str, blocked_reason: str) -> 
         or "empty/no-content generation under the strict prompt" in blocked_reason
     ):
         return "prompt-profile-repair"
+    if "current local runtime support" in blocked_reason:
+        return "runtime-support-upgrade"
     if env in LOCAL_ENVS:
         return "mac-runtime-proof"
     if env in SPECIALIST_ENVS:
@@ -157,6 +159,15 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 f"  --run-id {slug}-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
             ]
         )
+    if lane == "runtime-support-upgrade":
+        return "\n".join(
+            [
+                "source scripts/env.sh",
+                "# Do not rerun the same candidate until the blocked runtime changes.",
+                "# First verify a newer runtime, converter, or source/nightly package supports the model architecture.",
+                "./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+            ]
+        )
     if lane == "mac-runtime-proof" and env == "mac-mlx":
         return "\n".join(
             [
@@ -211,8 +222,9 @@ def priority_for(item: dict[str, Any], lane: str, coverage_state: str, blocked_r
         "prompt-profile-repair": 1,
         "evidence-hardening": 2,
         "support-model-proof": 3,
-        "cloud-teacher-proof": 4,
-        "specialist-runtime-proof": 5,
+        "runtime-support-upgrade": 4,
+        "cloud-teacher-proof": 5,
+        "specialist-runtime-proof": 6,
         "watchlist": 8,
         "deferred": 9,
     }.get(lane, 9)
@@ -302,6 +314,7 @@ def render_markdown(rows: list[dict[str, Any]], run_id: str, created_at: str) ->
             "## Policy",
             "",
             "- Run local Mac proofs before cloud proofs when the artifact is small enough and a supported runtime exists.",
+            "- Do not rerun `runtime-support-upgrade` candidates until the underlying runtime/converter has changed.",
             "- Use cloud only for teacher/frontier candidates or when local runtime proof is structurally unavailable.",
             "- Route embedders, rerankers, ASR/TTS, and VLM helpers through role-specific support-model proofs rather than Hermes BFCL chat pilots.",
             "- Do not promote from smoke evidence. Promotion still requires strict tool-call, local pilot, selected official benchmark, latency, and rollback evidence.",
