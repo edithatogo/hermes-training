@@ -618,3 +618,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: EmbeddingGemma Copied Live-Store Replay
 *Link: [./tracks/embeddinggemma-live-store-replay_20260613/](./tracks/embeddinggemma-live-store-replay_20260613/)*
+
+---
+
+## [x] Track: EmbeddingGemma Live-Store Rerank Replay
+*Link: [./tracks/embeddinggemma-live-store-rerank-replay_20260613/](./tracks/embeddinggemma-live-store-rerank-replay_20260613/)*

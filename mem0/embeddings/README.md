@@ -126,8 +126,11 @@ The EmbeddingGemma GGUF result now has three levels of proof: direct shell-out
 quality, server-backed `llama-server` quality, and resilient-proxy live mem0
 fixture evidence. The fresh output-local live fixture passed raw vector and
 `query_terms_guarded` at top-1 `1.000` / recall@3 `1.000` with p50 add/search
-around 2.95s. Keep it as the leading 768-dim challenger while the opt-in
-profile, rollback, and collection migration gate is completed.
+around 2.95s. The copied live-store replay reached default-top recall `1.000`
+but top-1 match `0.200`, and replaying existing no-download rerank policies
+also stayed at top-1 `0.200`. Keep it as the leading 768-dim challenger, but
+non-default, unless a new ranking policy improves copied live-store ordering or
+a deliberate migration accepts changed ordering.
 
 Render an opt-in config with:
 

@@ -1,0 +1,8 @@
+{
+  "track_id": "embeddinggemma-live-store-rerank-replay_20260613",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-06-13T02:05:00Z",
+  "updated_at": "2026-06-13T02:20:00Z",
+  "description": "Offline rerank replay over EmbeddingGemma copied live-store evidence"
+}

@@ -142,6 +142,13 @@ redacted hashes and aggregate metrics. Result: default top memory was present in
 candidate results for every comparable query, but the rank order differed
 enough to block default promotion.
 
+Reranking replay over the same copied candidate set is recorded at
+[`reports/benchmark/mem0/embeddinggemma-live-store-rerank-replay-20260613.md`](../reports/benchmark/mem0/embeddinggemma-live-store-rerank-replay-20260613.md).
+`vector`, `query_terms_guarded`, `score_plus_created_at_rank`, and
+`score_plus_created_at_rank_close_margin` all stayed at top-1 match `0.200` with
+default-top recall `1.000`. This keeps the issue scoped to candidate ordering
+on the copied live sample; it does not justify switching the default.
+
 ## Candidate Roles
 
 mem0 needs several model roles, not just a chat model:

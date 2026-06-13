@@ -6,7 +6,10 @@ Hermes read mode with explicit `MEM0_CONFIG_PATH`; the default remains
 `nomic-embed-text:latest` / `mem0_nomic_768`. Copied live-store replay:
 [EmbeddingGemma Copied Live-Store Replay - 2026-06-13](./embeddinggemma-live-store-replay-20260613.md)
 reached default-top recall `1.000` but top-1 match `0.200`, so default
-promotion remains blocked.
+promotion remains blocked. Rerank replay:
+[EmbeddingGemma Live-Store Rerank Replay - 2026-06-13](./embeddinggemma-live-store-rerank-replay-20260613.md)
+tested `vector`, `query_terms_guarded`, `score_plus_created_at_rank`, and
+`score_plus_created_at_rank_close_margin`; all remained at top-1 match `0.200`.
 
 | Kind | Run ID | Model/Tool | Raw Pass | Rerank Pass | Top-1 | Recall@k/3 | JSON Valid | Latency p50 | Output |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|

@@ -291,8 +291,11 @@ server-backed wrapper reduced p50 embedding latency to about 0.012s, and the
 fresh resilient-proxy live fixture passed raw vector and `query_terms_guarded`
 at top-1 1.000 / recall@3 1.000. The copied live-store replay then found
 default-top recall 1.000 but top-1 match 0.200, so default promotion remains
-blocked until ranking behavior improves or a deliberate migration decision
-accepts the changed ordering.
+blocked. Replay-only reranking over the copied candidate set did not fix the
+order: `vector`, `query_terms_guarded`, `score_plus_created_at_rank`, and
+`score_plus_created_at_rank_close_margin` all stayed at top-1 match 0.200 with
+default-top recall 1.000. The current blocker is not fixed by the existing
+no-download rerank policies.
 
 Run a read-only reranked search against the live mem0 store:
 
