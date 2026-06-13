@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-full-scorecard-execution_20260613",
+  "type": "chore",
+  "status": "in_progress",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Execute the Qwen3 v4 no-limit selected-task lm-eval scorecard through the direct MLX adapter with SSD-backed resumable artifacts."
+}
