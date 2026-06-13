@@ -49,3 +49,16 @@ Azure evidence can inform GitHub/Hugging Face only after:
 2. normalized benchmark summaries exist;
 3. the benchmark publication gate passes; and
 4. the user explicitly approves publication.
+
+## Current State Refresh
+
+As of 2026-06-13, Azure is blocked earlier than the quota gate because the local
+CLI is no longer authenticated:
+
+```text
+ERROR: Please run 'az login' to setup account.
+```
+
+No Azure workspace, compute, or job action should be attempted until `az login`
+is completed and `scripts/azure_preflight.py --check-quota --region australiaeast`
+passes again.

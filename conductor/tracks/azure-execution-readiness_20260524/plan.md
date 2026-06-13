@@ -79,7 +79,8 @@
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.6 / 10.
+- Current estimate: 9.3 / 10 as a fail-closed template track; current live
+  execution is blocked by Azure CLI authentication.
 - Required evidence: quota confirmation, fail-closed/no-spend proof, gated workspace/compute readiness, benchmark dry-run proof, teacher/evaluator dry-run proof, SSD sync proof, validation output, and publication decision record.
-- Current evidence: `reports/azure/execution-readiness-20260524.md` records account/subscription/extension/SSD pass and regional quota. Live Azure execution remains blocked until a specific useful GPU SKU/region quota is available.
+- Current evidence: `reports/azure/execution-readiness-20260524.md` records account/subscription/extension/SSD pass and regional quota from 2026-05-24, plus a 2026-06-13 refresh showing `az account show` now requires `az login`. Live Azure execution remains blocked until authentication and a specific useful GPU SKU/region quota are available.
 - Additional evidence: `scripts/azure_status.py` found no Azure ML workspaces, so workspace creation remains a gated future action. `reports/azure/execution-gate-20260524.md` records live-job blockers and publication boundaries. `scripts/validate_azure_execution_readiness.py` validates that templates remain low-priority, max-one-node, dry-run, and SSD-rooted.

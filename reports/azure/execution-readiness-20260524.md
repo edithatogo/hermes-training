@@ -106,3 +106,24 @@ Result:
 - Useful modern GPU quota in `australiaeast` remains blocked: T4, A100, H100, and A10-family rows are still zero.
 
 Decision: no live Azure jobs or workspace creation were started. Azure remains ready for templates and dry-runs only until a specific useful GPU SKU/region quota is available.
+
+## Current Auth Refresh
+
+Commands rerun on 2026-06-13:
+
+```bash
+./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast
+./.venv/bin/python scripts/azure_status.py
+```
+
+Result:
+
+- Azure CLI remains installed at `/opt/homebrew/bin/az`.
+- Azure ML CLI extension remains installed.
+- SSD artifact root `/Volumes/PortableSSD` is present.
+- `az account show` now fails with `Please run 'az login' to setup account.`
+- `scripts/azure_status.py` also stops at the same login blocker.
+
+Decision: Azure live execution is currently blocked at authentication. After
+`az login`, rerun the account, subscription, provider, workspace, and quota
+checks before any workspace, compute, or job action.
