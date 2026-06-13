@@ -271,7 +271,7 @@ Current hard differentiation embedding scores:
 
 | Model | Runtime | Top-1 | Recall@3 | MRR | Decision |
 |---|---|---:|---:|---:|---|
-| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-server` OpenAI embeddings | 1.000 | 1.000 | 1.000 | keep testing; best isolated quality and low endpoint latency, but live fixture still missed one hard case |
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | resilient llama.cpp proxy / OpenAI embeddings | 1.000 | 1.000 | 1.000 | leading 768-dim challenger; live fixture now passes, default gate still needs rollback and profile smoke |
 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-embedding` shell-out | 1.000 | 1.000 | 1.000 | quality proof only; superseded by server wrapper for latency |
 | `BAAI/bge-m3` | `sentence-transformers` CPU | 0.929 | 1.000 | 0.952 | keep testing; strongest isolated differentiation score |
 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.786 | 0.929 | 0.875 | keep testing; not default-ready on this harder suite |
@@ -287,9 +287,10 @@ until a replacement passes collection migration, live multi-result retrieval,
 and rollback checks.
 The EmbeddingGemma GGUF package is especially promising because it keeps the
 current 768-dim vector shape and passed all 14 isolated cases. The
-server-backed wrapper reduced p50 embedding latency to about 0.012s and passed
-the live mem0 fixture at top-1 0.909 / recall@3 1.000, but the remaining GGUF
-runtime-boundary miss blocks default promotion.
+server-backed wrapper reduced p50 embedding latency to about 0.012s, and the
+fresh resilient-proxy live fixture passed raw vector and `query_terms_guarded`
+at top-1 1.000 / recall@3 1.000. Default promotion is still blocked until the
+opt-in profile, rollback smoke, and collection migration decision are complete.
 
 Run a read-only reranked search against the live mem0 store:
 
@@ -454,13 +455,15 @@ Current isolated fixture comparison:
 | hard differentiation fixture with default embedder | 0.818 | 0.818 | 0.909 | 0.500 | 0.750 | 0.000s |
 | hard differentiation fixture with close-margin rerank | 0.636 | 0.636 | 0.909 | 0.500 | 0.500 | 0.000s |
 | EmbeddingGemma GGUF via llama.cpp server wrapper | 0.909 | 0.909 | 1.000 | 1.000 | 0.750 | 0.000s |
+| EmbeddingGemma GGUF via resilient llama.cpp proxy, vector | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000s |
+| EmbeddingGemma GGUF via resilient llama.cpp proxy, query guard | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.000s |
 
 The fixture returned 3-5 candidates per query from an output-local Qdrant
 store. Qwen3 remains a candidate, but this live fixture promotes the
 close-margin wrapper as a useful but still guarded integration target. The
-expanded differentiation fixture shows that close-margin reranking can regress
-on harder role-boundary and sidecar-reranker cases, so it should not be promoted
-as an unconditional default before the added cases pass.
+fresh EmbeddingGemma proxy fixture promotes EmbeddingGemma to the leading
+opt-in default candidate, but the default config remains nomic until rollback
+and collection migration checks are recorded.
 
 Run an Ollama memory-extraction smoke test:
 

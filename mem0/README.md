@@ -20,7 +20,7 @@ The current working setup is:
 | Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
-The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the llama.cpp embedding server wrapper. It outperforms the current default on isolated retrieval and works in an output-local live mem0 fixture, but it is still not the default because the live fixture missed one hard runtime-boundary case.
+The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the resilient llama.cpp embedding proxy. It outperforms the current default on isolated retrieval and now passes the output-local live mem0 fixture with raw vector and query-guarded strategies at top-1 `1.000` / recall@3 `1.000`. It is still not the default because default promotion needs an explicit opt-in profile, rollback smoke, and collection migration decision.
 
 ## Structure
 
@@ -112,6 +112,26 @@ Migration plan if a challenger wins:
 3. Stage the new default behind an explicit config diff and run card.
 4. Keep the old collection and config available until a full rollback smoke passes.
 5. Restore the previous config with `mem0 cmd search` if the new path regresses.
+
+EmbeddingGemma has the same 768-dimensional vector shape as the current nomic
+default, but it must still use a separate candidate collection for promotion
+testing:
+
+```text
+mem0_embeddinggemma_300m_768
+```
+
+Render the opt-in profile without editing `~/.mem0/config.json`:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/render_mem0_embeddinggemma_config.py
+```
+
+Use the printed config path with `MEM0_CONFIG_PATH` only after starting the
+resilient llama.cpp embedding proxy. Rollback remains the unmodified default:
+unset `MEM0_CONFIG_PATH`, use `nomic-embed-text:latest`, and read/write
+`mem0_nomic_768`.
 
 ## Candidate Roles
 

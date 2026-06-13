@@ -71,6 +71,25 @@ with:
 and return either OpenAI-style `data[0].embedding` or a direct `embedding`
 array.
 
+For EmbeddingGemma GGUF on this Mac, use the tracked resilient proxy wrapper
+instead of a raw long-running `llama-server` command:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/run_resilient_llama_cpp_embedding_proxy.py \
+  --model-path /Volumes/PortableSSD/huggingface/hub/models--lmstudio-community--embeddinggemma-300m-qat-GGUF/snapshots/a81b371598d25d26b714ab9b14948ce8ca375547/embeddinggemma-300m-qat-Q4_0.gguf \
+  --port 8105 \
+  --backend-port 8205 \
+  --parallel 1 \
+  --run-id embeddinggemma-profile-smoke-$(date +%Y%m%d-%H%M%S) \
+  -- \
+  env MEM0_CONFIG_PATH=/path/to/rendered/embeddinggemma/config.json \
+  python3 scripts/run_mem0_isolated_fixture_rerank.py --help
+```
+
+The proxy presents an OpenAI-compatible `/v1/embeddings` surface and restarts
+the backend if `llama-server` drops during repeated embedding calls.
+
 ### Retriever
 
 Retriever candidates must expose:

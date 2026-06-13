@@ -31,6 +31,12 @@ class Mem0ReadTests(unittest.TestCase):
             "cache_path": None,
             "cache_ttl_s": 0.0,
             "refresh_cache": False,
+            "retriever_service_url": "http://127.0.0.1:8765",
+            "retriever_timeout_s": 120.0,
+            "retriever_index_id": "",
+            "retriever_top_k": 8,
+            "document_fixture": None,
+            "mem0_config_path": None,
         }
         values.update(overrides)
         return argparse.Namespace(**values)
@@ -40,6 +46,7 @@ class Mem0ReadTests(unittest.TestCase):
         self.assertEqual(select_strategy("vector"), "vector")
         self.assertEqual(select_strategy("qwen3"), "qwen3_causal_lm")
         self.assertEqual(select_strategy("mlx-bge"), "mlx_cross_encoder")
+        self.assertEqual(select_strategy("embeddinggemma-proxy"), "query_terms_guarded")
 
     def test_guarded_read_uses_close_margin_by_default(self) -> None:
         args = self.build_args()
@@ -57,8 +64,32 @@ class Mem0ReadTests(unittest.TestCase):
         self.assertEqual(output["strategy"], "score_plus_created_at_rank_close_margin")
         self.assertFalse(output["mem0_cache_hit"])
         self.assertEqual(output["results"], ranked)
-        search.assert_called_once_with("cmd", "active collection", 120.0)
+        search.assert_called_once_with("cmd", "active collection", 120.0, None)
         rerank.assert_called_once()
+
+    def test_embeddinggemma_proxy_requires_explicit_config_path(self) -> None:
+        args = self.build_args(mode="embeddinggemma-proxy")
+
+        with self.assertRaisesRegex(ValueError, "mem0-config-path"):
+            run_guarded_read(args)
+
+    def test_embeddinggemma_proxy_uses_query_guard_and_config_path(self) -> None:
+        args = self.build_args(mode="embeddinggemma-proxy", mem0_config_path="/tmp/embeddinggemma-config.json")
+        results = [{"memory": "EmbeddingGemma uses a separate mem0 collection.", "score": 0.9}]
+        ranked = [dict(results[0], rerank_score=1.0)]
+
+        with (
+            patch("scripts.mem0_read.run_mem0_search", return_value=(results, "raw", 1.2)) as search,
+            patch("scripts.mem0_read.rerank_search_results", return_value=(ranked, 0.01)) as rerank,
+        ):
+            output = run_guarded_read(args)
+
+        self.assertEqual(output["mode"], "embeddinggemma-proxy")
+        self.assertEqual(output["strategy"], "query_terms_guarded")
+        self.assertEqual(output["mem0_config_path"], "/tmp/embeddinggemma-config.json")
+        self.assertFalse(output["mutates_mem0_config"])
+        search.assert_called_once_with("cmd", "active collection", 120.0, Path("/tmp/embeddinggemma-config.json"))
+        self.assertEqual(rerank.call_args.args[2], "query_terms_guarded")
 
     def test_guarded_read_can_use_default_mlx_bge_model(self) -> None:
         args = self.build_args(mode="mlx-bge")

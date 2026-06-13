@@ -22,6 +22,7 @@ Use names that include model family and dimension:
 | Model | Collection / index name |
 |---|---|
 | `nomic-embed-text:latest` | `mem0_nomic_768` |
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | `mem0_embeddinggemma_300m_768` |
 | `BAAI/bge-m3` | `mem0_bge_m3_1024` |
 | `Qwen/Qwen3-Embedding-4B` | `mem0_qwen3_embedding_4b_<dims>` |
 | `jinaai/jina-embeddings-v4` | `mem0_jina_v4_<dims>` |
@@ -121,8 +122,19 @@ Use `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` for
 future promotion claims. It now contains 14 near-duplicate operational memory
 cases; the older expanded suite remains a regression gate, not the final
 differentiator.
-The EmbeddingGemma GGUF result now has two levels of proof: direct shell-out
-quality and server-backed `llama-server` quality. The server-backed path also
-passed an output-local live mem0 add/search fixture at top-1 0.909 / recall@3
-1.000 with p50 add/search around 3s, but it missed the GGUF runtime-boundary
-distractor case. Keep it as the leading 768-dim challenger, not the default.
+The EmbeddingGemma GGUF result now has three levels of proof: direct shell-out
+quality, server-backed `llama-server` quality, and resilient-proxy live mem0
+fixture evidence. The fresh output-local live fixture passed raw vector and
+`query_terms_guarded` at top-1 `1.000` / recall@3 `1.000` with p50 add/search
+around 2.95s. Keep it as the leading 768-dim challenger while the opt-in
+profile, rollback, and collection migration gate is completed.
+
+Render an opt-in config with:
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/render_mem0_embeddinggemma_config.py
+```
+
+This writes SSD-local Qdrant/history paths and keeps the current nomic default
+untouched unless `MEM0_CONFIG_PATH` is explicitly set.

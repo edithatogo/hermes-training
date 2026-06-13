@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -25,7 +27,16 @@ def cli_safe_text(text: str) -> str:
     return text.replace("'", " ")
 
 
-def run_mem0_search(tool: str, query: str, timeout_s: float) -> tuple[list[dict[str, Any]], str, float]:
+def run_mem0_search(
+    tool: str,
+    query: str,
+    timeout_s: float,
+    mem0_config_path: str | Path | None = None,
+) -> tuple[list[dict[str, Any]], str, float]:
+    env = None
+    if mem0_config_path:
+        env = os.environ.copy()
+        env["MEM0_CONFIG_PATH"] = str(mem0_config_path)
     started = time.time()
     completed = subprocess.run(
         ["mem0", tool, "search", cli_safe_text(query)],
@@ -34,6 +45,7 @@ def run_mem0_search(tool: str, query: str, timeout_s: float) -> tuple[list[dict[
         stderr=subprocess.STDOUT,
         timeout=timeout_s,
         check=False,
+        env=env,
     )
     latency_s = time.time() - started
     if completed.returncode != 0:
@@ -251,11 +263,12 @@ def main() -> int:
     )
     parser.add_argument("--recency-weight", type=float, default=0.20)
     parser.add_argument("--timeout-s", type=float, default=120.0)
+    parser.add_argument("--mem0-config-path", type=Path, help="Opt-in mem0 config path passed as MEM0_CONFIG_PATH.")
     parser.add_argument("--include-raw", action="store_true")
     args = parser.parse_args()
 
     total_started = time.time()
-    results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s)
+    results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s, args.mem0_config_path)
     try:
         ranked, rerank_latency_s = rerank_search_results(
             args.query,
@@ -287,6 +300,7 @@ def main() -> int:
         "rerank_latency_s": round(rerank_latency_s, 3),
         "total_latency_s": round(total_latency_s, 3),
         "input_count": len(results),
+        "mem0_config_path": str(args.mem0_config_path or ""),
         "results": ranked,
     }
     if args.strategy == "qwen3_causal_lm":

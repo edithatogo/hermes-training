@@ -31,6 +31,12 @@ class HermesMem0ToolTests(unittest.TestCase):
             qwen3_local_files_only=False,
             qwen3_server_url=None,
             mlx_max_length=1024,
+            retriever_service_url="http://127.0.0.1:8765",
+            retriever_timeout_s=120.0,
+            retriever_index_id="",
+            retriever_top_k=8,
+            document_fixture=None,
+            mem0_config_path=None,
             qwen3_instruction="Retrieve",
         )
 
@@ -59,6 +65,12 @@ class HermesMem0ToolTests(unittest.TestCase):
             qwen3_server_url=None,
             qwen3_instruction="Retrieve",
             mlx_max_length=1024,
+            retriever_service_url="http://127.0.0.1:8765",
+            retriever_timeout_s=120.0,
+            retriever_index_id="",
+            retriever_top_k=8,
+            document_fixture=None,
+            mem0_config_path=None,
         )
 
         read_args = build_read_args(cli_args, {"query": "active collection", "mode": "mlx-bge"})
@@ -66,6 +78,44 @@ class HermesMem0ToolTests(unittest.TestCase):
         self.assertEqual(read_args.mode, "mlx-bge")
         self.assertEqual(read_args.model, "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit")
         self.assertEqual(read_args.mlx_max_length, 1024)
+
+    def test_build_read_args_accepts_embeddinggemma_proxy_profile(self) -> None:
+        cli_args = argparse.Namespace(
+            tool="cmd",
+            mode="close-margin",
+            cache_path=None,
+            cache_ttl_s=300.0,
+            refresh_cache=False,
+            timeout_s=120.0,
+            recency_weight=0.2,
+            include_raw=False,
+            fallback_to_vector=False,
+            model="Qwen/Qwen3-Reranker-0.6B",
+            qwen3_device="auto",
+            qwen3_max_length=4096,
+            qwen3_local_files_only=False,
+            qwen3_server_url=None,
+            qwen3_instruction="Retrieve",
+            mlx_max_length=1024,
+            retriever_service_url="http://127.0.0.1:8765",
+            retriever_timeout_s=120.0,
+            retriever_index_id="",
+            retriever_top_k=8,
+            document_fixture=None,
+            mem0_config_path=None,
+        )
+
+        read_args = build_read_args(
+            cli_args,
+            {
+                "query": "active collection",
+                "mode": "embeddinggemma-proxy",
+                "mem0_config_path": "/tmp/embeddinggemma-config.json",
+            },
+        )
+
+        self.assertEqual(read_args.mode, "embeddinggemma-proxy")
+        self.assertEqual(read_args.mem0_config_path, "/tmp/embeddinggemma-config.json")
 
     def test_render_tool_result_filters_to_agent_contract(self) -> None:
         output = render_tool_result(
@@ -85,16 +135,18 @@ class HermesMem0ToolTests(unittest.TestCase):
                         "score": 0.9,
                         "rerank_score": 1.0,
                         "created_at": "2026-05-26T00:00:00Z",
-                        "metadata": {"source": "test"},
-                        "raw_extra": "omitted",
+                "metadata": {"source": "test"},
+                "raw_extra": "omitted",
                     }
                 ],
+                "mem0_config_path": "/tmp/embeddinggemma-config.json",
             }
         )
 
         self.assertTrue(output["ok"])
         self.assertTrue(output["read_only"])
         self.assertEqual(output["tool"], "hermes_mem0_read")
+        self.assertEqual(output["mem0_config_path"], "/tmp/embeddinggemma-config.json")
         self.assertEqual(output["memories"][0]["memory"], "active collection is mem0_nomic_768")
         self.assertNotIn("raw_extra", output["memories"][0])
 

@@ -1,5 +1,11 @@
 # mem0 Benchmark Index
 
+Default-integration gate: [EmbeddingGemma mem0 Default Integration Gate - 2026-06-13](./embeddinggemma-default-integration-gate-20260613.md).
+EmbeddingGemma GGUF is available through the opt-in `embeddinggemma-proxy`
+Hermes read mode with explicit `MEM0_CONFIG_PATH`; the default remains
+`nomic-embed-text:latest` / `mem0_nomic_768` until copied live-store replay and
+collection migration proof pass.
+
 | Kind | Run ID | Model/Tool | Raw Pass | Rerank Pass | Top-1 | Recall@k/3 | JSON Valid | Latency p50 | Output |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|
 | embedding | embedding-baai-bge-m3-refresh-20260612 | BAAI/bge-m3 | 0.667 |  | 0.667 | 1.000 |  | 0.142 | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-baai-bge-m3-refresh-20260612` |

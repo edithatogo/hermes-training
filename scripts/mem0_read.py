@@ -23,6 +23,7 @@ DEFAULT_STRATEGY = "score_plus_created_at_rank_close_margin"
 DEFAULT_RECENCY_WEIGHT = 0.20
 DEFAULT_MLX_BGE_MODEL = "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit"
 DEFAULT_RETRIEVER_SERVICE_URL = "http://127.0.0.1:8765"
+EMBEDDINGGEMMA_PROXY_MODE = "embeddinggemma-proxy"
 MEM0_READ_CACHE_VERSION = 1
 
 
@@ -39,6 +40,8 @@ def select_strategy(mode: str) -> str:
         return "retriever_service"
     if mode == "colbert-qwen3":
         return "colbert_qwen3"
+    if mode == EMBEDDINGGEMMA_PROXY_MODE:
+        return "query_terms_guarded"
     raise ValueError(f"unsupported mode {mode!r}")
 
 
@@ -62,6 +65,7 @@ def build_output(
     document_fixture_path: str = "",
     retriever_service_url: str = "",
     retriever_index_id: str = "",
+    mem0_config_path: str = "",
 ) -> dict[str, Any]:
     output = {
         "created_at": datetime.now(UTC).isoformat(),
@@ -73,6 +77,7 @@ def build_output(
         "recency_weight": recency_weight,
         "read_only": True,
         "mutates_mem0_config": False,
+        "mem0_config_path": mem0_config_path,
         "input_count": len(results),
         "mem0_search_latency_s": round(search_latency_s, 3),
         "rerank_latency_s": round(rerank_latency_s, 3),
@@ -116,14 +121,26 @@ def config_fingerprint(path: Path | None = None) -> str:
     return hashlib.sha256(content).hexdigest()
 
 
+def resolve_mem0_config_path(args: argparse.Namespace) -> Path | None:
+    arg_path = getattr(args, "mem0_config_path", None)
+    if arg_path:
+        return Path(arg_path)
+    env_path = os.environ.get("MEM0_CONFIG_PATH")
+    if env_path:
+        return Path(env_path)
+    return None
+
+
 def cache_key(args: argparse.Namespace) -> str:
+    mem0_config_path = resolve_mem0_config_path(args)
     payload = {
         "version": MEM0_READ_CACHE_VERSION,
         "tool": args.tool,
         "query": args.query,
         "cli_safe_query": cli_safe_text(args.query),
         "command": ["mem0", args.tool, "search", cli_safe_text(args.query)],
-        "mem0_config_fingerprint": config_fingerprint(),
+        "mem0_config_path": str(mem0_config_path or ""),
+        "mem0_config_fingerprint": config_fingerprint(mem0_config_path),
     }
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
@@ -322,6 +339,9 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
     retriever_timeout_s = float(getattr(args, "retriever_timeout_s", args.timeout_s) or args.timeout_s)
     retriever_index_id = str(getattr(args, "retriever_index_id", "") or "")
     document_fixture = getattr(args, "document_fixture", None)
+    mem0_config_path = resolve_mem0_config_path(args)
+    if args.mode == EMBEDDINGGEMMA_PROXY_MODE and not mem0_config_path:
+        raise ValueError("--mem0-config-path or MEM0_CONFIG_PATH is required for embeddinggemma-proxy mode")
     cache_path = Path(cache_arg) if cache_arg else resolve_default_cache_path()
     key = cache_key(args) if cache_ttl_s > 0 else ""
     cache = load_cache(cache_path) if cache_ttl_s > 0 else {"version": MEM0_READ_CACHE_VERSION, "entries": {}}
@@ -344,7 +364,7 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
             retriever_index_id,
         )
     elif hit is None:
-        results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s)
+        results, raw, search_latency_s = run_mem0_search(args.tool, args.query, args.timeout_s, mem0_config_path)
         if cache_ttl_s > 0:
             write_cache_entry(cache, key, results, raw, search_latency_s)
             save_cache(cache_path, cache)
@@ -412,6 +432,7 @@ def run_guarded_read(args: argparse.Namespace) -> dict[str, Any]:
         str(document_fixture or ""),
         retriever_service_url if strategy in {"retriever_service", "colbert_qwen3"} else "",
         retriever_index_id if strategy in {"retriever_service", "colbert_qwen3"} else "",
+        str(mem0_config_path or ""),
     )
     if cache_ttl_s > 0:
         output["cache_path"] = str(cache_path)
@@ -426,7 +447,7 @@ def main() -> int:
     parser.add_argument("--tool", default="cmd")
     parser.add_argument(
         "--mode",
-        choices=("close-margin", "vector", "qwen3", "mlx-bge", "colbert", "colbert-qwen3"),
+        choices=("close-margin", "vector", "qwen3", "mlx-bge", "colbert", "colbert-qwen3", EMBEDDINGGEMMA_PROXY_MODE),
         default="close-margin",
         help="Read mode. The default is the no-download close-margin reranker.",
     )
@@ -448,6 +469,11 @@ def main() -> int:
     parser.add_argument("--retriever-index-id", default="")
     parser.add_argument("--retriever-top-k", type=int, default=8)
     parser.add_argument("--document-fixture", type=Path, help="JSON documents or retrieval suite for colbert-qwen3 mode.")
+    parser.add_argument(
+        "--mem0-config-path",
+        type=Path,
+        help="Opt-in mem0 config path. Required for embeddinggemma-proxy mode unless MEM0_CONFIG_PATH is set.",
+    )
     parser.add_argument("--qwen3-device", default="auto")
     parser.add_argument("--qwen3-max-length", type=int, default=4096)
     parser.add_argument("--qwen3-local-files-only", action="store_true")
