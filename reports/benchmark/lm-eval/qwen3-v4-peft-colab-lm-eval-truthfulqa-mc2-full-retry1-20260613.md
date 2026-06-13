@@ -4,19 +4,19 @@ Run ID: `qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1`
 
 ## Summary
 
-Status: `in-progress-at-risk`
+Status: `blocked-pruned`
 
 The `truthfulqa_mc2` no-limit shard was launched on a Google Colab T4 session
-using the checkpoint-enabled PEFT lm-eval runner. The session reached
-dependency install, adapter upload, adapter extraction, and the `adapter-ready`
-checkpoint. At the latest recovery poll, `colab status` still reported the
-kernel as `BUSY (exec(scripts/colab_peft_lm_eval_selected.py))`, but the
-downloaded result JSON had not advanced beyond `adapter-ready` and no harness
-result files were visible under the output directory.
+using the checkpoint-enabled PEFT lm-eval runner version that emitted
+pre-evaluation checkpoints only. The session reached dependency install,
+adapter upload, adapter extraction, and the `adapter-ready` checkpoint. Repeated
+recovery polls showed the downloaded result JSON never advanced beyond
+`adapter-ready`, no harness result files were visible under the output
+directory, and the next `colab status` call pruned the stale local session.
 
-This is not scorecard evidence yet. It is recovery evidence that the retry is
-alive enough to download checkpoints, while the same Colab keepalive permission
-blocker remains present.
+This is not scorecard evidence. It is recovery evidence that retry1 reached the
+adapter-ready boundary but did not produce recoverable evaluation results under
+the current Colab keepalive permission blocker.
 
 ## Attempt
 
@@ -32,6 +32,7 @@ blocker remains present.
 | Recovered checkpoint JSON | `/Volumes/PortableSSD/hermes-evals/colab/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1/recovered/summary.json` |
 | Latest checkpoint | `adapter-ready` at `2026-06-13T05:01:55.699257+00:00` |
 | Latest recovery poll | `2026-06-13T05:10:55.641255+00:00` |
+| Final status poll | `colab status` pruned 1 stale local session and reported session not found |
 | Wrapper recovery report | `reports/colab/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1.md` |
 | Harness result | not produced/recovered |
 
@@ -69,11 +70,9 @@ previous no-limit Colab attempts to lose recoverable artifacts.
 
 ## Decision
 
-Do not launch another no-limit Colab shard while this retry is active. Poll and
-recover this session first. If it completes with an `evaluation-complete`
-checkpoint, download the result JSON plus the lm-eval output directory and
-update the shard track. If it is pruned or remains stuck without result files,
-keep the Colab shard lane blocked until the Google Cloud service-usage
-permission or an external persistent-artifact backend is fixed. Future retries
-should use the heartbeat-enabled runner from commit `6fb806e` and the shard
-wrapper from commit `9487c69`.
+Retry1 is closed as blocked/pruned. Future Colab retries should use the
+heartbeat-enabled runner from commit `6fb806e` and the shard wrapper from commit
+`9487c69`, so an in-flight evaluation can emit `evaluation-running` checkpoints
+before Colab pruning loses the session. Keep public no-limit scorecard claims
+blocked until a shard produces an `evaluation-complete` checkpoint and
+downloadable lm-eval output.

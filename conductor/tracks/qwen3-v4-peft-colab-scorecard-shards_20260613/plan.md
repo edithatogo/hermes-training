@@ -30,12 +30,12 @@
   harness incompatibility; the `arc_challenge` shard also launched and reached
   harness execution; the runner now emits checkpoint lines into the local SSD
   log and can optionally upload non-private benchmark summaries to
-  `edithatogo/qwen3-v4-peft-lm-eval-results`. A `truthfulqa_mc2` retry is
-  currently active and has a recovered `adapter-ready` checkpoint in
+  `edithatogo/qwen3-v4-peft-lm-eval-results`. A `truthfulqa_mc2` retry reached
+  `adapter-ready` but was later pruned without evaluation artifacts; evidence:
   `reports/benchmark/lm-eval/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-retry1-20260613.md`.
 - Gaps: no no-limit shard has completed; `arc_challenge` was pruned before JSON
-  or harness artifacts were downloadable, and the active `truthfulqa_mc2` retry
-  is still exposed to the Colab keepalive HTTP 403 permission blocker.
+  or harness artifacts were downloadable, and `truthfulqa_mc2` retry1 was
+  pruned before an `evaluation-complete` checkpoint.
 - Decision: retry one no-limit shard at a time only after the checkpoint-enabled
   runner has been pushed; keep full scorecard claims blocked until all five
   shard artifacts are recovered.
