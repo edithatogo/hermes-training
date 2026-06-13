@@ -89,6 +89,8 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "ngc config current",
                 "ngc cloud-function gpu quota",
                 "ngc cloud-function task create --help",
+                "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py",
+                "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run",
             ],
         },
         {
