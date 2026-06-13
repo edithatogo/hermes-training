@@ -55,6 +55,7 @@ def prepare_package(
         "publish_action_performed": False,
         "copied_files": copied,
         "upload_command": f"hf upload {repo_id} {output_dir} . --repo-type model",
+        "approval_phrase": f"I approve publishing HF adapter package {output_dir} to Hugging Face model repo {repo_id}.",
         "blocked_until": [
             "Hugging Face model card finalized",
             "Human publication approval recorded",

@@ -521,6 +521,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Qwen3 v6 Hugging Face adapter publication gate
+*Link: [./tracks/v6-hf-publication-gate_20260613/](./tracks/v6-hf-publication-gate_20260613/)*
+
+---
+
 ## [x] Track: Nemotron 3 Nano 4B Packaging Refresh
 *Link: [./tracks/nemotron3-nano-4b-packaging-refresh_20260612/](./tracks/nemotron3-nano-4b-packaging-refresh_20260612/)*
 
