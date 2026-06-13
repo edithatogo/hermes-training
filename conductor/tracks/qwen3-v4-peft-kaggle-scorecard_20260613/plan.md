@@ -21,8 +21,9 @@
   incompatibility, or route the scorecard to Modal/Azure instead.
 - [x] Task: Record CPython 3.12 Linux wheel proof for the pinned
   `p100-cu118` torch policy.
-- [ ] Task: Submit the P100-compatible rerun only after explicit approval, then
-  recover SSD artifacts and run the no-pending ingest gate.
+- [x] Task: Submit the P100-compatible rerun only after explicit approval.
+- [ ] Task: Recover SSD artifacts from Kaggle kernel version 2 and run the
+  no-pending ingest gate.
 
 ## Health Check
 
@@ -55,5 +56,10 @@
   `p100-cu118` PyTorch policy, disables 4-bit/bitsandbytes for the P100 path,
   records wheel availability in
   `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`, and keeps
-  execution gated behind `--execute --confirm-kaggle-run`.
+  execution gated behind `--execute --confirm-kaggle-run`. The
+  P100-compatible rerun was submitted as Kaggle kernel version 2; evidence is
+  tracked in `reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-20260614.json`,
+  and the latest status report
+  `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.md` records
+  the kernel as still running with zero recovered files.
 - Decision: keep Kaggle blocked and non-promotional.

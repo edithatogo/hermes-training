@@ -13,6 +13,7 @@ DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
 DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
+DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:
@@ -29,11 +30,21 @@ def load_optional_json(path: Path | None) -> dict[str, Any] | None:
     return data if isinstance(data, dict) else None
 
 
-def derive_kaggle_status(status: str, contract_report: dict[str, Any] | None, ingest_report: dict[str, Any] | None) -> str:
+def derive_kaggle_status(
+    status: str,
+    contract_report: dict[str, Any] | None,
+    ingest_report: dict[str, Any] | None,
+    rerun_status_report: dict[str, Any] | None = None,
+) -> str:
     if status != "prepared-needs-notebook-contract":
         return status
     contract_passed = contract_report is not None and contract_report.get("status") == "pass"
     ingest_ready = ingest_report is not None and ingest_report.get("status") in {"pass", "pending_artifacts"}
+    rerun_submitted = rerun_status_report is not None and str(rerun_status_report.get("status", "")).startswith(
+        "KernelWorkerStatus."
+    )
+    if contract_passed and ingest_ready and rerun_submitted:
+        return "running-needs-artifact-recovery"
     if contract_passed and ingest_ready:
         return "prepared-needs-run-approval"
     return status
@@ -86,6 +97,22 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
             "commands": [
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+                "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
+            ],
+        }
+    if status == "running-needs-artifact-recovery":
+        return {
+            "backend": "kaggle",
+            "status": status,
+            "blocker": "Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
+            "operator_actions": [
+                "Poll the Kaggle kernel status until it is complete.",
+                "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
+                "Run the result ingest validator with `--no-allow-pending` before any benchmark claim.",
+            ],
+            "commands": [
+                "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+                "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
                 "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
             ],
         }
@@ -147,12 +174,14 @@ def checklist_items(
     preflight: dict[str, Any],
     kaggle_contract_report: dict[str, Any] | None = None,
     kaggle_ingest_report: dict[str, Any] | None = None,
+    kaggle_rerun_status_report: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     backends = preflight["backends"]
     kaggle_status = derive_kaggle_status(
         backends.get("kaggle", {}).get("status", "unknown"),
         kaggle_contract_report,
         kaggle_ingest_report,
+        kaggle_rerun_status_report,
     )
     colab_policy = backends.get("colab", {}).get("accelerator_policy", {})
     colab_dispatch_command = colab_policy.get(
@@ -305,6 +334,7 @@ def main() -> int:
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--kaggle-contract-report", type=Path, default=DEFAULT_KAGGLE_CONTRACT)
     parser.add_argument("--kaggle-ingest-report", type=Path, default=DEFAULT_KAGGLE_INGEST)
+    parser.add_argument("--kaggle-rerun-status-report", type=Path, default=DEFAULT_KAGGLE_RERUN_STATUS)
     args = parser.parse_args()
 
     preflight = load_preflight(args.preflight)
@@ -312,6 +342,7 @@ def main() -> int:
         preflight,
         load_optional_json(args.kaggle_contract_report),
         load_optional_json(args.kaggle_ingest_report),
+        load_optional_json(args.kaggle_rerun_status_report),
     )
     payload = {"source_preflight": str(args.preflight), "items": items}
 

@@ -69,14 +69,14 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "prepared-needs-run-approval",
-      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
+      "backend_status": "running-needs-artifact-recovery",
+      "blocker": "Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
       "commands": [
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
         "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
       ],
-      "next_task": "Submit the P100-compatible rerun only after explicit approval, then recover SSD artifacts and run the no-pending ingest gate.",
+      "next_task": "Recover SSD artifacts from Kaggle kernel version 2 and run the no-pending ingest gate.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

@@ -20,8 +20,8 @@ Use the selected backend only after the listed operator gates pass. Do not retry
 |---:|---|---|---:|---|
 | 1 | `modal` | `prepared-needs-credit-and-gpu-policy-check` | 75 | Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence. |
 | 2 | `hf_jobs` | `blocked-insufficient-hf-credits` | 25 | HF Jobs rejected the live route probe with insufficient prepaid credits. |
-| 3 | `kaggle` | `prepared-needs-run-approval` | 25 | Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path. |
-| 4 | `azure` | `blocked` | 5 | Azure CLI is installed but not currently logged in. |
-| 5 | `colab` | `ready` | 5 | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. |
-| 6 | `lightning` | `blocked-needs-teamspace-owner` | 5 | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. |
-| 7 | `ngc` | `blocked` | 5 | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. |
+| 3 | `azure` | `blocked` | 5 | Azure CLI is installed but not currently logged in. |
+| 4 | `colab` | `ready` | 5 | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. |
+| 5 | `lightning` | `blocked-needs-teamspace-owner` | 5 | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. |
+| 6 | `ngc` | `blocked` | 5 | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. |
+| 7 | `kaggle` | `running-needs-artifact-recovery` | -75 | Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path. |

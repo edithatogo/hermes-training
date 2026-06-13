@@ -94,18 +94,18 @@
     },
     {
       "backend": "kaggle",
-      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
+      "blocker": "Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
       "commands": [
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
         "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
       ],
       "operator_actions": [
-        "Confirm the no-limit Kaggle run is approved before pushing the public kernel.",
-        "Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.",
+        "Poll the Kaggle kernel status until it is complete.",
+        "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
         "Run the result ingest validator with `--no-allow-pending` before any benchmark claim."
       ],
-      "status": "prepared-needs-run-approval"
+      "status": "running-needs-artifact-recovery"
     },
     {
       "backend": "modal",

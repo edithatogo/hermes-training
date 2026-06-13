@@ -9,7 +9,7 @@ Unblock checklist: `reports/cloud/backend-unblock-checklist-20260613.json`
 | `qwen3-v4-peft-colab-full-scorecard_20260613` | `colab` | `ready` | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. | Retry only after Colab keepalive permission is fixed or a persistent backend is selected. |
 | `qwen3-v4-peft-colab-scorecard-shards_20260613` | `colab` | `ready` | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. | Re-run `truthfulqa_mc2` only after Colab keepalive permission is fixed or a persistent backend is selected. |
 | `qwen3-v4-peft-hf-jobs-scorecard_20260613` | `hf_jobs` | `blocked-insufficient-hf-credits` | HF Jobs rejected the live route probe with insufficient prepaid credits. | Submit the job and capture job ID/log URL after credits/grant are available. |
-| `qwen3-v4-peft-kaggle-scorecard_20260613` | `kaggle` | `prepared-needs-run-approval` | Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery. | Submit the P100-compatible rerun only after explicit approval, then recover SSD artifacts and run the no-pending ingest gate. |
+| `qwen3-v4-peft-kaggle-scorecard_20260613` | `kaggle` | `running-needs-artifact-recovery` | Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation. | Recover SSD artifacts from Kaggle kernel version 2 and run the no-pending ingest gate. |
 | `qwen3-v4-peft-lightning-scorecard_20260614` | `lightning` | `blocked-needs-teamspace-owner` | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. | Run Lightning login and identify a real Teamspace only after explicit user approval. |
 | `qwen3-v4-peft-modal-scorecard_20260614` | `modal` | `prepared-needs-credit-and-gpu-policy-check` | Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence. | Confirm free credit/grant or zero-cost GPU policy. |
 | `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613` | `ngc` | `blocked` | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. | Configure NGC auth only after the user supplies keys or completes SSO. |
@@ -60,8 +60,8 @@ hf jobs ps
 ### qwen3-v4-peft-kaggle-scorecard_20260613
 
 ```bash
-./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
-./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
+kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full
+kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2
 ./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending
 ```
 

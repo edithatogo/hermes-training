@@ -59,6 +59,26 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
             by_backend["kaggle"]["commands"],
         )
 
+    def test_kaggle_submitted_rerun_derives_artifact_recovery_status(self) -> None:
+        items = checklist_items(
+            {
+                "backends": {
+                    "kaggle": {"status": "prepared-needs-notebook-contract"},
+                }
+            },
+            kaggle_contract_report={"status": "pass"},
+            kaggle_ingest_report={"status": "pending_artifacts"},
+            kaggle_rerun_status_report={"status": "KernelWorkerStatus.RUNNING"},
+        )
+        by_backend = {item["backend"]: item for item in items}
+
+        self.assertEqual(by_backend["kaggle"]["status"], "running-needs-artifact-recovery")
+        self.assertIn("artifact recovery", by_backend["kaggle"]["blocker"])
+        self.assertIn(
+            "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+            by_backend["kaggle"]["commands"],
+        )
+
     def test_lightning_includes_guarded_submitter_commands(self) -> None:
         items = checklist_items({"backends": {"lightning": {"status": "blocked-needs-teamspace-owner"}}})
         by_backend = {item["backend"]: item for item in items}
