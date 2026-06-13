@@ -1,0 +1,293 @@
+{
+  "created_at": "2026-06-13T15:24:40.667890+00:00",
+  "storage_root": "/Volumes/PortableSSD",
+  "storage_root_exists": true,
+  "policy": {
+    "no_paid_compute_without_approval": true,
+    "no_private_data_uploads": true,
+    "no_unreviewed_model_or_dataset_publication": true,
+    "artifact_root": "/Volumes/PortableSSD/hermes-evals",
+    "tracked_report_root": "reports/cloud"
+  },
+  "backends": {
+    "colab": {
+      "status": "ready",
+      "route": "primary",
+      "accelerator_policy": {
+        "default_ladder": "gpu:T4,gpu:L4,gpu:A100,tpu:v5e1",
+        "gpu_ladder": [
+          "T4",
+          "L4",
+          "A100"
+        ],
+        "tpu_ladder": [
+          "v5e1"
+        ],
+        "tpu_requires_opt_in": true,
+        "tpu_compatible_scripts": [
+          "scripts/colab_adaptive_train_smoke.py"
+        ],
+        "tpu_incompatible_workloads": [
+          "MLX adapter scoring",
+          "PEFT lm-eval selected-task scorecards",
+          "llama.cpp/GGUF endpoint pilots"
+        ],
+        "dispatch_command": "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py"
+      },
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "version"
+        ],
+        "returncode": 0,
+        "stdout": "Version: 0.5.11",
+        "stderr": ""
+      },
+      "sessions": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "sessions"
+        ],
+        "returncode": 0,
+        "stdout": "[colab] No active sessions found on server.",
+        "stderr": ""
+      },
+      "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
+      "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs. Add --allow-tpu only for TPU-compatible adaptive scripts; PEFT lm-eval and MLX/llama.cpp scorecards stay GPU/persistent-backend only."
+    },
+    "hf_jobs": {
+      "status": "blocked-insufficient-hf-credits",
+      "route": "persistent",
+      "whoami": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "auth",
+          "whoami"
+        ],
+        "returncode": 0,
+        "stdout": "user=edithatogo orgs=unimelb-nlp,FlindersUni,RareInsights",
+        "stderr": ""
+      },
+      "hardware": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "jobs",
+          "hardware"
+        ],
+        "returncode": 0,
+        "stdout": "NAME            PRETTY NAME        CPU      RAM     ACCELERATOR  COST/MIN COST/HOUR \n--------------- ------------------ -------- ------- ------------ -------- --------- \ncpu-basic       CPU Basic          2 vCPU   16 GB                $0.0002  $0.01     \ncpu-upgrade     CPU Upgrade        8 vCPU   32 GB                $0.0005  $0.03     \ncpu-performance CPU Performance    32 vCPU  256 GB               $0.0317  $1.90     \ncpu-xl          CPU XL             16 vCPU  124 GB               $0.0167  $1.00     \nt4-small        Nvidia T4 - small  4 vCPU   15 GB   1x T4 (16... $0.0067  $0.40     \nt4-medium       Nvidia T4 - medium 8 vCPU   30 GB   1x T4 (16... $0.0100  $0.60     \na10g-small      Nvidia A10G - s... 4 vCPU   15 GB   1x A10G (... $0.0167  $1.00     \na10g-large      Nvidia A10G - l... 12 vCPU  46 GB   1x A10G (... $0.0250  $1.50     \na10g-largex2    2x Nvidia A10G ... 24 vCPU  92 GB   2x A10G (... $0.0500  $3.00     \na10g-largex4    4x Nvidia A10G ... 48 vCPU  184 GB  4x A10G (... $0.0833  $5.00     \na100-large      Nvidia A100 - l... 12 vCPU  142 GB  1x A100 (... $0.0417  $2.50     \na100x4          4x Nvidia A100     48 vCPU  568 GB  4x A100 (... $0.1667  $10.00    \na100x8          8x Nvidia A100     96 vCPU  1136 GB 8x A100 (... $0.3333  $20.00    \nh200            Nvidia H200        23 vCPU  256 GB  1x H200 (... $0.0833  $5.00     \nh200x2          Nvidia H200        46 vCPU  512 GB  2x H200 (... $0.1667  $10.00    \nh200x4          Nvidia H200        92 vCPU  1024 GB 4x H200 (... $0.3333  $20.00    \nh200x8          Nvidia H200        184 vCPU 2048 GB 8x H200 (... $0.6667  $40.00    \nrtx-pro-6000    Nvidia RTX PRO ... 23 vCPU  256 GB  1x RTX PR... $0.0458  $2.75     \nrtx-pro-6000x2  Nvidia RTX PRO ... 46 vCPU  512 GB  2x RTX PR... $0.0917  $5.50     \nrtx-pro-6000x4  Nvidia RTX PRO ... 92 vCPU  1024 GB 4x RTX PR... $0.1833  $11.00    \nrtx-pro-6000x8  Nvidia RTX PRO ... 184 vCPU 2048 GB 8x RTX PR... $0.3667  $22.00    \nl4x1            1x Nvidia L4       8 vCPU   30 GB   1x L4 (24... $0.0133  $0.80     \nl4x4            4x Nvidia L4       48 vCPU  186 GB  4x L4 (96... $0.0633  $3.80     \nl40sx1          1x Nvidia L40S     8 vCPU   62 GB   1x L40S (... $0.0300  $1.80     \nl40sx4          4x Nvidia L40S     48 vCPU  382 GB  4x L40S (... $0.1383  $8.30     \nl40sx8          8x Nvidia L40S     192 vCPU 1534 GB 8x L40S (... $0.3917  $23.50",
+        "stderr": ""
+      },
+      "jobs": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "jobs",
+          "ps"
+        ],
+        "returncode": 0,
+        "stdout": "No jobs found",
+        "stderr": ""
+      },
+      "credit_blocker_observed": true,
+      "stop_condition": "missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval",
+      "next_action": "Add HF prepaid credits or grant capacity, then submit with scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute."
+    },
+    "azure": {
+      "status": "blocked",
+      "route": "prepared",
+      "account": {
+        "installed": true,
+        "path": "/opt/homebrew/bin/az",
+        "command": [
+          "az",
+          "account",
+          "show",
+          "-o",
+          "json"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ERROR: Please run 'az login' to setup account."
+      },
+      "detail": "ERROR: Please run 'az login' to setup account.",
+      "stop_condition": "missing login, wrong subscription, absent Azure ML extension, zero GPU quota, or no cost approval",
+      "next_action": "Run az login only when the user is ready; then use scripts/azure_preflight.py before any job."
+    },
+    "ngc": {
+      "status": "blocked",
+      "route": "prepared",
+      "config": {
+        "installed": true,
+        "path": "/usr/local/bin/ngc",
+        "command": [
+          "ngc",
+          "config",
+          "current"
+        ],
+        "returncode": 0,
+        "stdout": "+-------------+-------+---------------+\n| key         | value | source        |\n+-------------+-------+---------------+\n| format_type | ascii | default value |\n+-------------+-------+---------------+",
+        "stderr": ""
+      },
+      "stop_condition": "missing API key, org/team, entitlement, container access, model access, or license approval",
+      "next_action": "Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access."
+    },
+    "kaggle": {
+      "status": "prepared-needs-notebook-contract",
+      "route": "future",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "--version"
+        ],
+        "returncode": 0,
+        "stdout": "Kaggle CLI 2.2.1",
+        "stderr": ""
+      },
+      "config": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "config",
+          "view"
+        ],
+        "returncode": 0,
+        "stdout": "Configuration values from /Users/doughnut/.kaggle\n- username: edithatogo\n- auth_method: OAUTH\n- path: None\n- proxy: None\n- competition: None",
+        "stderr": ""
+      },
+      "quota": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "quota"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "not enough values to unpack (expected 2, got 1)"
+      },
+      "quota_sdk_probe": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/share/uv/tools/kaggle/bin/python",
+        "command": [
+          "kaggle quota sdk fallback"
+        ],
+        "returncode": 0,
+        "stdout": "{\n  \"gpuQuota\": {\n    \"minimumTimeAllowed\": \"108000s\",\n    \"timeReserved\": \"0s\",\n    \"timeUsed\": \"0s\",\n    \"totalTimeAllowed\": \"108000s\"\n  },\n  \"quotaRefreshTime\": \"2026-06-20T00:00:00Z\",\n  \"status_code\": 200,\n  \"tpuQuota\": {\n    \"minimumTimeAllowed\": \"72000s\",\n    \"timeReserved\": \"0s\",\n    \"timeUsed\": \"0s\",\n    \"totalTimeAllowed\": \"72000s\"\n  }\n}",
+        "stderr": ""
+      },
+      "kernels": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "kernels",
+          "list",
+          "--mine",
+          "--page-size",
+          "1"
+        ],
+        "returncode": 0,
+        "stdout": "Not found",
+        "stderr": ""
+      },
+      "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
+      "next_action": "Add a fail-closed Kaggle notebook/job spec and dry-run it before any public dataset or GPU execution."
+    },
+    "modal": {
+      "status": "prepared-needs-credit-and-gpu-policy-check",
+      "route": "container-serverless-candidate",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "--version"
+        ],
+        "returncode": 0,
+        "stdout": "modal client version: 1.5.0",
+        "stderr": ""
+      },
+      "profile": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "profile",
+          "list"
+        ],
+        "returncode": 0,
+        "stdout": "┏━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓\n┃   ┃ Profile      ┃ Workspace    ┃\n┡━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩\n│ • │ d-a-mordaunt │ d-a-mordaunt │\n└───┴──────────────┴──────────────┘",
+        "stderr": ""
+      },
+      "token": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "token",
+          "info"
+        ],
+        "returncode": 0,
+        "stdout": "<redacted: modal token info succeeded>",
+        "stderr": "",
+        "redacted": true
+      },
+      "stop_condition": "missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof",
+      "next_action": "Use Modal only after confirming free credits/grant and adding a fail-closed Modal scorecard submitter."
+    },
+    "lightning": {
+      "status": "blocked-needs-teamspace-owner",
+      "route": "studio-job-candidate",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "--version"
+        ],
+        "returncode": 0,
+        "stdout": "Lightning CLI version 2026.06.08post0",
+        "stderr": ""
+      },
+      "studio": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "studio",
+          "list"
+        ],
+        "returncode": 1,
+        "stdout": "\u001b[31m╭─\u001b[0m\u001b[31m──────────────────────────\u001b[0m\u001b[31m ⚡ Lightning CLI Error \u001b[0m\u001b[31m──────────────────────────\u001b[0m\u001b[31m─╮\u001b[0m\n\u001b[31m│\u001b[0m \u001b[1;31mStudioCliError: \u001b[0m\u001b[37mCould not find the given Teamspace-Owner None. Please \u001b[0m       \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m \u001b[37mcontact Lightning AI directly to resolve this issue.\u001b[0m                         \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m 🐞 To view the full traceback, set: LIGHTNING_DEBUG=1                        \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m \u001b[36m📘 Need help? Run: lightning <command> --help\u001b[0m                                \u001b[31m│\u001b[0m\n\u001b[31m╰──────────────────────────────────────────────────────────────────────────────╯\u001b[0m",
+        "stderr": ""
+      },
+      "machine": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "machine",
+          "list"
+        ],
+        "returncode": 0,
+        "stdout": "┏━━━━━━━━━━━━━━━━━┓\n┃ Name            ┃\n┡━━━━━━━━━━━━━━━━━┩\n│ A100            │\n│ A100_X_2        │\n│ A100_X_4        │\n│ A100_X_8        │\n│ B200_X_8        │\n│ CPU             │\n│ CPU_SMALL       │\n│ CPU_X_16        │\n│ CPU_X_2         │\n│ CPU_X_4         │\n│ CPU_X_8         │\n│ DATA_PREP       │\n│ DATA_PREP_MAX   │\n│ DATA_PREP_ULTRA │\n│ H100            │\n│ H100_X_2        │\n│ H100_X_4        │\n│ H100_X_8        │\n│ H200            │\n│ H200_X_8        │\n│ L4              │\n│ L40S            │\n│ L40S_X_2        │\n│ L40S_X_4        │\n│ L40S_X_8        │\n│ L4_X_2          │\n│ L4_X_4          │\n│ L4_X_8          │\n│ RTXP_6000       │\n│ RTXP_6000_X_2   │\n│ RTXP_6000_X_4   │\n│ RTXP_6000_X_8   │\n│ T4              │\n│ T4_SMALL        │\n│ T4_X_2          │\n│ T4_X_4          │\n│ T4_X_8          │\n└─────────────────┘",
+        "stderr": ""
+      },
+      "stop_condition": "missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof",
+      "next_action": "Run lightning login if needed, configure the intended Teamspace owner, then rerun this preflight."
+    }
+  }
+}

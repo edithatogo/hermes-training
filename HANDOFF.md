@@ -347,6 +347,7 @@ Current gaps:
   remains blocked on login/teamspace, machine policy, zero-cost compute, and
   explicit run approval. Prepared reports and dry-runs are in
   `reports/cloud/backend-preflight-20260613.md`,
+  `reports/cloud/backend-preflight-20260614-refresh.md`,
   `reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md`,
   `reports/cloud/qwen3-v4-peft-kaggle-scorecard-plan-20260613.md`,
   `reports/cloud/qwen3-v4-peft-modal-scorecard-plan-20260614.md`,
