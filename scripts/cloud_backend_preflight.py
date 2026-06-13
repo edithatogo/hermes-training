@@ -16,6 +16,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+HF_JOBS_SCORECARD_REPORT = Path("reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md")
+
 
 def resolve_storage_root() -> Path:
     if os.environ.get("HERMES_STORAGE_ROOT"):
@@ -100,20 +102,31 @@ def summarize_hf_jobs() -> dict[str, Any]:
     whoami = run_command(["hf", "auth", "whoami"])
     hardware = run_command(["hf", "jobs", "hardware"], timeout_s=60)
     jobs = run_command(["hf", "jobs", "ps"])
+    credit_blocker_observed = False
+    if HF_JOBS_SCORECARD_REPORT.exists():
+        report_text = HF_JOBS_SCORECARD_REPORT.read_text(encoding="utf-8")
+        credit_blocker_observed = "402 Payment Required" in report_text or "Pre-paid credit balance is insufficient" in report_text
     ready = (
         whoami["installed"]
         and whoami["returncode"] == 0
         and hardware["returncode"] == 0
         and "t4-small" in hardware["stdout"]
     )
+    status = "blocked-insufficient-hf-credits" if ready and credit_blocker_observed else "prepared-needs-paid-compute-approval"
     return {
-        "status": "prepared-needs-paid-compute-approval" if ready else "blocked",
+        "status": status if ready else "blocked",
         "route": "persistent",
         "whoami": whoami,
         "hardware": hardware,
         "jobs": jobs,
+        "credit_blocker_observed": credit_blocker_observed,
         "stop_condition": "missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval",
-        "next_action": "Use HF Jobs for persistent no-limit scorecards only after explicit paid GPU approval.",
+        "next_action": (
+            "Add HF prepaid credits or grant capacity, then submit with "
+            "scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute."
+            if credit_blocker_observed
+            else "Use HF Jobs for persistent no-limit scorecards only after explicit paid GPU approval."
+        ),
     }
 
 
@@ -131,12 +144,31 @@ def summarize_ngc() -> dict[str, Any]:
 
 def summarize_kaggle() -> dict[str, Any]:
     version = run_command(["kaggle", "--version"])
+    config = run_command(["kaggle", "config", "view"]) if version["installed"] else {
+        "installed": False,
+        "path": "",
+        "command": ["kaggle", "config", "view"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "kaggle not found on PATH",
+    }
+    authenticated = version["installed"] and version["returncode"] == 0 and config["returncode"] == 0
+    if authenticated:
+        status = "prepared-needs-notebook-contract"
+        next_action = "Add a fail-closed Kaggle notebook/job spec and dry-run it before any public dataset or GPU execution."
+    elif version["installed"] and version["returncode"] == 0:
+        status = "blocked-needs-auth"
+        next_action = "Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight."
+    else:
+        status = "blocked"
+        next_action = "Install and authenticate Kaggle CLI before adding Kaggle execution jobs."
     return {
-        "status": "prepared-needs-auth-check" if version["installed"] and version["returncode"] == 0 else "blocked",
+        "status": status,
         "route": "future",
         "version": version,
+        "config": config,
         "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
-        "next_action": "Install and authenticate Kaggle CLI before adding Kaggle execution jobs.",
+        "next_action": next_action,
     }
 
 
@@ -201,8 +233,8 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--json-output", type=Path, default=Path("reports/cloud/backend-preflight-20260612.json"))
-    parser.add_argument("--markdown-output", type=Path, default=Path("reports/cloud/backend-preflight-20260612.md"))
+    parser.add_argument("--json-output", type=Path, default=Path("reports/cloud/backend-preflight-20260613.json"))
+    parser.add_argument("--markdown-output", type=Path, default=Path("reports/cloud/backend-preflight-20260613.md"))
     args = parser.parse_args()
 
     report = build_report()

@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T03:46:50.738779+00:00",
+  "created_at": "2026-06-13T03:52:39.510370+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -39,7 +39,7 @@
       "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient."
     },
     "hf_jobs": {
-      "status": "prepared-needs-paid-compute-approval",
+      "status": "blocked-insufficient-hf-credits",
       "route": "persistent",
       "whoami": {
         "installed": true,
@@ -77,8 +77,9 @@
         "stdout": "No jobs found",
         "stderr": ""
       },
+      "credit_blocker_observed": true,
       "stop_condition": "missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval",
-      "next_action": "Use HF Jobs for persistent no-limit scorecards only after explicit paid GPU approval."
+      "next_action": "Add HF prepaid credits or grant capacity, then submit with scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute."
     },
     "azure": {
       "status": "blocked",
@@ -120,7 +121,7 @@
       "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof."
     },
     "kaggle": {
-      "status": "prepared-needs-auth-check",
+      "status": "blocked-needs-auth",
       "route": "future",
       "version": {
         "installed": true,
@@ -133,8 +134,20 @@
         "stdout": "Kaggle CLI 2.2.1",
         "stderr": ""
       },
+      "config": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "config",
+          "view"
+        ],
+        "returncode": 1,
+        "stdout": "Authentication required to call the Kaggle API.\n\nFirst, you will need a Kaggle account. You can sign up at\n  https://www.kaggle.com/account/login\n\nRecommended: log in with OAuth via a web-based authorization flow.\nNo token to manage; credentials are cached locally for you.\n    kaggle auth login\n\nIf you'd rather not use OAuth, generate an API token at\n  https://www.kaggle.com/settings/api  (click \"Generate New Token\" under \"API\")\nand supply it to the CLI in one of these ways:\n\n  Option A: Environment variable\n    export KAGGLE_API_TOKEN=xxxxxxxxxxxxxx  # token copied from the settings UI\n\n  Option B: API token file\n    Save the token to ~/.kaggle/access_token",
+        "stderr": ""
+      },
       "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
-      "next_action": "Install and authenticate Kaggle CLI before adding Kaggle execution jobs."
+      "next_action": "Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight."
     }
   }
 }
