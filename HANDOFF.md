@@ -473,9 +473,11 @@ Current gaps:
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
 5. The local prompt-only repair queue is exhausted, and the first Nanbeige
-   constrained-envelope replay diagnostic is complete. Next local work should
-   turn that replay into a real runtime-wrapper proof on held-out cases before
-   any default Hermes routing change. Keep
+   constrained-envelope held-out proof is complete but failed promotion
+   threshold: raw held-out strict was `1/8`, constrained replay improved to
+   `3/8`, and no default Hermes routing change is allowed. Next local work
+   should improve raw model outputs, training data, constrained decoding, or a
+   safer runtime wrapper, then rerun held-out and broader benchmark gates. Keep
    `reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md`,
    `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`,
    `reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.md`,
