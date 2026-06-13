@@ -846,6 +846,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: NVIDIA Nemotron 3 Nano 4B GGUF Strict-Suffix Completion
+*Link: [./tracks/nvidia-nemotron3-nano-4b-gguf-strict-suffix-completion_20260614/](./tracks/nvidia-nemotron3-nano-4b-gguf-strict-suffix-completion_20260614/)*
+
+---
+
 ## [x] Track: EXAONE 4.0 1.2B Endpoint Prompt Repair Completion
 *Link: [./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/](./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/)*
 
