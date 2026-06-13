@@ -688,3 +688,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 scorecard offload readiness
 *Link: [./tracks/qwen3-v4-scorecard-offload-readiness_20260613/](./tracks/qwen3-v4-scorecard-offload-readiness_20260613/)*
+
+---
+
+## [~] Track: Qwen3 v4 PEFT Kaggle scorecard
+*Link: [./tracks/qwen3-v4-peft-kaggle-scorecard_20260613/](./tracks/qwen3-v4-peft-kaggle-scorecard_20260613/)*

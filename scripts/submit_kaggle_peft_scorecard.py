@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+"""Build or submit a guarded Kaggle kernel for the Qwen3 v4 PEFT scorecard."""
+from __future__ import annotations
+
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_RUN_ID = "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613"
+DEFAULT_KERNEL_ID = "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+DEFAULT_STAGING_DIR = ROOT / "reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613"
+DEFAULT_RUNNER = ROOT / "scripts/kaggle_peft_lm_eval_selected.py"
+DEFAULT_TASKS = "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande"
+
+
+@dataclass(frozen=True)
+class KaggleScorecardSpec:
+    run_id: str
+    kernel_id: str
+    staging_dir: Path
+    runner_path: Path
+    timeout_s: int
+    accelerator: str
+    tasks: str
+    adapter_repo: str
+    public_kernel: bool = True
+
+
+def kernel_metadata(spec: KaggleScorecardSpec) -> dict[str, Any]:
+    return {
+        "id": spec.kernel_id,
+        "title": "Qwen3 v4 PEFT lm-eval selected full",
+        "code_file": "kaggle_peft_lm_eval_selected.py",
+        "language": "python",
+        "kernel_type": "script",
+        "is_private": not spec.public_kernel,
+        "enable_gpu": True,
+        "enable_internet": True,
+        "keywords": ["qwen3", "hermes", "peft", "lm-eval"],
+        "license": "apache-2.0",
+    }
+
+
+def build_push_command(spec: KaggleScorecardSpec) -> list[str]:
+    return [
+        "kaggle",
+        "kernels",
+        "push",
+        "--path",
+        str(spec.staging_dir),
+        "--timeout",
+        str(spec.timeout_s),
+        "--accelerator",
+        spec.accelerator,
+    ]
+
+
+def stage_kernel(spec: KaggleScorecardSpec) -> dict[str, str]:
+    spec.staging_dir.mkdir(parents=True, exist_ok=True)
+    metadata_path = spec.staging_dir / "kernel-metadata.json"
+    config_path = spec.staging_dir / "kaggle-peft-lm-eval-config.json"
+    runner_target = spec.staging_dir / "kaggle_peft_lm_eval_selected.py"
+    metadata_path.write_text(json.dumps(kernel_metadata(spec), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    config_path.write_text(
+        json.dumps(
+            {
+                "run_id": spec.run_id,
+                "adapter_repo": spec.adapter_repo,
+                "tasks": spec.tasks,
+                "limit": None,
+                "timeout_s": spec.timeout_s,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    shutil.copy2(spec.runner_path, runner_target)
+    return {"metadata": str(metadata_path), "config": str(config_path), "runner": str(runner_target)}
+
+
+def build_report(
+    spec: KaggleScorecardSpec,
+    staged: dict[str, str],
+    command: list[str],
+    execute: bool,
+    confirm_kaggle_run: bool,
+) -> dict[str, Any]:
+    status = "ready-to-submit" if execute and confirm_kaggle_run else "dry-run"
+    blockers: list[str] = []
+    if execute and not confirm_kaggle_run:
+        status = "blocked"
+        blockers.append("--confirm-kaggle-run is required with --execute")
+    return {
+        "status": status,
+        "run_id": spec.run_id,
+        "backend": "kaggle-kernels",
+        "execute": execute,
+        "confirm_kaggle_run": confirm_kaggle_run,
+        "kernel_id": spec.kernel_id,
+        "staging_dir": str(spec.staging_dir),
+        "staged": staged,
+        "timeout_s": spec.timeout_s,
+        "accelerator": spec.accelerator,
+        "adapter_repo": spec.adapter_repo,
+        "tasks": spec.tasks,
+        "command": command,
+        "blockers": blockers,
+        "claim_boundary": "No-limit benchmark claim only after Kaggle completes every configured task without --limit.",
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
+    parser.add_argument("--kernel-id", default=DEFAULT_KERNEL_ID)
+    parser.add_argument("--staging-dir", type=Path, default=DEFAULT_STAGING_DIR)
+    parser.add_argument("--runner-path", type=Path, default=DEFAULT_RUNNER)
+    parser.add_argument("--timeout-s", type=int, default=21600)
+    parser.add_argument("--accelerator", default="gpu")
+    parser.add_argument("--tasks", default=DEFAULT_TASKS)
+    parser.add_argument("--adapter-repo", default="edithatogo/qwen3-4b-hermes-lora-peft-converted")
+    parser.add_argument("--private-kernel", action="store_true")
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--confirm-kaggle-run", action="store_true")
+    parser.add_argument("--json-output", type=Path)
+    args = parser.parse_args()
+
+    spec = KaggleScorecardSpec(
+        run_id=args.run_id,
+        kernel_id=args.kernel_id,
+        staging_dir=args.staging_dir,
+        runner_path=args.runner_path,
+        timeout_s=args.timeout_s,
+        accelerator=args.accelerator,
+        tasks=args.tasks,
+        adapter_repo=args.adapter_repo,
+        public_kernel=not args.private_kernel,
+    )
+    staged = stage_kernel(spec)
+    command = build_push_command(spec)
+    report = build_report(spec, staged, command, args.execute, args.confirm_kaggle_run)
+
+    if args.json_output:
+        args.json_output.parent.mkdir(parents=True, exist_ok=True)
+        args.json_output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    if args.execute and not args.confirm_kaggle_run:
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 2
+
+    if args.execute:
+        result = subprocess.run(command, check=False, capture_output=True, text=True)
+        report["submission"] = {
+            "returncode": result.returncode,
+            "stdout": result.stdout.strip(),
+            "stderr": result.stderr.strip(),
+        }
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return result.returncode
+
+    print(json.dumps(report, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

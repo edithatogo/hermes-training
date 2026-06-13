@@ -1,0 +1,31 @@
+{
+  "accelerator": "gpu",
+  "adapter_repo": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+  "backend": "kaggle-kernels",
+  "blockers": [],
+  "claim_boundary": "No-limit benchmark claim only after Kaggle completes every configured task without --limit.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "push",
+    "--path",
+    "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
+    "--timeout",
+    "21600",
+    "--accelerator",
+    "gpu"
+  ],
+  "confirm_kaggle_run": false,
+  "execute": false,
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "run_id": "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613",
+  "staged": {
+    "config": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle-peft-lm-eval-config.json",
+    "metadata": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kernel-metadata.json",
+    "runner": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle_peft_lm_eval_selected.py"
+  },
+  "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
+  "status": "dry-run",
+  "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+  "timeout_s": 21600
+}

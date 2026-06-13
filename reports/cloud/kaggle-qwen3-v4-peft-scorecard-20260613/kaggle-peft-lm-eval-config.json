@@ -1,0 +1,7 @@
+{
+  "adapter_repo": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+  "limit": null,
+  "run_id": "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613",
+  "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+  "timeout_s": 21600
+}

@@ -1,0 +1,17 @@
+{
+  "code_file": "kaggle_peft_lm_eval_selected.py",
+  "enable_gpu": true,
+  "enable_internet": true,
+  "id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "is_private": false,
+  "kernel_type": "script",
+  "keywords": [
+    "qwen3",
+    "hermes",
+    "peft",
+    "lm-eval"
+  ],
+  "language": "python",
+  "license": "apache-2.0",
+  "title": "Qwen3 v4 PEFT lm-eval selected full"
+}
