@@ -322,7 +322,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
     return items
 
 
-def summarize(items: list[CoverageItem], candidate: str, run_id: str) -> dict[str, Any]:
+def summarize(items: list[CoverageItem], candidate: str, run_id: str, created_at: str | None = None) -> dict[str, Any]:
     counts: dict[str, int] = {}
     for item in items:
         counts[item.status] = counts.get(item.status, 0) + 1
@@ -331,7 +331,7 @@ def summarize(items: list[CoverageItem], candidate: str, run_id: str) -> dict[st
     public_blocked = any(item.suite == "publication-bundle" and item.status == "blocked" for item in items)
     return {
         "run_id": run_id,
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
         "candidate": candidate,
         "status": "pilot-only" if local_ready and official_missing else "incomplete",
         "local_adapter_gate_ready": local_ready,
@@ -383,10 +383,14 @@ def main() -> int:
     parser.add_argument("--md-output", type=Path)
     parser.add_argument("--require-official-candidate", action="store_true")
     parser.add_argument("--no-write", action="store_true", help="Print the generated summary without updating report files.")
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
     items = build_items(args.candidate)
-    summary = summarize(items, args.candidate, args.run_id)
+    summary = summarize(items, args.candidate, args.run_id, created_at=args.created_at)
     if not args.no_write:
         args.output_root.mkdir(parents=True, exist_ok=True)
         json_output = args.json_output or args.output_root / f"{args.run_id}.json"

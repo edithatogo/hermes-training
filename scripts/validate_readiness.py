@@ -244,6 +244,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_runtime_prompt_profiles.py",
         ROOT / "scripts/validate_publication_bundle.py",
         ROOT / "scripts/check_standard_benchmark_coverage.py",
+        ROOT / "scripts/validate_standard_benchmark_coverage_reports.py",
         ROOT / "scripts/prepare_hf_adapter_package.py",
         ROOT / "scripts/publish_hf_adapter_package.py",
         ROOT / "scripts/audit_publication_dataset_sources.py",
@@ -394,6 +395,21 @@ def check_scorecard_offload_readiness(failures: list[str]) -> None:
         ok("scorecard offload readiness")
 
 
+def check_standard_benchmark_coverage_reports(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_standard_benchmark_coverage_reports.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"standard benchmark coverage reports: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("standard benchmark coverage reports")
+
+
 def check_cloud_blocker_reports(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -524,6 +540,7 @@ def main() -> int:
     check_candidate_benchmark_coverage(failures)
     check_runtime_proof_action_queue(failures)
     check_scorecard_offload_readiness(failures)
+    check_standard_benchmark_coverage_reports(failures)
     check_cloud_blocker_reports(failures)
 
     if failures:

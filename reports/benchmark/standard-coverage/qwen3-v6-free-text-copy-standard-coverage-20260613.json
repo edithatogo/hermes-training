@@ -1,6 +1,6 @@
 {
   "run_id": "qwen3-v6-free-text-copy-standard-coverage-20260613",
-  "created_at": "2026-06-13T00:22:23.589661+00:00",
+  "created_at": "2026-06-13T04:47:19.603616+00:00",
   "candidate": "qwen3-4b-strict-toolcall-v6-free-text-copy",
   "status": "pilot-only",
   "local_adapter_gate_ready": true,
@@ -95,9 +95,9 @@
       "suite": "lm-eval-selected",
       "tier": "official-candidate",
       "status": "missing",
-      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md",
+      "evidence": "reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md",
       "metric": "",
-      "notes": "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. A full selected-task run was attempted but interrupted after ARC Challenge only, so full selected-task coverage is still missing.",
+      "notes": "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. The 2026-06-13 no-limit local MLX run recorded a blocker after 731.827s with 0/5 tasks completed, so full selected-task coverage is still missing and should move to Colab/Azure/offload or an explicit resume lane.",
       "required_for": "general benchmark claim"
     },
     {
