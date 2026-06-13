@@ -1,0 +1,23 @@
+{
+  "source_dir": "gemma4/data/splits",
+  "target_dir": "gemma4/data/gemma4_no_thinking/splits",
+  "empty_thought_channel": "<|channel>thought\n<channel|>",
+  "splits": {
+    "train": {
+      "rows": 462,
+      "assistant_messages_prefixed": 636
+    },
+    "val": {
+      "rows": 57,
+      "assistant_messages_prefixed": 91
+    },
+    "valid": {
+      "rows": 57,
+      "assistant_messages_prefixed": 91
+    },
+    "test": {
+      "rows": 59,
+      "assistant_messages_prefixed": 66
+    }
+  }
+}

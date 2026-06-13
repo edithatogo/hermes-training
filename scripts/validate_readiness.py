@@ -252,7 +252,9 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/smoke_official_benchmark_env.py",
         ROOT / "scripts/run_mlx_lm_eval.py",
         ROOT / "scripts/materialize_publication_dataset.py",
+        ROOT / "scripts/materialize_gemma4_no_thinking_dataset.py",
         ROOT / "scripts/audit_tool_call_data.py",
+        ROOT / "scripts/validate_gemma4_no_thinking_dataset.py",
         ROOT / "scripts/validate_runtime_format_lanes.py",
         ROOT / "scripts/validate_readiness.py",
         ROOT / "scripts/check_conductor_track_consistency.py",
@@ -564,6 +566,18 @@ def check_official_benchmark_manifests(failures: list[str]) -> None:
         ok("official benchmark manifests")
 
 
+def check_gemma4_no_thinking_dataset(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_gemma4_no_thinking_dataset.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"Gemma 4 no-thinking dataset: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok(result.stdout.strip())
+
+
 def check_runtime_templates(failures: list[str]) -> None:
     for rel in (
         "templates/runtime/runtime-card.md",
@@ -626,6 +640,7 @@ def main() -> int:
     check_runtime_format_lanes(failures)
     check_publication_bundles(failures)
     check_official_benchmark_manifests(failures)
+    check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
     check_mem0_benchmark_evidence_report(failures)

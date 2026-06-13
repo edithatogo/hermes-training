@@ -671,6 +671,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Gemma 4 No-Thinking Dataset Guard
+*Link: [./tracks/gemma4-no-thinking-dataset-guard_20260613/](./tracks/gemma4-no-thinking-dataset-guard_20260613/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Colab full scorecard
 *Link: [./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/](./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/)*
 

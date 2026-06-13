@@ -120,6 +120,11 @@ Complete:
 - The packaging comparison lane also includes `bartowski/google_gemma-4-31B-it-GGUF`, which stays runtime-only until a real smoke proves it.
 - Model radar now also includes the Qwen3-VL multimodal retrieval pair and the 2B/8B packaging lanes for screenshot, document-image, and video search workflows.
 - Model radar now also includes the Jina v5 omni multimodal retrieval family plus MLX and ONNX browser/WebGPU packaging lanes.
+- Gemma 4 no-thinking training prep is now enforced: nested `gemma4` commit
+  `ba95083` materializes Gemma-specific empty-thought-channel datasets, retargets
+  the Gemma 4 26B A4B experimental configs, and adds a nested Conductor track.
+  The hub readiness gate validates the format through
+  `scripts/validate_gemma4_no_thinking_dataset.py`.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.

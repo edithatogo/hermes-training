@@ -1,0 +1,7 @@
+{
+  "id": "gemma4-no-thinking-dataset-guard_20260613",
+  "title": "Gemma 4 No-Thinking Dataset Guard",
+  "status": "complete",
+  "created_at": "2026-06-13",
+  "description": "Add Gemma 4 empty-thought-channel dataset materialization, validation, evidence, and nested gemma4 conductor tracking."
+}
