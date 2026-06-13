@@ -1,0 +1,8 @@
+{
+  "track_id": "kaggle-kernel-contract-readiness_20260614",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Validate the staged Kaggle PEFT scorecard kernel contract before any push or run."
+}

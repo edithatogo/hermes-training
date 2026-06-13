@@ -186,6 +186,11 @@ Complete:
   checks the Modal/Kaggle/Lightning sections, the no-job/no-resource/no-upload
   boundary, and obvious secret/execution-command leaks in
   `reports/cloud/free-container-account-probe-20260613.md`.
+- Kaggle PEFT scorecard staging now has a tracked no-execution contract at
+  `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`. Full readiness
+  validates public inputs, dry-run/no-confirmation status, quota visibility,
+  `/kaggle/working` output persistence, and the explicit operator approval
+  boundary before any kernel push.
 - Active blocked-track matrix generation now maps future Modal and Lightning
   scorecard tracks to their backend-specific unblock checklist entries instead
   of `unknown`.
@@ -314,8 +319,11 @@ Current gaps:
   command currently fails with a CLI parsing error, but the authenticated SDK
   fallback in `scripts/cloud_backend_preflight.py` returned GPU quota `108000s`
   total / `0s` used and TPU quota `72000s` total / `0s` used, resetting
-  `2026-06-20T00:00:00Z`. Kaggle still needs dataset terms and guarded
-  notebook/job-contract checks. Modal is authenticated but still needs
+  `2026-06-20T00:00:00Z`. The Kaggle notebook contract passed in
+  `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`; it uses public
+  inputs only, no private data upload, no `--limit`, and preserves the explicit
+  `--execute --confirm-kaggle-run` operator boundary. Kaggle still needs
+  explicit run approval and artifact recovery. Modal is authenticated but still needs
   free-credit/GPU-policy proof and a fail-closed submitter. Prepared reports and dry-runs are in
   `reports/cloud/backend-preflight-20260613.md`,
   `reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md`,
@@ -350,7 +358,7 @@ Current gaps:
     `qwen3-v4-peft-kaggle-scorecard_20260613`, and
     `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
     execution step is whichever backend becomes unblocked first: HF credits,
-    Kaggle terms/notebook approval, Azure login/quota, NGC auth/container/quota,
+    Kaggle run approval, Azure login/quota, NGC auth/container/quota,
     a stable Colab no-limit session, or Modal credit/GPU policy approval. The
     next new local track should be selected
     deliberately from remaining role gaps: prompt/profile repair for a specific

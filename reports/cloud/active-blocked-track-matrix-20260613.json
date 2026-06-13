@@ -76,7 +76,7 @@
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
       ],
-      "next_task": "Confirm dataset terms and notebook execution contract.",
+      "next_task": "Submit the no-limit kernel only after explicit confirmation.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

@@ -63,8 +63,11 @@ The submitter will not push a Kaggle kernel unless both `--execute` and
 `kaggle quota` command currently fails with a CLI parsing error, but the
 authenticated SDK fallback in `scripts/cloud_backend_preflight.py` returned GPU
 quota `108000s` total / `0s` used and TPU quota `72000s` total / `0s` used,
-refreshing at `2026-06-20T00:00:00Z`. No Kaggle notebook was submitted and no
-GPU quota was consumed.
+refreshing at `2026-06-20T00:00:00Z`. The notebook contract passed in
+`reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`: public inputs only,
+no private data upload, GPU script metadata, no `--limit`, 21600s timeout, and
+explicit `--execute --confirm-kaggle-run` operator boundary. No Kaggle notebook
+was submitted and no GPU quota was consumed.
 
 ## Stop Conditions
 
@@ -74,3 +77,5 @@ GPU quota was consumed.
   `--limit`.
 - No private data upload; the staged kernel only uses public model artifacts and
   public code.
+- No execution without explicit operator approval for
+  `scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run`.

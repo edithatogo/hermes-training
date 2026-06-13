@@ -36,8 +36,11 @@ Do not launch GPU work until the credit/grant and GPU policy gates are proven.
   is `2026-06-20T00:00:00Z`. The public `kaggle quota` command still fails with
   a CLI parsing error, so use the preflight report as the quota proof.
 - Remaining gates:
-  - review dataset terms and avoid private data uploads;
   - push/run the staged kernel only after explicit confirmation.
+- Notebook contract: passed in
+  `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md` with public inputs
+  only, no private data upload, no `--limit`, and the explicit
+  `--execute --confirm-kaggle-run` boundary.
 - Next step:
 
 ```bash

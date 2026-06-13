@@ -1,0 +1,118 @@
+{
+  "checks": [
+    {
+      "detail": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+      "name": "metadata_kernel_id",
+      "passed": true
+    },
+    {
+      "detail": "script",
+      "name": "metadata_script_kernel",
+      "passed": true
+    },
+    {
+      "detail": "python",
+      "name": "metadata_python",
+      "passed": true
+    },
+    {
+      "detail": "True",
+      "name": "metadata_gpu_enabled",
+      "passed": true
+    },
+    {
+      "detail": "True",
+      "name": "metadata_internet_enabled",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "metadata_public_kernel",
+      "passed": true
+    },
+    {
+      "detail": "apache-2.0",
+      "name": "metadata_license",
+      "passed": true
+    },
+    {
+      "detail": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "name": "config_adapter_public_repo",
+      "passed": true
+    },
+    {
+      "detail": "None",
+      "name": "config_no_limit",
+      "passed": true
+    },
+    {
+      "detail": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+      "name": "config_selected_tasks",
+      "passed": true
+    },
+    {
+      "detail": "21600",
+      "name": "config_timeout_bounded",
+      "passed": true
+    },
+    {
+      "detail": "dry-run",
+      "name": "dry_run_status",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_no_execute",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_no_confirmation",
+      "passed": true
+    },
+    {
+      "detail": "[]",
+      "name": "dry_run_no_blockers",
+      "passed": true
+    },
+    {
+      "detail": "prepared-needs-notebook-contract",
+      "name": "preflight_kaggle_prepared",
+      "passed": true
+    },
+    {
+      "detail": "0",
+      "name": "preflight_quota_visible",
+      "passed": true
+    },
+    {
+      "detail": "adapter repo is configurable and defaults to the public PEFT repo",
+      "name": "runner_downloads_public_adapter",
+      "passed": true
+    },
+    {
+      "detail": "runner writes summary and lm-eval outputs under Kaggle working directory",
+      "name": "runner_writes_kaggle_working_artifacts",
+      "passed": true
+    },
+    {
+      "detail": "claim boundary is embedded in runner output",
+      "name": "runner_records_claim_boundary",
+      "passed": true
+    }
+  ],
+  "dataset_terms_contract": {
+    "internet_required": true,
+    "operator_boundary": "No Kaggle kernel push without --execute --confirm-kaggle-run and explicit operator approval.",
+    "private_data_upload": false,
+    "public_inputs": [
+      "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "Qwen/Qwen3-4B",
+      "lm-eval selected public benchmark tasks"
+    ]
+  },
+  "dry_run": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-kaggle-submit-dry-run-20260613.json",
+  "preflight": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/backend-preflight-20260613.json",
+  "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
+  "status": "pass"
+}
