@@ -1,0 +1,41 @@
+{
+  "created_at": "2026-06-13T02:00:47.025697+00:00",
+  "status": "blocked",
+  "plan": "reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.yaml",
+  "run_id": "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "model": "Qwen/Qwen3-4B-MLX-4bit",
+  "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+  "adapter_classification": {
+    "framework": "mlx-native",
+    "model": "Qwen/Qwen3-4B-MLX-4bit",
+    "files": [
+      "0000020_adapters.safetensors",
+      "0000040_adapters.safetensors",
+      "0000060_adapters.safetensors",
+      "0000080_adapters.safetensors",
+      "0000100_adapters.safetensors",
+      "0000120_adapters.safetensors",
+      "0000140_adapters.safetensors",
+      "adapter_config.json",
+      "adapters.safetensors"
+    ],
+    "has_mlx_weights": true,
+    "has_peft_weights": false,
+    "has_peft_type": false
+  },
+  "cloud_backends": [
+    "colab-cuda",
+    "azure-cuda"
+  ],
+  "exact_adapter_portable": false,
+  "blockers": [
+    "adapter is MLX-native; CUDA Colab/Azure cannot load it through standard Transformers/PEFT"
+  ],
+  "next_actions": [
+    "export or convert the MLX LoRA to a Hugging Face PEFT adapter with equivalent behavior",
+    "or run the full scorecard on Apple Silicon with an explicit long-runtime window",
+    "or benchmark only the base model/another portable candidate and label it separately"
+  ],
+  "claim_boundary": "No cloud scorecard claim until the exact adapter is portable or the report explicitly labels a different model."
+}
