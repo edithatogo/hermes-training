@@ -20,6 +20,7 @@ DEFAULT_SCRIPT_URL = (
     "https://raw.githubusercontent.com/edithatogo/hermes-training/main/scripts/hf_jobs_peft_lm_eval_selected.py"
 )
 DEFAULT_TASKS = "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande"
+HF_JOBS_SCORECARD_REPORT = Path("reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md")
 
 
 @dataclass(frozen=True)
@@ -80,18 +81,37 @@ def render_shell(command: list[str]) -> str:
     return " ".join(shlex.quote(part) for part in command)
 
 
-def build_report(spec: HfJobsScorecardSpec, command: list[str], execute: bool, confirm_paid_compute: bool) -> dict[str, Any]:
+def known_credit_blocker(report_path: Path = HF_JOBS_SCORECARD_REPORT) -> bool:
+    if not report_path.exists():
+        return False
+    report = report_path.read_text(encoding="utf-8")
+    return "402 Payment Required" in report or "Pre-paid credit balance is insufficient" in report
+
+
+def build_report(
+    spec: HfJobsScorecardSpec,
+    command: list[str],
+    execute: bool,
+    confirm_paid_compute: bool,
+    credit_blocker_observed: bool = False,
+    ignore_known_credit_blocker: bool = False,
+) -> dict[str, Any]:
     status = "ready-to-submit" if execute and confirm_paid_compute else "dry-run"
     blockers: list[str] = []
     if execute and not confirm_paid_compute:
         status = "blocked"
         blockers.append("--confirm-paid-compute is required with --execute")
+    if execute and credit_blocker_observed and not ignore_known_credit_blocker:
+        status = "blocked"
+        blockers.append("known HF Jobs prepaid credit blocker is still recorded; add credits or pass --ignore-known-credit-blocker after verifying credits")
     return {
         "status": status,
         "run_id": spec.run_id,
         "backend": "hf-jobs",
         "paid_compute": True,
         "confirm_paid_compute": confirm_paid_compute,
+        "credit_blocker_observed": credit_blocker_observed,
+        "ignore_known_credit_blocker": ignore_known_credit_blocker,
         "execute": execute,
         "flavor": spec.flavor,
         "timeout": spec.timeout,
@@ -116,6 +136,7 @@ def main() -> int:
     parser.add_argument("--script-url", default=DEFAULT_SCRIPT_URL)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--confirm-paid-compute", action="store_true")
+    parser.add_argument("--ignore-known-credit-blocker", action="store_true")
     parser.add_argument("--json-output", type=Path)
     args = parser.parse_args()
 
@@ -130,13 +151,20 @@ def main() -> int:
         script_url=args.script_url,
     )
     command = build_job_command(spec)
-    report = build_report(spec, command, args.execute, args.confirm_paid_compute)
+    report = build_report(
+        spec,
+        command,
+        args.execute,
+        args.confirm_paid_compute,
+        credit_blocker_observed=known_credit_blocker(),
+        ignore_known_credit_blocker=args.ignore_known_credit_blocker,
+    )
 
     if args.json_output:
         args.json_output.parent.mkdir(parents=True, exist_ok=True)
         args.json_output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    if args.execute and not args.confirm_paid_compute:
+    if args.execute and report["blockers"]:
         print(json.dumps(report, indent=2, sort_keys=True))
         return 2
 
