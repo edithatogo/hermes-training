@@ -29,12 +29,12 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 8 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking |
 | 9 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | source-model-benchmarked | mlx | local-embedding-smoke | expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now |
 | 10 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | differentiation-suite | expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default |
-| 11 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | source-model-benchmarked | llama.cpp | differentiation-suite | server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200 and existing no-download rerank policies did not improve it, so `embeddinggemma-proxy` stays opt-in |
+| 11 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | source-model-benchmarked | llama.cpp | default-integration-gate | server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200 and existing no-download rerank policies did not improve it, so embeddinggemma-proxy stays opt-in |
 | 12 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
 | 13 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
 | 14 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
 | 15 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 16 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost |
+| 16 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; direct smokes on 2026-05-26, 2026-06-12, and 2026-06-13 returned Hugging Face 403 gated-repo errors despite public metadata visibility, so use the separately benchmarked GGUF package until official access is granted |
 | 17 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 
 ## Candidate Commands
@@ -72,7 +72,7 @@ source scripts/env.sh
 
 - Role: `reranker`
 - Status: `broader-latency-proven-opt-in`
-- Blocker: broader cold/warm latency proof passed safely with cold p50 7.404s, cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow for every-turn automatic preludes; keep opt-in read mode
+- Blocker: broader cold/warm proof passed safely with cold p50 7.404s, cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow for every-turn automatic preludes; keep opt-in read mode
 
 ```bash
 source scripts/env.sh
@@ -202,7 +202,7 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `source-model-benchmarked`
-- Blocker: server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200 and existing no-download rerank policies did not improve it, so `embeddinggemma-proxy` stays opt-in
+- Blocker: server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200 and existing no-download rerank policies did not improve it, so embeddinggemma-proxy stays opt-in
 
 ```bash
 source scripts/env.sh
@@ -216,12 +216,8 @@ source scripts/env.sh
   --embd-normalize 2 \
   --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
   --run-id embedding-lmstudio-community-embeddinggemma-300m-qat-gguf-$(date +%Y%m%d-%H%M%S)
-```
 
-Opt-in Hermes read path after rendering an EmbeddingGemma mem0 profile:
-
-```bash
-source scripts/env.sh
+# Opt-in Hermes read path after rendering an EmbeddingGemma mem0 profile:
 ./.venv/bin/python scripts/mem0_read.py "active collection" \
   --mode embeddinggemma-proxy \
   --mem0-config-path /Volumes/PortableSSD/hermes-evals/mem0-profiles/embeddinggemma-300m-qat-gguf/config.json \
@@ -293,7 +289,7 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `access-gated`
-- Blocker: Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost
+- Blocker: Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; direct smokes on 2026-05-26, 2026-06-12, and 2026-06-13 returned Hugging Face 403 gated-repo errors despite public metadata visibility, so use the separately benchmarked GGUF package until official access is granted
 
 ```bash
 source scripts/env.sh

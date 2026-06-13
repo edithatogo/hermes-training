@@ -22,6 +22,7 @@ class CheckMem0ModelCandidatesTests(unittest.TestCase):
             "benchmarked-cpu-mps-not-promoted",
             "source-model-benchmarked",
             "live-read-wrapper-smoked",
+            "broader-latency-proven-opt-in",
             "working-default-clean-root-smoked",
         ):
             with self.subTest(status=status):

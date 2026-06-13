@@ -628,3 +628,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: MLX BGE Broader Cold/Warm Latency
 *Link: [./tracks/mlx-bge-broader-cold-warm-latency_20260613/](./tracks/mlx-bge-broader-cold-warm-latency_20260613/)*
+
+---
+
+## [x] Track: Handoff Current-State Reconciliation
+*Link: [./tracks/handoff-current-state-reconciliation_20260613/](./tracks/handoff-current-state-reconciliation_20260613/)*

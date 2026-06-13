@@ -23,6 +23,7 @@ STATUS_ORDER = {
     "working-default-clean-root-smoked": 0,
     "live-read-wrapper-smoked": 1,
     "isolated-fixture-proven": 1,
+    "broader-latency-proven-opt-in": 1,
     "benchmarked-cpu-mps-not-promoted": 2,
     "extraction-benchmarked-not-promoted": 2,
     "fixed-suite-benchmarked": 2,
@@ -117,6 +118,17 @@ def command_for(candidate: dict[str, Any]) -> str:
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )
+        if model_id == "lmstudio-community/embeddinggemma-300m-qat-GGUF":
+            lines.extend(
+                [
+                    "",
+                    "# Opt-in Hermes read path after rendering an EmbeddingGemma mem0 profile:",
+                    './.venv/bin/python scripts/mem0_read.py "active collection" \\',
+                    "  --mode embeddinggemma-proxy \\",
+                    "  --mem0-config-path /Volumes/PortableSSD/hermes-evals/mem0-profiles/embeddinggemma-300m-qat-gguf/config.json \\",
+                    "  --cache-ttl-s 0",
+                ]
+            )
         return "\n".join(lines)
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "\n".join(
@@ -146,7 +158,7 @@ def command_for(candidate: dict[str, Any]) -> str:
         )
     if role == "reranker":
         if "bge-reranker-v2-m3-mlx" in model_id:
-            if status == "isolated-fixture-proven":
+            if status in {"isolated-fixture-proven", "broader-latency-proven-opt-in"}:
                 return "\n".join(
                     [
                         "# Opt-in guarded read mode is available; run bounded cold/warm latency probes before any default integration.",
@@ -274,6 +286,12 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         return "live read-only wrapper smoke passed; keep read-only until broader coverage"
     if status == "isolated-fixture-proven":
         return "first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof"
+    if status == "broader-latency-proven-opt-in":
+        return (
+            "broader cold/warm proof passed safely with cold p50 7.404s, "
+            "cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow "
+            "for every-turn automatic preludes; keep opt-in read mode"
+        )
     if status == "benchmarked-cpu-mps-not-promoted":
         if candidate.get("id") == "BAAI/bge-m3":
             return "expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection"
@@ -294,7 +312,12 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx":
             return "expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default"
         if candidate.get("id") == "lmstudio-community/embeddinggemma-300m-qat-GGUF":
-            return "server-backed differentiation suite passed at 1.000 with p50 0.012s and live mem0 fixture reached top-1 0.909 / recall@3 1.000; keep non-default until the GGUF runtime-boundary miss is fixed"
+            return (
+                "server-backed differentiation and resilient-proxy live mem0 fixture both "
+                "reached top-1 1.000 / recall@3 1.000; copied live-store replay reached "
+                "recall 1.000 but top-1 match 0.200 and existing no-download rerank "
+                "policies did not improve it, so embeddinggemma-proxy stays opt-in"
+            )
         if candidate.get("id") == "LiquidAI/LFM2-ColBERT-350M":
             return "expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read"
         return "source HF model passed fixed and expanded suites; keep as benchmarked-not-promoted until a role-specific promotion gate passes"
@@ -303,10 +326,10 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     if candidate.get("id") == "google/embeddinggemma-300m":
         return (
             "Official Google retrieval baseline for mem0 comparison. Gated model with "
-            "2048-token context and configurable 128-768 embedding dimensions; the "
-            "first direct smoke returned a Hugging Face 403, so keep it behind a "
-            "separate collection until access is granted and a challenger wins on "
-            "quality, latency, and migration cost"
+            "2048-token context and configurable 128-768 embedding dimensions; direct "
+            "smokes on 2026-05-26, 2026-06-12, and 2026-06-13 returned Hugging Face "
+            "403 gated-repo errors despite public metadata visibility, so use the "
+            "separately benchmarked GGUF package until official access is granted"
         )
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "requires model acquisition/load proof and memory-footprint check"

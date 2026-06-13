@@ -30,6 +30,7 @@ STATUSES = {
     "runtime-blocked",
     "fixed-suite-benchmarked",
     "isolated-fixture-proven",
+    "broader-latency-proven-opt-in",
     "source-model-benchmarked",
     "live-read-wrapper-smoked",
     "rejected",

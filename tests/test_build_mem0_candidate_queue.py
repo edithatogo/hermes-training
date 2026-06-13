@@ -12,7 +12,10 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         }
 
         self.assertEqual(queue_priority(candidate)[0], 2)
-        self.assertEqual(blocker_for(candidate), "benchmarked but not promoted; keep separate collection or artifact")
+        self.assertEqual(
+            blocker_for(candidate),
+            "expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection",
+        )
 
     def test_source_model_benchmarked_status_gets_promoted_queue_priority(self) -> None:
         candidate = {
@@ -74,6 +77,23 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertIn("--mode mlx-bge", command_for(candidate))
         self.assertIn("--subprocess-read", command_for(candidate))
 
+    def test_broader_latency_proven_status_keeps_opt_in_boundary(self) -> None:
+        candidate = {
+            "id": "flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit",
+            "role": "reranker",
+            "runtime": ["mlx"],
+            "status": "broader-latency-proven-opt-in",
+        }
+
+        self.assertEqual(queue_priority(candidate)[0], 1)
+        self.assertEqual(
+            blocker_for(candidate),
+            "broader cold/warm proof passed safely with cold p50 7.404s, cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow for every-turn automatic preludes; keep opt-in read mode",
+        )
+        self.assertIn("run_mem0_read_latency_probe.py", command_for(candidate))
+        self.assertIn("--mode mlx-bge", command_for(candidate))
+        self.assertIn("--subprocess-read", command_for(candidate))
+
     def test_jina_mlx_embedder_uses_dedicated_runner(self) -> None:
         candidate = {
             "id": "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx",
@@ -83,9 +103,9 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
             "status": "candidate",
         }
 
-        self.assertEqual(
+        self.assertIn(
+            "2026-06-12 local SSD smoke passed the 3-case mem0 embedding suite",
             blocker_for(candidate),
-            "custom-code MLX model; run dedicated load/add/search proof and record task type and collection shape",
         )
         command = command_for(candidate)
         self.assertIn("scripts/run_jina_mlx_embedding_benchmark.py", command)
