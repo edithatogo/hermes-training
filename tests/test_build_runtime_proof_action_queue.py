@@ -61,6 +61,31 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertEqual(rows[0]["id"], "missing/artifact")
         self.assertEqual(rows[1]["lane"], "runtime-support-upgrade")
 
+    def test_runtime_proofs_sort_by_acquisition_size_before_active_size(self) -> None:
+        rows = build_queue(
+            [
+                candidate(id="huge/moe", parameters="80B total / 3B active", environment="hf-transformers"),
+                candidate(id="small/dense", parameters="4B", environment="mac-mlx"),
+            ],
+            [
+                {
+                    "project": "hermes",
+                    "id": "huge/moe",
+                    "coverage_state": "blocked",
+                    "blocked_reason": "blocked until runtime artifact/load proof exists",
+                },
+                {
+                    "project": "hermes",
+                    "id": "small/dense",
+                    "coverage_state": "blocked",
+                    "blocked_reason": "blocked until runtime artifact/load proof exists",
+                },
+            ],
+        )
+
+        self.assertEqual(rows[0]["id"], "small/dense")
+        self.assertEqual(rows[1]["id"], "huge/moe")
+
 
 if __name__ == "__main__":
     unittest.main()

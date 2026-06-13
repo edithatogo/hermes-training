@@ -73,6 +73,25 @@ def parameter_size_bucket(parameters: str) -> tuple[int, str]:
     return 5, "cloud-only"
 
 
+def acquisition_size_order(parameters: str) -> int:
+    text = parameters.lower()
+    numbers = [float(match) for match in re.findall(r"(\d+(?:\.\d+)?)\s*b", text)]
+    if not numbers:
+        return 9
+    total = max(numbers)
+    if total <= 2:
+        return 0
+    if total <= 4:
+        return 1
+    if total <= 9:
+        return 2
+    if total <= 14:
+        return 3
+    if total <= 32:
+        return 4
+    return 5
+
+
 def lane_for(item: dict[str, Any], coverage_state: str, blocked_reason: str) -> str:
     env = str(item.get("environment", ""))
     role = str(item.get("role", ""))
@@ -215,8 +234,9 @@ def next_command(item: dict[str, Any], lane: str) -> str:
     )
 
 
-def priority_for(item: dict[str, Any], lane: str, coverage_state: str, blocked_reason: str) -> tuple[int, int, str]:
+def priority_for(item: dict[str, Any], lane: str, coverage_state: str, blocked_reason: str) -> tuple[int, int, int, str]:
     size_order, _ = parameter_size_bucket(str(item.get("parameters", "")))
+    acquisition_order = acquisition_size_order(str(item.get("parameters", "")))
     lane_order = {
         "mac-runtime-proof": 0,
         "prompt-profile-repair": 1,
@@ -230,7 +250,7 @@ def priority_for(item: dict[str, Any], lane: str, coverage_state: str, blocked_r
     }.get(lane, 9)
     state_penalty = 0 if coverage_state in {"blocked", "needs-benchmark", "needs-benchmark-or-proof"} else 1
     reason_penalty = 1 if "open local weights" in blocked_reason else 0
-    return lane_order + state_penalty + reason_penalty, size_order, str(item.get("id", ""))
+    return lane_order + state_penalty + reason_penalty, acquisition_order, size_order, str(item.get("id", ""))
 
 
 def build_queue(candidates: list[dict[str, Any]], coverage_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:

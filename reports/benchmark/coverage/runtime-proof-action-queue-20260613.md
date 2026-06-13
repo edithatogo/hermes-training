@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T04:44:15.456595+00:00`
+Created: `2026-06-13T05:14:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -9,31 +9,31 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 
 | Priority | Candidate | Lane | Params | Environment | Coverage | Next proof |
 |---:|---|---|---|---|---|---|
-| 1 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 2 | `Qwen/Qwen3-Coder-Next-GGUF` | `mac-runtime-proof` | 80B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 3 | `deepsweet/Qwen3.6-35B-A3B-MLX-oQ4` | `mac-runtime-proof` | 35B total / 3B active | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 4 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 5 | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 6 | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 7 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 8 | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `mac-runtime-proof` | 35B total / 3B active | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 9 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 10 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 11 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 12 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 13 | `nex-agi/Nex-N2-mini` | `mac-runtime-proof` | 9B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 14 | `openbmb/AgentCPM-Report-GGUF` | `mac-runtime-proof` | 8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 15 | `openbmb/MiniCPM-V-4.6-GPTQ` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 16 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 17 | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 18 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 19 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 20 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 21 | `unsloth/gemma-4-12B-it-qat-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 22 | `unsloth/gemma-4-12b-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 23 | `bartowski/google_gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 24 | `ggml-org/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 25 | `google/gemma-4-31B-it-qat-q4_0-gguf` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 1 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 2 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 3 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 4 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 5 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 6 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 7 | `nex-agi/Nex-N2-mini` | `mac-runtime-proof` | 9B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 8 | `openbmb/AgentCPM-Report-GGUF` | `mac-runtime-proof` | 8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 9 | `openbmb/MiniCPM-V-4.6-GPTQ` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 10 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 11 | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 12 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 14 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 15 | `unsloth/gemma-4-12B-it-qat-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 16 | `unsloth/gemma-4-12b-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 17 | `bartowski/google_gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 18 | `ggml-org/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 19 | `google/gemma-4-31B-it-qat-q4_0-gguf` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 20 | `lmstudio-community/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 21 | `unsloth/Qwen3.6-27B-GGUF` | `mac-runtime-proof` | 27B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 22 | `unsloth/Qwen3.6-27B-MTP-GGUF` | `mac-runtime-proof` | 27B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 23 | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | `mac-runtime-proof` | 27B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
+| 24 | `unsloth/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 25 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 
 ## Lane Counts
 
@@ -49,48 +49,6 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 
 ## Command Templates
 
-### Qwen/Qwen3-Coder-Next
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
-```
-
-### Qwen/Qwen3-Coder-Next-GGUF
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model qwen-qwen3-coder-next-gguf \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id qwen-qwen3-coder-next-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
-### deepsweet/Qwen3.6-35B-A3B-MLX-oQ4
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-# Acquire the MLX model to the SSD Hugging Face cache first.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py \
-  --model deepsweet/Qwen3.6-35B-A3B-MLX-oQ4 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id deepsweet-qwen3-6-35b-a3b-mlx-oq4-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
 ### google/gemma-4-E4B-it-qat-mobile-transformers
 
 - Lane: `mac-runtime-proof`
@@ -100,38 +58,6 @@ source scripts/env.sh
 ```bash
 source scripts/env.sh
 ./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
-```
-
-### localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
-### mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model mudler-qwen3-6-35b-a3b-apex-mtp-gguf \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id mudler-qwen3-6-35b-a3b-apex-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF
@@ -148,22 +74,6 @@ source scripts/env.sh
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
   --run-id unsloth-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
-```
-
-### unsloth/Qwen3.6-35B-A3B-MTP-GGUF
-
-- Lane: `mac-runtime-proof`
-- Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
-
-```bash
-source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model unsloth-qwen3-6-35b-a3b-mtp-gguf \
-  --base-url http://127.0.0.1:<port>/v1 \
-  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id unsloth-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### DJLougen/Harmonic-9B
@@ -228,6 +138,96 @@ source scripts/env.sh
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
   --run-id mradermacher-harmonic-hermes-9b-i1-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### nex-agi/Nex-N2-mini
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the MLX model to the SSD Hugging Face cache first.
+./.venv/bin/python scripts/run_local_pilot_benchmark.py \
+  --model nex-agi/Nex-N2-mini \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id nex-agi-nex-n2-mini-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### openbmb/AgentCPM-Report-GGUF
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model openbmb-agentcpm-report-gguf \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id openbmb-agentcpm-report-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### openbmb/MiniCPM-V-4.6-GPTQ
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
+```
+
+### openbmb/MiniCPM-o-4_5-gguf
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model openbmb-minicpm-o-4-5-gguf \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id openbmb-minicpm-o-4-5-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model duoneural-openyourmind-gemma4-12b-it-abliterated-gguf \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id duoneural-openyourmind-gemma4-12b-it-abliterated-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+```
+
+### batiai/gemma-4-12B-it-GGUF
+
+- Lane: `mac-runtime-proof`
+- Coverage: `blocked`
+- Blocker: blocked until runtime artifact/load proof exists
+
+```bash
+source scripts/env.sh
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model batiai-gemma-4-12b-it-gguf \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id batiai-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ## Policy
