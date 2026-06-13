@@ -1,0 +1,20 @@
+{
+  "run_id": "prompt-profile-repair-results-20260614",
+  "created_at": "2026-06-14T03:20:00+00:00",
+  "results": [
+    {
+      "candidate": "Qwen/Qwen3.5-0.8B",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "try the qwen-no-think-prefill or empty-output-retry variant before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    }
+  ]
+}

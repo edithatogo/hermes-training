@@ -62,7 +62,7 @@ class ValidateKaggleResultIngestTests(unittest.TestCase):
             root = Path(tmp)
             summary = self.make_successful_run(root)
 
-            report = validate_ingest(summary, root, allow_pending=False)
+            report = validate_ingest(summary, root.resolve(), allow_pending=False)
 
         self.assertEqual(report["status"], "pass")
         self.assertEqual(set(report["found_tasks"]), {"arc_challenge", "hellaswag", "truthfulqa_mc2", "gsm8k", "winogrande"})
@@ -76,7 +76,7 @@ class ValidateKaggleResultIngestTests(unittest.TestCase):
             payload["evaluation"]["command"].extend(["--limit", "10"])
             summary.write_text(json.dumps(payload), encoding="utf-8")
 
-            report = validate_ingest(summary, root, allow_pending=False)
+            report = validate_ingest(summary, root.resolve(), allow_pending=False)
 
         self.assertEqual(report["status"], "fail")
         self.assertFalse(next(check for check in report["checks"] if check["name"] == "no_limit_configured")["passed"])

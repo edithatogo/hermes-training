@@ -58,6 +58,12 @@ def main() -> int:
             command = str(experiment.get("command", ""))
             if "--require-no-extra-tool-text" not in command:
                 failures.append(f"{label} is missing strict no-extra-tool-text scoring")
+            if "$(date " in command and "RUN_STAMP=$(date " not in command:
+                failures.append(f"{label} uses a date command without RUN_STAMP")
+            if "$(date +%Y%m%d-%H%M%S)" in command and "--run-id" in command:
+                run_id_fragment = command.split("--run-id", 1)[1].split(" ", 2)[:2]
+                if "$(date +%Y%m%d-%H%M%S)" in " ".join(run_id_fragment):
+                    failures.append(f"{label} may create a literal date expression in run id")
             if "No download here" not in command:
                 failures.append(f"{label} is missing no-download boundary")
             if not experiment.get("goal"):

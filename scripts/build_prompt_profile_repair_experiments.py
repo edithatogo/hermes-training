@@ -35,6 +35,8 @@ def load_json(path: Path) -> dict[str, Any]:
 
 
 def quote(value: str) -> str:
+    if "${RUN_STAMP}" in value:
+        return value
     return shlex.quote(value)
 
 
@@ -59,6 +61,7 @@ def command_for(row: dict[str, Any], variant: dict[str, str]) -> str:
     runner = base_runner(row)
     common = [
         "source scripts/env.sh",
+        "RUN_STAMP=$(date +%Y%m%d-%H%M%S)",
         "# No download here: run only against the existing SSD-backed artifact or local endpoint.",
     ]
     if runner == "endpoint":
@@ -75,7 +78,7 @@ def command_for(row: dict[str, Any], variant: dict[str, str]) -> str:
             variant.get("max_tokens", "512"),
             "--require-no-extra-tool-text",
             "--run-id",
-            f"{slug}-{variant_id}-$(date +%Y%m%d-%H%M%S)",
+            f"{slug}-{variant_id}-${{RUN_STAMP}}",
         ]
     else:
         command = [
@@ -89,7 +92,7 @@ def command_for(row: dict[str, Any], variant: dict[str, str]) -> str:
             variant.get("max_tokens", "512"),
             "--require-no-extra-tool-text",
             "--run-id",
-            f"{slug}-{variant_id}-$(date +%Y%m%d-%H%M%S)",
+            f"{slug}-{variant_id}-${{RUN_STAMP}}",
         ]
     for flag, key in (
         ("--system-prefix", "system_prefix"),

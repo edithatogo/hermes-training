@@ -3,6 +3,7 @@
   "created_at": "2026-06-14T03:10:00+00:00",
   "source_queue": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-queue-20260614.json",
   "source_experiments": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.json",
+  "source_results": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-results-20260614.json",
   "rows": [
     {
       "priority": 1,
@@ -20,6 +21,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -38,6 +41,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -68,6 +73,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -86,6 +93,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -110,6 +119,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -140,6 +151,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -147,8 +160,8 @@
       "candidate": "Qwen/Qwen3.5-0.8B",
       "environment": "mac-mlx",
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
-      "status": "pending-local",
-      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "status": "completed-no-promotion",
+      "next_action": "try the qwen-no-think-prefill or empty-output-retry variant before any promotion claim",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -169,7 +182,9 @@
           "strict_scoring": true
         }
       ],
-      "result_report": "",
+      "result_report": "reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)/summary.json",
+      "pass_rate": 0.0,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -200,6 +215,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -224,6 +241,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -248,6 +267,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -272,6 +293,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -296,6 +319,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -314,6 +339,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -332,6 +359,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -350,6 +379,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -380,6 +411,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -391,6 +424,8 @@
       "next_action": "candidate environment is not locally runnable; wait for the relevant cloud/offload track",
       "experiments": [],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -415,6 +450,8 @@
         }
       ],
       "result_report": "",
+      "source_summary": "",
+      "pass_rate": null,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     }
   ]

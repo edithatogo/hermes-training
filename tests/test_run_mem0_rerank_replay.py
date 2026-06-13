@@ -16,6 +16,7 @@ from scripts.run_mem0_rerank_replay import (
 class RunMem0RerankReplayTests(unittest.TestCase):
     def test_suite_candidates_to_mem0_results_preserves_relevance_and_scores(self) -> None:
         case = {
+            "query": "What is the current collection?",
             "candidates": [
                 {
                     "id": "current",
@@ -39,6 +40,7 @@ class RunMem0RerankReplayTests(unittest.TestCase):
                     "score": 0.88,
                     "created_at": "2026-05-24T07:00:00+00:00",
                     "relevant": True,
+                    "query": "What is the current collection?",
                 }
             ],
         )
@@ -69,6 +71,7 @@ class RunMem0RerankReplayTests(unittest.TestCase):
                 "Retrieve relevant memory",
                 True,
                 "http://127.0.0.1:8765",
+                1024,
             )
 
         self.assertEqual(row["top_candidate_id"], "new")
@@ -111,6 +114,7 @@ class RunMem0RerankReplayTests(unittest.TestCase):
             "Retrieve relevant memory",
             True,
             "http://127.0.0.1:8765",
+            1024,
         )
 
         self.assertEqual(summary["top1_accuracy"], 0.5)

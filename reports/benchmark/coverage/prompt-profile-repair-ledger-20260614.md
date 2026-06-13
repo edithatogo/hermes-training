@@ -15,7 +15,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 | 4 | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 5 | `openbmb/MiniCPM5-1B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 6 | `openbmb/MiniCPM5-1B-MLX` | `mac-mlx` | `pending-local` | 3 | run one local MLX/Transformers experiment and capture the report path |
-| 7 | `Qwen/Qwen3.5-0.8B` | `mac-mlx` | `pending-local` | 3 | run one local MLX/Transformers experiment and capture the report path |
+| 7 | `Qwen/Qwen3.5-0.8B` | `mac-mlx` | `completed-no-promotion` | 3 | try the qwen-no-think-prefill or empty-output-retry variant before any promotion claim |
 | 8 | `Qwen/Qwen3.5-2B` | `mac-mlx` | `pending-local` | 3 | run one local MLX/Transformers experiment and capture the report path |
 | 9 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `mac-mlx` | `pending-local-with-analysis-variant` | 2 | run raw-output variants first; analysis-only normalizer variants cannot promote |
 | 10 | `ibm-granite/granite-4.1-3b` | `mac-mlx` | `pending-local-with-analysis-variant` | 2 | run raw-output variants first; analysis-only normalizer variants cannot promote |
@@ -31,7 +31,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 ## Gates
 
 - Run one experiment at a time and write result reports under the SSD-backed evaluation root.
-- Leave `result_report` blank until a real benchmark report exists.
+- Leave `result_report` blank until a real benchmark report exists; completed rows must point to a tracked report.
 - `pending-endpoint` means a local OpenAI-compatible endpoint must be started manually for the existing artifact.
 - `blocked-non-local` is not runnable on this Mac lane; use the matching cloud/offload track.
 - Analysis-only normalizer variants can diagnose formatting but cannot promote a candidate.

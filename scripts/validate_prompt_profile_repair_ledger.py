@@ -57,6 +57,8 @@ def main() -> int:
         for required in ("pending-local", "pending-endpoint", "blocked-non-local"):
             if required not in statuses:
                 failures.append(f"ledger is missing status {required}")
+        if "completed-no-promotion" not in statuses:
+            failures.append("ledger is missing completed-no-promotion evidence")
         for row in rows if isinstance(rows, list) else []:
             label = str(row.get("candidate", "<unknown>"))
             if not row.get("promotion_gate"):
@@ -65,8 +67,10 @@ def main() -> int:
                 failures.append(f"{label} is blocked-non-local but has executable experiments")
             if row.get("status") != "blocked-non-local" and not row.get("experiments"):
                 failures.append(f"{label} has no executable experiments")
-            if row.get("result_report"):
-                failures.append(f"{label} should not have result_report before an actual run")
+            if str(row.get("status", "")).startswith("completed") and not row.get("result_report"):
+                failures.append(f"{label} is completed but has no result_report")
+            if row.get("result_report") and not (ROOT / str(row["result_report"])).exists():
+                failures.append(f"{label} result_report does not exist: {row['result_report']}")
 
     if not failures:
         with tempfile.TemporaryDirectory() as tmp:

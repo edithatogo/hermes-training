@@ -16,6 +16,7 @@ from build_prompt_profile_repair_queue import DEFAULT_OUTPUT as DEFAULT_QUEUE_ST
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_QUEUE_JSON = DEFAULT_QUEUE_STEM.with_suffix(".json")
 DEFAULT_EXPERIMENTS_JSON = DEFAULT_EXPERIMENTS_STEM.with_suffix(".json")
+DEFAULT_RESULTS_JSON = ROOT / "reports/benchmark/coverage/prompt-profile-repair-results-20260614.json"
 DEFAULT_OUTPUT = ROOT / "reports/benchmark/coverage/prompt-profile-repair-ledger-20260614"
 
 
@@ -26,7 +27,17 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def candidate_status(row: dict[str, Any], experiments: list[dict[str, Any]]) -> tuple[str, str]:
+def result_key(candidate: str, variant: str) -> str:
+    return f"{candidate}\0{variant}"
+
+
+def candidate_status(
+    row: dict[str, Any],
+    experiments: list[dict[str, Any]],
+    result: dict[str, Any] | None = None,
+) -> tuple[str, str]:
+    if result:
+        return str(result.get("status", "completed")), str(result.get("next_action", "review result report"))
     runner = base_runner(row)
     if runner == "blocked":
         return "blocked-non-local", "candidate environment is not locally runnable; wait for the relevant cloud/offload track"
@@ -39,10 +50,19 @@ def candidate_status(row: dict[str, Any], experiments: list[dict[str, Any]]) -> 
     return "blocked-unknown-runner", f"unknown runner: {runner}"
 
 
-def build_ledger(queue_rows: list[dict[str, Any]], experiments: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def build_ledger(
+    queue_rows: list[dict[str, Any]],
+    experiments: list[dict[str, Any]],
+    results: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
     by_candidate: dict[str, list[dict[str, Any]]] = {}
     for experiment in experiments:
         by_candidate.setdefault(str(experiment.get("candidate", "")), []).append(experiment)
+    by_result = {
+        result_key(str(item.get("candidate", "")), str(item.get("variant", ""))): item
+        for item in (results or [])
+        if isinstance(item, dict)
+    }
 
     rows: list[dict[str, Any]] = []
     for index, row in enumerate(queue_rows, 1):
@@ -51,7 +71,15 @@ def build_ledger(queue_rows: list[dict[str, Any]], experiments: list[dict[str, A
             by_candidate.get(candidate, []),
             key=lambda item: (int(item.get("priority", 99)), str(item.get("variant", ""))),
         )
-        status, next_action = candidate_status(row, candidate_experiments)
+        matched_result = next(
+            (
+                by_result[result_key(candidate, str(item.get("variant", "")))]
+                for item in candidate_experiments
+                if result_key(candidate, str(item.get("variant", ""))) in by_result
+            ),
+            None,
+        )
+        status, next_action = candidate_status(row, candidate_experiments, matched_result)
         rows.append(
             {
                 "priority": index,
@@ -69,7 +97,9 @@ def build_ledger(queue_rows: list[dict[str, Any]], experiments: list[dict[str, A
                     }
                     for item in candidate_experiments
                 ],
-                "result_report": "",
+                "result_report": str(matched_result.get("result_report", "")) if matched_result else "",
+                "source_summary": str(matched_result.get("source_summary", "")) if matched_result else "",
+                "pass_rate": matched_result.get("pass_rate") if matched_result else None,
                 "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks.",
             }
         )
@@ -100,7 +130,7 @@ def render_markdown(rows: list[dict[str, Any]], run_id: str, created_at: str) ->
             "## Gates",
             "",
             "- Run one experiment at a time and write result reports under the SSD-backed evaluation root.",
-            "- Leave `result_report` blank until a real benchmark report exists.",
+            "- Leave `result_report` blank until a real benchmark report exists; completed rows must point to a tracked report.",
             "- `pending-endpoint` means a local OpenAI-compatible endpoint must be started manually for the existing artifact.",
             "- `blocked-non-local` is not runnable on this Mac lane; use the matching cloud/offload track.",
             "- Analysis-only normalizer variants can diagnose formatting but cannot promote a candidate.",
@@ -114,18 +144,21 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--queue-json", type=Path, default=DEFAULT_QUEUE_JSON)
     parser.add_argument("--experiments-json", type=Path, default=DEFAULT_EXPERIMENTS_JSON)
+    parser.add_argument("--results-json", type=Path, default=DEFAULT_RESULTS_JSON)
     parser.add_argument("--output-stem", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--created-at")
     args = parser.parse_args()
 
     queue_rows = load_json(args.queue_json).get("rows", [])
     experiments = load_json(args.experiments_json).get("experiments", [])
-    if not isinstance(queue_rows, list) or not isinstance(experiments, list):
-        raise ValueError("queue rows and experiments must be lists")
+    results = load_json(args.results_json).get("results", []) if args.results_json.exists() else []
+    if not isinstance(queue_rows, list) or not isinstance(experiments, list) or not isinstance(results, list):
+        raise ValueError("queue rows, experiments, and results must be lists")
 
     rows = build_ledger(
         [row for row in queue_rows if isinstance(row, dict)],
         [item for item in experiments if isinstance(item, dict)],
+        [item for item in results if isinstance(item, dict)],
     )
     created_at = args.created_at or datetime.now(UTC).isoformat()
     run_id = args.output_stem.name
@@ -134,6 +167,7 @@ def main() -> int:
         "created_at": created_at,
         "source_queue": str(args.queue_json),
         "source_experiments": str(args.experiments_json),
+        "source_results": str(args.results_json),
         "rows": rows,
     }
     args.output_stem.parent.mkdir(parents=True, exist_ok=True)

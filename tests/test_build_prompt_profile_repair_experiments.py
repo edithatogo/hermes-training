@@ -31,6 +31,9 @@ class BuildPromptProfileRepairExperimentsTests(unittest.TestCase):
         self.assertIn("--assistant-prefill", command)
         self.assertIn("--require-no-extra-tool-text", command)
         self.assertIn("No download here", command)
+        self.assertIn("RUN_STAMP=$(date +%Y%m%d-%H%M%S)", command)
+        self.assertIn("--run-id qwen-qwen3-5-2b-qwen-no-think-prefill-${RUN_STAMP}", command)
+        self.assertNotIn("'qwen-qwen3-5-2b-qwen-no-think-prefill-${RUN_STAMP}'", command)
 
     def test_gemma_candidate_gets_analysis_only_normalizer_variant(self) -> None:
         experiments = build_experiments(

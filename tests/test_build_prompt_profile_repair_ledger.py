@@ -37,7 +37,7 @@ class BuildPromptProfileRepairLedgerTests(unittest.TestCase):
         self.assertEqual(status, "pending-local-with-analysis-variant")
         self.assertIn("analysis-only", next_action)
 
-    def test_build_ledger_keeps_all_queue_rows_and_blanks_results(self) -> None:
+    def test_build_ledger_keeps_all_queue_rows_and_records_results(self) -> None:
         rows = build_ledger(
             [
                 queue_row(id="Qwen/Qwen3.5-2B", environment="mac-mlx"),
@@ -53,11 +53,23 @@ class BuildPromptProfileRepairLedgerTests(unittest.TestCase):
                     "priority": 1,
                 }
             ],
+            [
+                {
+                    "candidate": "Qwen/Qwen3.5-2B",
+                    "variant": "strict-suffix-copy-exact",
+                    "status": "completed-no-promotion",
+                    "next_action": "try another variant",
+                    "result_report": "reports/benchmark/local-pilots/example.md",
+                    "source_summary": "/tmp/example/summary.json",
+                    "pass_rate": 0.0,
+                }
+            ],
         )
 
         self.assertEqual(len(rows), 2)
-        self.assertEqual(rows[0]["status"], "pending-local")
-        self.assertEqual(rows[0]["result_report"], "")
+        self.assertEqual(rows[0]["status"], "completed-no-promotion")
+        self.assertEqual(rows[0]["result_report"], "reports/benchmark/local-pilots/example.md")
+        self.assertEqual(rows[0]["pass_rate"], 0.0)
         self.assertEqual(rows[1]["status"], "blocked-non-local")
         self.assertEqual(rows[1]["experiments"], [])
 

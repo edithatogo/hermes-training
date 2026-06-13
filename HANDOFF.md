@@ -180,11 +180,18 @@ Complete:
   the same prompt controls as endpoint pilots.
 - The prompt/profile repair execution ledger is tracked at
   `reports/benchmark/coverage/prompt-profile-repair-ledger-20260614.md`. It
-  keeps all 18 queued candidates visible while separating 5 pending-local, 2
-  pending-local-with-analysis-variant, 10 pending-endpoint, and 1
-  blocked-non-local row. The dry-run selector at
+  keeps all 18 queued candidates visible while separating 4 pending-local, 2
+  pending-local-with-analysis-variant, 10 pending-endpoint, 1
+  completed-no-promotion, and 1 blocked-non-local row. The dry-run selector at
   `reports/benchmark/coverage/prompt-profile-repair-selection-20260614.md`
   records the first local experiment without executing it.
+- The first completed prompt/profile repair result is
+  `reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md`.
+  `Qwen/Qwen3.5-0.8B` with the `strict-suffix-copy-exact` variant scored
+  `0.000` on the 3-case strict BFCL pilot and remains blocked for promotion.
+  The run also exposed a command-template issue where the generated `--run-id`
+  preserved a literal `$(date ...)`; the experiment templates now use
+  `RUN_STAMP=$(date +%Y%m%d-%H%M%S)` with `${RUN_STAMP}` instead.
 - Jina MLX support-model proof command cards now rely on
   `scripts/run_jina_mlx_embedding_benchmark.py` to resolve the default
   SSD-backed repo directory, rather than emitting a literal `<repo-dir>`
@@ -249,6 +256,10 @@ Complete:
   `reports/benchmark/coverage/prompt-profile-repair-ledger-20260614.md` is the
   source for pending-local, endpoint-gated, and blocked-non-local execution
   status.
+- The Qwen3.5 0.8B strict-suffix repair result is recorded as
+  `completed-no-promotion`; next local work for that candidate should use the
+  `qwen-no-think-prefill` or `empty-output-retry` variants rather than repeating
+  strict suffix only.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
