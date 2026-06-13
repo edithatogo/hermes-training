@@ -1,0 +1,32 @@
+{
+  "status": "converted",
+  "source_adapter": "/Volumes/PortableSSD/GitHub/hermes-training/gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+  "source_model": "Qwen/Qwen3-4B-MLX-4bit",
+  "base_model_name_or_path": "Qwen/Qwen3-4B",
+  "output_dir": "/Volumes/PortableSSD/hermes-evals/adapters/qwen3-v4-peft-conversion-20260613",
+  "input_weight_file": "/Volumes/PortableSSD/GitHub/hermes-training/gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter/adapters.safetensors",
+  "input_key_count": 112,
+  "output_key_count": 112,
+  "layers": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "rank": 8,
+  "lora_alpha": 16.0,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "claim_boundary": "Experimental format conversion only; requires PEFT load and behavior smoke before benchmark use."
+}

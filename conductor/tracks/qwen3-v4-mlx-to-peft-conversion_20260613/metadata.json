@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-mlx-to-peft-conversion_20260613",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Create an experimental PEFT-shaped package from the Qwen3 v4 MLX LoRA adapter for future cloud load/smoke validation."
+}

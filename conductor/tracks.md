@@ -656,5 +656,10 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Qwen3 v4 MLX to PEFT conversion
+*Link: [./tracks/qwen3-v4-mlx-to-peft-conversion_20260613/](./tracks/qwen3-v4-mlx-to-peft-conversion_20260613/)*
+
+---
+
 ## [x] Track: Qwen3 v4 scorecard offload readiness
 *Link: [./tracks/qwen3-v4-scorecard-offload-readiness_20260613/](./tracks/qwen3-v4-scorecard-offload-readiness_20260613/)*
