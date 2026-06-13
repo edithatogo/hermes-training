@@ -99,8 +99,11 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
       "evidence": [
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-output-retry-repair-20260614.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-tag-repair-20260614.md",
         "reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md",
         "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md"
       ],
       "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-mlx-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",

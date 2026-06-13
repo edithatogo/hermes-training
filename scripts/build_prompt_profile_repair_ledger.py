@@ -63,6 +63,10 @@ def build_ledger(
         for item in (results or [])
         if isinstance(item, dict)
     }
+    results_by_candidate: dict[str, list[dict[str, Any]]] = {}
+    for result in results or []:
+        if isinstance(result, dict):
+            results_by_candidate.setdefault(str(result.get("candidate", "")), []).append(result)
 
     rows: list[dict[str, Any]] = []
     for index, row in enumerate(queue_rows, 1):
@@ -81,7 +85,18 @@ def build_ledger(
             key=lambda item: float(item.get("pass_rate", -1) or -1),
             default=None,
         )
+        candidate_variant_names = {str(item.get("variant", "")) for item in candidate_experiments}
+        latest_result = next(
+            (
+                item
+                for item in reversed(results_by_candidate.get(candidate, []))
+                if str(item.get("variant", "")) in candidate_variant_names
+            ),
+            None,
+        )
         status, next_action = candidate_status(row, candidate_experiments, matched_result)
+        if latest_result and len(candidate_results) == len(candidate_experiments):
+            next_action = str(latest_result.get("next_action", next_action))
         rows.append(
             {
                 "priority": index,
@@ -98,6 +113,12 @@ def build_ledger(
                         "strict_scoring": item.get("strict_scoring", False),
                     }
                     for item in candidate_experiments
+                ],
+                "completed_variants": [str(item.get("variant", "")) for item in candidate_results],
+                "result_reports": [
+                    str(item.get("result_report", ""))
+                    for item in candidate_results
+                    if item.get("result_report")
                 ],
                 "result_report": str(matched_result.get("result_report", "")) if matched_result else "",
                 "source_summary": str(matched_result.get("source_summary", "")) if matched_result else "",

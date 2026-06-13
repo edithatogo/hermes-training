@@ -73,6 +73,82 @@ class BuildPromptProfileRepairLedgerTests(unittest.TestCase):
         self.assertEqual(rows[1]["status"], "blocked-non-local")
         self.assertEqual(rows[1]["experiments"], [])
 
+    def test_build_ledger_keeps_best_result_and_latest_next_action(self) -> None:
+        rows = build_ledger(
+            [queue_row(id="Qwen/Qwen3.5-0.8B", environment="mac-mlx")],
+            [
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "strict-suffix-copy-exact",
+                    "runner": "local",
+                    "raw_output_promotion_allowed": True,
+                    "strict_scoring": True,
+                    "priority": 1,
+                },
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "qwen-no-think-prefill",
+                    "runner": "local",
+                    "raw_output_promotion_allowed": True,
+                    "strict_scoring": True,
+                    "priority": 2,
+                },
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "empty-output-retry",
+                    "runner": "local",
+                    "raw_output_promotion_allowed": True,
+                    "strict_scoring": True,
+                    "priority": 3,
+                },
+            ],
+            [
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "strict-suffix-copy-exact",
+                    "status": "completed-no-promotion",
+                    "next_action": "try another variant",
+                    "result_report": "reports/benchmark/local-pilots/strict.md",
+                    "source_summary": "/tmp/strict/summary.json",
+                    "pass_rate": 0.5,
+                },
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "qwen-no-think-prefill",
+                    "status": "completed-no-promotion",
+                    "next_action": "try empty output retry",
+                    "result_report": "reports/benchmark/local-pilots/no-think.md",
+                    "source_summary": "/tmp/no-think/summary.json",
+                    "pass_rate": 0.25,
+                },
+                {
+                    "candidate": "Qwen/Qwen3.5-0.8B",
+                    "variant": "empty-output-retry",
+                    "status": "completed-no-promotion",
+                    "next_action": "stop prompt-only repairs",
+                    "result_report": "reports/benchmark/local-pilots/empty.md",
+                    "source_summary": "/tmp/empty/summary.json",
+                    "pass_rate": 0.0,
+                },
+            ],
+        )
+
+        self.assertEqual(rows[0]["result_report"], "reports/benchmark/local-pilots/strict.md")
+        self.assertEqual(rows[0]["pass_rate"], 0.5)
+        self.assertEqual(rows[0]["next_action"], "stop prompt-only repairs")
+        self.assertEqual(
+            rows[0]["completed_variants"],
+            ["strict-suffix-copy-exact", "qwen-no-think-prefill", "empty-output-retry"],
+        )
+        self.assertEqual(
+            rows[0]["result_reports"],
+            [
+                "reports/benchmark/local-pilots/strict.md",
+                "reports/benchmark/local-pilots/no-think.md",
+                "reports/benchmark/local-pilots/empty.md",
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

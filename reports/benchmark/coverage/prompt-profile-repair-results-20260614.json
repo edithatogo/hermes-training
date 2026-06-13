@@ -43,6 +43,48 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "openbmb/MiniCPM5-1B-MLX",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "try remaining MiniCPM prompt repair variants before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-strict-suffix-copy-exact-20260614-020101/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-strict-suffix-copy-exact-20260614-020101",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "openbmb/MiniCPM5-1B-MLX",
+      "variant": "empty-output-retry",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "try the MiniCPM concise tag repair before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-output-retry-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-empty-output-retry-20260614-020121/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-empty-output-retry-20260614-020121",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "openbmb/MiniCPM5-1B-MLX",
+      "variant": "minicpm-empty-tag-repair",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only MiniCPM5 1B MLX repairs; use a grammar/envelope-constrained path or move to the next candidate",
+      "result_report": "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-tag-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-minicpm-empty-tag-repair-20260614-020121/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-minicpm-empty-tag-repair-20260614-020121",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

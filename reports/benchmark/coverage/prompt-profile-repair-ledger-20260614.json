@@ -20,6 +20,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -40,6 +42,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -72,6 +76,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -92,6 +98,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -118,6 +126,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -128,8 +138,8 @@
       "candidate": "openbmb/MiniCPM5-1B-MLX",
       "environment": "mac-mlx",
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
-      "status": "pending-local",
-      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only MiniCPM5 1B MLX repairs; use a grammar/envelope-constrained path or move to the next candidate",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -150,9 +160,19 @@
           "strict_scoring": true
         }
       ],
-      "result_report": "",
-      "source_summary": "",
-      "pass_rate": null,
+      "completed_variants": [
+        "strict-suffix-copy-exact",
+        "empty-output-retry",
+        "minicpm-empty-tag-repair"
+      ],
+      "result_reports": [
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-output-retry-repair-20260614.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-tag-repair-20260614.md"
+      ],
+      "result_report": "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/openbmb-minicpm5-1b-mlx-strict-suffix-copy-exact-20260614-020101/summary.json",
+      "pass_rate": 0.0,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
@@ -161,7 +181,7 @@
       "environment": "mac-mlx",
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "status": "completed-no-promotion",
-      "next_action": "try the empty-output-retry variant or a grammar/envelope repair; no-think improves refusal but still fails tool-call parsing",
+      "next_action": "stop prompt-only Qwen3.5 0.8B repairs; use a grammar/envelope-constrained path or move to the next candidate",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -181,6 +201,16 @@
           "raw_output_promotion_allowed": true,
           "strict_scoring": true
         }
+      ],
+      "completed_variants": [
+        "strict-suffix-copy-exact",
+        "empty-output-retry",
+        "qwen-no-think-prefill"
+      ],
+      "result_reports": [
+        "reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md",
+        "reports/benchmark/local-pilots/qwen35-08b-empty-output-retry-repair-20260614.md",
+        "reports/benchmark/local-pilots/qwen35-08b-qwen-no-think-prefill-repair-20260614.md"
       ],
       "result_report": "reports/benchmark/local-pilots/qwen35-08b-qwen-no-think-prefill-repair-20260614.md",
       "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-qwen-no-think-prefill-20260614-015642/summary.json",
@@ -214,6 +244,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -240,6 +272,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -266,6 +300,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -292,6 +328,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -318,6 +356,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -338,6 +378,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -358,6 +400,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -378,6 +422,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -410,6 +456,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -423,6 +471,8 @@
       "status": "blocked-non-local",
       "next_action": "candidate environment is not locally runnable; wait for the relevant cloud/offload track",
       "experiments": [],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,
@@ -449,6 +499,8 @@
           "strict_scoring": true
         }
       ],
+      "completed_variants": [],
+      "result_reports": [],
       "result_report": "",
       "source_summary": "",
       "pass_rate": null,

@@ -112,7 +112,7 @@ source scripts/env.sh
 
 ### openbmb/MiniCPM5-1B-MLX
 
-- Evidence: `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`, `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`, `reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md`
+- Evidence: `reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-output-retry-repair-20260614.md`, `reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-tag-repair-20260614.md`, `reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md`, `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`, `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md`, `reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md`
 - Boundary: Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence.
 
 ```bash

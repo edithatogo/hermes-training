@@ -71,6 +71,13 @@ def main() -> int:
                 failures.append(f"{label} is completed but has no result_report")
             if row.get("result_report") and not (ROOT / str(row["result_report"])).exists():
                 failures.append(f"{label} result_report does not exist: {row['result_report']}")
+            result_reports = row.get("result_reports", [])
+            if result_reports and not isinstance(result_reports, list):
+                failures.append(f"{label} result_reports must be a list")
+            if isinstance(result_reports, list):
+                for result_report in result_reports:
+                    if not (ROOT / str(result_report)).exists():
+                        failures.append(f"{label} result_reports entry does not exist: {result_report}")
 
     if not failures:
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,8 @@
+{
+  "track_id": "minicpm5-1b-mlx-prompt-repair-completion_20260614",
+  "type": "benchmark",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Complete queued prompt-only repair variants for MiniCPM5 1B MLX and record the no-promotion decision."
+}
