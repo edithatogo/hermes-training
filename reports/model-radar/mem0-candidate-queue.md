@@ -25,16 +25,17 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
 | 5 | `Qwen/Qwen3-Reranker-4B` | reranker | source-model-benchmarked | transformers | rerank-smoke | quality proof passed, but CPU latency is too high for default promotion without acceleration or live replay proof |
 | 6 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
-| 7 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | differentiation-suite | expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest current embedder signal; keep separate 1024-dim collection |
+| 7 | `BAAI/bge-m3` | embedder | benchmarked-cpu-mps-not-promoted | sentence-transformers | differentiation-suite | expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection |
 | 8 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking |
 | 9 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | source-model-benchmarked | mlx | local-embedding-smoke | expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now |
 | 10 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | differentiation-suite | expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default |
-| 11 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
-| 12 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
-| 13 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
-| 14 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
-| 15 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost |
-| 16 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
+| 11 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | source-model-benchmarked | llama.cpp | differentiation-suite | expanded 14-case differentiation suite passed at 1.000 across top-1, recall@3, MRR, and nDCG@3; fits 768-dim collection shape but needs batched/server-backed live mem0 add/search proof before default promotion |
+| 12 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
+| 13 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
+| 14 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
+| 15 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | candidate-runtime-id-verified | mlx | mlx-load-smoke | model repo verified; MLX load/scoring proof is ready before live mem0 integration |
+| 16 | `google/embeddinggemma-300m` | embedder | access-gated | sentence-transformers | mteb-retrieval-smoke | Official Google retrieval baseline for mem0 comparison. Gated model with 2048-token context and configurable 128-768 embedding dimensions; the first direct smoke returned a Hugging Face 403, so keep it behind a separate collection until access is granted and a challenger wins on quality, latency, and migration cost |
+| 17 | `jinaai/jina-embeddings-v4` | embedder | runtime-blocked | sentence-transformers | mteb-retrieval-smoke | requires model acquisition/load proof and memory-footprint check |
 
 ## Candidate Commands
 
@@ -139,7 +140,7 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `benchmarked-cpu-mps-not-promoted`
-- Blocker: benchmarked but not promoted; keep separate collection or artifact
+- Blocker: expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection
 
 ```bash
 source scripts/env.sh
@@ -185,7 +186,7 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `source-model-benchmarked`
-- Blocker: expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch
+- Blocker: expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default
 
 ```bash
 source scripts/env.sh
@@ -195,6 +196,26 @@ source scripts/env.sh
   --task-type text-matching \
   --suite benchmarks/embeddings/memory_retrieval_suite.json \
   --run-id embedding-jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-$(date +%Y%m%d-%H%M%S)
+```
+
+### lmstudio-community/embeddinggemma-300m-qat-GGUF
+
+- Role: `embedder`
+- Status: `source-model-benchmarked`
+- Blocker: expanded 14-case differentiation suite passed at 1.000 across top-1, recall@3, MRR, and nDCG@3; fits 768-dim collection shape but needs batched/server-backed live mem0 add/search proof before default promotion
+
+```bash
+source scripts/env.sh
+# GGUF embedding candidate; prefer batched/server proof before default mem0 promotion.
+./.venv/bin/python scripts/run_llama_cpp_embedding_benchmark.py \
+  --model lmstudio-community/embeddinggemma-300m-qat-GGUF \
+  --model-path /Volumes/PortableSSD/huggingface/hub/models--lmstudio-community--embeddinggemma-300m-qat-GGUF/snapshots/a81b371598d25d26b714ab9b14948ce8ca375547/embeddinggemma-300m-qat-Q4_0.gguf \
+  --llama-embedding-bin /opt/homebrew/bin/llama-embedding \
+  --ctx-size 512 \
+  --pooling mean \
+  --embd-normalize 2 \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
+  --run-id embedding-lmstudio-community-embeddinggemma-300m-qat-gguf-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### NousResearch/Hermes-4-14B

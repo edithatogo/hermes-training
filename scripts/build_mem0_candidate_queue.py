@@ -93,6 +93,31 @@ def command_for(candidate: dict[str, Any]) -> str:
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )
+    if role == "embedder" and runtime == "llama.cpp":
+        lines = [
+            "# GGUF embedding candidate; prefer batched/server proof before default mem0 promotion.",
+            "./.venv/bin/python scripts/run_llama_cpp_embedding_benchmark.py \\",
+            f"  --model {model_id} \\",
+        ]
+        if candidate.get("model_path"):
+            lines.append(f"  --model-path {candidate['model_path']} \\")
+        else:
+            lines.append("  --model-path <path-to-embedding-gguf> \\")
+        if candidate.get("llama_embedding_bin"):
+            lines.append(f"  --llama-embedding-bin {candidate['llama_embedding_bin']} \\")
+        if candidate.get("ctx_size"):
+            lines.append(f"  --ctx-size {candidate['ctx_size']} \\")
+        if candidate.get("pooling"):
+            lines.append(f"  --pooling {candidate['pooling']} \\")
+        if candidate.get("embd_normalize") is not None:
+            lines.append(f"  --embd-normalize {candidate['embd_normalize']} \\")
+        lines.extend(
+            [
+                "  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\",
+                f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
+            ]
+        )
+        return "\n".join(lines)
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
         return "\n".join(
             [
@@ -250,6 +275,8 @@ def blocker_for(candidate: dict[str, Any]) -> str:
     if status == "isolated-fixture-proven":
         return "first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof"
     if status == "benchmarked-cpu-mps-not-promoted":
+        if candidate.get("id") == "BAAI/bge-m3":
+            return "expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection"
         return "benchmarked but not promoted; keep separate collection or artifact"
     if status == "extraction-benchmarked-not-promoted":
         return "extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor"
@@ -265,7 +292,9 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-mlx":
             return "expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now"
         if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx":
-            return "expanded suite passed at 1.000 with fast 1024-dim MLX embeddings; requires collection migration plus live add/search rollback proof before default switch"
+            return "expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default"
+        if candidate.get("id") == "lmstudio-community/embeddinggemma-300m-qat-GGUF":
+            return "expanded 14-case differentiation suite passed at 1.000 across top-1, recall@3, MRR, and nDCG@3; fits 768-dim collection shape but needs batched/server-backed live mem0 add/search proof before default promotion"
         if candidate.get("id") == "LiquidAI/LFM2-ColBERT-350M":
             return "expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read"
         return "source HF model passed fixed and expanded suites; keep as benchmarked-not-promoted until a role-specific promotion gate passes"

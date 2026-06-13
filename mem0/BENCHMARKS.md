@@ -271,6 +271,7 @@ Current hard differentiation embedding scores:
 
 | Model | Runtime | Top-1 | Recall@3 | MRR | Decision |
 |---|---|---:|---:|---:|---|
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-embedding` | 1.000 | 1.000 | 1.000 | keep testing; best isolated quality, but shell-out latency needs batching/server proof |
 | `BAAI/bge-m3` | `sentence-transformers` CPU | 0.929 | 1.000 | 0.952 | keep testing; strongest isolated differentiation score |
 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.786 | 0.929 | 0.875 | keep testing; not default-ready on this harder suite |
 | `nomic-embed-text:latest` | Ollama embeddings | 0.714 | 0.857 | 0.821 | keep as rollback/default until live guarded replacement passes |
@@ -283,6 +284,10 @@ retrieval. These isolated embedding scores do not override the live
 isolated-fixture result: the default read path remains `nomic-embed-text:latest`
 until a replacement passes collection migration, live multi-result retrieval,
 and rollback checks.
+The EmbeddingGemma GGUF package is especially promising because it keeps the
+current 768-dim vector shape and passed all 14 isolated cases, but the first
+runner invokes `llama-embedding` once per text. The next useful proof is a
+batched/server-backed live mem0 fixture, not a default switch.
 
 Run a read-only reranked search against the live mem0 store:
 

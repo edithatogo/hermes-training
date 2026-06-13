@@ -54,6 +54,7 @@ runtime endpoint against the current mem0 default.
 | [embedding-qwen3-4b-expanded-20260612](./embedding-qwen3-4b-expanded-20260612.md) | embedder | keep testing |
 | [embedding-bge-m3-differentiation-20260613](./embedding-bge-m3-differentiation-20260613.md) | embedder | keep testing |
 | [embedding-bge-m3-differentiation-expanded-20260613](./embedding-bge-m3-differentiation-expanded-20260613.md) | embedder | keep testing |
+| [embeddinggemma-300m-qat-gguf-differentiation-20260613](./embeddinggemma-300m-qat-gguf-differentiation-20260613.md) | embedder | keep testing |
 | [jina-mlx-retrieval-expanded-20260613](./jina-mlx-retrieval-expanded-20260613.md) | embedder | keep testing |
 | [jina-mlx-text-matching-expanded-20260612](./jina-mlx-text-matching-expanded-20260612.md) | embedder | keep testing |
 | [jina-mlx-text-matching-differentiation-20260613](./jina-mlx-text-matching-differentiation-20260613.md) | embedder | keep testing |

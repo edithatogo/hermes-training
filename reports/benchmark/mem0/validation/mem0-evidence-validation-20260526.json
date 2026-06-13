@@ -1,13 +1,13 @@
 {
-  "created_at": "2026-06-12T23:50:32.697660+00:00",
+  "created_at": "2026-06-13T00:07:01.741004+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 92
+    "passed": 93
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 21,
+    "embedding": 22,
     "extraction": 9,
     "reranking": 28,
     "replay": 12,
@@ -188,6 +188,13 @@
       "kind": "embedding",
       "path": "embedding-benchmark/embedding-qwen3-4b-smoke-20260612/summary.json",
       "run_id": "embedding-qwen3-4b-smoke-20260612",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embeddinggemma-300m-qat-gguf-differentiation-20260613/summary.json",
+      "run_id": "embeddinggemma-300m-qat-gguf-differentiation-20260613",
       "status": "passed",
       "errors": []
     },

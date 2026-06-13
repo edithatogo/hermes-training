@@ -64,6 +64,8 @@ def evidence_paths(candidate_id: str, notes: str, reports: list[Path]) -> list[s
     for path in reports:
         rel_path = rel(path)
         rel_norm = normalize(rel_path)
+        if candidate_id == "google/embeddinggemma-300m" and "embeddinggemma-300m-qat-gguf" in rel_norm:
+            continue
         if any(needle and (needle in rel_path or normalize(needle) in rel_norm) for needle in needles):
             paths.add(rel_path)
     return sorted(paths)

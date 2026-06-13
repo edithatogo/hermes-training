@@ -68,6 +68,8 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         model = str(summary.get("model") or "")
         if "jina-embeddings-v5-omni" in model and model.endswith("-mlx"):
             script = "scripts/run_jina_mlx_embedding_benchmark.py"
+        elif endpoint_kind == "llama-cpp-embedding":
+            script = "scripts/run_llama_cpp_embedding_benchmark.py"
         elif endpoint_kind == "openai-compatible-embeddings":
             script = "scripts/run_openai_embedding_benchmark.py"
         elif endpoint_kind == "sentence-transformers":
@@ -80,6 +82,15 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
         ]
         if script == "scripts/run_sentence_transformers_embedding_benchmark.py" and summary.get("device"):
             lines.append(f"  --device {summary['device']} \\")
+        if script == "scripts/run_llama_cpp_embedding_benchmark.py":
+            if summary.get("model_path"):
+                lines.append(f"  --model-path {summary['model_path']} \\")
+            if summary.get("ctx_size"):
+                lines.append(f"  --ctx-size {summary['ctx_size']} \\")
+            if summary.get("pooling"):
+                lines.append(f"  --pooling {summary['pooling']} \\")
+            if summary.get("embd_normalize") is not None:
+                lines.append(f"  --embd-normalize {summary['embd_normalize']} \\")
         if script == "scripts/run_openai_embedding_benchmark.py" and summary.get("base_url"):
             lines.append(f"  --base-url {summary['base_url']} \\")
         if script == "scripts/run_jina_mlx_embedding_benchmark.py":
@@ -189,9 +200,14 @@ def decision_for(kind: str, summary: dict[str, Any]) -> tuple[str, str]:
         )
     if kind == "embedding":
         if summary.get("top1_accuracy") == 1.0 and int(summary.get("cases") or 0) >= 12:
+            if summary.get("embedding_dims") == 768:
+                return (
+                    "keep testing",
+                    "The embedding benchmark passed the suite at the current 768-dim collection shape, but default promotion still needs live mem0 add/search latency, rollback, and collection compatibility proof.",
+                )
             return (
                 "keep testing",
-                "The embedding benchmark passed the expanded suite, but default promotion still needs a deliberate 1024-dim collection migration plan plus live mem0 add/search rollback proof.",
+                "The embedding benchmark passed the suite, but default promotion still needs a deliberate collection migration plan plus live mem0 add/search rollback proof.",
             )
         return (
             "keep testing",
