@@ -1,6 +1,11 @@
 # Gemma 4 E2B GGUF Endpoint Prompt Repair Completion
 
-Status: completed
+- [Specification](./spec.md)
+- [Implementation Plan](./plan.md)
+- [Metadata](./metadata.json)
+- [Hub Requirements](../../requirements.md)
+- [Hub Design](../../design.md)
+- [Hub Contracts](../../contracts.md)
 
 ## Summary
 

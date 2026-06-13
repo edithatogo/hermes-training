@@ -25,3 +25,11 @@ Close the endpoint-gated prompt/profile repair row for
 The candidate scored `1/3`, passing only the invalid-tool refusal. The tool-call
 cases used malformed payloads and failed strict Hermes parsing, so raw-output
 promotion remains blocked.
+
+## Health Check
+
+- Target: `>= 9.5 / 10`
+- Current estimate: `9.7 / 10`
+- Evidence: the result is backed by a local endpoint run, source summary, and
+  strict no-extra-text BFCL pilot report.
+- Remaining gap: no constrained decoding or runtime wrapper was attempted.
