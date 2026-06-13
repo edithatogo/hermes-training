@@ -91,16 +91,19 @@ def run_colab(
         process = subprocess.run(command, check=False, stdout=handle, stderr=subprocess.STDOUT, text=True)
     duration = time.time() - started
     log_text = log_path.read_text(encoding="utf-8", errors="replace")
+    observed = extract_observed_runtime(log_text)
+    script_status = observed.get("script_status")
+    status = "scored" if process.returncode == 0 and script_status != "blocked" else "blocked"
     return {
         "accelerator": accelerator.__dict__,
-        "status": "scored" if process.returncode == 0 else "blocked",
+        "status": status,
         "attempt_index": attempt_index,
         "returncode": process.returncode,
         "command": command,
         "quoted_command": shlex.join(command),
         "log": str(log_path),
         "duration_s": duration,
-        "observed": extract_observed_runtime(log_text),
+        "observed": observed,
         "tail": "\n".join(log_text.splitlines()[-40:]),
     }
 
@@ -118,6 +121,13 @@ def extract_observed_runtime(log_text: str) -> dict[str, str]:
         match = re.search(pattern, log_text)
         if match:
             observed[key] = match.group(1)
+    for pattern, key in [
+        (r'"status":\s*"([^"]+)"', "script_status"),
+        (r'"decision":\s*"([^"]+)"', "script_decision"),
+    ]:
+        matches = re.findall(pattern, log_text)
+        if matches:
+            observed[key] = matches[-1]
     return observed
 
 

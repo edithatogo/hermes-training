@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-colab-full-scorecard-portability_20260613",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-06-13T02:05:00Z",
+  "updated_at": "2026-06-13T02:05:00Z",
+  "description": "Probe whether the published Qwen3 v4 MLX LoRA adapter can be used for the full selected-task lm-eval scorecard on Colab and record the portability blocker."
+}

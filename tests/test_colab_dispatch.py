@@ -26,6 +26,12 @@ class ColabDispatchTests(unittest.TestCase):
         self.assertEqual(observed["torch_xla_available"], "false")
         self.assertEqual(observed["training_backend"], "cuda")
 
+    def test_extract_observed_runtime_reads_script_status(self) -> None:
+        observed = extract_observed_runtime('{"status": "blocked", "decision": "MLX unavailable on CUDA"}')
+
+        self.assertEqual(observed["script_status"], "blocked")
+        self.assertEqual(observed["script_decision"], "MLX unavailable on CUDA")
+
     def test_slugify_keeps_run_id_filesystem_safe(self) -> None:
         self.assertEqual(slugify("Colab TPU/GPU smoke 2026"), "Colab-TPU-GPU-smoke-2026")
 
