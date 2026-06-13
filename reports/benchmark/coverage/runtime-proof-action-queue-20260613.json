@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T06:12:00+00:00",
+  "created_at": "2026-06-13T06:32:00+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -31,7 +31,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or LM Studio",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-nvidia-nemotron-3-nano-4b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-nvidia-nemotron-3-nano-4b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF packaging with higher download volume than some alternative packs. Useful as a runtime comparison point against the official GGUF tree."
     },
     {
@@ -61,7 +61,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model djlougen-harmonic-hermes-9b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id djlougen-harmonic-hermes-9b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model djlougen-harmonic-hermes-9b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id djlougen-harmonic-hermes-9b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Stage 2 agentic tool-calling model built on Harmonic-9B. This is the most direct Hermes-style local runtime lane from the current search and is suitable for Ollama/LM Studio validation."
     },
     {
@@ -91,7 +91,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mradermacher-harmonic-hermes-9b-i1-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mradermacher-harmonic-hermes-9b-i1-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mradermacher-harmonic-hermes-9b-i1-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mradermacher-harmonic-hermes-9b-i1-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Alternative GGUF packaging for the Harmonic-Hermes agentic fine-tune. Use it as a Mac runtime comparison point and keep it runtime-only until a smoke passes."
     },
     {
@@ -121,7 +121,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or LM Studio smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-agentcpm-report-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-agentcpm-report-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-agentcpm-report-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-agentcpm-report-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only."
     },
     {
@@ -136,7 +136,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "Transformers or local quantized smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-v-4-6-gptq \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm-v-4-6-gptq-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-v-4-6-gptq \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm-v-4-6-gptq-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh GPTQ packaging surfaced in the current Hugging Face search. Keep it as a local runtime comparison point against the base and GGUF trees."
     },
     {
@@ -151,7 +151,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or LM Studio multimodal smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-o-4-5-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm-o-4-5-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-o-4-5-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm-o-4-5-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point."
     },
     {
@@ -166,7 +166,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model duoneural-openyourmind-gemma4-12b-it-abliterated-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id duoneural-openyourmind-gemma4-12b-it-abliterated-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model duoneural-openyourmind-gemma4-12b-it-abliterated-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id duoneural-openyourmind-gemma4-12b-it-abliterated-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF packaging for the OpenYourMind abliterated Gemma 4 12B lane. Keep it as a runtime comparison point only."
     },
     {
@@ -181,7 +181,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model batiai-gemma-4-12b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id batiai-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model batiai-gemma-4-12b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id batiai-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh community GGUF packaging with explicit llama.cpp, Ollama, and Hermes Agent instructions on the model page. Useful as a Mac local runtime comparison point."
     },
     {
@@ -226,7 +226,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-12b-it-qat-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-gemma-4-12b-it-qat-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-12b-it-qat-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-gemma-4-12b-it-qat-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Unsloth QAT GGUF packaging for Gemma 4 12B. Use as the stricter packaging comparison point for Mac local use."
     },
     {
@@ -241,7 +241,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-12b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-12b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Unsloth GGUF packaging for Gemma 4 12B. Use as the new Mac-local packaging comparison point for 12B Gemma 4."
     },
     {
@@ -256,7 +256,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model bartowski-google-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id bartowski-google-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model bartowski-google-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id bartowski-google-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes."
     },
     {
@@ -271,7 +271,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model ggml-org-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id ggml-org-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model ggml-org-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id ggml-org-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh ggml-org Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
     },
     {
@@ -286,7 +286,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model google-gemma-4-31b-it-qat-q4-0-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id google-gemma-4-31b-it-qat-q4-0-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model google-gemma-4-31b-it-qat-q4-0-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-31b-it-qat-q4-0-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only."
     },
     {
@@ -301,7 +301,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model lmstudio-community-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id lmstudio-community-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model lmstudio-community-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id lmstudio-community-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF packaging for Gemma 4 31B-it is visible. Useful as a packaging/runtime comparison point, not a local training target."
     },
     {
@@ -316,7 +316,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-27b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-qwen3-6-27b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-27b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-qwen3-6-27b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Unsloth GGUF packaging surfaced alongside the official 27B repo. Use as a local runtime comparison point if the already-present Qwen3.6 35B-A3B lane needs a denser baseline."
     },
     {
@@ -331,7 +331,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-27b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-qwen3-6-27b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-27b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-qwen3-6-27b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent Unsloth MTP GGUF packaging. Candidate for runtime latency and tool-call smoke, not local training."
     },
     {
@@ -361,7 +361,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Unsloth Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
     },
     {
@@ -391,7 +391,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or Hermes Agent smoke through the documented GGUF path",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-coder-next-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-coder-next-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model qwen-qwen3-coder-next-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-coder-next-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF tree exposes Q4_K_M and a Hermes Agent recipe in the model card. This is the strongest current Qwen coding-agent runtime lane for Hermes-local workflows, but it remains a runtime/proof target rather than a Mac fine-tune target."
     },
     {
@@ -421,7 +421,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "patched llama.cpp or LM Studio if MTP support is present",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id localweights-qwen3-6-35b-a3b-mtp-iq4-xs-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "2026-05-26 refresh found this lower-memory MTP GGUF package. Model card positions it for single-GPU 24GB inference with a patched llama.cpp path. Treat as a runtime/latency experiment only."
     },
     {
@@ -436,7 +436,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or LM Studio only after confirming MTP-supporting runtime build",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mudler-qwen3-6-35b-a3b-apex-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mudler-qwen3-6-35b-a3b-apex-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mudler-qwen3-6-35b-a3b-apex-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mudler-qwen3-6-35b-a3b-apex-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "2026-05-26 refresh found this current LocalAI/APEX GGUF packaging. Model card says llama.cpp PR/commit support is needed for --draft-mtp and that MTP adds about 2.5 percent size over non-MTP. Candidate for latency/runtime proof only; do not download unless it closes a Qwen3.6 runtime gap."
     },
     {
@@ -451,7 +451,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or Ollama GGUF smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent Unsloth MTP GGUF path for the priority Qwen3.6 MoE candidate. Runtime proof first. Treat MTP/speculative behavior as runtime evidence only unless native training logs and benchmark deltas exist."
     },
     {
@@ -466,7 +466,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "LM Studio or llama.cpp smoke only",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nousresearch-hermes-4-3-36b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nousresearch-hermes-4-3-36b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nousresearch-hermes-4-3-36b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nousresearch-hermes-4-3-36b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent NousResearch GGUF packaging for Hermes 4.3 36B. Treat as a runtime proof candidate, not a local fine-tune target on 32GB."
     },
     {
@@ -481,7 +481,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX or GGUF",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model liquidai-lfm2-5-350m \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id liquidai-lfm2-5-350m-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model liquidai-lfm2-5-350m \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id liquidai-lfm2-5-350m-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Concrete small LFM2.5 public checkpoint; useful for ultra-low-latency helper and smoke tests, not a replacement for larger quality candidates."
     },
     {
@@ -496,7 +496,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp or LM Studio smoke only after size/runtime support check",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-minimax-m3-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-minimax-m3-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-minimax-m3-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-minimax-m3-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "2026-06-13 no-download refresh found fresh Unsloth GGUF packaging for MiniMax M3. This may be too large or too new for the current Mac runtime; use as a packaging/watchlist lane until an exact quant, disk estimate, and runtime support check are recorded."
     },
     {
@@ -571,7 +571,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mkadrlik-hermes-qwen3-5-2b-sft-v7 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-2b-sft-v7-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mkadrlik-hermes-qwen3-5-2b-sft-v7 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-2b-sft-v7-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Compact Hermes-Qwen3.5 pack. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 97-98 generation tokens/s. Strict BFCL-style Hermes tool-call score was 1/3 (`0.333`): it emitted an exact strict `lookup_customer` tool call, malformed the parallel tool-call sequence, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-2b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. This is the best Hermes-Qwen3.5 SFT local repair candidate so far, but do not promote as a default until parallel tool calls and invalid-tool refusal are fixed."
     },
     {
@@ -766,7 +766,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp GGUF baseline is runtime-proven; LM Studio/Ollama remain optional packaging checks",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nousresearch-hermes-4-14b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nousresearch-hermes-4-14b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nousresearch-hermes-4-14b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nousresearch-hermes-4-14b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Verified by Hugging Face API on 2026-05-24. The local Hermes 4 14B Q4_K_M GGUF artifact is now acquired under `/Volumes/PortableSSD/hermes-models/frontier-gguf/hermes-4-14b-q4` and runtime-proven through llama.cpp in `reports/runtime/hermes4-14b-q4-llamacpp-smoke-20260524.md`. Use as the primary Hermes-aligned baseline/teacher only: strict held-out score was `0.250`, so it is not a promotion or publication candidate."
     },
     {
@@ -781,7 +781,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-26b-a4b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-gemma-4-26b-a4b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-26b-a4b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-gemma-4-26b-a4b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Recent Unsloth GGUF path for Gemma 4 26B A4B. SSD-backed MXFP4_MOE artifact acquired and run through Homebrew llama.cpp on 2026-06-13; raw strict BFCL-style Hermes pilot scored 2/3, coding pilot scored 3/3, and IFEval pilot scored 3/3. The two raw tool-call cases produced exact Hermes `<tool_call>` JSON with `arguments`, and server logs showed roughly 30-50 eval tok/s depending on pilot/concurrency. The raw BFCL failure was the invalid-tool refusal, where the model correctly refused but repeated the unavailable forbidden tool name. The `gemma4-26b-refusal-system-suffix` runtime profile with 512 max tokens repaired this pilot to 3/3 without breaking valid tool calls. The same profile scored 7/8 (`0.875`) on the full local held-out Hermes tool-call suite with JSON validity 1.000, invalid-tool handling 1.000, and multi-turn repair 1.000; the remaining blocker is one free-text argument expansion in `notify_care_team.arguments.message`. A stricter v2 prompt was rejected because it did not improve pass rate and lowered JSON validity. Evidence is recorded at `reports/benchmark/local-pilots/gemma4-26b-a4b-mxfp4-moe-llamacpp-strict-bfcl-pilot-20260613.md` and `reports/benchmark/endpoint-tool-call/gemma4-26b-a4b-mxfp4-moe-profile-heldout-toolcall-20260613.md`. Treat as the strongest frontier local comparison lane so far, but keep below the published default until the held-out tool-call gate reaches 1.000 and broader BFCL, safety/refusal, and coding suites pass."
     },
     {
@@ -841,7 +841,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "llama.cpp draft-mtp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model byteshape-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id byteshape-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model byteshape-qwen3-6-35b-a3b-mtp-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id byteshape-qwen3-6-35b-a3b-mtp-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "2026-05-26 web refresh surfaced ByteShape ShapeLearn GGUF packaging with a bundled MTP head and `--spec-type draft-mtp` guidance. SSD-backed IQ4_XS-3.53bpw artifact acquired and run through Homebrew llama.cpp on 2026-06-13 with `--spec-type draft-mtp --spec-draft-n-max 4`; strict BFCL-style Hermes pilot scored 0/3. Runtime and MTP are proven on the M1 Max, with roughly 37-40 eval tok/s and draft acceptance about 0.61-0.70 in the pilot, but the model is not promoted because it emits non-Hermes tool schemas (`parameters` / OpenAI wrappers) and a blank invalid-tool refusal. Evidence is recorded at `reports/benchmark/local-pilots/byteshape-qwen36-35b-a3b-mtp-iq4xs-llamacpp-strict-bfcl-pilot-20260613.md`."
     },
     {

@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T06:12:00+00:00`
+Created: `2026-06-13T06:32:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -80,6 +80,7 @@ source scripts/env.sh
   --model unsloth-nvidia-nemotron-3-nano-4b-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id unsloth-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -114,6 +115,7 @@ source scripts/env.sh
   --model djlougen-harmonic-hermes-9b-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id djlougen-harmonic-hermes-9b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -148,6 +150,7 @@ source scripts/env.sh
   --model mradermacher-harmonic-hermes-9b-i1-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id mradermacher-harmonic-hermes-9b-i1-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -179,6 +182,7 @@ source scripts/env.sh
   --model openbmb-agentcpm-report-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id openbmb-agentcpm-report-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -195,6 +199,7 @@ source scripts/env.sh
   --model openbmb-minicpm-v-4-6-gptq \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id openbmb-minicpm-v-4-6-gptq-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -211,6 +216,7 @@ source scripts/env.sh
   --model openbmb-minicpm-o-4-5-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id openbmb-minicpm-o-4-5-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -227,6 +233,7 @@ source scripts/env.sh
   --model duoneural-openyourmind-gemma4-12b-it-abliterated-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id duoneural-openyourmind-gemma4-12b-it-abliterated-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -243,6 +250,7 @@ source scripts/env.sh
   --model batiai-gemma-4-12b-it-gguf \
   --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id batiai-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 

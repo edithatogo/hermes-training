@@ -70,6 +70,20 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("scripts/run_endpoint_pilot_benchmark.py", command)
         self.assertIn("smallest compatible local artifact", command)
         self.assertNotIn("smallest compatible GGUF", command)
+        self.assertIn("--require-no-extra-tool-text", command)
+
+    def test_lmstudio_gguf_command_uses_strict_endpoint_scoring(self) -> None:
+        item = candidate(
+            id="DJLougen/Harmonic-Hermes-9B-GGUF",
+            environment="mac-lmstudio",
+            first_runtime="llama.cpp / LM Studio / Ollama GGUF smoke",
+        )
+
+        command = next_command(item, "mac-runtime-proof")
+
+        self.assertIn("scripts/run_endpoint_pilot_benchmark.py", command)
+        self.assertIn("smallest compatible GGUF", command)
+        self.assertIn("--require-no-extra-tool-text", command)
 
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(

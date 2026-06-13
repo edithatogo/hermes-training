@@ -196,6 +196,7 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 f"  --model {slug} \\",
                 "  --base-url http://127.0.0.1:<port>/v1 \\",
                 "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
+                "  --require-no-extra-tool-text \\",
                 f"  --run-id {slug}-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
             ]
         )
