@@ -4,9 +4,13 @@
   "base_model": "Qwen/Qwen3-4B",
   "tasks": "winogrande",
   "limit": null,
+  "run_id": "qwen3-v4-peft-colab-lm-eval-winogrande-full-20260613",
   "batch_size": "1",
   "dtype": "float16",
   "use_4bit": true,
+  "timeout_s": 21600,
+  "hf_results_repo": "edithatogo/qwen3-v4-peft-lm-eval-results",
+  "upload_checkpoints": false,
   "transformers_spec": "transformers>=4.56,<5",
   "output_dir": "/content/qwen3-v4-peft-lm-eval-winogrande-full",
   "result_json": "/content/qwen3-v4-peft-lm-eval-winogrande-full.json"
