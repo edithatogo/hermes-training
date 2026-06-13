@@ -35,7 +35,14 @@ def normalize(text: str) -> str:
 
 
 def report_index() -> list[Path]:
-    return sorted(path for path in REPORTS.rglob("*") if path.is_file() and path.suffix in {".md", ".json", ".txt"})
+    paths = []
+    for path in REPORTS.rglob("*"):
+        if not path.is_file() or path.suffix not in {".md", ".json", ".txt"}:
+            continue
+        if path.parent == DEFAULT_OUT and path.name.startswith("all-candidate-benchmark-coverage-"):
+            continue
+        paths.append(path)
+    return sorted(paths)
 
 
 def evidence_paths(candidate_id: str, notes: str, reports: list[Path]) -> list[str]:
@@ -313,6 +320,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUT)
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
     reports = report_index()
@@ -323,12 +334,12 @@ def main() -> int:
 
     rows = build_rows("hermes", hermes, reports) + build_rows("mem0", mem0, reports)
     counts: dict[str, dict[str, int]] = {}
-    for project in {"hermes", "mem0"}:
+    for project in ("hermes", "mem0"):
         counter = Counter(row["coverage_state"] for row in rows if row["project"] == project)
         counts[project] = dict(counter)
     summary = {
         "run_id": args.run_id,
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": args.created_at or datetime.now(UTC).isoformat(),
         "candidate_count": len(rows),
         "counts": counts,
         "rows": rows,

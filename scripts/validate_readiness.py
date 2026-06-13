@@ -259,6 +259,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_specialist_runtime_preflight.py",
         ROOT / "scripts/validate_official_benchmark_manifests.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
+        ROOT / "scripts/build_all_candidate_benchmark_coverage.py",
+        ROOT / "scripts/validate_all_candidate_benchmark_coverage.py",
         ROOT / "scripts/convert_mlx_lora_to_peft.py",
         ROOT / "scripts/colab_mlx_adapter_portability_probe.py",
         ROOT / "scripts/colab_peft_adapter_load_smoke.py",
@@ -342,6 +344,21 @@ def check_candidate_registries(failures: list[str]) -> None:
             fail(f"{label}: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
         else:
             ok(label)
+
+
+def check_candidate_benchmark_coverage(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_all_candidate_benchmark_coverage.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"all-candidate benchmark coverage: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("all-candidate benchmark coverage")
 
 
 def check_cloud_blocker_reports(failures: list[str]) -> None:
@@ -471,6 +488,7 @@ def main() -> int:
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
     check_candidate_registries(failures)
+    check_candidate_benchmark_coverage(failures)
     check_cloud_blocker_reports(failures)
 
     if failures:

@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-13T00:20:58.702093+00:00`
+Created: `2026-06-13T04:42:40.077457+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| mem0 | `benchmarked-not-necessarily-promoted` | 13 |
-| mem0 | `benchmarked-not-promoted` | 1 |
-| mem0 | `blocked` | 2 |
-| mem0 | `smoke-or-pilot-only` | 1 |
 | hermes | `benchmarked-not-promoted` | 7 |
 | hermes | `blocked` | 143 |
 | hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 7 |
+| hermes | `smoke-or-pilot-only` | 8 |
+| mem0 | `benchmarked-not-necessarily-promoted` | 12 |
+| mem0 | `benchmarked-not-promoted` | 1 |
+| mem0 | `blocked` | 2 |
+| mem0 | `smoke-or-pilot-only` | 2 |
 
 ## Benchmark Policy
 
@@ -338,6 +338,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3-Embedding-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `benchmarked-not-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `Qwen/Qwen3-Reranker-0.6B` | retrieval | `ready` | mem0 retrieval / embedding-reranking benchmark | `evidence-present-needs-review` | requires expanded/adversarial retrieval replay before default promotion |
+| hermes | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `jinaai/jina-embeddings-v5-omni-small` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `jinaai/jina-embeddings-v5-omni-nano` | retrieval | `needs-runtime-proof` | mem0 retrieval / embedding-reranking benchmark | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `jinaai/jina-embeddings-v5-omni-small-mlx` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
@@ -353,14 +354,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | mem0 | `nomic-embed-text:latest` | embedder | `working-default` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `BAAI/bge-m3` | embedder | `benchmarked-cpu-mps-not-promoted` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `google/embeddinggemma-300m` | embedder | `access-gated` | embedding retrieval suite plus collection migration proof | `blocked` | blocked on gated/authenticated model access |
-| mem0 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | requires expanded/adversarial retrieval replay before default promotion |
+| mem0 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `jinaai/jina-embeddings-v4` | embedder | `runtime-blocked` | embedding retrieval suite plus collection migration proof | `blocked` | blocked by current local runtime support |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Embedding-4B` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `Qwen/Qwen3-Reranker-4B` | reranker | `source-model-benchmarked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | `source-model-benchmarked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
-| mem0 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | `isolated-fixture-proven` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | requires expanded/adversarial retrieval replay before default promotion |
+| mem0 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | `broader-latency-proven-opt-in` | fixed reranking suite, expanded replay, live multi-result fixture | `smoke-or-pilot-only` | requires expanded/adversarial retrieval replay before default promotion |
 | mem0 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-fp16` | reranker | `candidate-runtime-id-verified` | fixed reranking suite, expanded replay, live multi-result fixture | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `mem0-created-at-rank-reranker` | reranker | `live-read-wrapper-smoked` | fixed reranking suite, expanded replay, live multi-result fixture | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `LiquidAI/LFM2-ColBERT-350M` | retriever | `source-model-benchmarked` | late-interaction retriever suite plus separate index proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |

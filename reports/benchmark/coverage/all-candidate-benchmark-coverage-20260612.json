@@ -1,19 +1,19 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-13T00:20:58.702093+00:00",
-  "candidate_count": 176,
+  "created_at": "2026-06-13T04:42:40.077457+00:00",
+  "candidate_count": 177,
   "counts": {
-    "mem0": {
-      "benchmarked-not-necessarily-promoted": 13,
-      "blocked": 2,
-      "smoke-or-pilot-only": 1,
-      "benchmarked-not-promoted": 1
-    },
     "hermes": {
       "blocked": 143,
       "benchmarked-not-promoted": 7,
-      "smoke-or-pilot-only": 7,
+      "smoke-or-pilot-only": 8,
       "evidence-present-needs-review": 2
+    },
+    "mem0": {
+      "benchmarked-not-necessarily-promoted": 12,
+      "blocked": 2,
+      "smoke-or-pilot-only": 2,
+      "benchmarked-not-promoted": 1
     }
   },
   "rows": [
@@ -2043,6 +2043,21 @@
     },
     {
       "project": "hermes",
+      "id": "lmstudio-community/embeddinggemma-300m-qat-GGUF",
+      "role": "local-runtime",
+      "family": "embeddings",
+      "environment_or_runtime": "mac-lmstudio",
+      "feasibility_or_status": "ready",
+      "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
+      "coverage_state": "smoke-or-pilot-only",
+      "blocked_reason": "",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
+      "evidence": [
+        "reports/benchmark/mem0/run-cards/embeddinggemma-300m-qat-gguf-differentiation-20260613.md"
+      ]
+    },
+    {
+      "project": "hermes",
       "id": "jinaai/jina-embeddings-v5-omni-small",
       "role": "retrieval",
       "family": "jina",
@@ -2274,11 +2289,14 @@
       "benchmark_kind": "embedding retrieval suite plus collection migration proof",
       "coverage_state": "benchmarked-not-necessarily-promoted",
       "blocked_reason": "",
-      "benchmark_appropriateness": "requires expanded/adversarial retrieval replay before default promotion",
+      "benchmark_appropriateness": "smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion",
       "evidence": [
+        "reports/benchmark/mem0/embeddinggemma-default-profile-smoke-20260613.md",
+        "reports/benchmark/mem0/embeddinggemma-live-store-replay-20260613.md",
+        "reports/benchmark/mem0/embeddinggemma-live-store-rerank-replay-20260613.md",
         "reports/benchmark/mem0/run-cards/embeddinggemma-300m-qat-gguf-differentiation-20260613.md",
         "reports/benchmark/mem0/run-cards/embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613.md",
-        "reports/benchmark/mem0/run-cards/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613.md"
+        "reports/benchmark/mem0/run-cards/mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613.md"
       ]
     },
     {
@@ -2385,9 +2403,9 @@
       "environment_or_runtime": [
         "mlx"
       ],
-      "feasibility_or_status": "isolated-fixture-proven",
+      "feasibility_or_status": "broader-latency-proven-opt-in",
       "benchmark_kind": "fixed reranking suite, expanded replay, live multi-result fixture",
-      "coverage_state": "benchmarked-not-necessarily-promoted",
+      "coverage_state": "smoke-or-pilot-only",
       "blocked_reason": "",
       "benchmark_appropriateness": "requires expanded/adversarial retrieval replay before default promotion",
       "evidence": [
