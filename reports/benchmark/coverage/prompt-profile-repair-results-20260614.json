@@ -323,6 +323,34 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "try the queued qwen-no-think-prefill variant before any promotion claim",
+      "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-suffix-copy-exact-20260614-030449/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-suffix-copy-exact-20260614-030449",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "variant": "qwen-no-think-prefill",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only Hermes-Qwen3.5 4B variants; use constrained decoding or a runtime-wrapper proof if revisited",
+      "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-qwen-no-think-prefill-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-qwen-no-think-prefill-20260614-030604/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-qwen-no-think-prefill-20260614-030604",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

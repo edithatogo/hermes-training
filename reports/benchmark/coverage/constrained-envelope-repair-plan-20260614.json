@@ -408,6 +408,62 @@
       ]
     },
     {
+      "candidate": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "priority": "medium",
+      "best_variant": "strict-suffix-copy-exact",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.3333333333333333,
+      "case_metrics": {
+        "malformed_or_no_calls": 3,
+        "matched_tool_calls_extra_text": 0,
+        "passed_strict": 1,
+        "refusal_boundary_failed": 2
+      },
+      "source_missing": [],
+      "recommended_next_action": "Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'mkadrlik/Hermes-Qwen3.5-4B-SFT-v7' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"mkadrlik-hermes-qwen3-5-4b-sft-v7-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.3333333333333333,
+          "passed": 1,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-suffix-copy-exact-20260614-030449/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-suffix-copy-exact-20260614-030449/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-suffix-copy-exact-20260614-030449/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 1,
+            "passed_strict": 1,
+            "refusal_boundary_failed": 1
+          }
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-qwen-no-think-prefill-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-qwen-no-think-prefill-20260614-030604/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-qwen-no-think-prefill-20260614-030604/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-4b-sft-v7-qwen-no-think-prefill-20260614-030604/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "refusal_boundary_failed": 1
+          }
+        }
+      ]
+    },
+    {
       "candidate": "LGAI-EXAONE/EXAONE-4.0-1.2B",
       "priority": "low",
       "best_variant": "strict-suffix-copy-exact",

@@ -499,7 +499,10 @@ Current gaps:
    visible `<think>` text. Mungert Nanbeige4.1 3B GGUF is also endpoint-proven;
    both `strict-suffix-copy-exact` and `empty-output-retry` scored `1/3`,
    passing only simple lookup while returning empty parallel output and leaking
-   the forbidden delete tool in refusals. EXAONE 1.2B is GGUF runtime-proven
+   the forbidden delete tool in refusals. mkadrlik Hermes-Qwen3.5 4B SFT v7 is
+   endpoint-proven; strict suffix scored `1/3` and no-think/prefill regressed
+   to `0/3`, so prompt-only repair should stop for that lane. EXAONE 1.2B is
+   GGUF runtime-proven
    but JSON-blocked, while MLX is config-blocked. Use Hermes
    4.3, Qwen3-Coder-Next-GGUF, Qwen3.6-27B,
    Gemma 4 12B/31B, NVIDIA Gemma 4 31B NVFP4, OpenBMB AgentCPM-Report, NVIDIA
