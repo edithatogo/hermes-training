@@ -197,6 +197,20 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant Nemotron prompt repair; use grammar/envelope-constrained output or endpoint-gated candidates next",
+      "result_report": "reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-strict-suffix-copy-exact-20260614-021844/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-strict-suffix-copy-exact-20260614-021844",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

@@ -54,7 +54,7 @@ def main() -> int:
         if not created_at:
             failures.append(f"{display_path(args.json_report)} has no created_at timestamp")
         statuses = {str(row.get("status", "")) for row in rows if isinstance(row, dict)}
-        for required in ("pending-local", "pending-endpoint", "blocked-non-local"):
+        for required in ("pending-endpoint", "blocked-non-local"):
             if required not in statuses:
                 failures.append(f"ledger is missing status {required}")
         if "completed-no-promotion" not in statuses:

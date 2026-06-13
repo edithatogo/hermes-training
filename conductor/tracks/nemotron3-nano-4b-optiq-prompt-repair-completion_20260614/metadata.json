@@ -1,0 +1,8 @@
+{
+  "track_id": "nemotron3-nano-4b-optiq-prompt-repair-completion_20260614",
+  "type": "benchmark",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Complete queued prompt/profile repair variant for Nemotron 3 Nano 4B OptiQ and record the no-promotion decision."
+}
