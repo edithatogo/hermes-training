@@ -18,6 +18,7 @@ DEFAULT_KERNEL_ID = "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
 DEFAULT_STAGING_DIR = ROOT / "reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613"
 DEFAULT_RUNNER = ROOT / "scripts/kaggle_peft_lm_eval_selected.py"
 DEFAULT_TASKS = "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande"
+BACKEND_PREFLIGHT_REPORT = ROOT / "reports/cloud/backend-preflight-20260613.json"
 
 
 @dataclass(frozen=True)
@@ -62,6 +63,17 @@ def build_push_command(spec: KaggleScorecardSpec) -> list[str]:
     ]
 
 
+def known_kaggle_auth_blocker(report_path: Path = BACKEND_PREFLIGHT_REPORT) -> bool:
+    if not report_path.exists():
+        return False
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    kaggle = report.get("backends", {}).get("kaggle", {})
+    return kaggle.get("status") == "blocked-needs-auth"
+
+
 def stage_kernel(spec: KaggleScorecardSpec) -> dict[str, str]:
     spec.staging_dir.mkdir(parents=True, exist_ok=True)
     metadata_path = spec.staging_dir / "kernel-metadata.json"
@@ -93,18 +105,25 @@ def build_report(
     command: list[str],
     execute: bool,
     confirm_kaggle_run: bool,
+    auth_blocker_observed: bool = False,
+    ignore_known_auth_blocker: bool = False,
 ) -> dict[str, Any]:
     status = "ready-to-submit" if execute and confirm_kaggle_run else "dry-run"
     blockers: list[str] = []
     if execute and not confirm_kaggle_run:
         status = "blocked"
         blockers.append("--confirm-kaggle-run is required with --execute")
+    if execute and auth_blocker_observed and not ignore_known_auth_blocker:
+        status = "blocked"
+        blockers.append("known Kaggle authentication blocker is still recorded; authenticate or pass --ignore-known-auth-blocker after verifying auth")
     return {
         "status": status,
         "run_id": spec.run_id,
         "backend": "kaggle-kernels",
         "execute": execute,
         "confirm_kaggle_run": confirm_kaggle_run,
+        "auth_blocker_observed": auth_blocker_observed,
+        "ignore_known_auth_blocker": ignore_known_auth_blocker,
         "kernel_id": spec.kernel_id,
         "staging_dir": str(spec.staging_dir),
         "staged": staged,
@@ -131,6 +150,7 @@ def main() -> int:
     parser.add_argument("--private-kernel", action="store_true")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--confirm-kaggle-run", action="store_true")
+    parser.add_argument("--ignore-known-auth-blocker", action="store_true")
     parser.add_argument("--json-output", type=Path)
     args = parser.parse_args()
 
@@ -147,13 +167,21 @@ def main() -> int:
     )
     staged = stage_kernel(spec)
     command = build_push_command(spec)
-    report = build_report(spec, staged, command, args.execute, args.confirm_kaggle_run)
+    report = build_report(
+        spec,
+        staged,
+        command,
+        args.execute,
+        args.confirm_kaggle_run,
+        auth_blocker_observed=known_kaggle_auth_blocker(),
+        ignore_known_auth_blocker=args.ignore_known_auth_blocker,
+    )
 
     if args.json_output:
         args.json_output.parent.mkdir(parents=True, exist_ok=True)
         args.json_output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    if args.execute and not args.confirm_kaggle_run:
+    if args.execute and report["blockers"]:
         print(json.dumps(report, indent=2, sort_keys=True))
         return 2
 

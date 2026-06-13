@@ -59,6 +59,41 @@ class SubmitKagglePeftScorecardTests(unittest.TestCase):
         self.assertEqual(report["status"], "blocked")
         self.assertTrue(report["blockers"])
 
+    def test_execute_blocks_when_auth_blocker_is_recorded(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            spec = self.make_spec(Path(tmpdir), Path("runner.py"))
+            command = build_push_command(spec)
+
+            report = build_report(
+                spec,
+                {},
+                command,
+                execute=True,
+                confirm_kaggle_run=True,
+                auth_blocker_observed=True,
+            )
+
+        self.assertEqual(report["status"], "blocked")
+        self.assertIn("known Kaggle authentication blocker", report["blockers"][0])
+
+    def test_execute_can_override_stale_auth_blocker_after_manual_verification(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            spec = self.make_spec(Path(tmpdir), Path("runner.py"))
+            command = build_push_command(spec)
+
+            report = build_report(
+                spec,
+                {},
+                command,
+                execute=True,
+                confirm_kaggle_run=True,
+                auth_blocker_observed=True,
+                ignore_known_auth_blocker=True,
+            )
+
+        self.assertEqual(report["status"], "ready-to-submit")
+        self.assertFalse(report["blockers"])
+
 
 if __name__ == "__main__":
     unittest.main()
