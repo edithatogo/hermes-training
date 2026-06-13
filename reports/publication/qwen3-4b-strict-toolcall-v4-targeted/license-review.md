@@ -31,14 +31,14 @@ Hugging Face adapter publication is acceptable with caveats and audit evidence:
 `https://huggingface.co/edithatogo/qwen3-4b-hermes-lora`.
 
 Public Hugging Face adapter publication is approved as an experimental adapter
-release, not as a public dataset release or merged-weights release. Required
-caveats:
+release, not as a merged-weights release. The cleaned synthetic-only dataset was
+approved and published separately after this adapter review. Required caveats:
 
 - final model card must state the required assistant-prefill runtime condition
 - local pilot scores must remain labeled as pilot-only
 - the dataset-source caveats and `notify_care_team` tool-name overlap must stay
   disclosed
-- public dataset publication remains separate and blocked pending human scope
-  approval
+- the public dataset remains scoped to the approved cleaned synthetic-only rows,
+  not the full materialized training splits
 
 Merged weights and GGUF publication remain out of scope for this adapter review.

@@ -134,7 +134,13 @@ Complete:
 
 Current gaps:
 
-- Public dataset publication remains blocked pending explicit approval. A cleaned synthetic-only candidate has been materialized and audited under `/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526`; the scope, run card, and draft dataset card are recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
+- Public dataset publication for the cleaned synthetic-only Qwen3 v4 strict
+  tool-call dataset is complete. The approved local source at
+  `/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526`
+  was published to
+  `https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4`
+  at remote SHA `727e7e4ecd781aca2f7506d4a8fc6d910f521d6d`. The live record is
+  `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/dataset-publication-live-20260612.md`.
 - BGE-M3 is acquired and CPU/MPS-smoked from the SSD Hugging Face cache, but it is not promoted for mem0 defaults. On the expanded 12-case suite, BGE-M3 CPU reached top-1 `0.917` / recall@3 `1.000`; the current nomic default reached top-1 `0.833` / recall@3 `1.000` from the clean SSD Ollama root. The new `score_plus_created_at_rank_close_margin` reranker reached `1.000` on the BGE-derived suite and `0.917` on the nomic-derived suite, so the next mem0 improvement remains the read-only wrapper path, not a default embedder switch. See `reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md` and `reports/benchmark/mem0/nomic-expanded-retrieval-20260526.md`.
 - Jina v5 omni small MLX embedding candidates are now locally load-proven from SSD artifacts. The retrieval variant has a 1-case smoke, and the text-matching variant passed the 3-case mem0 embedding smoke at top-1 `1.000`, recall@3 `1.000`, MRR `1.000`, nDCG@3 `1.000`, 1024 dimensions, and p50 embedding latency `0.022s`. This is candidate evidence only; keep `nomic-embed-text:latest` as the default until a larger comparison and collection migration plan exists. See `reports/benchmark/mem0/run-cards/jina-mlx-text-matching-smoke-20260612c.md`.
 - `Qwen/Qwen3.5-0.8B` is now SSD-acquired and MLX-load-proven on the Mac lane. The one-case direct loglikelihood smoke passed with greedy match `1.000`, score latency `1.037s`, and a 1.7G SSD cache footprint. Treat it as runtime/load evidence only; the next gate is deciding whether it is a Hermes helper, extractor, or prompt-format candidate before any training. See `reports/benchmark/mlx-loglikelihood/qwen35-08b-mlx-loglikelihood-smoke-20260612.md`.

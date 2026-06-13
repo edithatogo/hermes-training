@@ -633,3 +633,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Handoff Current-State Reconciliation
 *Link: [./tracks/handoff-current-state-reconciliation_20260613/](./tracks/handoff-current-state-reconciliation_20260613/)*
+
+---
+
+## [x] Track: Dataset Publication State Reconciliation
+*Link: [./tracks/dataset-publication-state-reconciliation_20260613/](./tracks/dataset-publication-state-reconciliation_20260613/)*

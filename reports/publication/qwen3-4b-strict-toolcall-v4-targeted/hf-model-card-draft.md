@@ -109,8 +109,9 @@ The reusable runtime prompt contract is recorded in
 - The V4 training data has no held-out user-prompt overlap in the recorded
   audit, but it shares one generic held-out tool name, `notify_care_team`.
 - Dataset/source redistribution review is complete for adapter-release purposes
-  with caveats; public dataset publication remains separate and blocked pending
-  scope approval.
+  with caveats. The separately approved cleaned synthetic-only dataset has been
+  published at
+  `https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4`.
 - Public release approval is recorded in `release-decision.md`; the publication
   bundle is expected to pass `scripts/validate_publication_bundle.py
   --require-ready`.

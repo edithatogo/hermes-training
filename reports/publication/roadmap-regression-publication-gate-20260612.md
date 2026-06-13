@@ -72,10 +72,19 @@ Current operator state:
 
 ## Open Blockers
 
-- `mem0-embedding-reranker-promotion_20260612` is still in progress. The next concrete fix is replacing deprecated `huggingface-cli` usage in the Jina MLX embedding benchmark helper with current `hf download`.
-- `frontier-support-evaluation_20260612` is still in progress. The preflight helper expects `--output` and `--json-output` flags.
-- `cloud-dynamic-benchmark-orchestration_20260612` remains open for provider selection, session/job orchestration, artifact capture, and fail-closed cost controls.
-- Dataset publication remains blocked until explicit approval of scope and target Hugging Face repo.
+- `mem0-embedding-reranker-promotion_20260612`,
+  `frontier-support-evaluation_20260612`, and
+  `cloud-dynamic-benchmark-orchestration_20260612` are archived as complete in
+  the Conductor registry. Follow-on work is now candidate-specific rather than
+  a blocker on this publication gate.
+- Dataset publication is no longer blocked. The approved cleaned synthetic-only
+  dataset was published to
+  `https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4`
+  at remote SHA `727e7e4ecd781aca2f7506d4a8fc6d910f521d6d`.
+- Remaining publication caution: keep the Qwen3 v4 adapter positioned as an
+  experimental local strict Hermes tool-call LoRA with pilot-only broader
+  benchmark evidence. Do not promote broader BFCL/IFEval/coding claims without
+  full benchmark evidence.
 
 ## Validation
 
@@ -86,6 +95,8 @@ source scripts/env.sh && ./.venv/bin/python scripts/validate_readiness.py
 source scripts/env.sh && ./.venv/bin/python scripts/check_model_candidates.py
 ```
 
-Track health: 9.6/10.
+Track health: 9.8/10.
 
-The remaining risk is operational rather than structural: two adjacent execution tracks are intentionally still dirty/in progress and should not be co-committed with this roadmap gate.
+The remaining risk is claim scope rather than publication mechanics: the
+dataset is public, but broader model-capability claims still need full benchmark
+evidence before they are advertised.

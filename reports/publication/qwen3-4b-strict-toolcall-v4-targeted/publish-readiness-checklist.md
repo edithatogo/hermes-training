@@ -45,15 +45,21 @@ standard benchmark stage target is satisfied by recording repo-native pilot
 scores and explicitly labeling them as pilot-only rather than official BFCL,
 IFEval, HumanEval, or MBPP scores.
 
-The dataset/source redistribution review is complete with caveats: the adapter
-source-review gate is cleared, but public dataset publication remains blocked
-pending separate human scope approval because the materialized rows include
-mirrored local benchmark seed material.
+The dataset/source redistribution review is complete with caveats. The adapter
+source-review gate is cleared, and the separately approved cleaned
+synthetic-only dataset has been published without the mirrored local benchmark
+seed rows.
 
 Hugging Face adapter repo:
 
 ```text
 https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
+```
+
+Hugging Face dataset repo:
+
+```text
+https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4
 ```
 
 The uploaded `adapters.safetensors` file was downloaded back from Hugging Face

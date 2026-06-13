@@ -14,24 +14,34 @@ tags:
 
 # Qwen3 Hermes Strict Tool-Call Synthetic V4
 
-Publication status: blocked pending human scope approval.
+Publication status: published.
+
+Published dataset:
+
+```text
+https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4
+```
+
+Remote revision:
+
+```text
+727e7e4ecd781aca2f7506d4a8fc6d910f521d6d
+```
 
 ## Dataset Summary
 
-This draft describes the dataset scope used to train the public experimental
-`qwen3-4b-hermes-lora` adapter. It is not a released Hugging Face dataset yet.
+This card describes the approved cleaned synthetic-only dataset published as a
+reproducibility companion for the public experimental `qwen3-4b-hermes-lora`
+adapter.
 
-The current materialized training data lives in the repo at:
+The full materialized adapter training data lives in the repo at:
 
 ```text
 gemma4/data/strict_tool_call/expanded_splits_v4_targeted
 ```
 
-The recommended future public dataset should be a cleaned synthetic-only subset,
-not a direct upload of the materialized training splits.
-
-A cleaned synthetic-only candidate has been materialized locally but not
-published:
+The public dataset is the cleaned synthetic-only subset, not a direct upload of
+the materialized training splits. The approved publication source was:
 
 ```text
 /Volumes/PortableSSD/hermes-evals/datasets/qwen3-v4-synthetic-only-20260526
@@ -113,10 +123,10 @@ Known caveats:
 - mirrored regression seed rows intentionally overlap the local mirrored
   regression suite and should not be used as independent held-out evidence
 
-## Recommended Future Release Scope
+## Published Release Scope
 
-Only publish a cleaned synthetic-only dataset after explicit approval. The
-recommended included source classes are:
+The published dataset includes only the approved cleaned synthetic source
+classes:
 
 - `strict_tool_call_expansion_v1`
 - `strict_tool_call_expansion_v2_format_guard`
@@ -127,9 +137,9 @@ The recommended excluded source classes are:
 - `strict_tool_call_seed`
 - `strict_tool_call`
 
-The current cleaned candidate has `82` rows, no duplicate IDs, and no held-out
-user-prompt overlap. Its run card is
-`cleaned-synthetic-dataset-run-card.md`.
+The published dataset has `82` rows, no duplicate IDs, and no held-out
+user-prompt overlap. Its run card is `cleaned-synthetic-dataset-run-card.md`;
+the live publication record is `dataset-publication-live-20260612.md`.
 
 ## Associated Adapter
 
@@ -140,4 +150,5 @@ https://huggingface.co/edithatogo/qwen3-4b-hermes-lora
 ```
 
 The adapter is released as an experimental local strict Hermes tool-call LoRA
-with pilot-only benchmark positioning. Dataset publication remains separate.
+with pilot-only benchmark positioning. The dataset is published separately as a
+small synthetic-only companion dataset, not as an independent benchmark.
