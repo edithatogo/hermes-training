@@ -1,0 +1,82 @@
+{
+  "items": [
+    {
+      "backend": "colab",
+      "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+      "commands": [
+        "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
+        "./.venv/bin/python scripts/cloud_backend_preflight.py"
+      ],
+      "operator_actions": [
+        "Confirm `colab sessions` is empty or intentionally owned.",
+        "Retry only a single no-limit shard at a time, starting with the smallest selected task.",
+        "If keepalive/session pruning recurs, prefer a persistent backend instead of repeated Colab retries."
+      ],
+      "status": "ready"
+    },
+    {
+      "backend": "hf_jobs",
+      "blocker": "HF Jobs rejected the live route probe with insufficient prepaid credits.",
+      "commands": [
+        "hf jobs ps",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute"
+      ],
+      "operator_actions": [
+        "Add Hugging Face prepaid credits or grant capacity.",
+        "Keep paid GPU submission explicitly confirmation-gated.",
+        "Submit the prepared scorecard only after credits are visible."
+      ],
+      "status": "blocked-insufficient-hf-credits"
+    },
+    {
+      "backend": "azure",
+      "blocker": "Azure CLI is installed but not currently logged in.",
+      "commands": [
+        "az login --use-device-code",
+        "az account set --subscription \"Azure for Students\"",
+        "./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast",
+        "./.venv/bin/python scripts/azure_status.py"
+      ],
+      "operator_actions": [
+        "Run device-code login for the intended account.",
+        "Select `Azure for Students` if available.",
+        "Rerun quota checks before any workspace, compute, or job action."
+      ],
+      "status": "blocked"
+    },
+    {
+      "backend": "ngc",
+      "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",
+      "commands": [
+        "ngc sso login",
+        "ngc config current",
+        "ngc cloud-function gpu quota",
+        "ngc cloud-function task create --help"
+      ],
+      "operator_actions": [
+        "Authenticate with SSO or supplied API key without committing secrets.",
+        "Record non-secret org/team and Cloud Function GPU quota evidence.",
+        "Build or select an NGC registry benchmark container before any task submission."
+      ],
+      "status": "blocked"
+    },
+    {
+      "backend": "kaggle",
+      "blocker": "Kaggle CLI is installed but unauthenticated.",
+      "commands": [
+        "kaggle auth login",
+        "kaggle quota",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
+      ],
+      "operator_actions": [
+        "Authenticate Kaggle CLI with OAuth or an API token.",
+        "Check weekly accelerator quota before pushing a kernel.",
+        "Push the staged kernel only after explicit confirmation."
+      ],
+      "status": "blocked-needs-auth"
+    }
+  ],
+  "source_preflight": "reports/cloud/backend-preflight-20260613.json"
+}

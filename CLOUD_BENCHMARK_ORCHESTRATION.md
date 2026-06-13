@@ -39,6 +39,17 @@ The preflight does not create sessions, log in, submit jobs, upload data, or
 spend money. A blocked provider is recorded as blocked instead of making the
 whole registry fail.
 
+To generate the current operator unblock checklist:
+
+```bash
+./.venv/bin/python scripts/build_cloud_unblock_checklist.py
+```
+
+This writes:
+
+- `reports/cloud/backend-unblock-checklist-20260613.json`
+- `reports/cloud/backend-unblock-checklist-20260613.md`
+
 ## Colab Dispatch
 
 Use Colab for bounded, sanitized jobs:
