@@ -23,6 +23,9 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.8 / 10
 - Evidence: cloud reports now expose the policy, tests cover the accelerator
-  ladder, and no live remote runtime was created.
-- Gaps: actual Colab TPU availability is still a live execution question; this
-  track only prepares fail-closed routing.
+  ladder, and the bounded adaptive smoke ran live on 2026-06-14. The T4
+  attempt lost connection during setup, L4/A100 were rejected for account
+  quota/entitlement, and TPU `v5e1` completed the XLA training smoke. Report:
+  `reports/colab/colab-gpu-tpu-adaptive-smoke-20260614.md`.
+- Gaps: this proves only adaptive smoke execution. PEFT lm-eval scorecards
+  remain GPU/persistent-backend workloads and must not be routed to TPU.

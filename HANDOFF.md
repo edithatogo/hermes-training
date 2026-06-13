@@ -336,6 +336,11 @@ Complete:
   and quota checks can be trusted again. Modern GPU quota was previously zero
   across sampled regions, so the Azure track remains fail-closed until login
   and quota are both resolved.
+- Colab CLI bounded adaptive smoke is live-proven for TPU-compatible scripts:
+  the 2026-06-14 GPU/TPU ladder smoke blocked on T4 connection loss and L4/A100
+  entitlement, then passed on TPU `v5e1` with XLA. Keep PEFT lm-eval scorecards
+  off TPU; this evidence only supports adaptive TPU-compatible scripts. Report:
+  `reports/colab/colab-gpu-tpu-adaptive-smoke-20260614.md`.
 - Qwen3 v4 targeted is the current public/recommended strict Hermes tool-call adapter. It passes the held-out strict local tool-call suite at `1.000` with `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`; publication evidence is in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
 - Qwen3 v5 pilot-polish is a documented non-promotion result. It improved the local BFCL-style pilot to `1.000`, but held-out strict pass regressed to `0.875`; keep v4 as the recommended/public adapter.
 - V4/V5 pilot failure analysis is recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/pilot-failure-analysis-20260526.md`. Any v6 attempt must start from V4 and keep held-out strict pass at `1.000`.
