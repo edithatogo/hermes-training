@@ -173,6 +173,11 @@ Complete:
   use `./.venv/bin/python -m pip` instead of bare `python -m pip`, so optional
   embedding/reranker dependencies install into the same project virtualenv used
   by the benchmark scripts.
+- Cloud offload preflight now includes Modal and Lightning as fail-closed
+  candidate backends. Modal is blocked until token/profile auth and free
+  credit/GPU policy are proven; Lightning is blocked until login/teamspace,
+  machine type, credits, and artifact recovery are proven. No remote jobs were
+  submitted.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.
