@@ -58,6 +58,19 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("scripts/run_transformers_pilot_benchmark.py", command)
         self.assertNotIn("scripts/run_endpoint_pilot_benchmark.py", command)
 
+    def test_lmstudio_non_gguf_command_uses_runtime_neutral_artifact_hint(self) -> None:
+        item = candidate(
+            id="openbmb/MiniCPM-V-4.6-GPTQ",
+            environment="mac-lmstudio",
+            first_runtime="LM Studio local smoke",
+        )
+
+        command = next_command(item, "mac-runtime-proof")
+
+        self.assertIn("scripts/run_endpoint_pilot_benchmark.py", command)
+        self.assertIn("smallest compatible local artifact", command)
+        self.assertNotIn("smallest compatible GGUF", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

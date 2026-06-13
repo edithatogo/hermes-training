@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T05:45:00+00:00`
+Created: `2026-06-13T06:12:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -190,7 +190,7 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.
 ./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
   --model openbmb-minicpm-v-4-6-gptq \
   --base-url http://127.0.0.1:<port>/v1 \

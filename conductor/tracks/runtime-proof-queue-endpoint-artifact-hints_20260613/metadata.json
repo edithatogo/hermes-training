@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-proof-queue-endpoint-artifact-hints_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Make runtime proof endpoint command hints accurate for non-GGUF local artifacts such as GPTQ packages."
+}

@@ -183,10 +183,15 @@ def next_command(item: dict[str, Any], lane: str) -> str:
     if lane == "mac-runtime-proof" and (
         env in {"mac-lmstudio", "mac-ollama"} or "gguf" in model_id.lower() or "gguf" in first_runtime.lower()
     ):
+        artifact_hint = (
+            "Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot."
+            if "gguf" in (model_id + " " + first_runtime).lower()
+            else "Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot."
+        )
         return "\n".join(
             [
                 "source scripts/env.sh",
-                "# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.",
+                f"# {artifact_hint}",
                 "./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\",
                 f"  --model {slug} \\",
                 "  --base-url http://127.0.0.1:<port>/v1 \\",
