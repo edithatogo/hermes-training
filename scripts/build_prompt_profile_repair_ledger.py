@@ -71,13 +71,15 @@ def build_ledger(
             by_candidate.get(candidate, []),
             key=lambda item: (int(item.get("priority", 99)), str(item.get("variant", ""))),
         )
-        matched_result = next(
-            (
-                by_result[result_key(candidate, str(item.get("variant", "")))]
-                for item in candidate_experiments
-                if result_key(candidate, str(item.get("variant", ""))) in by_result
-            ),
-            None,
+        candidate_results = [
+            by_result[result_key(candidate, str(item.get("variant", "")))]
+            for item in candidate_experiments
+            if result_key(candidate, str(item.get("variant", ""))) in by_result
+        ]
+        matched_result = max(
+            candidate_results,
+            key=lambda item: float(item.get("pass_rate", -1) or -1),
+            default=None,
         )
         status, next_action = candidate_status(row, candidate_experiments, matched_result)
         rows.append(

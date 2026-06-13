@@ -161,7 +161,7 @@
       "environment": "mac-mlx",
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "status": "completed-no-promotion",
-      "next_action": "try the qwen-no-think-prefill or empty-output-retry variant before any promotion claim",
+      "next_action": "try the empty-output-retry variant or a grammar/envelope repair; no-think improves refusal but still fails tool-call parsing",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -182,9 +182,9 @@
           "strict_scoring": true
         }
       ],
-      "result_report": "reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md",
-      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)/summary.json",
-      "pass_rate": 0.0,
+      "result_report": "reports/benchmark/local-pilots/qwen35-08b-qwen-no-think-prefill-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-qwen-no-think-prefill-20260614-015642/summary.json",
+      "pass_rate": 0.3333333333333333,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {

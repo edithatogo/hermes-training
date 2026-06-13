@@ -27,6 +27,7 @@
   promotion evidence; future generated commands have expandable run stamps.
 - Validation: Focused tests, prompt/profile validators, Conductor consistency,
   and full readiness are required before commit.
-- Gaps: The next Qwen3.5 0.8B repair variants remain unrun.
-- Decision: Complete. Do not rerun strict suffix only; use the no-think or
-  empty-output variants next.
+- Gaps: The `empty-output-retry` variant and any grammar/envelope repair remain
+  unrun.
+- Decision: Complete. Do not rerun strict suffix or no-think only; use the
+  empty-output variant or a constrained-envelope repair next.

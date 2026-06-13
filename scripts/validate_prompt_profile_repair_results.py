@@ -34,14 +34,19 @@ def validate_results(path: Path = DEFAULT_RESULTS) -> list[str]:
         label = f"{result.get('candidate', '<unknown>')}:{result.get('variant', '<unknown>')}"
         report = ROOT / str(result.get("result_report", ""))
         source_summary = Path(str(result.get("source_summary", "")))
+        cases = int(result.get("cases", 0))
+        passed = int(result.get("passed", -1))
+        pass_rate = float(result.get("pass_rate", -1))
         if result.get("status") != "completed-no-promotion":
             failures.append(f"{label} has unsupported status {result.get('status')!r}")
-        if float(result.get("pass_rate", -1)) != 0.0:
-            failures.append(f"{label} expected pass_rate 0.0 for tracked failed repair")
-        if int(result.get("cases", 0)) != 3:
+        if result.get("promotion_allowed") is not False:
+            failures.append(f"{label} must explicitly set promotion_allowed false")
+        if cases != 3:
             failures.append(f"{label} expected 3 cases")
-        if int(result.get("passed", -1)) != 0:
-            failures.append(f"{label} expected 0 passed")
+        if passed < 0 or passed >= cases:
+            failures.append(f"{label} expected an incomplete strict pass count")
+        if pass_rate < 0.0 or pass_rate >= 1.0:
+            failures.append(f"{label} expected a non-promotable pass_rate below 1.0")
         if not report.exists():
             failures.append(f"{label} missing result report {report}")
         if not source_summary.exists():

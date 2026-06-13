@@ -24,6 +24,7 @@ class ValidatePromptProfileRepairResultsTests(unittest.TestCase):
                                 "pass_rate": 0.0,
                                 "cases": 3,
                                 "passed": 0,
+                                "promotion_allowed": False,
                                 "result_report": "missing.md",
                                 "source_summary": str(root / "missing-summary.json"),
                             }
