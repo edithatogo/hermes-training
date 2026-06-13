@@ -100,3 +100,37 @@ kaggle quota
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
 ```
+
+## modal
+
+- Status: `blocked-needs-auth`
+- Blocker: Modal CLI is installed but no token/profile is authenticated on this machine.
+- Operator actions:
+  - Run browser token setup for the intended Modal account.
+  - Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.
+  - Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.
+- Commands:
+
+```bash
+modal token new
+modal token info
+modal profile list
+modal billing
+```
+
+## lightning
+
+- Status: `blocked-needs-teamspace-owner`
+- Blocker: Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.
+- Operator actions:
+  - Run Lightning login for the intended account.
+  - Select or configure the Teamspace owner.
+  - Confirm free monthly credits/GPU hours and a T4/L4 machine before adding a submitter.
+- Commands:
+
+```bash
+lightning login
+lightning studio list
+lightning machine list
+lightning job list
+```

@@ -119,6 +119,38 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
             ],
         },
+        {
+            "backend": "modal",
+            "status": backends.get("modal", {}).get("status", "unknown"),
+            "blocker": "Modal CLI is installed but no token/profile is authenticated on this machine.",
+            "operator_actions": [
+                "Run browser token setup for the intended Modal account.",
+                "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
+                "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.",
+            ],
+            "commands": [
+                "modal token new",
+                "modal token info",
+                "modal profile list",
+                "modal billing",
+            ],
+        },
+        {
+            "backend": "lightning",
+            "status": backends.get("lightning", {}).get("status", "unknown"),
+            "blocker": "Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.",
+            "operator_actions": [
+                "Run Lightning login for the intended account.",
+                "Select or configure the Teamspace owner.",
+                "Confirm free monthly credits/GPU hours and a T4/L4 machine before adding a submitter.",
+            ],
+            "commands": [
+                "lightning login",
+                "lightning studio list",
+                "lightning machine list",
+                "lightning job list",
+            ],
+        },
     ]
 
 

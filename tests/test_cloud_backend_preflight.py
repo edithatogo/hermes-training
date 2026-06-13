@@ -74,6 +74,40 @@ class CloudBackendPreflightTests(unittest.TestCase):
         self.assertEqual(summary["status"], "blocked-insufficient-hf-credits")
         self.assertTrue(summary["credit_blocker_observed"])
 
+    def test_modal_missing_token_is_blocked(self) -> None:
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["modal", "--version"]:
+                return command_result(command, 0, "modal client version: 1.5.0")
+            if command == ["modal", "profile", "list"]:
+                return command_result(command, 0, "")
+            if command == ["modal", "token", "info"]:
+                return command_result(command, 1, stderr="Token missing")
+            raise AssertionError(command)
+
+        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+            summary = cloud_backend_preflight.summarize_modal()
+
+        self.assertEqual(summary["status"], "blocked-needs-auth")
+        self.assertIn("modal token new", summary["next_action"])
+
+    def test_lightning_missing_teamspace_owner_is_blocked(self) -> None:
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["lightning", "--version"]:
+                return command_result(command, 0, "lightning 2026.6.8")
+            if command == ["lightning", "studio", "list"]:
+                return command_result(command, 0, stderr="Could not find the given Teamspace-Owner None")
+            if command == ["lightning", "machine", "list"]:
+                return command_result(command, 0, "T4\nL4\nA100")
+            raise AssertionError(command)
+
+        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+            summary = cloud_backend_preflight.summarize_lightning()
+
+        self.assertEqual(summary["status"], "blocked-needs-teamspace-owner")
+        self.assertIn("Teamspace owner", summary["next_action"])
+
     def test_write_outputs_skips_timestamp_only_change(self) -> None:
         with TemporaryDirectory() as tmp:
             json_output = Path(tmp) / "backend-preflight.json"

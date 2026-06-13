@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T05:52:00.990208+00:00",
+  "created_at": "2026-06-13T06:19:44.246248+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -169,6 +169,88 @@
       },
       "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
       "next_action": "Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight."
+    },
+    "modal": {
+      "status": "blocked-needs-auth",
+      "route": "container-serverless-candidate",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "--version"
+        ],
+        "returncode": 0,
+        "stdout": "modal client version: 1.5.0",
+        "stderr": ""
+      },
+      "profile": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "profile",
+          "list"
+        ],
+        "returncode": 0,
+        "stdout": "┏━━━┳━━━━━━━━━┳━━━━━━━━━━━┓\n┃   ┃ Profile ┃ Workspace ┃\n┡━━━╇━━━━━━━━━╇━━━━━━━━━━━┩\n└───┴─────────┴───────────┘",
+        "stderr": ""
+      },
+      "token": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/modal",
+        "command": [
+          "modal",
+          "token",
+          "info"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ Token missing. Could not authenticate client. If you have token credentials, │\n│ see modal.com/docs/reference/modal.config for setup help. If you are a new   │\n│ user, register an account at modal.com, then run `modal token new`.          │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+      },
+      "stop_condition": "missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof",
+      "next_action": "Run modal token new in a browser-authenticated session, then rerun this preflight."
+    },
+    "lightning": {
+      "status": "blocked-needs-teamspace-owner",
+      "route": "studio-job-candidate",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "--version"
+        ],
+        "returncode": 0,
+        "stdout": "Lightning CLI version 2026.06.08post0",
+        "stderr": ""
+      },
+      "studio": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "studio",
+          "list"
+        ],
+        "returncode": 1,
+        "stdout": "\u001b[31m╭─\u001b[0m\u001b[31m──────────────────────────\u001b[0m\u001b[31m ⚡ Lightning CLI Error \u001b[0m\u001b[31m──────────────────────────\u001b[0m\u001b[31m─╮\u001b[0m\n\u001b[31m│\u001b[0m \u001b[1;31mStudioCliError: \u001b[0m\u001b[37mCould not find the given Teamspace-Owner None. Please \u001b[0m       \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m \u001b[37mcontact Lightning AI directly to resolve this issue.\u001b[0m                         \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m 🐞 To view the full traceback, set: LIGHTNING_DEBUG=1                        \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m                                                                              \u001b[31m│\u001b[0m\n\u001b[31m│\u001b[0m \u001b[36m📘 Need help? Run: lightning <command> --help\u001b[0m                                \u001b[31m│\u001b[0m\n\u001b[31m╰──────────────────────────────────────────────────────────────────────────────╯\u001b[0m",
+        "stderr": ""
+      },
+      "machine": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/lightning",
+        "command": [
+          "lightning",
+          "machine",
+          "list"
+        ],
+        "returncode": 0,
+        "stdout": "┏━━━━━━━━━━━━━━━━━┓\n┃ Name            ┃\n┡━━━━━━━━━━━━━━━━━┩\n│ A100            │\n│ A100_X_2        │\n│ A100_X_4        │\n│ A100_X_8        │\n│ B200_X_8        │\n│ CPU             │\n│ CPU_SMALL       │\n│ CPU_X_16        │\n│ CPU_X_2         │\n│ CPU_X_4         │\n│ CPU_X_8         │\n│ DATA_PREP       │\n│ DATA_PREP_MAX   │\n│ DATA_PREP_ULTRA │\n│ H100            │\n│ H100_X_2        │\n│ H100_X_4        │\n│ H100_X_8        │\n│ H200            │\n│ H200_X_8        │\n│ L4              │\n│ L40S            │\n│ L40S_X_2        │\n│ L40S_X_4        │\n│ L40S_X_8        │\n│ L4_X_2          │\n│ L4_X_4          │\n│ L4_X_8          │\n│ RTXP_6000       │\n│ RTXP_6000_X_2   │\n│ RTXP_6000_X_4   │\n│ RTXP_6000_X_8   │\n│ T4              │\n│ T4_SMALL        │\n│ T4_X_2          │\n│ T4_X_4          │\n│ T4_X_8          │\n└─────────────────┘",
+        "stderr": ""
+      },
+      "stop_condition": "missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof",
+      "next_action": "Run lightning login and configure the intended Teamspace owner, then rerun this preflight."
     }
   }
 }

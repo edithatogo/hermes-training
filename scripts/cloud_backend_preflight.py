@@ -195,6 +195,88 @@ def summarize_kaggle() -> dict[str, Any]:
     }
 
 
+def summarize_modal() -> dict[str, Any]:
+    version = run_command(["modal", "--version"])
+    profile = run_command(["modal", "profile", "list"]) if version["installed"] else {
+        "installed": False,
+        "path": "",
+        "command": ["modal", "profile", "list"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "modal not found on PATH",
+    }
+    token = run_command(["modal", "token", "info"]) if version["installed"] else {
+        "installed": False,
+        "path": "",
+        "command": ["modal", "token", "info"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "modal not found on PATH",
+    }
+    authenticated = version["installed"] and version["returncode"] == 0 and token["returncode"] == 0
+    if authenticated:
+        status = "prepared-needs-credit-and-gpu-policy-check"
+        next_action = "Use Modal only after confirming free credits/grant and adding a fail-closed Modal scorecard submitter."
+    elif version["installed"] and version["returncode"] == 0:
+        status = "blocked-needs-auth"
+        next_action = "Run modal token new in a browser-authenticated session, then rerun this preflight."
+    else:
+        status = "blocked"
+        next_action = "Install and authenticate Modal before adding a Modal execution lane."
+    return {
+        "status": status,
+        "route": "container-serverless-candidate",
+        "version": version,
+        "profile": profile,
+        "token": token,
+        "stop_condition": "missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof",
+        "next_action": next_action,
+    }
+
+
+def summarize_lightning() -> dict[str, Any]:
+    version = run_command(["lightning", "--version"])
+    studio = run_command(["lightning", "studio", "list"], timeout_s=30) if version["installed"] else {
+        "installed": False,
+        "path": "",
+        "command": ["lightning", "studio", "list"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "lightning not found on PATH",
+    }
+    machine = run_command(["lightning", "machine", "list"], timeout_s=30) if version["installed"] else {
+        "installed": False,
+        "path": "",
+        "command": ["lightning", "machine", "list"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "lightning not found on PATH",
+    }
+    studio_text = f"{studio.get('stdout', '')}\n{studio.get('stderr', '')}"
+    teamspace_blocker = "Teamspace-Owner None" in studio_text
+    if version["installed"] and version["returncode"] == 0 and teamspace_blocker:
+        status = "blocked-needs-teamspace-owner"
+        next_action = "Run lightning login and configure the intended Teamspace owner, then rerun this preflight."
+    elif version["installed"] and version["returncode"] == 0 and studio["returncode"] == 0:
+        status = "prepared-needs-credit-and-artifact-contract"
+        next_action = "Add a fail-closed Lightning job/studio submitter after free credits, machine type, and artifact recovery are confirmed."
+    elif version["installed"] and version["returncode"] == 0:
+        status = "blocked-needs-auth-or-teamspace"
+        next_action = "Run lightning login, select/configure a Teamspace, and rerun this preflight."
+    else:
+        status = "blocked"
+        next_action = "Install and authenticate Lightning SDK before adding a Lightning execution lane."
+    return {
+        "status": status,
+        "route": "studio-job-candidate",
+        "version": version,
+        "studio": studio,
+        "machine": machine,
+        "stop_condition": "missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof",
+        "next_action": next_action,
+    }
+
+
 def build_report() -> dict[str, Any]:
     storage_root = resolve_storage_root()
     return {
@@ -214,6 +296,8 @@ def build_report() -> dict[str, Any]:
             "azure": summarize_azure(),
             "ngc": summarize_ngc(),
             "kaggle": summarize_kaggle(),
+            "modal": summarize_modal(),
+            "lightning": summarize_lightning(),
         },
     }
 
