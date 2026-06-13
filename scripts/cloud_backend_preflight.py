@@ -138,7 +138,7 @@ def summarize_ngc() -> dict[str, Any]:
         "route": "prepared",
         "config": config,
         "stop_condition": "missing API key, org/team, entitlement, container access, model access, or license approval",
-        "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof.",
+        "next_action": "Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access.",
     }
 
 

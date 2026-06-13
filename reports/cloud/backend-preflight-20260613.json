@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T03:52:39.510370+00:00",
+  "created_at": "2026-06-13T03:59:15.688982+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -118,7 +118,7 @@
         "stderr": ""
       },
       "stop_condition": "missing API key, org/team, entitlement, container access, model access, or license approval",
-      "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof."
+      "next_action": "Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access."
     },
     "kaggle": {
       "status": "blocked-needs-auth",
