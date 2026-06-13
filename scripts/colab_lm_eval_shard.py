@@ -6,6 +6,7 @@ import argparse
 import json
 import shlex
 import subprocess
+import time
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -43,7 +44,18 @@ def command_plan(
     ]
 
 
-def run_command(command: list[str], log_path: Path | None, dry_run: bool) -> dict[str, Any]:
+def session_missing(status_text: str) -> bool:
+    return "not found" in status_text.lower() or "session_not_found" in status_text.lower()
+
+
+def run_command(
+    command: list[str],
+    log_path: Path | None,
+    dry_run: bool,
+    *,
+    session: str | None = None,
+    watchdog_s: float = 0.0,
+) -> dict[str, Any]:
     started = datetime.now(UTC)
     if dry_run:
         return {
@@ -54,22 +66,53 @@ def run_command(command: list[str], log_path: Path | None, dry_run: bool) -> dic
             "returncode": None,
             "log": str(log_path) if log_path else None,
         }
-    if log_path:
-        log_path.parent.mkdir(parents=True, exist_ok=True)
-        with log_path.open("w", encoding="utf-8") as handle:
-            result = subprocess.run(command, check=False, stdout=handle, stderr=subprocess.STDOUT, text=True)
-    else:
+    if not log_path:
         result = subprocess.run(command, check=False, capture_output=True, text=True)
+        return {
+            "command": command,
+            "quoted_command": shlex.join(command),
+            "status": "ok" if result.returncode == 0 else "blocked",
+            "started_at": started.isoformat(),
+            "finished_at": datetime.now(UTC).isoformat(),
+            "returncode": result.returncode,
+            "log": None,
+            "stdout_tail": result.stdout[-4000:],
+            "stderr_tail": result.stderr[-4000:],
+        }
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with log_path.open("w", encoding="utf-8") as handle:
+        process = subprocess.Popen(command, stdout=handle, stderr=subprocess.STDOUT, text=True)  # noqa: S603
+        termination_reason = ""
+        while process.poll() is None:
+            if session and watchdog_s > 0:
+                time.sleep(watchdog_s)
+                status = subprocess.run(
+                    ["colab", "status", "-s", session],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+                status_text = f"{status.stdout}\n{status.stderr}"
+                if session_missing(status_text):
+                    termination_reason = "session-not-found"
+                    process.kill()
+                    process.wait()
+                    break
+            else:
+                time.sleep(1)
+        returncode = process.returncode
     return {
         "command": command,
         "quoted_command": shlex.join(command),
-        "status": "ok" if result.returncode == 0 else "blocked",
+        "status": "ok" if returncode == 0 and not termination_reason else "blocked",
         "started_at": started.isoformat(),
         "finished_at": datetime.now(UTC).isoformat(),
-        "returncode": result.returncode,
-        "log": str(log_path) if log_path else None,
-        "stdout_tail": "" if log_path else result.stdout[-4000:],
-        "stderr_tail": "" if log_path else result.stderr[-4000:],
+        "returncode": returncode,
+        "termination_reason": termination_reason,
+        "log": str(log_path),
+        "stdout_tail": "",
+        "stderr_tail": "",
     }
 
 
@@ -132,6 +175,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--adapter", type=Path, default=DEFAULT_ADAPTER)
     parser.add_argument("--script", type=Path, default=DEFAULT_SCRIPT)
     parser.add_argument("--exec-timeout-s", type=int, default=21600)
+    parser.add_argument("--exec-watchdog-s", type=float, default=60.0)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -165,7 +209,8 @@ def main() -> int:
             logs,
             strict=True,
         ):
-            step = run_command(command, local_output / log_name, args.dry_run)
+            watchdog_s = args.exec_watchdog_s if "exec" in command else 0.0
+            step = run_command(command, local_output / log_name, args.dry_run, session=session, watchdog_s=watchdog_s)
             steps.append(step)
             if step["status"] == "blocked":
                 status = "blocked"

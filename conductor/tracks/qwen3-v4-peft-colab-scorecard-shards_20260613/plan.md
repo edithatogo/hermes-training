@@ -33,9 +33,13 @@
   `edithatogo/qwen3-v4-peft-lm-eval-results`. A `truthfulqa_mc2` retry reached
   `adapter-ready` but was later pruned without evaluation artifacts; evidence:
   `reports/benchmark/lm-eval/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-retry1-20260613.md`.
+- Retry2 evidence: the heartbeat-enabled runner reached `evaluation-running`,
+  then the session terminated before scoring; see
+  `reports/benchmark/lm-eval/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-retry2-20260613.md`.
 - Gaps: no no-limit shard has completed; `arc_challenge` was pruned before JSON
   or harness artifacts were downloadable, and `truthfulqa_mc2` retry1 was
-  pruned before an `evaluation-complete` checkpoint.
+  pruned before an `evaluation-complete` checkpoint. `truthfulqa_mc2` retry2
+  reached `evaluation-running` but terminated before result recovery.
 - Decision: retry one no-limit shard at a time only after the checkpoint-enabled
   runner has been pushed; keep full scorecard claims blocked until all five
   shard artifacts are recovered.

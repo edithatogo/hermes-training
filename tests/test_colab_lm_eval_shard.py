@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from scripts.colab_lm_eval_shard import command_plan, render_markdown
+from scripts.colab_lm_eval_shard import command_plan, render_markdown, session_missing
 
 
 class ColabLmEvalShardTests(unittest.TestCase):
@@ -42,6 +42,10 @@ class ColabLmEvalShardTests(unittest.TestCase):
 
         self.assertIn("evaluation-running", markdown)
         self.assertIn("run-1", markdown)
+
+    def test_session_missing_detects_colab_not_found_text(self) -> None:
+        self.assertTrue(session_missing("[colab] Session 'run-1' not found."))
+        self.assertFalse(session_missing("[run-1] Hardware: T4 | Status: BUSY"))
 
 
 if __name__ == "__main__":
