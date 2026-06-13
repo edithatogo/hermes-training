@@ -11,6 +11,7 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 |---|---|---|---|---:|---|
 | `Qwen/Qwen3.5-0.8B` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/qwen35-08b-strict-suffix-copy-exact-repair-20260614.md` |
 | `Qwen/Qwen3.5-0.8B` | `qwen-no-think-prefill` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/qwen35-08b-qwen-no-think-prefill-repair-20260614.md` |
+| `Qwen/Qwen3.5-0.8B` | `empty-output-retry` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/qwen35-08b-empty-output-retry-repair-20260614.md` |
 
 ## Decision Boundary
 

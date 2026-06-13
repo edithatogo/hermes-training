@@ -29,6 +29,20 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "Qwen/Qwen3.5-0.8B",
+      "variant": "empty-output-retry",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only Qwen3.5 0.8B repairs; use a grammar/envelope-constrained path or move to the next candidate",
+      "result_report": "reports/benchmark/local-pilots/qwen35-08b-empty-output-retry-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-empty-output-retry-20260614-015854/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-0-8b-empty-output-retry-20260614-015854",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }
