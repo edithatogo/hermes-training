@@ -17,6 +17,25 @@ from pathlib import Path
 from typing import Any
 
 HF_JOBS_SCORECARD_REPORT = Path("reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md")
+COLAB_ACCELERATOR_POLICY = {
+    "default_ladder": "gpu:T4,gpu:L4,gpu:A100,tpu:v5e1",
+    "gpu_ladder": ["T4", "L4", "A100"],
+    "tpu_ladder": ["v5e1"],
+    "tpu_requires_opt_in": True,
+    "tpu_compatible_scripts": [
+        "scripts/colab_adaptive_train_smoke.py",
+    ],
+    "tpu_incompatible_workloads": [
+        "MLX adapter scoring",
+        "PEFT lm-eval selected-task scorecards",
+        "llama.cpp/GGUF endpoint pilots",
+    ],
+    "dispatch_command": (
+        "./.venv/bin/python scripts/colab_dispatch.py "
+        "--accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu "
+        "--run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py"
+    ),
+}
 
 
 def resolve_storage_root() -> Path:
@@ -72,10 +91,14 @@ def summarize_colab() -> dict[str, Any]:
     return {
         "status": "ready" if ready else "blocked",
         "route": "primary",
+        "accelerator_policy": COLAB_ACCELERATOR_POLICY,
         "version": version,
         "sessions": sessions,
         "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
-        "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient.",
+        "next_action": (
+            "Use scripts/colab_dispatch.py for bounded GPU-first jobs. Add --allow-tpu only for TPU-compatible "
+            "adaptive scripts; PEFT lm-eval and MLX/llama.cpp scorecards stay GPU/persistent-backend only."
+        ),
     }
 
 
@@ -218,11 +241,15 @@ def render_markdown(report: dict[str, Any]) -> str:
         ]
     )
     for name, backend in report["backends"].items():
+        route = backend["route"]
+        if name == "colab" and backend.get("accelerator_policy"):
+            policy = backend["accelerator_policy"]
+            route = f"{route}; accelerators={policy['default_ladder']}; tpu_opt_in={policy['tpu_requires_opt_in']}"
         lines.append(
             "| `{name}` | `{status}` | `{route}` | {stop} | {next_action} |".format(
                 name=name,
                 status=backend["status"],
-                route=backend["route"],
+                route=route,
                 stop=backend["stop_condition"],
                 next_action=backend["next_action"],
             )

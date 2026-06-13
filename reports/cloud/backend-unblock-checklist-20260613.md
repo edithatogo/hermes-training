@@ -10,13 +10,22 @@ This checklist is fail-closed. It records the next operator actions but does not
 - Blocker: No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159.
 - Operator actions:
   - Confirm `colab sessions` is empty or intentionally owned.
+  - Use the GPU ladder for PEFT lm-eval scorecards; do not route those scorecards to TPU.
+  - Use `--allow-tpu` only for TPU-compatible adaptive scripts such as `scripts/colab_adaptive_train_smoke.py`.
   - Fix Google Cloud service usage permission (`serviceusage.services.use`) for project 1014160490159 before another no-limit shard retry.
   - If that permission cannot be fixed, prefer a persistent backend instead of repeated Colab retries.
+- Accelerator policy:
+  - Default ladder: `gpu:T4,gpu:L4,gpu:A100,tpu:v5e1`
+  - TPU requires opt-in: `True`
+  - TPU-compatible scripts: `scripts/colab_adaptive_train_smoke.py`
+  - TPU-incompatible workloads: `MLX adapter scoring, PEFT lm-eval selected-task scorecards, llama.cpp/GGUF endpoint pilots`
 - Commands:
 
 ```bash
 PATH="$HOME/.local/bin:$PATH" colab sessions
 ./.venv/bin/python scripts/cloud_backend_preflight.py
+# bounded GPU/TPU adaptive smoke, no scorecard claim:
+./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py
 # after permission is fixed:
 ./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4
 ```

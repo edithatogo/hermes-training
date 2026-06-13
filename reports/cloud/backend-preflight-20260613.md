@@ -1,6 +1,6 @@
 # Cloud Backend Preflight Registry
 
-Date: 2026-06-13T03:59:15.688982+00:00
+Date: 2026-06-13T05:52:00.990208+00:00
 Storage root: `/Volumes/PortableSSD`
 Storage root exists: `True`
 
@@ -16,7 +16,7 @@ Storage root exists: `True`
 
 | Backend | Status | Route | Stop condition | Next action |
 |---|---|---|---|---|
-| `colab` | `ready` | `primary` | no Colab CLI, command failure, active session not intentionally owned, or upload requires private data | Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient. |
+| `colab` | `ready` | `primary; accelerators=gpu:T4,gpu:L4,gpu:A100,tpu:v5e1; tpu_opt_in=True` | no Colab CLI, command failure, active session not intentionally owned, or upload requires private data | Use scripts/colab_dispatch.py for bounded GPU-first jobs. Add --allow-tpu only for TPU-compatible adaptive scripts; PEFT lm-eval and MLX/llama.cpp scorecards stay GPU/persistent-backend only. |
 | `hf_jobs` | `blocked-insufficient-hf-credits` | `persistent` | missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval | Add HF prepaid credits or grant capacity, then submit with scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute. |
 | `azure` | `blocked` | `prepared` | missing login, wrong subscription, absent Azure ML extension, zero GPU quota, or no cost approval | Run az login only when the user is ready; then use scripts/azure_preflight.py before any job. |
 | `ngc` | `blocked` | `prepared` | missing API key, org/team, entitlement, container access, model access, or license approval | Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access. |

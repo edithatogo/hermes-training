@@ -676,6 +676,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Colab GPU/TPU Accelerator Policy
+*Link: [./tracks/colab-gpu-tpu-accelerator-policy_20260613/](./tracks/colab-gpu-tpu-accelerator-policy_20260613/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Colab full scorecard
 *Link: [./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/](./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/)*
 

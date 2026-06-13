@@ -35,6 +35,23 @@ class CloudBackendPreflightTests(unittest.TestCase):
         self.assertEqual(summary["status"], "blocked-needs-auth")
         self.assertIn("Authenticate Kaggle CLI", summary["next_action"])
 
+    def test_colab_summary_exposes_gpu_tpu_policy(self) -> None:
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["colab", "version"]:
+                return command_result(command, 0, "colab 0.5.11")
+            if command == ["colab", "sessions"]:
+                return command_result(command, 0, "[colab] No active sessions found on server.")
+            raise AssertionError(command)
+
+        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+            summary = cloud_backend_preflight.summarize_colab()
+
+        self.assertEqual(summary["status"], "ready")
+        self.assertTrue(summary["accelerator_policy"]["tpu_requires_opt_in"])
+        self.assertIn("scripts/colab_adaptive_train_smoke.py", summary["accelerator_policy"]["tpu_compatible_scripts"])
+        self.assertIn("PEFT lm-eval selected-task scorecards", summary["accelerator_policy"]["tpu_incompatible_workloads"])
+
     def test_hf_jobs_records_known_credit_blocker(self) -> None:
         def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
             del timeout_s

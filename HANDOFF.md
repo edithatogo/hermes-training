@@ -125,6 +125,12 @@ Complete:
   the Gemma 4 26B A4B experimental configs, and adds a nested Conductor track.
   The hub readiness gate validates the format through
   `scripts/validate_gemma4_no_thinking_dataset.py`.
+- Colab accelerator routing is now explicit. `scripts/cloud_backend_preflight.py`
+  and `reports/cloud/backend-unblock-checklist-20260613.md` expose the ladder
+  `gpu:T4,gpu:L4,gpu:A100,tpu:v5e1`, but TPU remains opt-in and limited to
+  adaptive scripts such as `scripts/colab_adaptive_train_smoke.py`; PEFT
+  lm-eval, MLX scoring, and llama.cpp/GGUF endpoint pilots stay GPU or
+  persistent-backend only.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.

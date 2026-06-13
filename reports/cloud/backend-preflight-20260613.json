@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T03:59:15.688982+00:00",
+  "created_at": "2026-06-13T05:52:00.990208+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -13,6 +13,27 @@
     "colab": {
       "status": "ready",
       "route": "primary",
+      "accelerator_policy": {
+        "default_ladder": "gpu:T4,gpu:L4,gpu:A100,tpu:v5e1",
+        "gpu_ladder": [
+          "T4",
+          "L4",
+          "A100"
+        ],
+        "tpu_ladder": [
+          "v5e1"
+        ],
+        "tpu_requires_opt_in": true,
+        "tpu_compatible_scripts": [
+          "scripts/colab_adaptive_train_smoke.py"
+        ],
+        "tpu_incompatible_workloads": [
+          "MLX adapter scoring",
+          "PEFT lm-eval selected-task scorecards",
+          "llama.cpp/GGUF endpoint pilots"
+        ],
+        "dispatch_command": "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py"
+      },
       "version": {
         "installed": true,
         "path": "/Users/doughnut/.local/bin/colab",
@@ -36,7 +57,7 @@
         "stderr": ""
       },
       "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
-      "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient."
+      "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs. Add --allow-tpu only for TPU-compatible adaptive scripts; PEFT lm-eval and MLX/llama.cpp scorecards stay GPU/persistent-backend only."
     },
     "hf_jobs": {
       "status": "blocked-insufficient-hf-credits",

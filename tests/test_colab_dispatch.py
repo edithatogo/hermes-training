@@ -16,6 +16,14 @@ class ColabDispatchTests(unittest.TestCase):
 
         self.assertEqual([(item.kind, item.name) for item in accelerators], [("gpu", "T4"), ("tpu", "v5e1")])
 
+    def test_parse_accelerators_allows_full_gpu_tpu_ladder_when_opted_in(self) -> None:
+        accelerators = parse_accelerators("gpu:T4,gpu:L4,gpu:A100,tpu:v5e1", allow_tpu=True)
+
+        self.assertEqual(
+            [(item.kind, item.name) for item in accelerators],
+            [("gpu", "T4"), ("gpu", "L4"), ("gpu", "A100"), ("tpu", "v5e1")],
+        )
+
     def test_extract_observed_runtime_from_colab_log(self) -> None:
         observed = extract_observed_runtime(
             '{"cuda_available": true, "cuda_device_name": "Tesla T4", "torch_xla_available": false, "backend": "cuda"}'

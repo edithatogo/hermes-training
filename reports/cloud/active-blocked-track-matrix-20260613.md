@@ -30,6 +30,8 @@ az account set --subscription "Azure for Students"
 ```bash
 PATH="$HOME/.local/bin:$PATH" colab sessions
 ./.venv/bin/python scripts/cloud_backend_preflight.py
+# bounded GPU/TPU adaptive smoke, no scorecard claim:
+./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py
 # after permission is fixed:
 ./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4
 ```
@@ -39,6 +41,8 @@ PATH="$HOME/.local/bin:$PATH" colab sessions
 ```bash
 PATH="$HOME/.local/bin:$PATH" colab sessions
 ./.venv/bin/python scripts/cloud_backend_preflight.py
+# bounded GPU/TPU adaptive smoke, no scorecard claim:
+./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py
 # after permission is fixed:
 ./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4
 ```

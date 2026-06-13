@@ -22,22 +22,32 @@ def load_preflight(path: Path) -> dict[str, Any]:
 
 def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
     backends = preflight["backends"]
+    colab_policy = backends.get("colab", {}).get("accelerator_policy", {})
+    colab_dispatch_command = colab_policy.get(
+        "dispatch_command",
+        "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 scripts/colab_smoke.py",
+    )
     return [
         {
             "backend": "colab",
             "status": backends.get("colab", {}).get("status", "unknown"),
+            "accelerator_policy": colab_policy,
             "blocker": (
                 "No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits "
                 "HTTP 403 for project 1014160490159."
             ),
             "operator_actions": [
                 "Confirm `colab sessions` is empty or intentionally owned.",
+                "Use the GPU ladder for PEFT lm-eval scorecards; do not route those scorecards to TPU.",
+                "Use `--allow-tpu` only for TPU-compatible adaptive scripts such as `scripts/colab_adaptive_train_smoke.py`.",
                 "Fix Google Cloud service usage permission (`serviceusage.services.use`) for project 1014160490159 before another no-limit shard retry.",
                 "If that permission cannot be fixed, prefer a persistent backend instead of repeated Colab retries.",
             ],
             "commands": [
                 "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
                 "./.venv/bin/python scripts/cloud_backend_preflight.py",
+                "# bounded GPU/TPU adaptive smoke, no scorecard claim:",
+                colab_dispatch_command,
                 "# after permission is fixed:",
                 "./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4",
             ],
@@ -133,6 +143,17 @@ def render_markdown(items: list[dict[str, Any]], source: Path) -> str:
         )
         for action in item["operator_actions"]:
             lines.append(f"  - {action}")
+        if item.get("accelerator_policy"):
+            policy = item["accelerator_policy"]
+            lines.extend(
+                [
+                    "- Accelerator policy:",
+                    f"  - Default ladder: `{policy.get('default_ladder', 'unknown')}`",
+                    f"  - TPU requires opt-in: `{policy.get('tpu_requires_opt_in', True)}`",
+                    f"  - TPU-compatible scripts: `{', '.join(policy.get('tpu_compatible_scripts', [])) or 'none'}`",
+                    f"  - TPU-incompatible workloads: `{', '.join(policy.get('tpu_incompatible_workloads', [])) or 'none'}`",
+                ]
+            )
         lines.extend(["- Commands:", ""])
         lines.append("```bash")
         lines.extend(item["commands"])

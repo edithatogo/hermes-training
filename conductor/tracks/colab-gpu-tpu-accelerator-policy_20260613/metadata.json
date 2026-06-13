@@ -1,0 +1,7 @@
+{
+  "id": "colab-gpu-tpu-accelerator-policy_20260613",
+  "title": "Colab GPU/TPU Accelerator Policy",
+  "status": "complete",
+  "created_at": "2026-06-13",
+  "description": "Expose the Colab GPU/TPU accelerator ladder in cloud preflight and unblock reports while keeping TPU opt-in and workload-specific."
+}
