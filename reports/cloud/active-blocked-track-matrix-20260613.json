@@ -22,12 +22,14 @@
     {
       "backend": "colab",
       "backend_status": "ready",
-      "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+      "blocker": "No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159.",
       "commands": [
         "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
-        "./.venv/bin/python scripts/cloud_backend_preflight.py"
+        "./.venv/bin/python scripts/cloud_backend_preflight.py",
+        "# after permission is fixed:",
+        "./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4"
       ],
-      "next_task": "Download JSON and harness result artifacts.",
+      "next_task": "Retry only after Colab keepalive permission is fixed or a persistent backend is selected.",
       "title": "Qwen3 v4 PEFT Colab full scorecard",
       "track_id": "qwen3-v4-peft-colab-full-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-colab-full-scorecard_20260613"
@@ -35,12 +37,14 @@
     {
       "backend": "colab",
       "backend_status": "ready",
-      "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+      "blocker": "No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159.",
       "commands": [
         "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
-        "./.venv/bin/python scripts/cloud_backend_preflight.py"
+        "./.venv/bin/python scripts/cloud_backend_preflight.py",
+        "# after permission is fixed:",
+        "./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4"
       ],
-      "next_task": "Run and recover `truthfulqa_mc2`.",
+      "next_task": "Re-run `truthfulqa_mc2` only after Colab keepalive permission is fixed or a persistent backend is selected.",
       "title": "Qwen3 v4 PEFT Colab scorecard shards",
       "track_id": "qwen3-v4-peft-colab-scorecard-shards_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-colab-scorecard-shards_20260613"

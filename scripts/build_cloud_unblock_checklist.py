@@ -26,15 +26,20 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
         {
             "backend": "colab",
             "status": backends.get("colab", {}).get("status", "unknown"),
-            "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+            "blocker": (
+                "No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits "
+                "HTTP 403 for project 1014160490159."
+            ),
             "operator_actions": [
                 "Confirm `colab sessions` is empty or intentionally owned.",
-                "Retry only a single no-limit shard at a time, starting with the smallest selected task.",
-                "If keepalive/session pruning recurs, prefer a persistent backend instead of repeated Colab retries.",
+                "Fix Google Cloud service usage permission (`serviceusage.services.use`) for project 1014160490159 before another no-limit shard retry.",
+                "If that permission cannot be fixed, prefer a persistent backend instead of repeated Colab retries.",
             ],
             "commands": [
                 "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
                 "./.venv/bin/python scripts/cloud_backend_preflight.py",
+                "# after permission is fixed:",
+                "./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4",
             ],
         },
         {

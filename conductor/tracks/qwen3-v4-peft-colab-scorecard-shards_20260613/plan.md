@@ -10,7 +10,9 @@
 ## Phase 2 - Execute Shards
 
 - [x] Task: Run and recover `arc_challenge`.
-- [ ] Task: Run and recover `truthfulqa_mc2`.
+- [x] Task: Run and recover blocker evidence for `truthfulqa_mc2`.
+- [ ] Task: Re-run `truthfulqa_mc2` only after Colab keepalive permission is
+  fixed or a persistent backend is selected.
 - [ ] Task: Run and recover `winogrande`.
 - [ ] Task: Run and recover `gsm8k`.
 - [ ] Task: Run and recover `hellaswag`.

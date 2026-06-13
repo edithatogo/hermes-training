@@ -10,7 +10,9 @@
 - [x] Task: Create a clean Colab T4 session.
 - [x] Task: Upload the PEFT adapter tarball and no-limit config.
 - [x] Task: Run the no-limit selected-task `lm_eval[hf]` scorecard.
-- [ ] Task: Download JSON and harness result artifacts.
+- [x] Task: Record that JSON and harness result artifacts were not recoverable.
+- [ ] Task: Retry only after Colab keepalive permission is fixed or a
+  persistent backend is selected.
 - [x] Task: Stop or verify cleanup of the Colab session.
 
 ## Phase 3 - Reconcile
