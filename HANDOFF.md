@@ -182,6 +182,10 @@ Complete:
 - HF Jobs scorecard dry-run payloads now expose `--python-executable`; the
   default remains `python`, and the tracked dry-run JSON records the interpreter
   while preserving the paid-compute and known-credit-blocker gates.
+- Free-container account probe validation is now part of full readiness. It
+  checks the Modal/Kaggle/Lightning sections, the no-job/no-resource/no-upload
+  boundary, and obvious secret/execution-command leaks in
+  `reports/cloud/free-container-account-probe-20260613.md`.
 - Active blocked-track matrix generation now maps future Modal and Lightning
   scorecard tracks to their backend-specific unblock checklist entries instead
   of `unknown`.

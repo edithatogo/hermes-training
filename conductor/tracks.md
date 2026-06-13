@@ -310,6 +310,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Free Container Probe Readiness Validator
+*Link: [./tracks/free-container-probe-readiness-validator_20260614/](./tracks/free-container-probe-readiness-validator_20260614/)*
+
+---
+
 ## [x] Track: Qwen3 0.6B Live mem0 Rerank Wrapper
 *Link: [./tracks/qwen3-06b-live-mem0-rerank_20260526/](./tracks/qwen3-06b-live-mem0-rerank_20260526/)*
 

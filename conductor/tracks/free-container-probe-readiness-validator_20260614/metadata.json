@@ -1,0 +1,8 @@
+{
+  "track_id": "free-container-probe-readiness-validator_20260614",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Add readiness validation for the free-container account probe report."
+}

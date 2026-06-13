@@ -287,6 +287,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",
         ROOT / "scripts/validate_cloud_blocker_reports.py",
+        ROOT / "scripts/validate_free_container_account_probe.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
         ROOT / "scripts/run_colbert_read_stack_smoke.py",
@@ -517,6 +518,21 @@ def check_cloud_blocker_reports(failures: list[str]) -> None:
         ok("cloud blocker reports")
 
 
+def check_free_container_account_probe(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_free_container_account_probe.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"free-container account probe: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("free-container account probe")
+
+
 def check_publication_bundles(failures: list[str]) -> None:
     bundle = ROOT / "reports/publication/qwen3-4b-strict-toolcall-v4-targeted"
     result = subprocess.run(
@@ -654,6 +670,7 @@ def main() -> int:
     check_mem0_candidate_queue(failures)
     check_specialist_runtime_preflight_report(failures)
     check_cloud_blocker_reports(failures)
+    check_free_container_account_probe(failures)
 
     if failures:
         print("\nnot ready:")
