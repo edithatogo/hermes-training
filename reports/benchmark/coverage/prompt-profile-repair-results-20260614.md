@@ -20,6 +20,8 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `Qwen/Qwen3.5-2B` | `qwen-no-think-prefill` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/qwen35-2b-qwen-no-think-prefill-repair-20260614.md` |
 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/gemma4-e4b-strict-suffix-copy-exact-repair-20260614.md` |
 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `gemma-native-normalizer-analysis` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md` |
+| `ibm-granite/granite-4.1-3b` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/granite41-3b-strict-suffix-copy-exact-repair-20260614.md` |
+| `ibm-granite/granite-4.1-3b` | `granite-native-normalizer-analysis` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/granite41-3b-native-normalizer-analysis-repair-20260614.md` |
 
 ## Decision Boundary
 

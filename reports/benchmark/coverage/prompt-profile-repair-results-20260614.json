@@ -155,6 +155,34 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "ibm-granite/granite-4.1-3b",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "run Granite native normalizer analysis before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/granite41-3b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/ibm-granite-granite-4-1-3b-strict-suffix-copy-exact-20260614-021324/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/ibm-granite-granite-4-1-3b-strict-suffix-copy-exact-20260614-021324",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "ibm-granite/granite-4.1-3b",
+      "variant": "granite-native-normalizer-analysis",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt/normalizer-only Granite repairs; use a grammar/envelope-constrained path or move to the next candidate",
+      "result_report": "reports/benchmark/local-pilots/granite41-3b-native-normalizer-analysis-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/ibm-granite-granite-4-1-3b-granite-native-normalizer-analysis-20260614-021344/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/ibm-granite-granite-4-1-3b-granite-native-normalizer-analysis-20260614-021344",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

@@ -298,8 +298,8 @@
       "candidate": "ibm-granite/granite-4.1-3b",
       "environment": "mac-mlx",
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
-      "status": "pending-local-with-analysis-variant",
-      "next_action": "run raw-output variants first; analysis-only normalizer variants cannot promote",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt/normalizer-only Granite repairs; use a grammar/envelope-constrained path or move to the next candidate",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -314,11 +314,17 @@
           "strict_scoring": true
         }
       ],
-      "completed_variants": [],
-      "result_reports": [],
-      "result_report": "",
-      "source_summary": "",
-      "pass_rate": null,
+      "completed_variants": [
+        "strict-suffix-copy-exact",
+        "granite-native-normalizer-analysis"
+      ],
+      "result_reports": [
+        "reports/benchmark/local-pilots/granite41-3b-strict-suffix-copy-exact-repair-20260614.md",
+        "reports/benchmark/local-pilots/granite41-3b-native-normalizer-analysis-repair-20260614.md"
+      ],
+      "result_report": "reports/benchmark/local-pilots/granite41-3b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/ibm-granite-granite-4-1-3b-strict-suffix-copy-exact-20260614-021324/summary.json",
+      "pass_rate": 0.3333333333333333,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
