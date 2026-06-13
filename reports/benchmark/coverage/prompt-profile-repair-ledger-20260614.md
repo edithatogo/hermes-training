@@ -24,7 +24,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 | 13 | `Nanbeige/Nanbeige4.1-3B` | `hf-transformers` | `completed-no-promotion` | 1 | stop single-variant Nanbeige prompt repair; use no-think or grammar/envelope-constrained output if revisited |
 | 14 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `mac-mlx` | `completed-no-promotion` | 1 | stop single-variant Nemotron prompt repair; use grammar/envelope-constrained output or endpoint-gated candidates next |
 | 15 | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
-| 16 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `mac-lmstudio` | `pending-endpoint` | 3 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
+| 16 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `mac-lmstudio` | `completed-no-promotion` | 3 | stop prompt-only ManiacLabs variants; use constrained decoding or a runtime-wrapper proof if revisited |
 | 17 | `Qwen/Qwen3.6-35B-A3B` | `azure-cuda` | `blocked-non-local` | 0 | candidate environment is not locally runnable; wait for the relevant cloud/offload track |
 | 18 | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 

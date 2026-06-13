@@ -14,6 +14,7 @@ This report is non-promotional. It may justify a constrained-envelope diagnostic
 | Candidate | Priority | Best variant | Best pass rate | Exact calls with extra text | Malformed/no calls | Action |
 |---|---|---|---:|---:|---:|---|
 | `Nanbeige/Nanbeige4.1-3B` | `high` | `strict-suffix-copy-exact` | 0.000 | 2 | 0 | Implement a non-promotional constrained-envelope diagnostic that strips or suppresses reasoning only when the raw response already contains exact Hermes calls, then rerun strict no-extra-text scoring before any promotion claim. |
+| `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `medium` | `empty-output-retry` | 0.667 | 0 | 4 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `Qwen/Qwen3.5-0.8B` | `medium` | `qwen-no-think-prefill` | 0.333 | 0 | 6 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `Qwen/Qwen3.5-2B` | `medium` | `qwen-no-think-prefill` | 0.333 | 0 | 6 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `medium` | `strict-suffix-copy-exact` | 0.333 | 0 | 2 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
@@ -34,6 +35,16 @@ Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` 
 source scripts/env.sh
 RUN_STAMP=$(date +%Y%m%d-%H%M%S)
 ./.venv/bin/python scripts/run_local_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'Nanbeige/Nanbeige4.1-3B' --max-tokens 512 --require-no-extra-tool-text --run-id "nanbeige-nanbeige4-1-3b-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
+```
+
+### ManiacLabs/Qwen3.6-35B-A3B-2bit
+
+Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` scoring.
+
+```bash
+source scripts/env.sh
+RUN_STAMP=$(date +%Y%m%d-%H%M%S)
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'ManiacLabs/Qwen3.6-35B-A3B-2bit' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "maniaclabs-qwen3-6-35b-a3b-2bit-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
 ```
 
 ### Qwen/Qwen3.5-0.8B
