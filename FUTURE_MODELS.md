@@ -4,6 +4,7 @@ This file is the model-selection radar for Hermes fine-tunes on a MacBook Pro M1
 
 Latest scans:
 
+- [Official source refresh 2026-06-13](./reports/model-radar/official-source-refresh-20260613.md)
 - [Live HF refresh 2026-06-12](./reports/model-radar/live-hf-refresh-20260612.md)
 - [Current release scan](./reports/model-radar/current-release-scan-20260612.md)
 - [Tiny helper role repair](./reports/model-radar/tiny-helper-role-repair-current-release-scan-20260612.md)
@@ -38,6 +39,15 @@ Hermes is now crystallized around a narrow shortlist: `Qwen/Qwen3-4B-MLX-4bit` r
 The tiny helper lane is now contractually explicit via `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill`; use it for the Qwen3.5 0.8B/2B and MiniCPM5-1B-MLX comparison path only.
 The execution track now has BFCL, IFEval, and coding pilot outputs for Qwen3.5 0.8B, plus BFCL output for Qwen3.5 2B and MiniCPM5 1B MLX. All of those runs are still blocked at `0.000`, so the lane remains a comparison surface rather than a promotion target.
 The 100-prompt Hermes-local pass now exists for Qwen3.5 0.8B, Qwen3.5 2B, and MiniCPM5 1B MLX. Keep using those results as helper/extraction evidence only; MiniCPM5 still shows a non-zero empty-response rate and is not the strongest prompt-format candidate.
+
+2026-06-13 official-source addendum: Gemma 4 is now treated as a confirmed
+open-model family in the roadmap, with E4B/QAT as the next Mac-local
+prompt/profile repair lane and 12B, 26B A4B, and 31B as runtime or teacher
+comparison lanes. Any Gemma 4 no-thinking fine-tune dataset for 26B A4B or 31B
+must preserve Google's empty thought channel guidance. Qwen3.6-27B remains the
+verified dense Qwen3.6 open-weight comparison lane. Qwen3.7 remains
+watchlist-only until an official Qwen open-weight repository or supported hosted
+lane is verified.
 
 The tiny helper lane also has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. Treat it as helper/extraction evidence only until the standard suite is filled in. 2026-06-12 follow-up: `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` now also have direct MLX lm-eval official-pilot smokes on ARC Challenge and HellaSwag at limit 10, but that still does not make them strict Hermes tool-call defaults.
 

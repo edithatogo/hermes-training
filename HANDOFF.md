@@ -108,6 +108,11 @@ Complete:
 - Hugging Face publishing scripts use the current `hf` CLI.
 - Runtime docs cover Ollama launcher, experimental safetensors, GGUF, MLX, LM Studio, and specialist runtime handoff.
 - Model radar includes Qwen3.5-27B, Qwen3.6-27B, Qwen3.6-35B-A3B, ManiacLabs Qwen3.6-35B 2-bit MLX packaging, Qwen3-4B-Instruct-2507, Qwen3-4B-Thinking-2507, Qwen3-Coder-Next / Qwen3-Coder-Next-GGUF, Qwen3-ASR-1.7B, Qwen3-TTS-12Hz-1.7B-VoiceDesign, Qwen3-Omni-30B-A3B-Instruct, Qwen3-Omni-30B-A3B-Captioner, Phi-4-multimodal-instruct, Qwen3-Embedding-0.6B, Qwen3-Reranker-0.6B, Qwen3-Embedding-4B, Qwen3-Reranker-4B, Harmonic-9B, Harmonic-Hermes-9B GGUF packaging plus mradermacher i1 GGUF, Hermes-Qwen3.5 SFT v7 packs, Hermes 4.3, Gemma 4 12B/26B/31B plus the Gemma 4 31B base repo, Gemma 4 12B Unsloth GGUF/QAT packaging plus community GGUF packagers, Gemma 4 QAT Mobile, MiniCPM-o 4.5, MiniCPM-V-4.6, MiniCPM-V-4.6-GPTQ, MiniCPM-V-4.6-Thinking, MiniCPM-V-4.6-BNB, MiniCPM-SALA, AgentCPM-Report, Nanbeige4.1-3B, DiffusionGemma plus NVIDIA/MLX packaging, Granite 4.1, Command A+, Step 3.7 Flash, DeepSeek-V4-Flash, Nemotron-Labs-Diffusion, Nex-N2-mini, Nemotron 3.5 safety/ASR support, Nemotron 3 Nano 4B with official GGUF and MLX packaging, the Nemotron frontier teacher/reward set, Nemotron 3 Ultra base/GenRM/speech checkpoints, NVIDIA physical-AI support lanes like `instant-nurec` and `omni-dreams-models`, LFM2.5, LFM2-ColBERT, Qwen3-Next, BitNet, BGE-M3, Jina embeddings, and watchlist entries for RWKV/Mamba-style families.
+  The 2026-06-13 official-source addendum confirms Gemma 4 E2B/E4B/12B/26B-A4B/31B
+  as real roadmap lanes, keeps Gemma 4 E4B/QAT in Mac-local prompt/profile repair,
+  and records the empty thought channel requirement for Gemma 4 no-thinking
+  fine-tune data. It also keeps Qwen3.7 watchlist-only because no official Qwen
+  open-weight repository surfaced.
   The 2026-06-12 hybrid-packaging refresh adds `openbmb/MiniCPM-SALA`,
   `nvidia/Gemma-4-31B-IT-NVFP4`, and `deepseek-ai/DeepSeek-V4-Flash-Base` as
   specialist/runtime comparison lanes only; they are not default fine-tune
