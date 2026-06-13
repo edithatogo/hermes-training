@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from scripts import cloud_backend_preflight
@@ -54,6 +56,40 @@ class CloudBackendPreflightTests(unittest.TestCase):
 
         self.assertEqual(summary["status"], "blocked-insufficient-hf-credits")
         self.assertTrue(summary["credit_blocker_observed"])
+
+    def test_write_outputs_skips_timestamp_only_change(self) -> None:
+        with TemporaryDirectory() as tmp:
+            json_output = Path(tmp) / "backend-preflight.json"
+            markdown_output = Path(tmp) / "backend-preflight.md"
+            report = {
+                "created_at": "2026-06-13T00:00:00+00:00",
+                "storage_root": "/Volumes/PortableSSD",
+                "storage_root_exists": True,
+                "policy": {"no_paid_compute_without_approval": True},
+                "backends": {
+                    "colab": {
+                        "status": "ready",
+                        "route": "primary",
+                        "stop_condition": "none",
+                        "next_action": "run bounded jobs",
+                    }
+                },
+            }
+
+            first_write = cloud_backend_preflight.write_outputs(report, json_output, markdown_output)
+            json_before = json_output.read_text(encoding="utf-8")
+            markdown_before = markdown_output.read_text(encoding="utf-8")
+
+            updated = dict(report)
+            updated["created_at"] = "2026-06-13T00:01:00+00:00"
+            second_write = cloud_backend_preflight.write_outputs(updated, json_output, markdown_output)
+            json_after = json_output.read_text(encoding="utf-8")
+            markdown_after = markdown_output.read_text(encoding="utf-8")
+
+            self.assertEqual(first_write, {"json": True, "markdown": True})
+            self.assertEqual(second_write, {"json": False, "markdown": False})
+            self.assertEqual(json_before, json_after)
+            self.assertEqual(markdown_before, markdown_after)
 
 
 if __name__ == "__main__":

@@ -231,6 +231,46 @@ def render_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def without_created_at(report: dict[str, Any]) -> dict[str, Any]:
+    comparable = dict(report)
+    comparable.pop("created_at", None)
+    return comparable
+
+
+def write_if_meaningfully_changed(path: Path, content: str, *, existing_equivalent: bool = False) -> bool:
+    if existing_equivalent and path.exists():
+        return False
+    if path.exists() and path.read_text(encoding="utf-8") == content:
+        return False
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
+def write_outputs(report: dict[str, Any], json_output: Path, markdown_output: Path) -> dict[str, bool]:
+    existing_equivalent = False
+    if json_output.exists():
+        try:
+            existing = json.loads(json_output.read_text(encoding="utf-8"))
+            existing_equivalent = without_created_at(existing) == without_created_at(report)
+        except json.JSONDecodeError:
+            existing_equivalent = False
+
+    json_output.parent.mkdir(parents=True, exist_ok=True)
+    markdown_output.parent.mkdir(parents=True, exist_ok=True)
+    return {
+        "json": write_if_meaningfully_changed(
+            json_output,
+            json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+            existing_equivalent=existing_equivalent,
+        ),
+        "markdown": write_if_meaningfully_changed(
+            markdown_output,
+            render_markdown(report),
+            existing_equivalent=existing_equivalent,
+        ),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json-output", type=Path, default=Path("reports/cloud/backend-preflight-20260613.json"))
@@ -238,10 +278,7 @@ def main() -> int:
     args = parser.parse_args()
 
     report = build_report()
-    args.json_output.parent.mkdir(parents=True, exist_ok=True)
-    args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
-    args.json_output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    args.markdown_output.write_text(render_markdown(report), encoding="utf-8")
+    write_outputs(report, args.json_output, args.markdown_output)
     print(json.dumps(report, indent=2, ensure_ascii=False))
     return 0
 
