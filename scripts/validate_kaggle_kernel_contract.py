@@ -55,6 +55,18 @@ def validate_contract(staging_dir: Path, dry_run_path: Path, preflight_path: Pat
     add_check(checks, "config_no_limit", config.get("limit") is None, str(config.get("limit")))
     add_check(checks, "config_selected_tasks", config.get("tasks") == EXPECTED_TASKS, str(config.get("tasks")))
     add_check(checks, "config_timeout_bounded", int(config.get("timeout_s", 0)) == 21600, str(config.get("timeout_s")))
+    add_check(
+        checks,
+        "config_p100_torch_policy",
+        config.get("torch_compatibility_policy") == "p100-cu118",
+        str(config.get("torch_compatibility_policy")),
+    )
+    add_check(
+        checks,
+        "config_disables_4bit_for_p100",
+        config.get("use_4bit") is False,
+        str(config.get("use_4bit")),
+    )
     add_check(checks, "dry_run_status", dry_run.get("status") == "dry-run", str(dry_run.get("status")))
     add_check(checks, "dry_run_no_execute", dry_run.get("execute") is False, str(dry_run.get("execute")))
     add_check(checks, "dry_run_no_confirmation", dry_run.get("confirm_kaggle_run") is False, str(dry_run.get("confirm_kaggle_run")))
@@ -78,6 +90,12 @@ def validate_contract(staging_dir: Path, dry_run_path: Path, preflight_path: Pat
         "runner_records_claim_boundary",
         "No-limit benchmark claim only if every configured task completes without --limit." in runner_text,
         "claim boundary is embedded in runner output",
+    )
+    add_check(
+        checks,
+        "runner_installs_p100_compatible_torch",
+        "p100-cu118" in runner_text and "https://download.pytorch.org/whl/cu118" in runner_text,
+        "runner has a configurable P100-compatible PyTorch install policy",
     )
 
     passed = all(check["passed"] for check in checks)
@@ -115,6 +133,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- Public inputs: `edithatogo/qwen3-4b-hermes-lora-peft-converted`, `Qwen/Qwen3-4B`, lm-eval selected public benchmark tasks",
         "- Internet is required for public dependency/model downloads inside Kaggle.",
         "- No Kaggle kernel push without `--execute --confirm-kaggle-run` and explicit operator approval.",
+        "- P100 compatibility policy: `p100-cu118`; 4-bit/bitsandbytes is disabled for this path.",
         "",
         "## Checks",
         "",

@@ -56,6 +56,16 @@
       "passed": true
     },
     {
+      "detail": "p100-cu118",
+      "name": "config_p100_torch_policy",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "config_disables_4bit_for_p100",
+      "passed": true
+    },
+    {
       "detail": "dry-run",
       "name": "dry_run_status",
       "passed": true
@@ -98,6 +108,11 @@
     {
       "detail": "claim boundary is embedded in runner output",
       "name": "runner_records_claim_boundary",
+      "passed": true
+    },
+    {
+      "detail": "runner has a configurable P100-compatible PyTorch install policy",
+      "name": "runner_installs_p100_compatible_torch",
       "passed": true
     }
   ],

@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {
+      "detail": "pending artifact: /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json",
+      "name": "modal_result_present",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "No benchmark claim until Modal returns a scored no-limit summary with complete lm-eval task results.",
+  "expected_tasks": [
+    "arc_challenge",
+    "hellaswag",
+    "truthfulqa_mc2",
+    "gsm8k",
+    "winogrande"
+  ],
+  "result_json": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json",
+  "status": "pending_artifacts"
+}

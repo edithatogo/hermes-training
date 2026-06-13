@@ -3,5 +3,7 @@
   "limit": null,
   "run_id": "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613",
   "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
-  "timeout_s": 21600
+  "timeout_s": 21600,
+  "torch_compatibility_policy": "p100-cu118",
+  "use_4bit": false
 }

@@ -25,6 +25,8 @@ class SubmitKagglePeftScorecardTests(unittest.TestCase):
             accelerator="gpu",
             tasks="arc_challenge",
             adapter_repo="owner/adapter",
+            torch_compatibility_policy="p100-cu118",
+            use_4bit=False,
         )
 
     def test_kernel_metadata_is_gpu_script_with_internet(self) -> None:
@@ -46,9 +48,12 @@ class SubmitKagglePeftScorecardTests(unittest.TestCase):
             spec = self.make_spec(staging_dir, runner)
 
             staged = stage_kernel(spec)
+            config_text = Path(staged["config"]).read_text(encoding="utf-8")
 
-        self.assertTrue(staged["metadata"].endswith("kernel-metadata.json"))
-        self.assertTrue(staged["runner"].endswith("kaggle_peft_lm_eval_selected.py"))
+            self.assertTrue(staged["metadata"].endswith("kernel-metadata.json"))
+            self.assertTrue(staged["runner"].endswith("kaggle_peft_lm_eval_selected.py"))
+            self.assertIn('"torch_compatibility_policy": "p100-cu118"', config_text)
+            self.assertIn('"use_4bit": false', config_text)
 
     def test_execute_requires_confirmation(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

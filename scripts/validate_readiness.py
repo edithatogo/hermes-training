@@ -308,6 +308,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_scorecard_backend_selection.py",
         ROOT / "scripts/validate_kaggle_kernel_contract.py",
         ROOT / "scripts/validate_kaggle_result_ingest.py",
+        ROOT / "scripts/validate_modal_result_ingest.py",
         ROOT / "scripts/validate_free_container_account_probe.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
@@ -582,6 +583,21 @@ def check_kaggle_result_ingest(failures: list[str]) -> None:
         fail(f"kaggle result ingest: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("kaggle result ingest")
+
+
+def check_modal_result_ingest(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_modal_result_ingest.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"modal result ingest: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("modal result ingest")
 
 
 def check_free_container_account_probe(failures: list[str]) -> None:
@@ -862,6 +878,7 @@ def main() -> int:
     check_scorecard_backend_selection(failures)
     check_kaggle_kernel_contract(failures)
     check_kaggle_result_ingest(failures)
+    check_modal_result_ingest(failures)
     check_free_container_account_probe(failures)
     check_prompt_profile_repair_queue(failures)
     check_prompt_profile_repair_experiments(failures)

@@ -31,6 +31,8 @@ class KaggleScorecardSpec:
     accelerator: str
     tasks: str
     adapter_repo: str
+    torch_compatibility_policy: str
+    use_4bit: bool
     public_kernel: bool = True
 
 
@@ -88,6 +90,8 @@ def stage_kernel(spec: KaggleScorecardSpec) -> dict[str, str]:
                 "tasks": spec.tasks,
                 "limit": None,
                 "timeout_s": spec.timeout_s,
+                "torch_compatibility_policy": spec.torch_compatibility_policy,
+                "use_4bit": spec.use_4bit,
             },
             indent=2,
             sort_keys=True,
@@ -131,6 +135,8 @@ def build_report(
         "accelerator": spec.accelerator,
         "adapter_repo": spec.adapter_repo,
         "tasks": spec.tasks,
+        "torch_compatibility_policy": spec.torch_compatibility_policy,
+        "use_4bit": spec.use_4bit,
         "command": command,
         "blockers": blockers,
         "claim_boundary": "No-limit benchmark claim only after Kaggle completes every configured task without --limit.",
@@ -154,6 +160,8 @@ def main() -> int:
     parser.add_argument("--accelerator", default="gpu")
     parser.add_argument("--tasks", default=DEFAULT_TASKS)
     parser.add_argument("--adapter-repo", default="edithatogo/qwen3-4b-hermes-lora-peft-converted")
+    parser.add_argument("--torch-compatibility-policy", default="p100-cu118")
+    parser.add_argument("--use-4bit", action="store_true")
     parser.add_argument("--private-kernel", action="store_true")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--confirm-kaggle-run", action="store_true")
@@ -170,6 +178,8 @@ def main() -> int:
         accelerator=args.accelerator,
         tasks=args.tasks,
         adapter_repo=args.adapter_repo,
+        torch_compatibility_policy=args.torch_compatibility_policy,
+        use_4bit=args.use_4bit,
         public_kernel=not args.private_kernel,
     )
     staged = stage_kernel(spec)

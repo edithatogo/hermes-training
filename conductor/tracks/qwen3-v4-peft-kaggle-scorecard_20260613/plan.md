@@ -17,13 +17,15 @@
 - [x] Task: Add fail-closed local result artifact ingest gate.
 - [x] Task: Submit the no-limit kernel only after explicit confirmation.
 - [x] Task: Download result artifacts and update benchmark coverage if complete.
-- [ ] Task: Prepare a rerun path that avoids Kaggle P100/PyTorch `sm_60`
+- [x] Task: Prepare a rerun path that avoids Kaggle P100/PyTorch `sm_60`
   incompatibility, or route the scorecard to Modal/Azure instead.
+- [ ] Task: Submit the P100-compatible rerun only after explicit approval, then
+  recover SSD artifacts and run the no-pending ingest gate.
 
 ## Health Check
 
 - Target: >= 9.0 / 10
-- Current estimate: 9.5 / 10 as a live-tested but blocked backend track.
+- Current estimate: 9.6 / 10 as a live-tested but blocked backend track.
 - Evidence: `scripts/submit_kaggle_peft_scorecard.py` generated
   `reports/cloud/qwen3-v4-peft-kaggle-submit-dry-run-20260613.json` and staged
   the kernel folder under `reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613`.
@@ -47,5 +49,7 @@
   P100 (`sm_60`) assigned under a PyTorch CUDA build that supports `sm_70+`.
 - Gaps: No scored Kaggle result exists. A retry must avoid P100, pin a
   compatible PyTorch/CUDA stack, use CPU fallback if acceptable, or route the
-  scorecard to another persistent backend.
+  scorecard to another persistent backend. The staged rerun path now pins a
+  `p100-cu118` PyTorch policy, disables 4-bit/bitsandbytes for the P100 path,
+  and keeps execution gated behind `--execute --confirm-kaggle-run`.
 - Decision: keep Kaggle blocked and non-promotional.

@@ -33,6 +33,8 @@ class ValidateKaggleKernelContractTests(unittest.TestCase):
                     "limit": None,
                     "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
                     "timeout_s": 21600,
+                    "torch_compatibility_policy": "p100-cu118",
+                    "use_4bit": False,
                 }
             ),
             encoding="utf-8",
@@ -42,7 +44,9 @@ class ValidateKaggleKernelContractTests(unittest.TestCase):
             "PEFT_ADAPTER_REPO = 'x'\n"
             "root = '/kaggle/working'\n"
             "result_json = output_dir = root\n"
-            "No-limit benchmark claim only if every configured task completes without --limit.\n",
+            "No-limit benchmark claim only if every configured task completes without --limit.\n"
+            "policy = 'p100-cu118'\n"
+            "index = 'https://download.pytorch.org/whl/cu118'\n",
             encoding="utf-8",
         )
         dry_run = root / "dry-run.json"

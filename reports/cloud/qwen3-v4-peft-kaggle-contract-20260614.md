@@ -11,6 +11,7 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 - Public inputs: `edithatogo/qwen3-4b-hermes-lora-peft-converted`, `Qwen/Qwen3-4B`, lm-eval selected public benchmark tasks
 - Internet is required for public dependency/model downloads inside Kaggle.
 - No Kaggle kernel push without `--execute --confirm-kaggle-run` and explicit operator approval.
+- P100 compatibility policy: `p100-cu118`; 4-bit/bitsandbytes is disabled for this path.
 
 ## Checks
 
@@ -27,6 +28,8 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 | `config_no_limit` | `pass` | None |
 | `config_selected_tasks` | `pass` | arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande |
 | `config_timeout_bounded` | `pass` | 21600 |
+| `config_p100_torch_policy` | `pass` | p100-cu118 |
+| `config_disables_4bit_for_p100` | `pass` | False |
 | `dry_run_status` | `pass` | dry-run |
 | `dry_run_no_execute` | `pass` | False |
 | `dry_run_no_confirmation` | `pass` | False |
@@ -36,3 +39,4 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 | `runner_downloads_public_adapter` | `pass` | adapter repo is configurable and defaults to the public PEFT repo |
 | `runner_writes_kaggle_working_artifacts` | `pass` | runner writes summary and lm-eval outputs under Kaggle working directory |
 | `runner_records_claim_boundary` | `pass` | claim boundary is embedded in runner output |
+| `runner_installs_p100_compatible_torch` | `pass` | runner has a configurable P100-compatible PyTorch install policy |

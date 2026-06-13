@@ -20,6 +20,7 @@
 
 - [x] Task: Generate `reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json`.
 - [x] Task: Add Modal submitter unit tests.
+- [x] Task: Add fail-closed Modal result ingest gate.
 - [ ] Task: Confirm free credit/grant or zero-cost GPU policy.
   - [x] Current-month billing probe returned no usage rows in
     `reports/cloud/modal-billing-this-month-20260614.md`.
@@ -35,7 +36,8 @@
 - Evidence: The Modal app and submitter are present, and the dry-run report
   records no blockers while `execute` and both confirmations are false. Modal
   CLI is authenticated to workspace `d-a-mordaunt`, and the current-month
-  billing report is empty.
+  billing report is empty. The pending Modal result-ingest gate is tracked at
+  `reports/cloud/qwen3-v4-peft-modal-result-ingest-20260614.md`.
 - Gaps: Free credit/grant and GPU policy are not proven; no Modal job was run.
 - Decision: Keep Modal blocked until zero-cost compute and explicit run approval
   are confirmed.

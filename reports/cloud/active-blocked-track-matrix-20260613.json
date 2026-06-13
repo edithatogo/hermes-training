@@ -76,7 +76,7 @@
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
         "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
       ],
-      "next_task": "Prepare a rerun path that avoids Kaggle P100/PyTorch `sm_60` incompatibility, or route the scorecard to Modal/Azure instead.",
+      "next_task": "Submit the P100-compatible rerun only after explicit approval, then recover SSD artifacts and run the no-pending ingest gate.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

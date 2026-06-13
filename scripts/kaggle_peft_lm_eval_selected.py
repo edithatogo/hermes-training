@@ -73,6 +73,40 @@ def run_command(command: list[str], timeout_s: int) -> dict[str, Any]:
     }
 
 
+def dependency_packages(use_4bit: bool) -> list[str]:
+    packages = [
+        "lm_eval[hf]",
+        "transformers>=4.56,<5",
+        "peft",
+        "safetensors",
+        "accelerate",
+        "huggingface_hub",
+    ]
+    if use_4bit:
+        packages.append("bitsandbytes")
+    return packages
+
+
+def torch_compatibility_install(policy: str) -> list[str] | None:
+    if policy in {"", "none", "None", "default"}:
+        return None
+    if policy == "p100-cu118":
+        return [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "--upgrade",
+            "--index-url",
+            "https://download.pytorch.org/whl/cu118",
+            "torch==2.2.2",
+            "torchvision==0.17.2",
+            "torchaudio==2.2.2",
+        ]
+    raise ValueError(f"unsupported torch compatibility policy: {policy}")
+
+
 def runtime_details() -> dict[str, Any]:
     details: dict[str, Any] = {"created_at": datetime.now(UTC).isoformat(), "python": sys.version.split()[0]}
     try:
@@ -81,6 +115,9 @@ def runtime_details() -> dict[str, Any]:
         details["torch"] = getattr(torch, "__version__", "unknown")
         details["cuda_available"] = bool(torch.cuda.is_available())
         details["cuda_device_name"] = torch.cuda.get_device_name(0) if torch.cuda.is_available() else None
+        details["cuda_device_capability"] = (
+            ".".join(map(str, torch.cuda.get_device_capability(0))) if torch.cuda.is_available() else None
+        )
     except Exception as exc:  # noqa: BLE001
         details["torch_error"] = f"{type(exc).__name__}: {exc}"
         details["cuda_available"] = False
@@ -116,26 +153,15 @@ def main() -> int:
     batch_size = str(setting("batch_size", "LM_EVAL_BATCH_SIZE", "1"))
     dtype = str(setting("dtype", "LM_EVAL_DTYPE", "float16"))
     use_4bit = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", "1"))
+    torch_policy = str(setting("torch_compatibility_policy", "KAGGLE_TORCH_COMPATIBILITY_POLICY", "p100-cu118"))
     timeout_s = int(setting("timeout_s", "LM_EVAL_TIMEOUT_S", "21600"))
     output_dir = Path(setting("output_dir", "LM_EVAL_OUTPUT_DIR", str(work_root / f"{run_id}-lm-eval-output")))
     result_json = Path(setting("result_json", "LM_EVAL_RESULT_JSON", str(work_root / f"{run_id}-summary.json")))
 
+    torch_install_command = torch_compatibility_install(torch_policy)
+    torch_install = run_command(torch_install_command, timeout_s=1200) if torch_install_command else None
     install = run_command(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--quiet",
-            "--upgrade",
-            "lm_eval[hf]",
-            "transformers>=4.56,<5",
-            "peft",
-            "bitsandbytes",
-            "safetensors",
-            "accelerate",
-            "huggingface_hub",
-        ],
+        [sys.executable, "-m", "pip", "install", "--quiet", "--upgrade", *dependency_packages(use_4bit)],
         timeout_s=1200,
     )
     result: dict[str, Any] = {
@@ -152,12 +178,16 @@ def main() -> int:
         "batch_size": batch_size,
         "dtype": dtype,
         "use_4bit": use_4bit,
+        "torch_compatibility_policy": torch_policy,
+        "torch_install": torch_install,
         "output_dir": str(output_dir),
         "install": install,
         "runtime": runtime_details(),
     }
 
     try:
+        if torch_install is not None and torch_install["returncode"] != 0:
+            raise RuntimeError("torch compatibility install failed")
         if install["returncode"] != 0:
             raise RuntimeError("dependency install failed")
         adapter_download = download_adapter(adapter_repo, adapter_dir)

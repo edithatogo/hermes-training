@@ -4,7 +4,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.submit_modal_peft_scorecard import ModalScorecardSpec, build_modal_command, build_report, stage_config
+from scripts.submit_modal_peft_scorecard import (
+    ModalScorecardSpec,
+    build_modal_command,
+    build_report,
+    stage_config,
+    write_json_report,
+)
 
 
 class SubmitModalPeftScorecardTests(unittest.TestCase):
@@ -73,6 +79,19 @@ class SubmitModalPeftScorecardTests(unittest.TestCase):
 
         self.assertEqual(report["status"], "blocked")
         self.assertIn("Modal backend preflight", report["blockers"][0])
+
+    def test_write_json_report_persists_updated_submission(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "modal-report.json"
+            report = {"status": "ready-to-submit"}
+            write_json_report(path, report)
+            report["submission"] = {"returncode": 0}
+            write_json_report(path, report)
+
+            text = path.read_text(encoding="utf-8")
+
+        self.assertIn('"submission"', text)
+        self.assertIn('"returncode": 0', text)
 
 
 if __name__ == "__main__":
