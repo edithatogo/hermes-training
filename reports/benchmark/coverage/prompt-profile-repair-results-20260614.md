@@ -15,6 +15,9 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `openbmb/MiniCPM5-1B-MLX` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-suffix-copy-exact-repair-20260614.md` |
 | `openbmb/MiniCPM5-1B-MLX` | `empty-output-retry` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-output-retry-repair-20260614.md` |
 | `openbmb/MiniCPM5-1B-MLX` | `minicpm-empty-tag-repair` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/minicpm5-1b-mlx-empty-tag-repair-20260614.md` |
+| `Qwen/Qwen3.5-2B` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/qwen35-2b-strict-suffix-copy-exact-repair-20260614.md` |
+| `Qwen/Qwen3.5-2B` | `empty-output-retry` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/qwen35-2b-empty-output-retry-repair-20260614.md` |
+| `Qwen/Qwen3.5-2B` | `qwen-no-think-prefill` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/qwen35-2b-qwen-no-think-prefill-repair-20260614.md` |
 
 ## Decision Boundary
 

@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen35-2b-prompt-repair-completion_20260614",
+  "type": "benchmark",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Complete queued prompt-only repair variants for Qwen3.5 2B and record the no-promotion decision."
+}

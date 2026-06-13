@@ -85,6 +85,48 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "Qwen/Qwen3.5-2B",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "try remaining Qwen3.5 2B prompt repair variants before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/qwen35-2b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-strict-suffix-copy-exact-20260614-020549/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-strict-suffix-copy-exact-20260614-020549",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "Qwen/Qwen3.5-2B",
+      "variant": "empty-output-retry",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "try qwen-no-think-prefill before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/qwen35-2b-empty-output-retry-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-empty-output-retry-20260614-020612/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-empty-output-retry-20260614-020612",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "Qwen/Qwen3.5-2B",
+      "variant": "qwen-no-think-prefill",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only Qwen3.5 2B repairs; use a grammar/envelope-constrained path or move to the next candidate",
+      "result_report": "reports/benchmark/local-pilots/qwen35-2b-qwen-no-think-prefill-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-qwen-no-think-prefill-20260614-020640/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-qwen-no-think-prefill-20260614-020640",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

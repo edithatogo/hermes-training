@@ -16,7 +16,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 | 5 | `openbmb/MiniCPM5-1B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 6 | `openbmb/MiniCPM5-1B-MLX` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only MiniCPM5 1B MLX repairs; use a grammar/envelope-constrained path or move to the next candidate |
 | 7 | `Qwen/Qwen3.5-0.8B` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only Qwen3.5 0.8B repairs; use a grammar/envelope-constrained path or move to the next candidate |
-| 8 | `Qwen/Qwen3.5-2B` | `mac-mlx` | `pending-local` | 3 | run one local MLX/Transformers experiment and capture the report path |
+| 8 | `Qwen/Qwen3.5-2B` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only Qwen3.5 2B repairs; use a grammar/envelope-constrained path or move to the next candidate |
 | 9 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `mac-mlx` | `pending-local-with-analysis-variant` | 2 | run raw-output variants first; analysis-only normalizer variants cannot promote |
 | 10 | `ibm-granite/granite-4.1-3b` | `mac-mlx` | `pending-local-with-analysis-variant` | 2 | run raw-output variants first; analysis-only normalizer variants cannot promote |
 | 11 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |

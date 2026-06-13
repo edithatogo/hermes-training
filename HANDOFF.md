@@ -266,6 +266,9 @@ Complete:
   `strict-suffix-copy-exact`, `empty-output-retry`, and
   `minicpm-empty-tag-repair` each scored `0/3` on the strict BFCL pilot. Keep it
   at `completed-no-promotion` and do not repeat prompt-only variants.
+- Qwen3.5 2B prompt-only repair is exhausted locally: strict suffix and
+  empty-output retry scored `0/3`, and no-think scored `1/3` by passing only the
+  invalid-tool refusal. Keep it at `completed-no-promotion`.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
