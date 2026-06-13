@@ -13,8 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_JSON = ROOT / "reports/benchmark/coverage/prompt-profile-repair-selection-20260614.json"
 DEFAULT_MD = ROOT / "reports/benchmark/coverage/prompt-profile-repair-selection-20260614.md"
-DEFAULT_CANDIDATE = "Qwen/Qwen3.5-0.8B"
-DEFAULT_VARIANT = "strict-suffix-copy-exact"
+DEFAULT_EXPERIMENTS = ROOT / "reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.json"
+DEFAULT_RESULTS = ROOT / "reports/benchmark/coverage/prompt-profile-repair-results-20260614.json"
 
 
 def display_path(path: Path) -> str:
@@ -33,15 +33,45 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json-report", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown-report", type=Path, default=DEFAULT_MD)
+    parser.add_argument("--experiments", type=Path, default=DEFAULT_EXPERIMENTS)
+    parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
     return parser.parse_args()
+
+
+def expected_default(experiments_path: Path, results_path: Path) -> dict[str, str]:
+    experiments_data = json.loads(experiments_path.read_text(encoding="utf-8"))
+    results_data = json.loads(results_path.read_text(encoding="utf-8"))
+    completed = {
+        (str(row.get("candidate")), str(row.get("variant")))
+        for row in results_data.get("results", [])
+        if isinstance(row, dict)
+    }
+    for experiment in experiments_data.get("experiments", []):
+        if not isinstance(experiment, dict):
+            continue
+        key = (str(experiment.get("candidate")), str(experiment.get("variant")))
+        if key not in completed:
+            return {
+                "candidate": key[0],
+                "variant": key[1],
+                "runner": str(experiment.get("runner", "")),
+            }
+    raise ValueError("no uncompleted prompt/profile repair experiments remain")
 
 
 def main() -> int:
     args = parse_args()
     failures: list[str] = []
-    for path in (args.json_report, args.markdown_report):
+    for path in (args.json_report, args.markdown_report, args.experiments, args.results):
         if not path.exists():
             failures.append(f"missing {display_path(path)}")
+
+    expected: dict[str, str] | None = None
+    if not failures:
+        try:
+            expected = expected_default(args.experiments, args.results)
+        except Exception as exc:
+            failures.append(f"could not derive expected default experiment: {exc}")
 
     if not failures:
         data = json.loads(args.json_report.read_text(encoding="utf-8"))
@@ -49,15 +79,21 @@ def main() -> int:
             failures.append(f"{display_path(args.json_report)} must remain dry-run by default")
         if data.get("execute"):
             failures.append(f"{display_path(args.json_report)} unexpectedly records execute=true")
-        if data.get("candidate") != DEFAULT_CANDIDATE or data.get("variant") != DEFAULT_VARIANT:
+        if (
+            data.get("candidate") != expected["candidate"]
+            or data.get("variant") != expected["variant"]
+            or data.get("runner") != expected["runner"]
+        ):
             failures.append(f"{display_path(args.json_report)} selects the wrong default experiment")
         command = str(data.get("command", ""))
         if "--require-no-extra-tool-text" not in command:
             failures.append("selected command is missing strict no-extra-tool-text scoring")
         if "No download here" not in command:
             failures.append("selected command is missing no-download boundary")
-        if "run_local_pilot_benchmark.py" not in command:
-            failures.append("selected default should use the local runner")
+        if expected["runner"] == "local" and "run_local_pilot_benchmark.py" not in command:
+            failures.append("selected local default should use the local runner")
+        if expected["runner"] == "endpoint" and "run_endpoint_pilot_benchmark.py" not in command:
+            failures.append("selected endpoint default should use the endpoint runner")
 
     if not failures:
         with tempfile.TemporaryDirectory() as tmp:
@@ -69,9 +105,9 @@ def main() -> int:
                     sys.executable,
                     "scripts/select_prompt_profile_repair_experiment.py",
                     "--candidate",
-                    DEFAULT_CANDIDATE,
+                    expected["candidate"],
                     "--variant",
-                    DEFAULT_VARIANT,
+                    expected["variant"],
                     "--json-output",
                     str(expected_json),
                     "--markdown-output",

@@ -225,6 +225,20 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "google/gemma-4-E2B-it-qat-q4_0-gguf",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant Gemma E2B GGUF prompt repair; use Gemma-native formatting or another endpoint-gated candidate next",
+      "result_report": "reports/benchmark/endpoint-pilots/gemma4-e2b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/google-gemma-4-e2b-it-qat-q4-0-gguf-strict-suffix-copy-exact-20260614-023301/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/google-gemma-4-e2b-it-qat-q4-0-gguf-strict-suffix-copy-exact-20260614-023301",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

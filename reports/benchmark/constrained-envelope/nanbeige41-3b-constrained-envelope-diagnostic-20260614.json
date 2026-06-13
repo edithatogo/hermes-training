@@ -1,0 +1,39 @@
+{
+  "run_id": "nanbeige41-3b-constrained-envelope-diagnostic-20260614",
+  "created_at": "2026-06-13T16:35:47+00:00",
+  "model": "Nanbeige/Nanbeige4.1-3B",
+  "suite": "benchmarks/endpoint_pilots/bfcl_pilot.json",
+  "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/nanbeige-nanbeige4-1-3b-strict-suffix-copy-exact-20260614-021619",
+  "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/nanbeige-nanbeige4-1-3b-strict-suffix-copy-exact-20260614-021619/summary.json",
+  "output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/constrained-envelope/nanbeige41-3b-constrained-envelope-diagnostic-20260614",
+  "cases": 3,
+  "raw_passed": 0,
+  "raw_pass_rate": 0.0,
+  "constrained_passed": 3,
+  "constrained_pass_rate": 1.0,
+  "promotion_allowed": false,
+  "claim_boundary": "Diagnostic envelope evidence is not raw-output promotion. Promotion requires a real runtime-wrapper gate with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+  "case_results": [
+    {
+      "id": "bfcl-simple-customer-lookup",
+      "category": "tool_call_exact",
+      "envelope_action": "selected-tool-calls",
+      "pass": true,
+      "reason": ""
+    },
+    {
+      "id": "bfcl-parallel-ticket-routing",
+      "category": "tool_call_exact",
+      "envelope_action": "selected-tool-calls",
+      "pass": true,
+      "reason": ""
+    },
+    {
+      "id": "bfcl-invalid-tool",
+      "category": "contains_excludes",
+      "envelope_action": "selected-refusal-sentence",
+      "pass": true,
+      "reason": ""
+    }
+  ]
+}

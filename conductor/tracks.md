@@ -851,6 +851,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Gemma 4 E2B GGUF Endpoint Prompt Repair Completion
+*Link: [./tracks/gemma4-e2b-gguf-endpoint-prompt-repair-completion_20260614/](./tracks/gemma4-e2b-gguf-endpoint-prompt-repair-completion_20260614/)*
+
+---
+
 ## [x] Track: Constrained Envelope Repair Plan
 *Link: [./tracks/constrained-envelope-repair-plan_20260614/](./tracks/constrained-envelope-repair-plan_20260614/)*
 

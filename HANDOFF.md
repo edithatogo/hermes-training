@@ -284,6 +284,10 @@ Complete:
 - EXAONE 4.0 1.2B GGUF strict-suffix endpoint repair ran through `llama-server`
   on Metal and scored `0/3`; it ignored available tools and hallucinated an
   unavailable delete function, so it remains `completed-no-promotion`.
+- Gemma 4 E2B GGUF strict-suffix endpoint repair ran through `llama-server` on
+  Metal and scored `1/3`, passing only the invalid-tool refusal. Tool-call cases
+  emitted malformed Gemma/function-style payloads, so it remains
+  `completed-no-promotion`.
 - The constrained-envelope repair plan is now tracked at
   `reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md`.
   It ranks Nanbeige 4.1 3B as the top non-promotional next diagnostic because

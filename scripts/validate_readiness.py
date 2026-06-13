@@ -283,6 +283,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_prompt_profile_repair_results.py",
         ROOT / "scripts/build_constrained_envelope_repair_plan.py",
         ROOT / "scripts/validate_constrained_envelope_repair_plan.py",
+        ROOT / "scripts/run_constrained_envelope_diagnostic.py",
+        ROOT / "scripts/validate_constrained_envelope_diagnostic_report.py",
         ROOT / "scripts/select_prompt_profile_repair_experiment.py",
         ROOT / "scripts/validate_prompt_profile_repair_selection.py",
         ROOT / "scripts/convert_mlx_lora_to_peft.py",
@@ -654,6 +656,24 @@ def check_constrained_envelope_repair_plan(failures: list[str]) -> None:
         ok("constrained-envelope repair plan")
 
 
+def check_constrained_envelope_diagnostic_report(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_constrained_envelope_diagnostic_report.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(
+            f"constrained-envelope diagnostic report: {result.stdout.strip()} {result.stderr.strip()}".strip(),
+            failures,
+        )
+    else:
+        ok("constrained-envelope diagnostic report")
+
+
 def check_prompt_profile_repair_selection(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -814,6 +834,7 @@ def main() -> int:
     check_prompt_profile_repair_ledger(failures)
     check_prompt_profile_repair_results(failures)
     check_constrained_envelope_repair_plan(failures)
+    check_constrained_envelope_diagnostic_report(failures)
     check_prompt_profile_repair_selection(failures)
 
     if failures:

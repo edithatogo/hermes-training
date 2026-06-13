@@ -1,7 +1,7 @@
 # Constrained Envelope Repair Plan
 
 Run ID: `constrained-envelope-repair-plan-20260614`
-Created: `2026-06-13T16:31:59+00:00`
+Created: `2026-06-13T16:34:19+00:00`
 
 Rank completed prompt/profile repair failures for the next constrained-envelope or runtime-wrapper diagnostic without treating normalized or score-only behavior as promotion evidence.
 
@@ -16,6 +16,7 @@ This report is non-promotional. It may justify a constrained-envelope diagnostic
 | `Nanbeige/Nanbeige4.1-3B` | `high` | `strict-suffix-copy-exact` | 0.000 | 2 | 0 | Implement a non-promotional constrained-envelope diagnostic that strips or suppresses reasoning only when the raw response already contains exact Hermes calls, then rerun strict no-extra-text scoring before any promotion claim. |
 | `Qwen/Qwen3.5-0.8B` | `medium` | `qwen-no-think-prefill` | 0.333 | 0 | 6 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `Qwen/Qwen3.5-2B` | `medium` | `qwen-no-think-prefill` | 0.333 | 0 | 6 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
+| `google/gemma-4-E2B-it-qat-q4_0-gguf` | `medium` | `strict-suffix-copy-exact` | 0.333 | 0 | 2 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `ibm-granite/granite-4.1-3b` | `medium` | `granite-native-normalizer-analysis` | 0.333 | 0 | 4 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
@@ -52,6 +53,16 @@ Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` 
 source scripts/env.sh
 RUN_STAMP=$(date +%Y%m%d-%H%M%S)
 ./.venv/bin/python scripts/run_local_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'Qwen/Qwen3.5-2B' --max-tokens 512 --require-no-extra-tool-text --run-id "qwen-qwen3-5-2b-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
+```
+
+### google/gemma-4-E2B-it-qat-q4_0-gguf
+
+Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` scoring.
+
+```bash
+source scripts/env.sh
+RUN_STAMP=$(date +%Y%m%d-%H%M%S)
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'google/gemma-4-E2B-it-qat-q4_0-gguf' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "google-gemma-4-e2b-it-qat-q4-0-gguf-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
 ```
 
 ### ibm-granite/granite-4.1-3b

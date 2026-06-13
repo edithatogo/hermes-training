@@ -1,6 +1,6 @@
 {
   "run_id": "constrained-envelope-repair-plan-20260614",
-  "created_at": "2026-06-13T16:31:59+00:00",
+  "created_at": "2026-06-13T16:34:19+00:00",
   "source_results": "reports/benchmark/coverage/prompt-profile-repair-results-20260614.json",
   "purpose": "Rank completed prompt/profile repair failures for the next constrained-envelope or runtime-wrapper diagnostic without treating normalized or score-only behavior as promotion evidence.",
   "promotion_allowed": false,
@@ -178,6 +178,42 @@
             "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-qwen-no-think-prefill-20260614-020640/summary.json",
             "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-qwen-no-think-prefill-20260614-020640/results.jsonl",
             "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/qwen-qwen3-5-2b-qwen-no-think-prefill-20260614-020640/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "passed_strict": 1
+          }
+        }
+      ]
+    },
+    {
+      "candidate": "google/gemma-4-E2B-it-qat-q4_0-gguf",
+      "priority": "medium",
+      "best_variant": "strict-suffix-copy-exact",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.3333333333333333,
+      "case_metrics": {
+        "malformed_or_no_calls": 2,
+        "matched_tool_calls_extra_text": 0,
+        "passed_strict": 1
+      },
+      "source_missing": [],
+      "recommended_next_action": "Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'google/gemma-4-E2B-it-qat-q4_0-gguf' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"google-gemma-4-e2b-it-qat-q4-0-gguf-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.3333333333333333,
+          "passed": 1,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/gemma4-e2b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/google-gemma-4-e2b-it-qat-q4-0-gguf-strict-suffix-copy-exact-20260614-023301/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/google-gemma-4-e2b-it-qat-q4-0-gguf-strict-suffix-copy-exact-20260614-023301/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/google-gemma-4-e2b-it-qat-q4-0-gguf-strict-suffix-copy-exact-20260614-023301/responses.jsonl"
           },
           "case_classification_counts": {
             "malformed_or_no_calls": 2,
