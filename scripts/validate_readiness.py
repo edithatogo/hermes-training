@@ -261,6 +261,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_scorecard_offload_readiness.py",
         ROOT / "scripts/convert_mlx_lora_to_peft.py",
         ROOT / "scripts/colab_mlx_adapter_portability_probe.py",
+        ROOT / "scripts/colab_peft_adapter_load_smoke.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
         ROOT / "scripts/run_colbert_read_stack_smoke.py",

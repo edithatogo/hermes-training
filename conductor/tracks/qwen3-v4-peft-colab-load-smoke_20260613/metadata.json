@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-peft-colab-load-smoke_20260613",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-06-13T02:20:00Z",
+  "updated_at": "2026-06-13T02:25:00Z",
+  "description": "Load-smoke the converted Qwen3 v4 PEFT candidate on Colab T4 before any full lm-eval scorecard attempt."
+}
