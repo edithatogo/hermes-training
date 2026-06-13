@@ -20,7 +20,7 @@ The current working setup is:
 | Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
-The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the resilient llama.cpp embedding proxy. It outperforms the current default on isolated retrieval and now passes the output-local live mem0 fixture with raw vector and query-guarded strategies at top-1 `1.000` / recall@3 `1.000`. It is still not the default because default promotion needs an explicit opt-in profile, rollback smoke, and collection migration decision.
+The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the resilient llama.cpp embedding proxy. It outperforms the current default on isolated retrieval and passes the output-local live mem0 fixture with raw vector and query-guarded strategies at top-1 `1.000` / recall@3 `1.000`. A copied live-store replay then reached default-top recall `1.000` but top-1 match only `0.200`, so it remains opt-in rather than the default.
 
 ## Structure
 
@@ -132,6 +132,15 @@ Use the printed config path with `MEM0_CONFIG_PATH` only after starting the
 resilient llama.cpp embedding proxy. Rollback remains the unmodified default:
 unset `MEM0_CONFIG_PATH`, use `nomic-embed-text:latest`, and read/write
 `mem0_nomic_768`.
+
+Copied live-store replay evidence is recorded at
+[`reports/benchmark/mem0/embeddinggemma-live-store-replay-20260613.md`](../reports/benchmark/mem0/embeddinggemma-live-store-replay-20260613.md).
+It copied a bounded `default_user` / `codex` sample into a run-scoped
+EmbeddingGemma collection, wrote private raw artifacts under
+`/Volumes/PortableSSD/hermes-evals/mem0-live-store-replay/`, and committed only
+redacted hashes and aggregate metrics. Result: default top memory was present in
+candidate results for every comparable query, but the rank order differed
+enough to block default promotion.
 
 ## Candidate Roles
 

@@ -3,8 +3,10 @@
 Default-integration gate: [EmbeddingGemma mem0 Default Integration Gate - 2026-06-13](./embeddinggemma-default-integration-gate-20260613.md).
 EmbeddingGemma GGUF is available through the opt-in `embeddinggemma-proxy`
 Hermes read mode with explicit `MEM0_CONFIG_PATH`; the default remains
-`nomic-embed-text:latest` / `mem0_nomic_768` until copied live-store replay and
-collection migration proof pass.
+`nomic-embed-text:latest` / `mem0_nomic_768`. Copied live-store replay:
+[EmbeddingGemma Copied Live-Store Replay - 2026-06-13](./embeddinggemma-live-store-replay-20260613.md)
+reached default-top recall `1.000` but top-1 match `0.200`, so default
+promotion remains blocked.
 
 | Kind | Run ID | Model/Tool | Raw Pass | Rerank Pass | Top-1 | Recall@k/3 | JSON Valid | Latency p50 | Output |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|

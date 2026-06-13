@@ -271,7 +271,7 @@ Current hard differentiation embedding scores:
 
 | Model | Runtime | Top-1 | Recall@3 | MRR | Decision |
 |---|---|---:|---:|---:|---|
-| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | resilient llama.cpp proxy / OpenAI embeddings | 1.000 | 1.000 | 1.000 | leading 768-dim challenger; live fixture now passes, default gate still needs rollback and profile smoke |
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | resilient llama.cpp proxy / OpenAI embeddings | 1.000 | 1.000 | 1.000 | leading 768-dim challenger; live fixture passes and copied live-store replay has recall 1.000 but top-1 match 0.200, so keep opt-in |
 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-embedding` shell-out | 1.000 | 1.000 | 1.000 | quality proof only; superseded by server wrapper for latency |
 | `BAAI/bge-m3` | `sentence-transformers` CPU | 0.929 | 1.000 | 0.952 | keep testing; strongest isolated differentiation score |
 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX local-files-only | 0.786 | 0.929 | 0.875 | keep testing; not default-ready on this harder suite |
@@ -289,8 +289,10 @@ The EmbeddingGemma GGUF package is especially promising because it keeps the
 current 768-dim vector shape and passed all 14 isolated cases. The
 server-backed wrapper reduced p50 embedding latency to about 0.012s, and the
 fresh resilient-proxy live fixture passed raw vector and `query_terms_guarded`
-at top-1 1.000 / recall@3 1.000. Default promotion is still blocked until the
-opt-in profile, rollback smoke, and collection migration decision are complete.
+at top-1 1.000 / recall@3 1.000. The copied live-store replay then found
+default-top recall 1.000 but top-1 match 0.200, so default promotion remains
+blocked until ranking behavior improves or a deliberate migration decision
+accepts the changed ordering.
 
 Run a read-only reranked search against the live mem0 store:
 

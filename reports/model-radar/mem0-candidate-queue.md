@@ -29,7 +29,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 | 8 | `Qwen/Qwen3-Embedding-4B` | embedder | source-model-benchmarked | transformers | local-embedding-smoke | expanded suite passed recall but missed one top-1 recency case; keep behind separate 2560-dim collection and reranking |
 | 9 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | source-model-benchmarked | mlx | local-embedding-smoke | expanded retrieval suite reached recall 1.000 but top-1 0.833 with two close recency/update misses; prefer text-matching variant for now |
 | 10 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | source-model-benchmarked | mlx | differentiation-suite | expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default |
-| 11 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | source-model-benchmarked | llama.cpp | differentiation-suite | server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; `embeddinggemma-proxy` is opt-in for Hermes reads, with default promotion blocked on copied live-store replay and migration proof |
+| 11 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | source-model-benchmarked | llama.cpp | differentiation-suite | server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200, so `embeddinggemma-proxy` stays opt-in |
 | 12 | `NousResearch/Hermes-4-14B` | extractor | extraction-benchmarked-not-promoted | ollama-gguf | extraction-smoke | extraction benchmark completed but failed promotion gate; keep LFM2 as the default extractor |
 | 13 | `LiquidAI/LFM2-ColBERT-350M` | retriever | source-model-benchmarked | transformers | colbert-index-smoke | expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read |
 | 14 | `hermes3:8b` | extractor | installed-baseline | ollama | extraction-smoke | baseline; keep as rollback and compare only |
@@ -202,7 +202,7 @@ source scripts/env.sh
 
 - Role: `embedder`
 - Status: `source-model-benchmarked`
-- Blocker: server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; `embeddinggemma-proxy` is opt-in for Hermes reads, with default promotion blocked on copied live-store replay and migration proof
+- Blocker: server-backed differentiation and resilient-proxy live mem0 fixture both reached top-1 1.000 / recall@3 1.000; copied live-store replay reached recall 1.000 but top-1 match 0.200, so `embeddinggemma-proxy` stays opt-in
 
 ```bash
 source scripts/env.sh

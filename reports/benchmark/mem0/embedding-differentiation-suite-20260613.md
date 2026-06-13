@@ -88,9 +88,9 @@ installed mem0 package through `PYTHONPATH`.
 | `query_terms_guarded` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
 
 This closes the immediate live fixture blocker for the EmbeddingGemma GGUF
-candidate. It is still not a default replacement until the resilient proxy path
-is integrated deliberately, rollback behavior is documented, and the default
-collection migration decision is made.
+candidate. A later copied live-store replay reached default-top recall 1.000
+but top-1 match 0.200 on the bounded `default_user` / `codex` sample, so it
+remains opt-in rather than a default replacement.
 
 ## Raw Evidence
 

@@ -100,11 +100,10 @@ space semantics.
   smoke through the resilient llama.cpp proxy, required collection text found,
   total latency `0.910s`, search latency `0.016s`, and SSD-local Qdrant/history
   paths.
-- `embeddinggemma-hermes-tool-profile-smoke-20260613`: Hermes wrapper contract
+- `embeddinggemma-proxy-hermes-tool-smoke-20260613`: Hermes wrapper contract
   smoke passed with `read_only: true`, `mutates_mem0_config: false`, and the
-  explicit `mem0_config_path` preserved. It returned no memories through the
-  shell CLI path, so it is wrapper-contract evidence rather than retrieval
-  quality evidence.
+  explicit `mem0_config_path` preserved. It returned `nomic-embed-text:latest`
+  as the top memory for the rollback query.
 - `embeddinggemma-fixture-replay-query-guard-20260613`: replayed captured
   candidates, top-1 `1.000`, recall@3 `1.000`.
 - `embeddinggemma-proxy-read-mode-smoke-20260613`: `scripts/mem0_read.py`

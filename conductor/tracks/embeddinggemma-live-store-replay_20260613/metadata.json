@@ -1,0 +1,8 @@
+{
+  "track_id": "embeddinggemma-live-store-replay_20260613",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-06-13T01:02:05Z",
+  "updated_at": "2026-06-13T01:10:00Z",
+  "description": "EmbeddingGemma copied live-store replay and migration proof"
+}
