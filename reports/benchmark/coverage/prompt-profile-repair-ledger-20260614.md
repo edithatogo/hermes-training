@@ -21,7 +21,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 | 10 | `ibm-granite/granite-4.1-3b` | `mac-mlx` | `completed-no-promotion` | 2 | stop prompt/normalizer-only Granite repairs; use a grammar/envelope-constrained path or move to the next candidate |
 | 11 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 12 | `Mungert/Nanbeige4.1-3B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
-| 13 | `Nanbeige/Nanbeige4.1-3B` | `hf-transformers` | `pending-local` | 1 | run one local MLX/Transformers experiment and capture the report path |
+| 13 | `Nanbeige/Nanbeige4.1-3B` | `hf-transformers` | `completed-no-promotion` | 1 | stop single-variant Nanbeige prompt repair; use no-think or grammar/envelope-constrained output if revisited |
 | 14 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `mac-mlx` | `pending-local` | 1 | run one local MLX/Transformers experiment and capture the report path |
 | 15 | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 16 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `mac-lmstudio` | `pending-endpoint` | 3 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |

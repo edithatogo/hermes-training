@@ -183,6 +183,20 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "Nanbeige/Nanbeige4.1-3B",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant Nanbeige prompt repair; use no-think or grammar/envelope-constrained output if revisited",
+      "result_report": "reports/benchmark/local-pilots/nanbeige41-3b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/nanbeige-nanbeige4-1-3b-strict-suffix-copy-exact-20260614-021619/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/nanbeige-nanbeige4-1-3b-strict-suffix-copy-exact-20260614-021619",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

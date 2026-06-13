@@ -1,0 +1,8 @@
+{
+  "track_id": "nanbeige41-3b-prompt-repair-completion_20260614",
+  "type": "benchmark",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Complete queued prompt/profile repair variant for Nanbeige 4.1 3B and record the no-promotion decision."
+}

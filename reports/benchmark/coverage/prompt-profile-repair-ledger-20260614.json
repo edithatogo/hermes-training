@@ -388,8 +388,8 @@
       "candidate": "Nanbeige/Nanbeige4.1-3B",
       "environment": "hf-transformers",
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
-      "status": "pending-local",
-      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant Nanbeige prompt repair; use no-think or grammar/envelope-constrained output if revisited",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -398,11 +398,15 @@
           "strict_scoring": true
         }
       ],
-      "completed_variants": [],
-      "result_reports": [],
-      "result_report": "",
-      "source_summary": "",
-      "pass_rate": null,
+      "completed_variants": [
+        "strict-suffix-copy-exact"
+      ],
+      "result_reports": [
+        "reports/benchmark/local-pilots/nanbeige41-3b-strict-suffix-copy-exact-repair-20260614.md"
+      ],
+      "result_report": "reports/benchmark/local-pilots/nanbeige41-3b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/nanbeige-nanbeige4-1-3b-strict-suffix-copy-exact-20260614-021619/summary.json",
+      "pass_rate": 0.0,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {
