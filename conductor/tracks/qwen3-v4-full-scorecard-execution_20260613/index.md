@@ -7,4 +7,4 @@
 - Design: [../../design.md](../../design.md)
 - Contracts: [../../contracts.md](../../contracts.md)
 
-Status: in progress.
+Status: complete.

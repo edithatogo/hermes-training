@@ -646,5 +646,5 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Qwen3 v4 full selected-task scorecard execution
+## [x] Track: Qwen3 v4 full selected-task scorecard execution
 *Link: [./tracks/qwen3-v4-full-scorecard-execution_20260613/](./tracks/qwen3-v4-full-scorecard-execution_20260613/)*
