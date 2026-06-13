@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-13T04:42:40.077457+00:00`
+Created: `2026-06-13T04:59:06.922249+00:00`
 
 ## Direct Answer
 

@@ -1,6 +1,6 @@
 {
   "run_id": "all-candidate-benchmark-coverage-20260612",
-  "created_at": "2026-06-13T04:42:40.077457+00:00",
+  "created_at": "2026-06-13T04:59:06.922249+00:00",
   "candidate_count": 177,
   "counts": {
     "hermes": {
@@ -2036,8 +2036,11 @@
         "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-bge-expanded-20260526.md",
         "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-fixed-20260526.md",
         "reports/benchmark/mem0/run-cards/mem0-replay-qwen3-06b-warm-nomic-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/mem0-rerank-replay-qwen3-0-6b-warm-20260526.md",
         "reports/benchmark/mem0/run-cards/qwen3-0-6b-bge-expanded-rerank-20260526.md",
         "reports/benchmark/mem0/run-cards/qwen3-0-6b-nomic-expanded-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/qwen3-0-6b-onnx-transformersjs-bridge-20260526.md",
+        "reports/benchmark/mem0/run-cards/qwen3-0-6b-onnx-transformersjs-cpu-timebox-20260526.md",
         "reports/benchmark/mem0/run-cards/rerank-qwen3-0-6b-fixed-20260526.md"
       ]
     },
@@ -2161,9 +2164,16 @@
       "evidence": [
         "reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md",
         "reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-close-margin-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-created-at-rank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-lexical-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-vector-rerank-20260526.md",
         "reports/benchmark/mem0/run-cards/embedding-baai-bge-m3-refresh-20260612.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-cpu-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-cpu-smoke-20260526.md",
         "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md",
-        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md"
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-mps-smoke-20260526.md"
       ]
     },
     {
@@ -2251,9 +2261,16 @@
       "evidence": [
         "reports/benchmark/mem0/bge-m3-expanded-retrieval-20260526.md",
         "reports/benchmark/mem0/embedding-bge-m3-acquisition-blocked-20260525.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-close-margin-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-created-at-rank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-lexical-rerank-20260526.md",
+        "reports/benchmark/mem0/run-cards/bge-m3-expanded-vector-rerank-20260526.md",
         "reports/benchmark/mem0/run-cards/embedding-baai-bge-m3-refresh-20260612.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-cpu-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-cpu-smoke-20260526.md",
         "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-20260613.md",
-        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md"
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-differentiation-expanded-20260613.md",
+        "reports/benchmark/mem0/run-cards/embedding-bge-m3-mps-smoke-20260526.md"
       ]
     },
     {
@@ -2409,6 +2426,9 @@
       "blocked_reason": "",
       "benchmark_appropriateness": "requires expanded/adversarial retrieval replay before default promotion",
       "evidence": [
+        "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-20260526.md",
+        "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-bge-expanded-20260526.md",
+        "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-nomic-expanded-20260526.md",
         "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-bge-expanded-20260526.md",
         "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-fixed-20260526.md",
         "reports/benchmark/mem0/run-cards/rerank-flaglow-baai-bge-reranker-v2-m3-mlx-mxfp8-8bit-pairtok-nomic-expanded-20260526.md"
@@ -2483,6 +2503,7 @@
         "reports/benchmark/mem0/extraction-lfm2-2-6b-prompt-file-20260524.md",
         "reports/benchmark/mem0/run-cards/extraction-lfm2-2-6b-clean-root-20260526.md",
         "reports/benchmark/mem0/run-cards/extraction-lfm2-2-6b-expanded-examples-20260524.md",
+        "reports/benchmark/mem0/run-cards/extraction-lfm2-2-6b-expanded-strict-20260524.md",
         "reports/benchmark/mem0/run-cards/extraction-lfm2-2-6b-prompt-file-20260524.md",
         "reports/benchmark/mem0/run-cards/extraction-lfm2-2-6b-smoke-20260524.md"
       ]
@@ -2504,6 +2525,7 @@
         "reports/benchmark/endpoint-tool-call/hermes3-8b-ollama-heldout-20260524.md",
         "reports/benchmark/mem0/extraction-hermes3-8b-expanded-examples-20260524.md",
         "reports/benchmark/mem0/run-cards/extraction-hermes3-8b-expanded-examples-20260524.md",
+        "reports/benchmark/mem0/run-cards/extraction-hermes3-8b-expanded-strict-20260524.md",
         "reports/benchmark/mem0/run-cards/extraction-hermes3-8b-smoke-20260524.md"
       ]
     },

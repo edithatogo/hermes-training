@@ -260,6 +260,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_mem0_benchmark_evidence_report.py",
         ROOT / "scripts/summarize_mem0_benchmarks.py",
         ROOT / "scripts/validate_mem0_benchmark_index.py",
+        ROOT / "scripts/validate_mem0_run_cards.py",
         ROOT / "scripts/build_mem0_candidate_queue.py",
         ROOT / "scripts/validate_mem0_candidate_queue.py",
         ROOT / "scripts/check_specialist_runtime_preflight.py",
@@ -377,6 +378,21 @@ def check_mem0_benchmark_index(failures: list[str]) -> None:
         fail(f"mem0 benchmark index: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("mem0 benchmark index")
+
+
+def check_mem0_run_cards(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_mem0_run_cards.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"mem0 run cards: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("mem0 run cards")
 
 
 def check_candidate_registries(failures: list[str]) -> None:
@@ -610,6 +626,7 @@ def main() -> int:
     check_mem0_benchmark_evidence(failures)
     check_mem0_benchmark_evidence_report(failures)
     check_mem0_benchmark_index(failures)
+    check_mem0_run_cards(failures)
     check_candidate_registries(failures)
     check_candidate_benchmark_coverage(failures)
     check_runtime_proof_action_queue(failures)
