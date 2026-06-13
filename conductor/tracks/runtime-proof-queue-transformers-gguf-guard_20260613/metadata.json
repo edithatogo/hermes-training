@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-proof-queue-transformers-gguf-guard_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Prevent free-text GGUF runtime notes from overriding hf-transformers runtime proof command generation."
+}

@@ -46,6 +46,18 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("--require-no-extra-tool-text", command)
         self.assertIn("SSD-backed Hugging Face cache", command)
 
+    def test_hf_transformers_command_is_not_overridden_by_gguf_runtime_text(self) -> None:
+        item = candidate(
+            id="DJLougen/Harmonic-9B",
+            environment="hf-transformers",
+            first_runtime="Transformers or GGUF smoke",
+        )
+
+        command = next_command(item, "mac-runtime-proof")
+
+        self.assertIn("scripts/run_transformers_pilot_benchmark.py", command)
+        self.assertNotIn("scripts/run_endpoint_pilot_benchmark.py", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

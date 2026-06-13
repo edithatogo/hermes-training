@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T05:26:00+00:00`
+Created: `2026-06-13T05:45:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -91,12 +91,14 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model djlougen-harmonic-9b \
-  --base-url http://127.0.0.1:<port>/v1 \
+# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.
+./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \
+  --model DJLougen/Harmonic-9B \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id djlougen-harmonic-9b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+  --device auto \
+  --dtype float16 \
+  --require-no-extra-tool-text \
+  --run-id djlougen-harmonic-9b-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### DJLougen/Harmonic-Hermes-9B-GGUF
@@ -123,12 +125,14 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
-./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
-  --model qwen-qwen3-5-9b \
-  --base-url http://127.0.0.1:<port>/v1 \
+# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.
+./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \
+  --model Qwen/Qwen3.5-9B \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
-  --run-id qwen-qwen3-5-9b-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
+  --device auto \
+  --dtype float16 \
+  --require-no-extra-tool-text \
+  --run-id qwen-qwen3-5-9b-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### mradermacher/Harmonic-Hermes-9B-i1-GGUF
@@ -186,7 +190,12 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
+# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model openbmb-minicpm-v-4-6-gptq \
+  --base-url http://127.0.0.1:<port>/v1 \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --run-id openbmb-minicpm-v-4-6-gptq-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### openbmb/MiniCPM-o-4_5-gguf

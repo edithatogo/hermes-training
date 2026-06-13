@@ -166,7 +166,23 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 "./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
             ]
         )
-    if lane == "mac-runtime-proof" and "gguf" in (model_id + " " + first_runtime).lower():
+    if lane == "mac-runtime-proof" and env == "hf-transformers":
+        return "\n".join(
+            [
+                "source scripts/env.sh",
+                "# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.",
+                "./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\",
+                f"  --model {model_id} \\",
+                "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
+                "  --device auto \\",
+                "  --dtype float16 \\",
+                "  --require-no-extra-tool-text \\",
+                f"  --run-id {slug}-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+            ]
+        )
+    if lane == "mac-runtime-proof" and (
+        env in {"mac-lmstudio", "mac-ollama"} or "gguf" in model_id.lower() or "gguf" in first_runtime.lower()
+    ):
         return "\n".join(
             [
                 "source scripts/env.sh",
@@ -185,20 +201,6 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 "# Do not rerun the same candidate until the blocked runtime changes.",
                 "# First verify a newer runtime, converter, or source/nightly package supports the model architecture.",
                 "./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-            ]
-        )
-    if lane == "mac-runtime-proof" and env == "hf-transformers":
-        return "\n".join(
-            [
-                "source scripts/env.sh",
-                "# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.",
-                "./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\",
-                f"  --model {model_id} \\",
-                "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
-                "  --device auto \\",
-                "  --dtype float16 \\",
-                "  --require-no-extra-tool-text \\",
-                f"  --run-id {slug}-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
             ]
         )
     if lane == "mac-runtime-proof" and env == "mac-mlx":
