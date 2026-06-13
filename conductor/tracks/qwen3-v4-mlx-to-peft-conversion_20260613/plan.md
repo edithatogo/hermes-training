@@ -15,6 +15,6 @@
 
 - Target: >= 9.5 / 10
 - Current estimate: 9.6 / 10
-- Evidence: converter unit tests pass; the conversion report records 112 input keys mapped to 112 PEFT-shaped output keys across layers 28-35.
+- Evidence: converter unit tests pass; the conversion report records 112 input keys mapped to 112 PEFT-shaped output keys across layers 28-35; `PeftConfig.from_pretrained(...)` loads the generated package metadata.
 - Gaps: PEFT load/equivalence is not proven yet, so this artifact is not benchmark-ready.
 - Decision: Complete as an experimental conversion step. The next track must test load/behavior before cloud scorecard use.
