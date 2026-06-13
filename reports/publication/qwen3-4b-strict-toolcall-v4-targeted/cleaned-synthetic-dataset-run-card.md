@@ -5,8 +5,20 @@ Date: 2026-05-26
 ## Decision
 
 A cleaned synthetic-only dataset candidate has been materialized and audited
-locally. Public dataset publication remains blocked pending explicit human
-approval.
+locally. It was later explicitly approved and published to Hugging Face; see
+`dataset-publication-live-20260612.md`.
+
+Published dataset:
+
+```text
+https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4
+```
+
+Remote revision:
+
+```text
+727e7e4ecd781aca2f7506d4a8fc6d910f521d6d
+```
 
 Generated JSONL files are stored on the SSD, outside the git repo:
 
@@ -122,5 +134,6 @@ Result:
 
 ## Boundary
 
-This run card proves a cleaned local candidate can be generated and audited.
-It does not approve or perform a Hugging Face dataset publication.
+This run card proves the cleaned local candidate can be generated and audited.
+Publication was a later approval-gated action and is recorded separately in
+`dataset-publication-live-20260612.md`.

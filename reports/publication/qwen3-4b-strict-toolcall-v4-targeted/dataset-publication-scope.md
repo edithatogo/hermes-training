@@ -4,11 +4,23 @@ Date: 2026-05-26
 
 ## Decision
 
-Public dataset publication remains blocked.
+Public dataset publication for the cleaned synthetic-only scope is complete.
 
-The adapter release is already approved with disclosed dataset caveats, but a
-public Hugging Face dataset repo should not be created from the current
-materialized v4 splits until the user explicitly approves the scope below.
+The adapter release is approved with disclosed dataset caveats. The public
+Hugging Face dataset repo was created only for the cleaned synthetic-only scope
+below, not for the raw materialized v4 splits.
+
+Published dataset:
+
+```text
+https://huggingface.co/datasets/edithatogo/qwen3-hermes-strict-toolcall-synthetic-v4
+```
+
+Remote revision:
+
+```text
+727e7e4ecd781aca2f7506d4a8fc6d910f521d6d
+```
 
 ## Current Dataset Under Review
 
@@ -40,8 +52,8 @@ Source counts:
 
 ## Recommended Safe Scope
 
-If a public dataset release is approved later, publish a cleaned synthetic-only
-dataset rather than the exact materialized training splits.
+The public dataset release uses a cleaned synthetic-only dataset rather than the
+exact materialized training splits.
 
 Recommended included sources:
 
@@ -63,15 +75,16 @@ Recommended release name:
 qwen3-hermes-strict-toolcall-synthetic-v4
 ```
 
-Recommended status for the dataset card:
+Published dataset-card status:
 
 ```text
-public_dataset_release=blocked_pending_human_scope_approval
+public_dataset_release=published_cleaned_synthetic_only
 ```
 
-## Required Pre-Publication Steps
+## Completed Pre-Publication Steps
 
-Before creating a Hugging Face dataset repo:
+Before creating the Hugging Face dataset repo, the following steps were
+completed:
 
 1. Materialize a cleaned synthetic-only dataset from the approved source classes.
 2. Re-run source audit, overlap audit, token audit, and JSONL validation against
@@ -100,5 +113,5 @@ Before creating a Hugging Face dataset repo:
 ## Boundary
 
 This scope package does not publish data and does not change the current
-Hugging Face adapter release. It is a release plan for a future cleaned dataset
-artifact.
+Hugging Face adapter release. It records the scope that was later published as
+the cleaned synthetic-only dataset artifact.

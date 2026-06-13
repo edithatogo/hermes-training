@@ -23,7 +23,7 @@ Result:
 ```text
 review_result=reviewed_with_caveats
 adapter_release_source_gate=source_review_complete_with_disclosed_caveats
-public_dataset_release=blocked_pending_human_scope_approval
+public_dataset_release=published_cleaned_synthetic_only
 ```
 
 ## Source Summary
@@ -48,16 +48,18 @@ the `/no_think` prompt variant.
   `benchmarks/tool_call_local/heldout_suite.json`.
 - The overlap audit found one generic held-out tool-name overlap:
   `notify_care_team`.
-- Public dataset publication remains blocked until human scope approval because
-  publishing the raw training rows would expose the mirrored local benchmark
-  seed and prompt variants as a dataset artifact.
+- Public dataset publication is approved only for the cleaned synthetic-only
+  scope. Publishing the raw training rows remains out of scope because it would
+  expose the mirrored local benchmark seed and prompt variants as a dataset
+  artifact.
 
 ## Decision
 
 Dataset/source redistribution review for adapter-release purposes is complete
 with caveats. This clears the adapter source-review gate and supports public
-adapter publication with disclosure. It does not approve public dataset
-publication.
+adapter publication with disclosure. The cleaned synthetic-only dataset was
+later separately approved and published; raw materialized training splits remain
+unapproved for dataset publication.
 
 Remaining public adapter release blockers:
 
