@@ -187,6 +187,20 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 "./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
             ]
         )
+    if lane == "mac-runtime-proof" and env == "hf-transformers":
+        return "\n".join(
+            [
+                "source scripts/env.sh",
+                "# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.",
+                "./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\",
+                f"  --model {model_id} \\",
+                "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
+                "  --device auto \\",
+                "  --dtype float16 \\",
+                "  --require-no-extra-tool-text \\",
+                f"  --run-id {slug}-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+            ]
+        )
     if lane == "mac-runtime-proof" and env == "mac-mlx":
         return "\n".join(
             [

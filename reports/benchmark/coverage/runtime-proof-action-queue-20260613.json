@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T05:14:00+00:00",
+  "created_at": "2026-06-13T05:26:00+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -16,7 +16,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "Transformers or MLX smoke",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model google/gemma-4-E4B-it-qat-mobile-transformers \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-e4b-it-qat-mobile-transformers-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a slightly larger mobile/runtime comparison point only."
     },
     {
@@ -376,7 +376,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "Transformers or specialist runtime smoke",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model Qwen/Qwen3-Coder-Next \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-coder-next-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official base repo for the subquadratic Qwen coding-agent family. Keep it as the source model for comparisons and hosted/runtime checks; use the GGUF tree for local Hermes-agent smoke."
     },
     {

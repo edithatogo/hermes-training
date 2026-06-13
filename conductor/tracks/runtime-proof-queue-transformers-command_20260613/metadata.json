@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-proof-queue-transformers-command_20260613",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Make hf-transformers runtime proof queue entries point to the bounded Transformers BFCL pilot instead of a generic coverage refresh."
+}

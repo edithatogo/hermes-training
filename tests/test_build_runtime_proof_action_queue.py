@@ -36,6 +36,16 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("Do not rerun the same candidate", command)
         self.assertNotIn("run_local_pilot_benchmark.py", command)
 
+    def test_hf_transformers_runtime_proof_uses_bounded_transformers_pilot(self) -> None:
+        item = candidate(id="google/gemma-4-E4B-it-qat-mobile-transformers", environment="hf-transformers")
+
+        command = next_command(item, "mac-runtime-proof")
+
+        self.assertIn("scripts/run_transformers_pilot_benchmark.py", command)
+        self.assertIn("--device auto", command)
+        self.assertIn("--require-no-extra-tool-text", command)
+        self.assertIn("SSD-backed Hugging Face cache", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

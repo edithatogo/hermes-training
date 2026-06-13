@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T05:14:00+00:00`
+Created: `2026-06-13T05:26:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -57,7 +57,14 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 
 ```bash
 source scripts/env.sh
-./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py
+# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.
+./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \
+  --model google/gemma-4-E4B-it-qat-mobile-transformers \
+  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --device auto \
+  --dtype float16 \
+  --require-no-extra-tool-text \
+  --run-id google-gemma-4-e4b-it-qat-mobile-transformers-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 
 ### unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF
