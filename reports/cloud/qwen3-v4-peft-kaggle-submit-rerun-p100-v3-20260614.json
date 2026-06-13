@@ -1,0 +1,40 @@
+{
+  "accelerator": "gpu",
+  "adapter_repo": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+  "auth_blocker_observed": false,
+  "backend": "kaggle-kernels",
+  "blockers": [],
+  "claim_boundary": "No-limit benchmark claim only after Kaggle completes every configured task without --limit.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "push",
+    "--path",
+    "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
+    "--timeout",
+    "21600",
+    "--accelerator",
+    "gpu"
+  ],
+  "confirm_kaggle_run": true,
+  "execute": true,
+  "ignore_known_auth_blocker": false,
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "run_id": "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613",
+  "staged": {
+    "config": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle-peft-lm-eval-config.json",
+    "metadata": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kernel-metadata.json",
+    "runner": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle_peft_lm_eval_selected.py"
+  },
+  "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
+  "status": "ready-to-submit",
+  "submission": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "The following are not valid tags and could not be added to the kernel: ['qwen3', 'hermes', 'peft', 'lm-eval']\nKernel version 3 successfully pushed.  Please check progress at https://www.kaggle.com/code/edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  },
+  "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+  "timeout_s": 21600,
+  "torch_compatibility_policy": "p100-cu118",
+  "use_4bit": false
+}

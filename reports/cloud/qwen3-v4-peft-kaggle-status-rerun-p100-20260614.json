@@ -1,6 +1,6 @@
 {
   "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
-  "claim_boundary": "No benchmark claim until Kaggle kernel version 2 finishes and complete artifacts are recovered to the SSD and pass the no-pending ingest gate.",
+  "claim_boundary": "No benchmark claim: Kaggle kernel version 2 completed, but the recovered summary is blocked and has no lm-eval result files.",
   "command": [
     "kaggle",
     "kernels",
@@ -15,9 +15,10 @@
     "--path",
     "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2"
   ],
-  "downloaded_file_count": 0,
+  "downloaded_file_count": 9,
+  "failure_summary": "Kernel version 2 completed without scores. The recovered summary has status=blocked, evaluation.returncode=1, result_files=[], use_4bit=true, and runtime torch=2.12.0+cu130. lm-eval failed while importing Qwen3ForCausalLM after a torchvision::nms mismatch.",
   "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
   "observed_at": "2026-06-14",
-  "status": "KernelWorkerStatus.RUNNING",
-  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.RUNNING\""
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
 }

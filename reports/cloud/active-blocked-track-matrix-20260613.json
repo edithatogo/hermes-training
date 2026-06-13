@@ -69,14 +69,15 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "running-needs-artifact-recovery",
-      "blocker": "Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
+      "backend_status": "completed-failed-needs-kaggle-runner-fix",
+      "blocker": "Kaggle kernel version 3 completed without scores; the NumPy-pinned runner contract now passes, but any further rerun requires explicit approval or rerouting.",
       "commands": [
-        "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
-        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
+        "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2/qwen3-v4-peft-kaggle-lm-eval-20260613-233405-summary.json --no-allow-pending",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-summary.json --no-allow-pending",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py"
       ],
-      "next_task": "Recover SSD artifacts from Kaggle kernel version 2 and run the no-pending ingest gate.",
+      "next_task": "Obtain explicit approval before submitting any further NumPy-pinned Kaggle rerun, or route the scorecard to a different backend.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

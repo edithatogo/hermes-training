@@ -46,7 +46,13 @@ class ValidateKaggleKernelContractTests(unittest.TestCase):
             "result_json = output_dir = root\n"
             "No-limit benchmark claim only if every configured task completes without --limit.\n"
             "policy = 'p100-cu118'\n"
-            "index = 'https://download.pytorch.org/whl/cu118'\n",
+            '"numpy<2"\n'
+            "index = 'https://download.pytorch.org/whl/cu118'\n"
+            'use_4bit = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", "0"))\n'
+            "install = run_command(dependency_install_command(use_4bit, torch_policy), timeout_s=1200)\n"
+            "torch_install = run_command(torch_install_command, timeout_s=1200)\n"
+            '"transformers==5.3.0"\n'
+            'command.append("--upgrade")\n',
             encoding="utf-8",
         )
         dry_run = root / "dry-run.json"

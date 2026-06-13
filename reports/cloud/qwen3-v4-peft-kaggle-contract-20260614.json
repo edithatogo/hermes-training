@@ -114,6 +114,26 @@
       "detail": "runner has a configurable P100-compatible PyTorch install policy",
       "name": "runner_installs_p100_compatible_torch",
       "passed": true
+    },
+    {
+      "detail": "Kaggle may not expose the JSON sidecar next to the script; embedded default must be P100-safe",
+      "name": "runner_defaults_no_4bit_without_sidecar_config",
+      "passed": true
+    },
+    {
+      "detail": "dependency install only upgrades when no P100 torch policy is active",
+      "name": "runner_keeps_p100_torch_after_dependency_install",
+      "passed": true
+    },
+    {
+      "detail": "torch==2.2.2+cu118 is not compatible with Kaggle's NumPy 2 default",
+      "name": "runner_pins_numpy_for_p100_torch",
+      "passed": true
+    },
+    {
+      "detail": "P100 torch policy must be applied after the general dependency install",
+      "name": "runner_applies_p100_torch_policy_last",
+      "passed": true
     }
   ],
   "dataset_terms_contract": {

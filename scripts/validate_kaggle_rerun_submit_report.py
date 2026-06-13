@@ -11,6 +11,8 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-20260614.json"
 DEFAULT_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.json"
+DEFAULT_V3_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-v3-20260614.json"
+DEFAULT_V3_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v3-20260614.json"
 
 
 def display_path(path: Path) -> str:
@@ -27,7 +29,7 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def validate_report(path: Path = DEFAULT_REPORT) -> list[str]:
+def validate_report(path: Path = DEFAULT_REPORT, expected_kernel_version: int = 2) -> list[str]:
     failures: list[str] = []
     if not path.exists():
         return [f"missing {display_path(path)}"]
@@ -51,12 +53,16 @@ def validate_report(path: Path = DEFAULT_REPORT) -> list[str]:
         if submission.get("returncode") != 0:
             failures.append("Kaggle rerun submission must have returncode 0")
         stdout = str(submission.get("stdout", ""))
-        if "Kernel version 2 successfully pushed" not in stdout:
-            failures.append("Kaggle rerun submission must record kernel version 2")
+        if f"Kernel version {expected_kernel_version} successfully pushed" not in stdout:
+            failures.append(f"Kaggle rerun submission must record kernel version {expected_kernel_version}")
     boundary = str(data.get("claim_boundary", ""))
     if "No-limit benchmark claim only after Kaggle completes" not in boundary:
         failures.append("rerun report must preserve non-promotional claim boundary")
     return failures
+
+
+def validate_v3_report(path: Path = DEFAULT_V3_REPORT) -> list[str]:
+    return validate_report(path, expected_kernel_version=3)
 
 
 def validate_status_report(path: Path = DEFAULT_STATUS_REPORT) -> list[str]:
@@ -66,15 +72,42 @@ def validate_status_report(path: Path = DEFAULT_STATUS_REPORT) -> list[str]:
     data = load_json(path)
     if data.get("kernel_id") != "edithatogo/qwen3-v4-peft-lm-eval-selected-full":
         failures.append("status report must target the Qwen3 v4 PEFT Kaggle kernel")
-    if data.get("status") != "KernelWorkerStatus.RUNNING":
-        failures.append("status report must record the current Kaggle RUNNING state")
-    if data.get("downloaded_file_count") != 0:
-        failures.append("running status report must not claim downloaded artifacts")
+    if data.get("status") != "KernelWorkerStatus.COMPLETE":
+        failures.append("status report must record the current Kaggle COMPLETE state")
+    if data.get("downloaded_file_count") != 9:
+        failures.append("complete status report must record the recovered file count")
     if data.get("artifact_dir") != "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2":
         failures.append("status report must keep kernel-v2 artifacts on the SSD")
     boundary = str(data.get("claim_boundary", ""))
-    if "No benchmark claim" not in boundary or "complete artifacts" not in boundary:
+    if "No benchmark claim" not in boundary or "no lm-eval result files" not in boundary:
         failures.append("status report must preserve the non-promotional claim boundary")
+    failure_summary = str(data.get("failure_summary", ""))
+    for expected in ("status=blocked", "evaluation.returncode=1", "result_files=[]", "use_4bit=true"):
+        if expected not in failure_summary:
+            failures.append(f"status report failure summary must mention {expected}")
+    return failures
+
+
+def validate_v3_status_report(path: Path = DEFAULT_V3_STATUS_REPORT) -> list[str]:
+    failures: list[str] = []
+    if not path.exists():
+        return [f"missing {display_path(path)}"]
+    data = load_json(path)
+    if data.get("kernel_id") != "edithatogo/qwen3-v4-peft-lm-eval-selected-full":
+        failures.append("v3 status report must target the Qwen3 v4 PEFT Kaggle kernel")
+    if data.get("status") != "KernelWorkerStatus.COMPLETE":
+        failures.append("v3 status report must record the current Kaggle COMPLETE state")
+    if data.get("downloaded_file_count") != 9:
+        failures.append("v3 complete status report must record the recovered file count")
+    if data.get("artifact_dir") != "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3":
+        failures.append("v3 status report must keep kernel-v3 artifacts on the SSD")
+    boundary = str(data.get("claim_boundary", ""))
+    if "No benchmark claim" not in boundary or "no lm-eval result files" not in boundary:
+        failures.append("v3 status report must preserve the non-promotional claim boundary")
+    failure_summary = str(data.get("failure_summary", ""))
+    for expected in ("status=blocked", "evaluation.returncode=1", "result_files=[]", "use_4bit=false", "torch=2.2.2+cu118"):
+        if expected not in failure_summary:
+            failures.append(f"v3 status report failure summary must mention {expected}")
     return failures
 
 
@@ -85,6 +118,8 @@ def main() -> int:
 
     failures = validate_report(args.report)
     failures.extend(validate_status_report())
+    failures.extend(validate_v3_report())
+    failures.extend(validate_v3_status_report())
     if failures:
         print("not ready: Kaggle P100 rerun submit report")
         for failure in failures:

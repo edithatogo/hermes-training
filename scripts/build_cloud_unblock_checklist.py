@@ -13,7 +13,7 @@ DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
 DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
-DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.json")
+DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v3-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:
@@ -40,9 +40,10 @@ def derive_kaggle_status(
         return status
     contract_passed = contract_report is not None and contract_report.get("status") == "pass"
     ingest_ready = ingest_report is not None and ingest_report.get("status") in {"pass", "pending_artifacts"}
-    rerun_submitted = rerun_status_report is not None and str(rerun_status_report.get("status", "")).startswith(
-        "KernelWorkerStatus."
-    )
+    rerun_status = str(rerun_status_report.get("status", "")) if rerun_status_report else ""
+    rerun_submitted = rerun_status.startswith("KernelWorkerStatus.")
+    if contract_passed and ingest_ready and rerun_status == "KernelWorkerStatus.COMPLETE":
+        return "completed-failed-needs-kaggle-runner-fix"
     if contract_passed and ingest_ready and rerun_submitted:
         return "running-needs-artifact-recovery"
     if contract_passed and ingest_ready:
@@ -104,7 +105,7 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
         return {
             "backend": "kaggle",
             "status": status,
-            "blocker": "Kaggle kernel version 2 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
+            "blocker": "Kaggle kernel version 3 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
             "operator_actions": [
                 "Poll the Kaggle kernel status until it is complete.",
                 "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
@@ -112,8 +113,25 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
             ],
             "commands": [
                 "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
-                "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2",
+                "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3",
                 "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
+            ],
+        }
+    if status == "completed-failed-needs-kaggle-runner-fix":
+        return {
+            "backend": "kaggle",
+            "status": status,
+            "blocker": "Kaggle kernel version 3 completed without scores; the NumPy-pinned runner contract now passes, but any further rerun requires explicit approval or rerouting.",
+            "operator_actions": [
+                "Keep the recovered v2 and v3 failed summaries on the SSD as non-promotional evidence.",
+                "Use the passed staged runner contract as the baseline if another Kaggle rerun is explicitly approved.",
+                "Prefer a persistent backend such as Modal if cost/credit policy is cleared.",
+            ],
+            "commands": [
+                "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
+                "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2/qwen3-v4-peft-kaggle-lm-eval-20260613-233405-summary.json --no-allow-pending",
+                "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-summary.json --no-allow-pending",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
             ],
         }
     return {

@@ -12,6 +12,9 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 - Internet is required for public dependency/model downloads inside Kaggle.
 - No Kaggle kernel push without `--execute --confirm-kaggle-run` and explicit operator approval.
 - P100 compatibility policy: `p100-cu118`; 4-bit/bitsandbytes is disabled for this path.
+- The runner embeds `LM_EVAL_USE_4BIT=0` as its default because Kaggle did not expose the JSON sidecar beside the executed script in the live rerun.
+- The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.
+- The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.
 
 ## Checks
 
@@ -40,3 +43,7 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 | `runner_writes_kaggle_working_artifacts` | `pass` | runner writes summary and lm-eval outputs under Kaggle working directory |
 | `runner_records_claim_boundary` | `pass` | claim boundary is embedded in runner output |
 | `runner_installs_p100_compatible_torch` | `pass` | runner has a configurable P100-compatible PyTorch install policy |
+| `runner_defaults_no_4bit_without_sidecar_config` | `pass` | Kaggle may not expose the JSON sidecar next to the script; embedded default must be P100-safe |
+| `runner_keeps_p100_torch_after_dependency_install` | `pass` | dependency install only upgrades when no P100 torch policy is active |
+| `runner_pins_numpy_for_p100_torch` | `pass` | torch==2.2.2+cu118 is not compatible with Kaggle's NumPy 2 default |
+| `runner_applies_p100_torch_policy_last` | `pass` | P100 torch policy must be applied after the general dependency install |

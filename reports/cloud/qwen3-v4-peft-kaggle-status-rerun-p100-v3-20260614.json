@@ -1,0 +1,24 @@
+{
+  "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3",
+  "claim_boundary": "No benchmark claim: Kaggle kernel version 3 completed, but the recovered summary is blocked and has no lm-eval result files.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "status",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  ],
+  "download_command": [
+    "kaggle",
+    "kernels",
+    "output",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+    "--path",
+    "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3"
+  ],
+  "downloaded_file_count": 9,
+  "failure_summary": "Kernel version 3 completed without scores. The recovered summary has status=blocked, evaluation.returncode=1, result_files=[], use_4bit=false, and runtime torch=2.2.2+cu118. lm-eval failed after Torch warned about NumPy 2 incompatibility and transformers could not resolve Qwen3ForCausalLM.",
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "observed_at": "2026-06-14",
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
+}

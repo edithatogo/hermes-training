@@ -75,8 +75,9 @@ def run_command(command: list[str], timeout_s: int) -> dict[str, Any]:
 
 def dependency_packages(use_4bit: bool) -> list[str]:
     packages = [
+        "numpy<2",
         "lm_eval[hf]",
-        "transformers>=4.56,<5",
+        "transformers==5.3.0",
         "peft",
         "safetensors",
         "accelerate",
@@ -105,6 +106,13 @@ def torch_compatibility_install(policy: str) -> list[str] | None:
             "torchaudio==2.2.2",
         ]
     raise ValueError(f"unsupported torch compatibility policy: {policy}")
+
+
+def dependency_install_command(use_4bit: bool, torch_policy: str) -> list[str]:
+    command = [sys.executable, "-m", "pip", "install", "--quiet"]
+    if torch_policy in {"", "none", "None", "default"}:
+        command.append("--upgrade")
+    return [*command, *dependency_packages(use_4bit)]
 
 
 def runtime_details() -> dict[str, Any]:
@@ -152,18 +160,17 @@ def main() -> int:
     limit = optional_text(setting("limit", "LM_EVAL_LIMIT", None))
     batch_size = str(setting("batch_size", "LM_EVAL_BATCH_SIZE", "1"))
     dtype = str(setting("dtype", "LM_EVAL_DTYPE", "float16"))
-    use_4bit = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", "1"))
+    use_4bit = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", "0"))
     torch_policy = str(setting("torch_compatibility_policy", "KAGGLE_TORCH_COMPATIBILITY_POLICY", "p100-cu118"))
     timeout_s = int(setting("timeout_s", "LM_EVAL_TIMEOUT_S", "21600"))
     output_dir = Path(setting("output_dir", "LM_EVAL_OUTPUT_DIR", str(work_root / f"{run_id}-lm-eval-output")))
     result_json = Path(setting("result_json", "LM_EVAL_RESULT_JSON", str(work_root / f"{run_id}-summary.json")))
 
+    install = run_command(dependency_install_command(use_4bit, torch_policy), timeout_s=1200)
     torch_install_command = torch_compatibility_install(torch_policy)
+    # Kaggle's dependency solve can otherwise leave the final runtime on a
+    # non-P100 torch build. Apply the compatibility policy last.
     torch_install = run_command(torch_install_command, timeout_s=1200) if torch_install_command else None
-    install = run_command(
-        [sys.executable, "-m", "pip", "install", "--quiet", "--upgrade", *dependency_packages(use_4bit)],
-        timeout_s=1200,
-    )
     result: dict[str, Any] = {
         "status": "blocked",
         "probe": "kaggle-peft-lm-eval-selected",

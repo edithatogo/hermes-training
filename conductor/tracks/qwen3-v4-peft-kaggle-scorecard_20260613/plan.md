@@ -22,8 +22,16 @@
 - [x] Task: Record CPython 3.12 Linux wheel proof for the pinned
   `p100-cu118` torch policy.
 - [x] Task: Submit the P100-compatible rerun only after explicit approval.
-- [ ] Task: Recover SSD artifacts from Kaggle kernel version 2 and run the
+- [x] Task: Recover SSD artifacts from Kaggle kernel version 2 and run the
   no-pending ingest gate.
+- [x] Task: Validate the fixed P100-safe Kaggle runner contract before any
+  further explicit rerun approval.
+- [x] Task: Recover SSD artifacts from Kaggle kernel version 3 and run the
+  no-pending ingest gate.
+- [x] Task: Validate the NumPy-pinned P100 Kaggle runner contract before any
+  further explicit rerun approval.
+- [ ] Task: Obtain explicit approval before submitting any further
+  NumPy-pinned Kaggle rerun, or route the scorecard to a different backend.
 
 ## Health Check
 
@@ -58,8 +66,19 @@
   `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`, and keeps
   execution gated behind `--execute --confirm-kaggle-run`. The
   P100-compatible rerun was submitted as Kaggle kernel version 2; evidence is
-  tracked in `reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-20260614.json`,
-  and the latest status report
-  `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.md` records
-  the kernel as still running with zero recovered files.
+  tracked in `reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-20260614.json`.
+  The kernel completed, and artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2`,
+  but the no-pending ingest gate failed because lm-eval returned 1 with no
+  result files after the runner fell back to 4-bit and the runtime ended on
+  `torch=2.12.0+cu130`. The staged runner has since been hardened to default to
+  no 4-bit and apply the P100 torch policy after dependencies; the contract
+  validator now proves those guardrails. Kaggle kernel version 3 completed and
+  artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3`,
+  but the no-pending ingest gate failed because lm-eval returned 1 with no
+  result files after Torch warned about NumPy 2 and transformers could not
+  resolve `Qwen3ForCausalLM`. The staged runner now pins `numpy<2`, and the
+  contract validator proves the no-4-bit default, final P100 torch policy, and
+  NumPy pin. Do not submit another Kaggle rerun without explicit approval.
 - Decision: keep Kaggle blocked and non-promotional.

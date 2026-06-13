@@ -97,6 +97,38 @@ def validate_contract(staging_dir: Path, dry_run_path: Path, preflight_path: Pat
         "p100-cu118" in runner_text and "https://download.pytorch.org/whl/cu118" in runner_text,
         "runner has a configurable P100-compatible PyTorch install policy",
     )
+    add_check(
+        checks,
+        "runner_defaults_no_4bit_without_sidecar_config",
+        'LM_EVAL_USE_4BIT", "0"' in runner_text,
+        "Kaggle may not expose the JSON sidecar next to the script; embedded default must be P100-safe",
+    )
+    add_check(
+        checks,
+        "runner_keeps_p100_torch_after_dependency_install",
+        "dependency_install_command(use_4bit, torch_policy)" in runner_text and "command.append(\"--upgrade\")" in runner_text,
+        "dependency install only upgrades when no P100 torch policy is active",
+    )
+    add_check(
+        checks,
+        "runner_pins_numpy_for_p100_torch",
+        '"numpy<2"' in runner_text,
+        "torch==2.2.2+cu118 is not compatible with Kaggle's NumPy 2 default",
+    )
+    add_check(
+        checks,
+        "runner_pins_qwen3_transformers",
+        '"transformers==5.3.0"' in runner_text,
+        "local import probe confirmed transformers 5.3.0 exposes Qwen3ForCausalLM",
+    )
+    dependency_install_index = runner_text.find("install = run_command(dependency_install_command(use_4bit, torch_policy)")
+    torch_install_index = runner_text.find("torch_install = run_command(torch_install_command")
+    add_check(
+        checks,
+        "runner_applies_p100_torch_policy_last",
+        dependency_install_index != -1 and torch_install_index != -1 and dependency_install_index < torch_install_index,
+        "P100 torch policy must be applied after the general dependency install",
+    )
 
     passed = all(check["passed"] for check in checks)
     return {
@@ -134,6 +166,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- Internet is required for public dependency/model downloads inside Kaggle.",
         "- No Kaggle kernel push without `--execute --confirm-kaggle-run` and explicit operator approval.",
         "- P100 compatibility policy: `p100-cu118`; 4-bit/bitsandbytes is disabled for this path.",
+        "- The runner embeds `LM_EVAL_USE_4BIT=0` as its default because Kaggle did not expose the JSON sidecar beside the executed script in the live rerun.",
+        "- The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.",
+        "- The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.",
+        "- The runner pins `transformers==5.3.0`; a local import probe confirmed that version exposes `Qwen3ForCausalLM`.",
         "",
         "## Checks",
         "",
