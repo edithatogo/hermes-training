@@ -296,6 +296,12 @@ Complete:
   until raw strict outputs or an explicitly documented runtime-wrapper gate pass
   held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback,
   and publication evidence.
+- The Nanbeige constrained-envelope replay diagnostic is now tracked at
+  `reports/benchmark/constrained-envelope/nanbeige41-3b-constrained-envelope-diagnostic-20260614.md`.
+  It preserves the raw strict baseline as `0/3` and shows a deterministic
+  envelope can replay the same model outputs as `3/3` by selecting generated
+  Hermes tool calls and a safe generated refusal sentence. This is wrapper
+  design evidence only, not raw-model promotion.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
@@ -458,11 +464,11 @@ Current gaps:
 2. Use Colab first for sanitized bounded benchmark or smoke jobs via `scripts/colab_dispatch.py`; only attempt Azure after `az login`, `scripts/azure_preflight.py --check-quota`, and explicit cost approval pass.
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
-5. The local prompt-only repair queue is exhausted. Next local work should use
-   `reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md`
-   to implement a non-promotional constrained-envelope/runtime-wrapper
-   diagnostic, starting with Nanbeige 4.1 3B because its exact Hermes calls
-   failed only on extra text. Keep
+5. The local prompt-only repair queue is exhausted, and the first Nanbeige
+   constrained-envelope replay diagnostic is complete. Next local work should
+   turn that replay into a real runtime-wrapper proof on held-out cases before
+   any default Hermes routing change. Keep
+   `reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md`,
    `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`,
    `reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.md`,
    and `reports/benchmark/coverage/prompt-profile-repair-ledger-20260614.md`

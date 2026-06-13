@@ -139,7 +139,7 @@ def diagnostic_command(candidate: str, runner: str) -> str:
     )
 
 
-def build_plan(results_path: Path = DEFAULT_RESULTS) -> dict[str, Any]:
+def build_plan(results_path: Path = DEFAULT_RESULTS, created_at: str | None = None) -> dict[str, Any]:
     results_data = load_json(results_path)
     result_rows = results_data.get("results", [])
     if not isinstance(result_rows, list) or not result_rows:
@@ -224,7 +224,7 @@ def build_plan(results_path: Path = DEFAULT_RESULTS) -> dict[str, Any]:
     )
     return {
         "run_id": "constrained-envelope-repair-plan-20260614",
-        "created_at": datetime.now(UTC).replace(microsecond=0).isoformat(),
+        "created_at": created_at or datetime.now(UTC).replace(microsecond=0).isoformat(),
         "source_results": str(results_path.relative_to(ROOT) if results_path.is_relative_to(ROOT) else results_path),
         "purpose": (
             "Rank completed prompt/profile repair failures for the next constrained-envelope "
@@ -289,9 +289,10 @@ def main() -> int:
     parser.add_argument("--results-json", type=Path, default=DEFAULT_RESULTS)
     parser.add_argument("--output-json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--output-md", type=Path, default=DEFAULT_MD)
+    parser.add_argument("--created-at")
     args = parser.parse_args()
 
-    plan = build_plan(args.results_json)
+    plan = build_plan(args.results_json, created_at=args.created_at)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     args.output_json.write_text(json.dumps(plan, indent=2) + "\n", encoding="utf-8")
     args.output_md.write_text(render_markdown(plan), encoding="utf-8")

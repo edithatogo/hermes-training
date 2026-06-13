@@ -861,6 +861,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Nanbeige 4.1 3B Constrained Envelope Diagnostic
+*Link: [./tracks/nanbeige41-3b-constrained-envelope-diagnostic_20260614/](./tracks/nanbeige41-3b-constrained-envelope-diagnostic_20260614/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Azure scorecard
 *Link: [./tracks/qwen3-v4-peft-azure-scorecard_20260613/](./tracks/qwen3-v4-peft-azure-scorecard_20260613/)*
 
