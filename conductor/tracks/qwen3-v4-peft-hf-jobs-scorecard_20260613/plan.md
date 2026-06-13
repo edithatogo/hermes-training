@@ -12,6 +12,8 @@
 - [x] Task: Record hardware/cost options and candidate command.
 - [x] Task: Add a self-contained UV or Docker job payload that embeds the
   harness script and persists outputs to Hub storage.
+- [x] Task: Add a guarded submitter that dry-runs by default and requires
+  explicit paid-compute confirmation before invoking `hf jobs run`.
 
 ## Phase 3 - Execute
 
@@ -26,7 +28,8 @@
 - Current estimate: 9.5 / 10 as a prepared-but-blocked backend track.
 - Evidence: HF CLI is authenticated as `edithatogo`; HF Jobs hardware is
   available; PEFT adapter is now publicly mounted from the Hub; a Docker job
-  payload can upload results to a Hub dataset.
+  payload can upload results to a Hub dataset; the guarded submitter generated
+  `reports/cloud/qwen3-v4-peft-hf-jobs-submit-dry-run-20260613.json`.
 - Gaps: live HF Jobs submission returned `402 Payment Required` because the
   prepaid credit balance is insufficient; no job ID was created and artifact
   persistence has not yet been live-tested.

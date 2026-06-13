@@ -25,6 +25,22 @@ reports/benchmark/manifests/qwen3-v4-peft-hf-jobs-lm-eval-selected-full-config-2
 
 The config expects the adapter repo mounted read-only at `/adapter`.
 
+Guarded submitter:
+
+```text
+scripts/submit_hf_jobs_peft_scorecard.py
+```
+
+Dry-run submission artifact:
+
+```text
+reports/cloud/qwen3-v4-peft-hf-jobs-submit-dry-run-20260613.json
+```
+
+The submitter prints the exact `hf jobs run` command by default. It will not
+submit paid compute unless both `--execute` and `--confirm-paid-compute` are
+provided.
+
 Results repo:
 
 ```text
