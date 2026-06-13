@@ -1,9 +1,19 @@
 # Runtime and training format ladder for Hermes Training Hub.
 # GGUF is a portability/runtime lane, not the canonical training format.
 
-updated: "2026-05-24"
+updated: "2026-06-13"
 storage_root: "/Volumes/PortableSSD"
 policy: "Train in native/adaptation formats, prove runtime through the best available endpoint, export to GGUF only when desktop/Ollama/llama.cpp compatibility is the target."
+current_local_hermes_adapter:
+  model: "Qwen/Qwen3-4B-MLX-4bit"
+  adapter_path: "gemma4/experiments/qwen3-4b-strict-toolcall-v6-free-text-copy/lora_adapter_iter125"
+  prompt_profile:
+    user_prefix: "/no_think"
+    assistant_prefill: "<think>\n\n</think>\n\n"
+  evidence:
+    heldout_strict: "/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v6-free-text-copy-iter125-heldout-prefill-20260613"
+    mirrored_strict: "/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/qwen3-4b-strict-toolcall-v6-free-text-copy-iter125-mirrored-prefill-20260613"
+  caveat: "Local strict Hermes tool-call candidate; publication bundle refresh is still required before external release."
 
 lanes:
   - id: mlx-native

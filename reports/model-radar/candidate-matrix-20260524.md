@@ -6,6 +6,7 @@ This matrix turns the current model radar into execution decisions. It is not a 
 
 | Candidate | Lane | First Runtime | Decision State | Next Action | Publication State |
 |---|---|---|---|---|---|
+| `Qwen/Qwen3-4B-MLX-4bit` v6 free-text-copy LoRA iter125 | Mac-local fine-tune | MLX local generation/server | current local strict Hermes tool-call adapter candidate | Use `gemma4/experiments/qwen3-4b-strict-toolcall-v6-free-text-copy/lora_adapter_iter125`; package only after publication bundle refresh | local candidate, publication refresh pending |
 | `Qwen/Qwen3-4B-MLX-4bit` v4 targeted LoRA | Mac-local fine-tune | MLX local generation/server | publishable narrow adapter candidate | Keep v4 as current strict Hermes tool-call adapter; broader claims need official benchmarks | public adapter approved, dataset separate |
 | `LiquidAI/LFM2.5-8B-A1B` | Mac-local runtime/teacher | llama.cpp GGUF | runtime-proof only | Runtime load and bounded generation passed from SSD-backed Q4_K_M GGUF, but JSON compliance failed; keep as LFM runtime baseline only | runtime-only |
 | `LiquidAI/LFM2.5-1.2B-Instruct` | Mac-local fine-tune | MLX / llama.cpp | runtime/load proof only | MLX server smoke passed, but direct eval quality remains non-compliant; use safer recipe only after candidate selection | blocked |
@@ -49,12 +50,16 @@ This matrix turns the current model radar into execution decisions. It is not a 
 
 ## Current Recommendation
 
-Do not keep scaling Qwen3 4B micro-tuning blindly. V4 is the current narrow
-strict-tool-call winner; V5 showed that pilot polish can regress held-out
-behavior. Run runtime and benchmark selection across better bases before broader
-claims:
+Do not keep scaling Qwen3 4B micro-tuning blindly. As of the 2026-06-13 v6
+checkpoint comparison, v6 iter125 is the current local strict-tool-call winner:
+it passes held-out and mirrored strict suites at `1.000`. V4 remains the last
+publication-bundled adapter until the v6 bundle is refreshed, and V5/final170
+show that pilot polish or extra training can regress held-out behavior. Run
+runtime and benchmark selection across better bases before broader claims:
 
-1. Keep Qwen3 v4 as the public/recommended local strict Hermes tool-call adapter.
+1. Use Qwen3 v6 iter125 as the local Hermes strict tool-call adapter candidate;
+   keep Qwen3 v4 as the previous publication-bundled adapter until v6 packaging
+   is complete.
 2. Next local runtime proofs should prioritize Gemma 4 12B/26B QAT and Hermes 4.3 only after deciding the SSD/time cost is justified; LFM2.5-8B, Gemma E2B/E4B, MiniCPM5, and BitNet now have runtime-only evidence.
 3. Use Gemma 4 26B A4B/31B QAT, Hermes 4 14B, Qwen3.6 35B-A3B, and LFM2 24B-A2B as larger comparison baselines, not publication candidates.
 4. Use BGE-M3 as the retrieval baseline while LFM2-ColBERT and Qwen retrieval candidates are triaged.
