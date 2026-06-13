@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-06-14T04:45:00Z",
+  "policy": "p100-cu118",
+  "python_abi": "cp312-cp312",
+  "platform": "linux_x86_64",
+  "index_url": "https://download.pytorch.org/whl/cu118",
+  "wheels": [
+    {
+      "package": "torch",
+      "version": "2.2.2+cu118",
+      "wheel": "torch-2.2.2+cu118-cp312-cp312-linux_x86_64.whl",
+      "present": true
+    },
+    {
+      "package": "torchvision",
+      "version": "0.17.2+cu118",
+      "wheel": "torchvision-0.17.2+cu118-cp312-cp312-linux_x86_64.whl",
+      "present": true
+    },
+    {
+      "package": "torchaudio",
+      "version": "2.2.2+cu118",
+      "wheel": "torchaudio-2.2.2+cu118-cp312-cp312-linux_x86_64.whl",
+      "present": true
+    }
+  ],
+  "bulk_download_attempt": {
+    "status": "cancelled_after_partial_download",
+    "downloaded_mb": 289.1,
+    "reason": "Index proof was sufficient and full wheel download was slow."
+  },
+  "claim_boundary": "This proves the pinned CPython 3.12 Linux CUDA 11.8 wheels exist. It does not prove Kaggle runtime scoring or P100 execution until a rerun completes."
+}

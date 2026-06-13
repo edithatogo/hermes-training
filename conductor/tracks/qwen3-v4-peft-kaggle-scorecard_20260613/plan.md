@@ -19,6 +19,8 @@
 - [x] Task: Download result artifacts and update benchmark coverage if complete.
 - [x] Task: Prepare a rerun path that avoids Kaggle P100/PyTorch `sm_60`
   incompatibility, or route the scorecard to Modal/Azure instead.
+- [x] Task: Record CPython 3.12 Linux wheel proof for the pinned
+  `p100-cu118` torch policy.
 - [ ] Task: Submit the P100-compatible rerun only after explicit approval, then
   recover SSD artifacts and run the no-pending ingest gate.
 
@@ -51,5 +53,7 @@
   compatible PyTorch/CUDA stack, use CPU fallback if acceptable, or route the
   scorecard to another persistent backend. The staged rerun path now pins a
   `p100-cu118` PyTorch policy, disables 4-bit/bitsandbytes for the P100 path,
-  and keeps execution gated behind `--execute --confirm-kaggle-run`.
+  records wheel availability in
+  `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`, and keeps
+  execution gated behind `--execute --confirm-kaggle-run`.
 - Decision: keep Kaggle blocked and non-promotional.
