@@ -303,7 +303,9 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_ngc_cloud_function_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",
+        ROOT / "scripts/select_scorecard_backend.py",
         ROOT / "scripts/validate_cloud_blocker_reports.py",
+        ROOT / "scripts/validate_scorecard_backend_selection.py",
         ROOT / "scripts/validate_kaggle_kernel_contract.py",
         ROOT / "scripts/validate_kaggle_result_ingest.py",
         ROOT / "scripts/validate_free_container_account_probe.py",
@@ -535,6 +537,21 @@ def check_cloud_blocker_reports(failures: list[str]) -> None:
         fail(f"cloud blocker reports: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("cloud blocker reports")
+
+
+def check_scorecard_backend_selection(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_scorecard_backend_selection.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"scorecard backend selection: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("scorecard backend selection")
 
 
 def check_kaggle_kernel_contract(failures: list[str]) -> None:
@@ -842,6 +859,7 @@ def main() -> int:
     check_mem0_candidate_queue(failures)
     check_specialist_runtime_preflight_report(failures)
     check_cloud_blocker_reports(failures)
+    check_scorecard_backend_selection(failures)
     check_kaggle_kernel_contract(failures)
     check_kaggle_result_ingest(failures)
     check_free_container_account_probe(failures)

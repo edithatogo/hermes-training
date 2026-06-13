@@ -876,6 +876,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Qwen3 v4 PEFT Scorecard Backend Selection
+*Link: [./tracks/qwen3-v4-peft-scorecard-backend-selection_20260614/](./tracks/qwen3-v4-peft-scorecard-backend-selection_20260614/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Azure scorecard
 *Link: [./tracks/qwen3-v4-peft-azure-scorecard_20260613/](./tracks/qwen3-v4-peft-azure-scorecard_20260613/)*
 

@@ -1,0 +1,144 @@
+{
+  "decision": "Use the selected backend only after the listed operator gates pass. Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain.",
+  "execute": false,
+  "promotion_allowed": false,
+  "ranked_backends": [
+    {
+      "backend": "kaggle",
+      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
+      "commands": [
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
+      ],
+      "operator_actions": [
+        "Confirm the no-limit Kaggle run is approved before pushing the public kernel.",
+        "Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.",
+        "Run the result ingest validator with `--no-allow-pending` before any benchmark claim."
+      ],
+      "score": 105,
+      "status": "prepared-needs-run-approval"
+    },
+    {
+      "backend": "modal",
+      "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.",
+      "commands": [
+        "modal profile list",
+        "modal billing",
+        "./.venv/bin/python scripts/submit_modal_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_modal_peft_scorecard.py --execute --confirm-modal-run --confirm-zero-cost-compute"
+      ],
+      "operator_actions": [
+        "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
+        "Record non-secret GPU policy evidence for the intended workspace.",
+        "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven."
+      ],
+      "score": 75,
+      "status": "prepared-needs-credit-and-gpu-policy-check"
+    },
+    {
+      "backend": "hf_jobs",
+      "blocker": "HF Jobs rejected the live route probe with insufficient prepaid credits.",
+      "commands": [
+        "hf jobs ps",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute"
+      ],
+      "operator_actions": [
+        "Add Hugging Face prepaid credits or grant capacity.",
+        "Keep paid GPU submission explicitly confirmation-gated.",
+        "Submit the prepared scorecard only after credits are visible."
+      ],
+      "score": 25,
+      "status": "blocked-insufficient-hf-credits"
+    },
+    {
+      "backend": "azure",
+      "blocker": "Azure CLI is installed but not currently logged in.",
+      "commands": [
+        "az login --use-device-code",
+        "az account set --subscription \"Azure for Students\"",
+        "./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast",
+        "./.venv/bin/python scripts/azure_status.py",
+        "./.venv/bin/python scripts/submit_azure_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run"
+      ],
+      "operator_actions": [
+        "Run device-code login for the intended account.",
+        "Select `Azure for Students` if available.",
+        "Rerun quota checks before any workspace, compute, or job action."
+      ],
+      "score": 5,
+      "status": "blocked"
+    },
+    {
+      "backend": "colab",
+      "blocker": "No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159.",
+      "commands": [
+        "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
+        "./.venv/bin/python scripts/cloud_backend_preflight.py",
+        "# bounded GPU/TPU adaptive smoke, no scorecard claim:",
+        "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py",
+        "# after permission is fixed:",
+        "./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4"
+      ],
+      "operator_actions": [
+        "Confirm `colab sessions` is empty or intentionally owned.",
+        "Use the GPU ladder for PEFT lm-eval scorecards; do not route those scorecards to TPU.",
+        "Use `--allow-tpu` only for TPU-compatible adaptive scripts such as `scripts/colab_adaptive_train_smoke.py`.",
+        "Fix Google Cloud service usage permission (`serviceusage.services.use`) for project 1014160490159 before another no-limit shard retry.",
+        "If that permission cannot be fixed, prefer a persistent backend instead of repeated Colab retries."
+      ],
+      "score": 5,
+      "status": "ready"
+    },
+    {
+      "backend": "lightning",
+      "blocker": "Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.",
+      "commands": [
+        "lightning login",
+        "lightning studio list",
+        "lightning machine list",
+        "lightning job list",
+        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute"
+      ],
+      "operator_actions": [
+        "Run Lightning login for the intended account.",
+        "Select or configure the Teamspace owner.",
+        "Confirm free monthly credits/GPU hours and a T4/L4 machine before adding a submitter."
+      ],
+      "score": 5,
+      "status": "blocked-needs-teamspace-owner"
+    },
+    {
+      "backend": "ngc",
+      "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",
+      "commands": [
+        "ngc sso login",
+        "ngc config current",
+        "ngc cloud-function gpu quota",
+        "ngc cloud-function task create --help",
+        "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py",
+        "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run"
+      ],
+      "operator_actions": [
+        "Authenticate with SSO or supplied API key without committing secrets.",
+        "Record non-secret org/team and Cloud Function GPU quota evidence.",
+        "Build or select an NGC registry benchmark container before any task submission."
+      ],
+      "score": 5,
+      "status": "blocked"
+    }
+  ],
+  "required_before_execution": [
+    "artifact recovery plan",
+    "cost or zero-cost policy confirmation",
+    "explicit run approval"
+  ],
+  "selected_backend": "kaggle",
+  "selected_score": 105,
+  "selected_status": "prepared-needs-run-approval",
+  "source_checklist": "reports/cloud/backend-preflight-20260613.json",
+  "status": "blocked-pending-operator-gates"
+}
