@@ -75,6 +75,8 @@ and missing official candidate suites.
 - `reports/benchmark/manifests/coding-pilot-command-20260524.md`
 - `reports/benchmark/manifests/lm-eval-smoke-command-20260524.md`
 - `reports/benchmark/manifests/lm-eval-candidate-command-20260524.md`
+- `reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.md`
+- `reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.yaml`
 - `reports/benchmark/manifests/retrieval-smoke-command-20260524.md`
 - `reports/benchmark/manifests/mem0-benchmark-manifest-20260524.md`
 

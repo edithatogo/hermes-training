@@ -98,6 +98,21 @@ lm-eval run \
 
 Use limited samples only for engineering tests. Do not publish limited-sample numbers as benchmark scores.
 
+For the current Qwen3 v4 Hermes adapter, the next selected-task `lm-eval` action
+is no longer an open-ended sample increase. Use the validator-enforced full
+scorecard plan instead:
+
+```text
+reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.yaml
+reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.md
+```
+
+That plan runs ARC Challenge, HellaSwag, TruthfulQA MC2, GSM8K, and Winogrande
+through `scripts/run_mlx_lm_eval.py` with no `--limit`, writes raw outputs to
+`/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/`, and keeps
+public benchmark claims blocked until the run is scored and the standard
+coverage report is regenerated.
+
 ## Tool-Calling Benchmark
 
 The Hermes benchmark must include both local tool-call tests and BFCL-style standardized tests.

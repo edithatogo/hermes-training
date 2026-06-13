@@ -220,6 +220,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Qwen3 v4 full selected-task scorecard plan
+*Link: [./tracks/qwen3-v4-full-scorecard-plan_20260613/](./tracks/qwen3-v4-full-scorecard-plan_20260613/)*
+
+---
+
 ## [x] Track: TTS support follow-up
 *Link: [./tracks/tts-support-follow-up_20260612/](./tracks/tts-support-follow-up_20260612/)*
 

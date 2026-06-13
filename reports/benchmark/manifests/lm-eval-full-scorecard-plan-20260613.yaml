@@ -1,0 +1,45 @@
+run_id: qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613
+suite: lm-eval-selected
+status: planned
+candidate: qwen3-4b-strict-toolcall-v4-targeted
+publish_boundary: internal-candidate
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter: gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter
+tasks:
+  - arc_challenge
+  - hellaswag
+  - truthfulqa_mc2
+  - gsm8k
+  - winogrande
+limit: null
+batch_size: "1"
+max_length: 4096
+artifact_root: /Volumes/PortableSSD/hermes-evals/standard-benchmarks
+output_dir: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613
+report: reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md
+command: |
+  source scripts/env.sh
+  RUN_ID=qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613
+  OUT=/Volumes/PortableSSD/hermes-evals/standard-benchmarks/lm-eval/$RUN_ID
+  mkdir -p "$OUT"
+  /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python scripts/run_mlx_lm_eval.py \
+    --run-id qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613 \
+    --model Qwen/Qwen3-4B-MLX-4bit \
+    --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter \
+    --tasks arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande \
+    --batch-size 1 \
+    --max-length 4096 \
+    --output-dir "$OUT"
+completion_criteria:
+  - summary.json status is scored
+  - results.json contains every selected task
+  - report includes metrics for ARC Challenge, HellaSwag, TruthfulQA MC2, GSM8K, and Winogrande
+  - coverage report no longer marks lm-eval-selected missing
+blocked_public_claims_until_complete:
+  - full selected-task lm-eval scorecard
+  - broad general benchmark improvement
+  - leaderboard-style comparison
+storage_policy:
+  large_outputs: /Volumes/PortableSSD only
+  repo_outputs: lightweight report, manifest, and coverage JSON/Markdown only
+  no_publication_without_review: true

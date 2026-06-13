@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-full-scorecard-plan_20260613",
+  "type": "chore",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Make the Qwen3 v4 full selected-task lm-eval scorecard execution path explicit, SSD-backed, and validator-enforced without launching the long benchmark."
+}

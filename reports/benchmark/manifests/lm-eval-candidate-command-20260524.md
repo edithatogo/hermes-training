@@ -40,7 +40,9 @@ Current Qwen3 v4 status: endpoint-based `lm_eval` remains blocked with
 `mlx_lm.server` because the selected tasks require prompt loglikelihood and the
 server does not return legacy echoed `token_logprobs`. The direct MLX adapter
 has scored a `--limit 10` selected-task smoke, but the full candidate run is
-still missing. See
+still missing. The current full-scorecard execution plan is tracked in
+`reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.yaml` and
+`reports/benchmark/manifests/lm-eval-full-scorecard-plan-20260613.md`. See
 `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`
 and
 `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md`.
