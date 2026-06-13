@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T06:32:00+00:00`
+Created: `2026-06-13T06:48:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -166,6 +166,7 @@ source scripts/env.sh
 ./.venv/bin/python scripts/run_local_pilot_benchmark.py \
   --model nex-agi/Nex-N2-mini \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
+  --require-no-extra-tool-text \
   --run-id nex-agi-nex-n2-mini-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)
 ```
 

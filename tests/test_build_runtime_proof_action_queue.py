@@ -85,6 +85,23 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("smallest compatible GGUF", command)
         self.assertIn("--require-no-extra-tool-text", command)
 
+    def test_mlx_runtime_proof_uses_strict_local_scoring(self) -> None:
+        item = candidate(id="deepsweet/Qwen3.6-35B-A3B-MLX-oQ4", environment="mac-mlx")
+
+        command = next_command(item, "mac-runtime-proof")
+
+        self.assertIn("scripts/run_local_pilot_benchmark.py", command)
+        self.assertIn("--require-no-extra-tool-text", command)
+
+    def test_prompt_profile_repair_uses_strict_local_scoring(self) -> None:
+        item = candidate(id="mlx-community/gemma-4-E4B-it-qat-4bit", environment="mac-mlx")
+
+        command = next_command(item, "prompt-profile-repair")
+
+        self.assertIn("scripts/run_local_pilot_benchmark.py", command)
+        self.assertIn("strict-profile-repair", command)
+        self.assertIn("--require-no-extra-tool-text", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T06:32:00+00:00",
+  "created_at": "2026-06-13T06:48:00+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -106,7 +106,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX community conversion or Transformers smoke",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nex-agi/Nex-N2-mini \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nex-agi-nex-n2-mini-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nex-agi/Nex-N2-mini \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nex-agi-nex-n2-mini-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "New agentic small model with published MLX conversion paths such as `mlx-community/Nex-N2-mini-nvfp4` and `mlx-community/Nex-N2-mini-8bit`. It is a plausible Mac or Colab runtime candidate, but it still needs explicit proof before promotion."
     },
     {
@@ -346,7 +346,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX server smoke with Hermes Agent/OpenAI-compatible endpoint",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model unsloth/Qwen3.6-27B-UD-MLX-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id unsloth-qwen3-6-27b-ud-mlx-4bit-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model unsloth/Qwen3.6-27B-UD-MLX-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-qwen3-6-27b-ud-mlx-4bit-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Model card includes MLX and Hermes Agent setup examples. Size is tight for a 32GB Mac; runtime proof only before any benchmark claims."
     },
     {
@@ -406,7 +406,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX server smoke after explicit download approval",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model deepsweet/Qwen3.6-35B-A3B-MLX-oQ4 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id deepsweet-qwen3-6-35b-a3b-mlx-oq4-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model deepsweet/Qwen3.6-35B-A3B-MLX-oQ4 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id deepsweet-qwen3-6-35b-a3b-mlx-oq4-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Verified by Hugging Face API on 2026-05-24. Candidate Mac runtime artifact for Qwen3.6 MoE."
     },
     {
@@ -511,7 +511,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "MLX or GGUF smoke before promotion",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-0.8B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-0-8b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-0.8B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-5-0-8b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Hermes shortlist helper lane for prompt-format and extraction experiments. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 1.037s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 1.47s average latency, 78.09 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response returned no assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md`."
     },
     {
@@ -526,7 +526,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "MLX or GGUF smoke before promotion",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-5-2b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-5-2b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Hermes shortlist helper/extractor lane. 2026-06-12 SSD-backed acquisition and one-case direct MLX loglikelihood smoke passed with greedy match 1.000 and score latency 0.769s. Raw 3-case BFCL-style pilot scored 0.000 due to non-strict tool-call formatting. The 100-prompt Hermes-local pass also completed at 2.32s average latency, 78.57 average words, and 0.000 empty rate. A fresh strict MLX server smoke loaded the model and exposed /v1/models, but the chat response did not complete with assistant content under the strict JSON prompt. 2026-06-12 direct MLX lm-eval smoke now also records official-pilot scores on ARC Challenge and HellaSwag at limit 10, so this lane has bounded official benchmark evidence even though it stays blocked for strict Hermes tool-call promotion. 2026-06-13 offline SSD-cached strict BFCL pilot also scored 0.000 and is recorded at `reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md`."
     },
     {
@@ -541,7 +541,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp QAT GGUF runtime proof and strict endpoint pilot are complete; model-specific prompt/profile repair remains required",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model google/gemma-4-E2B-it-qat-q4_0-gguf \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id google-gemma-4-e2b-it-qat-q4-0-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model google/gemma-4-E2B-it-qat-q4_0-gguf \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-e2b-it-qat-q4-0-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official Google QAT q4_0 GGUF package was verified by Hugging Face API on 2026-06-12 in `reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md` and the text GGUF was acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion smoke in `reports/runtime/gemma4-e2b-q4-llamacpp-smoke-20260612.md` exited 0 with about 3.53 GB max RSS, but output was end-of-text only and llama.cpp warned about Gemma tool-response/EOG token handling. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/gemma4-e2b-q4-llamacpp-strict-bfcl-pilot-20260613.md` scored `1/3` (`0.333`): invalid-tool refusal passed, but both real tool-call cases failed due to non-Hermes tool-call schemas. Treat as runtime/adapter-repair evidence only; do not promote."
     },
     {
@@ -556,7 +556,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh tiny Hermes-Qwen3.5 pack. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 114-119 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted JSON-ish tool objects wrapped in non-parseable marker text, returned an empty response for the parallel case, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-08b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Keep as a low-cost format-repair comparison lane only; do not promote as a Hermes tool-call default."
     },
     {
@@ -586,7 +586,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF packaging lane for MiniCPM5-1B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 193-204 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted tool-shaped text rather than parseable tool calls and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Use as a tiny local-runtime comparison point only; do not promote as a Hermes tool-call default."
     },
     {
@@ -601,7 +601,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "MLX direct loglikelihood smoke",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id openbmb-minicpm5-1b-mlx-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-mlx-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Hermes shortlist helper/extraction lane and mem0-adjacent support candidate. SSD-backed one-case MLX loglikelihood smoke passed on 2026-06-12 with greedy match 1.000 and 592M cache footprint. A 3-case BFCL-style local pilot scored 0.000 because outputs reasoned about tools but did not emit strict Hermes tool-call JSON. The 100-prompt Hermes-local pass also completed at 0.54s average latency, 74.30 average words, and 0.060 empty rate. 2026-06-13 offline SSD-cached strict BFCL rerun also scored 0.000 and is recorded at `reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md`. Keep as a tiny helper candidate; the lane is codified in `RUNTIME_PROMPT_PROFILES.yaml` as `tiny-helper-no-prefill` and it is not promoted as a tool-call default."
     },
     {
@@ -616,7 +616,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Mungert/Nanbeige4.1-3B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mungert-nanbeige4-1-3b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Mungert/Nanbeige4.1-3B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mungert-nanbeige4-1-3b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF packaging for Nanbeige4.1-3B. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 71-72 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): all three cases returned empty assistant content. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as a fast local runtime comparison point only; not promoted."
     },
     {
@@ -631,7 +631,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "Transformers strict local pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Nanbeige/Nanbeige4.1-3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nanbeige-nanbeige4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Nanbeige/Nanbeige4.1-3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nanbeige-nanbeige4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Small open-source model surfaced in the current tiny-model leaderboard. SSD-backed Transformers MPS/FP16 pilot completed on 2026-06-13 using `scripts/run_transformers_pilot_benchmark.py`, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple lookup produced the exact expected tool call but included `<think>` reasoning text, the parallel case produced reasoning only, and the invalid-tool case refused but mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nanbeige41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md`. Plausible prompt/profile repair candidate; not promoted."
     },
     {
@@ -646,7 +646,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX server",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3-4B-MLX-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-4b-mlx-4bit-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3-4B-MLX-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-4b-mlx-4bit-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Primary Hermes adapter target and current first local training lane. 2026-06-12 MLX server smoke against the strict /no_think JSON prompt passed again with 2922ms chat latency. Keep this as the main fine-tune candidate until a better local proof exists."
     },
     {
@@ -661,7 +661,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "SSD-backed MLX and Transformers MPS pilots complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ibm-granite/granite-4.1-3b \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id ibm-granite-granite-4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ibm-granite/granite-4.1-3b \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id ibm-granite-granite-4-1-3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Useful 3B instruction/tool-use candidate with current Granite 4.1 packaging and an active Apache license. SSD-backed MLX direct loglikelihood smoke passed on 2026-06-12; the raw strict BFCL-style pilot scored 0.000/0.333 depending on gate, and the opt-in Granite native score-only normalizer raised the strict pilot to 0.667 without changing raw outputs. The 2026-06-13 generic Transformers MPS FP16 strict BFCL pilot scored 1/3 (`0.333`): invalid-tool refusal passed, but real tool calls used non-Hermes schemas/wrappers; see `reports/benchmark/local-pilots/granite41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md`. Keep it as a helper/extraction comparison lane, not a strict Hermes default."
     },
     {
@@ -676,7 +676,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-4B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-4B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-4b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Smaller Hermes-Qwen3.5 pack. SSD-backed Q8_0 llama.cpp endpoint pilot completed on 2026-06-13 at about 45-46 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it nearly emitted the simple lookup payload but left stray marker text, over-generated unrelated tools in the parallel case, and called the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-4b-sft-v7-q8-llamacpp-strict-bfcl-pilot-20260613.md`. Prefer the 2B Hermes-Qwen3.5 lane over this 4B Q8 lane for prompt/profile repair; not promoted."
     },
     {
@@ -691,7 +691,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "MLX strict local pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Apple-silicon-friendly 4-bit MLX packaging. SSD-backed MLX strict BFCL-style pilot completed on 2026-06-13 and scored 0/3 (`0.000`): outputs leaked reasoning, repeated `<|im_end|>`, used non-Hermes tool-call wrappers, and mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md`. Use only as a Mac-local runtime comparison point against the GGUF proof; do not promote."
     },
     {
@@ -706,7 +706,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "direct MLX loglikelihood smoke is complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/gemma-4-E4B-it-qat-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mlx-community-gemma-4-e4b-it-qat-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/gemma-4-E4B-it-qat-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mlx-community-gemma-4-e4b-it-qat-4bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "MLX package was acquired to `/Volumes/PortableSSD/huggingface/hub` on 2026-06-12 with a 6.4G cache footprint. Direct MLX loglikelihood smoke loaded and scored, but greedy match was 0.000 on the one-case smoke. The 3-case BFCL-style local pilot scored 0.000 because outputs used Gemma thought/tool fragments instead of strict Hermes JSON, and the invalid-tool response included the forbidden tool name. A score-only Gemma-native normalizer rescued 1/3 cases, and a prompt profile reached 1/3 under permissive parsed-tool scoring, but no-extra-text Hermes strict scoring remained 0/3. Treat this as runtime-adapter analysis evidence only, not promotion evidence."
     },
     {
@@ -721,7 +721,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict local pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id nvidia-nvidia-nemotron-3-nano-4b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nvidia-nvidia-nemotron-3-nano-4b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF packaging for the 4B Nemotron base. `NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf` was acquired to the SSD Hugging Face cache and served through llama.cpp on 2026-06-13. Strict BFCL-style Hermes endpoint pilot scored 0/3 (`0.000`): simple lookup emitted tool-shaped content plus fabricated customer text in an unparsable wrapper, parallel calls used a DSML-style schema not parsed by Hermes, and invalid-tool refusal mentioned the forbidden delete tool. Evidence is recorded at `reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Treat as runtime/adapter-repair evidence only; do not promote."
     },
     {
@@ -736,7 +736,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama-completion Q4_K_M runtime proof is complete; LM Studio endpoint smoke remains optional",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model LiquidAI/LFM2.5-8B-A1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id liquidai-lfm2-5-8b-a1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model LiquidAI/LFM2.5-8B-A1B-GGUF \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id liquidai-lfm2-5-8b-a1b-gguf-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official GGUF repo and Q4_K_M file were verified by Hugging Face API on 2026-06-12 and acquired to `/Volumes/PortableSSD/huggingface/hub`. Bounded llama-completion runtime smoke passed with exit code 0, load time 707.68 ms, generation 109.59 tok/s, and about 5.29 GB max RSS, but the output was not JSON-compliant. The strict BFCL-style endpoint pilot in `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` scored `0/3` (`0.000`): it refused/omitted valid tool calls and repeated the unavailable delete tool name in the invalid-tool case. Treat as a runtime baseline only; do not promote without prompt/profile repair."
     },
     {
@@ -751,7 +751,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-9B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id mkadrlik-hermes-qwen3-5-9b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mkadrlik/Hermes-Qwen3.5-9B-SFT-v7 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-9b-sft-v7-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Hermes-style local runtime pack. SSD-backed Q4_K_M llama.cpp endpoint pilot completed on 2026-06-13 at about 20-21 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): it emitted malformed strict envelopes, used `parameters` instead of `arguments` in the parallel case, omitted the second required call, and refused but still mentioned the forbidden delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/hermes-qwen35-9b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md`. Prefer the 2B Hermes-Qwen3.5 lane over this 9B lane for prompt/profile repair; not promoted."
     },
     {
@@ -796,7 +796,7 @@
       "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp strict endpoint pilot complete",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ManiacLabs/Qwen3.6-35B-A3B-2bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ManiacLabs/Qwen3.6-35B-A3B-2bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Sibling GGUF package for the Maniac Qwen3.6 35B-A3B 2-bit release. SSD-backed llama.cpp endpoint pilot completed on 2026-06-13 at about 42-43 generation tokens/s, but strict BFCL-style Hermes tool-call score was 0/3 (`0.000`): simple and invalid-tool cases returned empty assistant content, and the parallel case emitted a malformed partial tool-call fragment. Evidence is recorded at `reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md`. Keep as a runtime-proven Qwen3.6 35B-A3B 2-bit comparison point; not promoted."
     },
     {
@@ -811,7 +811,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "lane": "prompt-profile-repair",
       "first_runtime": "llama.cpp GGUF baseline is runtime-proven; KTransformers only after local specialist proof",
-      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.6-35B-A3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id qwen-qwen3-6-35b-a3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Do not redownload; rerun strict local pilots only after a prompt/profile normalizer change.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.6-35B-A3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-6-35b-a3b-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official repo metadata was verified by Hugging Face API on 2026-05-24. The local Q4_K_M GGUF artifact is now acquired under `/Volumes/PortableSSD/hermes-models/frontier-gguf/qwen3.6-35b-a3b-q4` and runtime-proven through llama.cpp in `reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md`. Treat this as a runtime/teacher baseline only: strict Hermes tool-call pass was `0.000`, and GGUF proof does not count as KTransformers or official-weight fine-tune evidence."
     },
     {
@@ -826,7 +826,7 @@
       "blocked_reason": "",
       "lane": "mac-runtime-proof",
       "first_runtime": "MLX strict local pilot complete",
-      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --run-id baa-ai-qwen3-6-35b-a3b-ram-19gb-mlx-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model baa-ai/Qwen3.6-35B-A3B-RAM-19GB-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id baa-ai-qwen3-6-35b-a3b-ram-19gb-mlx-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
       "notes": "Verified by Hugging Face API on 2026-05-24. SSD-backed MLX artifact acquired and loaded on 2026-06-13; load time was about 1901s and the strict Hermes BFCL-style pilot scored 0/3. The model is runtime-proven on Mac but not promoted: it leaks planning/thinking text, emits malformed or unterminated `<tool_call>` wrappers, and mentions the forbidden unavailable delete tool in the invalid-tool case. Evidence is recorded at `reports/benchmark/local-pilots/qwen36-35b-a3b-ram19gb-mlx-strict-bfcl-pilot-20260613.md`."
     },
     {

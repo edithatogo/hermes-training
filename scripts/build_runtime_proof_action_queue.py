@@ -217,6 +217,7 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 "./.venv/bin/python scripts/run_local_pilot_benchmark.py \\",
                 f"  --model {model_id} \\",
                 "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
+                "  --require-no-extra-tool-text \\",
                 f"  --run-id {slug}-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
             ]
         )
@@ -228,6 +229,7 @@ def next_command(item: dict[str, Any], lane: str) -> str:
                 "./.venv/bin/python scripts/run_local_pilot_benchmark.py \\",
                 f"  --model {model_id} \\",
                 "  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\",
+                "  --require-no-extra-tool-text \\",
                 f"  --run-id {slug}-strict-profile-repair-$(date +%Y%m%d-%H%M%S)",
             ]
         )

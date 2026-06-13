@@ -1,0 +1,8 @@
+{
+  "track_id": "runtime-proof-queue-strict-local-commands_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Add strict no-extra-tool-text scoring to MLX runtime proof and prompt-profile repair queue command cards."
+}
