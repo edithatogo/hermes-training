@@ -308,6 +308,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_cloud_blocker_reports.py",
         ROOT / "scripts/validate_scorecard_backend_selection.py",
         ROOT / "scripts/validate_kaggle_kernel_contract.py",
+        ROOT / "scripts/validate_kaggle_torch_policy_wheel_proof.py",
         ROOT / "scripts/validate_kaggle_result_ingest.py",
         ROOT / "scripts/validate_modal_result_ingest.py",
         ROOT / "scripts/validate_free_container_account_probe.py",
@@ -569,6 +570,21 @@ def check_kaggle_kernel_contract(failures: list[str]) -> None:
         fail(f"kaggle kernel contract: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("kaggle kernel contract")
+
+
+def check_kaggle_torch_policy_wheel_proof(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_kaggle_torch_policy_wheel_proof.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"kaggle torch policy wheel proof: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("kaggle torch policy wheel proof")
 
 
 def check_kaggle_result_ingest(failures: list[str]) -> None:
@@ -893,6 +909,7 @@ def main() -> int:
     check_cloud_blocker_reports(failures)
     check_scorecard_backend_selection(failures)
     check_kaggle_kernel_contract(failures)
+    check_kaggle_torch_policy_wheel_proof(failures)
     check_kaggle_result_ingest(failures)
     check_modal_scorecard_contract(failures)
     check_modal_result_ingest(failures)
