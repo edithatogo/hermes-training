@@ -19,6 +19,7 @@ cache completeness, runtime surface, and blocked-action decisions.
 
 | Model | Runtime | Dims | Top-1 | Recall@3 | MRR | nDCG@3 | p50 embed |
 |---|---|---:|---:|---:|---:|---:|---:|
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-server` OpenAI embeddings | 768 | 1.000 | 1.000 | 1.000 | 1.000 | 0.012s |
 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | llama.cpp `llama-embedding` GGUF | 768 | 1.000 | 1.000 | 1.000 | 1.000 | 1.154s |
 | `BAAI/bge-m3` | sentence-transformers CPU | 1024 | 0.929 | 1.000 | 0.952 | 0.964 | 0.115s |
 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | MLX cached local files | 1024 | 0.786 | 0.929 | 0.875 | 0.876 | 0.026s |
@@ -37,6 +38,7 @@ cache completeness, runtime surface, and blocked-action decisions.
 
 | Strategy | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
 |---|---:|---:|---:|---:|---:|---:|
+| `EmbeddingGemma GGUF via llama.cpp server wrapper` | 0.909 | 1.000 | 0.955 | 0.966 | 1.000 | 0.750 |
 | `vector` | 0.818 | 0.909 | 0.848 | 0.864 | 0.500 | 0.750 |
 | `score_plus_created_at_rank_close_margin` | 0.636 | 0.909 | 0.742 | 0.785 | 0.500 | 0.500 |
 
@@ -44,6 +46,10 @@ The live fixture used an output-local `MEM0_CONFIG_PATH`, isolated Qdrant path,
 and no default collection mutation. The expanded fixture shows that the
 close-margin wrapper is not always safer than raw vector ordering; it should
 remain guarded until the added role-boundary and sidecar-reranker cases pass.
+The EmbeddingGemma server wrapper used the same output-local fixture pattern
+and reached 0.909 top-1 with 4-5 candidates per query, but it still missed the
+GGUF runtime-boundary distractor case, so it is benchmarked rather than
+promoted.
 
 ## Raw Evidence
 
@@ -56,8 +62,10 @@ remain guarded until the added role-boundary and sidecar-reranker cases pass.
 | `embedding-nomic-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-differentiation-20260613` |
 | `embedding-nomic-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embedding-nomic-differentiation-expanded-20260613` |
 | `embeddinggemma-300m-qat-gguf-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embeddinggemma-300m-qat-gguf-differentiation-20260613` |
+| `embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/embedding-benchmark/embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613` |
 | `mem0-live-fixture-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-20260613` |
 | `mem0-live-fixture-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-expanded-20260613` |
+| `mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` |
 
 ## Decision
 

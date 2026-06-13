@@ -1,17 +1,17 @@
 {
-  "created_at": "2026-06-13T00:07:01.741004+00:00",
+  "created_at": "2026-06-13T00:21:08.346557+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 93
+    "passed": 96
   },
   "by_kind": {
     "memory": 11,
-    "embedding": 22,
+    "embedding": 24,
     "extraction": 9,
     "reranking": 28,
     "replay": 12,
-    "isolated-fixture": 9,
+    "isolated-fixture": 10,
     "retriever": 2
   },
   "missing_kinds": [],
@@ -195,6 +195,20 @@
       "kind": "embedding",
       "path": "embedding-benchmark/embeddinggemma-300m-qat-gguf-differentiation-20260613/summary.json",
       "run_id": "embeddinggemma-300m-qat-gguf-differentiation-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embeddinggemma-300m-qat-llamacpp-server-differentiation-20260613/summary.json",
+      "run_id": "embeddinggemma-300m-qat-llamacpp-server-differentiation-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "embedding",
+      "path": "embedding-benchmark/embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613/summary.json",
+      "run_id": "embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613",
       "status": "passed",
       "errors": []
     },
@@ -629,6 +643,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-expanded-20260613/summary.json",
       "run_id": "mem0-live-fixture-differentiation-expanded-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613/summary.json",
+      "run_id": "mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613",
       "status": "passed",
       "errors": []
     },

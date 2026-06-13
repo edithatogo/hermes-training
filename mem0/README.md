@@ -20,7 +20,7 @@ The current working setup is:
 | Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
-The next baseline comparison candidate is `google/embeddinggemma-300m`, which should use a separate 768-dimension collection until it is proven to outperform the current default.
+The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the llama.cpp embedding server wrapper. It outperforms the current default on isolated retrieval and works in an output-local live mem0 fixture, but it is still not the default because the live fixture missed one hard runtime-boundary case.
 
 ## Structure
 

@@ -1,7 +1,7 @@
 # All-Candidate Benchmark Coverage - 2026-06-12
 
 Run ID: `all-candidate-benchmark-coverage-20260612`
-Created: `2026-06-13T00:06:52.470885+00:00`
+Created: `2026-06-13T00:20:58.702093+00:00`
 
 ## Direct Answer
 
@@ -17,14 +17,14 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 
 | Project | Coverage state | Count |
 |---|---|---:|
-| hermes | `benchmarked-not-promoted` | 7 |
-| hermes | `blocked` | 143 |
-| hermes | `evidence-present-needs-review` | 2 |
-| hermes | `smoke-or-pilot-only` | 7 |
 | mem0 | `benchmarked-not-necessarily-promoted` | 13 |
 | mem0 | `benchmarked-not-promoted` | 1 |
 | mem0 | `blocked` | 2 |
 | mem0 | `smoke-or-pilot-only` | 1 |
+| hermes | `benchmarked-not-promoted` | 7 |
+| hermes | `blocked` | 143 |
+| hermes | `evidence-present-needs-review` | 2 |
+| hermes | `smoke-or-pilot-only` | 7 |
 
 ## Benchmark Policy
 
@@ -353,7 +353,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | mem0 | `nomic-embed-text:latest` | embedder | `working-default` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `BAAI/bge-m3` | embedder | `benchmarked-cpu-mps-not-promoted` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `google/embeddinggemma-300m` | embedder | `access-gated` | embedding retrieval suite plus collection migration proof | `blocked` | blocked on gated/authenticated model access |
-| mem0 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
+| mem0 | `lmstudio-community/embeddinggemma-300m-qat-GGUF` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | requires expanded/adversarial retrieval replay before default promotion |
 | mem0 | `jinaai/jina-embeddings-v4` | embedder | `runtime-blocked` | embedding retrieval suite plus collection migration proof | `blocked` | blocked by current local runtime support |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | mem0 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | embedder | `source-model-benchmarked` | embedding retrieval suite plus collection migration proof | `benchmarked-not-necessarily-promoted` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |

@@ -143,6 +143,14 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
             lines.append(f"  --mlx-max-length {summary['mlx_max_length']} \\")
         if kind == "isolated-fixture-rerank" and summary.get("kept_fixture"):
             lines.append("  --keep-fixture \\")
+        if kind == "isolated-fixture-rerank" and summary.get("embedder_provider"):
+            lines.append(f"  --embedder-provider {summary['embedder_provider']} \\")
+            if summary.get("embedder_model"):
+                lines.append(f"  --embedder-model {summary['embedder_model']} \\")
+            if summary.get("embedder_base_url"):
+                lines.append(f"  --embedder-base-url {summary['embedder_base_url']} \\")
+            if summary.get("embedding_dims"):
+                lines.append(f"  --embedding-dims {summary['embedding_dims']} \\")
         strategies = summary.get("strategies")
         if kind == "isolated-fixture-rerank" and isinstance(strategies, dict):
             if not any(str(strategy).startswith("qwen3_causal_lm") for strategy in strategies):
@@ -326,6 +334,8 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         "isolated-fixture-rerank": "reranker",
         "retriever-service": "retriever",
     }.get(kind, kind)
+    if kind == "isolated-fixture-rerank" and summary.get("embedder_provider"):
+        role = "memory+embedder fixture"
     endpoint = summary.get("base_url", "")
     runtime = (
         summary.get("endpoint_kind")
@@ -334,6 +344,9 @@ def render_card(kind: str, summary: dict[str, Any], summary_path: Path) -> str:
         or summary.get("tool")
         or ("openai-compatible" if endpoint else "")
     )
+    if kind == "isolated-fixture-rerank" and summary.get("embedder_provider"):
+        runtime = f"{summary.get('embedder_provider')} embedder + {summary.get('strategy') or 'vector'}"
+        endpoint = summary.get("embedder_base_url", "")
     if kind == "retriever-service":
         runtime = f"retriever-service ({summary.get('device') or 'cpu'})"
     output_dir = summary.get("output_dir", "")

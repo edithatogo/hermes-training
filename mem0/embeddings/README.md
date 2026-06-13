@@ -111,7 +111,8 @@ memory cases because the expanded suite was no longer separating candidates.
 
 | Model | Dims | Top-1 | Recall@3 | p50 latency | Decision |
 |---|---:|---:|---:|---:|---|
-| `lmstudio-community/embeddinggemma-300m-qat-GGUF` | 768 | 1.000 | 1.000 | 1.154s | best isolated quality; needs batching/server and live mem0 proof |
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` via `llama-server` | 768 | 1.000 | 1.000 | 0.012s | best isolated quality; server lifecycle proof passed |
+| `lmstudio-community/embeddinggemma-300m-qat-GGUF` via `llama-embedding` shell-out | 768 | 1.000 | 1.000 | 1.154s | quality proof only; too slow without server wrapper |
 | `BAAI/bge-m3` | 1024 | 0.929 | 1.000 | 0.115s | strongest current differentiator; still side-by-side only |
 | `jinaai/jina-embeddings-v5-omni-small-text-matching-mlx` | 1024 | 0.786 | 0.929 | 0.026s | fast but missed role/path/runtime boundary cases |
 | `nomic-embed-text:latest` | 768 | 0.714 | 0.857 | 0.020s | keep default rollback, but not the quality leader on this suite |
@@ -120,6 +121,8 @@ Use `benchmarks/embeddings/memory_retrieval_differentiation_suite.json` for
 future promotion claims. It now contains 14 near-duplicate operational memory
 cases; the older expanded suite remains a regression gate, not the final
 differentiator.
-The EmbeddingGemma GGUF result proves a high-quality 768-dim candidate, but the
-current runner shells out to `llama-embedding` per text. Promote only after a
-batched or server-backed path passes live mem0 add/search and rollback checks.
+The EmbeddingGemma GGUF result now has two levels of proof: direct shell-out
+quality and server-backed `llama-server` quality. The server-backed path also
+passed an output-local live mem0 add/search fixture at top-1 0.909 / recall@3
+1.000 with p50 add/search around 3s, but it missed the GGUF runtime-boundary
+distractor case. Keep it as the leading 768-dim challenger, not the default.

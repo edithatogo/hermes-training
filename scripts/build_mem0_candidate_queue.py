@@ -294,7 +294,7 @@ def blocker_for(candidate: dict[str, Any]) -> str:
         if candidate.get("id") == "jinaai/jina-embeddings-v5-omni-small-text-matching-mlx":
             return "expanded suite passed at 1.000, but expanded 2026-06-13 differentiation suite reached top-1 0.786 / recall@3 0.929; keep as fast candidate, not default"
         if candidate.get("id") == "lmstudio-community/embeddinggemma-300m-qat-GGUF":
-            return "expanded 14-case differentiation suite passed at 1.000 across top-1, recall@3, MRR, and nDCG@3; fits 768-dim collection shape but needs batched/server-backed live mem0 add/search proof before default promotion"
+            return "server-backed differentiation suite passed at 1.000 with p50 0.012s and live mem0 fixture reached top-1 0.909 / recall@3 1.000; keep non-default until the GGUF runtime-boundary miss is fixed"
         if candidate.get("id") == "LiquidAI/LFM2-ColBERT-350M":
             return "expanded retriever benchmark completed; keep opt-in because isolated mem0 fixture trailed close-margin guarded read"
         return "source HF model passed fixed and expanded suites; keep as benchmarked-not-promoted until a role-specific promotion gate passes"

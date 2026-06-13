@@ -55,6 +55,7 @@ runtime endpoint against the current mem0 default.
 | [embedding-bge-m3-differentiation-20260613](./embedding-bge-m3-differentiation-20260613.md) | embedder | keep testing |
 | [embedding-bge-m3-differentiation-expanded-20260613](./embedding-bge-m3-differentiation-expanded-20260613.md) | embedder | keep testing |
 | [embeddinggemma-300m-qat-gguf-differentiation-20260613](./embeddinggemma-300m-qat-gguf-differentiation-20260613.md) | embedder | keep testing |
+| [embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613](./embeddinggemma-300m-qat-llamacpp-wrapper-differentiation-20260613.md) | embedder | keep testing |
 | [jina-mlx-retrieval-expanded-20260613](./jina-mlx-retrieval-expanded-20260613.md) | embedder | keep testing |
 | [jina-mlx-text-matching-expanded-20260612](./jina-mlx-text-matching-expanded-20260612.md) | embedder | keep testing |
 | [jina-mlx-text-matching-differentiation-20260613](./jina-mlx-text-matching-differentiation-20260613.md) | embedder | keep testing |
@@ -67,6 +68,7 @@ runtime endpoint against the current mem0 default.
 | [mem0-live-fixture-colbert-rerank-20260612](../mem0-live-fixture-colbert-rerank-20260612.md) | ColBERT isolated fixture | keep opt-in |
 | [mem0-live-fixture-differentiation-20260613](./mem0-live-fixture-differentiation-20260613.md) | isolated fixture reranker | keep testing |
 | [mem0-live-fixture-differentiation-expanded-20260613](./mem0-live-fixture-differentiation-expanded-20260613.md) | isolated fixture reranker | keep testing |
+| [mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613](./mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613.md) | memory+embedder fixture | keep testing |
 
 ## Generate
 
