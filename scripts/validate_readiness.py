@@ -243,6 +243,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/create_runtime_format_proof_queue.py",
         ROOT / "scripts/validate_runtime_prompt_profiles.py",
         ROOT / "scripts/validate_publication_bundle.py",
+        ROOT / "scripts/check_standard_benchmark_coverage.py",
         ROOT / "scripts/audit_publication_dataset_sources.py",
         ROOT / "scripts/check_storage_layout.py",
         ROOT / "scripts/smoke_official_benchmark_env.py",
@@ -331,6 +332,25 @@ def check_publication_bundles(failures: list[str]) -> None:
         fail(f"publication bundle: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("publication bundle qwen3-4b-strict-toolcall-v4-targeted")
+
+    bundle = ROOT / "reports/publication/qwen3-4b-strict-toolcall-v6-free-text-copy"
+    coverage = ROOT / "reports/benchmark/standard-coverage/qwen3-v6-free-text-copy-standard-coverage-20260613.json"
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_publication_bundle.py"),
+            str(bundle),
+            "--expect-blocked",
+            "--coverage-report",
+            str(coverage),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"publication bundle v6: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("publication bundle qwen3-4b-strict-toolcall-v6-free-text-copy blocked")
 
 
 def check_official_benchmark_manifests(failures: list[str]) -> None:

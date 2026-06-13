@@ -18,6 +18,90 @@ DEFAULT_RUN_ID = "qwen3-v4-targeted-standard-coverage-20260526"
 DEFAULT_OUTPUT_ROOT = ROOT / "reports" / "benchmark" / "standard-coverage"
 
 
+CANDIDATE_CONFIGS = {
+    "qwen3-4b-strict-toolcall-v4-targeted": {
+        "publication_gate": ROOT / "reports" / "benchmark" / "publication-readiness-gate-20260524.md",
+        "pilots": ROOT
+        / "reports"
+        / "benchmark"
+        / "local-pilots"
+        / "qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md",
+        "official_ifeval": ROOT
+        / "reports"
+        / "benchmark"
+        / "official-ifeval"
+        / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md",
+        "lm_eval_direct_smoke": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md",
+        "lm_eval_direct_candidate_pilot": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md",
+        "lm_eval_direct_partial_full": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md",
+        "lm_eval_endpoint_attempt": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
+        "bundle": ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted",
+        "heldout_metric": "strict held-out pass 1.000",
+        "heldout_notes": "Required Hermes-agent publication gate under the recorded Qwen runtime prefill condition.",
+        "official_ifeval_metric_prefix": "prompt strict",
+        "selected_checkpoint": "",
+    },
+    "qwen3-4b-strict-toolcall-v6-free-text-copy": {
+        "publication_gate": ROOT
+        / "reports"
+        / "benchmark"
+        / "local-pilots"
+        / "qwen3-4b-strict-toolcall-v6-free-text-copy-local-pilots-20260613.md",
+        "pilots": ROOT
+        / "reports"
+        / "benchmark"
+        / "local-pilots"
+        / "qwen3-4b-strict-toolcall-v6-free-text-copy-local-pilots-20260613.md",
+        "official_ifeval": ROOT
+        / "reports"
+        / "benchmark"
+        / "official-ifeval"
+        / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md",
+        "lm_eval_direct_smoke": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md",
+        "lm_eval_direct_candidate_pilot": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md",
+        "lm_eval_direct_partial_full": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md",
+        "lm_eval_endpoint_attempt": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md",
+        "bundle": ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v6-free-text-copy",
+        "heldout_metric": "strict held-out pass 1.000; mirrored strict pass 1.000",
+        "heldout_notes": "Required Hermes-agent local promotion gate under the recorded Qwen runtime prefill condition.",
+        "official_ifeval_metric_prefix": "previous v4 official-pilot prompt strict",
+        "selected_checkpoint": "Iter 125",
+    },
+}
+
+
 @dataclass(frozen=True)
 class CoverageItem:
     suite: str
@@ -49,13 +133,18 @@ def extract_first(pattern: str, text: str) -> str:
     return match.group(1).strip() if match else ""
 
 
-def extract_table_value(label: str, text: str) -> str:
+def extract_table_value(label: str, text: str, checkpoint: str = "") -> str:
     for line in text.splitlines():
-        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if cells and cells[0] == label:
-            for cell in reversed(cells[1:]):
-                if re.fullmatch(r"[0-9.]+", cell):
+        cells = [cell.strip().strip("`") for cell in line.strip().strip("|").split("|")]
+        if checkpoint and checkpoint not in cells:
+            continue
+        if cells and label in cells:
+            numeric_cells = [cell for cell in cells[1:] if re.fullmatch(r"[0-9.]+", cell)]
+            for cell in reversed(numeric_cells):
+                if "." in cell:
                     return cell
+            if numeric_cells:
+                return numeric_cells[-1]
     return ""
 
 
@@ -65,41 +154,26 @@ def exists_status(path: Path, suite: str, tier: str, metric: str, notes: str, re
 
 
 def build_items(candidate: str) -> list[CoverageItem]:
-    if candidate != DEFAULT_CANDIDATE:
-        raise ValueError(f"Unsupported candidate for the built-in coverage map: {candidate}")
+    config = CANDIDATE_CONFIGS.get(candidate)
+    if config is None:
+        supported = ", ".join(sorted(CANDIDATE_CONFIGS))
+        raise ValueError(f"Unsupported candidate for the built-in coverage map: {candidate}. Supported: {supported}")
 
-    publication_gate = ROOT / "reports" / "benchmark" / "publication-readiness-gate-20260524.md"
-    pilots = ROOT / "reports" / "benchmark" / "local-pilots" / "qwen3-4b-strict-toolcall-v4-targeted-local-pilots-20260525.md"
-    official_ifeval = ROOT / "reports" / "benchmark" / "official-ifeval" / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md"
-    lm_eval_endpoint_attempt = ROOT / "reports" / "benchmark" / "lm-eval" / "qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md"
-    lm_eval_direct_smoke = (
-        ROOT
-        / "reports"
-        / "benchmark"
-        / "lm-eval"
-        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md"
-    )
-    lm_eval_direct_candidate_pilot = (
-        ROOT
-        / "reports"
-        / "benchmark"
-        / "lm-eval"
-        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md"
-    )
-    lm_eval_direct_partial_full = (
-        ROOT
-        / "reports"
-        / "benchmark"
-        / "lm-eval"
-        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md"
-    )
-    bundle = ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v4-targeted"
+    publication_gate = config["publication_gate"]
+    pilots = config["pilots"]
+    official_ifeval = config["official_ifeval"]
+    lm_eval_endpoint_attempt = config["lm_eval_endpoint_attempt"]
+    lm_eval_direct_smoke = config["lm_eval_direct_smoke"]
+    lm_eval_direct_candidate_pilot = config["lm_eval_direct_candidate_pilot"]
+    lm_eval_direct_partial_full = config["lm_eval_direct_partial_full"]
+    bundle = config["bundle"]
     readiness = bundle / "publish-readiness-checklist.md"
 
     gate_text = read_text(publication_gate)
     pilots_text = read_text(pilots)
     ifeval_text = read_text(official_ifeval)
     readiness_text = read_text(readiness)
+    selected_checkpoint = str(config.get("selected_checkpoint", ""))
 
     items = [
         CoverageItem(
@@ -107,8 +181,8 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="candidate-local",
             status="passed" if "`1.000`" in gate_text and publication_gate.exists() else "missing",
             evidence=str(publication_gate.relative_to(ROOT)),
-            metric="strict held-out pass 1.000" if publication_gate.exists() else "",
-            notes="Required Hermes-agent publication gate under the recorded Qwen runtime prefill condition.",
+            metric=str(config["heldout_metric"]) if publication_gate.exists() else "",
+            notes=str(config["heldout_notes"]),
             required_for="local adapter publication claim",
         ),
         CoverageItem(
@@ -116,7 +190,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="pilot",
             status="present" if pilots.exists() else "missing",
             evidence=str(pilots.relative_to(ROOT)),
-            metric=f"BFCL-style pilot {extract_table_value('BFCL-style pilot', pilots_text)}",
+            metric=f"BFCL-style pilot {extract_table_value('BFCL-style pilot', pilots_text, selected_checkpoint)}",
             notes="Repo-native pilot only; not an official BFCL score.",
             required_for="pilot-only model card positioning",
         ),
@@ -125,7 +199,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="pilot",
             status="present" if pilots.exists() else "missing",
             evidence=str(pilots.relative_to(ROOT)),
-            metric=f"IFEval-style pilot {extract_table_value('IFEval-style pilot', pilots_text)}",
+            metric=f"IFEval-style pilot {extract_table_value('IFEval-style pilot', pilots_text, selected_checkpoint)}",
             notes="Repo-native prompt subset only; official IFEval is tracked separately.",
             required_for="pilot-only model card positioning",
         ),
@@ -134,7 +208,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="pilot",
             status="present" if pilots.exists() else "missing",
             evidence=str(pilots.relative_to(ROOT)),
-            metric=f"coding sanity pilot {extract_table_value('Coding sanity pilot', pilots_text)}",
+            metric=f"coding sanity pilot {extract_table_value('Coding sanity pilot', pilots_text, selected_checkpoint)}",
             notes="Small local coding sanity set; not HumanEval, MBPP, BigCodeBench, or LiveCodeBench.",
             required_for="pilot-only model card positioning",
         ),
@@ -143,8 +217,8 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="official-pilot",
             status="present" if official_ifeval.exists() else "missing",
             evidence=str(official_ifeval.relative_to(ROOT)),
-            metric=f"prompt strict {extract_table_value('Prompt-level strict accuracy', ifeval_text)}",
-            notes="Official harness path is proven with a 25-sample limit; not a leaderboard score.",
+            metric=f"{config['official_ifeval_metric_prefix']} {extract_table_value('Prompt-level strict accuracy', ifeval_text)}",
+            notes="Official harness path is proven with a 25-sample limit; v6 has not been rerun through official IFEval.",
             required_for="official harness readiness",
         ),
         CoverageItem(
