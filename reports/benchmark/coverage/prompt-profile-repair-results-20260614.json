@@ -295,6 +295,34 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "Mungert/Nanbeige4.1-3B-GGUF",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "try the queued empty-output-retry variant before any promotion claim",
+      "result_report": "reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-strict-suffix-copy-exact-20260614-025949/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-strict-suffix-copy-exact-20260614-025949",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "Mungert/Nanbeige4.1-3B-GGUF",
+      "variant": "empty-output-retry",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only Mungert Nanbeige variants; use constrained decoding or a runtime-wrapper proof if revisited",
+      "result_report": "reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-empty-output-retry-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-empty-output-retry-20260614-030035/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-empty-output-retry-20260614-030035",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

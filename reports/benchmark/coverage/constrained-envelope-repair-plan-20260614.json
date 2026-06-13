@@ -115,6 +115,63 @@
       ]
     },
     {
+      "candidate": "Mungert/Nanbeige4.1-3B-GGUF",
+      "priority": "medium",
+      "best_variant": "empty-output-retry",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.3333333333333333,
+      "case_metrics": {
+        "empty_output": 2,
+        "matched_tool_calls_extra_text": 0,
+        "passed_strict": 2,
+        "refusal_boundary_failed": 2
+      },
+      "source_missing": [],
+      "recommended_next_action": "Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'Mungert/Nanbeige4.1-3B-GGUF' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"mungert-nanbeige4-1-3b-gguf-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.3333333333333333,
+          "passed": 1,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-strict-suffix-copy-exact-20260614-025949/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-strict-suffix-copy-exact-20260614-025949/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-strict-suffix-copy-exact-20260614-025949/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "empty_output": 1,
+            "passed_strict": 1,
+            "refusal_boundary_failed": 1
+          }
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.3333333333333333,
+          "passed": 1,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-empty-output-retry-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-empty-output-retry-20260614-030035/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-empty-output-retry-20260614-030035/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mungert-nanbeige4-1-3b-gguf-empty-output-retry-20260614-030035/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "empty_output": 1,
+            "passed_strict": 1,
+            "refusal_boundary_failed": 1
+          }
+        }
+      ]
+    },
+    {
       "candidate": "Qwen/Qwen3.5-0.8B",
       "priority": "medium",
       "best_variant": "qwen-no-think-prefill",

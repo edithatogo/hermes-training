@@ -30,6 +30,8 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/maniaclabs-qwen36-35b-a3b-2bit-strict-suffix-copy-exact-repair-20260614.md` |
 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `empty-output-retry` | `endpoint` | `completed-no-promotion` | 0.667 | `reports/benchmark/endpoint-pilots/maniaclabs-qwen36-35b-a3b-2bit-empty-output-retry-repair-20260614.md` |
 | `ManiacLabs/Qwen3.6-35B-A3B-2bit` | `qwen-no-think-prefill` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/maniaclabs-qwen36-35b-a3b-2bit-qwen-no-think-prefill-repair-20260614.md` |
+| `Mungert/Nanbeige4.1-3B-GGUF` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-strict-suffix-copy-exact-repair-20260614.md` |
+| `Mungert/Nanbeige4.1-3B-GGUF` | `empty-output-retry` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-empty-output-retry-repair-20260614.md` |
 
 ## Decision Boundary
 

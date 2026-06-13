@@ -496,8 +496,11 @@ Current gaps:
    proven; strict-suffix scored `1/3`, `empty-output-retry` improved to `2/3`
    by fixing the parallel call and refusal cases but still malformed the single
    lookup tool envelope, and `qwen-no-think-prefill` regressed to `1/3` with
-   visible `<think>` text. EXAONE 1.2B is GGUF runtime-proven but JSON-blocked,
-   while MLX is config-blocked. Use Hermes
+   visible `<think>` text. Mungert Nanbeige4.1 3B GGUF is also endpoint-proven;
+   both `strict-suffix-copy-exact` and `empty-output-retry` scored `1/3`,
+   passing only simple lookup while returning empty parallel output and leaking
+   the forbidden delete tool in refusals. EXAONE 1.2B is GGUF runtime-proven
+   but JSON-blocked, while MLX is config-blocked. Use Hermes
    4.3, Qwen3-Coder-Next-GGUF, Qwen3.6-27B,
    Gemma 4 12B/31B, NVIDIA Gemma 4 31B NVFP4, OpenBMB AgentCPM-Report, NVIDIA
    Nemotron-Labs-Diffusion, Qwen3.6, LFM2-24B, NVIDIA Nemotron Ultra,
