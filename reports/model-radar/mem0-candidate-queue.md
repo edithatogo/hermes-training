@@ -293,11 +293,9 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
-  --model google/embeddinggemma-300m \
-  --device mps \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-google-embeddinggemma-300m-$(date +%Y%m%d-%H%M%S)
+# Access-gated candidate. Do not rerun benchmark commands until the account has accepted access and a metadata-only check passes.
+# Candidate: google/embeddinggemma-300m
+# Use the separately benchmarked open/local package as the comparison lane until access is granted.
 ```
 
 ### jinaai/jina-embeddings-v4
@@ -308,9 +306,7 @@ source scripts/env.sh
 
 ```bash
 source scripts/env.sh
-./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
-  --model jinaai/jina-embeddings-v4 \
-  --device mps \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
-  --run-id embedding-jinaai-jina-embeddings-v4-$(date +%Y%m%d-%H%M%S)
+# Runtime-blocked candidate. Do not rerun the same benchmark command until the dependency/runtime blocker changes.
+# Candidate: jinaai/jina-embeddings-v4
+# Recheck the model card and local dependency stack first, then regenerate this queue.
 ```

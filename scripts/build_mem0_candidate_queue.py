@@ -84,6 +84,23 @@ def command_for(candidate: dict[str, Any]) -> str:
         .lower()
     )
 
+    if status == "access-gated":
+        return "\n".join(
+            [
+                "# Access-gated candidate. Do not rerun benchmark commands until the account has accepted access and a metadata-only check passes.",
+                f"# Candidate: {model_id}",
+                "# Use the separately benchmarked open/local package as the comparison lane until access is granted.",
+            ]
+        )
+    if status == "runtime-blocked":
+        return "\n".join(
+            [
+                "# Runtime-blocked candidate. Do not rerun the same benchmark command until the dependency/runtime blocker changes.",
+                f"# Candidate: {model_id}",
+                "# Recheck the model card and local dependency stack first, then regenerate this queue.",
+            ]
+        )
+
     if role == "embedder" and runtime == "ollama":
         suite = embedding_suite_for(candidate)
         return "\n".join(

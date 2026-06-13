@@ -1,0 +1,8 @@
+{
+  "track_id": "mem0-queue-blocked-command-guard_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Make access-gated and runtime-blocked mem0 candidates fail closed in generated command cards."
+}

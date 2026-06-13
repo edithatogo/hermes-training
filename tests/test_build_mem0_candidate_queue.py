@@ -115,6 +115,32 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertIn("--task-type text-matching", command)
         self.assertIn("memory_retrieval_differentiation_suite.json", command)
 
+    def test_access_gated_candidate_does_not_emit_runnable_benchmark(self) -> None:
+        command = command_for(
+            {
+                "id": "google/embeddinggemma-300m",
+                "role": "embedder",
+                "runtime": ["sentence-transformers"],
+                "status": "access-gated",
+            }
+        )
+
+        self.assertIn("Access-gated candidate", command)
+        self.assertNotIn("run_sentence_transformers_embedding_benchmark.py", command)
+
+    def test_runtime_blocked_candidate_does_not_emit_runnable_benchmark(self) -> None:
+        command = command_for(
+            {
+                "id": "jinaai/jina-embeddings-v4",
+                "role": "embedder",
+                "runtime": ["sentence-transformers"],
+                "status": "runtime-blocked",
+            }
+        )
+
+        self.assertIn("Runtime-blocked candidate", command)
+        self.assertNotIn("run_sentence_transformers_embedding_benchmark.py", command)
+
 
 if __name__ == "__main__":
     unittest.main()
