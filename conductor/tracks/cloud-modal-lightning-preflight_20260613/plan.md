@@ -31,6 +31,9 @@
 - Target: >= 9.5 / 10
 - Current estimate: 9.8 / 10
 - Evidence: Modal and Lightning are visible in the backend registry and remain blocked until non-secret account, credit, and artifact contracts are proven.
+- Account probe: `reports/cloud/free-container-account-probe-20260613.md`
+  records the attempted Modal token flow and the Lightning `damordaunt`
+  login/teamspace-owner blocker.
 - Validation: Cloud preflight tests, cloud blocker validation, Conductor consistency, and hub readiness validation are required before commit.
 - Gaps: No authenticated Modal or Lightning job was run.
 - Decision: Complete. The plan has more offload options without weakening cost/auth gates.

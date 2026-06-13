@@ -1,6 +1,6 @@
 # Cloud Backend Preflight Registry
 
-Date: 2026-06-13T06:19:44.246248+00:00
+Date: 2026-06-13T06:26:32.595188+00:00
 Storage root: `/Volumes/PortableSSD`
 Storage root exists: `True`
 
@@ -22,4 +22,4 @@ Storage root exists: `True`
 | `ngc` | `blocked` | `prepared` | missing API key, org/team, entitlement, container access, model access, or license approval | Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access. |
 | `kaggle` | `blocked-needs-auth` | `future` | missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime | Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight. |
 | `modal` | `blocked-needs-auth` | `container-serverless-candidate` | missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof | Run modal token new in a browser-authenticated session, then rerun this preflight. |
-| `lightning` | `blocked-needs-teamspace-owner` | `studio-job-candidate` | missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof | Run lightning login and configure the intended Teamspace owner, then rerun this preflight. |
+| `lightning` | `blocked-needs-teamspace-owner` | `studio-job-candidate` | missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof | Run lightning login if needed, configure the intended Teamspace owner, then rerun this preflight. |

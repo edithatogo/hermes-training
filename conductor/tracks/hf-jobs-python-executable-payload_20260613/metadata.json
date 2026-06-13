@@ -1,0 +1,8 @@
+{
+  "track_id": "hf-jobs-python-executable-payload_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Make the HF Jobs scorecard payload Python interpreter explicit and configurable."
+}

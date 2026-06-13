@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T06:19:44.246248+00:00",
+  "created_at": "2026-06-13T06:26:32.595188+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -250,7 +250,7 @@
         "stderr": ""
       },
       "stop_condition": "missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof",
-      "next_action": "Run lightning login and configure the intended Teamspace owner, then rerun this preflight."
+      "next_action": "Run lightning login if needed, configure the intended Teamspace owner, then rerun this preflight."
     }
   }
 }

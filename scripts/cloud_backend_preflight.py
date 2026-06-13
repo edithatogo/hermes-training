@@ -256,7 +256,7 @@ def summarize_lightning() -> dict[str, Any]:
     teamspace_blocker = "Teamspace-Owner None" in studio_text
     if version["installed"] and version["returncode"] == 0 and teamspace_blocker:
         status = "blocked-needs-teamspace-owner"
-        next_action = "Run lightning login and configure the intended Teamspace owner, then rerun this preflight."
+        next_action = "Run lightning login if needed, configure the intended Teamspace owner, then rerun this preflight."
     elif version["installed"] and version["returncode"] == 0 and studio["returncode"] == 0:
         status = "prepared-needs-credit-and-artifact-contract"
         next_action = "Add a fail-closed Lightning job/studio submitter after free credits, machine type, and artifact recovery are confirmed."

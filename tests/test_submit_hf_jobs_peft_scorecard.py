@@ -16,15 +16,19 @@ class SubmitHfJobsPeftScorecardTests(unittest.TestCase):
             image="image:tag",
             tasks="arc_challenge",
             script_url="https://example.test/script.py",
+            python_executable="python3",
         )
 
         command = build_job_command(spec)
+        payload = command[-1]
 
         self.assertIn("hf://models/owner/adapter:/adapter:ro", command)
         self.assertIn("RUN_ID=run-1", command)
         self.assertIn("HF_RESULTS_REPO=owner/results", command)
         self.assertIn("LM_EVAL_TASKS=arc_challenge", command)
         self.assertIn("--detach", command)
+        self.assertIn("python3 -m pip install", payload)
+        self.assertIn("python3 /tmp/hf_jobs_peft_lm_eval_selected.py", payload)
 
     def test_execute_requires_paid_compute_confirmation(self) -> None:
         spec = HfJobsScorecardSpec(

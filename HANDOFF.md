@@ -178,6 +178,9 @@ Complete:
   credit/GPU policy are proven; Lightning is blocked until login/teamspace,
   machine type, credits, and artifact recovery are proven. No remote jobs were
   submitted.
+- HF Jobs scorecard dry-run payloads now expose `--python-executable`; the
+  default remains `python`, and the tracked dry-run JSON records the interpreter
+  while preserving the paid-compute and known-credit-blocker gates.
 - Active blocked-track matrix generation now maps future Modal and Lightning
   scorecard tracks to their backend-specific unblock checklist entries instead
   of `unknown`.

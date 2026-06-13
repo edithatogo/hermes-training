@@ -33,15 +33,17 @@ class HfJobsScorecardSpec:
     image: str
     tasks: str
     script_url: str
+    python_executable: str = "python"
     detach: bool = True
 
 
 def build_job_command(spec: HfJobsScorecardSpec) -> list[str]:
+    python_executable = shlex.quote(spec.python_executable)
     payload = (
-        'python -m pip install --quiet --upgrade "lm_eval[hf]" '
+        f'{python_executable} -m pip install --quiet --upgrade "lm_eval[hf]" '
         '"transformers>=4.56,<5" peft bitsandbytes safetensors accelerate huggingface_hub && '
         f"curl -L {shlex.quote(spec.script_url)} -o /tmp/hf_jobs_peft_lm_eval_selected.py && "
-        "python /tmp/hf_jobs_peft_lm_eval_selected.py"
+        f"{python_executable} /tmp/hf_jobs_peft_lm_eval_selected.py"
     )
     command = [
         "hf",
@@ -118,6 +120,7 @@ def build_report(
         "adapter_repo": spec.adapter_repo,
         "results_repo": spec.results_repo,
         "tasks": spec.tasks,
+        "python_executable": spec.python_executable,
         "command": command,
         "shell_command": render_shell(command),
         "blockers": blockers,
@@ -134,6 +137,7 @@ def main() -> int:
     parser.add_argument("--image", default=DEFAULT_IMAGE)
     parser.add_argument("--tasks", default=DEFAULT_TASKS)
     parser.add_argument("--script-url", default=DEFAULT_SCRIPT_URL)
+    parser.add_argument("--python-executable", default="python")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--confirm-paid-compute", action="store_true")
     parser.add_argument("--ignore-known-credit-blocker", action="store_true")
@@ -149,6 +153,7 @@ def main() -> int:
         image=args.image,
         tasks=args.tasks,
         script_url=args.script_url,
+        python_executable=args.python_executable,
     )
     command = build_job_command(spec)
     report = build_report(

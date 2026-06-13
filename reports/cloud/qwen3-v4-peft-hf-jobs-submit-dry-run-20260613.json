@@ -29,9 +29,12 @@
     "python -m pip install --quiet --upgrade \"lm_eval[hf]\" \"transformers>=4.56,<5\" peft bitsandbytes safetensors accelerate huggingface_hub && curl -L https://raw.githubusercontent.com/edithatogo/hermes-training/main/scripts/hf_jobs_peft_lm_eval_selected.py -o /tmp/hf_jobs_peft_lm_eval_selected.py && python /tmp/hf_jobs_peft_lm_eval_selected.py"
   ],
   "confirm_paid_compute": false,
+  "credit_blocker_observed": true,
   "execute": false,
   "flavor": "t4-small",
+  "ignore_known_credit_blocker": false,
   "paid_compute": true,
+  "python_executable": "python",
   "results_repo": "edithatogo/qwen3-v4-peft-lm-eval-results",
   "run_id": "qwen3-v4-peft-hf-jobs-lm-eval-selected-full-20260613",
   "shell_command": "hf jobs run --flavor t4-small --timeout 8h --detach --secrets HF_TOKEN -e RUN_ID=qwen3-v4-peft-hf-jobs-lm-eval-selected-full-20260613 -e HF_RESULTS_REPO=edithatogo/qwen3-v4-peft-lm-eval-results -e LM_EVAL_TASKS=arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande -e LM_EVAL_TIMEOUT_S=21600 -v hf://models/edithatogo/qwen3-4b-hermes-lora-peft-converted:/adapter:ro pytorch/pytorch:2.7.1-cuda12.6-cudnn9-runtime bash -lc 'python -m pip install --quiet --upgrade \"lm_eval[hf]\" \"transformers>=4.56,<5\" peft bitsandbytes safetensors accelerate huggingface_hub && curl -L https://raw.githubusercontent.com/edithatogo/hermes-training/main/scripts/hf_jobs_peft_lm_eval_selected.py -o /tmp/hf_jobs_peft_lm_eval_selected.py && python /tmp/hf_jobs_peft_lm_eval_selected.py'",
