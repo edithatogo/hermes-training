@@ -274,6 +274,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_all_candidate_benchmark_coverage.py",
         ROOT / "scripts/build_runtime_proof_action_queue.py",
         ROOT / "scripts/validate_runtime_proof_action_queue.py",
+        ROOT / "scripts/build_prompt_profile_repair_queue.py",
+        ROOT / "scripts/validate_prompt_profile_repair_queue.py",
         ROOT / "scripts/convert_mlx_lora_to_peft.py",
         ROOT / "scripts/colab_mlx_adapter_portability_probe.py",
         ROOT / "scripts/colab_peft_adapter_load_smoke.py",
@@ -568,6 +570,21 @@ def check_free_container_account_probe(failures: list[str]) -> None:
         ok("free-container account probe")
 
 
+def check_prompt_profile_repair_queue(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_prompt_profile_repair_queue.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"prompt/profile repair queue: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("prompt/profile repair queue")
+
+
 def check_publication_bundles(failures: list[str]) -> None:
     bundle = ROOT / "reports/publication/qwen3-4b-strict-toolcall-v4-targeted"
     result = subprocess.run(
@@ -708,6 +725,7 @@ def main() -> int:
     check_kaggle_kernel_contract(failures)
     check_kaggle_result_ingest(failures)
     check_free_container_account_probe(failures)
+    check_prompt_profile_repair_queue(failures)
 
     if failures:
         print("\nnot ready:")

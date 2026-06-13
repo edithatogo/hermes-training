@@ -791,6 +791,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Prompt/Profile Repair Queue
+*Link: [./tracks/prompt-profile-repair-queue_20260614/](./tracks/prompt-profile-repair-queue_20260614/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Azure scorecard
 *Link: [./tracks/qwen3-v4-peft-azure-scorecard_20260613/](./tracks/qwen3-v4-peft-azure-scorecard_20260613/)*
 

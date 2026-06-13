@@ -1,0 +1,304 @@
+{
+  "run_id": "prompt-profile-repair-queue-20260614",
+  "created_at": "2026-06-14T00:00:00+00:00",
+  "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
+  "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
+  "rows": [
+    {
+      "id": "LGAI-EXAONE/EXAONE-4.0-1.2B",
+      "family": "exaone",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "1.2B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test strict JSON envelope prompting on the existing GGUF endpoint; keep MLX blocked until loader support changes",
+      "evidence": [
+        "reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
+        "reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model LGAI-EXAONE/EXAONE-4.0-1.2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id lgai-exaone-exaone-4-0-1-2b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "google/gemma-4-E2B-it-qat-q4_0-gguf",
+      "family": "gemma",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "E2B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Gemma native tool-fragment normalization or a stricter system suffix without changing raw outputs",
+      "evidence": [
+        "reports/benchmark/local-pilots/gemma4-e2b-q4-llamacpp-strict-bfcl-pilot-20260613.md",
+        "reports/model-radar/gemma4-e2b-it-packaging-refresh-current-release-scan-20260612.md",
+        "reports/runtime/gemma4-e2b-q4-llamacpp-smoke-20260612.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model google-gemma-4-e2b-it-qat-q4-0-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-e2b-it-qat-q4-0-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "family": "hermes",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "0.8B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/hermes-qwen35-08b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+      "family": "lfm",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "8B total / 1B active",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test refusal wording and strict JSON/tool envelope profile on the existing GGUF endpoint",
+      "evidence": [
+        "reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
+        "reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model liquidai-lfm2-5-8b-a1b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id liquidai-lfm2-5-8b-a1b-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "openbmb/MiniCPM5-1B-GGUF",
+      "family": "minicpm",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "1B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test MiniCPM tool-tag extraction only as score-only analysis before any helper promotion",
+      "evidence": [
+        "reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm5-1b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "openbmb/MiniCPM5-1B-MLX",
+      "family": "minicpm",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "1B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-local-bfcl-pilot-20260612.md",
+        "reports/benchmark/local-pilots/minicpm5-1b-mlx-strict-bfcl-pilot-20260613.md",
+        "reports/benchmark/mlx-loglikelihood/minicpm5-1b-mlx-loglikelihood-smoke-20260612.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model openbmb/MiniCPM5-1B-MLX \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-mlx-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "Qwen/Qwen3.5-0.8B",
+      "family": "qwen",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "0.9B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-0.8B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-5-0-8b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "Qwen/Qwen3.5-2B",
+      "family": "qwen",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "2B",
+      "size_bucket": "tiny",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-5-2b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "mlx-community/gemma-4-E4B-it-qat-4bit",
+      "family": "gemma",
+      "role": "local-runtime",
+      "environment": "mac-mlx",
+      "parameters": "E4B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Gemma native tool-fragment normalization or a stricter system suffix without changing raw outputs",
+      "evidence": [
+        "reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md",
+        "reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md",
+        "reports/benchmark/mlx-loglikelihood/gemma4-e4b-mlx-loglikelihood-smoke-20260612.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/gemma-4-E4B-it-qat-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mlx-community-gemma-4-e4b-it-qat-4bit-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "ibm-granite/granite-4.1-3b",
+      "family": "granite",
+      "role": "local-finetune",
+      "environment": "mac-mlx",
+      "parameters": "3B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Granite native tool-call normalization and copy-exact argument constraints",
+      "evidence": [
+        "reports/benchmark/local-pilots/granite41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model ibm-granite/granite-4.1-3b \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id ibm-granite-granite-4-1-3b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "family": "hermes",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Qwen-style no-think/prefill controls and strict forbidden-tool wording",
+      "evidence": [
+        "reports/benchmark/local-pilots/hermes-qwen35-4b-sft-v7-q8-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mkadrlik-hermes-qwen3-5-4b-sft-v7 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-4b-sft-v7-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "Mungert/Nanbeige4.1-3B-GGUF",
+      "family": "nanbeige",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "3B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mungert-nanbeige4-1-3b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mungert-nanbeige4-1-3b-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "Nanbeige/Nanbeige4.1-3B",
+      "family": "nanbeige",
+      "role": "local-runtime",
+      "environment": "hf-transformers",
+      "parameters": "3B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "design a model-family-specific runtime profile, then rerun the strict BFCL pilot with no-extra-tool-text scoring",
+      "evidence": [
+        "reports/benchmark/local-pilots/nanbeige41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Nanbeige/Nanbeige4.1-3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nanbeige-nanbeige4-1-3b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
+      "family": "nvidia",
+      "role": "local-runtime",
+      "environment": "mac-mlx",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "design a model-family-specific runtime profile, then rerun the strict BFCL pilot with no-extra-tool-text scoring",
+      "evidence": [
+        "reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mlx-community-nvidia-nemotron-3-nano-4b-optiq-4bit-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF",
+      "family": "nvidia",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "4B",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "design a model-family-specific runtime profile, then rerun the strict BFCL pilot with no-extra-tool-text scoring",
+      "evidence": [
+        "reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model nvidia-nvidia-nemotron-3-nano-4b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nvidia-nvidia-nemotron-3-nano-4b-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
+      "family": "qwen",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "repair_hypothesis": "retry only after a prompt profile changes prefill, stop tokens, or thinking/no-thinking controls",
+      "evidence": [
+        "reports/benchmark/local-pilots/maniac-qwen36-35b-a3b-2bit-gguf-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model maniaclabs-qwen3-6-35b-a3b-2bit \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id maniaclabs-qwen3-6-35b-a3b-2bit-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "Qwen/Qwen3.6-35B-A3B",
+      "family": "qwen",
+      "role": "cloud-teacher",
+      "environment": "azure-cuda",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Qwen-style no-think/prefill controls and strict forbidden-tool wording",
+      "evidence": [
+        "reports/runtime/qwen36-35b-a3b-q4-llamacpp-proof-20260525.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model Qwen/Qwen3.6-35B-A3B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-6-35b-a3b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    },
+    {
+      "id": "mkadrlik/Hermes-Qwen3.5-9B-SFT-v7",
+      "family": "hermes",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "9B",
+      "size_bucket": "medium",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "repair_hypothesis": "test Qwen-style no-think/prefill controls and strict forbidden-tool wording",
+      "evidence": [
+        "reports/benchmark/local-pilots/hermes-qwen35-9b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
+      ],
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mkadrlik-hermes-qwen3-5-9b-sft-v7 \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mkadrlik-hermes-qwen3-5-9b-sft-v7-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
+    }
+  ]
+}

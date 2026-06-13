@@ -163,6 +163,13 @@ Complete:
 - Runtime proof MLX and prompt-profile repair command cards also include
   `--require-no-extra-tool-text`, so all generated local chat/tool-call proof
   commands now share the same strict scoring boundary.
+- The dedicated prompt/profile repair queue is tracked at
+  `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`. It
+  extracts strict-format and empty-output blocked Hermes candidates from the
+  all-candidate benchmark coverage report, then emits no-download rerun commands
+  that preserve strict `--require-no-extra-tool-text` scoring. Treat it as the
+  next local repair work queue only; it does not promote any model or launch
+  remote jobs.
 - Jina MLX support-model proof command cards now rely on
   `scripts/run_jina_mlx_embedding_benchmark.py` to resolve the default
   SSD-backed repo directory, rather than emitting a literal `<repo-dir>`
@@ -207,6 +214,11 @@ Complete:
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.
 - The tiny helper/extraction lane is now explicitly codified as `tiny-helper-no-prefill` in `RUNTIME_PROMPT_PROFILES.yaml` for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Keep it raw and reproducible; do not treat it as Hermes-strict tool-call compliance.
+- The next local Hermes prompt/profile repair queue is now generated at
+  `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`. It
+  isolates 18 strict-format or empty-generation blocked candidates and gives
+  strict no-extra-tool-text rerun templates without redownloading models or
+  launching cloud jobs.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
@@ -369,7 +381,29 @@ Current gaps:
 2. Use Colab first for sanitized bounded benchmark or smoke jobs via `scripts/colab_dispatch.py`; only attempt Azure after `az login`, `scripts/azure_preflight.py --check-quota`, and explicit cost approval pass.
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
-5. Next local work should prioritize prompt/profile repair only for candidates with a concrete role: Gemma 4 E4B MLX, Gemma 4 31B-it, MiniCPM-o 4.5, MiniCPM-V-4.6, MiniCPM-V-4.6-Thinking, MiniCPM-SALA, AgentCPM-Report, Nanbeige4.1-3B, Granite 4.1 3B, LFM2.5 8B, MiniCPM5 1B, EXAONE 1.2B GGUF, Qwen3-4B-Instruct-2507, Qwen3-4B-Thinking-2507, Qwen3.5 0.8B/2B, Qwen3.5 9B, Qwen3.5 27B, and Qwen3.6-27B are all load-proven or verified candidates, but strict-format blocked or not yet proven. Gemma 4 E4B now has adapter-analysis evidence only: score-normalized BFCL pass is `0.333`, permissive parsed-tool profile pass is `0.333`, and no-extra-text Hermes-strict profile pass remains `0.000`. Granite 4.1 3B improved from `0.333` raw strict to `0.667` with the native score-only normalizer, but the parallel ticket-routing case still fails. MiniCPM5-1B should move only to prompt-format repair or helper/extraction comparison against Qwen3.5 0.8B/2B. LFM2.5 8B is GGUF load/generation proven but JSON-blocked. EXAONE 1.2B is GGUF runtime-proven but JSON-blocked, while MLX is config-blocked. Use Hermes 4.3, Qwen3-Coder-Next-GGUF, Qwen3.6-27B, Gemma 4 12B/31B, NVIDIA Gemma 4 31B NVFP4, OpenBMB AgentCPM-Report, NVIDIA Nemotron-Labs-Diffusion, Qwen3.6, LFM2-24B, NVIDIA Nemotron Ultra, DeepSeek-V4-Flash, DeepSeek-V4-Flash-Base, and BitNet as comparison/specialist baselines before attempting more local fine-tunes. For BitNet specifically, the next step is a non-interactive prompt wrapper plus Hermes extraction/tool-call smoke, not another raw `-cnv` run. For North Mini Code, wait for `cohere2moe` support in llama.cpp/LM Studio or switch to a safetensors/Transformers path. The follow-on execution lane is `conductor/tracks/tiny-helper-standard-benchmark-execution_20260612/`.
+5. Next local work should prioritize the generated prompt/profile repair queue
+   at `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`.
+   These are candidates with concrete roles that are load-proven or verified but
+   blocked by strict-format or empty strict-prompt behavior. Run them one by one
+   through existing SSD-backed artifacts/endpoints; do not redownload or promote
+   from this queue alone. Gemma 4 E4B now has adapter-analysis evidence only:
+   score-normalized BFCL pass is `0.333`, permissive parsed-tool profile pass is
+   `0.333`, and no-extra-text Hermes-strict profile pass remains `0.000`.
+   Granite 4.1 3B improved from `0.333` raw strict to `0.667` with the native
+   score-only normalizer, but the parallel ticket-routing case still fails.
+   MiniCPM5-1B should move only to prompt-format repair or helper/extraction
+   comparison against Qwen3.5 0.8B/2B. LFM2.5 8B is GGUF load/generation proven
+   but JSON-blocked. EXAONE 1.2B is GGUF runtime-proven but JSON-blocked, while
+   MLX is config-blocked. Use Hermes 4.3, Qwen3-Coder-Next-GGUF, Qwen3.6-27B,
+   Gemma 4 12B/31B, NVIDIA Gemma 4 31B NVFP4, OpenBMB AgentCPM-Report, NVIDIA
+   Nemotron-Labs-Diffusion, Qwen3.6, LFM2-24B, NVIDIA Nemotron Ultra,
+   DeepSeek-V4-Flash, DeepSeek-V4-Flash-Base, and BitNet as
+   comparison/specialist baselines before attempting more local fine-tunes. For
+   BitNet specifically, the next step is a non-interactive prompt wrapper plus
+   Hermes extraction/tool-call smoke, not another raw `-cnv` run. For North Mini
+   Code, wait for `cohere2moe` support in llama.cpp/LM Studio or switch to a
+   safetensors/Transformers path. The follow-on execution lane is
+   `conductor/tracks/tiny-helper-standard-benchmark-execution_20260612/`.
 6. If wiring mem0 into Hermes-agent, use `scripts/hermes_mem0_tool.py` or the manifest at `mem0/integration/hermes_agent_mem0_read_tool.json`; keep it explicit/cached, not an every-turn prelude. `mlx-bge` is available only as an opt-in mode with vector fallback; the broader cold/warm proof passed safely but remains too slow and singleton-only for automatic preludes. Keep Qwen3 0.6B as a learned-reranker candidate only after prompt/metadata work fixes the isolated fixture recency miss and the ONNX/Transformers.js bridge has a bounded CPU/CoreML proof.
 7. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
 8. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.

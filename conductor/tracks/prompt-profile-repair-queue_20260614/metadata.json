@@ -1,0 +1,8 @@
+{
+  "track_id": "prompt-profile-repair-queue_20260614",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Create a no-download prompt/profile repair queue for Hermes candidates blocked by strict tool-call formatting or empty strict-prompt output."
+}
