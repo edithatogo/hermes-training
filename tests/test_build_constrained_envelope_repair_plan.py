@@ -100,6 +100,87 @@ class BuildConstrainedEnvelopeRepairPlanTests(unittest.TestCase):
         self.assertEqual(plan["candidates"][0]["priority"], "high")
         self.assertIn("--require-no-extra-tool-text", plan["candidates"][0]["diagnostic_command"])
 
+    def test_nanbeige_remains_top_when_later_high_priority_has_higher_pass_rate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            nanbeige = root / "nanbeige"
+            later = root / "later"
+            nanbeige.mkdir()
+            later.mkdir()
+            for source in (nanbeige, later):
+                (source / "summary.json").write_text("{}", encoding="utf-8")
+                (source / "responses.jsonl").write_text("{}\n", encoding="utf-8")
+            (nanbeige / "results.jsonl").write_text(
+                json.dumps(
+                    {
+                        "id": "bfcl-simple",
+                        "category": "tool_call",
+                        "pass": False,
+                        "reason": "tool calls matched but extra text was present",
+                        "tool_calls": [{"name": "lookup_customer", "arguments": {}}],
+                        "parse_errors": [],
+                        "no_extra_text_ok": False,
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (later / "results.jsonl").write_text(
+                "\n".join(
+                    json.dumps(
+                        {
+                            "id": f"bfcl-{index}",
+                            "category": "tool_call",
+                            "pass": False,
+                            "reason": "tool calls matched but extra text was present",
+                            "tool_calls": [{"name": "lookup_customer", "arguments": {}}],
+                            "parse_errors": [],
+                            "no_extra_text_ok": False,
+                        }
+                    )
+                    for index in range(2)
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            report = root / "results.json"
+            report.write_text(
+                json.dumps(
+                    {
+                        "results": [
+                            {
+                                "candidate": "Nanbeige/Nanbeige4.1-3B",
+                                "variant": "strict",
+                                "runner": "local",
+                                "status": "completed-no-promotion",
+                                "pass_rate": 0.0,
+                                "passed": 0,
+                                "cases": 3,
+                                "result_report": "reports/benchmark/local-pilots/nanbeige41-3b-strict-suffix-copy-exact-repair-20260614.md",
+                                "source_summary": str(nanbeige / "summary.json"),
+                            },
+                            {
+                                "candidate": "Later/HighPriority",
+                                "variant": "strict",
+                                "runner": "endpoint",
+                                "status": "completed-no-promotion",
+                                "pass_rate": 0.333,
+                                "passed": 1,
+                                "cases": 3,
+                                "result_report": "reports/benchmark/endpoint-pilots/maniaclabs-qwen36-35b-a3b-2bit-strict-suffix-copy-exact-repair-20260614.md",
+                                "source_summary": str(later / "summary.json"),
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            plan = build_plan(report)
+
+        self.assertEqual(plan["candidates"][0]["candidate"], "Nanbeige/Nanbeige4.1-3B")
+        self.assertEqual(plan["candidates"][1]["candidate"], "Later/HighPriority")
+
     def test_endpoint_runner_gets_endpoint_diagnostic_command(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

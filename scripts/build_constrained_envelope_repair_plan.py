@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS = ROOT / "reports/benchmark/coverage/prompt-profile-repair-results-20260614.json"
 DEFAULT_JSON = ROOT / "reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.json"
 DEFAULT_MD = ROOT / "reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md"
+PRIMARY_ENVELOPE_CANDIDATE = "Nanbeige/Nanbeige4.1-3B"
 STRICT_SUFFIX = (
     "Return exactly one Hermes tool-call JSON object or JSON array and no prose, "
     "no markdown, no analysis, no hidden reasoning, and no tags."
@@ -216,6 +217,7 @@ def build_plan(results_path: Path = DEFAULT_RESULTS, created_at: str | None = No
     priority_order = {"high": 0, "medium": 1, "low": 2}
     candidates.sort(
         key=lambda item: (
+            item["candidate"] != PRIMARY_ENVELOPE_CANDIDATE,
             priority_order[item["priority"]],
             -int(item["case_metrics"].get("matched_tool_calls_extra_text", 0)),
             -float(item["best_pass_rate"]),

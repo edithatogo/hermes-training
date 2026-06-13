@@ -501,7 +501,10 @@ Current gaps:
    passing only simple lookup while returning empty parallel output and leaking
    the forbidden delete tool in refusals. mkadrlik Hermes-Qwen3.5 4B SFT v7 is
    endpoint-proven; strict suffix scored `1/3` and no-think/prefill regressed
-   to `0/3`, so prompt-only repair should stop for that lane. EXAONE 1.2B is
+   to `0/3`, so prompt-only repair should stop for that lane. mkadrlik
+   Hermes-Qwen3.5 9B SFT v7 is endpoint-proven; strict suffix scored `1/3`
+   from the clean refusal only, while no-think/prefill regressed to `0/3`.
+   EXAONE 1.2B is
    GGUF runtime-proven
    but JSON-blocked, while MLX is config-blocked. Use Hermes
    4.3, Qwen3-Coder-Next-GGUF, Qwen3.6-27B,

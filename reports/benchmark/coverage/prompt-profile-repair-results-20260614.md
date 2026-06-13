@@ -34,6 +34,8 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `Mungert/Nanbeige4.1-3B-GGUF` | `empty-output-retry` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/mungert-nanbeige41-3b-gguf-empty-output-retry-repair-20260614.md` |
 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-strict-suffix-copy-exact-repair-20260614.md` |
 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `qwen-no-think-prefill` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-4b-sft-v7-qwen-no-think-prefill-repair-20260614.md` |
+| `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-9b-sft-v7-strict-suffix-copy-exact-repair-20260614.md` |
+| `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | `qwen-no-think-prefill` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-9b-sft-v7-qwen-no-think-prefill-repair-20260614.md` |
 
 ## Decision Boundary
 
