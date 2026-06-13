@@ -31,6 +31,8 @@ blocker remains present.
 | Local exec log | `/Volumes/PortableSSD/hermes-evals/colab/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1/colab-exec.log` |
 | Recovered checkpoint JSON | `/Volumes/PortableSSD/hermes-evals/colab/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1/recovered/summary.json` |
 | Latest checkpoint | `adapter-ready` at `2026-06-13T05:01:55.699257+00:00` |
+| Latest recovery poll | `2026-06-13T05:10:55.641255+00:00` |
+| Wrapper recovery report | `reports/colab/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry1.md` |
 | Harness result | not produced/recovered |
 
 ## Recovered Checkpoint
@@ -45,6 +47,8 @@ The latest downloaded JSON reports:
 - `cuda_device_name`: `Tesla T4`
 - `accelerate_install.returncode`: `0`
 - `install.returncode`: `0`
+- `evaluation`: not present
+- `result_files`: not present
 
 The `blocked` status is the pre-evaluation default written before the
 evaluation subprocess starts. It should not be interpreted as a final task
@@ -70,4 +74,6 @@ recover this session first. If it completes with an `evaluation-complete`
 checkpoint, download the result JSON plus the lm-eval output directory and
 update the shard track. If it is pruned or remains stuck without result files,
 keep the Colab shard lane blocked until the Google Cloud service-usage
-permission or an external persistent-artifact backend is fixed.
+permission or an external persistent-artifact backend is fixed. Future retries
+should use the heartbeat-enabled runner from commit `6fb806e` and the shard
+wrapper from commit `9487c69`.
