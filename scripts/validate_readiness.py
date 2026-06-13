@@ -258,6 +258,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_conductor_track_consistency.py",
         ROOT / "scripts/check_mem0_benchmark_evidence.py",
         ROOT / "scripts/validate_mem0_benchmark_evidence_report.py",
+        ROOT / "scripts/summarize_mem0_benchmarks.py",
+        ROOT / "scripts/validate_mem0_benchmark_index.py",
         ROOT / "scripts/build_mem0_candidate_queue.py",
         ROOT / "scripts/validate_mem0_candidate_queue.py",
         ROOT / "scripts/check_specialist_runtime_preflight.py",
@@ -357,6 +359,24 @@ def check_mem0_benchmark_evidence_report(failures: list[str]) -> None:
         fail(f"mem0 benchmark evidence report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("mem0 benchmark evidence report")
+
+
+def check_mem0_benchmark_index(failures: list[str]) -> None:
+    eval_root = STORAGE_ROOT / "hermes-evals"
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_mem0_benchmark_index.py"),
+            "--eval-root",
+            str(eval_root),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"mem0 benchmark index: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("mem0 benchmark index")
 
 
 def check_candidate_registries(failures: list[str]) -> None:
@@ -589,6 +609,7 @@ def main() -> int:
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
     check_mem0_benchmark_evidence_report(failures)
+    check_mem0_benchmark_index(failures)
     check_candidate_registries(failures)
     check_candidate_benchmark_coverage(failures)
     check_runtime_proof_action_queue(failures)

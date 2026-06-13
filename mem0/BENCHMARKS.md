@@ -60,6 +60,10 @@ source scripts/env.sh
   /Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/*/summary.json \
   /Volumes/PortableSSD/hermes-evals/embedding-benchmark/*/summary.json \
   /Volumes/PortableSSD/hermes-evals/mem0-extraction-benchmark/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/mem0-reranking-benchmark/*/summary.json \
+  /Volumes/PortableSSD/hermes-evals/mem0-retriever-benchmark/*/summary.json \
   --output reports/benchmark/mem0/index.md
 ```
 
