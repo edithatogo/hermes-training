@@ -76,11 +76,10 @@ Both attempts wrote only to the SSD-local candidate profile path above.
 
 The Hermes-agent wrapper contract was also smoked through
 `scripts/hermes_mem0_tool.py` under
-`embeddinggemma-hermes-tool-profile-smoke-20260613`. That run passed as a
-read-only `embeddinggemma-proxy` invocation and propagated the explicit
-`mem0_config_path` without mutating defaults. It returned no memories through
-the shell `mem0` CLI path, so retrieval quality evidence remains the direct
-profile smoke and isolated fixture runs above.
+`embeddinggemma-proxy-hermes-tool-smoke-20260613`. That run passed as a
+read-only `embeddinggemma-proxy` invocation, propagated the explicit
+`mem0_config_path` without mutating defaults, and returned
+`nomic-embed-text:latest` as the top memory for the rollback query.
 
 ## Rollback
 
