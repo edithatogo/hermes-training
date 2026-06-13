@@ -96,8 +96,8 @@
       "candidate": "LiquidAI/LFM2.5-8B-A1B-GGUF",
       "environment": "mac-lmstudio",
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
-      "status": "pending-endpoint",
-      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant LFM2.5 8B A1B prompt repair; move to the next endpoint-gated candidate",
       "experiments": [
         {
           "variant": "strict-suffix-copy-exact",
@@ -106,11 +106,15 @@
           "strict_scoring": true
         }
       ],
-      "completed_variants": [],
-      "result_reports": [],
-      "result_report": "",
-      "source_summary": "",
-      "pass_rate": null,
+      "completed_variants": [
+        "strict-suffix-copy-exact"
+      ],
+      "result_reports": [
+        "reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md"
+      ],
+      "result_report": "reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103/summary.json",
+      "pass_rate": 0.0,
       "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
     },
     {

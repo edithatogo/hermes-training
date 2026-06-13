@@ -67,6 +67,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "repair_hypothesis": "test refusal wording and strict JSON/tool envelope profile on the existing GGUF endpoint",
       "evidence": [
+        "reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
         "reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md"
       ],

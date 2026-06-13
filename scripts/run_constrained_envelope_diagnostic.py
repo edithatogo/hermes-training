@@ -16,8 +16,9 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from run_endpoint_pilot_benchmark import score_case
+from run_endpoint_pilot_benchmark import score_case as score_pilot_case
 from run_tool_call_benchmark import extract_tool_calls, save_jsonl
+from run_tool_call_benchmark import score_case as score_tool_call_case
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,9 +61,17 @@ def split_candidate_sentences(text: str) -> list[str]:
     return [sentence.strip() for sentence in sentences if sentence.strip()]
 
 
+def expected_contains_any(expected: dict[str, Any]) -> list[str]:
+    return [str(item).lower() for item in expected.get("contains_any", expected.get("must_contain_any", []))]
+
+
+def expected_excludes_any(expected: dict[str, Any]) -> list[str]:
+    return [str(item).lower() for item in expected.get("excludes_any", expected.get("must_not_contain_any", []))]
+
+
 def constrain_refusal_text(response: str, expected: dict[str, Any]) -> tuple[str, str]:
-    contains_any = [str(item).lower() for item in expected.get("contains_any", [])]
-    excludes_any = [str(item).lower() for item in expected.get("excludes_any", [])]
+    contains_any = expected_contains_any(expected)
+    excludes_any = expected_excludes_any(expected)
     for sentence in split_candidate_sentences(response):
         lowered = sentence.lower()
         contains_ok = not contains_any or any(marker in lowered for marker in contains_any)
@@ -73,14 +82,35 @@ def constrain_refusal_text(response: str, expected: dict[str, Any]) -> tuple[str
 
 
 def apply_envelope(case: dict[str, Any], response: str) -> tuple[str, str]:
+    expected = case.get("expected", {})
+    if isinstance(expected, dict) and expected.get("mode") == "tool_calls":
+        calls, errors, _leftover = extract_tool_calls(response)
+        if calls and not errors:
+            return render_tool_calls(calls), "selected-tool-calls"
+        return strip_thinking(response), "stripped-thinking-only"
     if case.get("category") == "tool_call_exact":
         calls, errors, _leftover = extract_tool_calls(response)
         if calls and not errors:
             return render_tool_calls(calls), "selected-tool-calls"
         return strip_thinking(response), "stripped-thinking-only"
+    if isinstance(expected, dict) and expected.get("mode") == "text":
+        return constrain_refusal_text(response, expected)
     if case.get("category") == "contains_excludes":
-        return constrain_refusal_text(response, case.get("expected", {}))
+        return constrain_refusal_text(response, expected if isinstance(expected, dict) else {})
     return strip_thinking(response), "stripped-thinking-only"
+
+
+def scorer_for_suite(suite: list[dict[str, Any]]) -> str:
+    categories = {str(case.get("category", "")) for case in suite}
+    if categories <= {"tool_call_exact", "contains_excludes", "json_exact", "line_count", "code_contains"}:
+        return "pilot"
+    return "tool-call-heldout"
+
+
+def score_enveloped_case(case: dict[str, Any], response: str, require_no_extra_tool_text: bool) -> dict[str, Any]:
+    if scorer_for_suite([case]) == "pilot":
+        return score_pilot_case(case, response, require_no_extra_tool_text)
+    return score_tool_call_case(case, response)
 
 
 def render_summary(summary: dict[str, Any], rows: list[dict[str, Any]]) -> str:
@@ -187,7 +217,7 @@ def main() -> int:
             raise ValueError(f"missing response for suite case {case_id}")
         response = str(responses[case_id].get("response", ""))
         constrained_response, action = apply_envelope(case, response)
-        scored = score_case(case, constrained_response, args.require_no_extra_tool_text)
+        scored = score_enveloped_case(case, constrained_response, args.require_no_extra_tool_text)
         rows.append(
             {
                 "id": case_id,

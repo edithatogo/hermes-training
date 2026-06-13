@@ -239,6 +239,20 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant LFM2.5 8B A1B prompt repair; move to the next endpoint-gated candidate",
+      "result_report": "reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

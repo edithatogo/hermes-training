@@ -866,6 +866,16 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: LFM2.5 8B A1B GGUF Endpoint Prompt Repair Completion
+*Link: [./tracks/lfm25-8b-a1b-gguf-endpoint-prompt-repair-completion_20260614/](./tracks/lfm25-8b-a1b-gguf-endpoint-prompt-repair-completion_20260614/)*
+
+---
+
+## [x] Track: Nanbeige 4.1 3B Held-Out Envelope Diagnostic
+*Link: [./tracks/nanbeige41-3b-heldout-envelope-diagnostic_20260614/](./tracks/nanbeige41-3b-heldout-envelope-diagnostic_20260614/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Azure scorecard
 *Link: [./tracks/qwen3-v4-peft-azure-scorecard_20260613/](./tracks/qwen3-v4-peft-azure-scorecard_20260613/)*
 

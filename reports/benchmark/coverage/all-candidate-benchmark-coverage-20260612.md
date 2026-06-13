@@ -159,7 +159,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md` |
+| hermes | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md`<br>`reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`<br>`reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md` |
 | hermes | `LiquidAI/LFM2.5-350M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-VL-450M` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `LiquidAI/LFM2.5-Audio-1.5B` | `blocked` | blocked until runtime artifact/load proof exists |  |

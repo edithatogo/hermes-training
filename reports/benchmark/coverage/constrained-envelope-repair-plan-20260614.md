@@ -19,6 +19,7 @@ This report is non-promotional. It may justify a constrained-envelope diagnostic
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `medium` | `strict-suffix-copy-exact` | 0.333 | 0 | 2 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `ibm-granite/granite-4.1-3b` | `medium` | `granite-native-normalizer-analysis` | 0.333 | 0 | 4 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
+| `LiquidAI/LFM2.5-8B-A1B-GGUF` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `low` | `gemma-native-normalizer-analysis` | 0.000 | 0 | 4 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `openbmb/MiniCPM5-1B-MLX` | `low` | `minicpm-empty-tag-repair` | 0.000 | 0 | 6 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
@@ -83,6 +84,16 @@ Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` 
 source scripts/env.sh
 RUN_STAMP=$(date +%Y%m%d-%H%M%S)
 ./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'LGAI-EXAONE/EXAONE-4.0-1.2B' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "lgai-exaone-exaone-4-0-1-2b-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
+```
+
+### LiquidAI/LFM2.5-8B-A1B-GGUF
+
+Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` scoring.
+
+```bash
+source scripts/env.sh
+RUN_STAMP=$(date +%Y%m%d-%H%M%S)
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'LiquidAI/LFM2.5-8B-A1B-GGUF' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "liquidai-lfm2-5-8b-a1b-gguf-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
 ```
 
 ### mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit

@@ -26,6 +26,7 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-strict-suffix-copy-exact-repair-20260614.md` |
 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/exaone4-12b-strict-suffix-copy-exact-repair-20260614.md` |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/gemma4-e2b-gguf-strict-suffix-copy-exact-repair-20260614.md` |
+| `LiquidAI/LFM2.5-8B-A1B-GGUF` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md` |
 
 ## Decision Boundary
 

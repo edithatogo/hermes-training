@@ -80,7 +80,7 @@ source scripts/env.sh
 
 ### LiquidAI/LFM2.5-8B-A1B-GGUF
 
-- Evidence: `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`, `reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md`
+- Evidence: `reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md`, `reports/benchmark/local-pilots/lfm25-8b-a1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`, `reports/runtime/lfm25-8b-a1b-q4km-llamacpp-smoke-20260612.md`
 - Boundary: Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence.
 
 ```bash

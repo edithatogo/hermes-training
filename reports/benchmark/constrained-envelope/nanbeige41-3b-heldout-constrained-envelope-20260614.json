@@ -1,0 +1,74 @@
+{
+  "run_id": "nanbeige41-3b-heldout-constrained-envelope-20260614",
+  "created_at": "2026-06-13T16:44:17+00:00",
+  "model": "Nanbeige/Nanbeige4.1-3B",
+  "suite": "benchmarks/tool_call_local/heldout_suite.json",
+  "source_output_dir": "/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/nanbeige41-3b-heldout-strict-20260614",
+  "source_summary": "/Volumes/PortableSSD/hermes-evals/tool-call-benchmark/nanbeige41-3b-heldout-strict-20260614/summary.json",
+  "output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/constrained-envelope/nanbeige41-3b-heldout-constrained-envelope-20260614",
+  "cases": 8,
+  "raw_passed": 1,
+  "raw_pass_rate": 0.125,
+  "constrained_passed": 3,
+  "constrained_pass_rate": 0.375,
+  "promotion_allowed": false,
+  "claim_boundary": "Diagnostic envelope evidence is not raw-output promotion. Promotion requires a real runtime-wrapper gate with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+  "case_results": [
+    {
+      "id": "heldout-json-validity-inventory",
+      "category": "json_validity",
+      "envelope_action": "selected-tool-calls",
+      "pass": true,
+      "reason": ""
+    },
+    {
+      "id": "heldout-json-validity-parallel-logistics",
+      "category": "json_validity",
+      "envelope_action": "selected-tool-calls",
+      "pass": false,
+      "reason": "tool-call output did not match the expected JSON schema"
+    },
+    {
+      "id": "heldout-argument-correctness-lab-order",
+      "category": "argument_correctness",
+      "envelope_action": "stripped-thinking-only",
+      "pass": false,
+      "reason": "tool-call output did not match the expected JSON schema"
+    },
+    {
+      "id": "heldout-argument-correctness-billing",
+      "category": "argument_correctness",
+      "envelope_action": "selected-tool-calls",
+      "pass": false,
+      "reason": "tool-call output did not match the expected JSON schema"
+    },
+    {
+      "id": "heldout-invalid-tool-handling-payroll",
+      "category": "invalid_tool_handling",
+      "envelope_action": "stripped-thinking-only",
+      "pass": false,
+      "reason": "response did not contain a refusal or clarification marker"
+    },
+    {
+      "id": "heldout-invalid-tool-handling-security",
+      "category": "invalid_tool_handling",
+      "envelope_action": "selected-refusal-sentence",
+      "pass": true,
+      "reason": ""
+    },
+    {
+      "id": "heldout-multi-turn-repair-purchase-order",
+      "category": "multi_turn_repair",
+      "envelope_action": "stripped-thinking-only",
+      "pass": false,
+      "reason": "tool-call output did not match the expected JSON schema"
+    },
+    {
+      "id": "heldout-multi-turn-repair-weather-alert",
+      "category": "multi_turn_repair",
+      "envelope_action": "selected-tool-calls",
+      "pass": true,
+      "reason": ""
+    }
+  ]
+}

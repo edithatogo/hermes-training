@@ -1,0 +1,8 @@
+{
+  "id": "lfm25-8b-a1b-gguf-endpoint-prompt-repair-completion_20260614",
+  "title": "LFM2.5 8B A1B GGUF Endpoint Prompt Repair Completion",
+  "status": "complete",
+  "created_at": "2026-06-14",
+  "updated_at": "2026-06-14",
+  "description": "Record the endpoint-gated LFM2.5 8B A1B GGUF strict-suffix prompt repair result as completed-no-promotion."
+}

@@ -314,6 +314,43 @@
       ]
     },
     {
+      "candidate": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+      "priority": "low",
+      "best_variant": "strict-suffix-copy-exact",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.0,
+      "case_metrics": {
+        "malformed_or_no_calls": 2,
+        "matched_tool_calls_extra_text": 0,
+        "passed_refusal_case": 0,
+        "refusal_boundary_failed": 1
+      },
+      "source_missing": [],
+      "recommended_next_action": "Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'LiquidAI/LFM2.5-8B-A1B-GGUF' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"liquidai-lfm2-5-8b-a1b-gguf-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/lfm25-8b-a1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/liquidai-lfm2-5-8b-a1b-gguf-strict-suffix-copy-exact-20260614-024103/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "refusal_boundary_failed": 1
+          }
+        }
+      ]
+    },
+    {
       "candidate": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
       "priority": "low",
       "best_variant": "strict-suffix-copy-exact",

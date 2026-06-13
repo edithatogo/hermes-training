@@ -288,6 +288,10 @@ Complete:
   Metal and scored `1/3`, passing only the invalid-tool refusal. Tool-call cases
   emitted malformed Gemma/function-style payloads, so it remains
   `completed-no-promotion`.
+- LFM2.5 8B A1B GGUF strict-suffix endpoint repair ran through `llama-server`
+  on Metal and scored `0/3`; it refused available tools and mentioned the
+  forbidden delete tool in the refusal case, so it remains
+  `completed-no-promotion`.
 - The constrained-envelope repair plan is now tracked at
   `reports/benchmark/coverage/constrained-envelope-repair-plan-20260614.md`.
   It ranks Nanbeige 4.1 3B as the top non-promotional next diagnostic because
@@ -302,6 +306,10 @@ Complete:
   envelope can replay the same model outputs as `3/3` by selecting generated
   Hermes tool calls and a safe generated refusal sentence. This is wrapper
   design evidence only, not raw-model promotion.
+- The Nanbeige held-out constrained-envelope replay is now tracked at
+  `reports/benchmark/constrained-envelope/nanbeige41-3b-heldout-constrained-envelope-20260614.md`.
+  It improves raw held-out strict scoring from `1/8` to `3/8`, but remains
+  explicitly non-promotional and below any runtime-wrapper promotion threshold.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
