@@ -85,6 +85,10 @@ def summarize(data_dir: Path) -> dict[str, Any]:
             "origin": "repo-authored targeted synthetic rows from local failure analysis",
             "redistribution": "reviewed; no held-out prompt copying identified, but one generic held-out tool-name overlap remains disclosed",
         },
+        "strict_tool_call_expansion_v6_free_text_copy": {
+            "origin": "repo-authored targeted synthetic free-text-copy repair rows from local failure analysis",
+            "redistribution": "reviewed; no held-out prompt, argument string, or final assistant target copying identified",
+        },
     }
 
     unknown_sources = sorted(set(by_source) - set(policy))

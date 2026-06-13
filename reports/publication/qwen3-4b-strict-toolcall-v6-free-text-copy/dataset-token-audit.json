@@ -1,0 +1,30 @@
+{
+  "data": "/Volumes/PortableSSD/hermes-evals/datasets/qwen3-v6-synthetic-only-20260613",
+  "model": "Qwen/Qwen3-4B-MLX-4bit",
+  "splits": {
+    "test": {
+      "avg_tokens": 262.8,
+      "max": 311,
+      "p50": 247,
+      "p95": 264,
+      "rows": 5,
+      "tokens": 1314
+    },
+    "train": {
+      "avg_tokens": 243.7,
+      "max": 360,
+      "p50": 254,
+      "p95": 344,
+      "rows": 88,
+      "tokens": 21447
+    },
+    "validation": {
+      "avg_tokens": 267.4,
+      "max": 311,
+      "p50": 244,
+      "p95": 288,
+      "rows": 5,
+      "tokens": 1337
+    }
+  }
+}
