@@ -1,0 +1,8 @@
+{
+  "track_id": "cloud-blocker-artifact-aware-kaggle-status_20260614",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-14T01:20:00Z",
+  "updated_at": "2026-06-14T01:20:00Z",
+  "description": "Make cloud unblock reports derive Kaggle run-approval status from the passed notebook contract and result ingest gate."
+}

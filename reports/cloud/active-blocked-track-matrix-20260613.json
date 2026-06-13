@@ -69,17 +69,34 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "prepared-needs-notebook-contract",
-      "blocker": "Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract.",
+      "backend_status": "prepared-needs-run-approval",
+      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
       "commands": [
-        "./.venv/bin/python scripts/cloud_backend_preflight.py",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
       ],
       "next_task": "Submit the no-limit kernel only after explicit confirmation.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"
+    },
+    {
+      "backend": "lightning",
+      "backend_status": "blocked-needs-teamspace-owner",
+      "blocker": "Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.",
+      "commands": [
+        "lightning login",
+        "lightning studio list",
+        "lightning machine list",
+        "lightning job list",
+        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute"
+      ],
+      "next_task": "Run Lightning login and identify a real Teamspace only after explicit user approval.",
+      "title": "Qwen3 v4 PEFT Lightning scorecard",
+      "track_id": "qwen3-v4-peft-lightning-scorecard_20260614",
+      "track_path": "conductor/tracks/qwen3-v4-peft-lightning-scorecard_20260614"
     },
     {
       "backend": "modal",

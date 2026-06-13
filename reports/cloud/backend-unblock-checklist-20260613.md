@@ -86,18 +86,18 @@ ngc cloud-function task create --help
 
 ## kaggle
 
-- Status: `prepared-needs-notebook-contract`
-- Blocker: Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract.
+- Status: `prepared-needs-run-approval`
+- Blocker: Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.
 - Operator actions:
-  - Use the preflight SDK fallback quota evidence while the public `kaggle quota` renderer is failing.
-  - Review dataset terms and avoid private data uploads.
-  - Push the staged kernel only after explicit confirmation.
+  - Confirm the no-limit Kaggle run is approved before pushing the public kernel.
+  - Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.
+  - Run the result ingest validator with `--no-allow-pending` before any benchmark claim.
 - Commands:
 
 ```bash
-./.venv/bin/python scripts/cloud_backend_preflight.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
+./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending
 ```
 
 ## modal
@@ -132,4 +132,6 @@ lightning login
 lightning studio list
 lightning machine list
 lightning job list
+./.venv/bin/python scripts/submit_lightning_peft_scorecard.py
+./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute
 ```

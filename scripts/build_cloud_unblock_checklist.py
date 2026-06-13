@@ -11,6 +11,8 @@ from typing import Any
 DEFAULT_PREFLIGHT = Path("reports/cloud/backend-preflight-20260613.json")
 DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
+DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
+DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:
@@ -18,6 +20,23 @@ def load_preflight(path: Path) -> dict[str, Any]:
     if not isinstance(data, dict) or not isinstance(data.get("backends"), dict):
         raise ValueError(f"{path} does not look like a cloud backend preflight report")
     return data
+
+
+def load_optional_json(path: Path | None) -> dict[str, Any] | None:
+    if path is None or not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data if isinstance(data, dict) else None
+
+
+def derive_kaggle_status(status: str, contract_report: dict[str, Any] | None, ingest_report: dict[str, Any] | None) -> str:
+    if status != "prepared-needs-notebook-contract":
+        return status
+    contract_passed = contract_report is not None and contract_report.get("status") == "pass"
+    ingest_ready = ingest_report is not None and ingest_report.get("status") in {"pass", "pending_artifacts"}
+    if contract_passed and ingest_ready:
+        return "prepared-needs-run-approval"
+    return status
 
 
 def kaggle_unblock_item(status: str) -> dict[str, Any]:
@@ -52,6 +71,22 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
                 "./.venv/bin/python scripts/cloud_backend_preflight.py",
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+            ],
+        }
+    if status == "prepared-needs-run-approval":
+        return {
+            "backend": "kaggle",
+            "status": status,
+            "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
+            "operator_actions": [
+                "Confirm the no-limit Kaggle run is approved before pushing the public kernel.",
+                "Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.",
+                "Run the result ingest validator with `--no-allow-pending` before any benchmark claim.",
+            ],
+            "commands": [
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+                "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
             ],
         }
     return {
@@ -108,8 +143,17 @@ def modal_unblock_item(status: str) -> dict[str, Any]:
     }
 
 
-def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
+def checklist_items(
+    preflight: dict[str, Any],
+    kaggle_contract_report: dict[str, Any] | None = None,
+    kaggle_ingest_report: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     backends = preflight["backends"]
+    kaggle_status = derive_kaggle_status(
+        backends.get("kaggle", {}).get("status", "unknown"),
+        kaggle_contract_report,
+        kaggle_ingest_report,
+    )
     colab_policy = backends.get("colab", {}).get("accelerator_policy", {})
     colab_dispatch_command = colab_policy.get(
         "dispatch_command",
@@ -191,7 +235,7 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run",
             ],
         },
-        kaggle_unblock_item(backends.get("kaggle", {}).get("status", "unknown")),
+        kaggle_unblock_item(kaggle_status),
         modal_unblock_item(backends.get("modal", {}).get("status", "unknown")),
         {
             "backend": "lightning",
@@ -207,6 +251,8 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "lightning studio list",
                 "lightning machine list",
                 "lightning job list",
+                "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute",
             ],
         },
     ]
@@ -257,10 +303,16 @@ def main() -> int:
     parser.add_argument("--preflight", type=Path, default=DEFAULT_PREFLIGHT)
     parser.add_argument("--markdown-output", type=Path, default=DEFAULT_MARKDOWN)
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON)
+    parser.add_argument("--kaggle-contract-report", type=Path, default=DEFAULT_KAGGLE_CONTRACT)
+    parser.add_argument("--kaggle-ingest-report", type=Path, default=DEFAULT_KAGGLE_INGEST)
     args = parser.parse_args()
 
     preflight = load_preflight(args.preflight)
-    items = checklist_items(preflight)
+    items = checklist_items(
+        preflight,
+        load_optional_json(args.kaggle_contract_report),
+        load_optional_json(args.kaggle_ingest_report),
+    )
     payload = {"source_preflight": str(args.preflight), "items": items}
 
     args.markdown_output.parent.mkdir(parents=True, exist_ok=True)

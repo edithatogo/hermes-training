@@ -24,6 +24,8 @@ REQUIRED_TRACKS = {
     "qwen3-v4-peft-hf-jobs-scorecard_20260613",
     "qwen3-v4-peft-azure-scorecard_20260613",
     "qwen3-v4-peft-kaggle-scorecard_20260613",
+    "qwen3-v4-peft-modal-scorecard_20260614",
+    "qwen3-v4-peft-lightning-scorecard_20260614",
     "qwen3-v4-peft-ngc-cloud-function-scorecard_20260613",
 }
 

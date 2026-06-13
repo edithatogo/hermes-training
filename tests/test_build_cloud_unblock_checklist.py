@@ -40,6 +40,35 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
         self.assertIn("kaggle kernels list --mine --page-size 1", by_backend["kaggle"]["commands"])
         self.assertNotIn("kaggle auth login", by_backend["kaggle"]["commands"])
 
+    def test_kaggle_contract_and_ingest_gate_derive_run_approval_status(self) -> None:
+        items = checklist_items(
+            {
+                "backends": {
+                    "kaggle": {"status": "prepared-needs-notebook-contract"},
+                }
+            },
+            kaggle_contract_report={"status": "pass"},
+            kaggle_ingest_report={"status": "pending_artifacts"},
+        )
+        by_backend = {item["backend"]: item for item in items}
+
+        self.assertEqual(by_backend["kaggle"]["status"], "prepared-needs-run-approval")
+        self.assertIn("explicit run approval", by_backend["kaggle"]["blocker"])
+        self.assertIn(
+            "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
+            by_backend["kaggle"]["commands"],
+        )
+
+    def test_lightning_includes_guarded_submitter_commands(self) -> None:
+        items = checklist_items({"backends": {"lightning": {"status": "blocked-needs-teamspace-owner"}}})
+        by_backend = {item["backend"]: item for item in items}
+
+        self.assertIn("./.venv/bin/python scripts/submit_lightning_peft_scorecard.py", by_backend["lightning"]["commands"])
+        self.assertIn(
+            "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute",
+            by_backend["lightning"]["commands"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

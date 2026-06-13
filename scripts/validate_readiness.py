@@ -285,6 +285,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_kaggle_peft_scorecard.py",
         ROOT / "scripts/modal_peft_lm_eval_selected.py",
         ROOT / "scripts/submit_modal_peft_scorecard.py",
+        ROOT / "scripts/submit_lightning_peft_scorecard.py",
         ROOT / "scripts/submit_ngc_cloud_function_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",

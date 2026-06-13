@@ -325,6 +325,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Cloud Blocker Artifact-Aware Kaggle Status
+*Link: [./tracks/cloud-blocker-artifact-aware-kaggle-status_20260614/](./tracks/cloud-blocker-artifact-aware-kaggle-status_20260614/)*
+
+---
+
 ## [x] Track: Qwen3 0.6B Live mem0 Rerank Wrapper
 *Link: [./tracks/qwen3-06b-live-mem0-rerank_20260526/](./tracks/qwen3-06b-live-mem0-rerank_20260526/)*
 
@@ -798,6 +803,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [~] Track: Qwen3 v4 PEFT Modal scorecard
 *Link: [./tracks/qwen3-v4-peft-modal-scorecard_20260614/](./tracks/qwen3-v4-peft-modal-scorecard_20260614/)*
+
+---
+
+## [~] Track: Qwen3 v4 PEFT Lightning scorecard
+*Link: [./tracks/qwen3-v4-peft-lightning-scorecard_20260614/](./tracks/qwen3-v4-peft-lightning-scorecard_20260614/)*
 
 ---
 
