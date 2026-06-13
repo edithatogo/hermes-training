@@ -51,7 +51,7 @@ def classify_adapter(adapter_dir: Path, config: dict[str, Any]) -> dict[str, Any
     }
 
 
-def build_report(plan_path: Path, adapter_config_path: Path) -> dict[str, Any]:
+def build_report(plan_path: Path, adapter_config_path: Path, created_at: str | None = None) -> dict[str, Any]:
     plan = load_yaml(plan_path)
     adapter_config = load_json(adapter_config_path)
     adapter_dir = adapter_config_path.parent
@@ -70,7 +70,7 @@ def build_report(plan_path: Path, adapter_config_path: Path) -> dict[str, Any]:
         blockers.append("scorecard output_dir is not SSD-backed")
 
     return {
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
         "status": status if not blockers else "blocked",
         "plan": str(plan_path.relative_to(ROOT) if plan_path.is_relative_to(ROOT) else plan_path),
         "run_id": plan.get("run_id", ""),
@@ -129,9 +129,13 @@ def main() -> int:
     parser.add_argument("--json-output", type=Path, default=ROOT / "reports/cloud/qwen3-v4-scorecard-offload-readiness-20260613.json")
     parser.add_argument("--markdown-output", type=Path, default=ROOT / "reports/cloud/qwen3-v4-scorecard-offload-readiness-20260613.md")
     parser.add_argument("--require-ready", action="store_true")
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
-    report = build_report(args.plan, args.adapter_config)
+    report = build_report(args.plan, args.adapter_config, created_at=args.created_at)
     args.json_output.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
     args.json_output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

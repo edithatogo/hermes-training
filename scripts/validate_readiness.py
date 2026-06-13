@@ -259,6 +259,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_specialist_runtime_preflight.py",
         ROOT / "scripts/validate_official_benchmark_manifests.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
+        ROOT / "scripts/validate_scorecard_offload_readiness.py",
         ROOT / "scripts/build_all_candidate_benchmark_coverage.py",
         ROOT / "scripts/validate_all_candidate_benchmark_coverage.py",
         ROOT / "scripts/build_runtime_proof_action_queue.py",
@@ -376,6 +377,21 @@ def check_runtime_proof_action_queue(failures: list[str]) -> None:
         fail(f"runtime-proof action queue: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("runtime-proof action queue")
+
+
+def check_scorecard_offload_readiness(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_scorecard_offload_readiness.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"scorecard offload readiness: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("scorecard offload readiness")
 
 
 def check_cloud_blocker_reports(failures: list[str]) -> None:
@@ -507,6 +523,7 @@ def main() -> int:
     check_candidate_registries(failures)
     check_candidate_benchmark_coverage(failures)
     check_runtime_proof_action_queue(failures)
+    check_scorecard_offload_readiness(failures)
     check_cloud_blocker_reports(failures)
 
     if failures:
