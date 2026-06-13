@@ -270,6 +270,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_kaggle_peft_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",
+        ROOT / "scripts/validate_cloud_blocker_reports.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
         ROOT / "scripts/run_colbert_read_stack_smoke.py",
@@ -328,6 +329,21 @@ def check_mem0_benchmark_evidence(failures: list[str]) -> None:
         fail(f"mem0 benchmark evidence: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("mem0 benchmark evidence")
+
+
+def check_cloud_blocker_reports(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_cloud_blocker_reports.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"cloud blocker reports: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("cloud blocker reports")
 
 
 def check_publication_bundles(failures: list[str]) -> None:
@@ -441,6 +457,7 @@ def main() -> int:
     check_official_benchmark_manifests(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
+    check_cloud_blocker_reports(failures)
 
     if failures:
         print("\nnot ready:")
