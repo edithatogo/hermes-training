@@ -41,6 +41,8 @@ def quote(value: str) -> str:
 def base_runner(row: dict[str, Any]) -> str:
     environment = str(row.get("environment", ""))
     model_id = str(row.get("id", ""))
+    if environment not in {"mac-mlx", "mac-lmstudio", "mac-ollama", "hf-transformers"}:
+        return "blocked"
     route_text = " ".join(
         str(row.get(key, ""))
         for key in ("id", "environment", "repair_hypothesis", "next_command")
@@ -170,6 +172,8 @@ def build_experiments(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for row in rows:
         candidate = str(row.get("id", ""))
         runner = base_runner(row)
+        if runner == "blocked":
+            continue
         for priority, variant in enumerate(variants_for(row), 1):
             if runner == "endpoint" and variant.get("score_normalizer"):
                 continue

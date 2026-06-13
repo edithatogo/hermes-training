@@ -1,6 +1,6 @@
 {
   "run_id": "prompt-profile-repair-experiments-20260614",
-  "created_at": "2026-06-14T00:00:00+00:00",
+  "created_at": "2026-06-14T02:30:00+00:00",
   "source_queue": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-queue-20260614.json",
   "experiments": [
     {
@@ -184,32 +184,6 @@
       "promotion_boundary": "A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.",
       "command": "source scripts/env.sh\n# No download here: run only against the existing SSD-backed artifact or local endpoint.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py --model Qwen/Qwen3.5-2B --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'qwen-qwen3-5-2b-qwen-no-think-prefill-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.' --user-prefix /no_think --assistant-prefill '<think>\n\n</think>\n\n'",
       "priority": 3
-    },
-    {
-      "candidate": "Qwen/Qwen3.6-35B-A3B",
-      "environment": "azure-cuda",
-      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
-      "variant": "strict-suffix-copy-exact",
-      "goal": "tighten raw Hermes tool-call formatting and exact argument copying",
-      "runner": "local",
-      "strict_scoring": true,
-      "raw_output_promotion_allowed": true,
-      "promotion_boundary": "A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.",
-      "command": "source scripts/env.sh\n# No download here: run only against the existing SSD-backed artifact or local endpoint.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py --model Qwen/Qwen3.6-35B-A3B --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'qwen-qwen3-6-35b-a3b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.'",
-      "priority": 1
-    },
-    {
-      "candidate": "Qwen/Qwen3.6-35B-A3B",
-      "environment": "azure-cuda",
-      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
-      "variant": "qwen-no-think-prefill",
-      "goal": "test Qwen no-think controls while preserving strict no-extra-tool-text scoring",
-      "runner": "local",
-      "strict_scoring": true,
-      "raw_output_promotion_allowed": true,
-      "promotion_boundary": "A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.",
-      "command": "source scripts/env.sh\n# No download here: run only against the existing SSD-backed artifact or local endpoint.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py --model Qwen/Qwen3.6-35B-A3B --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'qwen-qwen3-6-35b-a3b-qwen-no-think-prefill-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.' --user-prefix /no_think --assistant-prefill '<think>\n\n</think>\n\n'",
-      "priority": 2
     },
     {
       "candidate": "google/gemma-4-E2B-it-qat-q4_0-gguf",

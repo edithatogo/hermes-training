@@ -1,0 +1,421 @@
+{
+  "run_id": "prompt-profile-repair-ledger-20260614",
+  "created_at": "2026-06-14T03:10:00+00:00",
+  "source_queue": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-queue-20260614.json",
+  "source_experiments": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.json",
+  "rows": [
+    {
+      "priority": 1,
+      "candidate": "LGAI-EXAONE/EXAONE-4.0-1.2B",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 2,
+      "candidate": "google/gemma-4-E2B-it-qat-q4_0-gguf",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 3,
+      "candidate": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 4,
+      "candidate": "LiquidAI/LFM2.5-8B-A1B-GGUF",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 5,
+      "candidate": "openbmb/MiniCPM5-1B-GGUF",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "minicpm-empty-tag-repair",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 6,
+      "candidate": "openbmb/MiniCPM5-1B-MLX",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-local",
+      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "minicpm-empty-tag-repair",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 7,
+      "candidate": "Qwen/Qwen3.5-0.8B",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-local",
+      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 8,
+      "candidate": "Qwen/Qwen3.5-2B",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-local",
+      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 9,
+      "candidate": "mlx-community/gemma-4-E4B-it-qat-4bit",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-local-with-analysis-variant",
+      "next_action": "run raw-output variants first; analysis-only normalizer variants cannot promote",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "gemma-native-normalizer-analysis",
+          "runner": "local",
+          "raw_output_promotion_allowed": false,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 10,
+      "candidate": "ibm-granite/granite-4.1-3b",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-local-with-analysis-variant",
+      "next_action": "run raw-output variants first; analysis-only normalizer variants cannot promote",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "granite-native-normalizer-analysis",
+          "runner": "local",
+          "raw_output_promotion_allowed": false,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 11,
+      "candidate": "mkadrlik/Hermes-Qwen3.5-4B-SFT-v7",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 12,
+      "candidate": "Mungert/Nanbeige4.1-3B-GGUF",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 13,
+      "candidate": "Nanbeige/Nanbeige4.1-3B",
+      "environment": "hf-transformers",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-local",
+      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 14,
+      "candidate": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
+      "environment": "mac-mlx",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-local",
+      "next_action": "run one local MLX/Transformers experiment and capture the report path",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "local",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 15,
+      "candidate": "nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 16,
+      "candidate": "ManiacLabs/Qwen3.6-35B-A3B-2bit",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by empty/no-content generation under the strict prompt",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 17,
+      "candidate": "Qwen/Qwen3.6-35B-A3B",
+      "environment": "azure-cuda",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "blocked-non-local",
+      "next_action": "candidate environment is not locally runnable; wait for the relevant cloud/offload track",
+      "experiments": [],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    },
+    {
+      "priority": 18,
+      "candidate": "mkadrlik/Hermes-Qwen3.5-9B-SFT-v7",
+      "environment": "mac-lmstudio",
+      "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
+      "status": "pending-endpoint",
+      "next_action": "start the existing local endpoint for the SSD-backed artifact, then run one experiment",
+      "experiments": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "raw_output_promotion_allowed": true,
+          "strict_scoring": true
+        }
+      ],
+      "result_report": "",
+      "promotion_gate": "Do not promote until raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, rollback, and publication checks."
+    }
+  ]
+}

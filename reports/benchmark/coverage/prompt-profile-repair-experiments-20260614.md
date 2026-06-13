@@ -1,7 +1,7 @@
 # Prompt/Profile Repair Experiments
 
 Run ID: `prompt-profile-repair-experiments-20260614`
-Created: `2026-06-14T00:00:00+00:00`
+Created: `2026-06-14T02:30:00+00:00`
 
 Purpose: turn the prompt/profile repair queue into concrete, no-download experiment commands using existing local runners.
 
@@ -23,8 +23,6 @@ Purpose: turn the prompt/profile repair queue into concrete, no-download experim
 | `Qwen/Qwen3.5-2B` | `strict-suffix-copy-exact` | `local` | yes | tighten raw Hermes tool-call formatting and exact argument copying |
 | `Qwen/Qwen3.5-2B` | `empty-output-retry` | `local` | yes | test whether a direct non-empty tool-call instruction clears strict-prompt blank output |
 | `Qwen/Qwen3.5-2B` | `qwen-no-think-prefill` | `local` | yes | test Qwen no-think controls while preserving strict no-extra-tool-text scoring |
-| `Qwen/Qwen3.6-35B-A3B` | `strict-suffix-copy-exact` | `local` | yes | tighten raw Hermes tool-call formatting and exact argument copying |
-| `Qwen/Qwen3.6-35B-A3B` | `qwen-no-think-prefill` | `local` | yes | test Qwen no-think controls while preserving strict no-extra-tool-text scoring |
 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `strict-suffix-copy-exact` | `endpoint` | yes | tighten raw Hermes tool-call formatting and exact argument copying |
 | `ibm-granite/granite-4.1-3b` | `strict-suffix-copy-exact` | `local` | yes | tighten raw Hermes tool-call formatting and exact argument copying |
 | `ibm-granite/granite-4.1-3b` | `granite-native-normalizer-analysis` | `local` | no; analysis only | measure score-only Granite native tool-call normalization and exact-copy repair |
@@ -213,32 +211,6 @@ source scripts/env.sh
 '
 ```
 
-### Qwen/Qwen3.6-35B-A3B / strict-suffix-copy-exact
-
-- Goal: tighten raw Hermes tool-call formatting and exact argument copying
-- Boundary: A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.
-
-```bash
-source scripts/env.sh
-# No download here: run only against the existing SSD-backed artifact or local endpoint.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py --model Qwen/Qwen3.6-35B-A3B --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'qwen-qwen3-6-35b-a3b-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.'
-```
-
-### Qwen/Qwen3.6-35B-A3B / qwen-no-think-prefill
-
-- Goal: test Qwen no-think controls while preserving strict no-extra-tool-text scoring
-- Boundary: A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.
-
-```bash
-source scripts/env.sh
-# No download here: run only against the existing SSD-backed artifact or local endpoint.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py --model Qwen/Qwen3.6-35B-A3B --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'qwen-qwen3-6-35b-a3b-qwen-no-think-prefill-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.' --user-prefix /no_think --assistant-prefill '<think>
-
-</think>
-
-'
-```
-
 ### google/gemma-4-E2B-it-qat-q4_0-gguf / strict-suffix-copy-exact
 
 - Goal: tighten raw Hermes tool-call formatting and exact argument copying
@@ -333,6 +305,32 @@ source scripts/env.sh
 source scripts/env.sh
 # No download here: run only against the existing SSD-backed artifact or local endpoint.
 ./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --model mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh --base-url 'http://127.0.0.1:<port>/v1' --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.'
+```
+
+### mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh / empty-output-retry
+
+- Goal: test whether a direct non-empty tool-call instruction clears strict-prompt blank output
+- Boundary: A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.
+
+```bash
+source scripts/env.sh
+# No download here: run only against the existing SSD-backed artifact or local endpoint.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --model mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh --base-url 'http://127.0.0.1:<port>/v1' --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. If a listed tool can satisfy the request, emit the tool call instead of an empty answer.'
+```
+
+### mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh / qwen-no-think-prefill
+
+- Goal: test Qwen no-think controls while preserving strict no-extra-tool-text scoring
+- Boundary: A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.
+
+```bash
+source scripts/env.sh
+# No download here: run only against the existing SSD-backed artifact or local endpoint.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --model mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh --base-url 'http://127.0.0.1:<port>/v1' --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id 'mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-$(date +%Y%m%d-%H%M%S)' --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.' --user-prefix /no_think --assistant-prefill '<think>
+
+</think>
+
+'
 ```
 
 ## Policy

@@ -278,6 +278,10 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_prompt_profile_repair_queue.py",
         ROOT / "scripts/build_prompt_profile_repair_experiments.py",
         ROOT / "scripts/validate_prompt_profile_repair_experiments.py",
+        ROOT / "scripts/build_prompt_profile_repair_ledger.py",
+        ROOT / "scripts/validate_prompt_profile_repair_ledger.py",
+        ROOT / "scripts/select_prompt_profile_repair_experiment.py",
+        ROOT / "scripts/validate_prompt_profile_repair_selection.py",
         ROOT / "scripts/convert_mlx_lora_to_peft.py",
         ROOT / "scripts/colab_mlx_adapter_portability_probe.py",
         ROOT / "scripts/colab_peft_adapter_load_smoke.py",
@@ -602,6 +606,36 @@ def check_prompt_profile_repair_experiments(failures: list[str]) -> None:
         ok("prompt/profile repair experiments")
 
 
+def check_prompt_profile_repair_ledger(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_prompt_profile_repair_ledger.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"prompt/profile repair ledger: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("prompt/profile repair ledger")
+
+
+def check_prompt_profile_repair_selection(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_prompt_profile_repair_selection.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"prompt/profile repair selection: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("prompt/profile repair selection")
+
+
 def check_publication_bundles(failures: list[str]) -> None:
     bundle = ROOT / "reports/publication/qwen3-4b-strict-toolcall-v4-targeted"
     result = subprocess.run(
@@ -744,6 +778,8 @@ def main() -> int:
     check_free_container_account_probe(failures)
     check_prompt_profile_repair_queue(failures)
     check_prompt_profile_repair_experiments(failures)
+    check_prompt_profile_repair_ledger(failures)
+    check_prompt_profile_repair_selection(failures)
 
     if failures:
         print("\nnot ready:")

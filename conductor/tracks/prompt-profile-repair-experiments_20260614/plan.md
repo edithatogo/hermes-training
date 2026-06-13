@@ -19,12 +19,28 @@
 - [x] Task: Add deterministic report validation and readiness wiring.
 - [x] Task: Generate reports and update handoff/registry.
 
+## Phase 4 - Selection Gate
+
+- [x] Task: Add a selector for one experiment by index or candidate/variant.
+- [x] Task: Keep execution blocked unless `--execute --confirm-local-run` is supplied.
+- [x] Task: Require endpoint `--base-url` replacement before endpoint execution.
+- [x] Task: Track and validate the default dry-run selection report.
+
+## Phase 5 - Execution Ledger
+
+- [x] Task: Add a ledger separating pending local, pending endpoint, analysis-only, and non-local blocked candidates.
+- [x] Task: Keep result report paths blank until a real benchmark exists.
+- [x] Task: Add deterministic ledger validation to full readiness.
+
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.8 / 10
+- Current estimate: 9.9 / 10
 - Evidence: The experiment matrix is deterministic, strict, no-download, and
-  explicit about analysis-only normalizers.
+  explicit about analysis-only normalizers. The selection gate records the
+  default Qwen3.5 0.8B strict-suffix dry-run without launching a benchmark. The
+  ledger records 18 candidates across local, endpoint, analysis-only, and
+  non-local-blocked statuses.
 - Validation: Focused unit tests, experiment validator, Conductor consistency,
   and full readiness are required before commit.
 - Gaps: No repair experiments were executed in this track.

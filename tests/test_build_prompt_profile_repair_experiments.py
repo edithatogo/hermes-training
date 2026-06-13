@@ -94,6 +94,20 @@ class BuildPromptProfileRepairExperimentsTests(unittest.TestCase):
         self.assertIn("scripts/run_endpoint_pilot_benchmark.py", command)
         self.assertNotIn("scripts/run_local_pilot_benchmark.py", command)
 
+    def test_cloud_only_candidate_does_not_emit_executable_experiments(self) -> None:
+        experiments = build_experiments(
+            [
+                row(
+                    id="Qwen/Qwen3.6-35B-A3B",
+                    family="qwen",
+                    environment="azure-cuda",
+                    blocked_reason="blocked by strict Hermes tool-call formatting failure",
+                )
+            ]
+        )
+
+        self.assertEqual(experiments, [])
+
 
 if __name__ == "__main__":
     unittest.main()
