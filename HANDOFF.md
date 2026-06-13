@@ -163,6 +163,12 @@ Complete:
 - Runtime proof MLX and prompt-profile repair command cards also include
   `--require-no-extra-tool-text`, so all generated local chat/tool-call proof
   commands now share the same strict scoring boundary.
+- Jina MLX support-model proof command cards now rely on
+  `scripts/run_jina_mlx_embedding_benchmark.py` to resolve the default
+  SSD-backed repo directory, rather than emitting a literal `<repo-dir>`
+  placeholder. Keep `--local-files-only` for queued proof runs after artifact
+  acquisition; remove it only for a deliberate first acquisition after
+  license/access checks.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.

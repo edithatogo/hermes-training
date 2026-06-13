@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T06:48:00+00:00",
+  "created_at": "2026-06-13T07:05:00+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -961,7 +961,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX inference smoke",
-      "next_command": "source scripts/env.sh\n# Use an SSD-backed cache/repo-dir and local-files-only once the artifact is acquired.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano-mlx \\\n  --task-type retrieval \\\n  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/<repo-dir> \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Uses the runner's default SSD repo-dir; remove --local-files-only only for first acquisition after license/access checks.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano-mlx \\\n  --task-type retrieval \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Compact Jina omni packaging with dynamic task switching. Useful when the small 2B lane is more memory than needed."
     },
     {
@@ -976,7 +976,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX inference smoke",
-      "next_command": "source scripts/env.sh\n# Use an SSD-backed cache/repo-dir and local-files-only once the artifact is acquired.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano-retrieval-mlx \\\n  --task-type retrieval \\\n  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/<repo-dir> \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-retrieval-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Uses the runner's default SSD repo-dir; remove --local-files-only only for first acquisition after license/access checks.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano-retrieval-mlx \\\n  --task-type retrieval \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-retrieval-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Task-specific Jina omni retrieval lane for Apple Silicon. Good small baseline for screenshot and document-image search."
     },
     {
@@ -1006,7 +1006,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX inference smoke",
-      "next_command": "source scripts/env.sh\n# Use an SSD-backed cache/repo-dir and local-files-only once the artifact is acquired.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small-mlx \\\n  --task-type retrieval \\\n  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/<repo-dir> \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Uses the runner's default SSD repo-dir; remove --local-files-only only for first acquisition after license/access checks.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small-mlx \\\n  --task-type retrieval \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Apple Silicon packaging lane for the Jina small omni model. Good fit for Hermes local retrieval experiments."
     },
     {
@@ -1021,7 +1021,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX inference smoke",
-      "next_command": "source scripts/env.sh\n# Use an SSD-backed cache/repo-dir and local-files-only once the artifact is acquired.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx \\\n  --task-type text-matching \\\n  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/<repo-dir> \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# Uses the runner's default SSD repo-dir; remove --local-files-only only for first acquisition after license/access checks.\n./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx \\\n  --task-type text-matching \\\n  --local-files-only \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Current mem0-style MLX retrieval candidate. Useful for pairing with retrieval and reranking experiments."
     },
     {

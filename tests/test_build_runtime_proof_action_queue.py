@@ -102,6 +102,41 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("strict-profile-repair", command)
         self.assertIn("--require-no-extra-tool-text", command)
 
+    def test_jina_mlx_support_command_uses_default_ssd_repo_dir_without_placeholder(self) -> None:
+        item = candidate(
+            id="jinaai/jina-embeddings-v5-omni-small-text-matching-mlx",
+            family="jina",
+            role="retrieval",
+            environment="mac-mlx",
+            first_runtime="Jina MLX embedding smoke",
+            notes="Jina MLX text-matching support lane",
+        )
+
+        command = next_command(item, "support-model-proof")
+
+        self.assertIn("scripts/run_jina_mlx_embedding_benchmark.py", command)
+        self.assertIn("--task-type text-matching", command)
+        self.assertIn("--local-files-only", command)
+        self.assertIn("memory_retrieval_differentiation_suite.json", command)
+        self.assertIn("default SSD repo-dir", command)
+        self.assertNotIn("--repo-dir", command)
+        self.assertNotIn("<repo-dir>", command)
+
+    def test_jina_mlx_support_command_defaults_to_retrieval_task(self) -> None:
+        item = candidate(
+            id="jinaai/jina-embeddings-v5-omni-small-mlx",
+            family="jina",
+            role="retrieval",
+            environment="mac-mlx",
+            first_runtime="Jina MLX embedding smoke",
+            notes="Jina MLX retrieval support lane",
+        )
+
+        command = next_command(item, "support-model-proof")
+
+        self.assertIn("--task-type retrieval", command)
+        self.assertNotIn("<repo-dir>", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

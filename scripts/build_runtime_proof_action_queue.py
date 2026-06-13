@@ -137,11 +137,10 @@ def next_command(item: dict[str, Any], lane: str) -> str:
             return "\n".join(
                 [
                     "source scripts/env.sh",
-                    "# Use an SSD-backed cache/repo-dir and local-files-only once the artifact is acquired.",
+                    "# Uses the runner's default SSD repo-dir; remove --local-files-only only for first acquisition after license/access checks.",
                     "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\",
                     f"  --model {model_id} \\",
                     f"  --task-type {task_type} \\",
-                    "  --repo-dir /Volumes/PortableSSD/huggingface/hub/jina-mlx/<repo-dir> \\",
                     "  --local-files-only \\",
                     "  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\",
                     f"  --run-id {slug}-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
