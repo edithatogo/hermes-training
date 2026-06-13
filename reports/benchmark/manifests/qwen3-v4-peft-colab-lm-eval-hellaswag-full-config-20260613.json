@@ -9,6 +9,7 @@
   "dtype": "float16",
   "use_4bit": true,
   "timeout_s": 21600,
+  "eval_checkpoint_interval_s": 300,
   "hf_results_repo": "edithatogo/qwen3-v4-peft-lm-eval-results",
   "upload_checkpoints": false,
   "transformers_spec": "transformers>=4.56,<5",

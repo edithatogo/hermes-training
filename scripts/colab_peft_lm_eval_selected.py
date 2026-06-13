@@ -10,7 +10,7 @@ import tarfile
 import time
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 
 CONFIG_PATH = Path(os.environ.get("LM_EVAL_CONFIG_JSON", "/content/qwen3-v4-peft-lm-eval-config.json"))
@@ -78,28 +78,78 @@ OUTPUT_JSON = Path(setting("result_json", "LM_EVAL_RESULT_JSON", "/content/qwen3
 RUN_ID = str(setting("run_id", "RUN_ID", OUTPUT_JSON.stem))
 HF_RESULTS_REPO = parse_optional_text(setting("hf_results_repo", "HF_RESULTS_REPO", None))
 UPLOAD_CHECKPOINTS = parse_bool(setting("upload_checkpoints", "LM_EVAL_UPLOAD_CHECKPOINTS", False))
+EVAL_CHECKPOINT_INTERVAL_S = int(setting("eval_checkpoint_interval_s", "LM_EVAL_CHECKPOINT_INTERVAL_S", "300"))
 
 
-def run_command(command: list[str], timeout_s: int) -> dict[str, Any]:
+def run_command(
+    command: list[str],
+    timeout_s: int,
+    *,
+    heartbeat_interval_s: int | None = None,
+    heartbeat: Callable[[float], None] | None = None,
+) -> dict[str, Any]:
     started = time.time()
-    try:
-        result = subprocess.run(command, check=False, capture_output=True, text=True, timeout=timeout_s)
-    except subprocess.TimeoutExpired as exc:
+    if heartbeat is None or heartbeat_interval_s is None or heartbeat_interval_s <= 0:
+        try:
+            result = subprocess.run(command, check=False, capture_output=True, text=True, timeout=timeout_s)
+        except subprocess.TimeoutExpired as exc:
+            return {
+                "command": command,
+                "returncode": None,
+                "timed_out": True,
+                "duration_s": time.time() - started,
+                "stdout_tail": (exc.stdout or "")[-4000:] if isinstance(exc.stdout, str) else "",
+                "stderr_tail": (exc.stderr or "")[-4000:] if isinstance(exc.stderr, str) else "",
+            }
         return {
             "command": command,
-            "returncode": None,
-            "timed_out": True,
+            "returncode": result.returncode,
+            "timed_out": False,
             "duration_s": time.time() - started,
-            "stdout_tail": (exc.stdout or "")[-4000:] if isinstance(exc.stdout, str) else "",
-            "stderr_tail": (exc.stderr or "")[-4000:] if isinstance(exc.stderr, str) else "",
+            "stdout_tail": result.stdout[-4000:],
+            "stderr_tail": result.stderr[-4000:],
         }
+
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)  # noqa: S603
+    try:
+        while True:
+            elapsed = time.time() - started
+            remaining = timeout_s - elapsed
+            if remaining <= 0:
+                process.kill()
+                stdout, stderr = process.communicate()
+                return {
+                    "command": command,
+                    "returncode": None,
+                    "timed_out": True,
+                    "duration_s": time.time() - started,
+                    "stdout_tail": stdout[-4000:],
+                    "stderr_tail": stderr[-4000:],
+                }
+            wait_s = min(float(heartbeat_interval_s), remaining)
+            try:
+                stdout, stderr = process.communicate(timeout=wait_s)
+                return {
+                    "command": command,
+                    "returncode": process.returncode,
+                    "timed_out": False,
+                    "duration_s": time.time() - started,
+                    "stdout_tail": stdout[-4000:],
+                    "stderr_tail": stderr[-4000:],
+                }
+            except subprocess.TimeoutExpired:
+                heartbeat(time.time() - started)
+    except Exception:
+        process.kill()
+        process.communicate()
+        raise
+
+
+def summarize_command_result(result: dict[str, Any]) -> dict[str, Any]:
     return {
-        "command": command,
-        "returncode": result.returncode,
-        "timed_out": False,
-        "duration_s": time.time() - started,
-        "stdout_tail": result.stdout[-4000:],
-        "stderr_tail": result.stderr[-4000:],
+        "returncode": result.get("returncode"),
+        "timed_out": result.get("timed_out"),
+        "duration_s": result.get("duration_s"),
     }
 
 
@@ -236,6 +286,7 @@ def main() -> int:
         "dtype": DTYPE,
         "use_4bit": USE_4BIT,
         "timeout_s": TIMEOUT_S,
+        "eval_checkpoint_interval_s": EVAL_CHECKPOINT_INTERVAL_S,
         "transformers_spec": TRANSFORMERS_SPEC,
         "extra_model_args": EXTRA_MODEL_ARGS,
         "output_dir": str(OUTPUT_DIR),
@@ -282,11 +333,28 @@ def main() -> int:
         ]
         if LIMIT is not None:
             command[command.index("--batch_size"):command.index("--batch_size")] = ["--limit", LIMIT]
-        evaluation = run_command(command, timeout_s=TIMEOUT_S)
+        result["status"] = "running"
+        result["evaluation_command"] = command
+        write_checkpoint(result, "evaluation-running")
+
+        def evaluation_heartbeat(elapsed_s: float) -> None:
+            result["evaluation_elapsed_s"] = elapsed_s
+            write_checkpoint(result, "evaluation-running")
+
+        evaluation = run_command(
+            command,
+            timeout_s=TIMEOUT_S,
+            heartbeat_interval_s=EVAL_CHECKPOINT_INTERVAL_S,
+            heartbeat=evaluation_heartbeat,
+        )
         result["evaluation"] = evaluation
+        result.pop("evaluation_command", None)
+        result["evaluation_summary"] = summarize_command_result(evaluation)
         result["result_files"] = collect_result_files()
         if evaluation["returncode"] == 0:
             result["status"] = "scored"
+        else:
+            result["status"] = "blocked"
         write_checkpoint(result, "evaluation-complete")
     except Exception as exc:  # noqa: BLE001
         result["error"] = f"{type(exc).__name__}: {exc}"
