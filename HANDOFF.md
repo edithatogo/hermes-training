@@ -187,8 +187,15 @@ Current gaps:
 - Large MoE/frontier configs are runtime/teacher experiments only; do not treat them as safe defaults for local training.
 - The 2026-06-12 model radar refresh still found no verified open-weight Qwen3.7 lane. The major new actionable local candidates are `DJLougen/Harmonic-9B`, `DJLougen/Harmonic-Hermes-9B-GGUF`, `mradermacher/Harmonic-Hermes-9B-i1-GGUF`, `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7`, `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-2B-SFT-v7`, `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh`, `mkadrlik/Hermes-27B-SFT-v7`, `google/gemma-4-12B-it`, `google/gemma-4-12B`, `google/gemma-4-31B`, `unsloth/gemma-4-12b-it-GGUF`, `unsloth/gemma-4-12B-it-qat-GGUF`, `batiai/gemma-4-12B-it-GGUF`, `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF`, `NousResearch/Hermes-4.3-36B`, `ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming`, `Qwen/Qwen3-4B-Instruct-2507`, `Qwen/Qwen3-4B-Thinking-2507`, `Qwen/Qwen3-Coder-Next`, `Qwen/Qwen3-Coder-Next-GGUF`, `Qwen/Qwen3-ASR-1.7B`, `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign`, `Qwen/Qwen3-Omni-30B-A3B-Instruct`, `Qwen/Qwen3-Omni-30B-A3B-Captioner`, `microsoft/Phi-4-multimodal-instruct`, `CohereLabs/cohere-transcribe-03-2026`, `nvidia/parakeet-tdt-0.6b-v3`, `Qwen/Qwen3-Embedding-0.6B`, `Qwen/Qwen3-Reranker-0.6B`, `Qwen/Qwen3-Embedding-4B`, `Qwen/Qwen3-Reranker-4B`, `Qwen/Qwen3.5-9B`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16`, `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF`, `openbmb/MiniCPM-V-4.6-GPTQ`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-Base-BF16`, `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM`, `nvidia/nemotron-speech-streaming-en-0.6b`, `nvidia/instant-nurec`, and `nvidia/omni-dreams-models`. The new specialist-frontier additions are `CohereLabs/command-a-plus-05-2026-w4a4`, `stepfun-ai/Step-3.7-Flash`, `nex-agi/Nex-N2-mini`, and the Nemotron frontier teacher/reward set. The new support-lane additions are `nvidia/Nemotron-3.5-Content-Safety`, `nvidia/nemotron-3.5-asr-streaming-0.6b`, and the official Nemotron 3 Nano 4B GGUF/MLX packaging. The previously tracked `LiquidAI/LFM2.5-8B-A1B` / `LiquidAI/LFM2.5-8B-A1B-GGUF`, Gemma 4 QAT packaging from E2B/E4B through 31B, and `openbmb/MiniCPM5-1B` remain relevant. NVIDIA Nemotron 3 Nano / Nemotron Nano and `microsoft/bitnet-b1.58-2B-4T-gguf` are still explicit specialist runtime lanes. `Qwen/Qwen3-Coder-Next-GGUF` is now the strongest Qwen specialist runtime baseline for Hermes-agent workflows, while `Qwen/Qwen3-Embedding-0.6B` and `Qwen/Qwen3-Reranker-0.6B` are the current Qwen retrieval helpers for Hermes memory/RAG. `Harmonic-Hermes-9B` is now the most direct Hermes-style local runtime lane in the current search, and the Gemma 4 12B Unsloth GGUF/QAT lanes are now the freshest Mac-local packaging comparison points. They still belong in specialist runtime proof, not Mac-local fine-tune. See `reports/model-radar/current-release-scan-20260612.md`, `reports/model-radar/specialist-frontier-current-release-scan-20260612.md`, `reports/model-radar/nemotron-support-current-release-scan-20260612.md`, and `reports/model-radar/nemotron-frontier-current-release-scan-20260612.md`.
 - Specialist runtime preflight is now explicit and no-download. KTransformers, LEAP, RWKV, and Mamba/SSM lanes remain blocked before smoke; BitNet has moved to completed native runtime proof only, with prompt-compliance failure still blocking Hermes use. Existing GGUF/MLX proofs do not count as specialist runtime proof for the remaining specialist lanes. See `reports/runtime/specialist-runtime-preflight-20260526.md` and `reports/runtime/bitnet-b158-2b-native-smoke-20260612.md`.
-- Azure student subscription login is complete. GPU-family quota/capacity still needs explicit Azure ML/portal confirmation before compute creation.
-- Colab CLI is installed at `/Users/doughnut/.local/bin/colab`, but `colab sessions` currently reports no active sessions. Offload is available in principle and blocked in practice until a session is created.
+- Azure CLI is installed, but the current 2026-06-13 refresh shows
+  `az account show` now requires `az login`. After login, rerun account,
+  subscription, provider, workspace, and GPU quota checks before compute
+  creation.
+- Colab CLI is installed at `/Users/doughnut/.local/bin/colab` and upgraded to
+  `0.5.11`; `colab sessions` currently reports no active sessions. Bounded
+  PEFT pilots work, but no-limit Colab scorecard runs were pruned after a
+  keepalive/session-permission failure, so they remain blocked for full
+  benchmark coverage.
 - LFM2.5 full-smoke training/evaluation is complete as a proof, but the adapter is not publishable. It trained for 200 iterations / 175,895 tokens with final validation loss 1.455 and peak memory 6.022 GB; evaluation on 100 prompts showed response collapse. See `lfm2/eval/lfm25-full-smoke-summary.md`.
 - LFM2.5 1.2B Instruct smoke LoRA is now runtime-proven through `mlx_lm.server` using only SSD-cached artifacts. The server exposed the absolute snapshot path as the model ID, and the OpenAI-compatible smoke returned `{"ok": true}` in `378ms`. The direct `lfm2/scripts/evaluate.py` adapter load blocker is fixed in `lfm2` commit `3413720`, but a one-prompt direct eval still produced a non-compliant response, so this remains runtime/load proof only. See `reports/runtime/lfm25-1.2b-instruct-smoke-mlx-proof-20260526.md`.
 - The OpenAI normalizing proxy now has a narrow `/v1/completions` passthrough and integer-to-boolean `logprobs` coercion for `mlx_lm.server`. A limited `lm_eval --model local-completions` rerun reached the endpoint but still failed before scoring because `mlx_lm.server` returns `logprobs.content` rather than legacy echoed `token_logprobs`; do not report lm-eval scores until a true loglikelihood evaluator exists. See `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-lm-eval-selected-smoke-20260526.md`.
@@ -215,7 +222,20 @@ Current gaps:
 - Populated publication/evidence bundles exist for Qwen3 smoke, failed Qwen3 attempts, Qwen3 v4 public adapter evidence, and Qwen3 v5 non-promotion evidence.
 - Internal disk pressure has been reduced. `~/.gemini/antigravity/browser_recordings` was relocated to `/Volumes/PortableSSD/home-relocated/gemini-antigravity/browser_recordings` and symlinked back. Current 2026-06-12 check shows about 233 GiB free on `/` and about 252 GiB free on `/Volumes/PortableSSD`; keep model caches, benchmark outputs, and exports on the SSD.
 - Roadmap regression and publication gate is reconciled in `reports/publication/roadmap-regression-publication-gate-20260612.md`. Treat benchmark/runtime reports as execution evidence, root and mem0 `MODEL_CANDIDATES.yaml` as structured state, `FUTURE_MODELS.md` as synthesis, and this handoff as the operator next-action summary. GitHub docs/code are publishable after validation, but Hugging Face datasets/models/adapters still require explicit artifact-scope and license approval.
-- Cloud dynamic benchmark orchestration is now crystallized in `CLOUD_BENCHMARK_ORCHESTRATION.md` and `CLOUD_BENCHMARK_ORCHESTRATION.yaml`. `scripts/cloud_backend_preflight.py` records provider readiness without creating sessions or failing the run when a provider is blocked. Current preflight: Colab ready with CLI `0.5.9` and no active sessions; Azure blocked until `az login` plus quota/cost checks; NGC blocked until API key/entitlement checks; Kaggle blocked because the CLI is not on PATH. Dry-run dispatch evidence is in `reports/colab/cloud-dynamic-orchestration-dry-run-20260612.md`, and the backend registry is in `reports/cloud/backend-preflight-20260612.md`.
+- Cloud dynamic benchmark orchestration is now crystallized in
+  `CLOUD_BENCHMARK_ORCHESTRATION.md` and `CLOUD_BENCHMARK_ORCHESTRATION.yaml`.
+  `scripts/cloud_backend_preflight.py` records provider readiness without
+  creating sessions or failing the run when a provider is blocked. Current
+  2026-06-13 preflight: Colab ready with CLI `0.5.11` and no active sessions;
+  HF Jobs authenticated but blocked by insufficient prepaid credits; Azure
+  blocked until `az login` plus quota/cost checks; NGC installed but blocked
+  until SSO/API key, org/team, Cloud Function GPU quota, registry access, and a
+  benchmark container exist; Kaggle CLI `2.2.1` installed but blocked until
+  authentication and quota checks. Prepared reports and dry-runs are in
+  `reports/cloud/backend-preflight-20260613.md`,
+  `reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md`,
+  `reports/cloud/qwen3-v4-peft-kaggle-scorecard-plan-20260613.md`, and
+  `reports/cloud/qwen3-v4-peft-ngc-cloud-function-discovery-20260613.md`.
 
 ## Next Actions
 
@@ -228,7 +248,18 @@ Current gaps:
 7. If running a Qwen3 v6 adapter attempt, add only narrow strict-compatible unsupported-tool refusal examples and stop if held-out strict pass drops below `1.000`.
 8. Start any safer LFM2.5 recipe only with lower learning rate and an early empty-response gate.
 9. Validate every new runtime through `ollama-pack/scripts/runtime_smoke.sh` or the LM Studio smoke helper before using it in Hermes.
-10. There are no active incomplete Conductor tracks after the 2026-06-13 push. The next new track should be selected deliberately from the remaining role gaps: broader official benchmark scorecards for Qwen3 v4, prompt/profile repair for a specific local candidate, or a fresh model-radar/runtime proof if a newly verified open-weight model appears.
+10. Active incomplete Conductor tracks remain only where external execution is
+    blocked: `qwen3-v4-peft-colab-full-scorecard_20260613`,
+    `qwen3-v4-peft-colab-scorecard-shards_20260613`,
+    `qwen3-v4-peft-hf-jobs-scorecard_20260613`,
+    `qwen3-v4-peft-kaggle-scorecard_20260613`, and
+    `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
+    execution step is whichever backend becomes unblocked first: HF credits,
+    Kaggle auth/quota, Azure login/quota, NGC auth/container/quota, or a stable
+    Colab no-limit session. The next new local track should be selected
+    deliberately from remaining role gaps: prompt/profile repair for a specific
+    local candidate or a fresh model-radar/runtime proof if a newly verified
+    open-weight model appears.
 
 ## Key Files
 
