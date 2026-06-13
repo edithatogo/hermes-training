@@ -1,11 +1,11 @@
 {
-  "created_at": "2026-06-13T03:45:16.255116+00:00",
+  "created_at": "2026-06-13T03:46:50.738779+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
     "no_paid_compute_without_approval": true,
     "no_private_data_uploads": true,
-    "no_model_or_dataset_publication": true,
+    "no_unreviewed_model_or_dataset_publication": true,
     "artifact_root": "/Volumes/PortableSSD/hermes-evals",
     "tracked_report_root": "reports/cloud"
   },
@@ -21,7 +21,7 @@
           "version"
         ],
         "returncode": 0,
-        "stdout": "Version: 0.5.9",
+        "stdout": "Version: 0.5.11",
         "stderr": ""
       },
       "sessions": {
@@ -32,7 +32,7 @@
           "sessions"
         ],
         "returncode": 0,
-        "stdout": "[colab] A new version of Colab CLI is available: 0.5.11 (current: 0.5.9)\n[colab] Run 'colab update' to update.\n[colab] To silence this check, set \"enable_update_check\": false in ~/.config/colab-cli/settings.json\n\n[colab] No active sessions found on server.",
+        "stdout": "[colab] No active sessions found on server.",
         "stderr": ""
       },
       "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
@@ -120,18 +120,18 @@
       "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof."
     },
     "kaggle": {
-      "status": "blocked",
+      "status": "prepared-needs-auth-check",
       "route": "future",
       "version": {
-        "installed": false,
-        "path": "",
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
         "command": [
           "kaggle",
           "--version"
         ],
-        "returncode": null,
-        "stdout": "",
-        "stderr": "kaggle not found on PATH"
+        "returncode": 0,
+        "stdout": "Kaggle CLI 2.2.1",
+        "stderr": ""
       },
       "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
       "next_action": "Install and authenticate Kaggle CLI before adding Kaggle execution jobs."

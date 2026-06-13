@@ -149,7 +149,7 @@ def build_report() -> dict[str, Any]:
         "policy": {
             "no_paid_compute_without_approval": True,
             "no_private_data_uploads": True,
-            "no_model_or_dataset_publication": True,
+            "no_unreviewed_model_or_dataset_publication": True,
             "artifact_root": str(storage_root / "hermes-evals"),
             "tracked_report_root": "reports/cloud",
         },
