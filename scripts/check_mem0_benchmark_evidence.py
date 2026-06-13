@@ -388,7 +388,7 @@ def validate_file(kind: str, path: Path, eval_root: Path) -> dict[str, Any]:
     }
 
 
-def build_report(eval_root: Path) -> dict[str, Any]:
+def build_report(eval_root: Path, created_at: str | None = None) -> dict[str, Any]:
     items: list[dict[str, Any]] = []
     for source in SOURCES:
         for path in sorted(eval_root.glob(source.glob)):
@@ -401,7 +401,7 @@ def build_report(eval_root: Path) -> dict[str, Any]:
     missing_kinds = [source.kind for source in SOURCES if by_kind.get(source.kind, 0) == 0]
     status = "passed" if items and counts.get("failed", 0) == 0 and not missing_kinds else "failed"
     return {
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
         "eval_root": str(eval_root),
         "status": status,
         "counts": counts,
@@ -416,9 +416,13 @@ def main() -> int:
     parser.add_argument("--eval-root", type=Path, default=DEFAULT_EVAL_ROOT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--no-write", action="store_true")
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
-    report = build_report(args.eval_root)
+    report = build_report(args.eval_root, created_at=args.created_at)
     if not args.no_write:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
