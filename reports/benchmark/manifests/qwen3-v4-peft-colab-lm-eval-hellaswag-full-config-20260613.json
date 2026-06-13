@@ -1,0 +1,13 @@
+{
+  "adapter_tarball": "/content/qwen3-v4-peft-conversion-20260613.tar.gz",
+  "adapter_dir": "/content/qwen3-v4-peft-conversion-20260613",
+  "base_model": "Qwen/Qwen3-4B",
+  "tasks": "hellaswag",
+  "limit": null,
+  "batch_size": "1",
+  "dtype": "float16",
+  "use_4bit": true,
+  "transformers_spec": "transformers>=4.56,<5",
+  "output_dir": "/content/qwen3-v4-peft-lm-eval-hellaswag-full",
+  "result_json": "/content/qwen3-v4-peft-lm-eval-hellaswag-full.json"
+}
