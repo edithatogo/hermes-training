@@ -13,7 +13,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 | 2 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `mac-lmstudio` | `completed-no-promotion` | 1 | stop single-variant Gemma E2B GGUF prompt repair; use Gemma-native formatting or another endpoint-gated candidate next |
 | 3 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `mac-lmstudio` | `completed-no-promotion` | 3 | stop prompt-only Hermes-Qwen3.5 0.8B fresh variants; use constrained decoding or a runtime-wrapper proof if revisited |
 | 4 | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `mac-lmstudio` | `completed-no-promotion` | 1 | stop single-variant LFM2.5 8B A1B prompt repair; move to the next endpoint-gated candidate |
-| 5 | `openbmb/MiniCPM5-1B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 2 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
+| 5 | `openbmb/MiniCPM5-1B-GGUF` | `mac-lmstudio` | `completed-no-promotion` | 2 | stop prompt-only MiniCPM5 1B GGUF endpoint repairs; use constrained decoding or a runtime-wrapper proof if revisited |
 | 6 | `openbmb/MiniCPM5-1B-MLX` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only MiniCPM5 1B MLX repairs; use a grammar/envelope-constrained path or move to the next candidate |
 | 7 | `Qwen/Qwen3.5-0.8B` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only Qwen3.5 0.8B repairs; use a grammar/envelope-constrained path or move to the next candidate |
 | 8 | `Qwen/Qwen3.5-2B` | `mac-mlx` | `completed-no-promotion` | 3 | stop prompt-only Qwen3.5 2B repairs; use a grammar/envelope-constrained path or move to the next candidate |

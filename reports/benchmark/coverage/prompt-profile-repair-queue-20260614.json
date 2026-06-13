@@ -85,6 +85,8 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "repair_hypothesis": "test MiniCPM tool-tag extraction only as score-only analysis before any helper promotion",
       "evidence": [
+        "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-empty-tag-repair-20260614.md",
+        "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md"
       ],
       "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm5-1b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm5-1b-gguf-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",

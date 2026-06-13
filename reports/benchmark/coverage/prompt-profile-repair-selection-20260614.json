@@ -1,14 +1,17 @@
 {
-  "status": "dry-run",
+  "status": "exhausted",
   "execute": false,
   "confirm_local_run": false,
-  "candidate": "openbmb/MiniCPM5-1B-GGUF",
-  "variant": "strict-suffix-copy-exact",
-  "runner": "endpoint",
-  "raw_output_promotion_allowed": true,
-  "goal": "tighten raw Hermes tool-call formatting and exact argument copying",
-  "promotion_boundary": "A repair experiment can only promote after raw strict outputs pass held-out tool-call, local pilots, official benchmark coverage, latency, and rollback checks.",
-  "command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n# No download here: run only against the existing SSD-backed artifact or local endpoint.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --model openbmb-minicpm5-1b-gguf --base-url 'http://127.0.0.1:<port>/v1' --suite benchmarks/endpoint_pilots/bfcl_pilot.json --max-tokens 512 --require-no-extra-tool-text --run-id openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-${RUN_STAMP} --system-suffix ' Return only valid Hermes <tool_call> blocks when a listed tool satisfies the request. If no listed tool can satisfy the request, reply exactly: I cannot perform the action because the requested tool is not available. Copy argument values exactly from the user request; do not expand, summarize, or paraphrase string arguments.'",
-  "blockers": [],
+  "candidate": null,
+  "variant": null,
+  "runner": "none",
+  "raw_output_promotion_allowed": false,
+  "goal": "all prompt/profile repair experiments have recorded results",
+  "promotion_boundary": "No prompt/profile repair can promote without a new queued experiment and full downstream proof.",
+  "command": "",
+  "blockers": [
+    "no uncompleted prompt/profile repair experiments remain"
+  ],
+  "decision": "Stop the prompt/profile repair queue. Create a new constrained-decoding, runtime-wrapper, or cloud/offload track before further runs.",
   "claim_boundary": "A selected repair run is not promotion evidence until raw strict outputs and downstream held-out, pilot, official benchmark, latency, and rollback gates pass."
 }

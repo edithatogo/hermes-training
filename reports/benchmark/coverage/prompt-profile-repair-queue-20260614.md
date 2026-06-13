@@ -96,7 +96,7 @@ source scripts/env.sh
 
 ### openbmb/MiniCPM5-1B-GGUF
 
-- Evidence: `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`
+- Evidence: `reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-empty-tag-repair-20260614.md`, `reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-strict-suffix-copy-exact-repair-20260614.md`, `reports/benchmark/local-pilots/minicpm5-1b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`
 - Boundary: Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence.
 
 ```bash

@@ -54,9 +54,10 @@ def main() -> int:
         if not created_at:
             failures.append(f"{display_path(args.json_report)} has no created_at timestamp")
         statuses = {str(row.get("status", "")) for row in rows if isinstance(row, dict)}
-        for required in ("pending-endpoint", "blocked-non-local"):
-            if required not in statuses:
-                failures.append(f"ledger is missing status {required}")
+        if "blocked-non-local" not in statuses:
+            failures.append("ledger is missing status blocked-non-local")
+        if "pending-endpoint" not in statuses and statuses != {"completed-no-promotion", "blocked-non-local"}:
+            failures.append("ledger is missing status pending-endpoint")
         if "completed-no-promotion" not in statuses:
             failures.append("ledger is missing completed-no-promotion evidence")
         for row in rows if isinstance(rows, list) else []:

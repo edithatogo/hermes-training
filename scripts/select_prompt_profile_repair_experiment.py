@@ -11,6 +11,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EXPERIMENTS = ROOT / "reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.json"
+DEFAULT_RESULTS = ROOT / "reports/benchmark/coverage/prompt-profile-repair-results-20260614.json"
 DEFAULT_SELECTION_JSON = ROOT / "reports/benchmark/coverage/prompt-profile-repair-selection-20260614.json"
 DEFAULT_SELECTION_MD = ROOT / "reports/benchmark/coverage/prompt-profile-repair-selection-20260614.md"
 ENDPOINT_PLACEHOLDER = "http://127.0.0.1:<port>/v1"
@@ -22,6 +23,31 @@ def load_experiments(path: Path) -> list[dict[str, Any]]:
     if not isinstance(experiments, list):
         raise ValueError(f"{path}: experiments must be a list")
     return [item for item in experiments if isinstance(item, dict)]
+
+
+def load_completed(path: Path) -> set[tuple[str, str]]:
+    if not path.exists():
+        return set()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    results = data.get("results", [])
+    if not isinstance(results, list):
+        raise ValueError(f"{path}: results must be a list")
+    return {
+        (str(item.get("candidate", "")), str(item.get("variant", "")))
+        for item in results
+        if isinstance(item, dict)
+    }
+
+
+def select_default_experiment(
+    experiments: list[dict[str, Any]],
+    completed: set[tuple[str, str]],
+) -> dict[str, Any] | None:
+    for item in experiments:
+        key = (str(item.get("candidate", "")), str(item.get("variant", "")))
+        if key not in completed:
+            return item
+    return None
 
 
 def select_experiment(
@@ -85,6 +111,23 @@ def build_selection(
 
 
 def render_markdown(selection: dict[str, Any]) -> str:
+    if selection["status"] == "exhausted":
+        return "\n".join(
+            [
+                "# Prompt/Profile Repair Selection",
+                "",
+                "- Status: `exhausted`",
+                "- Candidate: `None`",
+                "- Variant: `None`",
+                "- Runner: `none`",
+                f"- Boundary: {selection['claim_boundary']}",
+                "",
+                "## Decision",
+                "",
+                str(selection["decision"]),
+                "",
+            ]
+        )
     lines = [
         "# Prompt/Profile Repair Selection",
         "",
@@ -113,6 +156,7 @@ def render_markdown(selection: dict[str, Any]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--experiments", type=Path, default=DEFAULT_EXPERIMENTS)
+    parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
     parser.add_argument("--candidate")
     parser.add_argument("--variant")
     parser.add_argument("--index", type=int)
@@ -124,9 +168,31 @@ def main() -> int:
     args = parser.parse_args()
 
     experiments = load_experiments(args.experiments)
-    experiment = select_experiment(experiments, args.candidate, args.variant, args.index)
-    command = command_with_overrides(str(experiment["command"]), args.base_url)
-    selection = build_selection(experiment, command, args.execute, args.confirm_local_run)
+    if args.candidate or args.variant or args.index is not None:
+        experiment = select_experiment(experiments, args.candidate, args.variant, args.index)
+        command = command_with_overrides(str(experiment["command"]), args.base_url)
+        selection = build_selection(experiment, command, args.execute, args.confirm_local_run)
+    else:
+        experiment = select_default_experiment(experiments, load_completed(args.results))
+        if experiment:
+            command = command_with_overrides(str(experiment["command"]), args.base_url)
+            selection = build_selection(experiment, command, args.execute, args.confirm_local_run)
+        else:
+            selection = {
+                "status": "exhausted",
+                "execute": False,
+                "confirm_local_run": False,
+                "candidate": None,
+                "variant": None,
+                "runner": "none",
+                "raw_output_promotion_allowed": False,
+                "goal": "all prompt/profile repair experiments have recorded results",
+                "promotion_boundary": "No prompt/profile repair can promote without a new queued experiment and full downstream proof.",
+                "command": "",
+                "blockers": ["no uncompleted prompt/profile repair experiments remain"],
+                "decision": "Stop the prompt/profile repair queue. Create a new constrained-decoding, runtime-wrapper, or cloud/offload track before further runs.",
+                "claim_boundary": "A selected repair run is not promotion evidence until raw strict outputs and downstream held-out, pilot, official benchmark, latency, and rollback gates pass.",
+            }
 
     args.json_output.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_output.parent.mkdir(parents=True, exist_ok=True)

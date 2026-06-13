@@ -557,6 +557,61 @@
       ]
     },
     {
+      "candidate": "openbmb/MiniCPM5-1B-GGUF",
+      "priority": "medium",
+      "best_variant": "minicpm-empty-tag-repair",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.3333333333333333,
+      "case_metrics": {
+        "malformed_or_no_calls": 4,
+        "matched_tool_calls_extra_text": 0,
+        "passed_strict": 1,
+        "refusal_boundary_failed": 1
+      },
+      "source_missing": [],
+      "recommended_next_action": "Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'openbmb/MiniCPM5-1B-GGUF' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"openbmb-minicpm5-1b-gguf-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-20260614-032828/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-20260614-032828/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-20260614-032828/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "refusal_boundary_failed": 1
+          }
+        },
+        {
+          "variant": "minicpm-empty-tag-repair",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.3333333333333333,
+          "passed": 1,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-empty-tag-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-minicpm-empty-tag-repair-20260614-032828/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-minicpm-empty-tag-repair-20260614-032828/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-minicpm-empty-tag-repair-20260614-032828/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "passed_strict": 1
+          }
+        }
+      ]
+    },
+    {
       "candidate": "LGAI-EXAONE/EXAONE-4.0-1.2B",
       "priority": "low",
       "best_variant": "strict-suffix-copy-exact",

@@ -7,6 +7,7 @@ from scripts.select_prompt_profile_repair_experiment import (
     build_selection,
     command_with_overrides,
     select_experiment,
+    select_default_experiment,
 )
 
 
@@ -59,6 +60,14 @@ class SelectPromptProfileRepairExperimentTests(unittest.TestCase):
 
         self.assertIn("http://127.0.0.1:8080/v1", command)
         self.assertNotIn(ENDPOINT_PLACEHOLDER, command)
+
+    def test_default_selection_returns_none_when_all_completed(self) -> None:
+        selected = select_default_experiment(
+            [experiment(candidate="a", variant="v1")],
+            {("a", "v1")},
+        )
+
+        self.assertIsNone(selected)
 
 
 if __name__ == "__main__":

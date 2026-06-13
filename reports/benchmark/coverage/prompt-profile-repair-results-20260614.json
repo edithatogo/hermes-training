@@ -435,6 +435,34 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "openbmb/MiniCPM5-1B-GGUF",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "try the queued minicpm-empty-tag-repair variant before any promotion claim",
+      "result_report": "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-20260614-032828/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-strict-suffix-copy-exact-20260614-032828",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "openbmb/MiniCPM5-1B-GGUF",
+      "variant": "minicpm-empty-tag-repair",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only MiniCPM5 1B GGUF endpoint repairs; use constrained decoding or a runtime-wrapper proof if revisited",
+      "result_report": "reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-empty-tag-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-minicpm-empty-tag-repair-20260614-032828/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/openbmb-minicpm5-1b-gguf-minicpm-empty-tag-repair-20260614-032828",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

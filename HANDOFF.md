@@ -286,6 +286,14 @@ Complete:
   empty or DSML-tagged instead of strict Hermes `<tool_call>` blocks. Do not
   promote it. The tracked report is
   `reports/benchmark/endpoint-pilots/nvidia-nemotron3-nano-4b-gguf-strict-suffix-copy-exact-repair-20260614.md`.
+- MiniCPM5 1B GGUF endpoint repair is exhausted for the queued prompt-only
+  variants. `strict-suffix-copy-exact` scored `0/3`; `minicpm-empty-tag-repair`
+  scored `1/3`, passing only the unavailable-tool refusal while available-tool
+  cases still failed strict Hermes parsing. Do not promote it. The tracked
+  reports are
+  `reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-strict-suffix-copy-exact-repair-20260614.md`
+  and
+  `reports/benchmark/endpoint-pilots/minicpm5-1b-gguf-empty-tag-repair-20260614.md`.
 - EXAONE 4.0 1.2B GGUF strict-suffix endpoint repair ran through `llama-server`
   on Metal and scored `0/3`; it ignored available tools and hallucinated an
   unavailable delete function, so it remains `completed-no-promotion`.

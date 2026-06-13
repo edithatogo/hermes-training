@@ -851,6 +851,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: MiniCPM5 1B GGUF Endpoint Repair Completion
+*Link: [./tracks/minicpm5-1b-gguf-endpoint-repair-completion_20260614/](./tracks/minicpm5-1b-gguf-endpoint-repair-completion_20260614/)*
+
+---
+
 ## [x] Track: EXAONE 4.0 1.2B Endpoint Prompt Repair Completion
 *Link: [./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/](./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/)*
 
