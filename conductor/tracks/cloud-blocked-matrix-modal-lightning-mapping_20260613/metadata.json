@@ -1,0 +1,8 @@
+{
+  "track_id": "cloud-blocked-matrix-modal-lightning-mapping_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Map future Modal and Lightning blocked tracks to their cloud unblock checklist backends."
+}

@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.build_blocked_track_matrix import build_rows
+from scripts.build_blocked_track_matrix import backend_for_track, build_rows
 
 
 class BuildBlockedTrackMatrixTests(unittest.TestCase):
@@ -51,6 +51,19 @@ class BuildBlockedTrackMatrixTests(unittest.TestCase):
         self.assertEqual(rows[0]["backend"], "hf_jobs")
         self.assertEqual(rows[0]["backend_status"], "blocked-insufficient-hf-credits")
         self.assertEqual(rows[0]["next_task"], "Submit job")
+
+    def test_backend_for_track_maps_modal_and_lightning(self) -> None:
+        self.assertEqual(
+            backend_for_track("qwen3-v4-peft-modal-scorecard_20260613", "Qwen3 v4 PEFT Modal scorecard"),
+            "modal",
+        )
+        self.assertEqual(
+            backend_for_track(
+                "qwen3-v4-peft-lightning-scorecard_20260613",
+                "Qwen3 v4 PEFT Lightning scorecard",
+            ),
+            "lightning",
+        )
 
 
 if __name__ == "__main__":

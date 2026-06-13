@@ -70,6 +70,10 @@ def backend_for_track(track_id: str, title: str) -> str:
         return "hf_jobs"
     if "kaggle" in haystack:
         return "kaggle"
+    if "modal" in haystack:
+        return "modal"
+    if "lightning" in haystack:
+        return "lightning"
     if "ngc" in haystack:
         return "ngc"
     if "azure" in haystack:
