@@ -42,14 +42,14 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
         return {
             "backend": "kaggle",
             "status": status,
-            "blocker": "Kaggle CLI is authenticated; remaining gates are accelerator quota, dataset terms, and a fail-closed notebook/job contract.",
+            "blocker": "Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract.",
             "operator_actions": [
-                "Check weekly accelerator quota before pushing a kernel.",
+                "Use the preflight SDK fallback quota evidence while the public `kaggle quota` renderer is failing.",
                 "Review dataset terms and avoid private data uploads.",
                 "Push the staged kernel only after explicit confirmation.",
             ],
             "commands": [
-                "kaggle quota",
+                "./.venv/bin/python scripts/cloud_backend_preflight.py",
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
                 "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
             ],

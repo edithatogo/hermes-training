@@ -69,15 +69,14 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "prepared-needs-quota-cli-fix-and-notebook-contract",
-      "blocker": "Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota.",
+      "backend_status": "prepared-needs-notebook-contract",
+      "blocker": "Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract.",
       "commands": [
-        "kaggle quota",
-        "kaggle kernels list --mine --page-size 1",
+        "./.venv/bin/python scripts/cloud_backend_preflight.py",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
       ],
-      "next_task": "Resolve Kaggle quota visibility and confirm dataset terms.",
+      "next_task": "Confirm dataset terms and notebook execution contract.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

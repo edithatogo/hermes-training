@@ -20,6 +20,8 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
         self.assertIn("remaining gates", by_backend["kaggle"]["blocker"])
         self.assertNotIn("unauthenticated", by_backend["kaggle"]["blocker"])
         self.assertNotIn("kaggle auth login", by_backend["kaggle"]["commands"])
+        self.assertNotIn("kaggle quota", by_backend["kaggle"]["commands"])
+        self.assertIn("./.venv/bin/python scripts/cloud_backend_preflight.py", by_backend["kaggle"]["commands"])
         self.assertIn("remaining gates", by_backend["modal"]["blocker"])
         self.assertNotIn("no token/profile", by_backend["modal"]["blocker"])
         self.assertNotIn("modal token new", by_backend["modal"]["commands"])

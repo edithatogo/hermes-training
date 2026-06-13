@@ -9,7 +9,7 @@ Unblock checklist: `reports/cloud/backend-unblock-checklist-20260613.json`
 | `qwen3-v4-peft-colab-full-scorecard_20260613` | `colab` | `ready` | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. | Retry only after Colab keepalive permission is fixed or a persistent backend is selected. |
 | `qwen3-v4-peft-colab-scorecard-shards_20260613` | `colab` | `ready` | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. | Re-run `truthfulqa_mc2` only after Colab keepalive permission is fixed or a persistent backend is selected. |
 | `qwen3-v4-peft-hf-jobs-scorecard_20260613` | `hf_jobs` | `blocked-insufficient-hf-credits` | HF Jobs rejected the live route probe with insufficient prepaid credits. | Submit the job and capture job ID/log URL after credits/grant are available. |
-| `qwen3-v4-peft-kaggle-scorecard_20260613` | `kaggle` | `prepared-needs-quota-cli-fix-and-notebook-contract` | Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota. | Resolve Kaggle quota visibility and confirm dataset terms. |
+| `qwen3-v4-peft-kaggle-scorecard_20260613` | `kaggle` | `prepared-needs-notebook-contract` | Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract. | Confirm dataset terms and notebook execution contract. |
 | `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613` | `ngc` | `blocked` | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. | Configure NGC auth only after the user supplies keys or completes SSO. |
 
 ## Commands
@@ -58,8 +58,7 @@ hf jobs ps
 ### qwen3-v4-peft-kaggle-scorecard_20260613
 
 ```bash
-kaggle quota
-kaggle kernels list --mine --page-size 1
+./.venv/bin/python scripts/cloud_backend_preflight.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
 ```

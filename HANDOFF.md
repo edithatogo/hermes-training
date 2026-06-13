@@ -306,10 +306,12 @@ Current gaps:
   blocked until `az login` plus quota/cost checks; NGC installed but blocked
   until SSO/API key, org/team, Cloud Function GPU quota, registry access, and a
   benchmark container exist; Kaggle CLI `2.2.1` is authenticated as
-  `edithatogo`, and read-only kernel listing works, but `kaggle quota` currently
-  fails with a CLI parsing error before returning accelerator quota. Kaggle
-  still needs quota visibility, dataset terms, and guarded notebook/job-contract
-  checks. Modal is authenticated but still needs
+  `edithatogo`, and read-only kernel listing works. The public `kaggle quota`
+  command currently fails with a CLI parsing error, but the authenticated SDK
+  fallback in `scripts/cloud_backend_preflight.py` returned GPU quota `108000s`
+  total / `0s` used and TPU quota `72000s` total / `0s` used, resetting
+  `2026-06-20T00:00:00Z`. Kaggle still needs dataset terms and guarded
+  notebook/job-contract checks. Modal is authenticated but still needs
   free-credit/GPU-policy proof and a fail-closed submitter. Prepared reports and dry-runs are in
   `reports/cloud/backend-preflight-20260613.md`,
   `reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md`,
@@ -344,9 +346,9 @@ Current gaps:
     `qwen3-v4-peft-kaggle-scorecard_20260613`, and
     `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
     execution step is whichever backend becomes unblocked first: HF credits,
-    Kaggle quota/terms, Azure login/quota, NGC auth/container/quota, or a stable
-    Colab no-limit session, Kaggle quota-command fix/terms approval, or Modal
-    credit/GPU policy approval. The next new local track should be selected
+    Kaggle terms/notebook approval, Azure login/quota, NGC auth/container/quota,
+    a stable Colab no-limit session, or Modal credit/GPU policy approval. The
+    next new local track should be selected
     deliberately from remaining role gaps: prompt/profile repair for a specific
     local candidate or a fresh model-radar/runtime proof if a newly verified
     open-weight model appears.

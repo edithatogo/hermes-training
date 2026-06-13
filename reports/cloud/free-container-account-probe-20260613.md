@@ -10,6 +10,9 @@ compute.
 - Auth state: authenticated. The browser-assisted `modal token new` flow
   completed on 2026-06-13 and connected the CLI to the `d-a-mordaunt`
   workspace. Token details are intentionally not recorded in this repo.
+- Billing probe: `modal billing report --for "this month" --json` returned an
+  empty JSON array. This confirms no current-month billable usage was visible
+  through the CLI, but it does not prove free GPU credits or grant allowance.
 - Remaining gates:
   - confirm free credits, academic grant, or other zero-cost allowance;
   - record non-secret GPU policy evidence;
@@ -28,16 +31,17 @@ Do not launch GPU work until the credit/grant and GPU policy gates are proven.
 - CLI: installed (`Kaggle CLI 2.2.1`).
 - Auth state: authenticated. The browser-assisted OAuth flow completed on
   2026-06-13 and the CLI reports the local account as `edithatogo`.
+- Quota state: visible through the authenticated SDK fallback. GPU quota is
+  `108000s` total / `0s` used; TPU quota is `72000s` total / `0s` used; refresh
+  is `2026-06-20T00:00:00Z`. The public `kaggle quota` command still fails with
+  a CLI parsing error, so use the preflight report as the quota proof.
 - Remaining gates:
-  - resolve quota visibility: `kaggle quota` currently fails with a CLI parsing
-    error before reporting weekly accelerator quota;
   - review dataset terms and avoid private data uploads;
   - push/run the staged kernel only after explicit confirmation.
 - Next step:
 
 ```bash
-kaggle quota
-kaggle kernels list --mine --page-size 1
+./.venv/bin/python scripts/cloud_backend_preflight.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ```
 
@@ -65,9 +69,9 @@ Lightning scorecard submitter.
 
 ## Current Decision
 
-Kaggle is now the strongest prepared no-cost GPU path if quota and dataset terms
-pass. Modal is the best custom-container candidate once free credit/grant and
-GPU policy evidence are confirmed.
+Kaggle is now the strongest prepared no-cost GPU path if dataset terms and the
+notebook execution contract pass. Modal is the best custom-container candidate
+once free credit/grant and GPU policy evidence are confirmed.
 Lightning is promising because the account is logged in and GPU machine types
 are visible, but it cannot list or run Studio/Job resources until the Teamspace
 owner is fixed.

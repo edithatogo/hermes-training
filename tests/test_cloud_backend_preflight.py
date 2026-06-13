@@ -35,7 +35,7 @@ class CloudBackendPreflightTests(unittest.TestCase):
         self.assertEqual(summary["status"], "blocked-needs-auth")
         self.assertIn("Authenticate Kaggle CLI", summary["next_action"])
 
-    def test_kaggle_authenticated_but_quota_failure_is_gated(self) -> None:
+    def test_kaggle_authenticated_with_quota_fallback_is_prepared(self) -> None:
         def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
             del timeout_s
             if command == ["kaggle", "--version"]:
@@ -48,7 +48,40 @@ class CloudBackendPreflightTests(unittest.TestCase):
                 return command_result(command, 0, "Not found")
             raise AssertionError(command)
 
-        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+        quota_fallback = command_result(
+            ["kaggle quota sdk fallback"],
+            0,
+            '{"gpuQuota":{"totalTimeAllowed":"108000s","timeUsed":"0s"}}',
+        )
+        with (
+            patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run),
+            patch.object(cloud_backend_preflight, "run_kaggle_quota_sdk_probe", return_value=quota_fallback),
+        ):
+            summary = cloud_backend_preflight.summarize_kaggle()
+
+        self.assertEqual(summary["status"], "prepared-needs-notebook-contract")
+        self.assertEqual(summary["quota"]["returncode"], 1)
+        self.assertEqual(summary["quota_sdk_probe"]["returncode"], 0)
+        self.assertEqual(summary["kernels"]["returncode"], 0)
+
+    def test_kaggle_authenticated_but_quota_failure_is_gated_without_fallback(self) -> None:
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["kaggle", "--version"]:
+                return command_result(command, 0, "Kaggle CLI 2.2.1")
+            if command == ["kaggle", "config", "view"]:
+                return command_result(command, 0, "username: edithatogo\nauth_method: OAUTH")
+            if command == ["kaggle", "quota"]:
+                return command_result(command, 1, stderr="not enough values to unpack")
+            if command == ["kaggle", "kernels", "list", "--mine", "--page-size", "1"]:
+                return command_result(command, 0, "Not found")
+            raise AssertionError(command)
+
+        quota_fallback = command_result(["kaggle quota sdk fallback"], 1, stderr="fallback failed")
+        with (
+            patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run),
+            patch.object(cloud_backend_preflight, "run_kaggle_quota_sdk_probe", return_value=quota_fallback),
+        ):
             summary = cloud_backend_preflight.summarize_kaggle()
 
         self.assertEqual(summary["status"], "prepared-needs-quota-cli-fix-and-notebook-contract")

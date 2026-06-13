@@ -84,6 +84,62 @@ def run_command(command: list[str], timeout_s: int = 30) -> dict[str, Any]:
     }
 
 
+KAGGLE_QUOTA_SDK_PROBE = r"""
+import json
+from kaggle.api.kaggle_api_extended import KaggleApi
+from kagglesdk.kernels.types.kernels_api_service import ApiGetAcceleratorQuotaStatisticsRequest
+
+captured = {}
+
+def capture(resp):
+    data = resp.json()
+    captured["status_code"] = resp.status_code
+    captured["quotaRefreshTime"] = data.get("quotaRefreshTime")
+    for key in ("gpuQuota", "tpuQuota"):
+        value = data.get(key)
+        if isinstance(value, dict):
+            captured[key] = {field: value.get(field) for field in sorted(value)}
+        else:
+            captured[key] = value
+
+api = KaggleApi()
+api.authenticate()
+with KaggleApi.build_kaggle_client_with_params(
+    args=api.args,
+    username=api.config_values.get(api.CONFIG_NAME_USER),
+    password=api.config_values.get(api.CONFIG_NAME_KEY),
+    api_token=api.config_values.get(api.CONFIG_NAME_TOKEN),
+    response_processor=capture,
+) as client:
+    client.http_client().call(
+        "kernels.KernelsApiService",
+        "GetAcceleratorQuotaStatistics",
+        ApiGetAcceleratorQuotaStatisticsRequest(),
+        None,
+    )
+print(json.dumps(captured, indent=2, sort_keys=True))
+"""
+
+
+def python_from_script_shebang(path: str) -> str | None:
+    try:
+        first_line = Path(path).read_text(encoding="utf-8", errors="ignore").splitlines()[0]
+    except (OSError, IndexError):
+        return None
+    if first_line.startswith("#!"):
+        executable = first_line.removeprefix("#!").strip()
+        return executable or None
+    return None
+
+
+def run_kaggle_quota_sdk_probe(kaggle_path: str, timeout_s: int = 30) -> dict[str, Any]:
+    python_executable = python_from_script_shebang(kaggle_path) or shutil.which("python3")
+    command = [python_executable, "-c", KAGGLE_QUOTA_SDK_PROBE] if python_executable else ["python3", "-c", KAGGLE_QUOTA_SDK_PROBE]
+    result = run_command(command, timeout_s=timeout_s)
+    result["command"] = ["kaggle quota sdk fallback"]
+    return result
+
+
 def redact_command_result(result: dict[str, Any], *, stdout: str | None = None, stderr: str | None = None) -> dict[str, Any]:
     redacted = dict(result)
     if stdout is not None:
@@ -202,8 +258,20 @@ def summarize_kaggle() -> dict[str, Any]:
         "stdout": "",
         "stderr": "skipped until Kaggle CLI is authenticated",
     }
+    quota_sdk_probe = (
+        run_kaggle_quota_sdk_probe(str(version["path"]), timeout_s=30)
+        if authenticated and quota["returncode"] != 0
+        else {
+            "installed": version["installed"],
+            "path": "",
+            "command": ["kaggle quota sdk fallback"],
+            "returncode": None,
+            "stdout": "",
+            "stderr": "skipped because `kaggle quota` succeeded or Kaggle CLI is unauthenticated",
+        }
+    )
     if authenticated:
-        if quota["returncode"] == 0:
+        if quota["returncode"] == 0 or quota_sdk_probe["returncode"] == 0:
             status = "prepared-needs-notebook-contract"
             next_action = "Add a fail-closed Kaggle notebook/job spec and dry-run it before any public dataset or GPU execution."
         else:
@@ -221,6 +289,7 @@ def summarize_kaggle() -> dict[str, Any]:
         "version": version,
         "config": config,
         "quota": quota,
+        "quota_sdk_probe": quota_sdk_probe,
         "kernels": kernels,
         "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
         "next_action": next_action,

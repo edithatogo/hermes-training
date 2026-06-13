@@ -1,6 +1,6 @@
 # Qwen3 V4 PEFT Kaggle Scorecard Plan
 
-Status: `prepared-needs-quota-cli-fix-and-notebook-contract`
+Status: `prepared-needs-notebook-contract`
 
 ## Rationale
 
@@ -59,9 +59,12 @@ The submitter will not push a Kaggle kernel unless both `--execute` and
 ## Current Blocker
 
 `kaggle config view` now reports OAuth authentication for `edithatogo`, and
-`kaggle kernels list --mine --page-size 1` returns successfully. `kaggle quota`
-currently fails with a CLI parsing error before reporting weekly accelerator
-quota. No Kaggle notebook was submitted and no GPU quota was consumed.
+`kaggle kernels list --mine --page-size 1` returns successfully. The public
+`kaggle quota` command currently fails with a CLI parsing error, but the
+authenticated SDK fallback in `scripts/cloud_backend_preflight.py` returned GPU
+quota `108000s` total / `0s` used and TPU quota `72000s` total / `0s` used,
+refreshing at `2026-06-20T00:00:00Z`. No Kaggle notebook was submitted and no
+GPU quota was consumed.
 
 ## Stop Conditions
 

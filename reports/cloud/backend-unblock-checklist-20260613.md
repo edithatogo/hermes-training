@@ -86,17 +86,16 @@ ngc cloud-function task create --help
 
 ## kaggle
 
-- Status: `prepared-needs-quota-cli-fix-and-notebook-contract`
-- Blocker: Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota.
+- Status: `prepared-needs-notebook-contract`
+- Blocker: Kaggle CLI is authenticated and accelerator quota is visible; remaining gates are dataset terms and a fail-closed notebook/job contract.
 - Operator actions:
-  - Resolve the Kaggle quota command failure or verify quota through an equivalent non-mutating Kaggle account page/API path.
+  - Use the preflight SDK fallback quota evidence while the public `kaggle quota` renderer is failing.
   - Review dataset terms and avoid private data uploads.
   - Push the staged kernel only after explicit confirmation.
 - Commands:
 
 ```bash
-kaggle quota
-kaggle kernels list --mine --page-size 1
+./.venv/bin/python scripts/cloud_backend_preflight.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
 ```
