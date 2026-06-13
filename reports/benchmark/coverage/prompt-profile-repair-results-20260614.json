@@ -379,6 +379,48 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "run the queued empty-output-retry and qwen-no-think-prefill variants before any promotion claim",
+      "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-20260614-031653/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-20260614-031653",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "variant": "empty-output-retry",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "run the queued qwen-no-think-prefill variant before any promotion claim",
+      "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-empty-output-retry-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-20260614-031656/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-20260614-031656",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "variant": "qwen-no-think-prefill",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt-only Hermes-Qwen3.5 0.8B fresh variants; use constrained decoding or a runtime-wrapper proof if revisited",
+      "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-qwen-no-think-prefill-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-20260614-031659/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-20260614-031659",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

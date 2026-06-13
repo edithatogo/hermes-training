@@ -24,6 +24,7 @@ This report is non-promotional. It may justify a constrained-envelope diagnostic
 | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `medium` | `strict-suffix-copy-exact` | 0.333 | 0 | 3 | Defer promotion and try a targeted prompt/runtime variant only after the high-priority envelope diagnostic is proven. |
 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
+| `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `low` | `qwen-no-think-prefill` | 0.000 | 0 | 5 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `low` | `strict-suffix-copy-exact` | 0.000 | 0 | 2 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `mlx-community/gemma-4-E4B-it-qat-4bit` | `low` | `gemma-native-normalizer-analysis` | 0.000 | 0 | 4 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
 | `openbmb/MiniCPM5-1B-MLX` | `low` | `minicpm-empty-tag-repair` | 0.000 | 0 | 6 | Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes. |
@@ -138,6 +139,16 @@ Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` 
 source scripts/env.sh
 RUN_STAMP=$(date +%Y%m%d-%H%M%S)
 ./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'LiquidAI/LFM2.5-8B-A1B-GGUF' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "liquidai-lfm2-5-8b-a1b-gguf-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
+```
+
+### mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh
+
+Non-promotional diagnostic only; preserve strict `--require-no-extra-tool-text` scoring.
+
+```bash
+source scripts/env.sh
+RUN_STAMP=$(date +%Y%m%d-%H%M%S)
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id "mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-constrained-envelope-diagnostic-${RUN_STAMP}" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'
 ```
 
 ### mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit

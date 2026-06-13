@@ -504,6 +504,8 @@ Current gaps:
    to `0/3`, so prompt-only repair should stop for that lane. mkadrlik
    Hermes-Qwen3.5 9B SFT v7 is endpoint-proven; strict suffix scored `1/3`
    from the clean refusal only, while no-think/prefill regressed to `0/3`.
+   mkadrlik Hermes-Qwen3.5 0.8B fresh is endpoint-proven but all three queued
+   prompt/profile variants scored `0/3`.
    EXAONE 1.2B is
    GGUF runtime-proven
    but JSON-blocked, while MLX is config-blocked. Use Hermes

@@ -593,6 +593,82 @@
       ]
     },
     {
+      "candidate": "mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh",
+      "priority": "low",
+      "best_variant": "qwen-no-think-prefill",
+      "best_runner": "endpoint",
+      "best_pass_rate": 0.0,
+      "case_metrics": {
+        "empty_output": 1,
+        "malformed_or_no_calls": 5,
+        "matched_tool_calls_extra_text": 0,
+        "other_failure": 1,
+        "passed_refusal_case": 0,
+        "refusal_boundary_failed": 2
+      },
+      "source_missing": [],
+      "recommended_next_action": "Do not spend more local prompt-only cycles until runtime support or endpoint evidence changes.",
+      "promotion_boundary": "No promotion from this plan. Promotion requires raw strict or explicitly documented runtime-wrapper gates with held-out BFCL, endpoint/local pilot, official benchmark, latency, rollback, and publication evidence.",
+      "diagnostic_command": "source scripts/env.sh\nRUN_STAMP=$(date +%Y%m%d-%H%M%S)\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py --suite benchmarks/endpoint_pilots/bfcl_pilot.json --model 'mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh' --base-url 'http://127.0.0.1:<port>/v1' --max-tokens 512 --require-no-extra-tool-text --run-id \"mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-constrained-envelope-diagnostic-${RUN_STAMP}\" --system-suffix 'Return exactly one Hermes tool-call JSON object or JSON array and no prose, no markdown, no analysis, no hidden reasoning, and no tags.'",
+      "variants": [
+        {
+          "variant": "strict-suffix-copy-exact",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-strict-suffix-copy-exact-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-20260614-031653/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-20260614-031653/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-strict-suffix-copy-exact-20260614-031653/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "other_failure": 1
+          }
+        },
+        {
+          "variant": "empty-output-retry",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-empty-output-retry-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-20260614-031656/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-20260614-031656/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-empty-output-retry-20260614-031656/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "empty_output": 1,
+            "malformed_or_no_calls": 1,
+            "refusal_boundary_failed": 1
+          }
+        },
+        {
+          "variant": "qwen-no-think-prefill",
+          "runner": "endpoint",
+          "status": "completed-no-promotion",
+          "pass_rate": 0.0,
+          "passed": 0,
+          "cases": 3,
+          "result_report": "reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-qwen-no-think-prefill-repair-20260614.md",
+          "source": {
+            "summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-20260614-031659/summary.json",
+            "results": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-20260614-031659/results.jsonl",
+            "responses": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/mkadrlik-hermes-qwen3-5-0-8b-sft-v7-fresh-qwen-no-think-prefill-20260614-031659/responses.jsonl"
+          },
+          "case_classification_counts": {
+            "malformed_or_no_calls": 2,
+            "refusal_boundary_failed": 1
+          }
+        }
+      ]
+    },
+    {
       "candidate": "mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit",
       "priority": "low",
       "best_variant": "strict-suffix-copy-exact",
