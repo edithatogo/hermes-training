@@ -137,6 +137,13 @@ def build_report(
     }
 
 
+def write_json_report(path: Path | None, report: dict[str, Any]) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
@@ -177,9 +184,7 @@ def main() -> int:
         ignore_known_auth_blocker=args.ignore_known_auth_blocker,
     )
 
-    if args.json_output:
-        args.json_output.parent.mkdir(parents=True, exist_ok=True)
-        args.json_output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_json_report(args.json_output, report)
 
     if args.execute and report["blockers"]:
         print(json.dumps(report, indent=2, sort_keys=True))
@@ -192,6 +197,7 @@ def main() -> int:
             "stdout": result.stdout.strip(),
             "stderr": result.stderr.strip(),
         }
+        write_json_report(args.json_output, report)
         print(json.dumps(report, indent=2, sort_keys=True))
         return result.returncode
 

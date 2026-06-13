@@ -1,24 +1,8 @@
 {
-  "decision": "Use the selected backend only after the listed operator gates pass. Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain.",
+  "decision": "Use the selected backend only after the listed operator gates pass. Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain. Do not retry Kaggle unchanged after a failed live ingest.",
   "execute": false,
   "promotion_allowed": false,
   "ranked_backends": [
-    {
-      "backend": "kaggle",
-      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery.",
-      "commands": [
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
-      ],
-      "operator_actions": [
-        "Confirm the no-limit Kaggle run is approved before pushing the public kernel.",
-        "Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.",
-        "Run the result ingest validator with `--no-allow-pending` before any benchmark claim."
-      ],
-      "score": 105,
-      "status": "prepared-needs-run-approval"
-    },
     {
       "backend": "modal",
       "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.",
@@ -51,6 +35,22 @@
       ],
       "score": 25,
       "status": "blocked-insufficient-hf-credits"
+    },
+    {
+      "backend": "kaggle",
+      "blocker": "Kaggle CLI, quota visibility, public-input notebook contract, and local result ingest gate are ready; remaining gates are explicit run approval and artifact recovery. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path.",
+      "commands": [
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
+      ],
+      "operator_actions": [
+        "Confirm the no-limit Kaggle run is approved before pushing the public kernel.",
+        "Download `/kaggle/working` summary and lm-eval outputs to the SSD after the run.",
+        "Run the result ingest validator with `--no-allow-pending` before any benchmark claim."
+      ],
+      "score": 25,
+      "status": "prepared-needs-run-approval"
     },
     {
       "backend": "azure",
@@ -136,9 +136,9 @@
     "cost or zero-cost policy confirmation",
     "explicit run approval"
   ],
-  "selected_backend": "kaggle",
-  "selected_score": 105,
-  "selected_status": "prepared-needs-run-approval",
+  "selected_backend": "modal",
+  "selected_score": 75,
+  "selected_status": "prepared-needs-credit-and-gpu-policy-check",
   "source_checklist": "reports/cloud/backend-preflight-20260613.json",
   "status": "blocked-pending-operator-gates"
 }

@@ -13,6 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKLIST = ROOT / "reports/cloud/backend-unblock-checklist-20260613.json"
+DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.json"
 DEFAULT_JSON = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.json"
 DEFAULT_MD = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md"
 
@@ -40,8 +41,10 @@ def validate_semantics(path: Path) -> list[str]:
         failures.append("backend selection must not enable execution")
     if data.get("promotion_allowed") is not False:
         failures.append("backend selection must not allow benchmark promotion")
-    if data.get("selected_backend") != "kaggle":
-        failures.append("current selected backend must be kaggle, the only prepared run-approval route")
+    kaggle_ingest = load_json(DEFAULT_KAGGLE_INGEST) if DEFAULT_KAGGLE_INGEST.exists() else {}
+    expected_backend = "modal" if kaggle_ingest.get("status") == "fail" else "kaggle"
+    if data.get("selected_backend") != expected_backend:
+        failures.append(f"current selected backend must be {expected_backend}")
     gates = set(data.get("required_before_execution", []))
     for gate in {
         "explicit run approval",
@@ -66,6 +69,7 @@ def validate_semantics(path: Path) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checklist", type=Path, default=DEFAULT_CHECKLIST)
+    parser.add_argument("--kaggle-ingest", type=Path, default=DEFAULT_KAGGLE_INGEST)
     parser.add_argument("--selection-json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--selection-md", type=Path, default=DEFAULT_MD)
     args = parser.parse_args()
@@ -87,6 +91,8 @@ def main() -> int:
                     str(ROOT / "scripts/select_scorecard_backend.py"),
                     "--checklist",
                     str(args.checklist),
+                    "--kaggle-ingest",
+                    str(args.kaggle_ingest),
                     "--json-output",
                     str(expected_json),
                     "--markdown-output",

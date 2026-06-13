@@ -10,6 +10,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKLIST = ROOT / "reports/cloud/backend-unblock-checklist-20260613.json"
+DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.json"
 DEFAULT_JSON = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.json"
 DEFAULT_MD = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md"
 
@@ -36,19 +37,27 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def backend_score(item: dict[str, Any]) -> int:
+def backend_score(item: dict[str, Any], kaggle_ingest: dict[str, Any] | None = None) -> int:
     status = str(item.get("status", "unknown"))
     score = PRIORITY.get(status, 0)
     backend = str(item.get("backend", ""))
     blocker = str(item.get("blocker", "")).lower()
     if backend == "colab" and ("prune" in blocker or "keepalive" in blocker):
         score -= 35
+    if backend == "kaggle" and kaggle_ingest and kaggle_ingest.get("status") == "fail":
+        score -= 80
     if backend in {"kaggle", "azure", "hf_jobs", "modal", "lightning", "ngc"}:
         score += 5
     return score
 
 
-def select_backends(checklist: dict[str, Any]) -> dict[str, Any]:
+def kaggle_blocker_suffix(kaggle_ingest: dict[str, Any] | None) -> str:
+    if not kaggle_ingest or kaggle_ingest.get("status") != "fail":
+        return ""
+    return " Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path."
+
+
+def select_backends(checklist: dict[str, Any], kaggle_ingest: dict[str, Any] | None = None) -> dict[str, Any]:
     items = checklist.get("items", [])
     if not isinstance(items, list):
         raise ValueError("checklist items must be a list")
@@ -59,8 +68,8 @@ def select_backends(checklist: dict[str, Any]) -> dict[str, Any]:
         row = {
             "backend": item.get("backend"),
             "status": item.get("status"),
-            "score": backend_score(item),
-            "blocker": item.get("blocker", ""),
+            "score": backend_score(item, kaggle_ingest),
+            "blocker": f"{item.get('blocker', '')}{kaggle_blocker_suffix(kaggle_ingest) if item.get('backend') == 'kaggle' else ''}",
             "operator_actions": item.get("operator_actions", []),
             "commands": item.get("commands", []),
         }
@@ -79,6 +88,7 @@ def select_backends(checklist: dict[str, Any]) -> dict[str, Any]:
         "decision": (
             "Use the selected backend only after the listed operator gates pass. "
             "Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain."
+            " Do not retry Kaggle unchanged after a failed live ingest."
         ),
         "ranked_backends": candidates,
     }
@@ -112,11 +122,13 @@ def render_markdown(payload: dict[str, Any]) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checklist", type=Path, default=DEFAULT_CHECKLIST)
+    parser.add_argument("--kaggle-ingest", type=Path, default=DEFAULT_KAGGLE_INGEST)
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown-output", type=Path, default=DEFAULT_MD)
     args = parser.parse_args()
 
-    payload = select_backends(load_json(args.checklist))
+    kaggle_ingest = load_json(args.kaggle_ingest) if args.kaggle_ingest.exists() else None
+    payload = select_backends(load_json(args.checklist), kaggle_ingest)
     args.json_output.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
     args.json_output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")

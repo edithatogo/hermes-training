@@ -16,18 +16,23 @@
     "--accelerator",
     "gpu"
   ],
-  "confirm_kaggle_run": false,
-  "execute": false,
+  "confirm_kaggle_run": true,
+  "execute": true,
   "ignore_known_auth_blocker": false,
   "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
   "run_id": "qwen3-v4-peft-kaggle-lm-eval-selected-full-20260613",
+  "submission": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "The following are not valid tags and could not be added to the kernel: ['qwen3', 'hermes', 'peft', 'lm-eval']\nKernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/code/edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  },
   "staged": {
     "config": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle-peft-lm-eval-config.json",
     "metadata": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kernel-metadata.json",
     "runner": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613/kaggle_peft_lm_eval_selected.py"
   },
   "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613",
-  "status": "dry-run",
+  "status": "ready-to-submit",
   "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
   "timeout_s": 21600
 }

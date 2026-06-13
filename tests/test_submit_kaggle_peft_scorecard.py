@@ -10,6 +10,7 @@ from scripts.submit_kaggle_peft_scorecard import (
     build_report,
     kernel_metadata,
     stage_kernel,
+    write_json_report,
 )
 
 
@@ -93,6 +94,19 @@ class SubmitKagglePeftScorecardTests(unittest.TestCase):
 
         self.assertEqual(report["status"], "ready-to-submit")
         self.assertFalse(report["blockers"])
+
+    def test_write_json_report_persists_updated_report(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "report.json"
+            report = {"status": "ready-to-submit"}
+            write_json_report(path, report)
+            report["submission"] = {"returncode": 0}
+            write_json_report(path, report)
+
+            text = path.read_text(encoding="utf-8")
+
+        self.assertIn('"submission"', text)
+        self.assertIn('"returncode": 0', text)
 
 
 if __name__ == "__main__":

@@ -37,6 +37,20 @@ class SelectScorecardBackendTests(unittest.TestCase):
         self.assertIn("cost or zero-cost policy confirmation", payload["required_before_execution"])
         self.assertIn("artifact recovery plan", payload["required_before_execution"])
 
+    def test_failed_kaggle_ingest_promotes_modal_as_next_route(self) -> None:
+        payload = select_backends(
+            {
+                "items": [
+                    {"backend": "kaggle", "status": "prepared-needs-run-approval", "blocker": "Ready except run approval."},
+                    {"backend": "modal", "status": "prepared-needs-credit-and-gpu-policy-check", "blocker": "Needs GPU policy."},
+                ],
+            },
+            {"status": "fail"},
+        )
+
+        self.assertEqual(payload["selected_backend"], "modal")
+        self.assertIn("Live Kaggle ingest failed", payload["ranked_backends"][1]["blocker"])
+
 
 if __name__ == "__main__":
     unittest.main()

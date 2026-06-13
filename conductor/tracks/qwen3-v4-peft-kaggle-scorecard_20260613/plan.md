@@ -15,13 +15,15 @@
 - [x] Task: Resolve Kaggle quota visibility.
 - [x] Task: Confirm public-input notebook execution contract.
 - [x] Task: Add fail-closed local result artifact ingest gate.
-- [ ] Task: Submit the no-limit kernel only after explicit confirmation.
-- [ ] Task: Download result artifacts and update benchmark coverage if complete.
+- [x] Task: Submit the no-limit kernel only after explicit confirmation.
+- [x] Task: Download result artifacts and update benchmark coverage if complete.
+- [ ] Task: Prepare a rerun path that avoids Kaggle P100/PyTorch `sm_60`
+  incompatibility, or route the scorecard to Modal/Azure instead.
 
 ## Health Check
 
 - Target: >= 9.0 / 10
-- Current estimate: 9.4 / 10 as a prepared-but-execution-gated backend track.
+- Current estimate: 9.5 / 10 as a live-tested but blocked backend track.
 - Evidence: `scripts/submit_kaggle_peft_scorecard.py` generated
   `reports/cloud/qwen3-v4-peft-kaggle-submit-dry-run-20260613.json` and staged
   the kernel folder under `reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613`.
@@ -34,11 +36,16 @@
   `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`: public inputs
   only, no private data upload, GPU script metadata, no `--limit`, 21600s
   timeout, and explicit `--execute --confirm-kaggle-run` operator boundary.
-  The post-run local ingest gate is staged at
-  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.md`; it currently
-  reports `pending_artifacts` and will reject limited, partial, timed-out,
-  missing-task, nonzero, or non-SSD result artifacts after a run.
-- Gaps: Kernel push/run behavior and result artifact recovery are not yet
-  live-tested.
-- Decision: keep Kaggle prepared but blocked until the no-limit kernel has
-  explicit run approval.
+  The no-limit GPU kernel was submitted as Kaggle version 1 on 2026-06-14; the
+  live submit report is
+  `reports/cloud/qwen3-v4-peft-kaggle-submit-live-20260614.json`. Kaggle
+  completed, artifacts were downloaded to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260614`,
+  and the no-pending ingest gate failed in
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.md` because
+  lm-eval returned `1` before scoring. The concrete blocker is a Kaggle Tesla
+  P100 (`sm_60`) assigned under a PyTorch CUDA build that supports `sm_70+`.
+- Gaps: No scored Kaggle result exists. A retry must avoid P100, pin a
+  compatible PyTorch/CUDA stack, use CPU fallback if acceptable, or route the
+  scorecard to another persistent backend.
+- Decision: keep Kaggle blocked and non-promotional.
