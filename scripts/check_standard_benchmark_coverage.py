@@ -46,6 +46,11 @@ CANDIDATE_CONFIGS = {
         / "benchmark"
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md",
+        "lm_eval_direct_full_attempt": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md",
         "lm_eval_endpoint_attempt": ROOT
         / "reports"
         / "benchmark"
@@ -88,6 +93,11 @@ CANDIDATE_CONFIGS = {
         / "benchmark"
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-seq-20260610.md",
+        "lm_eval_direct_full_attempt": ROOT
+        / "reports"
+        / "benchmark"
+        / "lm-eval"
+        / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md",
         "lm_eval_endpoint_attempt": ROOT
         / "reports"
         / "benchmark"
@@ -166,6 +176,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
     lm_eval_direct_smoke = config["lm_eval_direct_smoke"]
     lm_eval_direct_candidate_pilot = config["lm_eval_direct_candidate_pilot"]
     lm_eval_direct_partial_full = config["lm_eval_direct_partial_full"]
+    lm_eval_direct_full_attempt = config["lm_eval_direct_full_attempt"]
     bundle = config["bundle"]
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -253,17 +264,22 @@ def build_items(candidate: str) -> list[CoverageItem]:
             tier="official-candidate",
             status="missing",
             evidence=(
-                str(lm_eval_direct_partial_full.relative_to(ROOT))
-                if lm_eval_direct_partial_full.exists()
-                else
-                str(lm_eval_direct_candidate_pilot.relative_to(ROOT))
-                if lm_eval_direct_candidate_pilot.exists()
-                else str(lm_eval_endpoint_attempt.relative_to(ROOT))
-                if lm_eval_endpoint_attempt.exists()
-                else ""
+                str(lm_eval_direct_full_attempt.relative_to(ROOT))
+                if lm_eval_direct_full_attempt.exists()
+                else (
+                    str(lm_eval_direct_partial_full.relative_to(ROOT))
+                    if lm_eval_direct_partial_full.exists()
+                    else (
+                        str(lm_eval_direct_candidate_pilot.relative_to(ROOT))
+                        if lm_eval_direct_candidate_pilot.exists()
+                        else str(lm_eval_endpoint_attempt.relative_to(ROOT))
+                        if lm_eval_endpoint_attempt.exists()
+                        else ""
+                    )
+                )
             ),
             metric="",
-            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. A full selected-task run was attempted but interrupted after ARC Challenge only, so full selected-task coverage is still missing.",
+            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. The 2026-06-13 no-limit local MLX run recorded a blocker after 731.827s with 0/5 tasks completed, so full selected-task coverage is still missing and should move to Colab/Azure/offload or an explicit resume lane.",
             required_for="general benchmark claim",
         ),
         CoverageItem(
