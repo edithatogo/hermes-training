@@ -285,6 +285,10 @@ retrieval. These isolated embedding scores do not override the live
 isolated-fixture result: the default read path remains `nomic-embed-text:latest`
 until a replacement passes collection migration, live multi-result retrieval,
 and rollback checks.
+MLX BGE reranking remains opt-in after the broader 2026-06-13 daily-use probe:
+10/10 reads completed with no fallbacks, cold p50 `7.404s`, cache-hit p50
+`4.552s`, and rerank p50 `0.048s`, but the live probe was singleton-only and is
+therefore not a multi-result quality claim.
 The EmbeddingGemma GGUF package is especially promising because it keeps the
 current 768-dim vector shape and passed all 14 isolated cases. The
 server-backed wrapper reduced p50 embedding latency to about 0.012s, and the
@@ -436,6 +440,13 @@ Current replay comparison:
 | Fixed | 1.000 | 1.000 | 0.220s |
 | BGE-derived expanded | 1.000 | 1.000 | 0.281s |
 | Nomic-derived expanded | 0.917 | 1.000 | 0.250s |
+
+2026-06-13 MLX BGE broader cold/warm probe:
+[`mlx-bge-broader-cold-warm-latency-20260613.md`](../reports/benchmark/mem0/mlx-bge-broader-cold-warm-latency-20260613.md)
+completed 10 subprocess reads across five operational queries. It recorded
+`0` fallbacks, cold p50 `7.404s`, cache-hit p50 `4.552s`, and rerank p50
+`0.048s`. Keep `mlx-bge` opt-in for deliberate memory inspection and Hermes
+tool use; do not wire it into every-turn automatic memory preludes.
 
 Run the isolated fixture add/search comparison without touching
 `~/.mem0/config.json` or `mem0_nomic_768`:

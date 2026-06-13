@@ -623,3 +623,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: EmbeddingGemma Live-Store Rerank Replay
 *Link: [./tracks/embeddinggemma-live-store-rerank-replay_20260613/](./tracks/embeddinggemma-live-store-rerank-replay_20260613/)*
+
+---
+
+## [x] Track: MLX BGE Broader Cold/Warm Latency
+*Link: [./tracks/mlx-bge-broader-cold-warm-latency_20260613/](./tracks/mlx-bge-broader-cold-warm-latency_20260613/)*

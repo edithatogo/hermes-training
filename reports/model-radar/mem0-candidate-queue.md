@@ -21,7 +21,7 @@ Target: Local mem0 memory for Codex, Cline, Hermes, and other CLI agents
 |---:|---|---|---|---|---|---|
 | 1 | `nomic-embed-text:latest` | embedder | working-default | ollama | add-search-smoke | baseline; keep as rollback and compare only |
 | 2 | `sam860/LFM2:2.6b` | extractor | working-default-clean-root-smoked | ollama | extraction-smoke | baseline recovered in clean SSD Ollama root; keep as rollback and compare only |
-| 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | isolated-fixture-proven | mlx | multi-query-cold-warm-latency-probe | first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof |
+| 3 | `flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit` | reranker | broader-latency-proven-opt-in | mlx | multi-query-cold-warm-latency-probe | broader cold/warm proof passed safely with cold p50 7.404s, cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow for every-turn automatic preludes; keep opt-in read mode |
 | 4 | `mem0-created-at-rank-reranker` | reranker | live-read-wrapper-smoked | local-python | rerank-smoke | live read-only wrapper smoke passed; keep read-only until broader coverage |
 | 5 | `Qwen/Qwen3-Reranker-4B` | reranker | source-model-benchmarked | transformers | rerank-smoke | quality proof passed, but CPU latency is too high for default promotion without acceleration or live replay proof |
 | 6 | `onnx-community/Qwen3-Reranker-0.6B-ONNX` | reranker | source-model-benchmarked | onnxruntime | rerank-smoke | source Qwen/Qwen3-Reranker-0.6B passed suites; ONNX package remains blocked pending bounded CPU/CoreML proof |
@@ -71,8 +71,8 @@ source scripts/env.sh
 ### flaglow/BAAI-bge-reranker-v2-m3-mlx-mxfp8-8bit
 
 - Role: `reranker`
-- Status: `isolated-fixture-proven`
-- Blocker: first bounded cache-hit daily-use probe passed; keep opt-in read mode until broader cold/warm latency proof
+- Status: `broader-latency-proven-opt-in`
+- Blocker: broader cold/warm latency proof passed safely with cold p50 7.404s, cache-hit p50 4.552s, and rerank p50 0.048s, but remains too slow for every-turn automatic preludes; keep opt-in read mode
 
 ```bash
 source scripts/env.sh

@@ -1,0 +1,8 @@
+{
+  "track_id": "mlx-bge-broader-cold-warm-latency_20260613",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-06-13T02:35:00Z",
+  "updated_at": "2026-06-13T02:50:00Z",
+  "description": "Broader cold/warm daily-use latency proof for the opt-in MLX BGE mem0 reranker"
+}

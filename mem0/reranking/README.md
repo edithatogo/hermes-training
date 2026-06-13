@@ -334,9 +334,14 @@ HF_HUB_DISABLE_XET=1 ./.venv/bin/python scripts/mem0_read.py \
   --cache-ttl-s 300
 ```
 
-Keep `mlx-bge` opt-in until broader daily-use latency probes justify a default
-change. Evidence is recorded in
-`reports/benchmark/mem0/bge-reranker-v2-m3-mlx-8bit-fixed-suite-20260526.md`.
+2026-06-13 broader latency result: the fresh-cache subprocess probe completed
+10 reads across five operational queries with `0` fallbacks, cold p50 `7.404s`,
+cache-hit p50 `4.552s`, and rerank p50 `0.048s`. Keep `mlx-bge` opt-in for
+deliberate memory inspection and Hermes tool use; do not wire it into
+every-turn automatic memory preludes. Evidence is recorded in
+`reports/benchmark/mem0/bge-reranker-v2-m3-mlx-8bit-fixed-suite-20260526.md`
+and
+`reports/benchmark/mem0/mlx-bge-broader-cold-warm-latency-20260613.md`.
 
 Optional reranker dependencies are intentionally separate from the base repo
 environment:

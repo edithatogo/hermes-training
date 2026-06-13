@@ -20,6 +20,10 @@ The current working setup is:
 | Storage | `~/.mem0`, with the validated mem0 Ollama root at `/Volumes/PortableSSD/Ollama/mem0-clean-models` |
 
 Do not replace the working setup just to test a candidate. New candidates should be added behind a run card and a benchmark result first.
+`mlx-bge` reranking is still opt-in. The broader 2026-06-13 cold/warm latency
+probe passed 10/10 with no fallbacks and rerank p50 `0.048s`, but total latency
+was `7.404s` cold p50 / `4.552s` cache-hit p50 and the live result sets were
+singleton-only.
 The leading 768-dimension challenger is now `lmstudio-community/embeddinggemma-300m-qat-GGUF` served through the resilient llama.cpp embedding proxy. It outperforms the current default on isolated retrieval and passes the output-local live mem0 fixture with raw vector and query-guarded strategies at top-1 `1.000` / recall@3 `1.000`. A copied live-store replay then reached default-top recall `1.000` but top-1 match only `0.200`, so it remains opt-in rather than the default.
 
 ## Structure

@@ -10,6 +10,11 @@ promotion remains blocked. Rerank replay:
 [EmbeddingGemma Live-Store Rerank Replay - 2026-06-13](./embeddinggemma-live-store-rerank-replay-20260613.md)
 tested `vector`, `query_terms_guarded`, `score_plus_created_at_rank`, and
 `score_plus_created_at_rank_close_margin`; all remained at top-1 match `0.200`.
+MLX BGE broader latency:
+[MLX BGE Broader Cold/Warm Latency Probe - 2026-06-13](./mlx-bge-broader-cold-warm-latency-20260613.md)
+completed 10 subprocess reads with `0` fallbacks, cold p50 `7.404s`, cache-hit
+p50 `4.552s`, and rerank p50 `0.048s`; keep it opt-in rather than every-turn
+automatic.
 
 | Kind | Run ID | Model/Tool | Raw Pass | Rerank Pass | Top-1 | Recall@k/3 | JSON Valid | Latency p50 | Output |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|

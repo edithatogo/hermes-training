@@ -243,11 +243,11 @@ def build_read_args(args: argparse.Namespace, query: str) -> argparse.Namespace:
         qwen3_local_files_only=args.qwen3_local_files_only,
         qwen3_server_url=args.qwen3_server_url,
         mlx_max_length=args.mlx_max_length,
-        retriever_service_url=args.retriever_service_url,
-        retriever_timeout_s=args.retriever_timeout_s,
-        retriever_index_id=args.retriever_index_id,
-        retriever_top_k=args.retriever_top_k,
-        document_fixture=args.document_fixture,
+        retriever_service_url=getattr(args, "retriever_service_url", "http://127.0.0.1:8765"),
+        retriever_timeout_s=getattr(args, "retriever_timeout_s", args.timeout_s),
+        retriever_index_id=getattr(args, "retriever_index_id", ""),
+        retriever_top_k=getattr(args, "retriever_top_k", 8),
+        document_fixture=getattr(args, "document_fixture", None),
         fallback_to_vector=args.fallback_to_vector,
         include_raw=args.include_raw,
         cache_path=args.cache_path,
@@ -294,16 +294,21 @@ def build_mem0_read_command(args: argparse.Namespace, query: str) -> list[str]:
         command.append("--qwen3-local-files-only")
     if args.qwen3_server_url:
         command.extend(["--qwen3-server-url", args.qwen3_server_url])
-    if args.retriever_service_url:
-        command.extend(["--retriever-service-url", args.retriever_service_url])
-    if args.retriever_timeout_s:
-        command.extend(["--retriever-timeout-s", str(args.retriever_timeout_s)])
-    if args.retriever_index_id:
-        command.extend(["--retriever-index-id", args.retriever_index_id])
-    if args.retriever_top_k:
-        command.extend(["--retriever-top-k", str(args.retriever_top_k)])
-    if args.document_fixture:
-        command.extend(["--document-fixture", str(args.document_fixture)])
+    retriever_service_url = getattr(args, "retriever_service_url", None)
+    retriever_timeout_s = getattr(args, "retriever_timeout_s", None)
+    retriever_index_id = getattr(args, "retriever_index_id", "")
+    retriever_top_k = getattr(args, "retriever_top_k", None)
+    document_fixture = getattr(args, "document_fixture", None)
+    if retriever_service_url:
+        command.extend(["--retriever-service-url", retriever_service_url])
+    if retriever_timeout_s:
+        command.extend(["--retriever-timeout-s", str(retriever_timeout_s)])
+    if retriever_index_id:
+        command.extend(["--retriever-index-id", retriever_index_id])
+    if retriever_top_k:
+        command.extend(["--retriever-top-k", str(retriever_top_k)])
+    if document_fixture:
+        command.extend(["--document-fixture", str(document_fixture)])
     return command
 
 
