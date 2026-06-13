@@ -1,0 +1,114 @@
+{
+  "app": "/Volumes/PortableSSD/GitHub/hermes-training/scripts/modal_peft_lm_eval_selected.py",
+  "checks": [
+    {
+      "detail": "dry-run",
+      "name": "dry_run_status",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_no_execute",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_no_confirmation",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_no_zero_cost_confirmation",
+      "passed": true
+    },
+    {
+      "detail": "[]",
+      "name": "dry_run_no_blockers",
+      "passed": true
+    },
+    {
+      "detail": "modal run --name qwen3-v4-peft-modal-lm-eval-selected-full-20260614 --write-result /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json /Volumes/PortableSSD/GitHub/hermes-trainin",
+      "name": "command_uses_modal_run",
+      "passed": true
+    },
+    {
+      "detail": "modal run --name qwen3-v4-peft-modal-lm-eval-selected-full-20260614 --write-result /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json /Volumes/PortableSSD/GitHub/hermes-trainin",
+      "name": "command_targets_scorecard",
+      "passed": true
+    },
+    {
+      "detail": "modal run --name qwen3-v4-peft-modal-lm-eval-selected-full-20260614 --write-result /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json /Volumes/PortableSSD/GitHub/hermes-trainin",
+      "name": "command_writes_local_result",
+      "passed": true
+    },
+    {
+      "detail": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "name": "config_adapter_public_repo",
+      "passed": true
+    },
+    {
+      "detail": "Qwen/Qwen3-4B",
+      "name": "config_base_model",
+      "passed": true
+    },
+    {
+      "detail": "None",
+      "name": "config_no_limit",
+      "passed": true
+    },
+    {
+      "detail": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+      "name": "config_selected_tasks",
+      "passed": true
+    },
+    {
+      "detail": "21600",
+      "name": "config_timeout_bounded",
+      "passed": true
+    },
+    {
+      "detail": "/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/lm-eval-output",
+      "name": "config_volume_output",
+      "passed": true
+    },
+    {
+      "detail": "/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/summary.json",
+      "name": "config_volume_summary",
+      "passed": true
+    },
+    {
+      "detail": "Modal function uses T4 GPU",
+      "name": "app_declares_t4_gpu",
+      "passed": true
+    },
+    {
+      "detail": "Modal volume mounted at /results",
+      "name": "app_uses_results_volume",
+      "passed": true
+    },
+    {
+      "detail": "Modal result volume commit is attempted",
+      "name": "app_commits_volume",
+      "passed": true
+    },
+    {
+      "detail": "claim boundary is embedded",
+      "name": "app_embeds_claim_boundary",
+      "passed": true
+    }
+  ],
+  "dry_run": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json",
+  "execution_contract": {
+    "claim_boundary": "No benchmark claim until Modal returns scored no-limit results for all selected tasks.",
+    "execute": false,
+    "remote_run_requires": [
+      "--execute",
+      "--confirm-modal-run",
+      "--confirm-zero-cost-compute",
+      "cost or zero-cost policy evidence",
+      "post-run result ingest validation"
+    ]
+  },
+  "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614",
+  "status": "pass"
+}

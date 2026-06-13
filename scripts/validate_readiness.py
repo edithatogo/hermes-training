@@ -299,6 +299,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_kaggle_peft_scorecard.py",
         ROOT / "scripts/modal_peft_lm_eval_selected.py",
         ROOT / "scripts/submit_modal_peft_scorecard.py",
+        ROOT / "scripts/validate_modal_scorecard_contract.py",
         ROOT / "scripts/submit_lightning_peft_scorecard.py",
         ROOT / "scripts/submit_ngc_cloud_function_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
@@ -600,6 +601,21 @@ def check_modal_result_ingest(failures: list[str]) -> None:
         ok("modal result ingest")
 
 
+def check_modal_scorecard_contract(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_modal_scorecard_contract.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"modal scorecard contract: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("modal scorecard contract")
+
+
 def check_free_container_account_probe(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -878,6 +894,7 @@ def main() -> int:
     check_scorecard_backend_selection(failures)
     check_kaggle_kernel_contract(failures)
     check_kaggle_result_ingest(failures)
+    check_modal_scorecard_contract(failures)
     check_modal_result_ingest(failures)
     check_free_container_account_probe(failures)
     check_prompt_profile_repair_queue(failures)

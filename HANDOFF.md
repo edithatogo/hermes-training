@@ -492,6 +492,11 @@ Current gaps:
   artifacts before any benchmark claim. The Kaggle rerun path is staged with
   `torch_compatibility_policy=p100-cu118` and `use_4bit=false`, but no new
   kernel has been submitted.
+- Modal now has both a fail-closed execution contract and a result-ingest gate:
+  `reports/cloud/qwen3-v4-peft-modal-contract-20260614.md` verifies the dry-run
+  command, T4 app, no-limit five-task config, Modal volume persistence, and
+  local `--write-result` path; `reports/cloud/qwen3-v4-peft-modal-result-ingest-20260614.md`
+  remains `pending_artifacts` until a scored result is recovered.
 
 ## Next Actions
 
