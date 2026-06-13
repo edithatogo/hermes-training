@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-12T23:50:22.469134+00:00",
+  "created_at": "2026-06-13T04:44:15.456595+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -2150,6 +2150,21 @@
       "notes": "Fresh DeepSeek V4 Pro preview checkpoint. Use as a long-context cloud teacher/reference only; do not treat it as a 32GB local training target."
     },
     {
+      "id": "lmstudio-community/embeddinggemma-300m-qat-GGUF",
+      "family": "embeddings",
+      "role": "local-runtime",
+      "environment": "mac-lmstudio",
+      "parameters": "300M",
+      "size_bucket": "cloud-only",
+      "feasibility": "ready",
+      "coverage_state": "smoke-or-pilot-only",
+      "blocked_reason": "",
+      "lane": "support-model-proof",
+      "first_runtime": "llama.cpp llama-embedding or llama-server OpenAI embeddings",
+      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model lmstudio-community/embeddinggemma-300m-qat-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id lmstudio-community-embeddinggemma-300m-qat-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "notes": "Mac-local EmbeddingGemma lane. 2026-06-13 direct llama.cpp and server-backed OpenAI-compatible embedding runs both passed the 14-case differentiation suite at top-1 1.000 / recall@3 1.000 with 768-dim vectors. The first live output-local mem0 fixture reached top-1 0.909 / recall@3 1.000 and missed only the GGUF runtime-boundary distractor. Captured fixture replay reproduced the vector miss at 0.909 and `query_terms_guarded` reached 1.000; the fresh resilient-proxy live fixture then reached top-1 1.000 / recall@3 1.000 for both raw vector and `query_terms_guarded`. The `embeddinggemma-proxy` read mode now provides an explicit MEM0_CONFIG_PATH opt-in path for Hermes reads without mutating `~/.mem0/config.json`. Copied live-store replay over default_user/codex reached default-top recall 1.000 but top-1 match 0.200, and replay-only vector, query_terms_guarded, score_plus_created_at_rank, and close-margin reranking did not improve it. Keep non-default until ranking behavior improves or a deliberate migration decision accepts the changed ordering."
+    },
+    {
       "id": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-GenRM",
       "family": "nvidia",
       "role": "cloud-teacher",
@@ -2300,21 +2315,6 @@
       "notes": "Promising memory direction; not core Hermes track yet. Native BitNet runtime load and 16-token generation passed on 2026-06-12 from the SSD-backed 1.10 GiB I2_S model, but the output failed a JSON-only prompt. Treat as runtime evidence only until prompt/profile and Hermes task smokes pass."
     },
     {
-      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
-      "family": "qwen",
-      "role": "watchlist",
-      "environment": "specialist-runtime",
-      "parameters": "35B total / 3B active",
-      "size_bucket": "small",
-      "feasibility": "speculative",
-      "coverage_state": "blocked",
-      "blocked_reason": "blocked by current local runtime support",
-      "lane": "watchlist",
-      "first_runtime": "Maniac lme-serve specialist runtime",
-      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
-      "notes": "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags was initially tracked as a specialist-runtime candidate. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime was blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. A 2026-06-13 Hugging Face API recheck returned 404 for this repo, so keep it as speculative/watchlist only unless the repo reappears. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
-    },
-    {
       "id": "BlinkDL/rwkv-7-world",
       "family": "rwkv",
       "role": "watchlist",
@@ -2328,6 +2328,21 @@
       "first_runtime": "RWKV runtime",
       "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
       "notes": "No official 7B World checkpoint was verified on 2026-05-22; use exact checkpoint sizes only."
+    },
+    {
+      "id": "ManiacLabs/Qwen3.6-35B-A3B-2bit-maniac-nonstreaming",
+      "family": "qwen",
+      "role": "watchlist",
+      "environment": "specialist-runtime",
+      "parameters": "35B total / 3B active",
+      "size_bucket": "small",
+      "feasibility": "speculative",
+      "coverage_state": "blocked",
+      "blocked_reason": "blocked because open local weights or a supported public runtime are not verified",
+      "lane": "watchlist",
+      "first_runtime": "Maniac lme-serve specialist runtime",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python scripts/build_all_candidate_benchmark_coverage.py",
+      "notes": "Fresh 2026-06-12 Maniac-engine package with function-calling/tool-calling/agentic tags was initially tracked as a specialist-runtime candidate. Config/model-card proof reached the SSD cache on 2026-06-13, but local runtime was blocked because `lme-serve` / `maniac` is not installed; see `reports/runtime/qwen36-35b-a3b-maniac-nonstreaming-runtime-missing-20260613.md`. A 2026-06-13 Hugging Face API recheck returned 404 for this repo, so keep it as speculative/watchlist only unless the repo reappears. For immediate Mac-local Hermes comparison, use sibling GGUF package `ManiacLabs/Qwen3.6-35B-A3B-2bit` through llama.cpp or LM Studio."
     },
     {
       "id": "mit-oasys/rlm-qwen3-8b-v0.1",

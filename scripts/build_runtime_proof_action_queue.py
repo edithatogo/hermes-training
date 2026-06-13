@@ -251,7 +251,7 @@ def build_queue(candidates: list[dict[str, Any]], coverage_rows: list[dict[str, 
     return rows
 
 
-def render_markdown(rows: list[dict[str, Any]], run_id: str) -> str:
+def render_markdown(rows: list[dict[str, Any]], run_id: str, created_at: str) -> str:
     immediate = [
         row
         for row in rows
@@ -261,7 +261,7 @@ def render_markdown(rows: list[dict[str, Any]], run_id: str) -> str:
         "# Runtime Proof Action Queue",
         "",
         f"Run ID: `{run_id}`",
-        f"Created: `{datetime.now(UTC).isoformat()}`",
+        f"Created: `{created_at}`",
         "",
         "Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.",
         "",
@@ -317,6 +317,10 @@ def main() -> int:
     parser.add_argument("--candidates", type=Path, default=ROOT / "MODEL_CANDIDATES.yaml")
     parser.add_argument("--coverage", type=Path, default=DEFAULT_COVERAGE)
     parser.add_argument("--output-stem", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
     candidates = load_yaml(args.candidates).get("candidates", [])
@@ -325,9 +329,10 @@ def main() -> int:
         raise ValueError("candidate and coverage inputs must contain list rows")
     rows = build_queue([item for item in candidates if isinstance(item, dict)], coverage_rows)
     run_id = args.output_stem.name
+    created_at = args.created_at or datetime.now(UTC).isoformat()
     payload = {
         "run_id": run_id,
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": created_at,
         "source_candidates": str(args.candidates),
         "source_coverage": str(args.coverage),
         "rows": rows,
@@ -336,7 +341,7 @@ def main() -> int:
     json_path = args.output_stem.with_suffix(".json")
     md_path = args.output_stem.with_suffix(".md")
     json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    md_path.write_text(render_markdown(rows, run_id), encoding="utf-8")
+    md_path.write_text(render_markdown(rows, run_id, created_at), encoding="utf-8")
     print(json.dumps({"json": str(json_path), "markdown": str(md_path), "rows": len(rows)}, indent=2))
     return 0
 
