@@ -66,6 +66,8 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "az account set --subscription \"Azure for Students\"",
                 "./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast",
                 "./.venv/bin/python scripts/azure_status.py",
+                "./.venv/bin/python scripts/submit_azure_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run",
             ],
         },
         {

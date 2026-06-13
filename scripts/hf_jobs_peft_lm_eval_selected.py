@@ -78,6 +78,21 @@ def collect_files(root: Path) -> list[str]:
     return sorted(str(path.relative_to(root)) for path in root.rglob("*") if path.is_file())
 
 
+def resolve_adapter_dir(adapter_dir: Path) -> Path:
+    if adapter_dir.exists():
+        return adapter_dir
+    repo_id = os.environ.get("PEFT_ADAPTER_REPO")
+    if not repo_id and "/" in str(adapter_dir):
+        repo_id = str(adapter_dir)
+    if not repo_id:
+        raise FileNotFoundError(f"adapter_dir not found: {adapter_dir}")
+    from huggingface_hub import snapshot_download
+
+    target = Path(os.environ.get("PEFT_ADAPTER_DOWNLOAD_DIR", "/tmp/qwen3-v4-peft-adapter"))
+    snapshot_download(repo_id=repo_id, local_dir=target, local_dir_use_symlinks=False)
+    return target
+
+
 def upload_results(result_json: Path, output_dir: Path, run_id: str) -> dict[str, Any]:
     repo_id = os.environ.get("HF_RESULTS_REPO")
     if not repo_id:
@@ -144,8 +159,8 @@ def main() -> int:
     }
 
     try:
-        if not adapter_dir.exists():
-            raise FileNotFoundError(f"adapter_dir not found: {adapter_dir}")
+        adapter_dir = resolve_adapter_dir(adapter_dir)
+        result["adapter_dir"] = str(adapter_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         result_json.parent.mkdir(parents=True, exist_ok=True)
         model_arg_parts = [

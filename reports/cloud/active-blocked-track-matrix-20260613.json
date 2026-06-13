@@ -3,6 +3,23 @@
   "registry": "conductor/tracks.md",
   "rows": [
     {
+      "backend": "azure",
+      "backend_status": "blocked",
+      "blocker": "Azure CLI is installed but not currently logged in.",
+      "commands": [
+        "az login --use-device-code",
+        "az account set --subscription \"Azure for Students\"",
+        "./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast",
+        "./.venv/bin/python scripts/azure_status.py",
+        "./.venv/bin/python scripts/submit_azure_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run"
+      ],
+      "next_task": "Complete `az login --use-device-code` for the student account.",
+      "title": "Qwen3 v4 PEFT Azure scorecard",
+      "track_id": "qwen3-v4-peft-azure-scorecard_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-azure-scorecard_20260613"
+    },
+    {
       "backend": "colab",
       "backend_status": "ready",
       "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",

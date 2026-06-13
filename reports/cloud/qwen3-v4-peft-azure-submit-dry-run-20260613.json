@@ -1,0 +1,69 @@
+{
+  "backend": "azure-ml",
+  "blockers": [
+    "ERROR: Please run 'az login' to setup account."
+  ],
+  "claim_boundary": "No-limit benchmark claim only after Azure completes every configured task without --limit and artifacts are downloaded to /Volumes/PortableSSD.",
+  "command": [
+    "az",
+    "ml",
+    "job",
+    "create",
+    "--file",
+    "/Volumes/PortableSSD/GitHub/hermes-training/templates/azure/qwen3-v4-peft-lm-eval-job.yaml",
+    "--resource-group",
+    "hermes-ml-rg",
+    "--workspace-name",
+    "hermes-ml-lab",
+    "--set",
+    "name=qwen3-v4-peft-azure-lm-eval-selected-full-20260613",
+    "compute=azureml:hermes-lowpri-t4"
+  ],
+  "compute": "azureml:hermes-lowpri-t4",
+  "confirm_azure_run": false,
+  "execute": false,
+  "job_template": "/Volumes/PortableSSD/GitHub/hermes-training/templates/azure/qwen3-v4-peft-lm-eval-job.yaml",
+  "preflight": {
+    "account": {
+      "command": [
+        "az",
+        "account",
+        "show",
+        "-o",
+        "json"
+      ],
+      "installed": true,
+      "returncode": 1,
+      "stderr": "ERROR: Please run 'az login' to setup account.",
+      "stdout": ""
+    },
+    "blockers": [
+      "ERROR: Please run 'az login' to setup account."
+    ],
+    "ml_extension": {
+      "command": [
+        "az",
+        "extension",
+        "show",
+        "-n",
+        "ml",
+        "--query",
+        "version",
+        "-o",
+        "tsv"
+      ],
+      "installed": true,
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "2.42.0"
+    },
+    "ready": false,
+    "template_exists": true
+  },
+  "region": "australiaeast",
+  "resource_group": "hermes-ml-rg",
+  "run_id": "qwen3-v4-peft-azure-lm-eval-selected-full-20260613",
+  "shell_command": "az ml job create --file /Volumes/PortableSSD/GitHub/hermes-training/templates/azure/qwen3-v4-peft-lm-eval-job.yaml --resource-group hermes-ml-rg --workspace-name hermes-ml-lab --set name=qwen3-v4-peft-azure-lm-eval-selected-full-20260613 compute=azureml:hermes-lowpri-t4",
+  "status": "blocked",
+  "workspace": "hermes-ml-lab"
+}

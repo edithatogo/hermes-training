@@ -101,6 +101,21 @@ PATH="$HOME/.local/bin:$PATH" ./.venv/bin/python scripts/colab_dispatch.py \
   scripts/colab_adaptive_train_smoke.py 8 16
 ```
 
+## Azure PEFT Scorecard
+
+The Qwen3 v4 PEFT no-limit scorecard has an Azure ML-specific dry-run submitter:
+
+```bash
+./.venv/bin/python scripts/submit_azure_peft_scorecard.py
+```
+
+Live submission remains blocked until Azure login, quota, workspace, compute,
+environment, and explicit cost gates pass:
+
+```bash
+./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run
+```
+
 ## Job Profiles
 
 | Profile | Primary route | Output |

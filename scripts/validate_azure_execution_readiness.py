@@ -15,6 +15,7 @@ REQUIRED_TEMPLATES = (
     "compute-lowpri-a100.yaml",
     "benchmark-job.yaml",
     "teacher-evaluator-job.yaml",
+    "qwen3-v4-peft-lm-eval-job.yaml",
     "cloud-run-card.md",
 )
 
@@ -67,6 +68,32 @@ def assert_job(path: Path) -> None:
     print(f"ok: {path}: fail-closed dry-run job")
 
 
+def assert_guarded_scorecard_job(path: Path) -> None:
+    data = load_yaml(path)
+    tags = data.get("tags") or {}
+    if tags.get("local_artifact_root") != "/Volumes/PortableSSD":
+        fail(f"{path}: local_artifact_root tag must be /Volumes/PortableSSD")
+    if str(tags.get("max_instances")) != "1":
+        fail(f"{path}: max_instances tag must be 1")
+    if tags.get("claim_boundary") != "no-limit-only-after-artifacts":
+        fail(f"{path}: claim_boundary tag must be no-limit-only-after-artifacts")
+    compute = str(data.get("compute", ""))
+    if "precreated" not in compute:
+        fail(f"{path}: compute must remain a precreated placeholder")
+    environment = str(data.get("environment", ""))
+    if "precreated" not in environment:
+        fail(f"{path}: environment must remain a precreated placeholder")
+    env_vars = data.get("environment_variables") or {}
+    if env_vars.get("PEFT_ADAPTER_REPO") != "edithatogo/qwen3-4b-hermes-lora-peft-converted":
+        fail(f"{path}: PEFT_ADAPTER_REPO must point to the public converted adapter")
+    if env_vars.get("LM_EVAL_TIMEOUT_S") != "21600":
+        fail(f"{path}: LM_EVAL_TIMEOUT_S must remain 21600")
+    outputs = data.get("outputs") or {}
+    if "results" not in outputs:
+        fail(f"{path}: missing results output")
+    print(f"ok: {path}: guarded no-limit scorecard job")
+
+
 def assert_workspace(path: Path, expected_owner: str) -> None:
     data = load_yaml(path)
     tags = data.get("tags") or {}
@@ -94,6 +121,7 @@ def main() -> int:
     assert_low_priority_compute(args.template_root / "compute-lowpri-a100.yaml")
     assert_job(args.template_root / "benchmark-job.yaml")
     assert_job(args.template_root / "teacher-evaluator-job.yaml")
+    assert_guarded_scorecard_job(args.template_root / "qwen3-v4-peft-lm-eval-job.yaml")
     print("ready: Azure execution templates remain fail-closed")
     return 0
 

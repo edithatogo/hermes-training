@@ -246,6 +246,10 @@ Current gaps:
   `reports/cloud/backend-unblock-checklist-20260613.md`. The active blocked
   Conductor tracks are summarized by `scripts/build_blocked_track_matrix.py` in
   `reports/cloud/active-blocked-track-matrix-20260613.md`.
+  Azure also has a Qwen3 v4 PEFT-specific guarded submitter and job template,
+  recorded in `reports/cloud/qwen3-v4-peft-azure-scorecard-plan-20260613.md`;
+  it remains blocked until login, quota, workspace, compute, environment, and
+  cost gates pass.
 
 ## Next Actions
 
@@ -262,6 +266,7 @@ Current gaps:
     blocked: `qwen3-v4-peft-colab-full-scorecard_20260613`,
     `qwen3-v4-peft-colab-scorecard-shards_20260613`,
     `qwen3-v4-peft-hf-jobs-scorecard_20260613`,
+    `qwen3-v4-peft-azure-scorecard_20260613`,
     `qwen3-v4-peft-kaggle-scorecard_20260613`, and
     `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
     execution step is whichever backend becomes unblocked first: HF credits,

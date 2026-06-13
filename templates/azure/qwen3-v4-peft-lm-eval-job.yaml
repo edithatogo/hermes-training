@@ -1,0 +1,48 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+
+name: qwen3-v4-peft-azure-lm-eval-selected-full-20260613
+display_name: Qwen3 v4 PEFT lm-eval selected full
+experiment_name: hermes-qwen3-v4-peft-scorecard
+description: >-
+  No-limit selected-task lm-eval scorecard for the converted Qwen3 v4 PEFT
+  adapter. Submit only after Azure login, quota, workspace, compute, and cost
+  gates pass.
+
+tags:
+  lane: azure-cuda
+  cost_policy: spot-low-priority
+  min_instances: "0"
+  max_instances: "1"
+  local_artifact_root: /Volumes/PortableSSD
+  model: Qwen/Qwen3-4B
+  adapter: edithatogo/qwen3-4b-hermes-lora-peft-converted
+  claim_boundary: no-limit-only-after-artifacts
+
+code: ../../
+command: >-
+  python -m pip install --quiet --upgrade "lm_eval[hf]" "transformers>=4.56,<5"
+  peft bitsandbytes safetensors accelerate huggingface_hub &&
+  python scripts/hf_jobs_peft_lm_eval_selected.py
+
+environment: azureml:<precreated-cuda-benchmark-environment@latest>
+compute: azureml:<precreated-spot-or-low-priority-gpu-compute>
+
+environment_variables:
+  RUN_ID: qwen3-v4-peft-azure-lm-eval-selected-full-20260613
+  PEFT_ADAPTER_REPO: edithatogo/qwen3-4b-hermes-lora-peft-converted
+  PEFT_ADAPTER_DIR: /tmp/qwen3-v4-peft-adapter
+  PEFT_ADAPTER_DOWNLOAD_DIR: /tmp/qwen3-v4-peft-adapter
+  PEFT_BASE_MODEL: Qwen/Qwen3-4B
+  LM_EVAL_TASKS: arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande
+  LM_EVAL_BATCH_SIZE: "1"
+  LM_EVAL_DTYPE: float16
+  LM_EVAL_USE_4BIT: "1"
+  LM_EVAL_TIMEOUT_S: "21600"
+  LM_EVAL_OUTPUT_DIR: ${{outputs.results}}/lm-eval-output
+  LM_EVAL_RESULT_JSON: ${{outputs.results}}/summary.json
+
+outputs:
+  results:
+    type: uri_folder
+    mode: rw_mount
