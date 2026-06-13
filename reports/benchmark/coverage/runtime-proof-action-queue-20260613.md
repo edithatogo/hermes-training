@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T07:05:00+00:00`
+Created: `2026-06-13T07:25:00+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 

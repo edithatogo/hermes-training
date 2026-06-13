@@ -290,6 +290,11 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: Queue Venv Pip Command Hygiene
+*Link: [./tracks/queue-venv-pip-command-hygiene_20260613/](./tracks/queue-venv-pip-command-hygiene_20260613/)*
+
+---
+
 ## [x] Track: Qwen3 0.6B Live mem0 Rerank Wrapper
 *Link: [./tracks/qwen3-06b-live-mem0-rerank_20260526/](./tracks/qwen3-06b-live-mem0-rerank_20260526/)*
 

@@ -1,0 +1,8 @@
+{
+  "track_id": "queue-venv-pip-command-hygiene_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Pin generated queue dependency-install commands to the project virtualenv."
+}

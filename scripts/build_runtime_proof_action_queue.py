@@ -150,7 +150,7 @@ def next_command(item: dict[str, Any], lane: str) -> str:
             return "\n".join(
                 [
                     "source scripts/env.sh",
-                    "python -m pip install -r requirements-mem0-embeddings.txt",
+                    "./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt",
                     "./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\",
                     f"  --model {model_id} \\",
                     "  --device cpu \\",

@@ -141,6 +141,19 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         self.assertIn("Runtime-blocked candidate", command)
         self.assertNotIn("run_sentence_transformers_embedding_benchmark.py", command)
 
+    def test_cross_encoder_reranker_installs_with_project_venv(self) -> None:
+        command = command_for(
+            {
+                "id": "BAAI/bge-reranker-v2-m3",
+                "role": "reranker",
+                "runtime": ["sentence-transformers"],
+                "status": "candidate",
+            }
+        )
+
+        self.assertIn("./.venv/bin/python -m pip install -r requirements-mem0-rerankers.txt", command)
+        self.assertNotIn("\npython -m pip install", command)
+
 
 if __name__ == "__main__":
     unittest.main()

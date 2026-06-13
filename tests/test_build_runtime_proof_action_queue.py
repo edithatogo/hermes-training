@@ -137,6 +137,20 @@ class RuntimeProofActionQueueTests(unittest.TestCase):
         self.assertIn("--task-type retrieval", command)
         self.assertNotIn("<repo-dir>", command)
 
+    def test_sentence_transformers_support_command_installs_with_project_venv(self) -> None:
+        item = candidate(
+            id="BAAI/bge-m3",
+            family="bge",
+            role="retrieval",
+            environment="mac-mlx",
+            notes="embedding support lane",
+        )
+
+        command = next_command(item, "support-model-proof")
+
+        self.assertIn("./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt", command)
+        self.assertNotIn("\npython -m pip install", command)
+
     def test_runtime_support_upgrade_sorts_after_real_runtime_proofs(self) -> None:
         rows = build_queue(
             [

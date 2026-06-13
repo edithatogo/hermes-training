@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T07:05:00+00:00",
+  "created_at": "2026-06-13T07:25:00+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -931,7 +931,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Embedding-2B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-embedding-2b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Embedding-2B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-embedding-2b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official multimodal retrieval candidate for Hermes workflows that need screenshot, document-image, or video search. Keep it in the retrieval lane, not chat SFT."
     },
     {
@@ -946,7 +946,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers multimodal embedding path",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-nano \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-nano-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Smaller Jina omni embedder for constrained retrieval workflows and faster iteration."
     },
     {
@@ -991,7 +991,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers multimodal embedding path",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v5-omni-small \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v5-omni-small-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Strong mem0 shortlist alternate and Hermes RAG/cross-modal baseline. Keep it separate from chat generation and use it as a retrieval baseline."
     },
     {
@@ -1051,7 +1051,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX smoke with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model mlx-community/Qwen3-VL-Embedding-2B-8bit \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id mlx-community-qwen3-vl-embedding-2b-8bit-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model mlx-community/Qwen3-VL-Embedding-2B-8bit \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id mlx-community-qwen3-vl-embedding-2b-8bit-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Mac-local packaging lane for the smaller Qwen3-VL embedder. Useful for Hermes screenshot/document-image retrieval experiments on 32GB-class Apple Silicon."
     },
     {
@@ -1111,7 +1111,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "Transformers.js or WebGPU inference smoke",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model onnx-community/jina-embeddings-v5-omni-nano-ONNX \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id onnx-community-jina-embeddings-v5-omni-nano-onnx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model onnx-community/jina-embeddings-v5-omni-nano-ONNX \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id onnx-community-jina-embeddings-v5-omni-nano-onnx-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Browser-friendly Jina omni packaging. Useful if the Hermes workflow needs lightweight retrieval in a web/desktop client path."
     },
     {
@@ -1201,7 +1201,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Embedding-8B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-embedding-8b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Embedding-8B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-embedding-8b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official higher-capacity Qwen multimodal retrieval candidate. Use when the 2B lane underfits the task or when comparing retrieval quality across modalities."
     },
     {
@@ -1216,7 +1216,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers CrossEncoder or Transformers with multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Reranker-8B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-reranker-8b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-VL-Reranker-8B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-vl-reranker-8b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official multimodal reranker to pair with Qwen3-VL embedding. Use after dense retrieval to improve Hermes memory precision on cross-modal corpora."
     },
     {
@@ -1231,7 +1231,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "MLX smoke with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id zeknes-qwen3-vl-reranker-8b-mlx-4bit-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Zeknes/Qwen3-VL-Reranker-8B-MLX-4bit \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id zeknes-qwen3-vl-reranker-8b-mlx-4bit-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Fresh Mac-local MLX packaging lane for the multimodal reranker. Good as a local comparison target if the GGUF lane is too slow or too lossy."
     },
     {
@@ -1246,7 +1246,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "llama.cpp or LM Studio smoke with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model aiteza/Qwen3-VL-Embedding-8B-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id aiteza-qwen3-vl-embedding-8b-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model aiteza/Qwen3-VL-Embedding-8B-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id aiteza-qwen3-vl-embedding-8b-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF lane for the official 8B multimodal embedder. Treat as runtime evidence only."
     },
     {
@@ -1261,7 +1261,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "llama.cpp or LM Studio smoke with structured multimodal inputs",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model mradermacher/Qwen3-VL-Reranker-8B-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id mradermacher-qwen3-vl-reranker-8b-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model mradermacher/Qwen3-VL-Reranker-8B-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id mradermacher-qwen3-vl-reranker-8b-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Community GGUF lane for the official 8B multimodal reranker. Use as a Mac runtime comparison point only."
     },
     {
@@ -1696,7 +1696,7 @@
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v4 \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v4-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model jinaai/jina-embeddings-v4 \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id jinaai-jina-embeddings-v4-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Candidate for Hermes memory/RAG lane, not chat SFT; keep retrieval runtime proof on the FlagEmbedding/sentence-transformers path."
     },
     {
@@ -1771,7 +1771,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers embedding path",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Embedding-0.6B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-embedding-0-6b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Embedding-0.6B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-embedding-0-6b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Official small Qwen retrieval model and a better 32GB-class Hermes memory candidate than the 4B embedder. 2026-06-12 CPU sentence-transformers smoke reached top-1 0.667 / recall@3 1.000 / MRR 0.833 with 1024-dim embeddings and p50 0.192s; see `reports/benchmark/mem0/embedding-qwen3-06b-smoke-20260612.md`. Runtime is unblocked but not promoted, because the recency-preference miss means it needs reranking or expanded-suite improvement before promotion."
     },
     {
@@ -1876,7 +1876,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers or Transformers embedding path",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Embedding-4B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-embedding-4b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Embedding-4B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-embedding-4b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Mem0 shortlist follow-on embedder. 2026-06-12 CPU sentence-transformers path passed the 3-case smoke at top-1 1.000 / recall@3 1.000, then reached top-1 0.917 / recall@3 1.000 / MRR 0.958 on the 12-case expanded suite with 2560-dim embeddings and p50 1.534s; see `reports/benchmark/mem0/embedding-qwen3-4b-expanded-20260612.md`. Strong retrieval candidate, but not a default replacement until the extractor-preference recency miss is fixed by reranking or collection policy."
     },
     {
@@ -1891,7 +1891,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "sentence-transformers CrossEncoder or Transformers",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Reranker-4B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-reranker-4b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model Qwen/Qwen3-Reranker-4B \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id qwen-qwen3-reranker-4b-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Mem0 shortlist follow-on reranker. 2026-06-12 CPU causal-LM scoring passed the fixed 6-case reranking suite and the Qwen3-Embedding-4B expanded-derived 12-case suite at top-1 1.000 / recall@3 1.000, fixing the dense embedding miss; see `reports/benchmark/mem0/qwen3-4b-expanded-rerank-20260612.md`. p50/p95 rerank latency was 4.943s / 10.564s and the MPS path timed out after 900s, so keep it as quality ceiling/teacher evidence rather than default runtime."
     },
     {
@@ -1966,7 +1966,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "FlagEmbedding or sentence-transformers",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model BAAI/bge-m3 \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id baai-bge-m3-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model BAAI/bge-m3 \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id baai-bge-m3-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Current mem0 default baseline and strongest practical retrieval reference before riskier frontier embedding models; treat as retrieval-only, not a chat quantization target."
     },
     {
@@ -1981,7 +1981,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "PyLate / sentence-transformers path",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model LiquidAI/LFM2-ColBERT-350M \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id liquidai-lfm2-colbert-350m-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model LiquidAI/LFM2-ColBERT-350M \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id liquidai-lfm2-colbert-350m-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Use for Hermes memory/RAG rather than chat generation. 2026-06-12 retriever-service smoke passed on MPS at top-1 1.000 / recall@3 1.000, then the expanded 12-case suite reached top-1 0.917 / recall@3 1.000 with p50 0.238s; see `reports/benchmark/mem0/retriever-lfm2-colbert-expanded-20260612.md`. Runtime is proven, but this remains a separate index/retriever candidate until the semantic-margin miss, expanded replay, and rollback/default isolation are complete."
     },
     {
@@ -1996,7 +1996,7 @@
       "blocked_reason": "",
       "lane": "support-model-proof",
       "first_runtime": "llama.cpp llama-embedding or llama-server OpenAI embeddings",
-      "next_command": "source scripts/env.sh\npython -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model lmstudio-community/embeddinggemma-300m-qat-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id lmstudio-community-embeddinggemma-300m-qat-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n./.venv/bin/python -m pip install -r requirements-mem0-embeddings.txt\n./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\\n  --model lmstudio-community/embeddinggemma-300m-qat-GGUF \\\n  --device cpu \\\n  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \\\n  --run-id lmstudio-community-embeddinggemma-300m-qat-gguf-retrieval-proof-$(date +%Y%m%d-%H%M%S)",
       "notes": "Mac-local EmbeddingGemma lane. 2026-06-13 direct llama.cpp and server-backed OpenAI-compatible embedding runs both passed the 14-case differentiation suite at top-1 1.000 / recall@3 1.000 with 768-dim vectors. The first live output-local mem0 fixture reached top-1 0.909 / recall@3 1.000 and missed only the GGUF runtime-boundary distractor. Captured fixture replay reproduced the vector miss at 0.909 and `query_terms_guarded` reached 1.000; the fresh resilient-proxy live fixture then reached top-1 1.000 / recall@3 1.000 for both raw vector and `query_terms_guarded`. The `embeddinggemma-proxy` read mode now provides an explicit MEM0_CONFIG_PATH opt-in path for Hermes reads without mutating `~/.mem0/config.json`. Copied live-store replay over default_user/codex reached default-top recall 1.000 but top-1 match 0.200, and replay-only vector, query_terms_guarded, score_plus_created_at_rank, and close-margin reranking did not improve it. Keep non-default until ranking behavior improves or a deliberate migration decision accepts the changed ordering."
     },
     {

@@ -250,7 +250,7 @@ def command_for(candidate: dict[str, Any]) -> str:
         return "\n".join(
             [
                 "# First install optional reranker deps if needed.",
-                "python -m pip install -r requirements-mem0-rerankers.txt",
+                "./.venv/bin/python -m pip install -r requirements-mem0-rerankers.txt",
                 "./.venv/bin/python scripts/run_fixed_reranking_benchmark.py \\",
                 "  --strategy cross_encoder \\",
                 f"  --model {model_id} \\",
