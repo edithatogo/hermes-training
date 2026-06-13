@@ -36,6 +36,12 @@ ngc cloud-function task create \
   --result-handling-strategy UPLOAD
 ```
 
+`scripts/submit_ngc_cloud_function_scorecard.py` now materializes this route as
+a dry-run-first submitter. It refuses `--execute` while the tracked preflight
+still records the NGC auth/entitlement blocker, while the container image is a
+placeholder, or while the GPU specification has not been selected from live NGC
+quota/capacity output.
+
 ## Blockers
 
 - NGC API key or SSO login is not configured.
