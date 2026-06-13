@@ -86,34 +86,32 @@ ngc cloud-function task create --help
 
 ## kaggle
 
-- Status: `blocked-needs-auth`
-- Blocker: Kaggle CLI is installed but unauthenticated.
+- Status: `prepared-needs-quota-cli-fix-and-notebook-contract`
+- Blocker: Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota.
 - Operator actions:
-  - Authenticate Kaggle CLI with OAuth or an API token.
-  - Check weekly accelerator quota before pushing a kernel.
+  - Resolve the Kaggle quota command failure or verify quota through an equivalent non-mutating Kaggle account page/API path.
+  - Review dataset terms and avoid private data uploads.
   - Push the staged kernel only after explicit confirmation.
 - Commands:
 
 ```bash
-kaggle auth login
 kaggle quota
+kaggle kernels list --mine --page-size 1
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
 ./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run
 ```
 
 ## modal
 
-- Status: `blocked-needs-auth`
-- Blocker: Modal CLI is installed but no token/profile is authenticated on this machine.
+- Status: `prepared-needs-credit-and-gpu-policy-check`
+- Blocker: Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.
 - Operator actions:
-  - Run browser token setup for the intended Modal account.
   - Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.
+  - Record non-secret GPU policy evidence for the intended workspace.
   - Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.
 - Commands:
 
 ```bash
-modal token new
-modal token info
 modal profile list
 modal billing
 ```

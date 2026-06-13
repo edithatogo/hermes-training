@@ -7,19 +7,39 @@ compute.
 ## Modal
 
 - CLI: installed (`modal client version: 1.5.0`).
-- Auth state: blocked. `modal token info` reports that no token is configured.
-- Attempted unblock: `modal token new` opened a browser token flow, but the
-  terminal flow did not complete before it was interrupted.
-- Next user-assisted step:
+- Auth state: authenticated. The browser-assisted `modal token new` flow
+  completed on 2026-06-13 and connected the CLI to the `d-a-mordaunt`
+  workspace. Token details are intentionally not recorded in this repo.
+- Remaining gates:
+  - confirm free credits, academic grant, or other zero-cost allowance;
+  - record non-secret GPU policy evidence;
+  - add a fail-closed Modal scorecard submitter with result persistence.
+- Next step:
 
 ```bash
-modal token new
-modal token info
 modal profile list
+modal billing
 ```
 
-After a token is configured, confirm free credits or an academic grant before
-adding any GPU submitter.
+Do not launch GPU work until the credit/grant and GPU policy gates are proven.
+
+## Kaggle
+
+- CLI: installed (`Kaggle CLI 2.2.1`).
+- Auth state: authenticated. The browser-assisted OAuth flow completed on
+  2026-06-13 and the CLI reports the local account as `edithatogo`.
+- Remaining gates:
+  - resolve quota visibility: `kaggle quota` currently fails with a CLI parsing
+    error before reporting weekly accelerator quota;
+  - review dataset terms and avoid private data uploads;
+  - push/run the staged kernel only after explicit confirmation.
+- Next step:
+
+```bash
+kaggle quota
+kaggle kernels list --mine --page-size 1
+./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
+```
 
 ## Lightning AI
 
@@ -45,8 +65,9 @@ Lightning scorecard submitter.
 
 ## Current Decision
 
-Kaggle remains the strongest already-prepared no-cost GPU path once
-authenticated. Modal is the best custom-container candidate after token setup.
+Kaggle is now the strongest prepared no-cost GPU path if quota and dataset terms
+pass. Modal is the best custom-container candidate once free credit/grant and
+GPU policy evidence are confirmed.
 Lightning is promising because the account is logged in and GPU machine types
 are visible, but it cannot list or run Studio/Job resources until the Teamspace
 owner is fixed.

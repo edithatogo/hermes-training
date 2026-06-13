@@ -20,6 +20,92 @@ def load_preflight(path: Path) -> dict[str, Any]:
     return data
 
 
+def kaggle_unblock_item(status: str) -> dict[str, Any]:
+    if status == "prepared-needs-quota-cli-fix-and-notebook-contract":
+        return {
+            "backend": "kaggle",
+            "status": status,
+            "blocker": "Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota.",
+            "operator_actions": [
+                "Resolve the Kaggle quota command failure or verify quota through an equivalent non-mutating Kaggle account page/API path.",
+                "Review dataset terms and avoid private data uploads.",
+                "Push the staged kernel only after explicit confirmation.",
+            ],
+            "commands": [
+                "kaggle quota",
+                "kaggle kernels list --mine --page-size 1",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+            ],
+        }
+    if status == "prepared-needs-notebook-contract":
+        return {
+            "backend": "kaggle",
+            "status": status,
+            "blocker": "Kaggle CLI is authenticated; remaining gates are accelerator quota, dataset terms, and a fail-closed notebook/job contract.",
+            "operator_actions": [
+                "Check weekly accelerator quota before pushing a kernel.",
+                "Review dataset terms and avoid private data uploads.",
+                "Push the staged kernel only after explicit confirmation.",
+            ],
+            "commands": [
+                "kaggle quota",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+            ],
+        }
+    return {
+        "backend": "kaggle",
+        "status": status,
+        "blocker": "Kaggle CLI is installed but unauthenticated.",
+        "operator_actions": [
+            "Authenticate Kaggle CLI with OAuth or an API token.",
+            "Check weekly accelerator quota before pushing a kernel.",
+            "Push the staged kernel only after explicit confirmation.",
+        ],
+        "commands": [
+            "kaggle auth login",
+            "kaggle quota",
+            "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+            "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        ],
+    }
+
+
+def modal_unblock_item(status: str) -> dict[str, Any]:
+    if status == "prepared-needs-credit-and-gpu-policy-check":
+        return {
+            "backend": "modal",
+            "status": status,
+            "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.",
+            "operator_actions": [
+                "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
+                "Record non-secret GPU policy evidence for the intended workspace.",
+                "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.",
+            ],
+            "commands": [
+                "modal profile list",
+                "modal billing",
+            ],
+        }
+    return {
+        "backend": "modal",
+        "status": status,
+        "blocker": "Modal CLI is installed but no token/profile is authenticated on this machine.",
+        "operator_actions": [
+            "Run browser token setup for the intended Modal account.",
+            "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
+            "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.",
+        ],
+        "commands": [
+            "modal token new",
+            "modal token info",
+            "modal profile list",
+            "modal billing",
+        ],
+    }
+
+
 def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
     backends = preflight["backends"]
     colab_policy = backends.get("colab", {}).get("accelerator_policy", {})
@@ -103,38 +189,8 @@ def checklist_items(preflight: dict[str, Any]) -> list[dict[str, Any]]:
                 "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run",
             ],
         },
-        {
-            "backend": "kaggle",
-            "status": backends.get("kaggle", {}).get("status", "unknown"),
-            "blocker": "Kaggle CLI is installed but unauthenticated.",
-            "operator_actions": [
-                "Authenticate Kaggle CLI with OAuth or an API token.",
-                "Check weekly accelerator quota before pushing a kernel.",
-                "Push the staged kernel only after explicit confirmation.",
-            ],
-            "commands": [
-                "kaggle auth login",
-                "kaggle quota",
-                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
-                "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
-            ],
-        },
-        {
-            "backend": "modal",
-            "status": backends.get("modal", {}).get("status", "unknown"),
-            "blocker": "Modal CLI is installed but no token/profile is authenticated on this machine.",
-            "operator_actions": [
-                "Run browser token setup for the intended Modal account.",
-                "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
-                "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.",
-            ],
-            "commands": [
-                "modal token new",
-                "modal token info",
-                "modal profile list",
-                "modal billing",
-            ],
-        },
+        kaggle_unblock_item(backends.get("kaggle", {}).get("status", "unknown")),
+        modal_unblock_item(backends.get("modal", {}).get("status", "unknown")),
         {
             "backend": "lightning",
             "status": backends.get("lightning", {}).get("status", "unknown"),

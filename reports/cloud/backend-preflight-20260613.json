@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-06-13T06:26:32.595188+00:00",
+  "created_at": "2026-06-13T08:37:21.416494+00:00",
   "storage_root": "/Volumes/PortableSSD",
   "storage_root_exists": true,
   "policy": {
@@ -142,7 +142,7 @@
       "next_action": "Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access."
     },
     "kaggle": {
-      "status": "blocked-needs-auth",
+      "status": "prepared-needs-quota-cli-fix-and-notebook-contract",
       "route": "future",
       "version": {
         "installed": true,
@@ -163,15 +163,41 @@
           "config",
           "view"
         ],
+        "returncode": 0,
+        "stdout": "Configuration values from /Users/doughnut/.kaggle\n- username: edithatogo\n- auth_method: OAUTH\n- path: None\n- proxy: None\n- competition: None",
+        "stderr": ""
+      },
+      "quota": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "quota"
+        ],
         "returncode": 1,
-        "stdout": "Authentication required to call the Kaggle API.\n\nFirst, you will need a Kaggle account. You can sign up at\n  https://www.kaggle.com/account/login\n\nRecommended: log in with OAuth via a web-based authorization flow.\nNo token to manage; credentials are cached locally for you.\n    kaggle auth login\n\nIf you'd rather not use OAuth, generate an API token at\n  https://www.kaggle.com/settings/api  (click \"Generate New Token\" under \"API\")\nand supply it to the CLI in one of these ways:\n\n  Option A: Environment variable\n    export KAGGLE_API_TOKEN=xxxxxxxxxxxxxx  # token copied from the settings UI\n\n  Option B: API token file\n    Save the token to ~/.kaggle/access_token",
+        "stdout": "",
+        "stderr": "not enough values to unpack (expected 2, got 1)"
+      },
+      "kernels": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/kaggle",
+        "command": [
+          "kaggle",
+          "kernels",
+          "list",
+          "--mine",
+          "--page-size",
+          "1"
+        ],
+        "returncode": 0,
+        "stdout": "Not found",
         "stderr": ""
       },
       "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
-      "next_action": "Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight."
+      "next_action": "Kaggle auth works, but `kaggle quota` failed; resolve quota visibility before any kernel run."
     },
     "modal": {
-      "status": "blocked-needs-auth",
+      "status": "prepared-needs-credit-and-gpu-policy-check",
       "route": "container-serverless-candidate",
       "version": {
         "installed": true,
@@ -193,7 +219,7 @@
           "list"
         ],
         "returncode": 0,
-        "stdout": "┏━━━┳━━━━━━━━━┳━━━━━━━━━━━┓\n┃   ┃ Profile ┃ Workspace ┃\n┡━━━╇━━━━━━━━━╇━━━━━━━━━━━┩\n└───┴─────────┴───────────┘",
+        "stdout": "┏━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓\n┃   ┃ Profile      ┃ Workspace    ┃\n┡━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━┩\n│ • │ d-a-mordaunt │ d-a-mordaunt │\n└───┴──────────────┴──────────────┘",
         "stderr": ""
       },
       "token": {
@@ -204,12 +230,13 @@
           "token",
           "info"
         ],
-        "returncode": 1,
-        "stdout": "",
-        "stderr": "╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ Token missing. Could not authenticate client. If you have token credentials, │\n│ see modal.com/docs/reference/modal.config for setup help. If you are a new   │\n│ user, register an account at modal.com, then run `modal token new`.          │\n╰──────────────────────────────────────────────────────────────────────────────╯"
+        "returncode": 0,
+        "stdout": "<redacted: modal token info succeeded>",
+        "stderr": "",
+        "redacted": true
       },
       "stop_condition": "missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof",
-      "next_action": "Run modal token new in a browser-authenticated session, then rerun this preflight."
+      "next_action": "Use Modal only after confirming free credits/grant and adding a fail-closed Modal scorecard submitter."
     },
     "lightning": {
       "status": "blocked-needs-teamspace-owner",

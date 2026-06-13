@@ -35,6 +35,26 @@ class CloudBackendPreflightTests(unittest.TestCase):
         self.assertEqual(summary["status"], "blocked-needs-auth")
         self.assertIn("Authenticate Kaggle CLI", summary["next_action"])
 
+    def test_kaggle_authenticated_but_quota_failure_is_gated(self) -> None:
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["kaggle", "--version"]:
+                return command_result(command, 0, "Kaggle CLI 2.2.1")
+            if command == ["kaggle", "config", "view"]:
+                return command_result(command, 0, "username: edithatogo\nauth_method: OAUTH")
+            if command == ["kaggle", "quota"]:
+                return command_result(command, 1, stderr="not enough values to unpack")
+            if command == ["kaggle", "kernels", "list", "--mine", "--page-size", "1"]:
+                return command_result(command, 0, "Not found")
+            raise AssertionError(command)
+
+        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+            summary = cloud_backend_preflight.summarize_kaggle()
+
+        self.assertEqual(summary["status"], "prepared-needs-quota-cli-fix-and-notebook-contract")
+        self.assertEqual(summary["kernels"]["returncode"], 0)
+        self.assertIn("quota", summary["next_action"])
+
     def test_colab_summary_exposes_gpu_tpu_policy(self) -> None:
         def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
             del timeout_s
@@ -90,6 +110,27 @@ class CloudBackendPreflightTests(unittest.TestCase):
 
         self.assertEqual(summary["status"], "blocked-needs-auth")
         self.assertIn("modal token new", summary["next_action"])
+
+    def test_modal_token_info_is_redacted_when_authenticated(self) -> None:
+        sensitive_stdout = "Workspace: d-a-mordaunt\nUser: d-a-mordaunt\nToken: super-secret-token-value"
+
+        def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:
+            del timeout_s
+            if command == ["modal", "--version"]:
+                return command_result(command, 0, "modal client version: 1.5.0")
+            if command == ["modal", "profile", "list"]:
+                return command_result(command, 0, "d-a-mordaunt")
+            if command == ["modal", "token", "info"]:
+                return command_result(command, 0, sensitive_stdout)
+            raise AssertionError(command)
+
+        with patch.object(cloud_backend_preflight, "run_command", side_effect=fake_run):
+            summary = cloud_backend_preflight.summarize_modal()
+
+        self.assertEqual(summary["status"], "prepared-needs-credit-and-gpu-policy-check")
+        self.assertTrue(summary["token"]["redacted"])
+        self.assertNotIn("super-secret-token-value", summary["token"]["stdout"])
+        self.assertNotIn("Workspace: d-a-mordaunt", summary["token"]["stdout"])
 
     def test_lightning_missing_teamspace_owner_is_blocked(self) -> None:
         def fake_run(command: list[str], timeout_s: int = 30) -> dict[str, object]:

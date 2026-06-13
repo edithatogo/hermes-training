@@ -1,13 +1,14 @@
 # Qwen3 V4 PEFT Kaggle Scorecard Plan
 
-Status: `blocked-needs-kaggle-auth`
+Status: `prepared-needs-quota-cli-fix-and-notebook-contract`
 
 ## Rationale
 
 Colab can run bounded pilots but has pruned no-limit sessions before artifacts
 were recovered. HF Jobs is prepared but currently blocked by insufficient
 prepaid credits. Kaggle Kernels is therefore a useful additional persistent lane
-once the CLI is authenticated and GPU quota is confirmed.
+now that the CLI is authenticated, once accelerator quota and dataset terms are
+confirmed.
 
 ## Prepared Artifact
 
@@ -57,12 +58,15 @@ The submitter will not push a Kaggle kernel unless both `--execute` and
 
 ## Current Blocker
 
-`kaggle --version` works, but `kaggle config view` reports that authentication
-is required. No Kaggle notebook was submitted and no GPU quota was consumed.
+`kaggle config view` now reports OAuth authentication for `edithatogo`, and
+`kaggle kernels list --mine --page-size 1` returns successfully. `kaggle quota`
+currently fails with a CLI parsing error before reporting weekly accelerator
+quota. No Kaggle notebook was submitted and no GPU quota was consumed.
 
 ## Stop Conditions
 
-- No Kaggle push until the CLI is authenticated.
+- No Kaggle push until accelerator quota visibility and dataset terms are
+  confirmed.
 - No no-limit benchmark claim until every configured task completes without
   `--limit`.
 - No private data upload; the staged kernel only uses public model artifacts and

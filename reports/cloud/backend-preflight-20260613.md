@@ -1,6 +1,6 @@
 # Cloud Backend Preflight Registry
 
-Date: 2026-06-13T06:26:32.595188+00:00
+Date: 2026-06-13T08:37:21.416494+00:00
 Storage root: `/Volumes/PortableSSD`
 Storage root exists: `True`
 
@@ -20,6 +20,6 @@ Storage root exists: `True`
 | `hf_jobs` | `blocked-insufficient-hf-credits` | `persistent` | missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval | Add HF prepaid credits or grant capacity, then submit with scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute. |
 | `azure` | `blocked` | `prepared` | missing login, wrong subscription, absent Azure ML extension, zero GPU quota, or no cost approval | Run az login only when the user is ready; then use scripts/azure_preflight.py before any job. |
 | `ngc` | `blocked` | `prepared` | missing API key, org/team, entitlement, container access, model access, or license approval | Configure NGC only after the user supplies keys or completes SSO; then check Cloud Function GPU quota and registry access. |
-| `kaggle` | `blocked-needs-auth` | `future` | missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime | Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight. |
-| `modal` | `blocked-needs-auth` | `container-serverless-candidate` | missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof | Run modal token new in a browser-authenticated session, then rerun this preflight. |
+| `kaggle` | `prepared-needs-quota-cli-fix-and-notebook-contract` | `future` | missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime | Kaggle auth works, but `kaggle quota` failed; resolve quota visibility before any kernel run. |
+| `modal` | `prepared-needs-credit-and-gpu-policy-check` | `container-serverless-candidate` | missing Modal token, unknown free credits/grant, no GPU policy proof, or no result persistence proof | Use Modal only after confirming free credits/grant and adding a fail-closed Modal scorecard submitter. |
 | `lightning` | `blocked-needs-teamspace-owner` | `studio-job-candidate` | missing Lightning login, missing Teamspace owner, unknown free credits, no selected machine type, or no artifact recovery proof | Run lightning login if needed, configure the intended Teamspace owner, then rerun this preflight. |

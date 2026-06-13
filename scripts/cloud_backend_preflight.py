@@ -84,6 +84,16 @@ def run_command(command: list[str], timeout_s: int = 30) -> dict[str, Any]:
     }
 
 
+def redact_command_result(result: dict[str, Any], *, stdout: str | None = None, stderr: str | None = None) -> dict[str, Any]:
+    redacted = dict(result)
+    if stdout is not None:
+        redacted["stdout"] = stdout
+    if stderr is not None:
+        redacted["stderr"] = stderr
+    redacted["redacted"] = True
+    return redacted
+
+
 def summarize_colab() -> dict[str, Any]:
     version = run_command(["colab", "version"])
     sessions = run_command(["colab", "sessions"])
@@ -176,9 +186,29 @@ def summarize_kaggle() -> dict[str, Any]:
         "stderr": "kaggle not found on PATH",
     }
     authenticated = version["installed"] and version["returncode"] == 0 and config["returncode"] == 0
+    quota = run_command(["kaggle", "quota"]) if authenticated else {
+        "installed": version["installed"],
+        "path": version.get("path", ""),
+        "command": ["kaggle", "quota"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "skipped until Kaggle CLI is authenticated",
+    }
+    kernels = run_command(["kaggle", "kernels", "list", "--mine", "--page-size", "1"]) if authenticated else {
+        "installed": version["installed"],
+        "path": version.get("path", ""),
+        "command": ["kaggle", "kernels", "list", "--mine", "--page-size", "1"],
+        "returncode": None,
+        "stdout": "",
+        "stderr": "skipped until Kaggle CLI is authenticated",
+    }
     if authenticated:
-        status = "prepared-needs-notebook-contract"
-        next_action = "Add a fail-closed Kaggle notebook/job spec and dry-run it before any public dataset or GPU execution."
+        if quota["returncode"] == 0:
+            status = "prepared-needs-notebook-contract"
+            next_action = "Add a fail-closed Kaggle notebook/job spec and dry-run it before any public dataset or GPU execution."
+        else:
+            status = "prepared-needs-quota-cli-fix-and-notebook-contract"
+            next_action = "Kaggle auth works, but `kaggle quota` failed; resolve quota visibility before any kernel run."
     elif version["installed"] and version["returncode"] == 0:
         status = "blocked-needs-auth"
         next_action = "Authenticate Kaggle CLI with kaggle auth login or API token, then rerun this preflight."
@@ -190,6 +220,8 @@ def summarize_kaggle() -> dict[str, Any]:
         "route": "future",
         "version": version,
         "config": config,
+        "quota": quota,
+        "kernels": kernels,
         "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
         "next_action": next_action,
     }
@@ -205,7 +237,7 @@ def summarize_modal() -> dict[str, Any]:
         "stdout": "",
         "stderr": "modal not found on PATH",
     }
-    token = run_command(["modal", "token", "info"]) if version["installed"] else {
+    raw_token = run_command(["modal", "token", "info"]) if version["installed"] else {
         "installed": False,
         "path": "",
         "command": ["modal", "token", "info"],
@@ -213,7 +245,20 @@ def summarize_modal() -> dict[str, Any]:
         "stdout": "",
         "stderr": "modal not found on PATH",
     }
-    authenticated = version["installed"] and version["returncode"] == 0 and token["returncode"] == 0
+    token = redact_command_result(
+        raw_token,
+        stdout=(
+            "<redacted: modal token info succeeded>"
+            if raw_token["returncode"] == 0
+            else raw_token.get("stdout", "")
+        ),
+        stderr=(
+            "<redacted: modal token info stderr omitted>"
+            if raw_token["returncode"] == 0 and raw_token.get("stderr")
+            else raw_token.get("stderr", "")
+        ),
+    )
+    authenticated = version["installed"] and version["returncode"] == 0 and raw_token["returncode"] == 0
     if authenticated:
         status = "prepared-needs-credit-and-gpu-policy-check"
         next_action = "Use Modal only after confirming free credits/grant and adding a fail-closed Modal scorecard submitter."

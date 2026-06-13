@@ -174,10 +174,11 @@ Complete:
   embedding/reranker dependencies install into the same project virtualenv used
   by the benchmark scripts.
 - Cloud offload preflight now includes Modal and Lightning as fail-closed
-  candidate backends. Modal is blocked until token/profile auth and free
-  credit/GPU policy are proven; Lightning is blocked until login/teamspace,
-  machine type, credits, and artifact recovery are proven. No remote jobs were
-  submitted.
+  candidate backends. Modal CLI auth is now complete for the `d-a-mordaunt`
+  workspace, but Modal remains gated until free credit/grant proof, GPU policy,
+  result persistence, and a guarded submitter exist. Lightning is blocked until
+  login/teamspace, machine type, credits, and artifact recovery are proven. No
+  remote jobs were submitted.
 - HF Jobs scorecard dry-run payloads now expose `--python-executable`; the
   default remains `python`, and the tracked dry-run JSON records the interpreter
   while preserving the paid-compute and known-credit-blocker gates.
@@ -304,8 +305,12 @@ Current gaps:
   HF Jobs authenticated but blocked by insufficient prepaid credits; Azure
   blocked until `az login` plus quota/cost checks; NGC installed but blocked
   until SSO/API key, org/team, Cloud Function GPU quota, registry access, and a
-  benchmark container exist; Kaggle CLI `2.2.1` installed but blocked until
-  authentication and quota checks. Prepared reports and dry-runs are in
+  benchmark container exist; Kaggle CLI `2.2.1` is authenticated as
+  `edithatogo`, and read-only kernel listing works, but `kaggle quota` currently
+  fails with a CLI parsing error before returning accelerator quota. Kaggle
+  still needs quota visibility, dataset terms, and guarded notebook/job-contract
+  checks. Modal is authenticated but still needs
+  free-credit/GPU-policy proof and a fail-closed submitter. Prepared reports and dry-runs are in
   `reports/cloud/backend-preflight-20260613.md`,
   `reports/cloud/qwen3-v4-peft-hf-jobs-scorecard-plan-20260613.md`,
   `reports/cloud/qwen3-v4-peft-kaggle-scorecard-plan-20260613.md`, and
@@ -339,8 +344,9 @@ Current gaps:
     `qwen3-v4-peft-kaggle-scorecard_20260613`, and
     `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
     execution step is whichever backend becomes unblocked first: HF credits,
-    Kaggle auth/quota, Azure login/quota, NGC auth/container/quota, or a stable
-    Colab no-limit session. The next new local track should be selected
+    Kaggle quota/terms, Azure login/quota, NGC auth/container/quota, or a stable
+    Colab no-limit session, Kaggle quota-command fix/terms approval, or Modal
+    credit/GPU policy approval. The next new local track should be selected
     deliberately from remaining role gaps: prompt/profile repair for a specific
     local candidate or a fresh model-radar/runtime proof if a newly verified
     open-weight model appears.

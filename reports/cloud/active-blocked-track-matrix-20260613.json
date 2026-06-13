@@ -69,15 +69,15 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "blocked-needs-auth",
-      "blocker": "Kaggle CLI is installed but unauthenticated.",
+      "backend_status": "prepared-needs-quota-cli-fix-and-notebook-contract",
+      "blocker": "Kaggle CLI is authenticated, but `kaggle quota` fails before reporting accelerator quota.",
       "commands": [
-        "kaggle auth login",
         "kaggle quota",
+        "kaggle kernels list --mine --page-size 1",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
       ],
-      "next_task": "Authenticate the Kaggle CLI and check GPU quota.",
+      "next_task": "Resolve Kaggle quota visibility and confirm dataset terms.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"
