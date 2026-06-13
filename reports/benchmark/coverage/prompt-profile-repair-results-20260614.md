@@ -24,6 +24,7 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `ibm-granite/granite-4.1-3b` | `granite-native-normalizer-analysis` | `local` | `completed-no-promotion` | 0.333 | `reports/benchmark/local-pilots/granite41-3b-native-normalizer-analysis-repair-20260614.md` |
 | `Nanbeige/Nanbeige4.1-3B` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/nanbeige41-3b-strict-suffix-copy-exact-repair-20260614.md` |
 | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `strict-suffix-copy-exact` | `local` | `completed-no-promotion` | 0.000 | `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-strict-suffix-copy-exact-repair-20260614.md` |
+| `LGAI-EXAONE/EXAONE-4.0-1.2B` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/exaone4-12b-strict-suffix-copy-exact-repair-20260614.md` |
 
 ## Decision Boundary
 

@@ -32,7 +32,7 @@ Purpose: isolate runtime-proven or partially proven Hermes candidates whose next
 
 ### LGAI-EXAONE/EXAONE-4.0-1.2B
 
-- Evidence: `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`, `reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md`
+- Evidence: `reports/benchmark/endpoint-pilots/exaone4-12b-strict-suffix-copy-exact-repair-20260614.md`, `reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md`, `reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md`
 - Boundary: Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence.
 
 ```bash

@@ -1276,6 +1276,7 @@
       "blocked_reason": "blocked by strict Hermes tool-call formatting failure",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
       "evidence": [
+        "reports/benchmark/endpoint-pilots/exaone4-12b-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
         "reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md"
       ]

@@ -1,7 +1,7 @@
 # Prompt/Profile Repair Execution Ledger
 
 Run ID: `prompt-profile-repair-ledger-20260614`
-Created: `2026-06-14T03:10:00+00:00`
+Created: `2026-06-13T16:30:31.429101+00:00`
 
 Purpose: track which prompt/profile repair candidates are runnable locally, endpoint-gated, or blocked before execution.
 
@@ -9,7 +9,7 @@ Purpose: track which prompt/profile repair candidates are runnable locally, endp
 
 | Priority | Candidate | Environment | Status | Experiments | Next action |
 |---:|---|---|---|---:|---|
-| 1 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `mac-mlx` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
+| 1 | `LGAI-EXAONE/EXAONE-4.0-1.2B` | `mac-mlx` | `completed-no-promotion` | 1 | stop single-variant EXAONE prompt repair; use constrained output or a different endpoint-gated candidate next |
 | 2 | `google/gemma-4-E2B-it-qat-q4_0-gguf` | `mac-lmstudio` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 3 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `mac-lmstudio` | `pending-endpoint` | 3 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |
 | 4 | `LiquidAI/LFM2.5-8B-A1B-GGUF` | `mac-lmstudio` | `pending-endpoint` | 1 | start the existing local endpoint for the SSD-backed artifact, then run one experiment |

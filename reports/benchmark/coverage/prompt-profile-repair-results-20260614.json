@@ -211,6 +211,20 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "LGAI-EXAONE/EXAONE-4.0-1.2B",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant EXAONE prompt repair; use constrained output or a different endpoint-gated candidate next",
+      "result_report": "reports/benchmark/endpoint-pilots/exaone4-12b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/lgai-exaone-exaone-4-0-1-2b-strict-suffix-copy-exact-20260614-022518/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/lgai-exaone-exaone-4-0-1-2b-strict-suffix-copy-exact-20260614-022518",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

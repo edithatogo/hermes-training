@@ -846,6 +846,16 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
+## [x] Track: EXAONE 4.0 1.2B Endpoint Prompt Repair Completion
+*Link: [./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/](./tracks/exaone4-12b-endpoint-prompt-repair-completion_20260614/)*
+
+---
+
+## [x] Track: Constrained Envelope Repair Plan
+*Link: [./tracks/constrained-envelope-repair-plan_20260614/](./tracks/constrained-envelope-repair-plan_20260614/)*
+
+---
+
 ## [~] Track: Qwen3 v4 PEFT Azure scorecard
 *Link: [./tracks/qwen3-v4-peft-azure-scorecard_20260613/](./tracks/qwen3-v4-peft-azure-scorecard_20260613/)*
 
