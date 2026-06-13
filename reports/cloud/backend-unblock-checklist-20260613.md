@@ -113,6 +113,8 @@ ngc cloud-function task create --help
 ```bash
 modal profile list
 modal billing
+./.venv/bin/python scripts/submit_modal_peft_scorecard.py
+./.venv/bin/python scripts/submit_modal_peft_scorecard.py --execute --confirm-modal-run --confirm-zero-cost-compute
 ```
 
 ## lightning

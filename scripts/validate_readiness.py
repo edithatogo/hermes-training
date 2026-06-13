@@ -283,11 +283,14 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_azure_peft_scorecard.py",
         ROOT / "scripts/kaggle_peft_lm_eval_selected.py",
         ROOT / "scripts/submit_kaggle_peft_scorecard.py",
+        ROOT / "scripts/modal_peft_lm_eval_selected.py",
+        ROOT / "scripts/submit_modal_peft_scorecard.py",
         ROOT / "scripts/submit_ngc_cloud_function_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",
         ROOT / "scripts/validate_cloud_blocker_reports.py",
         ROOT / "scripts/validate_kaggle_kernel_contract.py",
+        ROOT / "scripts/validate_kaggle_result_ingest.py",
         ROOT / "scripts/validate_free_container_account_probe.py",
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
@@ -534,6 +537,21 @@ def check_kaggle_kernel_contract(failures: list[str]) -> None:
         ok("kaggle kernel contract")
 
 
+def check_kaggle_result_ingest(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_kaggle_result_ingest.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"kaggle result ingest: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("kaggle result ingest")
+
+
 def check_free_container_account_probe(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -687,6 +705,7 @@ def main() -> int:
     check_specialist_runtime_preflight_report(failures)
     check_cloud_blocker_reports(failures)
     check_kaggle_kernel_contract(failures)
+    check_kaggle_result_ingest(failures)
     check_free_container_account_probe(failures)
 
     if failures:

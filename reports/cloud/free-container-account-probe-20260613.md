@@ -13,10 +13,15 @@ compute.
 - Billing probe: `modal billing report --for "this month" --json` returned an
   empty JSON array. This confirms no current-month billable usage was visible
   through the CLI, but it does not prove free GPU credits or grant allowance.
+- Submitter state: a guarded dry-run submitter now exists at
+  `scripts/submit_modal_peft_scorecard.py`, with evidence in
+  `reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json`. It does not
+  launch work unless explicit run and zero-cost-compute confirmations are both
+  supplied.
 - Remaining gates:
   - confirm free credits, academic grant, or other zero-cost allowance;
   - record non-secret GPU policy evidence;
-  - add a fail-closed Modal scorecard submitter with result persistence.
+  - execute only after explicit approval and recover result artifacts.
 - Next step:
 
 ```bash

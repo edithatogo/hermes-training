@@ -14,6 +14,7 @@
 - [x] Task: Authenticate the Kaggle CLI.
 - [x] Task: Resolve Kaggle quota visibility.
 - [x] Task: Confirm public-input notebook execution contract.
+- [x] Task: Add fail-closed local result artifact ingest gate.
 - [ ] Task: Submit the no-limit kernel only after explicit confirmation.
 - [ ] Task: Download result artifacts and update benchmark coverage if complete.
 
@@ -33,6 +34,10 @@
   `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`: public inputs
   only, no private data upload, GPU script metadata, no `--limit`, 21600s
   timeout, and explicit `--execute --confirm-kaggle-run` operator boundary.
+  The post-run local ingest gate is staged at
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.md`; it currently
+  reports `pending_artifacts` and will reject limited, partial, timed-out,
+  missing-task, nonzero, or non-SSD result artifacts after a run.
 - Gaps: Kernel push/run behavior and result artifact recovery are not yet
   live-tested.
 - Decision: keep Kaggle prepared but blocked until the no-limit kernel has

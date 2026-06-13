@@ -1,0 +1,33 @@
+{
+  "adapter_repo": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+  "backend": "modal",
+  "blockers": [],
+  "claim_boundary": "No-limit benchmark claim only after Modal completes every configured task without --limit and artifacts are recovered from the Modal volume/result file.",
+  "command": [
+    "modal",
+    "run",
+    "--name",
+    "qwen3-v4-peft-modal-lm-eval-selected-full-20260614",
+    "--write-result",
+    "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json",
+    "/Volumes/PortableSSD/GitHub/hermes-training/scripts/modal_peft_lm_eval_selected.py::scorecard",
+    "--config-json",
+    "{\"adapter_repo\": \"edithatogo/qwen3-4b-hermes-lora-peft-converted\", \"base_model\": \"Qwen/Qwen3-4B\", \"limit\": null, \"output_dir\": \"/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/lm-eval-output\", \"result_json\": \"/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/summary.json\", \"run_id\": \"qwen3-v4-peft-modal-lm-eval-selected-full-20260614\", \"tasks\": \"arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande\", \"timeout_s\": 21600}"
+  ],
+  "confirm_modal_run": false,
+  "confirm_zero_cost_compute": false,
+  "execute": false,
+  "gpu": "T4",
+  "ignore_modal_policy_gate": false,
+  "modal_policy_gate_observed": false,
+  "run_id": "qwen3-v4-peft-modal-lm-eval-selected-full-20260614",
+  "shell_command": "modal run --name qwen3-v4-peft-modal-lm-eval-selected-full-20260614 --write-result /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-result.json /Volumes/PortableSSD/GitHub/hermes-training/scripts/modal_peft_lm_eval_selected.py::scorecard --config-json '{\"adapter_repo\": \"edithatogo/qwen3-4b-hermes-lora-peft-converted\", \"base_model\": \"Qwen/Qwen3-4B\", \"limit\": null, \"output_dir\": \"/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/lm-eval-output\", \"result_json\": \"/results/qwen3-v4-peft-modal-lm-eval-selected-full-20260614/summary.json\", \"run_id\": \"qwen3-v4-peft-modal-lm-eval-selected-full-20260614\", \"tasks\": \"arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande\", \"timeout_s\": 21600}'",
+  "staged": {
+    "app": "/Volumes/PortableSSD/GitHub/hermes-training/scripts/modal_peft_lm_eval_selected.py",
+    "config": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614/modal-peft-lm-eval-config.json"
+  },
+  "staging_dir": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-qwen3-v4-peft-scorecard-20260614",
+  "status": "dry-run",
+  "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+  "timeout_s": 21600
+}

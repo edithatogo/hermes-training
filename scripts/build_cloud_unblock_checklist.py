@@ -86,6 +86,8 @@ def modal_unblock_item(status: str) -> dict[str, Any]:
             "commands": [
                 "modal profile list",
                 "modal billing",
+                "./.venv/bin/python scripts/submit_modal_peft_scorecard.py",
+                "./.venv/bin/python scripts/submit_modal_peft_scorecard.py --execute --confirm-modal-run --confirm-zero-cost-compute",
             ],
         }
     return {

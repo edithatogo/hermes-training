@@ -1,0 +1,8 @@
+{
+  "track_id": "kaggle-result-ingest-gate_20260614",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-06-14T00:45:00Z",
+  "updated_at": "2026-06-14T00:45:00Z",
+  "description": "Add a fail-closed local ingest gate for downloaded Kaggle PEFT lm-eval scorecard artifacts."
+}

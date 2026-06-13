@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "detail": "pending artifact: /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613/summary.json",
+      "name": "summary_present",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "No benchmark claim until a scored no-limit Kaggle summary and complete lm-eval results pass this validator.",
+  "expected_tasks": [
+    "arc_challenge",
+    "hellaswag",
+    "truthfulqa_mc2",
+    "gsm8k",
+    "winogrande"
+  ],
+  "status": "pending_artifacts",
+  "storage_root": "/Volumes/PortableSSD",
+  "summary_json": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613/summary.json"
+}

@@ -82,6 +82,21 @@
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"
     },
     {
+      "backend": "modal",
+      "backend_status": "prepared-needs-credit-and-gpu-policy-check",
+      "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.",
+      "commands": [
+        "modal profile list",
+        "modal billing",
+        "./.venv/bin/python scripts/submit_modal_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_modal_peft_scorecard.py --execute --confirm-modal-run --confirm-zero-cost-compute"
+      ],
+      "next_task": "Confirm free credit/grant or zero-cost GPU policy.",
+      "title": "Qwen3 v4 PEFT Modal scorecard",
+      "track_id": "qwen3-v4-peft-modal-scorecard_20260614",
+      "track_path": "conductor/tracks/qwen3-v4-peft-modal-scorecard_20260614"
+    },
+    {
       "backend": "ngc",
       "backend_status": "blocked",
       "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",
