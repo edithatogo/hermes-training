@@ -421,6 +421,20 @@
       "passed": 0,
       "pass_rate": 0.0,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "endpoint",
+      "status": "completed-no-promotion",
+      "next_action": "stop single-variant Nemotron GGUF prompt repair; use constrained decoding or DSML-to-Hermes runtime normalization only with held-out proof",
+      "result_report": "reports/benchmark/endpoint-pilots/nvidia-nemotron3-nano-4b-gguf-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/nvidia-nvidia-nemotron-3-nano-4b-gguf-strict-suffix-copy-exact-20260614-032238/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/endpoint-pilots/nvidia-nvidia-nemotron-3-nano-4b-gguf-strict-suffix-copy-exact-20260614-032238",
+      "cases": 3,
+      "passed": 1,
+      "pass_rate": 0.3333333333333333,
+      "promotion_allowed": false
     }
   ]
 }

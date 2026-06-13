@@ -39,6 +39,7 @@ Purpose: append real prompt/profile repair benchmark outcomes without treating f
 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-strict-suffix-copy-exact-repair-20260614.md` |
 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `empty-output-retry` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-empty-output-retry-repair-20260614.md` |
 | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `qwen-no-think-prefill` | `endpoint` | `completed-no-promotion` | 0.000 | `reports/benchmark/endpoint-pilots/mkadrlik-hermes-qwen35-08b-fresh-qwen-no-think-prefill-repair-20260614.md` |
+| `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `strict-suffix-copy-exact` | `endpoint` | `completed-no-promotion` | 0.333 | `reports/benchmark/endpoint-pilots/nvidia-nemotron3-nano-4b-gguf-strict-suffix-copy-exact-repair-20260614.md` |
 
 ## Decision Boundary
 

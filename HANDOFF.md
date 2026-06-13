@@ -281,6 +281,11 @@ Complete:
 - Nemotron 3 Nano 4B OptiQ strict-suffix repair scored `0/3`, with reasoning
   text, incomplete tool tags, and repeated `<|im_end|>` tokens blocking strict
   promotion. This exhausts the currently queued local prompt/profile repair rows.
+- NVIDIA Nemotron 3 Nano 4B GGUF strict-suffix endpoint repair scored `1/3`.
+  It passed only the unavailable-tool refusal case; available-tool cases were
+  empty or DSML-tagged instead of strict Hermes `<tool_call>` blocks. Do not
+  promote it. The tracked report is
+  `reports/benchmark/endpoint-pilots/nvidia-nemotron3-nano-4b-gguf-strict-suffix-copy-exact-repair-20260614.md`.
 - EXAONE 4.0 1.2B GGUF strict-suffix endpoint repair ran through `llama-server`
   on Metal and scored `0/3`; it ignored available tools and hallucinated an
   unavailable delete function, so it remains `completed-no-promotion`.
@@ -465,11 +470,21 @@ Current gaps:
   recorded in `reports/cloud/qwen3-v4-peft-azure-scorecard-plan-20260613.md`;
   it remains blocked until login, quota, workspace, compute, environment, and
   cost gates pass.
+- The Qwen3 v4 PEFT scorecard backend selector is now generated and tracked at
+  `reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md`. It
+  ranks Kaggle as the next prepared persistent route because quota evidence,
+  the public-input notebook contract, and the local result-ingest gate are in
+  place. It remains fail-closed: `execute=false`, `promotion_allowed=false`,
+  and it still requires explicit run approval, cost or zero-cost policy
+  confirmation, and recovered SSD artifacts before any benchmark claim.
 
 ## Next Actions
 
 1. Re-test Ollama only after upgrading or replacing the current crashing Qwen3 GGUF/import path.
 2. Use Colab first for sanitized bounded benchmark or smoke jobs via `scripts/colab_dispatch.py`; only attempt Azure after `az login`, `scripts/azure_preflight.py --check-quota`, and explicit cost approval pass.
+   For the Qwen3 v4 PEFT no-limit scorecard specifically, do not retry Colab
+   while keepalive/session-pruning blockers remain; use the backend-selection
+   report and prefer the gated Kaggle route after explicit run approval.
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
 5. The local prompt-only repair queue is exhausted, and the first Nanbeige
@@ -505,7 +520,9 @@ Current gaps:
    Hermes-Qwen3.5 9B SFT v7 is endpoint-proven; strict suffix scored `1/3`
    from the clean refusal only, while no-think/prefill regressed to `0/3`.
    mkadrlik Hermes-Qwen3.5 0.8B fresh is endpoint-proven but all three queued
-   prompt/profile variants scored `0/3`.
+   prompt/profile variants scored `0/3`. NVIDIA Nemotron 3 Nano 4B GGUF is
+   endpoint-proven; strict suffix scored `1/3`, passing only the unavailable
+   tool refusal while available calls were empty or DSML-tagged.
    EXAONE 1.2B is
    GGUF runtime-proven
    but JSON-blocked, while MLX is config-blocked. Use Hermes
