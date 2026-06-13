@@ -27,6 +27,9 @@
   `scripts/submit_ngc_cloud_function_scorecard.py` now builds the guarded
   Cloud Function task command and fails closed while auth, entitlement, GPU
   quota, and a real NGC registry container image are absent.
+  `templates/ngc/qwen3-v4-peft-scorecard.Containerfile` prepares the benchmark
+  container recipe, but no NGC registry image has been built, pushed, or
+  selected yet.
 - Gaps: no NGC auth, no org/team, no GPU quota, no benchmark container, and no
   result persistence proof.
 - Decision: keep NGC blocked until credentials and entitlements are available.

@@ -42,12 +42,18 @@ still records the NGC auth/entitlement blocker, while the container image is a
 placeholder, or while the GPU specification has not been selected from live NGC
 quota/capacity output.
 
+`templates/ngc/qwen3-v4-peft-scorecard.Containerfile` is the prepared container
+recipe for this route. It reuses the HF Jobs runner, installs the `lm_eval[hf]`
+stack, writes artifacts under `/results`, and leaves adapter/result repository
+selection to environment variables supplied by the guarded task submitter.
+
 ## Blockers
 
 - NGC API key or SSO login is not configured.
 - NGC org/team and entitlement are unknown.
 - GPU quota/capacity is unknown.
-- No NGC registry container image exists for the benchmark runner.
+- No NGC registry container image has been built, pushed, or selected for the
+  benchmark runner.
 - Result storage location and retrieval flow are not proven.
 
 ## Decision

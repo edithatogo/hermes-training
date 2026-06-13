@@ -281,6 +281,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/submit_azure_peft_scorecard.py",
         ROOT / "scripts/kaggle_peft_lm_eval_selected.py",
         ROOT / "scripts/submit_kaggle_peft_scorecard.py",
+        ROOT / "scripts/submit_ngc_cloud_function_scorecard.py",
         ROOT / "scripts/build_cloud_unblock_checklist.py",
         ROOT / "scripts/build_blocked_track_matrix.py",
         ROOT / "scripts/validate_cloud_blocker_reports.py",
@@ -567,6 +568,8 @@ def check_runtime_templates(failures: list[str]) -> None:
     for rel in (
         "templates/runtime/runtime-card.md",
         "templates/runtime/format-lane-proof-card.md",
+        "templates/ngc/README.md",
+        "templates/ngc/qwen3-v4-peft-scorecard.Containerfile",
         "RUNTIME_FORMAT_LANES.yaml",
         "RUNTIME_FORMAT_PROOF_QUEUE.yaml",
         "RUNTIME_PROMPT_PROFILES.yaml",
