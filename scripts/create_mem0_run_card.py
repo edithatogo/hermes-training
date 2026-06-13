@@ -161,7 +161,16 @@ def command_for_kind(kind: str, summary: dict[str, Any]) -> list[str]:
                     lines.append(f"  --retriever-service-url {summary['retriever_service_url']} \\")
                 if summary.get("retriever_timeout_s"):
                     lines.append(f"  --retriever-timeout-s {summary['retriever_timeout_s']} \\")
-        lines.extend([f"  --suite {suite} \\", f"  --run-id {run_id}"])
+        if kind == "reranking-replay" and str(suite).endswith(".jsonl"):
+            lines.append(f"  --fixture-results {suite} \\")
+            lines.append(
+                f"  --fixture-source-suite {summary.get('fixture_source_suite') or 'benchmarks/mem0_memory/live_fixture_differentiation_suite.json'} \\"
+            )
+            if summary.get("fixture_source_strategy"):
+                lines.append(f"  --fixture-source-strategy {summary['fixture_source_strategy']} \\")
+        else:
+            lines.append(f"  --suite {suite} \\")
+        lines.append(f"  --run-id {run_id}")
         return lines
     if kind == "retriever-service":
         lines = [

@@ -90,7 +90,8 @@ def rerank_search_results(
             raise ValueError("--model is required for mlx_cross_encoder")
         return mlx_cross_encoder_rerank(model, query, results, mlx_max_length)
     rerank_started = time.time()
-    ranked = rerank_results(results, strategy, recency_weight)
+    rerank_inputs = [dict(item, query=query) for item in results] if strategy == "query_terms_guarded" else results
+    ranked = rerank_results(rerank_inputs, strategy, recency_weight)
     return ranked, time.time() - rerank_started
 
 
@@ -225,6 +226,7 @@ def main() -> int:
             "score_plus_created_at_rank",
             "score_plus_created_at_rank_close_margin",
             "benchmark_order",
+            "query_terms_guarded",
             "qwen3_causal_lm",
             "mlx_cross_encoder",
             "retriever_service",

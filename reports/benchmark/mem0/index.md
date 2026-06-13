@@ -50,6 +50,8 @@
 | memory+rerank | mem0-current-nomic-recency-reranked-20260524 | cmd | 0.400 | 1.000 | 0.400 | 1.000 |  | 3.872 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-current-nomic-recency-reranked-20260524` |
 | memory+rerank | mem0-fixture-close-margin-recency-20260526 | hermes_fixture | 0.400 | 1.000 | 0.400 | 1.000 |  | 2.862 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-fixture-close-margin-recency-20260526` |
 | memory+rerank | mem0-fixture-qwen3-06b-recency-20260526 | hermes_fixture | 0.400 | 1.000 | 0.400 | 1.000 |  | 2.867 | `/Volumes/PortableSSD/hermes-evals/mem0-memory-benchmark/mem0-fixture-qwen3-06b-recency-20260526` |
+| replay | embeddinggemma-fixture-replay-query-guard-20260613 |  | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-query-guard-20260613` |
+| replay | embeddinggemma-fixture-replay-vector-20260613 |  | 0.909 |  | 0.909 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-vector-20260613` |
 | replay | mem0-replay-close-margin-bge-expanded-20260526 |  | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/mem0-replay-close-margin-bge-expanded-20260526` |
 | replay | mem0-replay-close-margin-fixed-20260526 |  | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/mem0-replay-close-margin-fixed-20260526` |
 | replay | mem0-replay-close-margin-fixed-refresh-20260612 |  | 1.000 |  | 1.000 | 1.000 |  | 0.000 | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/mem0-replay-close-margin-fixed-refresh-20260612` |

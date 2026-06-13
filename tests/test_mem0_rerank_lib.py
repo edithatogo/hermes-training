@@ -83,6 +83,33 @@ class Mem0RerankLibTest(unittest.TestCase):
         self.assertEqual(close_ranked[0]["id"], "new")
         self.assertEqual(wide_ranked[0]["id"], "target")
 
+    def test_query_terms_guarded_penalizes_negated_runtime_path(self) -> None:
+        results = [
+            {
+                "id": "mlx",
+                "memory": "Fixture MLX validated: MLX server passed an OpenAI-compatible smoke, but that is not the GGUF runtime path.",
+                "score": 0.755052,
+                "query": "Which GGUF runtime path is validated after the Ollama import failure?",
+            },
+            {
+                "id": "gguf",
+                "memory": "Fixture GGUF validated: direct llama.cpp and LM Studio are validated GGUF runtime paths for the Qwen3 4B package.",
+                "score": 0.742602,
+                "query": "Which GGUF runtime path is validated after the Ollama import failure?",
+            },
+            {
+                "id": "failed",
+                "memory": "Fixture GGUF failed: Ollama GGUF import failed because the daemon dropped during model creation.",
+                "score": 0.737538,
+                "query": "Which GGUF runtime path is validated after the Ollama import failure?",
+            },
+        ]
+
+        ranked = rerank_results(results, "query_terms_guarded", 0.20)
+
+        self.assertEqual(ranked[0]["id"], "gguf")
+        self.assertLess(ranked[1]["rerank_score"], ranked[0]["rerank_score"])
+
     def test_parse_mem0_search_output_ignores_warning_prefix(self) -> None:
         raw = """Failed to load spaCy lemma model: spaCy is not installed.
 {

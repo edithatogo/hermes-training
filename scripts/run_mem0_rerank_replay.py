@@ -40,6 +40,60 @@ def load_suite(path: Path) -> list[dict[str, Any]]:
     return suite
 
 
+def load_fixture_replay_suite(results_path: Path, source_suite_path: Path, strategy: str) -> list[dict[str, Any]]:
+    source_suite = load_json_array(source_suite_path)
+    expected_by_id = {case["id"]: case["expected"]["must_retrieve_any"] for case in source_suite}
+    rows: list[dict[str, Any]] = []
+    with results_path.open(encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if line:
+                row = json.loads(line)
+                if isinstance(row, dict):
+                    rows.append(row)
+    replay_suite: list[dict[str, Any]] = []
+    for row in rows:
+        case_id = str(row.get("id") or "")
+        strategy_result = (row.get("strategies") or {}).get(strategy)
+        if not case_id or not isinstance(strategy_result, dict):
+            continue
+        fragments = [str(item).lower() for item in expected_by_id.get(case_id, [])]
+        candidates: list[dict[str, Any]] = []
+        for index, candidate in enumerate(strategy_result.get("ranked_candidates") or [], 1):
+            if not isinstance(candidate, dict):
+                continue
+            text = str(candidate.get("memory") or candidate.get("text") or "")
+            text_lower = text.lower()
+            candidates.append(
+                {
+                    "id": str(candidate.get("id") or f"{case_id}-candidate-{index}"),
+                    "text": text,
+                    "score": float(candidate.get("base_score", candidate.get("score", 0.0)) or 0.0),
+                    "created_at": candidate.get("created_at"),
+                    "relevant": any(fragment in text_lower for fragment in fragments),
+                }
+            )
+        if candidates:
+            replay_suite.append(
+                {
+                    "id": case_id,
+                    "category": str(row.get("category") or "fixture_replay"),
+                    "query": str(row.get("query") or ""),
+                    "candidates": candidates,
+                }
+            )
+    validate_suite(replay_suite, results_path)
+    return replay_suite
+
+
+def load_json_array(path: Path) -> list[dict[str, Any]]:
+    with path.open(encoding="utf-8") as handle:
+        value = json.load(handle)
+    if not isinstance(value, list):
+        raise ValueError(f"{path}: expected JSON array")
+    return [item for item in value if isinstance(item, dict)]
+
+
 def suite_candidates_to_mem0_results(case: dict[str, Any]) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     for candidate in case["candidates"]:
@@ -51,6 +105,7 @@ def suite_candidates_to_mem0_results(case: dict[str, Any]) -> list[dict[str, Any
                 "score": float(candidate.get("score") or 0.0),
                 "created_at": candidate.get("created_at"),
                 "relevant": bool(candidate.get("relevant")),
+                "query": case["query"],
             }
         )
     return results
@@ -66,6 +121,7 @@ def evaluate_case(
     qwen3_instruction: str,
     qwen3_local_files_only: bool,
     qwen3_server_url: str | None,
+    mlx_max_length: int,
 ) -> dict[str, Any]:
     ranked, latency_s = rerank_search_results(
         case["query"],
@@ -78,6 +134,7 @@ def evaluate_case(
         qwen3_instruction,
         qwen3_local_files_only,
         qwen3_server_url,
+        mlx_max_length,
     )
     return {
         "id": case["id"],
@@ -114,6 +171,9 @@ def summarize_rows(
     qwen3_instruction: str,
     qwen3_local_files_only: bool,
     qwen3_server_url: str | None,
+    mlx_max_length: int,
+    fixture_source_suite: Path | None = None,
+    fixture_source_strategy: str = "",
 ) -> dict[str, Any]:
     cases = len(rows)
     recency_rows = [row for row in rows if row["category"] == "recency_conflict"]
@@ -132,6 +192,9 @@ def summarize_rows(
         "qwen3_instruction": qwen3_instruction if strategy == "qwen3_causal_lm" else "",
         "qwen3_local_files_only": qwen3_local_files_only if strategy == "qwen3_causal_lm" else "",
         "qwen3_server_url": qwen3_server_url or "",
+        "mlx_max_length": mlx_max_length if strategy == "mlx_cross_encoder" else "",
+        "fixture_source_suite": str(fixture_source_suite or ""),
+        "fixture_source_strategy": fixture_source_strategy,
         "cases": cases,
         "top1_accuracy": sum(1 for row in rows if row["top1_pass"]) / max(1, cases),
         "recall_at_3": statistics.fmean(row["recall_at_3"] for row in rows),
@@ -182,6 +245,14 @@ def render_summary_markdown(summary: dict[str, Any], rows: list[dict[str, Any]])
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--suite", type=Path, default=Path(__file__).resolve().parents[1] / "benchmarks" / "mem0_reranking" / "fixed_candidate_suite.json")
+    parser.add_argument("--fixture-results", type=Path, help="Replay candidates captured by run_mem0_isolated_fixture_rerank.py results.jsonl.")
+    parser.add_argument(
+        "--fixture-source-suite",
+        type=Path,
+        default=Path("benchmarks/mem0_memory/live_fixture_differentiation_suite.json"),
+        help="Source live fixture suite used to infer expected fragments for --fixture-results.",
+    )
+    parser.add_argument("--fixture-source-strategy", default="vector")
     parser.add_argument(
         "--strategy",
         choices=(
@@ -190,7 +261,9 @@ def main() -> int:
             "score_plus_created_at_rank",
             "score_plus_created_at_rank_close_margin",
             "benchmark_order",
+            "query_terms_guarded",
             "qwen3_causal_lm",
+            "mlx_cross_encoder",
         ),
         default="score_plus_created_at_rank_close_margin",
     )
@@ -201,16 +274,21 @@ def main() -> int:
     parser.add_argument("--qwen3-instruction", default="Retrieve relevant memory")
     parser.add_argument("--qwen3-local-files-only", action="store_true")
     parser.add_argument("--qwen3-server-url")
+    parser.add_argument("--mlx-max-length", type=int, default=1024)
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    suite = load_suite(args.suite)
+    suite = (
+        load_fixture_replay_suite(args.fixture_results, args.fixture_source_suite, args.fixture_source_strategy)
+        if args.fixture_results
+        else load_suite(args.suite)
+    )
     run_id = args.run_id or f"mem0-rerank-replay-{args.strategy}-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"
     output_dir = args.output_dir or (resolve_default_output_root() / "mem0-reranking-replay" / run_id)
     if args.dry_run:
-        print(f"suite: {args.suite}")
+        print(f"suite: {args.fixture_results or args.suite}")
         print(f"cases: {len(suite)}")
         print(f"strategy: {args.strategy}")
         print(f"model: {args.model or ''}")
@@ -230,13 +308,14 @@ def main() -> int:
             args.qwen3_instruction,
             args.qwen3_local_files_only,
             args.qwen3_server_url,
+            args.mlx_max_length,
         )
         for case in suite
     ]
     summary = summarize_rows(
         rows,
         run_id,
-        args.suite,
+        args.fixture_results or args.suite,
         output_dir,
         args.strategy,
         args.recency_weight,
@@ -246,6 +325,9 @@ def main() -> int:
         args.qwen3_instruction,
         args.qwen3_local_files_only,
         args.qwen3_server_url,
+        args.mlx_max_length,
+        args.fixture_source_suite if args.fixture_results else None,
+        args.fixture_source_strategy if args.fixture_results else "",
     )
     save_jsonl(output_dir / "results.jsonl", rows)
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

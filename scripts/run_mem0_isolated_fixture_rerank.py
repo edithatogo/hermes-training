@@ -334,6 +334,7 @@ def main() -> int:
     strategies: list[tuple[str, str | None]] = [
         ("vector", None),
         ("score_plus_created_at_rank_close_margin", None),
+        ("query_terms_guarded", None),
     ]
     if not args.skip_qwen3:
         strategies.append(("qwen3_causal_lm", args.qwen3_model))

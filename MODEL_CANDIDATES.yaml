@@ -1920,6 +1920,19 @@ candidates:
     first_finetune: "reranker fine-tuning only"
     notes: "Validated through the current mem0 reranker work and easier to fit than the 4B reranker. Use it for Hermes memory precision before heavier retrieval experiments."
 
+  - id: lmstudio-community/embeddinggemma-300m-qat-GGUF
+    family: embeddings
+    tier: retrieval
+    role: local-runtime
+    environment: mac-lmstudio
+    feasibility: ready
+    parameters: "300M"
+    architecture: "EmbeddingGemma 300M QAT GGUF embedding model"
+    license: "check model card"
+    first_runtime: "llama.cpp llama-embedding or llama-server OpenAI embeddings"
+    first_finetune: "contrastive retrieval tuning only"
+    notes: "Mac-local EmbeddingGemma lane. 2026-06-13 direct llama.cpp and server-backed OpenAI-compatible embedding runs both passed the 14-case differentiation suite at top-1 1.000 / recall@3 1.000 with 768-dim vectors. The live output-local mem0 fixture reached top-1 0.909 / recall@3 1.000 and missed only the GGUF runtime-boundary distractor. Captured fixture replay reproduced the vector miss at 0.909 and the new `query_terms_guarded` reranker reached top-1 1.000 / recall@3 1.000; keep non-default until a fresh live fixture with that reranker passes."
+
   - id: jinaai/jina-embeddings-v5-omni-small
     family: jina
     tier: retrieval

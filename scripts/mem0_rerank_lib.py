@@ -7,6 +7,28 @@ import re
 from datetime import datetime
 from typing import Any
 
+QUERY_GUARD_STOPWORDS = {
+    "about",
+    "after",
+    "and",
+    "are",
+    "before",
+    "does",
+    "for",
+    "from",
+    "how",
+    "into",
+    "the",
+    "this",
+    "use",
+    "used",
+    "what",
+    "when",
+    "where",
+    "which",
+    "with",
+}
+
 
 def extract_first_json_object(text: str) -> dict[str, Any]:
     decoder = json.JSONDecoder()
@@ -37,6 +59,30 @@ def benchmark_memory_index(memory: str) -> int | None:
     if not match:
         return None
     return int(match.group(1))
+
+
+def tokenize_for_query_guard(text: str) -> set[str]:
+    return {
+        token
+        for token in re.findall(r"[a-z0-9][a-z0-9+._-]*", text.lower())
+        if len(token) > 2 and token not in QUERY_GUARD_STOPWORDS
+    }
+
+
+def query_guard_adjustment(query: str, memory: str) -> float:
+    query_tokens = tokenize_for_query_guard(query)
+    memory_lower = memory.lower()
+    memory_tokens = tokenize_for_query_guard(memory_lower)
+    if not query_tokens or not memory_tokens:
+        return 0.0
+
+    overlap = len(query_tokens & memory_tokens) / len(query_tokens)
+    adjustment = 0.04 * overlap
+    if re.search(r"\bnot\s+(?:the\s+)?[^.]{0,80}\b(?:path|runtime|answer|validated|valid)\b", memory_lower):
+        adjustment -= 0.08
+    if "validated" in query_tokens and re.search(r"\b(?:failed|failure|dropped|error)\b", memory_lower):
+        adjustment -= 0.03
+    return adjustment
 
 
 def rerank_results(results: list[dict[str, Any]], strategy: str, recency_weight: float) -> list[dict[str, Any]]:
@@ -77,6 +123,10 @@ def rerank_results(results: list[dict[str, Any]], strategy: str, recency_weight:
             memory = str(item.get("memory") or "")
             index = benchmark_memory_index(memory) or 0
             adjusted = base_score + recency_weight * math.log1p(index)
+        elif strategy == "query_terms_guarded":
+            memory = str(item.get("memory") or item.get("text") or "")
+            query = str(item.get("query") or "")
+            adjusted = base_score + query_guard_adjustment(query, memory)
         else:
             raise ValueError(f"unsupported strategy {strategy}")
         enriched = dict(item)

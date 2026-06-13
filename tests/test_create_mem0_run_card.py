@@ -54,6 +54,22 @@ class CreateMem0RunCardTests(unittest.TestCase):
         self.assertIn("--qwen3-local-files-only", command)
         self.assertIn("--qwen3-server-url http://127.0.0.1:8765", command)
 
+    def test_reranking_replay_command_uses_fixture_results_for_jsonl_suite(self) -> None:
+        summary = {
+            "run_id": "fixture-replay",
+            "strategy": "query_terms_guarded",
+            "suite": "/tmp/live-fixture/results.jsonl",
+            "fixture_source_suite": "benchmarks/mem0_memory/live_fixture_differentiation_suite.json",
+            "fixture_source_strategy": "vector",
+        }
+
+        command = "\n".join(command_for_kind("reranking-replay", summary))
+
+        self.assertIn("--fixture-results /tmp/live-fixture/results.jsonl", command)
+        self.assertIn("--fixture-source-suite benchmarks/mem0_memory/live_fixture_differentiation_suite.json", command)
+        self.assertIn("--fixture-source-strategy vector", command)
+        self.assertNotIn("--suite /tmp/live-fixture/results.jsonl", command)
+
     def test_memory_qwen_rerank_command_includes_model_and_server(self) -> None:
         summary = {
             "run_id": "fixture",

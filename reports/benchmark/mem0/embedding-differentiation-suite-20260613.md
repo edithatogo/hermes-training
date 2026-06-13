@@ -51,6 +51,22 @@ and reached 0.909 top-1 with 4-5 candidates per query, but it still missed the
 GGUF runtime-boundary distractor case, so it is benchmarked rather than
 promoted.
 
+## EmbeddingGemma Replay Rerank Gate
+
+| Replay strategy | Source candidates | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `vector` | captured live fixture vector candidates | 0.909 | 1.000 | 0.955 | 0.966 | 1.000 | 0.750 |
+| `query_terms_guarded` | captured live fixture vector candidates | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+The replay gate rebuilds fixed candidates from
+`mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613/results.jsonl`
+and does not re-add memories or mutate a collection. It proves that the
+remaining EmbeddingGemma miss is a reranking policy issue rather than an
+embedding recall issue: the target answer was already within the top 3, while
+the raw vector top result was a negated "not the GGUF runtime path" distractor.
+Keep `query_terms_guarded` as a replay-passed candidate until it passes a fresh
+live isolated fixture run.
+
 ## Raw Evidence
 
 | Run | Output |
@@ -66,6 +82,8 @@ promoted.
 | `mem0-live-fixture-differentiation-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-20260613` |
 | `mem0-live-fixture-differentiation-expanded-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-differentiation-expanded-20260613` |
 | `mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` |
+| `embeddinggemma-fixture-replay-vector-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-vector-20260613` |
+| `embeddinggemma-fixture-replay-query-guard-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-query-guard-20260613` |
 
 ## Decision
 

@@ -375,7 +375,8 @@ def rerank_case(
             max_length=mlx_max_length,
         )
     else:
-        ranked = rerank_results(candidates, strategy, recency_weight)
+        rerank_inputs = [dict(item, query=case["query"]) for item in candidates] if strategy == "query_terms_guarded" else candidates
+        ranked = rerank_results(rerank_inputs, strategy, recency_weight)
     return ranked, time.time() - started
 
 
@@ -390,6 +391,7 @@ def main() -> int:
             "score_plus_created_at_rank",
             "score_plus_created_at_rank_close_margin",
             "benchmark_order",
+            "query_terms_guarded",
             "lexical_overlap",
             "cross_encoder",
             "mlx_cross_encoder",
