@@ -27,6 +27,11 @@ source scripts/env.sh
 
 The preflight is read-only. It checks Azure CLI login state, expected account/subscription, Azure ML CLI extension presence, SSD artifact root, and declared cost policy. It does not create compute or submit jobs.
 
+Current state as of 2026-06-13: Azure CLI is installed, but
+`az account show` returns `Please run 'az login' to setup account.` Treat Azure
+as blocked at authentication until login is refreshed and this preflight passes
+again.
+
 After the student account is active, add quota inspection:
 
 ```bash
@@ -73,7 +78,8 @@ Do not create the workspace until provider registration is complete and you acce
 
 ## Current Quota Finding
 
-Read-only quota inspection for `australiaeast` shows zero quota for the modern GPU families needed by the prepared templates:
+Historical read-only quota inspection for `australiaeast` on 2026-05-24 showed
+zero quota for the modern GPU families needed by the prepared templates:
 
 - `Standard NCASv3_T4 Family vCPUs`: `0`
 - `Standard NCADS_A100_v4 Family vCPUs`: `0`
@@ -84,7 +90,9 @@ The subscription has small legacy `Standard NC Family` and `Standard NV Family` 
 
 Additional read-only quota scan on 2026-05-21 checked `australiaeast`, `australiasoutheast`, `eastus`, `westus3`, `swedencentral`, `southcentralus`, `uksouth`, and `westeurope`. All sampled regions showed zero quota for `NCASv3_T4`, `NCADS_A100_v4`, `NCadsH100v5`, `NDSH100v5`, and `NCADSA10v4`. `NVSv4` showed a small limit of 2 vCPUs in sampled regions, but that is not the target path for training or teacher evaluation.
 
-Decision: do not create Azure ML compute until a quota request is approved for a current GPU family. Prioritize low-cost T4/A10-class capacity before A100/H100.
+Decision: do not create Azure ML compute until both authentication is refreshed
+and a quota request is approved for a current GPU family. Prioritize low-cost
+T4/A10-class capacity before A100/H100.
 
 ## Skeleton Templates
 
