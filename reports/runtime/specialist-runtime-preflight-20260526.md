@@ -1,6 +1,6 @@
 # Specialist Runtime Preflight
 
-Date: 2026-06-12T08:18:29.021299+00:00
+Date: 2026-06-13T04:52:03.670405+00:00
 SSD root: `/Volumes/PortableSSD`
 Policy: read-only; no installs, downloads, compute creation, or model conversion
 
@@ -41,7 +41,7 @@ Policy: read-only; no installs, downloads, compute creation, or model conversion
 | command | `leap-finetune` | `false` |
 | python module | `leap` | `false` |
 | python module | `leap_finetune` | `false` |
-| artifact | `/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2-8B-A1B` | `false` |
+| artifact | `/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2-8B-A1B` | `true` |
 | artifact | `/Volumes/PortableSSD/huggingface/hub/models--LiquidAI--LFM2.5-1.2B-Instruct` | `true` |
 
 ### RWKV native runtime / `RWKV/RWKV7-Goose-World3-2.9B-HF`

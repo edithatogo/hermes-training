@@ -149,13 +149,13 @@ def evaluate_probe(probe: Probe) -> dict[str, Any]:
     }
 
 
-def build_report() -> dict[str, Any]:
+def build_report(created_at: str | None = None) -> dict[str, Any]:
     items = [evaluate_probe(probe) for probe in PROBES]
     counts: dict[str, int] = {}
     for item in items:
         counts[item["status"]] = counts.get(item["status"], 0) + 1
     return {
-        "created_at": datetime.now(UTC).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
         "ssd_root": str(SSD_ROOT),
         "policy": "read-only; no installs, downloads, compute creation, or model conversion",
         "status": "passed" if items else "empty",
@@ -219,9 +219,13 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--json-output", type=Path, default=DEFAULT_JSON_OUTPUT)
     parser.add_argument("--no-write", action="store_true")
+    parser.add_argument(
+        "--created-at",
+        help="Override the report timestamp for deterministic regeneration checks.",
+    )
     args = parser.parse_args()
 
-    report = build_report()
+    report = build_report(created_at=args.created_at)
     if not args.no_write:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(render_markdown(report), encoding="utf-8")

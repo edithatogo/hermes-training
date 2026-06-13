@@ -261,6 +261,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/build_mem0_candidate_queue.py",
         ROOT / "scripts/validate_mem0_candidate_queue.py",
         ROOT / "scripts/check_specialist_runtime_preflight.py",
+        ROOT / "scripts/validate_specialist_runtime_preflight_report.py",
         ROOT / "scripts/validate_official_benchmark_manifests.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
         ROOT / "scripts/validate_scorecard_offload_readiness.py",
@@ -446,6 +447,21 @@ def check_mem0_candidate_queue(failures: list[str]) -> None:
         ok("mem0 candidate queue")
 
 
+def check_specialist_runtime_preflight_report(failures: list[str]) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/validate_specialist_runtime_preflight_report.py"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"specialist runtime preflight report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("specialist runtime preflight report")
+
+
 def check_cloud_blocker_reports(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -579,6 +595,7 @@ def main() -> int:
     check_scorecard_offload_readiness(failures)
     check_standard_benchmark_coverage_reports(failures)
     check_mem0_candidate_queue(failures)
+    check_specialist_runtime_preflight_report(failures)
     check_cloud_blocker_reports(failures)
 
     if failures:
