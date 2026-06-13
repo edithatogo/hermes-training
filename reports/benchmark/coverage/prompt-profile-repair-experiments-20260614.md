@@ -1,7 +1,7 @@
 # Prompt/Profile Repair Experiments
 
 Run ID: `prompt-profile-repair-experiments-20260614`
-Created: `2026-06-14T02:30:00+00:00`
+Created: `2026-06-13T16:12:48.047743+00:00`
 
 Purpose: turn the prompt/profile repair queue into concrete, no-download experiment commands using existing local runners.
 

@@ -1,7 +1,7 @@
 # Prompt/Profile Repair Queue
 
 Run ID: `prompt-profile-repair-queue-20260614`
-Created: `2026-06-14T00:00:00+00:00`
+Created: `2026-06-13T16:12:47.976648+00:00`
 
 Purpose: isolate runtime-proven or partially proven Hermes candidates whose next local work is prompt/profile repair, not training or remote execution.
 
@@ -157,7 +157,7 @@ source scripts/env.sh
 
 ### mlx-community/gemma-4-E4B-it-qat-4bit
 
-- Evidence: `reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md`, `reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md`, `reports/benchmark/mlx-loglikelihood/gemma4-e4b-mlx-loglikelihood-smoke-20260612.md`
+- Evidence: `reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md`, `reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md`, `reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md`, `reports/benchmark/local-pilots/gemma4-e4b-strict-suffix-copy-exact-repair-20260614.md`, `reports/benchmark/mlx-loglikelihood/gemma4-e4b-mlx-loglikelihood-smoke-20260612.md`
 - Boundary: Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence.
 
 ```bash

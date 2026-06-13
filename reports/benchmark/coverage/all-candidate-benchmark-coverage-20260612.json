@@ -474,7 +474,9 @@
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
       "evidence": [
         "reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md",
+        "reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md",
         "reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md",
+        "reports/benchmark/local-pilots/gemma4-e4b-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/mlx-loglikelihood/gemma4-e4b-mlx-loglikelihood-smoke-20260612.md"
       ]
     },

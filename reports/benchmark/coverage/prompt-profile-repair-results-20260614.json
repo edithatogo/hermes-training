@@ -127,6 +127,34 @@
       "passed": 1,
       "pass_rate": 0.3333333333333333,
       "promotion_allowed": false
+    },
+    {
+      "candidate": "mlx-community/gemma-4-E4B-it-qat-4bit",
+      "variant": "strict-suffix-copy-exact",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "run Gemma native normalizer analysis before any promotion claim",
+      "result_report": "reports/benchmark/local-pilots/gemma4-e4b-strict-suffix-copy-exact-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-gemma-4-e4b-it-qat-4bit-strict-suffix-copy-exact-20260614-020948/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-gemma-4-e4b-it-qat-4bit-strict-suffix-copy-exact-20260614-020948",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
+    },
+    {
+      "candidate": "mlx-community/gemma-4-E4B-it-qat-4bit",
+      "variant": "gemma-native-normalizer-analysis",
+      "runner": "local",
+      "status": "completed-no-promotion",
+      "next_action": "stop prompt/normalizer-only Gemma E4B repairs; use a grammar/envelope-constrained path or move to the next candidate",
+      "result_report": "reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md",
+      "source_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-gemma-4-e4b-it-qat-4bit-gemma-native-normalizer-analysis-20260614-021019/summary.json",
+      "source_output_dir": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/local-pilots/mlx-community-gemma-4-e4b-it-qat-4bit-gemma-native-normalizer-analysis-20260614-021019",
+      "cases": 3,
+      "passed": 0,
+      "pass_rate": 0.0,
+      "promotion_allowed": false
     }
   ]
 }

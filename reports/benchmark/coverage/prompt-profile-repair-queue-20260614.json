@@ -1,6 +1,6 @@
 {
   "run_id": "prompt-profile-repair-queue-20260614",
-  "created_at": "2026-06-14T00:00:00+00:00",
+  "created_at": "2026-06-13T16:12:47.976648+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -153,7 +153,9 @@
       "repair_hypothesis": "test Gemma native tool-fragment normalization or a stricter system suffix without changing raw outputs",
       "evidence": [
         "reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md",
+        "reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md",
         "reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md",
+        "reports/benchmark/local-pilots/gemma4-e4b-strict-suffix-copy-exact-repair-20260614.md",
         "reports/benchmark/mlx-loglikelihood/gemma4-e4b-mlx-loglikelihood-smoke-20260612.md"
       ],
       "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model mlx-community/gemma-4-E4B-it-qat-4bit \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mlx-community-gemma-4-e4b-it-qat-4bit-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
