@@ -8,6 +8,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         candidate = {
             "id": "BAAI/bge-m3",
             "role": "embedder",
+            "runtime": ["sentence-transformers"],
             "status": "benchmarked-cpu-mps-not-promoted",
         }
 
@@ -16,6 +17,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
             blocker_for(candidate),
             "expanded 2026-06-13 differentiation suite reached top-1 0.929 / recall@3 1.000, strongest non-GGUF embedder signal; keep separate 1024-dim collection",
         )
+        self.assertIn("memory_retrieval_differentiation_suite.json", command_for(candidate))
 
     def test_source_model_benchmarked_status_gets_promoted_queue_priority(self) -> None:
         candidate = {
@@ -101,6 +103,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
             "runtime": ["mlx"],
             "embedding_dims": 1024,
             "status": "candidate",
+            "first_gate": "differentiation-suite",
         }
 
         self.assertIn(
@@ -110,6 +113,7 @@ class BuildMem0CandidateQueueTests(unittest.TestCase):
         command = command_for(candidate)
         self.assertIn("scripts/run_jina_mlx_embedding_benchmark.py", command)
         self.assertIn("--task-type text-matching", command)
+        self.assertIn("memory_retrieval_differentiation_suite.json", command)
 
 
 if __name__ == "__main__":

@@ -52,6 +52,17 @@ def first_runtime(candidate: dict[str, Any]) -> str:
     return str(runtime or "")
 
 
+def embedding_suite_for(candidate: dict[str, Any]) -> str:
+    first_gate = str(candidate.get("first_gate", ""))
+    status = str(candidate.get("status", ""))
+    if first_gate == "differentiation-suite" or status in {
+        "benchmarked-cpu-mps-not-promoted",
+        "source-model-benchmarked",
+    }:
+        return "benchmarks/embeddings/memory_retrieval_differentiation_suite.json"
+    return "benchmarks/embeddings/memory_retrieval_suite.json"
+
+
 def queue_priority(candidate: dict[str, Any]) -> tuple[int, int, str]:
     return (
         STATUS_ORDER.get(str(candidate.get("status")), 8),
@@ -74,23 +85,25 @@ def command_for(candidate: dict[str, Any]) -> str:
     )
 
     if role == "embedder" and runtime == "ollama":
+        suite = embedding_suite_for(candidate)
         return "\n".join(
             [
                 "./.venv/bin/python scripts/run_ollama_embedding_benchmark.py \\",
                 f"  --model {model_id} \\",
-                "  --suite benchmarks/embeddings/memory_retrieval_suite.json \\",
+                f"  --suite {suite} \\",
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )
     if role == "embedder" and runtime == "mlx" and "jina-embeddings-v5-omni-small" in model_id:
         task_type = "text-matching" if "text-matching" in model_id else "retrieval"
+        suite = embedding_suite_for(candidate)
         return "\n".join(
             [
                 "# Jina MLX embeddings are custom-code repos; clone and load them through the dedicated MLX benchmark runner.",
                 "./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \\",
                 f"  --model {model_id} \\",
                 f"  --task-type {task_type} \\",
-                "  --suite benchmarks/embeddings/memory_retrieval_suite.json \\",
+                f"  --suite {suite} \\",
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )
@@ -131,12 +144,13 @@ def command_for(candidate: dict[str, Any]) -> str:
             )
         return "\n".join(lines)
     if role == "embedder" and runtime in {"sentence-transformers", "transformers"}:
+        suite = embedding_suite_for(candidate)
         return "\n".join(
             [
                 "./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \\",
                 f"  --model {model_id} \\",
                 "  --device mps \\",
-                "  --suite benchmarks/embeddings/memory_retrieval_suite.json \\",
+                f"  --suite {suite} \\",
                 f"  --run-id embedding-{slug}-$(date +%Y%m%d-%H%M%S)",
             ]
         )

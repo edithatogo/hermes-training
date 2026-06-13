@@ -147,6 +147,10 @@ Complete:
 - Runtime proof command generation now treats explicit environment as
   authoritative. `hf-transformers` candidates stay on the Transformers pilot
   path even when free-text runtime notes mention GGUF.
+- mem0 embedding candidate command cards now select the broader
+  `memory_retrieval_differentiation_suite.json` whenever the candidate gate or
+  benchmarked status requires it. Baseline smoke candidates still use the
+  smaller retrieval suite.
 - Model radar now also includes the Gemma 4 31B QAT GGUF pack and the explicit MiniCPM-o 4.5 GGUF lane.
 - Model radar now also includes the Unsloth and ggml-org Gemma 4 31B GGUF packs plus the official MiniCPM5-1B-GGUF lane.
 - Hermes is now crystallized: `Qwen/Qwen3-4B-MLX-4bit` is the primary local adapter target, `Qwen/Qwen3.5-0.8B` and `Qwen/Qwen3.5-2B` are helper/extraction lanes, and `openbmb/MiniCPM5-1B` is the tiny support candidate. Hermes-4.3, Harmonic-9B, Harmonic-Hermes-9B, and Qwen3.6-27B remain teacher/runtime comparison lanes.

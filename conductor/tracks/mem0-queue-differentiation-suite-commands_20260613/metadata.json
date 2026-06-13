@@ -1,0 +1,8 @@
+{
+  "track_id": "mem0-queue-differentiation-suite-commands_20260613",
+  "type": "bugfix",
+  "status": "complete",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Align mem0 embedding candidate command cards with differentiation-suite gates instead of the smaller retrieval suite."
+}

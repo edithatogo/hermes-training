@@ -147,7 +147,7 @@ source scripts/env.sh
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model BAAI/bge-m3 \
   --device mps \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
   --run-id embedding-baai-bge-m3-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -162,7 +162,7 @@ source scripts/env.sh
 ./.venv/bin/python scripts/run_sentence_transformers_embedding_benchmark.py \
   --model Qwen/Qwen3-Embedding-4B \
   --device mps \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
   --run-id embedding-qwen-qwen3-embedding-4b-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -178,7 +178,7 @@ source scripts/env.sh
 ./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
   --model jinaai/jina-embeddings-v5-omni-small-mlx \
   --task-type retrieval \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
   --run-id embedding-jinaai-jina-embeddings-v5-omni-small-mlx-$(date +%Y%m%d-%H%M%S)
 ```
 
@@ -194,7 +194,7 @@ source scripts/env.sh
 ./.venv/bin/python scripts/run_jina_mlx_embedding_benchmark.py \
   --model jinaai/jina-embeddings-v5-omni-small-text-matching-mlx \
   --task-type text-matching \
-  --suite benchmarks/embeddings/memory_retrieval_suite.json \
+  --suite benchmarks/embeddings/memory_retrieval_differentiation_suite.json \
   --run-id embedding-jinaai-jina-embeddings-v5-omni-small-text-matching-mlx-$(date +%Y%m%d-%H%M%S)
 ```
 
