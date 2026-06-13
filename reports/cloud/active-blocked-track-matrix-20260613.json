@@ -1,0 +1,76 @@
+{
+  "checklist": "reports/cloud/backend-unblock-checklist-20260613.json",
+  "registry": "conductor/tracks.md",
+  "rows": [
+    {
+      "backend": "colab",
+      "backend_status": "ready",
+      "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+      "commands": [
+        "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
+        "./.venv/bin/python scripts/cloud_backend_preflight.py"
+      ],
+      "next_task": "Download JSON and harness result artifacts.",
+      "title": "Qwen3 v4 PEFT Colab full scorecard",
+      "track_id": "qwen3-v4-peft-colab-full-scorecard_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-colab-full-scorecard_20260613"
+    },
+    {
+      "backend": "colab",
+      "backend_status": "ready",
+      "blocker": "No-limit PEFT scorecards were pruned before artifacts were recovered.",
+      "commands": [
+        "PATH=\"$HOME/.local/bin:$PATH\" colab sessions",
+        "./.venv/bin/python scripts/cloud_backend_preflight.py"
+      ],
+      "next_task": "Run and recover `truthfulqa_mc2`.",
+      "title": "Qwen3 v4 PEFT Colab scorecard shards",
+      "track_id": "qwen3-v4-peft-colab-scorecard-shards_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-colab-scorecard-shards_20260613"
+    },
+    {
+      "backend": "hf_jobs",
+      "backend_status": "blocked-insufficient-hf-credits",
+      "blocker": "HF Jobs rejected the live route probe with insufficient prepaid credits.",
+      "commands": [
+        "hf jobs ps",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute"
+      ],
+      "next_task": "Submit the job and capture job ID/log URL after credits/grant are available.",
+      "title": "Qwen3 v4 PEFT HF Jobs scorecard",
+      "track_id": "qwen3-v4-peft-hf-jobs-scorecard_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-hf-jobs-scorecard_20260613"
+    },
+    {
+      "backend": "kaggle",
+      "backend_status": "blocked-needs-auth",
+      "blocker": "Kaggle CLI is installed but unauthenticated.",
+      "commands": [
+        "kaggle auth login",
+        "kaggle quota",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
+        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run"
+      ],
+      "next_task": "Authenticate the Kaggle CLI and check GPU quota.",
+      "title": "Qwen3 v4 PEFT Kaggle scorecard",
+      "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"
+    },
+    {
+      "backend": "ngc",
+      "backend_status": "blocked",
+      "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",
+      "commands": [
+        "ngc sso login",
+        "ngc config current",
+        "ngc cloud-function gpu quota",
+        "ngc cloud-function task create --help"
+      ],
+      "next_task": "Configure NGC auth only after the user supplies keys or completes SSO.",
+      "title": "Qwen3 v4 PEFT NGC Cloud Function scorecard",
+      "track_id": "qwen3-v4-peft-ngc-cloud-function-scorecard_20260613",
+      "track_path": "conductor/tracks/qwen3-v4-peft-ngc-cloud-function-scorecard_20260613"
+    }
+  ]
+}

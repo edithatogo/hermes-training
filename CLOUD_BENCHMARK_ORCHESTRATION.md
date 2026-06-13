@@ -50,6 +50,18 @@ This writes:
 - `reports/cloud/backend-unblock-checklist-20260613.json`
 - `reports/cloud/backend-unblock-checklist-20260613.md`
 
+To generate the active blocked-track matrix from the Conductor registry and
+unblock checklist:
+
+```bash
+./.venv/bin/python scripts/build_blocked_track_matrix.py
+```
+
+This writes:
+
+- `reports/cloud/active-blocked-track-matrix-20260613.json`
+- `reports/cloud/active-blocked-track-matrix-20260613.md`
+
 ## Colab Dispatch
 
 Use Colab for bounded, sanitized jobs:
