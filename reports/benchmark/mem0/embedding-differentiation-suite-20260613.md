@@ -45,12 +45,11 @@ cache completeness, runtime surface, and blocked-action decisions.
 
 The live fixture used an output-local `MEM0_CONFIG_PATH`, isolated Qdrant path,
 and no default collection mutation. The expanded fixture shows that the
-close-margin wrapper is not always safer than raw vector ordering; it should
-remain guarded until the added role-boundary and sidecar-reranker cases pass.
-The EmbeddingGemma server wrapper used the same output-local fixture pattern
+close-margin wrapper is not always safer than raw vector ordering. The first
+direct EmbeddingGemma server wrapper used the same output-local fixture pattern
 and reached 0.909 top-1 with 4-5 candidates per query, but it still missed the
-GGUF runtime-boundary distractor case, so it is benchmarked rather than
-promoted.
+GGUF runtime-boundary distractor case. The later resilient-proxy path fixed the
+server lifetime and local HOME isolation issues and reached 1.000 top-1.
 
 ## EmbeddingGemma Replay Rerank Gate
 
@@ -76,6 +75,11 @@ The fresh live fixture
 because the direct server wrapper exited cleanly after repeated embedding
 requests. The proxy-backed run kept the fixture output-local and did not mutate
 the default `mem0_nomic_768` collection.
+
+It also used a patched isolated fixture harness that runs mem0 subprocesses
+through a fixture-local `$HOME/.mem0` copy and direct `mem0_wrapper.py` calls.
+This avoids global Qdrant migration-lock collisions while preserving the
+installed mem0 package through `PYTHONPATH`.
 
 | Strategy | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
 |---|---:|---:|---:|---:|---:|---:|
