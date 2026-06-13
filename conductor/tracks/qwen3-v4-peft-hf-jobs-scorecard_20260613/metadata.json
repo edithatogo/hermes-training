@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-peft-hf-jobs-scorecard_20260613",
+  "type": "chore",
+  "status": "in_progress",
+  "created_at": "2026-06-13T03:45:00Z",
+  "updated_at": "2026-06-13T03:45:00Z",
+  "description": "Prepare Hugging Face Jobs as the persistent backend for the Qwen3 v4 PEFT no-limit selected-task lm-eval scorecard."
+}

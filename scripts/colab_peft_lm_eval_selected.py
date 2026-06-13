@@ -59,7 +59,10 @@ def parse_extra_model_args(value: Any) -> tuple[str, ...]:
     return tuple(arg for arg in str(value).split(",") if arg)
 
 
-ADAPTER_TARBALL = Path(setting("adapter_tarball", "PEFT_ADAPTER_TARBALL", "/content/qwen3-v4-peft-conversion-20260613.tar.gz"))
+ADAPTER_TARBALL_TEXT = parse_optional_text(
+    setting("adapter_tarball", "PEFT_ADAPTER_TARBALL", "/content/qwen3-v4-peft-conversion-20260613.tar.gz")
+)
+ADAPTER_TARBALL = Path(ADAPTER_TARBALL_TEXT) if ADAPTER_TARBALL_TEXT is not None else None
 ADAPTER_DIR = Path(setting("adapter_dir", "PEFT_ADAPTER_DIR", "/content/qwen3-v4-peft-conversion-20260613"))
 BASE_MODEL = str(setting("base_model", "PEFT_BASE_MODEL", "Qwen/Qwen3-4B"))
 TASKS = str(setting("tasks", "LM_EVAL_TASKS", DEFAULT_TASKS))
@@ -115,6 +118,10 @@ def runtime_details() -> dict[str, Any]:
 
 
 def extract_adapter() -> None:
+    if ADAPTER_TARBALL is None:
+        if not ADAPTER_DIR.exists():
+            raise FileNotFoundError(f"adapter_dir does not exist and adapter_tarball is null: {ADAPTER_DIR}")
+        return
     if not ADAPTER_TARBALL.exists():
         raise FileNotFoundError(ADAPTER_TARBALL)
     ADAPTER_DIR.parent.mkdir(parents=True, exist_ok=True)
@@ -167,7 +174,7 @@ def main() -> int:
         "status": "blocked",
         "probe": "colab-peft-lm-eval-selected",
         "claim_boundary": "Bounded selected-task pilot only; not a full candidate scorecard.",
-        "adapter_tarball": str(ADAPTER_TARBALL),
+        "adapter_tarball": str(ADAPTER_TARBALL) if ADAPTER_TARBALL is not None else None,
         "adapter_dir": str(ADAPTER_DIR),
         "base_model": BASE_MODEL,
         "config_path": str(CONFIG_PATH) if CONFIG_PATH.exists() else None,

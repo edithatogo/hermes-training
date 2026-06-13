@@ -1,0 +1,13 @@
+{
+  "adapter_tarball": null,
+  "adapter_dir": "/adapter",
+  "base_model": "Qwen/Qwen3-4B",
+  "tasks": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+  "limit": null,
+  "batch_size": "1",
+  "dtype": "float16",
+  "use_4bit": true,
+  "transformers_spec": "transformers>=4.56,<5",
+  "output_dir": "/tmp/qwen3-v4-peft-lm-eval-selected-full",
+  "result_json": "/tmp/qwen3-v4-peft-lm-eval-selected-full.json"
+}

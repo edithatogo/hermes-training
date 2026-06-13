@@ -1,0 +1,140 @@
+{
+  "created_at": "2026-06-13T03:45:16.255116+00:00",
+  "storage_root": "/Volumes/PortableSSD",
+  "storage_root_exists": true,
+  "policy": {
+    "no_paid_compute_without_approval": true,
+    "no_private_data_uploads": true,
+    "no_model_or_dataset_publication": true,
+    "artifact_root": "/Volumes/PortableSSD/hermes-evals",
+    "tracked_report_root": "reports/cloud"
+  },
+  "backends": {
+    "colab": {
+      "status": "ready",
+      "route": "primary",
+      "version": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "version"
+        ],
+        "returncode": 0,
+        "stdout": "Version: 0.5.9",
+        "stderr": ""
+      },
+      "sessions": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/colab",
+        "command": [
+          "colab",
+          "sessions"
+        ],
+        "returncode": 0,
+        "stdout": "[colab] A new version of Colab CLI is available: 0.5.11 (current: 0.5.9)\n[colab] Run 'colab update' to update.\n[colab] To silence this check, set \"enable_update_check\": false in ~/.config/colab-cli/settings.json\n\n[colab] No active sessions found on server.",
+        "stderr": ""
+      },
+      "stop_condition": "no Colab CLI, command failure, active session not intentionally owned, or upload requires private data",
+      "next_action": "Use scripts/colab_dispatch.py for bounded GPU-first jobs; update google-colab-cli when convenient."
+    },
+    "hf_jobs": {
+      "status": "prepared-needs-paid-compute-approval",
+      "route": "persistent",
+      "whoami": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "auth",
+          "whoami"
+        ],
+        "returncode": 0,
+        "stdout": "user=edithatogo orgs=unimelb-nlp,FlindersUni,RareInsights",
+        "stderr": ""
+      },
+      "hardware": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "jobs",
+          "hardware"
+        ],
+        "returncode": 0,
+        "stdout": "NAME            PRETTY NAME        CPU      RAM     ACCELERATOR  COST/MIN COST/HOUR \n--------------- ------------------ -------- ------- ------------ -------- --------- \ncpu-basic       CPU Basic          2 vCPU   16 GB                $0.0002  $0.01     \ncpu-upgrade     CPU Upgrade        8 vCPU   32 GB                $0.0005  $0.03     \ncpu-performance CPU Performance    32 vCPU  256 GB               $0.0317  $1.90     \ncpu-xl          CPU XL             16 vCPU  124 GB               $0.0167  $1.00     \nt4-small        Nvidia T4 - small  4 vCPU   15 GB   1x T4 (16... $0.0067  $0.40     \nt4-medium       Nvidia T4 - medium 8 vCPU   30 GB   1x T4 (16... $0.0100  $0.60     \na10g-small      Nvidia A10G - s... 4 vCPU   15 GB   1x A10G (... $0.0167  $1.00     \na10g-large      Nvidia A10G - l... 12 vCPU  46 GB   1x A10G (... $0.0250  $1.50     \na10g-largex2    2x Nvidia A10G ... 24 vCPU  92 GB   2x A10G (... $0.0500  $3.00     \na10g-largex4    4x Nvidia A10G ... 48 vCPU  184 GB  4x A10G (... $0.0833  $5.00     \na100-large      Nvidia A100 - l... 12 vCPU  142 GB  1x A100 (... $0.0417  $2.50     \na100x4          4x Nvidia A100     48 vCPU  568 GB  4x A100 (... $0.1667  $10.00    \na100x8          8x Nvidia A100     96 vCPU  1136 GB 8x A100 (... $0.3333  $20.00    \nh200            Nvidia H200        23 vCPU  256 GB  1x H200 (... $0.0833  $5.00     \nh200x2          Nvidia H200        46 vCPU  512 GB  2x H200 (... $0.1667  $10.00    \nh200x4          Nvidia H200        92 vCPU  1024 GB 4x H200 (... $0.3333  $20.00    \nh200x8          Nvidia H200        184 vCPU 2048 GB 8x H200 (... $0.6667  $40.00    \nrtx-pro-6000    Nvidia RTX PRO ... 23 vCPU  256 GB  1x RTX PR... $0.0458  $2.75     \nrtx-pro-6000x2  Nvidia RTX PRO ... 46 vCPU  512 GB  2x RTX PR... $0.0917  $5.50     \nrtx-pro-6000x4  Nvidia RTX PRO ... 92 vCPU  1024 GB 4x RTX PR... $0.1833  $11.00    \nrtx-pro-6000x8  Nvidia RTX PRO ... 184 vCPU 2048 GB 8x RTX PR... $0.3667  $22.00    \nl4x1            1x Nvidia L4       8 vCPU   30 GB   1x L4 (24... $0.0133  $0.80     \nl4x4            4x Nvidia L4       48 vCPU  186 GB  4x L4 (96... $0.0633  $3.80     \nl40sx1          1x Nvidia L40S     8 vCPU   62 GB   1x L40S (... $0.0300  $1.80     \nl40sx4          4x Nvidia L40S     48 vCPU  382 GB  4x L40S (... $0.1383  $8.30     \nl40sx8          8x Nvidia L40S     192 vCPU 1534 GB 8x L40S (... $0.3917  $23.50",
+        "stderr": ""
+      },
+      "jobs": {
+        "installed": true,
+        "path": "/Users/doughnut/.local/bin/hf",
+        "command": [
+          "hf",
+          "jobs",
+          "ps"
+        ],
+        "returncode": 0,
+        "stdout": "No jobs found",
+        "stderr": ""
+      },
+      "stop_condition": "missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval",
+      "next_action": "Use HF Jobs for persistent no-limit scorecards only after explicit paid GPU approval."
+    },
+    "azure": {
+      "status": "blocked",
+      "route": "prepared",
+      "account": {
+        "installed": true,
+        "path": "/opt/homebrew/bin/az",
+        "command": [
+          "az",
+          "account",
+          "show",
+          "-o",
+          "json"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ERROR: Please run 'az login' to setup account."
+      },
+      "detail": "ERROR: Please run 'az login' to setup account.",
+      "stop_condition": "missing login, wrong subscription, absent Azure ML extension, zero GPU quota, or no cost approval",
+      "next_action": "Run az login only when the user is ready; then use scripts/azure_preflight.py before any job."
+    },
+    "ngc": {
+      "status": "blocked",
+      "route": "prepared",
+      "config": {
+        "installed": true,
+        "path": "/usr/local/bin/ngc",
+        "command": [
+          "ngc",
+          "config",
+          "current"
+        ],
+        "returncode": 0,
+        "stdout": "+-------------+-------+---------------+\n| key         | value | source        |\n+-------------+-------+---------------+\n| format_type | ascii | default value |\n+-------------+-------+---------------+",
+        "stderr": ""
+      },
+      "stop_condition": "missing API key, org/team, entitlement, container access, model access, or license approval",
+      "next_action": "Configure NGC only after the user supplies keys; record non-secret org/team and entitlement proof."
+    },
+    "kaggle": {
+      "status": "blocked",
+      "route": "future",
+      "version": {
+        "installed": false,
+        "path": "",
+        "command": [
+          "kaggle",
+          "--version"
+        ],
+        "returncode": null,
+        "stdout": "",
+        "stderr": "kaggle not found on PATH"
+      },
+      "stop_condition": "missing CLI, missing credentials, dataset terms, private data, or unbounded notebook runtime",
+      "next_action": "Install and authenticate Kaggle CLI before adding Kaggle execution jobs."
+    }
+  }
+}

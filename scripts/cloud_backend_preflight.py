@@ -96,6 +96,27 @@ def summarize_azure() -> dict[str, Any]:
     }
 
 
+def summarize_hf_jobs() -> dict[str, Any]:
+    whoami = run_command(["hf", "auth", "whoami"])
+    hardware = run_command(["hf", "jobs", "hardware"], timeout_s=60)
+    jobs = run_command(["hf", "jobs", "ps"])
+    ready = (
+        whoami["installed"]
+        and whoami["returncode"] == 0
+        and hardware["returncode"] == 0
+        and "t4-small" in hardware["stdout"]
+    )
+    return {
+        "status": "prepared-needs-paid-compute-approval" if ready else "blocked",
+        "route": "persistent",
+        "whoami": whoami,
+        "hardware": hardware,
+        "jobs": jobs,
+        "stop_condition": "missing HF login, unavailable Jobs hardware, absent mounted artifacts, no result persistence, or no paid compute approval",
+        "next_action": "Use HF Jobs for persistent no-limit scorecards only after explicit paid GPU approval.",
+    }
+
+
 def summarize_ngc() -> dict[str, Any]:
     config = run_command(["ngc", "config", "current"])
     configured = config["installed"] and config["returncode"] == 0 and "apikey" in config["stdout"].lower()
@@ -134,6 +155,7 @@ def build_report() -> dict[str, Any]:
         },
         "backends": {
             "colab": summarize_colab(),
+            "hf_jobs": summarize_hf_jobs(),
             "azure": summarize_azure(),
             "ngc": summarize_ngc(),
             "kaggle": summarize_kaggle(),
