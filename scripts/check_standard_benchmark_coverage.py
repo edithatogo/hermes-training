@@ -72,7 +72,7 @@ CANDIDATE_CONFIGS = {
         / "reports"
         / "benchmark"
         / "official-ifeval"
-        / "qwen3-4b-v4-targeted-ifeval-pilot-20260526.md",
+        / "qwen3-4b-v6-free-text-copy-ifeval-pilot-20260613.md",
         "lm_eval_direct_smoke": ROOT
         / "reports"
         / "benchmark"
@@ -96,7 +96,7 @@ CANDIDATE_CONFIGS = {
         "bundle": ROOT / "reports" / "publication" / "qwen3-4b-strict-toolcall-v6-free-text-copy",
         "heldout_metric": "strict held-out pass 1.000; mirrored strict pass 1.000",
         "heldout_notes": "Required Hermes-agent local promotion gate under the recorded Qwen runtime prefill condition.",
-        "official_ifeval_metric_prefix": "previous v4 official-pilot prompt strict",
+        "official_ifeval_metric_prefix": "prompt strict",
         "selected_checkpoint": "Iter 125",
     },
 }

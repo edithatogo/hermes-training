@@ -61,10 +61,16 @@ Repo-native pilot benchmarks:
 | IFEval-style pilot | 0.667 | local pilot only, not official IFEval |
 | Coding sanity pilot | 0.667 | local pilot only, not HumanEval/MBPP/EvalPlus |
 
-This model card does not claim official BFCL, official IFEval, HumanEval,
-MBPP, EvalPlus, BigCodeBench, LiveCodeBench, safety/refusal, RULER, or
-long-context benchmark coverage. Current benchmark support is pilot-only
-outside the local strict Hermes tool-call suites.
+Official IFEval pilot:
+
+| Scope | Prompt strict | Prompt loose | Instruction strict | Instruction loose | Notes |
+|---|---:|---:|---:|---:|---|
+| `ifeval`, limit 25 | 0.720 | 0.800 | 0.784 | 0.865 | pilot only, not a leaderboard score |
+
+This model card does not claim official BFCL, HumanEval, MBPP, EvalPlus,
+BigCodeBench, LiveCodeBench, safety/refusal, RULER, or long-context benchmark
+coverage. Current benchmark support is pilot-only outside the local strict
+Hermes tool-call suites.
 
 ## Limitations
 

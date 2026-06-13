@@ -13,7 +13,7 @@ Public release blocked: `true`
 | `local-bfcl-style-pilot` | pilot | `present` | BFCL-style pilot 0.667 | reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v6-free-text-copy-local-pilots-20260613.md | pilot-only model card positioning |
 | `local-ifeval-style-pilot` | pilot | `present` | IFEval-style pilot 0.667 | reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v6-free-text-copy-local-pilots-20260613.md | pilot-only model card positioning |
 | `local-coding-sanity-pilot` | pilot | `present` | coding sanity pilot 0.667 | reports/benchmark/local-pilots/qwen3-4b-strict-toolcall-v6-free-text-copy-local-pilots-20260613.md | pilot-only model card positioning |
-| `official-ifeval-pilot` | official-pilot | `present` | previous v4 official-pilot prompt strict 0.760 | reports/benchmark/official-ifeval/qwen3-4b-v4-targeted-ifeval-pilot-20260526.md | official harness readiness |
+| `official-ifeval-pilot` | official-pilot | `present` | prompt strict 0.720 | reports/benchmark/official-ifeval/qwen3-4b-v6-free-text-copy-ifeval-pilot-20260613.md | official harness readiness |
 | `publication-bundle` | release-gate | `blocked` | local quality gates checked; public release gates remain blocked | reports/publication/qwen3-4b-strict-toolcall-v6-free-text-copy/publish-readiness-checklist.md | public Hugging Face release |
 | `official-bfcl` | official-candidate | `missing` |  | none | broad tool-calling benchmark claim |
 | `lm-eval-selected-smoke` | official-pilot | `present` | limit 10 selected MLX direct smoke scored | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md | official harness readiness |

@@ -16,6 +16,8 @@ Do not publish externally yet.
   held-out lab-order argument case.
 - Repo-native BFCL-style, IFEval-style, and coding pilots remain pilot-only
   and each score `0.667` for iteration 125.
+- Bounded official IFEval pilot scores prompt strict `0.720` at limit 25,
+  which supports keeping broad instruction-following claims out of scope.
 
 ## Required Before External Publication
 
