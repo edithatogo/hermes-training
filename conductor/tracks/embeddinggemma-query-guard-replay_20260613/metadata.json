@@ -1,0 +1,8 @@
+{
+  "track_id": "embeddinggemma-query-guard-replay_20260613",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-06-13T00:33:00Z",
+  "updated_at": "2026-06-13T00:33:00Z",
+  "description": "EmbeddingGemma mem0 query-guard replay gate"
+}
