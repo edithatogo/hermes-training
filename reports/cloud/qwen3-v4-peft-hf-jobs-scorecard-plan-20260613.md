@@ -1,6 +1,6 @@
 # Qwen3 V4 PEFT HF Jobs Scorecard Plan
 
-Status: `prepared-not-submitted`
+Status: `blocked-insufficient-hf-credits`
 
 ## Rationale
 
@@ -33,8 +33,7 @@ https://huggingface.co/datasets/edithatogo/qwen3-v4-peft-lm-eval-results
 
 ## Candidate Command
 
-This command is intentionally not executed in this commit because HF Jobs GPU
-hardware is paid. It should be run after explicit paid-compute approval:
+This is the prepared command for a full selected-task run:
 
 ```bash
 hf jobs run \
@@ -55,6 +54,26 @@ The job payload uploads `/tmp/<run-id>/summary.json` and any
 `lm-eval` output files to `edithatogo/qwen3-v4-peft-lm-eval-results` when
 `HF_TOKEN` is passed as a secret.
 
+## Live Submission Attempt
+
+A minimal detached HF Jobs `uv` route probe was attempted on 2026-06-13 with:
+
+- namespace: `edithatogo`
+- flavor: `t4-small`
+- timeout: `6h`
+- task: `arc_challenge`
+- PEFT adapter: `edithatogo/qwen3-4b-hermes-lora-peft-converted`
+- results repo target: `edithatogo/hermes-benchmark-results`
+
+HF Jobs rejected the submission before a job ID was created:
+
+```text
+402 Payment Required
+Pre-paid credit balance is insufficient - add more credits to your account to use Jobs.
+```
+
+No benchmark job ran and no score artifacts were produced from HF Jobs.
+
 ## Hardware Options Observed
 
 `hf jobs hardware` listed:
@@ -67,7 +86,7 @@ The job payload uploads `/tmp/<run-id>/summary.json` and any
 
 ## Stop Conditions
 
-- No paid GPU job without explicit approval.
+- No HF Jobs GPU job can run until the account has prepaid credits or a grant.
 - No public no-limit benchmark claim until all five selected tasks complete
   without `--limit`.
 - If HF Jobs cannot persist artifacts to a Hub dataset/bucket, use Azure or NGC

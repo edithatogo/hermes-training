@@ -15,18 +15,21 @@
 
 ## Phase 3 - Execute
 
-- [ ] Task: Obtain explicit paid GPU approval or a no-cost HF Jobs grant.
-- [ ] Task: Submit the job and capture job ID/log URL.
+- [x] Task: Attempt a minimal persistent HF Jobs route submission.
+- [x] Task: Record the live HF Jobs credit blocker.
+- [ ] Task: Submit the job and capture job ID/log URL after credits/grant are available.
 - [ ] Task: Download result artifacts and update benchmark coverage if complete.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.1 / 10 while execution is approval-gated.
+- Current estimate: 9.5 / 10 as a prepared-but-blocked backend track.
 - Evidence: HF CLI is authenticated as `edithatogo`; HF Jobs hardware is
   available; PEFT adapter is now publicly mounted from the Hub; a Docker job
   payload can upload results to a Hub dataset.
-- Gaps: no paid HF Jobs GPU run has been submitted; job artifact persistence
-  has not yet been live-tested.
-- Decision: use HF Jobs as the next persistent backend once paid-compute
-  approval and job payload persistence are in place.
+- Gaps: live HF Jobs submission returned `402 Payment Required` because the
+  prepaid credit balance is insufficient; no job ID was created and artifact
+  persistence has not yet been live-tested.
+- Decision: keep HF Jobs prepared but blocked until credits or a grant are
+  available; use Azure after login/quota preflight as the next persistent
+  backend candidate.
