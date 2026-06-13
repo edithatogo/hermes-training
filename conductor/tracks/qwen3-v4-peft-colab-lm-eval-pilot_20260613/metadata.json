@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-peft-colab-lm-eval-pilot_20260613",
+  "type": "chore",
+  "status": "completed",
+  "created_at": "2026-06-13T02:30:00Z",
+  "updated_at": "2026-06-13T02:50:00Z",
+  "description": "Run a bounded selected-task lm-eval pilot for the converted Qwen3 v4 PEFT candidate on Colab T4 before full scorecard execution."
+}

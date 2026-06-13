@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""Run a bounded lm-eval selected-task pilot for a PEFT adapter inside Colab."""
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+import tarfile
+import time
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+
+ADAPTER_TARBALL = Path(os.environ.get("PEFT_ADAPTER_TARBALL", "/content/qwen3-v4-peft-conversion-20260613.tar.gz"))
+ADAPTER_DIR = Path(os.environ.get("PEFT_ADAPTER_DIR", "/content/qwen3-v4-peft-conversion-20260613"))
+BASE_MODEL = os.environ.get("PEFT_BASE_MODEL", "Qwen/Qwen3-4B")
+TASKS = os.environ.get("LM_EVAL_TASKS", "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande")
+LIMIT = os.environ.get("LM_EVAL_LIMIT", "5")
+BATCH_SIZE = os.environ.get("LM_EVAL_BATCH_SIZE", "1")
+DTYPE = os.environ.get("LM_EVAL_DTYPE", "float16")
+USE_4BIT = os.environ.get("LM_EVAL_USE_4BIT", "1") not in {"0", "false", "False"}
+TRANSFORMERS_SPEC = os.environ.get("LM_EVAL_TRANSFORMERS_SPEC", "transformers>=4.56,<5")
+EXTRA_MODEL_ARGS = tuple(arg for arg in os.environ.get("LM_EVAL_EXTRA_MODEL_ARGS", "").split(",") if arg)
+OUTPUT_DIR = Path(os.environ.get("LM_EVAL_OUTPUT_DIR", "/content/qwen3-v4-peft-lm-eval-selected-limit5"))
+OUTPUT_JSON = Path(os.environ.get("LM_EVAL_RESULT_JSON", "/content/qwen3-v4-peft-lm-eval-selected-limit5.json"))
+
+
+def run_command(command: list[str], timeout_s: int) -> dict[str, Any]:
+    started = time.time()
+    try:
+        result = subprocess.run(command, check=False, capture_output=True, text=True, timeout=timeout_s)
+    except subprocess.TimeoutExpired as exc:
+        return {
+            "command": command,
+            "returncode": None,
+            "timed_out": True,
+            "duration_s": time.time() - started,
+            "stdout_tail": (exc.stdout or "")[-4000:] if isinstance(exc.stdout, str) else "",
+            "stderr_tail": (exc.stderr or "")[-4000:] if isinstance(exc.stderr, str) else "",
+        }
+    return {
+        "command": command,
+        "returncode": result.returncode,
+        "timed_out": False,
+        "duration_s": time.time() - started,
+        "stdout_tail": result.stdout[-4000:],
+        "stderr_tail": result.stderr[-4000:],
+    }
+
+
+def runtime_details() -> dict[str, Any]:
+    details: dict[str, Any] = {
+        "created_at": datetime.now(UTC).isoformat(),
+        "python": sys.version.split()[0],
+    }
+    try:
+        import torch
+
+        details["torch"] = getattr(torch, "__version__", "unknown")
+        details["cuda_available"] = bool(torch.cuda.is_available())
+        details["cuda_device_name"] = torch.cuda.get_device_name(0) if torch.cuda.is_available() else None
+    except Exception as exc:  # noqa: BLE001
+        details["torch_error"] = f"{type(exc).__name__}: {exc}"
+        details["cuda_available"] = False
+        details["cuda_device_name"] = None
+    return details
+
+
+def extract_adapter() -> None:
+    if not ADAPTER_TARBALL.exists():
+        raise FileNotFoundError(ADAPTER_TARBALL)
+    ADAPTER_DIR.parent.mkdir(parents=True, exist_ok=True)
+    root = ADAPTER_DIR.parent.resolve()
+    with tarfile.open(ADAPTER_TARBALL, "r:gz") as archive:
+        for member in archive.getmembers():
+            target = (ADAPTER_DIR.parent / member.name).resolve()
+            if not target.is_relative_to(root):
+                raise ValueError(f"Unsafe tar member path: {member.name}")
+        archive.extractall(ADAPTER_DIR.parent)
+
+
+def collect_result_files() -> list[str]:
+    if not OUTPUT_DIR.exists():
+        return []
+    return sorted(str(path.relative_to(OUTPUT_DIR)) for path in OUTPUT_DIR.rglob("*") if path.is_file())
+
+
+def main() -> int:
+    accelerate_install = run_command(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "--upgrade",
+            "--no-deps",
+            "accelerate",
+        ],
+        timeout_s=600,
+    )
+    install = run_command(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--quiet",
+            "--upgrade",
+            "lm_eval[hf]",
+            TRANSFORMERS_SPEC,
+            "peft",
+            "bitsandbytes",
+            "safetensors",
+        ],
+        timeout_s=900,
+    )
+    result: dict[str, Any] = {
+        "status": "blocked",
+        "probe": "colab-peft-lm-eval-selected",
+        "claim_boundary": "Bounded selected-task pilot only; not a full candidate scorecard.",
+        "adapter_tarball": str(ADAPTER_TARBALL),
+        "adapter_dir": str(ADAPTER_DIR),
+        "base_model": BASE_MODEL,
+        "tasks": TASKS,
+        "limit": LIMIT,
+        "batch_size": BATCH_SIZE,
+        "dtype": DTYPE,
+        "use_4bit": USE_4BIT,
+        "transformers_spec": TRANSFORMERS_SPEC,
+        "extra_model_args": EXTRA_MODEL_ARGS,
+        "output_dir": str(OUTPUT_DIR),
+        "accelerate_install": accelerate_install,
+        "install": install,
+        "runtime": runtime_details(),
+    }
+    try:
+        if accelerate_install["returncode"] != 0:
+            raise RuntimeError("accelerate install failed")
+        if install["returncode"] != 0:
+            raise RuntimeError("dependency install failed")
+        extract_adapter()
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+        model_arg_parts = [
+            f"pretrained={BASE_MODEL}",
+            f"peft={ADAPTER_DIR}",
+            "device_map=auto",
+            f"dtype={DTYPE}",
+            "trust_remote_code=True",
+        ]
+        if USE_4BIT:
+            model_arg_parts.extend(["load_in_4bit=True", f"bnb_4bit_compute_dtype={DTYPE}"])
+        model_args = ",".join([*model_arg_parts, *EXTRA_MODEL_ARGS])
+        command = [
+            sys.executable,
+            "-m",
+            "lm_eval",
+            "--model",
+            "hf",
+            "--model_args",
+            model_args,
+            "--tasks",
+            TASKS,
+            "--limit",
+            LIMIT,
+            "--batch_size",
+            BATCH_SIZE,
+            "--output_path",
+            str(OUTPUT_DIR),
+        ]
+        evaluation = run_command(command, timeout_s=3600)
+        result["evaluation"] = evaluation
+        result["result_files"] = collect_result_files()
+        if evaluation["returncode"] == 0:
+            result["status"] = "scored"
+    except Exception as exc:  # noqa: BLE001
+        result["error"] = f"{type(exc).__name__}: {exc}"
+    rendered = json.dumps(result, indent=2, sort_keys=True)
+    print(rendered)
+    OUTPUT_JSON.write_text(rendered + "\n", encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
