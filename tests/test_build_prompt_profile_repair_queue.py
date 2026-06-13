@@ -68,6 +68,33 @@ class BuildPromptProfileRepairQueueTests(unittest.TestCase):
         self.assertIn("--base-url http://127.0.0.1:<port>/v1", command)
         self.assertIn("--require-no-extra-tool-text", command)
 
+    def test_command_for_mlx_candidate_with_gguf_runtime_uses_endpoint_runner(self) -> None:
+        command = command_for(
+            candidate(
+                id="LGAI-EXAONE/EXAONE-4.0-1.2B",
+                environment="mac-mlx",
+                first_runtime="Official GGUF Q4_K_M runtime proof complete; MLX 4-bit package currently blocked",
+                notes="mlx_lm.load is blocked; strict BFCL-style endpoint pilot used the GGUF artifact.",
+            )
+        )
+
+        self.assertIn("scripts/run_endpoint_pilot_benchmark.py", command)
+        self.assertIn("--model lgai-exaone-exaone-4-0-1-2b", command)
+        self.assertNotIn("scripts/run_local_pilot_benchmark.py", command)
+
+    def test_general_mlx_or_gguf_future_note_does_not_force_endpoint_runner(self) -> None:
+        command = command_for(
+            candidate(
+                id="Qwen/Qwen3.5-0.8B",
+                environment="mac-mlx",
+                first_runtime="MLX or GGUF smoke before promotion",
+                notes="SSD-backed direct MLX loglikelihood smoke passed.",
+            )
+        )
+
+        self.assertIn("scripts/run_local_pilot_benchmark.py", command)
+        self.assertNotIn("scripts/run_endpoint_pilot_benchmark.py", command)
+
     def test_repair_hypothesis_is_family_specific(self) -> None:
         hypothesis = repair_hypothesis(
             candidate(id="ibm-granite/granite-4.1-3b", family="granite"),

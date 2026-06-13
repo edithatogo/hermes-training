@@ -37,9 +37,10 @@ Purpose: isolate runtime-proven or partially proven Hermes candidates whose next
 
 ```bash
 source scripts/env.sh
-# No download here: use the SSD cache/local artifact already proven for this candidate.
-./.venv/bin/python scripts/run_local_pilot_benchmark.py \
-  --model LGAI-EXAONE/EXAONE-4.0-1.2B \
+# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.
+./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \
+  --model lgai-exaone-exaone-4-0-1-2b \
+  --base-url http://127.0.0.1:<port>/v1 \
   --suite benchmarks/endpoint_pilots/bfcl_pilot.json \
   --require-no-extra-tool-text \
   --run-id lgai-exaone-exaone-4-0-1-2b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)

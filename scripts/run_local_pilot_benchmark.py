@@ -11,7 +11,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from run_endpoint_pilot_benchmark import render_summary, score_case
+from run_endpoint_pilot_benchmark import apply_system_affixes, render_summary, score_case
 from run_tool_call_benchmark import (
     apply_user_prefix,
     build_generation_prompt,
@@ -82,6 +82,8 @@ def main() -> int:
     parser.add_argument("--run-id")
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--max-tokens", type=int, default=256)
+    parser.add_argument("--system-prefix", default="")
+    parser.add_argument("--system-suffix", default="")
     parser.add_argument("--user-prefix", default="")
     parser.add_argument(
         "--assistant-prefill",
@@ -124,6 +126,8 @@ def main() -> int:
         print(f"categories: {dict(Counter(case['category'] for case in suite))}")
         print(f"model: {args.model}")
         print(f"adapter: {args.adapter or '(none)'}")
+        print(f"system_prefix: {args.system_prefix}")
+        print(f"system_suffix: {args.system_suffix}")
         print(f"user_prefix: {args.user_prefix}")
         print(f"assistant_prefill: {args.assistant_prefill!r}")
         print(f"score_prefix: {args.score_prefix!r}")
@@ -151,7 +155,10 @@ def main() -> int:
         response, latency_s = generate_local(
             model,
             tokenizer,
-            apply_user_prefix(messages, args.user_prefix),
+            apply_user_prefix(
+                apply_system_affixes(messages, args.system_prefix, args.system_suffix),
+                args.user_prefix,
+            ),
             args.max_tokens,
             args.assistant_prefill,
         )
@@ -179,6 +186,8 @@ def main() -> int:
         "suite": str(args.suite),
         "model": args.model,
         "adapter": args.adapter or "",
+        "system_prefix": args.system_prefix,
+        "system_suffix": args.system_suffix,
         "user_prefix": args.user_prefix,
         "assistant_prefill": args.assistant_prefill,
         "score_prefix": args.score_prefix,

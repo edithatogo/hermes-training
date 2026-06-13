@@ -18,7 +18,7 @@
         "reports/benchmark/local-pilots/exaone4-12b-q4km-llamacpp-strict-bfcl-pilot-20260613.md",
         "reports/runtime/exaone4-12b-q4km-llamacpp-smoke-20260612.md"
       ],
-      "next_command": "source scripts/env.sh\n# No download here: use the SSD cache/local artifact already proven for this candidate.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model LGAI-EXAONE/EXAONE-4.0-1.2B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id lgai-exaone-exaone-4-0-1-2b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
+      "next_command": "source scripts/env.sh\n# No download here: start the existing local endpoint for this artifact, then rerun after a prompt/profile change.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model lgai-exaone-exaone-4-0-1-2b \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id lgai-exaone-exaone-4-0-1-2b-prompt-profile-repair-$(date +%Y%m%d-%H%M%S)",
       "promotion_boundary": "Prompt/profile repair is runtime analysis only; promotion still requires strict held-out tool-call, local pilots, official benchmark coverage, latency, and rollback evidence."
     },
     {

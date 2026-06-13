@@ -1,0 +1,8 @@
+{
+  "track_id": "prompt-profile-repair-experiments_20260614",
+  "type": "feature",
+  "status": "complete",
+  "created_at": "2026-06-14T00:00:00Z",
+  "updated_at": "2026-06-14T00:00:00Z",
+  "description": "Generate concrete no-download prompt/profile repair experiments from the Hermes repair queue and validate them in readiness."
+}

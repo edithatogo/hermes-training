@@ -76,8 +76,18 @@ def repair_hypothesis(candidate: dict[str, Any], blocked_reason: str) -> str:
 def command_for(candidate: dict[str, Any]) -> str:
     model_id = str(candidate.get("id", ""))
     environment = str(candidate.get("environment", ""))
+    route_text = " ".join(
+        str(candidate.get(key, ""))
+        for key in ("id", "environment", "first_runtime", "notes")
+    ).lower()
     slug = slugify(model_id)
-    if "gguf" in model_id.lower() or environment in {"mac-lmstudio", "mac-ollama"}:
+    endpoint_route = (
+        "gguf" in model_id.lower()
+        or environment in {"mac-lmstudio", "mac-ollama"}
+        or ("official gguf" in route_text and "mlx" in route_text and "blocked" in route_text)
+        or ("endpoint pilot" in route_text and "mlx_lm.load" in route_text and "blocked" in route_text)
+    )
+    if endpoint_route:
         return "\n".join(
             [
                 "source scripts/env.sh",

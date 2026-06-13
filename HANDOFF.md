@@ -169,7 +169,15 @@ Complete:
   all-candidate benchmark coverage report, then emits no-download rerun commands
   that preserve strict `--require-no-extra-tool-text` scoring. Treat it as the
   next local repair work queue only; it does not promote any model or launch
-  remote jobs.
+  remote jobs. Candidates whose notes show a GGUF/endpoint proof but blocked MLX
+  loading, such as EXAONE 1.2B, are routed to endpoint repair commands.
+- The repair queue now has a concrete experiment matrix at
+  `reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.md`.
+  It expands queued candidates into 35 no-download variants using system
+  suffixes, Qwen no-think prefill, and Gemma/Granite score-only normalizer
+  analysis where applicable. The local MLX pilot runner now accepts
+  `--system-prefix` and `--system-suffix` so local repair experiments can use
+  the same prompt controls as endpoint pilots.
 - Jina MLX support-model proof command cards now rely on
   `scripts/run_jina_mlx_embedding_benchmark.py` to resolve the default
   SSD-backed repo directory, rather than emitting a literal `<repo-dir>`
@@ -219,6 +227,10 @@ Complete:
   isolates 18 strict-format or empty-generation blocked candidates and gives
   strict no-extra-tool-text rerun templates without redownloading models or
   launching cloud jobs.
+- Concrete repair variants are generated at
+  `reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.md`.
+  Run one variant at a time and keep score-only normalizer variants out of
+  raw-output promotion decisions.
 - The tiny helper lane now has an explicit standard-benchmark matrix at `reports/benchmark/tiny-helper-standard-benchmark-matrix-20260612.md`. It is not a publication candidate yet because strict tool-call formatting and the broader standardized suite are still incomplete.
 - The tiny helper execution track now has BFCL, IFEval, and coding pilot outputs for the smallest Qwen helper lane. Qwen3.5 0.8B remained at `0.000` on all three pilots, and the BFCL pilots for Qwen3.5 2B and MiniCPM5 1B MLX also stayed at `0.000`. Keep the lane blocked for promotion until the remaining blocked subsets are documented.
 - The expanded Hermes-local 100-prompt pass is now recorded for `Qwen/Qwen3.5-0.8B`, `Qwen/Qwen3.5-2B`, and `openbmb/MiniCPM5-1B-MLX`. Qwen3.5 0.8B averaged `1.47s` and `78.09` words with `0.000` empty rate, Qwen3.5 2B averaged `2.32s` and `78.57` words with `0.000` empty rate, and MiniCPM5 1B MLX averaged `0.54s` and `74.30` words with `0.060` empty rate.
@@ -383,6 +395,9 @@ Current gaps:
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
 5. Next local work should prioritize the generated prompt/profile repair queue
    at `reports/benchmark/coverage/prompt-profile-repair-queue-20260614.md`.
+   Use `reports/benchmark/coverage/prompt-profile-repair-experiments-20260614.md`
+   for concrete command variants rather than inventing prompt flags during
+   execution.
    These are candidates with concrete roles that are load-proven or verified but
    blocked by strict-format or empty strict-prompt behavior. Run them one by one
    through existing SSD-backed artifacts/endpoints; do not redownload or promote

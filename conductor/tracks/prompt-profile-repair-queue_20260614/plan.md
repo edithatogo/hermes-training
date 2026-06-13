@@ -20,12 +20,20 @@
 - [x] Task: Generate the prompt/profile repair queue reports.
 - [x] Task: Update the Conductor registry and handoff.
 
+## Phase 4 - Route Correction
+
+- [x] Task: Route candidates with GGUF/endpoint evidence to endpoint repair commands even when their nominal environment is `mac-mlx`.
+- [x] Task: Add a regression test for the EXAONE GGUF-proven / MLX-blocked case.
+- [x] Task: Regenerate the prompt/profile repair queue.
+
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.8 / 10
+- Current estimate: 9.9 / 10
 - Evidence: Queue generation is deterministic, no-download, readiness-gated,
   and scoped to candidates whose next useful work is prompt/profile repair.
+  EXAONE 1.2B is routed through the GGUF endpoint path instead of blocked MLX
+  loading.
 - Validation: Focused unit tests, queue validator, Conductor consistency, and
   full hub readiness are required before commit.
 - Gaps: This track does not execute the queued repairs.
