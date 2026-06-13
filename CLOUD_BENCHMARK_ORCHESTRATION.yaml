@@ -1,5 +1,5 @@
 # Dynamic benchmark orchestration registry.
-updated: "2026-06-12"
+updated: "2026-06-13"
 artifact_root: "/Volumes/PortableSSD/hermes-evals"
 tracked_report_roots:
   - reports/cloud
@@ -22,25 +22,32 @@ backends:
     artifact_policy: "SSD-backed outputs only."
   colab:
     status: ready
-    purpose: "Primary burst backend for sanitized CUDA or XLA-compatible smokes and benchmark slices."
+    purpose: "Primary burst backend for sanitized CUDA or XLA-compatible smokes and benchmark slices; no-limit scorecards are blocked if sessions are pruned."
     launcher: "scripts/colab_dispatch.py"
     accelerator_policy: "GPU-first: gpu:T4,gpu:L4,gpu:A100. TPU only with --allow-tpu and XLA/JAX compatibility."
     artifact_policy: "Download summary.json, log tails, and tracked reports; no checkpoint sync unless separately approved."
+  hf_jobs:
+    status: blocked-insufficient-credits
+    purpose: "Persistent GPU backend for public PEFT no-limit scorecards with Hub-mounted adapters and Hub dataset outputs."
+    preflight: "hf auth whoami, hf jobs hardware, hf jobs ps"
+    launcher: "scripts/submit_hf_jobs_peft_scorecard.py"
+    artifact_policy: "No job submission until prepaid credits or grant capacity exist and --execute --confirm-paid-compute are both passed."
   azure:
     status: blocked-until-login-quota-cost
     purpose: "Managed benchmark, teacher/evaluator, and larger experiment lane."
     preflight: "scripts/azure_preflight.py --check-quota --region <region>"
-    artifact_policy: "No compute before login, subscription, Azure ML extension, GPU quota, and cost approval pass."
+    artifact_policy: "No compute before az login, subscription, Azure ML extension, GPU quota, and cost approval pass."
   ngc:
-    status: blocked-until-api-key-entitlement
+    status: blocked-until-sso-entitlement-container
     purpose: "NVIDIA container/model/runtime proof lane for NIM, Nemotron, and specialist CUDA packages."
-    preflight: "ngc config current plus non-secret org/team/container/model entitlement checks"
-    artifact_policy: "No NGC job or pull before API key, license, and entitlement proof."
+    preflight: "ngc config current plus Cloud Function GPU quota, non-secret org/team, registry, container, model, and entitlement checks"
+    artifact_policy: "No NGC Cloud Function task before SSO/API key, license, quota, container, and entitlement proof."
   kaggle:
-    status: future-until-cli-auth
-    purpose: "Future notebook/GPU fallback for public-data benchmark slices."
-    preflight: "kaggle --version and authenticated account check"
-    artifact_policy: "No private data or long-running unbounded notebooks."
+    status: blocked-needs-auth-quota
+    purpose: "Notebook/GPU fallback for public-data benchmark slices."
+    preflight: "kaggle --version, kaggle config view, kaggle quota"
+    launcher: "scripts/submit_kaggle_peft_scorecard.py"
+    artifact_policy: "No private data or long-running unbounded notebooks; no kernel push without --execute --confirm-kaggle-run."
 
 job_profiles:
   hermes-runtime-smoke:
@@ -57,7 +64,9 @@ job_profiles:
     owner_track: hermes-shortlist-runtime-promotion_20260612
     preferred_backends:
       - colab
+      - hf_jobs
       - azure
+      - kaggle
     colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4 --timeout 1200 --run-id <run-id> scripts/colab_benchmark_env_smoke.py --mode general --install-profile general-core --install-timeout 900"
     result_contract:
       - benchmark_manifest
@@ -92,7 +101,9 @@ job_profiles:
     owner_track: frontier-support-evaluation_20260612
     preferred_backends:
       - colab
+      - hf_jobs
       - azure
+      - kaggle
       - ngc
     colab_command: "./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4 --timeout 1200 --run-id <run-id> scripts/colab_benchmark_env_smoke.py --mode bfcl --install-profile bfcl-core"
     result_contract:

@@ -1,8 +1,8 @@
 # Cloud Dynamic Benchmark Orchestration
 
 This is the operator workflow for routing Hermes, mem0, frontier, and runtime
-benchmark jobs across local execution, Colab, Azure, NVIDIA NGC, and future
-Kaggle lanes.
+benchmark jobs across local execution, Colab, Hugging Face Jobs, Azure,
+NVIDIA NGC, and Kaggle lanes.
 
 The registry is `CLOUD_BENCHMARK_ORCHESTRATION.yaml`.
 
@@ -12,11 +12,14 @@ The registry is `CLOUD_BENCHMARK_ORCHESTRATION.yaml`.
    and current-system compatibility.
 2. Colab is the first remote execution lane for sanitized, bounded GPU or
    TPU-compatible jobs.
-3. Azure is prepared only after login, subscription, Azure ML extension, quota,
+3. Hugging Face Jobs is the first persistent remote lane for public PEFT
+   scorecards after prepaid credits or grant capacity are available.
+4. Azure is prepared only after login, subscription, Azure ML extension, quota,
    region, and cost checks pass.
-4. NVIDIA NGC is prepared only after API key, org/team, entitlement, container,
+5. NVIDIA NGC is prepared only after API key or SSO, org/team, entitlement,
+   Cloud Function GPU quota, registry/container,
    model, and license checks pass.
-5. Kaggle is future-only until the CLI and credentials are available.
+6. Kaggle is prepared only after CLI authentication and quota checks pass.
 
 ## Read-Only Backend Registry
 
@@ -29,8 +32,8 @@ PATH="$HOME/.local/bin:$PATH" ./.venv/bin/python scripts/cloud_backend_preflight
 
 This writes:
 
-- `reports/cloud/backend-preflight-20260612.json`
-- `reports/cloud/backend-preflight-20260612.md`
+- `reports/cloud/backend-preflight-20260613.json`
+- `reports/cloud/backend-preflight-20260613.md`
 
 The preflight does not create sessions, log in, submit jobs, upload data, or
 spend money. A blocked provider is recorded as blocked instead of making the
@@ -80,10 +83,10 @@ PATH="$HOME/.local/bin:$PATH" ./.venv/bin/python scripts/colab_dispatch.py \
 | Profile | Primary route | Output |
 |---|---|---|
 | `hermes-runtime-smoke` | local, then Colab | runtime summary and run card |
-| `standard-benchmark-slice` | Colab, then Azure | environment versions, manifest, scorecard or blocker |
+| `standard-benchmark-slice` | Colab, then HF Jobs, then Azure/Kaggle | environment versions, manifest, scorecard or blocker |
 | `mem0-embedding-reranker-sweep` | local, then Colab | retrieval metrics and migration gate |
 | `runtime-packaging-proof` | local, Colab, then NGC | runtime command, return code, log tail |
-| `frontier-support-evaluation` | Colab, Azure, then NGC | provider, license, benchmark slice, publication boundary |
+| `frontier-support-evaluation` | Colab, HF Jobs/Azure/Kaggle, then NGC | provider, license, benchmark slice, publication boundary |
 
 ## Stop Conditions
 
@@ -105,9 +108,18 @@ must stay out of git unless a later publication gate explicitly approves them.
 
 ## Current Backend State
 
-As of the 2026-06-12 registry:
+As of the 2026-06-13 registry:
 
-- Colab is the working remote route; `colab sessions` reports no active session.
-- Azure is blocked until login and quota/cost checks pass.
-- NGC is blocked until API key and entitlement checks pass.
-- Kaggle is blocked because the CLI is not currently on PATH.
+- Colab CLI `0.5.11` is ready and `colab sessions` reports no active session.
+  Bounded PEFT pilots work; no-limit full scorecard runs remain blocked by
+  session pruning/keepalive permission failures.
+- Hugging Face Jobs is authenticated as `edithatogo`, exposes GPU hardware, and
+  has a guarded scorecard submitter, but live jobs are blocked by insufficient
+  prepaid credits.
+- Azure CLI is installed, but `az account show` currently requires `az login`;
+  quota/cost checks must be rerun after login.
+- NGC is installed but unconfigured; the viable route appears to be Cloud
+  Function tasks after SSO/API key, org/team, GPU quota, registry access,
+  benchmark container, and result persistence are proven.
+- Kaggle CLI `2.2.1` is installed, and a guarded kernel scorecard lane is
+  staged, but authentication and quota checks are still required.

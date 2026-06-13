@@ -126,7 +126,12 @@ Complete:
 - Model radar now also includes `unsloth/North-Mini-Code-1.0-GGUF`; keep it as packaging evidence only until `cohere2moe` support lands in the runtime.
 - Model radar now also includes `deepseek-ai/DeepSeek-V4-Pro`, `nvidia/LocateAnything-3B`, and `bosonai/higgs-audio-v3-tts-4b` as support-lane additions.
 - Platform abstraction is now explicit: Mac/MLX is the local lane, Azure is the scale-out lane, retrieval is separate from chat SFT, and specialist runtimes require proof.
-- Azure preflight exists at `scripts/azure_preflight.py`; it passes for `d.a.mordaunt@gmail.com` on `Azure for Students`. Modern GPU quota is zero across sampled regions, so the Azure track is fail-closed until quota is approved.
+- Azure preflight exists at `scripts/azure_preflight.py`. It passed for
+  `d.a.mordaunt@gmail.com` on `Azure for Students` on 2026-05-24, but the
+  current 2026-06-13 refresh shows the CLI now needs `az login` before account
+  and quota checks can be trusted again. Modern GPU quota was previously zero
+  across sampled regions, so the Azure track remains fail-closed until login
+  and quota are both resolved.
 - Qwen3 v4 targeted is the current public/recommended strict Hermes tool-call adapter. It passes the held-out strict local tool-call suite at `1.000` with `/no_think` plus assistant prefill `<think>\n\n</think>\n\n`; publication evidence is in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/`.
 - Qwen3 v5 pilot-polish is a documented non-promotion result. It improved the local BFCL-style pilot to `1.000`, but held-out strict pass regressed to `0.875`; keep v4 as the recommended/public adapter.
 - V4/V5 pilot failure analysis is recorded in `reports/publication/qwen3-4b-strict-toolcall-v4-targeted/pilot-failure-analysis-20260526.md`. Any v6 attempt must start from V4 and keep held-out strict pass at `1.000`.
