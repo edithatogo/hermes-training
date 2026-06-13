@@ -32,6 +32,19 @@ class ColabDispatchTests(unittest.TestCase):
         self.assertEqual(observed["script_status"], "blocked")
         self.assertEqual(observed["script_decision"], "MLX unavailable on CUDA")
 
+    def test_extract_observed_runtime_prefers_lm_eval_checkpoint_status(self) -> None:
+        observed = extract_observed_runtime(
+            "\n".join(
+                [
+                    'COLAB_LM_EVAL_CHECKPOINT {"path": "/content/result.json", "phase": "evaluation-complete", "status": "scored"}',
+                    '{"status": "blocked", "upload": {"status": "blocked", "reason": "HF_TOKEN not set"}}',
+                ]
+            )
+        )
+
+        self.assertEqual(observed["script_status"], "scored")
+        self.assertEqual(observed["script_phase"], "evaluation-complete")
+
     def test_slugify_keeps_run_id_filesystem_safe(self) -> None:
         self.assertEqual(slugify("Colab TPU/GPU smoke 2026"), "Colab-TPU-GPU-smoke-2026")
 

@@ -121,13 +121,32 @@ def extract_observed_runtime(log_text: str) -> dict[str, str]:
         match = re.search(pattern, log_text)
         if match:
             observed[key] = match.group(1)
-    for pattern, key in [
-        (r'"status":\s*"([^"]+)"', "script_status"),
-        (r'"decision":\s*"([^"]+)"', "script_decision"),
-    ]:
+    checkpoint_status = None
+    checkpoint_phase = None
+    for line in log_text.splitlines():
+        if not line.startswith("COLAB_LM_EVAL_CHECKPOINT "):
+            continue
+        payload_text = line.removeprefix("COLAB_LM_EVAL_CHECKPOINT ").strip()
+        try:
+            payload = json.loads(payload_text)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(payload, dict):
+            checkpoint_status = payload.get("status")
+            checkpoint_phase = payload.get("phase")
+    if checkpoint_status:
+        observed["script_status"] = str(checkpoint_status)
+    if checkpoint_phase:
+        observed["script_phase"] = str(checkpoint_phase)
+
+    for pattern, key in [(r'"decision":\s*"([^"]+)"', "script_decision")]:
         matches = re.findall(pattern, log_text)
         if matches:
             observed[key] = matches[-1]
+    if "script_status" not in observed:
+        matches = re.findall(r'"status":\s*"([^"]+)"', log_text)
+        if matches:
+            observed["script_status"] = matches[-1]
     return observed
 
 
