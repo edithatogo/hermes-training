@@ -2,8 +2,10 @@
 """Check MODEL_CANDIDATES.yaml against the Hugging Face Hub."""
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 from huggingface_hub import HfApi
@@ -55,7 +57,7 @@ FEASIBILITY = {
 }
 
 
-def validate_entry(item: dict[str, object]) -> list[str]:
+def validate_entry(item: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     repo_id = str(item.get("id", "<missing id>"))
     for field in REQUIRED_FIELDS:
@@ -79,16 +81,35 @@ def validate_entry(item: dict[str, object]) -> list[str]:
 
 
 def main() -> int:
-    data = yaml.safe_load(RADAR.read_text())
-    api = HfApi()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--schema-only",
+        action="store_true",
+        help="Validate local YAML structure without querying Hugging Face.",
+    )
+    args = parser.parse_args()
+
+    data = yaml.safe_load(RADAR.read_text(encoding="utf-8"))
+    candidates = data.get("candidates", [])
+    if not isinstance(candidates, list):
+        print("schema: candidates must be a list")
+        return 1
+
+    api = None if args.schema_only else HfApi()
     failed = False
 
-    for item in data.get("candidates", []):
+    for item in candidates:
+        if not isinstance(item, dict):
+            failed = True
+            print("schema: candidate entry is not an object")
+            continue
         schema_errors = validate_entry(item)
         if schema_errors:
             failed = True
             for error in schema_errors:
                 print(f"schema: {error}")
+            continue
+        if args.schema_only:
             continue
 
         repo_id = item["id"]
@@ -116,6 +137,8 @@ def main() -> int:
         print(f"modified: {info.lastModified}")
         print(f"tags: {tags}")
 
+    if args.schema_only and not failed:
+        print(f"schema ok: {len(candidates)} root model candidates")
     return 1 if failed else 0
 
 

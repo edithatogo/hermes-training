@@ -331,6 +331,19 @@ def check_mem0_benchmark_evidence(failures: list[str]) -> None:
         ok("mem0 benchmark evidence")
 
 
+def check_candidate_registries(failures: list[str]) -> None:
+    checks = (
+        ("root model candidates", [sys.executable, str(ROOT / "scripts/check_model_candidates.py"), "--schema-only"]),
+        ("mem0 model candidates", [sys.executable, str(ROOT / "scripts/check_mem0_model_candidates.py")]),
+    )
+    for label, command in checks:
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode:
+            fail(f"{label}: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+        else:
+            ok(label)
+
+
 def check_cloud_blocker_reports(failures: list[str]) -> None:
     result = subprocess.run(
         [
@@ -457,6 +470,7 @@ def main() -> int:
     check_official_benchmark_manifests(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
+    check_candidate_registries(failures)
     check_cloud_blocker_reports(failures)
 
     if failures:
