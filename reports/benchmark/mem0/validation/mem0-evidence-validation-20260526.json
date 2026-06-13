@@ -1,9 +1,9 @@
 {
-  "created_at": "2026-06-13T00:33:19.978333+00:00",
+  "created_at": "2026-06-13T00:49:29.237758+00:00",
   "eval_root": "/Volumes/PortableSSD/hermes-evals",
   "status": "passed",
   "counts": {
-    "passed": 98
+    "passed": 99
   },
   "by_kind": {
     "memory": 11,
@@ -11,7 +11,7 @@
     "extraction": 9,
     "reranking": 28,
     "replay": 14,
-    "isolated-fixture": 10,
+    "isolated-fixture": 11,
     "retriever": 2
   },
   "missing_kinds": [],
@@ -664,6 +664,13 @@
       "kind": "isolated-fixture",
       "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613/summary.json",
       "run_id": "mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613",
+      "status": "passed",
+      "errors": []
+    },
+    {
+      "kind": "isolated-fixture",
+      "path": "mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613/summary.json",
+      "run_id": "mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613",
       "status": "passed",
       "errors": []
     },

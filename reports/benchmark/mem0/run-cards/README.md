@@ -71,6 +71,7 @@ runtime endpoint against the current mem0 default.
 | [mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613](./mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613.md) | memory+embedder fixture | keep testing |
 | [embeddinggemma-fixture-replay-vector-20260613](./embeddinggemma-fixture-replay-vector-20260613.md) | reranker replay | keep testing |
 | [embeddinggemma-fixture-replay-query-guard-20260613](./embeddinggemma-fixture-replay-query-guard-20260613.md) | reranker replay | keep testing |
+| [mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613](./mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613.md) | memory+embedder fixture | keep testing |
 
 ## Generate
 

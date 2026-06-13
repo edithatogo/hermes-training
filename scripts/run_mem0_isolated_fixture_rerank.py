@@ -104,16 +104,74 @@ def write_fixture_config(
     return config_path
 
 
-def build_mem0_env(config_path: Path) -> dict[str, str]:
+def prepare_mem0_home(output_dir: Path) -> Path:
+    fixture_home = output_dir / "home"
+    fixture_mem0 = fixture_home / ".mem0"
+    fixture_mem0.mkdir(parents=True, exist_ok=True)
+    source_mem0 = Path.home() / ".mem0"
+    for name in ("mem0_wrapper.py", "README.md"):
+        source = source_mem0 / name
+        if source.exists():
+            shutil.copy2(source, fixture_mem0 / name)
+    embedders = source_mem0 / "embedders"
+    if embedders.is_dir() and not (fixture_mem0 / "embedders").exists():
+        shutil.copytree(embedders, fixture_mem0 / "embedders")
+    return fixture_home
+
+
+def build_mem0_env(config_path: Path, output_dir: Path) -> dict[str, str]:
     env = os.environ.copy()
+    original_home = Path.home()
+    current_version = f"{sys.version_info.major}.{sys.version_info.minor}"
+    user_sites = [
+        original_home / "Library" / "Python" / current_version / "lib" / "python" / "site-packages",
+    ]
+    homebrew_sites = sorted(Path("/opt/homebrew/lib").glob(f"python{current_version}/site-packages"))
+    existing_pythonpath = env.get("PYTHONPATH", "")
+    pythonpath_parts = [str(path) for path in [*user_sites, *homebrew_sites] if path.exists()]
+    if existing_pythonpath:
+        pythonpath_parts.append(existing_pythonpath)
+    fixture_home = prepare_mem0_home(output_dir)
+    pythonpath_parts.insert(0, str(fixture_home / ".mem0"))
     env["MEM0_CONFIG_PATH"] = str(config_path)
+    env["HOME"] = str(fixture_home)
+    if pythonpath_parts:
+        env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
     return env
 
 
 def run_mem0(args: list[str], timeout_s: float, env: dict[str, str]) -> tuple[str, float]:
+    if len(args) < 2:
+        raise ValueError("run_mem0 expects [tool, action, ...]")
+    tool, action, *payload = args
+    if action == "add":
+        if not payload:
+            raise ValueError("mem0 add requires a message payload")
+        code = """
+import json
+import sys
+from mem0_wrapper import add_memory
+result = add_memory(messages=sys.argv[2], agent_id=sys.argv[1])
+print(json.dumps(result, indent=2))
+"""
+        command = [sys.executable, "-c", code, tool, " ".join(payload)]
+    elif action == "search":
+        if not payload:
+            raise ValueError("mem0 search requires a query payload")
+        code = """
+import json
+import sys
+from mem0_wrapper import search_memory
+result = search_memory(query=sys.argv[2], agent_id=sys.argv[1])
+print(json.dumps(result, indent=2))
+"""
+        command = [sys.executable, "-c", code, tool, " ".join(payload)]
+    else:
+        command = ["mem0", *args]
+
     started = time.time()
     completed = subprocess.run(
-        ["mem0", *args],
+        command,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -369,7 +427,7 @@ def main() -> int:
     )
     fixture_config = load_json(config_path)
     collection_name = fixture_config["vector_store"]["config"]["collection_name"]
-    env = build_mem0_env(config_path)
+    env = build_mem0_env(config_path, output_dir)
 
     rows: list[dict[str, Any]] = []
     raw_rows: list[dict[str, Any]] = []

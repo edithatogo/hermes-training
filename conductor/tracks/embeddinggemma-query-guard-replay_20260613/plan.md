@@ -35,8 +35,9 @@
 - Target: `>= 9.5 / 10`
 - Current estimate: `9.6 / 10`
 - Evidence: replay comparison reproduced vector top-1 `0.909` and guarded
-  top-1 `1.000`, focused tests pass, mem0 evidence validation passes, model
-  candidate validation passes, and hub readiness passes.
-- Remaining gaps: EmbeddingGemma remains non-default until a fresh live
-  isolated fixture using `query_terms_guarded` passes and rollback behavior is
-  documented.
+  top-1 `1.000`; the follow-on resilient-proxy live fixture passed at top-1
+  `1.000` / recall@3 `1.000`; focused tests pass, mem0 evidence validation
+  passes, model candidate validation passes, and hub readiness passes.
+- Remaining gaps: EmbeddingGemma remains non-default until resilient proxy
+  integration, rollback behavior, and the default collection migration decision
+  are documented.

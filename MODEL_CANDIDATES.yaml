@@ -1931,7 +1931,7 @@ candidates:
     license: "check model card"
     first_runtime: "llama.cpp llama-embedding or llama-server OpenAI embeddings"
     first_finetune: "contrastive retrieval tuning only"
-    notes: "Mac-local EmbeddingGemma lane. 2026-06-13 direct llama.cpp and server-backed OpenAI-compatible embedding runs both passed the 14-case differentiation suite at top-1 1.000 / recall@3 1.000 with 768-dim vectors. The live output-local mem0 fixture reached top-1 0.909 / recall@3 1.000 and missed only the GGUF runtime-boundary distractor. Captured fixture replay reproduced the vector miss at 0.909 and the new `query_terms_guarded` reranker reached top-1 1.000 / recall@3 1.000; keep non-default until a fresh live fixture with that reranker passes."
+    notes: "Mac-local EmbeddingGemma lane. 2026-06-13 direct llama.cpp and server-backed OpenAI-compatible embedding runs both passed the 14-case differentiation suite at top-1 1.000 / recall@3 1.000 with 768-dim vectors. The first live output-local mem0 fixture reached top-1 0.909 / recall@3 1.000 and missed only the GGUF runtime-boundary distractor. Captured fixture replay reproduced the vector miss at 0.909 and `query_terms_guarded` reached 1.000; the fresh resilient-proxy live fixture then reached top-1 1.000 / recall@3 1.000 for both raw vector and `query_terms_guarded`. Keep non-default until resilient proxy integration, rollback behavior, and the `mem0_nomic_768` migration/default decision are documented."
 
   - id: jinaai/jina-embeddings-v5-omni-small
     family: jina

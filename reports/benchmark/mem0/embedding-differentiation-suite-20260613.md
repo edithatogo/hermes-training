@@ -39,6 +39,7 @@ cache completeness, runtime surface, and blocked-action decisions.
 | Strategy | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
 |---|---:|---:|---:|---:|---:|---:|
 | `EmbeddingGemma GGUF via llama.cpp server wrapper` | 0.909 | 1.000 | 0.955 | 0.966 | 1.000 | 0.750 |
+| `EmbeddingGemma GGUF via resilient llama.cpp proxy` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
 | `vector` | 0.818 | 0.909 | 0.848 | 0.864 | 0.500 | 0.750 |
 | `score_plus_created_at_rank_close_margin` | 0.636 | 0.909 | 0.742 | 0.785 | 0.500 | 0.500 |
 
@@ -64,8 +65,28 @@ and does not re-add memories or mutate a collection. It proves that the
 remaining EmbeddingGemma miss is a reranking policy issue rather than an
 embedding recall issue: the target answer was already within the top 3, while
 the raw vector top result was a negated "not the GGUF runtime path" distractor.
-Keep `query_terms_guarded` as a replay-passed candidate until it passes a fresh
-live isolated fixture run.
+The replay result was used as the diagnostic gate before the fresh live proxy
+fixture below.
+
+## EmbeddingGemma Live Proxy Gate
+
+The fresh live fixture
+`mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613` used
+`scripts/run_resilient_llama_cpp_embedding_proxy.py` in front of `llama-server`
+because the direct server wrapper exited cleanly after repeated embedding
+requests. The proxy-backed run kept the fixture output-local and did not mutate
+the default `mem0_nomic_768` collection.
+
+| Strategy | Top-1 | Recall@3 | MRR | nDCG@3 | Recency conflict | Distractor resistance |
+|---|---:|---:|---:|---:|---:|---:|
+| `vector` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `score_plus_created_at_rank_close_margin` | 0.909 | 1.000 | 0.939 | 0.955 | 1.000 | 0.750 |
+| `query_terms_guarded` | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+This closes the immediate live fixture blocker for the EmbeddingGemma GGUF
+candidate. It is still not a default replacement until the resilient proxy path
+is integrated deliberately, rollback behavior is documented, and the default
+collection migration decision is made.
 
 ## Raw Evidence
 
@@ -84,6 +105,7 @@ live isolated fixture run.
 | `mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-llamacpp-server-wrapper-20260613` |
 | `embeddinggemma-fixture-replay-vector-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-vector-20260613` |
 | `embeddinggemma-fixture-replay-query-guard-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-reranking-replay/embeddinggemma-fixture-replay-query-guard-20260613` |
+| `mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613` | `/Volumes/PortableSSD/hermes-evals/mem0-isolated-fixture-rerank/mem0-live-fixture-embeddinggemma-query-guard-pathfix-20260613` |
 
 ## Decision
 
