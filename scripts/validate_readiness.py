@@ -287,6 +287,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/colab_benchmark_env_smoke.py",
         ROOT / "scripts/run_jina_mlx_embedding_benchmark.py",
         ROOT / "scripts/run_colbert_read_stack_smoke.py",
+        ROOT / "scripts/colab_lm_eval_shard.py",
         ROOT / "gemma4/data/strict_tool_call/tools/materialize_free_text_copy_splits_v6.py",
     ]
     result = subprocess.run(
