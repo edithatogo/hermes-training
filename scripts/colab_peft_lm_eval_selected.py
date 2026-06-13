@@ -13,18 +13,64 @@ from pathlib import Path
 from typing import Any
 
 
-ADAPTER_TARBALL = Path(os.environ.get("PEFT_ADAPTER_TARBALL", "/content/qwen3-v4-peft-conversion-20260613.tar.gz"))
-ADAPTER_DIR = Path(os.environ.get("PEFT_ADAPTER_DIR", "/content/qwen3-v4-peft-conversion-20260613"))
-BASE_MODEL = os.environ.get("PEFT_BASE_MODEL", "Qwen/Qwen3-4B")
-TASKS = os.environ.get("LM_EVAL_TASKS", "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande")
-LIMIT = os.environ.get("LM_EVAL_LIMIT", "5")
-BATCH_SIZE = os.environ.get("LM_EVAL_BATCH_SIZE", "1")
-DTYPE = os.environ.get("LM_EVAL_DTYPE", "float16")
-USE_4BIT = os.environ.get("LM_EVAL_USE_4BIT", "1") not in {"0", "false", "False"}
-TRANSFORMERS_SPEC = os.environ.get("LM_EVAL_TRANSFORMERS_SPEC", "transformers>=4.56,<5")
-EXTRA_MODEL_ARGS = tuple(arg for arg in os.environ.get("LM_EVAL_EXTRA_MODEL_ARGS", "").split(",") if arg)
-OUTPUT_DIR = Path(os.environ.get("LM_EVAL_OUTPUT_DIR", "/content/qwen3-v4-peft-lm-eval-selected-limit5"))
-OUTPUT_JSON = Path(os.environ.get("LM_EVAL_RESULT_JSON", "/content/qwen3-v4-peft-lm-eval-selected-limit5.json"))
+CONFIG_PATH = Path(os.environ.get("LM_EVAL_CONFIG_JSON", "/content/qwen3-v4-peft-lm-eval-config.json"))
+DEFAULT_TASKS = "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande"
+
+
+def load_config() -> dict[str, Any]:
+    if not CONFIG_PATH.exists():
+        return {}
+    with CONFIG_PATH.open(encoding="utf-8") as handle:
+        config = json.load(handle)
+    if not isinstance(config, dict):
+        raise TypeError(f"{CONFIG_PATH} must contain a JSON object")
+    return config
+
+
+CONFIG = load_config()
+
+
+def setting(name: str, env_name: str, default: Any) -> Any:
+    if env_name in os.environ:
+        return os.environ[env_name]
+    return CONFIG.get(name, default)
+
+
+def parse_optional_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value)
+    if text in {"", "none", "None", "null", "NULL"}:
+        return None
+    return text
+
+
+def parse_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value) not in {"0", "false", "False", "no", "No"}
+
+
+def parse_extra_model_args(value: Any) -> tuple[str, ...]:
+    if value is None:
+        return ()
+    if isinstance(value, list):
+        return tuple(str(item) for item in value if str(item))
+    return tuple(arg for arg in str(value).split(",") if arg)
+
+
+ADAPTER_TARBALL = Path(setting("adapter_tarball", "PEFT_ADAPTER_TARBALL", "/content/qwen3-v4-peft-conversion-20260613.tar.gz"))
+ADAPTER_DIR = Path(setting("adapter_dir", "PEFT_ADAPTER_DIR", "/content/qwen3-v4-peft-conversion-20260613"))
+BASE_MODEL = str(setting("base_model", "PEFT_BASE_MODEL", "Qwen/Qwen3-4B"))
+TASKS = str(setting("tasks", "LM_EVAL_TASKS", DEFAULT_TASKS))
+LIMIT = parse_optional_text(setting("limit", "LM_EVAL_LIMIT", "5"))
+BATCH_SIZE = str(setting("batch_size", "LM_EVAL_BATCH_SIZE", "1"))
+DTYPE = str(setting("dtype", "LM_EVAL_DTYPE", "float16"))
+USE_4BIT = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", True))
+TRANSFORMERS_SPEC = str(setting("transformers_spec", "LM_EVAL_TRANSFORMERS_SPEC", "transformers>=4.56,<5"))
+EXTRA_MODEL_ARGS = parse_extra_model_args(setting("extra_model_args", "LM_EVAL_EXTRA_MODEL_ARGS", None))
+OUTPUT_DIR = Path(setting("output_dir", "LM_EVAL_OUTPUT_DIR", "/content/qwen3-v4-peft-lm-eval-selected-limit5"))
+OUTPUT_JSON = Path(setting("result_json", "LM_EVAL_RESULT_JSON", "/content/qwen3-v4-peft-lm-eval-selected-limit5.json"))
 
 
 def run_command(command: list[str], timeout_s: int) -> dict[str, Any]:
@@ -124,6 +170,7 @@ def main() -> int:
         "adapter_tarball": str(ADAPTER_TARBALL),
         "adapter_dir": str(ADAPTER_DIR),
         "base_model": BASE_MODEL,
+        "config_path": str(CONFIG_PATH) if CONFIG_PATH.exists() else None,
         "tasks": TASKS,
         "limit": LIMIT,
         "batch_size": BATCH_SIZE,
@@ -163,13 +210,13 @@ def main() -> int:
             model_args,
             "--tasks",
             TASKS,
-            "--limit",
-            LIMIT,
             "--batch_size",
             BATCH_SIZE,
             "--output_path",
             str(OUTPUT_DIR),
         ]
+        if LIMIT is not None:
+            command[command.index("--batch_size"):command.index("--batch_size")] = ["--limit", LIMIT]
         evaluation = run_command(command, timeout_s=3600)
         result["evaluation"] = evaluation
         result["result_files"] = collect_result_files()
