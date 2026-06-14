@@ -538,9 +538,11 @@
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/lmstudio-gemma4-31b-gguf-local-size-blocked-20260614.md"
+      ]
     },
     {
       "project": "hermes",
