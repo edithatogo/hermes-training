@@ -493,12 +493,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "31B"
     architecture: "Gemma 4 31B instruction model, Unsloth GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_runtime: "resume GGUF artifact acquisition before LM Studio / llama.cpp smoke"
     first_finetune: "defer"
-    notes: "Fresh Unsloth Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
+    notes: "Fresh Unsloth Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only. A 2026-06-14 dry-run found `gemma-4-31B-it-UD-IQ2_XXS.gguf` as the smallest main model artifact at 8.5G. A bounded live SSD-cache download made partial progress to about 15M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/unsloth-gemma4-31b-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
 
   - id: ggml-org/gemma-4-31B-it-GGUF
     family: gemma
@@ -719,12 +720,13 @@ candidates:
     role: cloud-teacher
     environment: hf-transformers
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "80B total / 3B active"
     architecture: "Subquadratic coding-agent model"
     license: apache-2.0
-    first_runtime: "Transformers or specialist runtime smoke"
+    first_runtime: "cloud/specialist runtime smoke"
     first_finetune: "defer"
-    notes: "Official base repo for the subquadratic Qwen coding-agent family. Keep it as the source model for comparisons and hosted/runtime checks; use the GGUF tree for local Hermes-agent smoke."
+    notes: "Official base repo for the subquadratic Qwen coding-agent family. Keep it as the source model for comparisons and hosted/runtime checks; use the GGUF tree for local Hermes-agent smoke. A 2026-06-14 dry-run found 40 safetensor shards totaling about 159.4G before runtime overhead, so direct Mac-local Transformers proof is size-blocked; see `reports/runtime/qwen3-coder-next-transformers-local-size-blocked-20260614.md`. Use cloud/specialist runtime proof or the GGUF tree for local Hermes-agent smoke."
 
   - id: nvidia/Nemotron-3.5-Content-Safety
     family: nvidia

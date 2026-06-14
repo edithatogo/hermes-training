@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-14T12:34:43.094205+00:00`
+Created: `2026-06-14T12:37:37.832952+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -32,8 +32,8 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 21 | `unsloth/Qwen3.6-27B-GGUF` | `mac-runtime-proof` | 27B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 22 | `unsloth/Qwen3.6-27B-MTP-GGUF` | `mac-runtime-proof` | 27B | `mac-lmstudio` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | 23 | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | `mac-runtime-proof` | 27B | `mac-mlx` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
-| 24 | `unsloth/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 25 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 24 | `unsloth/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 25 | `Qwen/Qwen3-Coder-Next` | `mac-runtime-proof` | 80B total / 3B active | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 
 ## Lane Counts
 

@@ -553,9 +553,11 @@
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/unsloth-gemma4-31b-gguf-acquisition-blocked-20260614.md"
+      ]
     },
     {
       "project": "hermes",
@@ -788,9 +790,11 @@
       "feasibility_or_status": "needs-runtime-proof",
       "benchmark_kind": "cloud teacher/runtime smoke plus Hermes strict tool-call sample",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/qwen3-coder-next-transformers-local-size-blocked-20260614.md"
+      ]
     },
     {
       "project": "hermes",
