@@ -18,6 +18,7 @@ DEFAULT_APP = ROOT / "scripts/modal_peft_lm_eval_selected.py"
 DEFAULT_TASKS = "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande"
 DEFAULT_ADAPTER_REPO = "edithatogo/qwen3-4b-hermes-lora-peft-converted"
 BACKEND_PREFLIGHT_REPORT = ROOT / "reports/cloud/backend-preflight-20260613.json"
+MODAL_POLICY_GATE_REPORT = ROOT / "reports/cloud/modal-policy-gate-20260614.json"
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,16 @@ def known_modal_policy_gate(report_path: Path = BACKEND_PREFLIGHT_REPORT) -> boo
         return True
     modal = report.get("backends", {}).get("modal", {})
     return modal.get("status") != "prepared-needs-credit-and-gpu-policy-check"
+
+
+def modal_policy_blocks_execution(report_path: Path = MODAL_POLICY_GATE_REPORT) -> bool:
+    if not report_path.exists():
+        return known_modal_policy_gate()
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return True
+    return report.get("execution_allowed") is not True
 
 
 def modal_config(spec: ModalScorecardSpec) -> dict[str, Any]:
@@ -101,7 +112,7 @@ def build_report(
         blockers.append("--confirm-zero-cost-compute is required with --execute")
     if execute and modal_policy_gate_observed and not ignore_modal_policy_gate:
         status = "blocked"
-        blockers.append("Modal backend preflight is not in the prepared credit/GPU-policy state; rerun preflight or pass --ignore-modal-policy-gate after verification")
+        blockers.append("Modal zero-cost policy gate does not allow execution; record free-credit/grant proof or explicit paid-compute approval, or pass --ignore-modal-policy-gate after verification")
     return {
         "status": status,
         "run_id": spec.run_id,
@@ -165,7 +176,7 @@ def main() -> int:
         args.execute,
         args.confirm_modal_run,
         args.confirm_zero_cost_compute,
-        modal_policy_gate_observed=known_modal_policy_gate(),
+        modal_policy_gate_observed=modal_policy_blocks_execution(),
         ignore_modal_policy_gate=args.ignore_modal_policy_gate,
     )
 

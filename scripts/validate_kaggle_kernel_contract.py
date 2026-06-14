@@ -129,6 +129,24 @@ def validate_contract(staging_dir: Path, dry_run_path: Path, preflight_path: Pat
         dependency_install_index != -1 and torch_install_index != -1 and dependency_install_index < torch_install_index,
         "P100 torch policy must be applied after the general dependency install",
     )
+    add_check(
+        checks,
+        "runner_records_qwen3_import_probe",
+        "def qwen3_import_probe" in runner_text and "qwen3 import probe failed" in runner_text,
+        "runner must expose direct Qwen3 import diagnostics before lm-eval",
+    )
+    add_check(
+        checks,
+        "runner_disables_tf_flax_for_transformers",
+        'USE_TF", "0"' in runner_text and 'USE_FLAX", "0"' in runner_text,
+        "runner disables TensorFlow/Flax discovery before importing transformers",
+    )
+    add_check(
+        checks,
+        "runner_removes_incompatible_torchao",
+        "pip\", \"uninstall\", \"--yes\", \"torchao\"" in runner_text,
+        "runner removes preinstalled torchao because Kaggle's version requires newer torch APIs than torch 2.2.2",
+    )
 
     passed = all(check["passed"] for check in checks)
     return {
@@ -170,6 +188,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.",
         "- The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.",
         "- The runner pins `transformers==4.57.6` and `tokenizers==0.22.2`; wheel inspection confirmed Qwen3 class availability while keeping Torch 2.2 compatibility.",
+        "- The runner disables TensorFlow/Flax discovery and records a direct Qwen3 import probe before invoking lm-eval.",
+        "- The runner uninstalls Kaggle's preinstalled `torchao` on the non-4-bit P100 path because that package expects newer Torch internals than `torch==2.2.2+cu118` exposes.",
         "",
         "## Checks",
         "",

@@ -1,0 +1,78 @@
+{
+  "checks": [
+    {
+      "detail": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v6-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-000917-summary.json",
+      "name": "summary_on_storage_root",
+      "passed": true
+    },
+    {
+      "detail": "blocked",
+      "name": "status_scored",
+      "passed": false
+    },
+    {
+      "detail": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+      "name": "adapter_repo_expected",
+      "passed": true
+    },
+    {
+      "detail": "Qwen/Qwen3-4B",
+      "name": "base_model_expected",
+      "passed": true
+    },
+    {
+      "detail": "arc_challenge,hellaswag,truthfulqa_mc2,gsm8k,winogrande",
+      "name": "configured_tasks_complete",
+      "passed": true
+    },
+    {
+      "detail": "None",
+      "name": "no_limit_configured",
+      "passed": true
+    },
+    {
+      "detail": "None",
+      "name": "evaluation_returncode_zero",
+      "passed": false
+    },
+    {
+      "detail": "None",
+      "name": "evaluation_not_timed_out",
+      "passed": false
+    },
+    {
+      "detail": "",
+      "name": "command_has_no_limit_flag",
+      "passed": true
+    },
+    {
+      "detail": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260614-000917-lm-eval-output",
+      "name": "output_dir_on_storage_root",
+      "passed": false
+    },
+    {
+      "detail": "None",
+      "name": "lm_eval_result_present",
+      "passed": false
+    },
+    {
+      "detail": "none",
+      "name": "lm_eval_tasks_complete",
+      "passed": false
+    }
+  ],
+  "claim_boundary": "No benchmark claim until a scored no-limit Kaggle summary and complete lm-eval results pass this validator.",
+  "expected_tasks": [
+    "arc_challenge",
+    "hellaswag",
+    "truthfulqa_mc2",
+    "gsm8k",
+    "winogrande"
+  ],
+  "found_tasks": [],
+  "lm_eval_result": null,
+  "output_dir": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260614-000917-lm-eval-output",
+  "status": "fail",
+  "storage_root": "/Volumes/PortableSSD",
+  "summary_json": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v6-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-000917-summary.json"
+}

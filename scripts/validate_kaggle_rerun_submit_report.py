@@ -17,6 +17,10 @@ DEFAULT_V4_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100
 DEFAULT_V4_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v4-20260614.json"
 DEFAULT_V5_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-v5-20260614.json"
 DEFAULT_V5_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v5-20260614.json"
+DEFAULT_V6_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-v6-20260614.json"
+DEFAULT_V6_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v6-20260614.json"
+DEFAULT_V7_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-v7-20260614.json"
+DEFAULT_V7_STATUS_REPORT = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v7-20260614.json"
 
 
 def display_path(path: Path) -> str:
@@ -77,6 +81,14 @@ def validate_v5_report(path: Path = DEFAULT_V5_REPORT) -> list[str]:
     return validate_report(path, expected_kernel_version=5)
 
 
+def validate_v6_report(path: Path = DEFAULT_V6_REPORT) -> list[str]:
+    return validate_report(path, expected_kernel_version=6)
+
+
+def validate_v7_report(path: Path = DEFAULT_V7_REPORT) -> list[str]:
+    return validate_report(path, expected_kernel_version=7)
+
+
 def validate_status_report(path: Path = DEFAULT_STATUS_REPORT) -> list[str]:
     failures: list[str] = []
     if not path.exists():
@@ -131,6 +143,24 @@ def validate_v5_status_report(path: Path = DEFAULT_V5_STATUS_REPORT) -> list[str
     return validate_versioned_status_report(path, expected_kernel_version=5)
 
 
+def validate_v6_status_report(path: Path = DEFAULT_V6_STATUS_REPORT) -> list[str]:
+    failures = validate_versioned_status_report(path, expected_kernel_version=6)
+    if failures:
+        return failures
+    data = load_json(path)
+    failure_summary = str(data.get("failure_summary", ""))
+    lower_failure_summary = failure_summary.lower()
+    for expected in ("qwen3", "torchao", "torch._C.Tag.needs_fixed_stride_order", "torch==2.2.2+cu118"):
+        haystack = lower_failure_summary if expected == "qwen3" else failure_summary
+        if expected not in haystack:
+            failures.append(f"v6 status report failure summary must mention {expected}")
+    return failures
+
+
+def validate_v7_status_report(path: Path = DEFAULT_V7_STATUS_REPORT) -> list[str]:
+    return validate_versioned_status_report(path, expected_kernel_version=7)
+
+
 def validate_versioned_status_report(path: Path, expected_kernel_version: int) -> list[str]:
     failures: list[str] = []
     if not path.exists():
@@ -179,6 +209,10 @@ def main() -> int:
     failures.extend(validate_v4_status_report())
     failures.extend(validate_v5_report())
     failures.extend(validate_v5_status_report())
+    failures.extend(validate_v6_report())
+    failures.extend(validate_v6_status_report())
+    failures.extend(validate_v7_report())
+    failures.extend(validate_v7_status_report())
     if failures:
         print("not ready: Kaggle P100 rerun submit report")
         for failure in failures:

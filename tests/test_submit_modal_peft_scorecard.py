@@ -78,7 +78,7 @@ class SubmitModalPeftScorecardTests(unittest.TestCase):
             )
 
         self.assertEqual(report["status"], "blocked")
-        self.assertIn("Modal backend preflight", report["blockers"][0])
+        self.assertIn("Modal zero-cost policy gate", report["blockers"][0])
 
     def test_write_json_report_persists_updated_submission(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,55 @@
+{
+  "backend": "modal",
+  "billing_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-billing-this-month-20260614.json",
+  "checks": [
+    {
+      "detail": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-billing-this-month-20260614.json",
+      "name": "billing_report_present",
+      "passed": true
+    },
+    {
+      "detail": "list",
+      "name": "billing_report_is_list",
+      "passed": true
+    },
+    {
+      "detail": "empty current-month usage rows are not free credit or grant proof",
+      "name": "empty_billing_is_only_usage_evidence",
+      "passed": true
+    },
+    {
+      "detail": "prepared-needs-credit-and-gpu-policy-check",
+      "name": "modal_preflight_policy_gate_present",
+      "passed": true
+    },
+    {
+      "detail": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json",
+      "name": "dry_run_present",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_did_not_execute",
+      "passed": true
+    },
+    {
+      "detail": "False",
+      "name": "dry_run_has_no_zero_cost_confirmation",
+      "passed": true
+    }
+  ],
+  "claim_boundary": "An empty Modal billing report proves no current-month usage rows only. It does not prove free GPU credits, grant allowance, or accepted GPU policy.",
+  "current_month_usage_rows": 0,
+  "dry_run_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json",
+  "execution_allowed": false,
+  "paid_compute_approved": false,
+  "preflight_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/backend-preflight-20260613.json",
+  "promotion_allowed": false,
+  "required_gates": [
+    "free credit/grant proof or explicit paid-compute approval",
+    "explicit Modal run approval",
+    "post-run Modal result ingest validation"
+  ],
+  "status": "blocked-needs-zero-cost-policy",
+  "zero_cost_policy_confirmed": false
+}

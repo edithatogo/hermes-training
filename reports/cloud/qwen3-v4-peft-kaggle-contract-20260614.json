@@ -139,6 +139,21 @@
       "detail": "P100 torch policy must be applied after the general dependency install",
       "name": "runner_applies_p100_torch_policy_last",
       "passed": true
+    },
+    {
+      "detail": "runner must expose direct Qwen3 import diagnostics before lm-eval",
+      "name": "runner_records_qwen3_import_probe",
+      "passed": true
+    },
+    {
+      "detail": "runner disables TensorFlow/Flax discovery before importing transformers",
+      "name": "runner_disables_tf_flax_for_transformers",
+      "passed": true
+    },
+    {
+      "detail": "runner removes preinstalled torchao because Kaggle's version requires newer torch APIs than torch 2.2.2",
+      "name": "runner_removes_incompatible_torchao",
+      "passed": true
     }
   ],
   "dataset_terms_contract": {

@@ -1,0 +1,26 @@
+{
+  "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v6-20260614",
+  "claim_boundary": "No benchmark claim: Kaggle kernel version 6 completed, but the recovered summary is blocked before lm-eval scoring.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "status",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  ],
+  "download_command": [
+    "kaggle",
+    "kernels",
+    "output",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+    "--path",
+    "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v6-20260614"
+  ],
+  "downloaded_file_count": 2,
+  "failure_summary": "Kernel version 6 completed without scores. The recovered summary has status=blocked. The direct Qwen3 import probe failed before lm-eval because Kaggle's preinstalled torchao imported quantizer_torchao and expected torch._C.Tag.needs_fixed_stride_order, which is absent from torch==2.2.2+cu118. The staged runner now removes torchao on the non-4-bit P100 path before applying the P100 torch policy.",
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "kernel_version": 6,
+  "observed_at": "2026-06-14",
+  "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v6-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-000917-summary.json",
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
+}

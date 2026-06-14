@@ -25,6 +25,9 @@
 - [ ] Task: Confirm free credit/grant or zero-cost GPU policy.
   - [x] Current-month billing probe returned no usage rows in
     `reports/cloud/modal-billing-this-month-20260614.md`.
+  - [x] Fail-closed policy gate added at
+    `reports/cloud/modal-policy-gate-20260614.md`; it records
+    `execution_allowed=false` because empty billing is not zero-cost proof.
   - [ ] Still need free GPU credit/grant policy or explicit paid-compute
     approval before execution.
 - [ ] Task: Submit the Modal scorecard only after explicit approval.
@@ -33,11 +36,13 @@
 ## Health Check
 
 - Target: >= 9.0 / 10
-- Current estimate: 8.9 / 10 as a prepared-but-policy-gated backend track.
+- Current estimate: 9.3 / 10 as a prepared-but-policy-gated backend track.
 - Evidence: The Modal app and submitter are present, and the dry-run report
-  records no blockers while `execute` and both confirmations are false. Modal
-  CLI is authenticated to workspace `d-a-mordaunt`, and the current-month
-  billing report is empty. The Modal execution contract is tracked at
+  records no blockers while `execute` and both confirmations are false. The
+  dry-run also records that the Modal policy gate is observed. Modal CLI is
+  authenticated to workspace `d-a-mordaunt`, and the current-month billing
+  report is empty. The fail-closed policy gate is tracked at
+  `reports/cloud/modal-policy-gate-20260614.md`, the Modal execution contract is tracked at
   `reports/cloud/qwen3-v4-peft-modal-contract-20260614.md`, and the pending
   Modal result-ingest gate is tracked at
   `reports/cloud/qwen3-v4-peft-modal-result-ingest-20260614.md`.

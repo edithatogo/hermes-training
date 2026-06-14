@@ -16,6 +16,8 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 - The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.
 - The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.
 - The runner pins `transformers==4.57.6` and `tokenizers==0.22.2`; wheel inspection confirmed Qwen3 class availability while keeping Torch 2.2 compatibility.
+- The runner disables TensorFlow/Flax discovery and records a direct Qwen3 import probe before invoking lm-eval.
+- The runner uninstalls Kaggle's preinstalled `torchao` on the non-4-bit P100 path because that package expects newer Torch internals than `torch==2.2.2+cu118` exposes.
 
 ## Checks
 
@@ -49,3 +51,6 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 | `runner_pins_numpy_for_p100_torch` | `pass` | torch==2.2.2+cu118 is not compatible with Kaggle's NumPy 2 default |
 | `runner_pins_qwen3_transformers` | `pass` | wheel inspection confirmed transformers 4.57.6 exposes Qwen3ForCausalLM while supporting torch>=2.2 |
 | `runner_applies_p100_torch_policy_last` | `pass` | P100 torch policy must be applied after the general dependency install |
+| `runner_records_qwen3_import_probe` | `pass` | runner must expose direct Qwen3 import diagnostics before lm-eval |
+| `runner_disables_tf_flax_for_transformers` | `pass` | runner disables TensorFlow/Flax discovery before importing transformers |
+| `runner_removes_incompatible_torchao` | `pass` | runner removes preinstalled torchao because Kaggle's version requires newer torch APIs than torch 2.2.2 |

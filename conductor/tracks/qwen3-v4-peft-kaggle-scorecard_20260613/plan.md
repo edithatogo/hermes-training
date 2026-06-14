@@ -104,6 +104,16 @@
   the no-pending ingest gate failed in
   `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v5-20260614.md`
   because `transformers==4.57.6` still could not resolve `Qwen3ForCausalLM` in
-  the Kaggle runtime.
+  the Kaggle runtime. Kernel version 6 then added a direct Qwen3 import probe
+  and disabled TensorFlow/Flax discovery; it completed without scores and is
+  tracked in
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v6-20260614.md`.
+  The probe isolated the next blocker to Kaggle's preinstalled `torchao`, which
+  expects newer Torch internals than `torch==2.2.2+cu118`. The staged runner now
+  removes `torchao` on the non-4-bit P100 path, but Kaggle remains lower
+  priority than Modal because repeated live P100 runs have produced no scored
+  result. Kernel version 7 was submitted from the torchao-cleanup runner and was
+  still `KernelWorkerStatus.RUNNING` at the last poll; current state is tracked
+  in `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v7-20260614.md`.
 - Decision: keep Kaggle blocked and non-promotional; do not submit another
   unchanged P100/CUDA Kaggle rerun.

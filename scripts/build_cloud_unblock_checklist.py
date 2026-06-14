@@ -13,7 +13,7 @@ DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
 DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
-DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v5-20260614.json")
+DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v7-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:
@@ -212,15 +212,17 @@ def modal_unblock_item(status: str) -> dict[str, Any]:
         return {
             "backend": "modal",
             "status": status,
-            "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and result persistence.",
+            "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and fail-closed result persistence.",
             "operator_actions": [
+                "Run the Modal policy gate validator; empty billing is usage evidence only, not zero-cost GPU proof.",
                 "Confirm free credits, academic grant, or other zero-cost allowance before GPU execution.",
                 "Record non-secret GPU policy evidence for the intended workspace.",
-                "Add a fail-closed Modal scorecard submitter only after auth and result persistence are proven.",
+                "Keep the prepared Modal submitter blocked until the policy gate explicitly allows execution.",
             ],
             "commands": [
                 "modal profile list",
-                "modal billing",
+                "modal billing report --for \"this month\" --json",
+                "./.venv/bin/python scripts/validate_modal_policy_gate.py",
                 "./.venv/bin/python scripts/submit_modal_peft_scorecard.py",
                 "./.venv/bin/python scripts/submit_modal_peft_scorecard.py --execute --confirm-modal-run --confirm-zero-cost-compute",
             ],

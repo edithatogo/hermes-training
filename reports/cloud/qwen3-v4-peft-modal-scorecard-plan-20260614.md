@@ -29,6 +29,12 @@ Dry-run submission artifact:
 reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json
 ```
 
+Policy gate artifact:
+
+```text
+reports/cloud/modal-policy-gate-20260614.md
+```
+
 Staged config folder:
 
 ```text
@@ -41,10 +47,15 @@ reports/cloud/modal-qwen3-v4-peft-scorecard-20260614
 `modal billing report --for "this month" --json` returned an empty JSON array,
 but that is only no-current-month-usage evidence. It does not prove free GPU
 credits, grant allowance, or accepted GPU policy. No Modal job was submitted.
+The policy gate report now records this fail-closed boundary and keeps
+`execution_allowed=false`.
 
 ## Stop Conditions
 
 - No Modal run without `--execute --confirm-modal-run --confirm-zero-cost-compute`.
+- No Modal run while `reports/cloud/modal-policy-gate-20260614.json` has
+  `execution_allowed=false`, unless a deliberate post-verification override is
+  recorded.
 - No no-limit benchmark claim until every configured task completes without
   `--limit` and artifacts are recovered locally.
 - No private data upload; the Modal app uses the public PEFT adapter and public

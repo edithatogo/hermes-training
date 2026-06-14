@@ -53,6 +53,12 @@ class ValidateKaggleKernelContractTests(unittest.TestCase):
             "torch_install = run_command(torch_install_command, timeout_s=1200)\n"
             '"transformers==4.57.6"\n'
             '"tokenizers==0.22.2"\n'
+            "def qwen3_import_probe(base_model):\n"
+            "    pass\n"
+            "raise RuntimeError('qwen3 import probe failed')\n"
+            'os.environ.setdefault("USE_TF", "0")\n'
+            'os.environ.setdefault("USE_FLAX", "0")\n'
+            '"pip", "uninstall", "--yes", "torchao"\n'
             'command.append("--upgrade")\n',
             encoding="utf-8",
         )

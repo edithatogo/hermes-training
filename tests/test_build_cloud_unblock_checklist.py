@@ -25,6 +25,8 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
         self.assertIn("remaining gates", by_backend["modal"]["blocker"])
         self.assertNotIn("no token/profile", by_backend["modal"]["blocker"])
         self.assertNotIn("modal token new", by_backend["modal"]["commands"])
+        self.assertIn("./.venv/bin/python scripts/validate_modal_policy_gate.py", by_backend["modal"]["commands"])
+        self.assertTrue(any("empty billing" in action for action in by_backend["modal"]["operator_actions"]))
 
     def test_kaggle_quota_failure_gets_specific_gate(self) -> None:
         items = checklist_items(

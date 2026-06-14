@@ -27,6 +27,10 @@ def load_config() -> dict[str, Any]:
 
 
 CONFIG = load_config()
+os.environ.setdefault("USE_TF", "0")
+os.environ.setdefault("USE_FLAX", "0")
+os.environ.setdefault("TRANSFORMERS_NO_TF", "1")
+os.environ.setdefault("TRANSFORMERS_NO_FLAX", "1")
 
 
 def setting(name: str, env_name: str, default: Any) -> Any:
@@ -116,6 +120,12 @@ def dependency_install_command(use_4bit: bool, torch_policy: str) -> list[str]:
     return [*command, *dependency_packages(use_4bit)]
 
 
+def incompatible_package_cleanup_command(use_4bit: bool, torch_policy: str) -> list[str] | None:
+    if use_4bit or torch_policy in {"", "none", "None", "default"}:
+        return None
+    return [sys.executable, "-m", "pip", "uninstall", "--yes", "torchao"]
+
+
 def runtime_details() -> dict[str, Any]:
     details: dict[str, Any] = {"created_at": datetime.now(UTC).isoformat(), "python": sys.version.split()[0]}
     try:
@@ -151,6 +161,37 @@ def download_adapter(adapter_repo: str, adapter_dir: Path) -> dict[str, Any]:
         return {"status": "blocked", "repo_id": adapter_repo, "error": f"{type(exc).__name__}: {exc}"}
 
 
+def qwen3_import_probe(base_model: str) -> dict[str, Any]:
+    try:
+        import numpy
+        import tokenizers
+        import torch
+        import transformers
+        from transformers import AutoConfig
+        from transformers.models.qwen3.modeling_qwen3 import Qwen3ForCausalLM
+
+        config = AutoConfig.from_pretrained(base_model, trust_remote_code=True)
+        return {
+            "status": "ok",
+            "base_model": base_model,
+            "config_type": type(config).__name__,
+            "model_class": Qwen3ForCausalLM.__name__,
+            "numpy": getattr(numpy, "__version__", "unknown"),
+            "tokenizers": getattr(tokenizers, "__version__", "unknown"),
+            "torch": getattr(torch, "__version__", "unknown"),
+            "transformers": getattr(transformers, "__version__", "unknown"),
+        }
+    except Exception as exc:  # noqa: BLE001
+        import traceback
+
+        return {
+            "status": "blocked",
+            "base_model": base_model,
+            "error": f"{type(exc).__name__}: {exc}",
+            "traceback_tail": traceback.format_exc()[-12000:],
+        }
+
+
 def main() -> int:
     run_id = str(setting("run_id", "RUN_ID", f"qwen3-v4-peft-kaggle-lm-eval-{datetime.now(UTC).strftime('%Y%m%d-%H%M%S')}"))
     work_root = Path(setting("working_dir", "KAGGLE_WORKING_DIR", "/kaggle/working"))
@@ -168,6 +209,8 @@ def main() -> int:
     result_json = Path(setting("result_json", "LM_EVAL_RESULT_JSON", str(work_root / f"{run_id}-summary.json")))
 
     install = run_command(dependency_install_command(use_4bit, torch_policy), timeout_s=1200)
+    cleanup_command = incompatible_package_cleanup_command(use_4bit, torch_policy)
+    cleanup = run_command(cleanup_command, timeout_s=300) if cleanup_command else None
     torch_install_command = torch_compatibility_install(torch_policy)
     # Kaggle's dependency solve can otherwise leave the final runtime on a
     # non-P100 torch build. Apply the compatibility policy last.
@@ -190,6 +233,7 @@ def main() -> int:
         "torch_install": torch_install,
         "output_dir": str(output_dir),
         "install": install,
+        "incompatible_package_cleanup": cleanup,
         "runtime": runtime_details(),
     }
 
@@ -198,6 +242,12 @@ def main() -> int:
             raise RuntimeError("torch compatibility install failed")
         if install["returncode"] != 0:
             raise RuntimeError("dependency install failed")
+        if cleanup is not None and cleanup["returncode"] not in {0, 1}:
+            raise RuntimeError("incompatible package cleanup failed")
+        import_probe = qwen3_import_probe(base_model)
+        result["qwen3_import_probe"] = import_probe
+        if import_probe["status"] != "ok":
+            raise RuntimeError("qwen3 import probe failed")
         adapter_download = download_adapter(adapter_repo, adapter_dir)
         result["adapter_download"] = adapter_download
         if adapter_download["status"] != "downloaded":
