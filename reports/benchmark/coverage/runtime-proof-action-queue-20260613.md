@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-14T09:13:05.301072+00:00`
+Created: `2026-06-14T09:15:12.883501+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -20,7 +20,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 9 | `openbmb/MiniCPM-V-4.6-GPTQ` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 10 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 11 | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
-| 12 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 12 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 14 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
 | 15 | `unsloth/gemma-4-12B-it-qat-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
@@ -242,7 +242,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh

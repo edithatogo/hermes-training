@@ -304,12 +304,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "12B"
     architecture: "Gemma 4 12B instruct model, community GGUF packaging"
     license: apache-2.0
-    first_runtime: "llama.cpp / LM Studio / Ollama GGUF smoke"
+    first_runtime: "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "Fresh community GGUF packaging with explicit llama.cpp, Ollama, and Hermes Agent instructions on the model page. Useful as a Mac local runtime comparison point."
+    notes: "Fresh community GGUF packaging with explicit llama.cpp, Ollama, and Hermes Agent instructions on the model page. Useful as a Mac local runtime comparison point. A 2026-06-14 dry-run found `google-gemma-4-12B-it-Q2_K_S.gguf` as the smallest main GGUF artifact at 4.5G, plus a 175.1M mmproj file. A bounded live SSD-cache download of the main artifact stalled at a zero-byte incomplete blob and was cancelled cleanly; see `reports/runtime/batiai-gemma4-12b-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
 
   - id: DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF
     family: gemma

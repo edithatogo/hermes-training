@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-14T09:13:05.301072+00:00",
+  "created_at": "2026-06-14T09:15:12.883501+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -178,11 +178,11 @@
       "size_bucket": "large-local",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
+      "first_runtime": "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model batiai-gemma-4-12b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id batiai-gemma-4-12b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh community GGUF packaging with explicit llama.cpp, Ollama, and Hermes Agent instructions on the model page. Useful as a Mac local runtime comparison point."
+      "notes": "Fresh community GGUF packaging with explicit llama.cpp, Ollama, and Hermes Agent instructions on the model page. Useful as a Mac local runtime comparison point. A 2026-06-14 dry-run found `google-gemma-4-12B-it-Q2_K_S.gguf` as the smallest main GGUF artifact at 4.5G, plus a 175.1M mmproj file. A bounded live SSD-cache download of the main artifact stalled at a zero-byte incomplete blob and was cancelled cleanly; see `reports/runtime/batiai-gemma4-12b-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
     },
     {
       "id": "google/gemma-4-12B",
