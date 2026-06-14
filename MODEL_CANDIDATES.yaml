@@ -159,12 +159,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "9B"
     architecture: "Stage 2 agentic fine-tune of Harmonic-9B with GGUF packaging"
     license: apache-2.0
-    first_runtime: "llama.cpp / LM Studio / Ollama GGUF smoke"
+    first_runtime: "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "Stage 2 agentic tool-calling model built on Harmonic-9B. This is the most direct Hermes-style local runtime lane from the current search and is suitable for Ollama/LM Studio validation."
+    notes: "Stage 2 agentic tool-calling model built on Harmonic-9B. This is the most direct Hermes-style local runtime lane from the current search and is suitable for Ollama/LM Studio validation. A 2026-06-14 dry-run identified `Harmonic-Hermes-9B-Q2_K.gguf` as the smallest text-model artifact at 3.8G. The live SSD-cache download made partial progress to about 36M but was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/harmonic-hermes-9b-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
 
   - id: mradermacher/Harmonic-Hermes-9B-i1-GGUF
     family: hermes
