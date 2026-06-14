@@ -311,6 +311,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_kaggle_kernel_contract.py",
         ROOT / "scripts/validate_kaggle_torch_policy_wheel_proof.py",
         ROOT / "scripts/validate_kaggle_rerun_submit_report.py",
+        ROOT / "scripts/sync_kaggle_rerun_status.py",
         ROOT / "scripts/validate_kaggle_result_ingest.py",
         ROOT / "scripts/validate_modal_result_ingest.py",
         ROOT / "scripts/validate_free_container_account_probe.py",

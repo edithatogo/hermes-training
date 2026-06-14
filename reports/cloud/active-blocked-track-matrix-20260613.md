@@ -60,8 +60,8 @@ hf jobs ps
 ### qwen3-v4-peft-kaggle-scorecard_20260613
 
 ```bash
-kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full
-kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614
+./.venv/bin/python scripts/sync_kaggle_rerun_status.py
+./.venv/bin/python scripts/sync_kaggle_rerun_status.py --recover-artifacts --artifact-dir /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614
 ./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending
 ```
 

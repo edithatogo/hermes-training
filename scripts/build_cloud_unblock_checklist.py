@@ -170,8 +170,8 @@ def kaggle_running_unblock_item(rerun_status_report: dict[str, Any]) -> dict[str
             "Run the result ingest validator with `--no-allow-pending` before any benchmark claim.",
         ],
         "commands": [
-            "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
-            f"kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path {artifact_dir}",
+            "./.venv/bin/python scripts/sync_kaggle_rerun_status.py",
+            f"./.venv/bin/python scripts/sync_kaggle_rerun_status.py --recover-artifacts --artifact-dir {artifact_dir}",
             "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
         ],
     }

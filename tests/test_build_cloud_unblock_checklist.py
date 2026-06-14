@@ -82,7 +82,7 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
         self.assertIn("artifact recovery", by_backend["kaggle"]["blocker"])
         self.assertIn("version 5", by_backend["kaggle"]["blocker"])
         self.assertIn(
-            "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+            "./.venv/bin/python scripts/sync_kaggle_rerun_status.py",
             by_backend["kaggle"]["commands"],
         )
         self.assertTrue(any("p100-v5" in command for command in by_backend["kaggle"]["commands"]))
