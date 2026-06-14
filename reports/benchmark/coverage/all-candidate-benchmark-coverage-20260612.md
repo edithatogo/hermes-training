@@ -87,7 +87,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Qwen/Qwen3.5-27B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `CohereLabs/command-a-plus-05-2026-w4a4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `stepfun-ai/Step-3.7-Flash` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `nex-agi/Nex-N2-mini` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `nex-agi/Nex-N2-mini` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/nex-n2-mini-mlx-local-size-blocked-20260614.md` |
 | hermes | `Qwen/Qwen3-Coder-Next-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-Coder-Next` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/Nemotron-3.5-Content-Safety` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -242,7 +242,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Qwen/Qwen3.5-27B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `CohereLabs/command-a-plus-05-2026-w4a4` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `stepfun-ai/Step-3.7-Flash` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `nex-agi/Nex-N2-mini` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `nex-agi/Nex-N2-mini` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | hermes | `Qwen/Qwen3-Coder-Next-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3-Coder-Next` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/Nemotron-3.5-Content-Safety` | research-runtime | `needs-runtime-proof` | specialist runtime proof | `blocked` | blocked until runtime artifact/load proof exists |

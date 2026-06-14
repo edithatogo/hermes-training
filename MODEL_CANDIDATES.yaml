@@ -682,12 +682,13 @@ candidates:
     role: local-runtime
     environment: mac-mlx
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "9B"
     architecture: "Agentic small model with community MLX conversions"
     license: "check model card"
-    first_runtime: "MLX community conversion or Transformers smoke"
+    first_runtime: "cloud/offloaded smoke, or smaller quantized MLX artifact if one appears"
     first_finetune: "defer until runtime and tool-use behavior are known"
-    notes: "New agentic small model with published MLX conversion paths such as `mlx-community/Nex-N2-mini-nvfp4` and `mlx-community/Nex-N2-mini-8bit`. It is a plausible Mac or Colab runtime candidate, but it still needs explicit proof before promotion."
+    notes: "New agentic small model with published MLX conversion paths such as `mlx-community/Nex-N2-mini-nvfp4` and `mlx-community/Nex-N2-mini-8bit`. MLX is installed locally (`mlx_lm 0.31.3`), but a 2026-06-14 dry-run found the base repo has 16 safetensor shards totaling roughly 70G, `mlx-community/Nex-N2-mini-nvfp4` has four shards totaling about 20.5G, and `mlx-community/Nex-N2-mini-8bit` is larger. This is blocked from the current 32GB Mac-local proof lane; see `reports/runtime/nex-n2-mini-mlx-local-size-blocked-20260614.md`. Keep as cloud/offload or smaller-quant watch until a bounded artifact is available."
 
   - id: Qwen/Qwen3-Coder-Next-GGUF
     family: qwen
