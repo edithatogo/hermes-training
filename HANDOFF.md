@@ -508,8 +508,13 @@ Current gaps:
   `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v3-20260614.md`
   also fails closed: it reached `torch=2.2.2+cu118` and `use_4bit=false`, then
   failed on NumPy 2 / `Qwen3ForCausalLM` resolution. The staged runner now pins
-  `numpy<2`, and the contract validator passes. Do not submit another Kaggle
-  rerun without explicit approval.
+  `numpy<2`, and the contract validator passes. Kaggle kernel version 4
+  completed, artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614`,
+  and `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v4-20260614.md`
+  fails closed. The new blocker is that `transformers==5.3.0` disables PyTorch
+  under `torch=2.2.2+cu118`, so this P100 path needs a runner/runtime change or
+  a different backend before any further rerun. No benchmark claim is allowed.
 - Modal now has both a fail-closed execution contract and a result-ingest gate:
   `reports/cloud/qwen3-v4-peft-modal-contract-20260614.md` verifies the dry-run
   command, T4 app, no-limit five-task config, Modal volume persistence, and
@@ -523,8 +528,8 @@ Current gaps:
    For the Qwen3 v4 PEFT no-limit scorecard specifically, do not retry Colab
    while keepalive/session-pruning blockers remain; use the backend-selection
    report. Modal is currently ranked first pending zero-cost/credit policy and
-   explicit run approval; Kaggle now needs explicit approval for any further
-   NumPy-pinned rerun, or the scorecard should move to a different backend.
+   explicit run approval; Kaggle version 4 completed without scores and should
+   not be retried unchanged on the P100/CUDA path.
 3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
 5. The local prompt-only repair queue is exhausted, and the first Nanbeige

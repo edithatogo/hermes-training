@@ -68,18 +68,22 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
             },
             kaggle_contract_report={"status": "pass"},
             kaggle_ingest_report={"status": "pending_artifacts"},
-            kaggle_rerun_status_report={"status": "KernelWorkerStatus.RUNNING"},
+            kaggle_rerun_status_report={
+                "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
+                "kernel_version": 4,
+                "status": "KernelWorkerStatus.RUNNING",
+            },
         )
         by_backend = {item["backend"]: item for item in items}
 
         self.assertEqual(by_backend["kaggle"]["status"], "running-needs-artifact-recovery")
         self.assertIn("artifact recovery", by_backend["kaggle"]["blocker"])
-        self.assertIn("version 3", by_backend["kaggle"]["blocker"])
+        self.assertIn("version 4", by_backend["kaggle"]["blocker"])
         self.assertIn(
             "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
             by_backend["kaggle"]["commands"],
         )
-        self.assertTrue(any("kernel-v3" in command for command in by_backend["kaggle"]["commands"]))
+        self.assertTrue(any("p100-v4" in command for command in by_backend["kaggle"]["commands"]))
 
     def test_kaggle_completed_failed_rerun_derives_runner_fix_status(self) -> None:
         items = checklist_items(
@@ -90,14 +94,19 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
             },
             kaggle_contract_report={"status": "pass"},
             kaggle_ingest_report={"status": "pending_artifacts"},
-            kaggle_rerun_status_report={"status": "KernelWorkerStatus.COMPLETE"},
+            kaggle_rerun_status_report={
+                "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
+                "kernel_version": 4,
+                "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json",
+                "status": "KernelWorkerStatus.COMPLETE",
+            },
         )
         by_backend = {item["backend"]: item for item in items}
 
         self.assertEqual(by_backend["kaggle"]["status"], "completed-failed-needs-kaggle-runner-fix")
-        self.assertIn("version 3 completed without scores", by_backend["kaggle"]["blocker"])
-        self.assertIn("explicit approval", by_backend["kaggle"]["blocker"])
-        self.assertTrue(any("kernel-v3" in command for command in by_backend["kaggle"]["commands"]))
+        self.assertIn("version 4 completed without scores", by_backend["kaggle"]["blocker"])
+        self.assertIn("runner/runtime change", by_backend["kaggle"]["blocker"])
+        self.assertTrue(any("p100-v4" in command for command in by_backend["kaggle"]["commands"]))
         self.assertIn("./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py", by_backend["kaggle"]["commands"])
 
     def test_lightning_includes_guarded_submitter_commands(self) -> None:

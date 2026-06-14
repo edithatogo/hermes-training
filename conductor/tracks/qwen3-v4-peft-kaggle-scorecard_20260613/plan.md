@@ -30,8 +30,12 @@
   no-pending ingest gate.
 - [x] Task: Validate the NumPy-pinned P100 Kaggle runner contract before any
   further explicit rerun approval.
-- [ ] Task: Obtain explicit approval before submitting any further
-  NumPy-pinned Kaggle rerun, or route the scorecard to a different backend.
+- [x] Task: Record existing Kaggle kernel version 4 submission and live status
+  without claiming benchmark coverage.
+- [x] Task: Recover SSD artifacts from Kaggle kernel version 4 after
+  completion and run the no-pending ingest gate.
+- [ ] Task: Route the full scorecard to a different backend or change the
+  Kaggle runner/runtime strategy before any further rerun.
 
 ## Health Check
 
@@ -80,5 +84,12 @@
   result files after Torch warned about NumPy 2 and transformers could not
   resolve `Qwen3ForCausalLM`. The staged runner now pins `numpy<2`, and the
   contract validator proves the no-4-bit default, final P100 torch policy, and
-  NumPy pin. Do not submit another Kaggle rerun without explicit approval.
-- Decision: keep Kaggle blocked and non-promotional.
+  NumPy pin. Kernel version 4 completed and artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614`.
+  The no-pending ingest gate failed in
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v4-20260614.md`
+  because lm-eval returned 1 with no result files after `transformers==5.3.0`
+  disabled PyTorch under `torch=2.2.2+cu118`; the P100 path now needs a
+  runner/runtime change or a different backend.
+- Decision: keep Kaggle blocked and non-promotional; do not submit another
+  unchanged P100/CUDA Kaggle rerun.

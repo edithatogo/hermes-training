@@ -15,6 +15,7 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 - The runner embeds `LM_EVAL_USE_4BIT=0` as its default because Kaggle did not expose the JSON sidecar beside the executed script in the live rerun.
 - The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.
 - The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.
+- The runner pins `transformers==5.3.0`; a local import probe confirmed that version exposes `Qwen3ForCausalLM`.
 
 ## Checks
 
@@ -46,4 +47,5 @@ Preflight report: `/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/bac
 | `runner_defaults_no_4bit_without_sidecar_config` | `pass` | Kaggle may not expose the JSON sidecar next to the script; embedded default must be P100-safe |
 | `runner_keeps_p100_torch_after_dependency_install` | `pass` | dependency install only upgrades when no P100 torch policy is active |
 | `runner_pins_numpy_for_p100_torch` | `pass` | torch==2.2.2+cu118 is not compatible with Kaggle's NumPy 2 default |
+| `runner_pins_qwen3_transformers` | `pass` | local import probe confirmed transformers 5.3.0 exposes Qwen3ForCausalLM |
 | `runner_applies_p100_torch_policy_last` | `pass` | P100 torch policy must be applied after the general dependency install |

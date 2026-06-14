@@ -24,4 +24,4 @@ Use the selected backend only after the listed operator gates pass. Do not retry
 | 4 | `colab` | `ready` | 5 | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. |
 | 5 | `lightning` | `blocked-needs-teamspace-owner` | 5 | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. |
 | 6 | `ngc` | `blocked` | 5 | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. |
-| 7 | `kaggle` | `completed-failed-needs-kaggle-runner-fix` | -75 | Kaggle kernel version 3 completed without scores; the NumPy-pinned runner contract now passes, but any further rerun requires explicit approval or rerouting. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path. |
+| 7 | `kaggle` | `completed-failed-needs-kaggle-runner-fix` | -75 | Kaggle kernel version 4 completed without scores; the recovered summary is blocked, and this P100 path now needs a runner/runtime change or a different backend. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path. |

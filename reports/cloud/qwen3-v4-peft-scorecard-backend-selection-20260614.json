@@ -116,16 +116,16 @@
     },
     {
       "backend": "kaggle",
-      "blocker": "Kaggle kernel version 3 completed without scores; the NumPy-pinned runner contract now passes, but any further rerun requires explicit approval or rerouting. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path.",
+      "blocker": "Kaggle kernel version 4 completed without scores; the recovered summary is blocked, and this P100 path now needs a runner/runtime change or a different backend. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path.",
       "commands": [
         "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v2/qwen3-v4-peft-kaggle-lm-eval-20260613-233405-summary.json --no-allow-pending",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-summary.json --no-allow-pending",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json --no-allow-pending",
+        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
         "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py"
       ],
       "operator_actions": [
-        "Keep the recovered v2 and v3 failed summaries on the SSD as non-promotional evidence.",
-        "Use the passed staged runner contract as the baseline if another Kaggle rerun is explicitly approved.",
+        "Keep the recovered version 4 failed summary on the SSD as non-promotional evidence.",
+        "Do not submit another unchanged P100/CUDA Kaggle rerun.",
         "Prefer a persistent backend such as Modal if cost/credit policy is cleared."
       ],
       "score": -75,

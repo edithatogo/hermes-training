@@ -14,5 +14,8 @@ support `sm_60`. A fail-closed rerun path is staged with
 completed and artifacts were recovered to the SSD, but the summary is blocked
 with no lm-eval results. The staged runner has been hardened and kernel version
 3 has also completed without scores. The staged runner now pins `numpy<2`;
-the fixed contract passes. Do not submit another Kaggle rerun without explicit
-approval.
+the fixed contract passes. Kernel version 4 completed and artifacts were
+recovered to the SSD, but the no-pending ingest gate failed because
+`transformers==5.3.0` disabled PyTorch under `torch=2.2.2+cu118`. No benchmark
+claim is allowed; this P100 Kaggle path now needs a runner/runtime change or a
+different backend.

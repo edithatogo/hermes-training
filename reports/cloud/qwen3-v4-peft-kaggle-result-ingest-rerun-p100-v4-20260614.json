@@ -1,7 +1,7 @@
 {
   "checks": [
     {
-      "detail": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v3-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-summary.json",
+      "detail": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json",
       "name": "summary_on_storage_root",
       "passed": true
     },
@@ -46,7 +46,7 @@
       "passed": true
     },
     {
-      "detail": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-lm-eval-output",
+      "detail": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-lm-eval-output",
       "name": "output_dir_on_storage_root",
       "passed": false
     },
@@ -71,8 +71,8 @@
   ],
   "found_tasks": [],
   "lm_eval_result": null,
-  "output_dir": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-lm-eval-output",
+  "output_dir": "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-lm-eval-output",
   "status": "fail",
   "storage_root": "/Volumes/PortableSSD",
-  "summary_json": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v3-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-234300-summary.json"
+  "summary_json": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json"
 }

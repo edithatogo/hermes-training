@@ -13,7 +13,7 @@ DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
 DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
-DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v3-20260614.json")
+DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v4-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:
@@ -102,10 +102,12 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
             ],
         }
     if status == "running-needs-artifact-recovery":
+        version = 3
+        artifact_dir = "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3"
         return {
             "backend": "kaggle",
             "status": status,
-            "blocker": "Kaggle kernel version 3 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
+            "blocker": f"Kaggle kernel version {version} has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
             "operator_actions": [
                 "Poll the Kaggle kernel status until it is complete.",
                 "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
@@ -113,7 +115,7 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
             ],
             "commands": [
                 "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
-                "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3",
+                f"kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path {artifact_dir}",
                 "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
             ],
         }
@@ -148,6 +150,59 @@ def kaggle_unblock_item(status: str) -> dict[str, Any]:
             "kaggle quota",
             "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
             "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py --execute --confirm-kaggle-run",
+        ],
+    }
+
+
+def kaggle_running_unblock_item(rerun_status_report: dict[str, Any]) -> dict[str, Any]:
+    version = rerun_status_report.get("kernel_version", "unknown")
+    artifact_dir = rerun_status_report.get(
+        "artifact_dir",
+        "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
+    )
+    return {
+        "backend": "kaggle",
+        "status": "running-needs-artifact-recovery",
+        "blocker": f"Kaggle kernel version {version} has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
+        "operator_actions": [
+            "Poll the Kaggle kernel status until it is complete.",
+            "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
+            "Run the result ingest validator with `--no-allow-pending` before any benchmark claim.",
+        ],
+        "commands": [
+            "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+            f"kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path {artifact_dir}",
+            "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending",
+        ],
+    }
+
+
+def kaggle_completed_failed_unblock_item(rerun_status_report: dict[str, Any]) -> dict[str, Any]:
+    version = rerun_status_report.get("kernel_version", 3)
+    artifact_dir = rerun_status_report.get(
+        "artifact_dir",
+        "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-20260613-kernel-v3",
+    )
+    summary_path = rerun_status_report.get("recovered_summary")
+    ingest_command = (
+        f"./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json {summary_path} --no-allow-pending"
+        if summary_path
+        else "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
+    )
+    return {
+        "backend": "kaggle",
+        "status": "completed-failed-needs-kaggle-runner-fix",
+        "blocker": f"Kaggle kernel version {version} completed without scores; the recovered summary is blocked, and this P100 path now needs a runner/runtime change or a different backend.",
+        "operator_actions": [
+            f"Keep the recovered version {version} failed summary on the SSD as non-promotional evidence.",
+            "Do not submit another unchanged P100/CUDA Kaggle rerun.",
+            "Prefer a persistent backend such as Modal if cost/credit policy is cleared.",
+        ],
+        "commands": [
+            "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
+            ingest_command,
+            f"kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path {artifact_dir}",
+            "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py",
         ],
     }
 
@@ -282,7 +337,15 @@ def checklist_items(
                 "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run",
             ],
         },
-        kaggle_unblock_item(kaggle_status),
+        (
+            kaggle_running_unblock_item(kaggle_rerun_status_report)
+            if kaggle_status == "running-needs-artifact-recovery" and kaggle_rerun_status_report
+            else (
+                kaggle_completed_failed_unblock_item(kaggle_rerun_status_report)
+                if kaggle_status == "completed-failed-needs-kaggle-runner-fix" and kaggle_rerun_status_report
+                else kaggle_unblock_item(kaggle_status)
+            )
+        ),
         modal_unblock_item(backends.get("modal", {}).get("status", "unknown")),
         {
             "backend": "lightning",

@@ -131,6 +131,11 @@
       "passed": true
     },
     {
+      "detail": "local import probe confirmed transformers 5.3.0 exposes Qwen3ForCausalLM",
+      "name": "runner_pins_qwen3_transformers",
+      "passed": true
+    },
+    {
       "detail": "P100 torch policy must be applied after the general dependency install",
       "name": "runner_applies_p100_torch_policy_last",
       "passed": true

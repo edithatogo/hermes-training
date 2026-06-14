@@ -1,0 +1,26 @@
+{
+  "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
+  "claim_boundary": "No benchmark claim: Kaggle kernel version 4 completed, but the recovered summary is blocked and has no lm-eval result files.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "status",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  ],
+  "download_command": [
+    "kaggle",
+    "kernels",
+    "output",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+    "--path",
+    "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614"
+  ],
+  "downloaded_file_count": 16,
+  "failure_summary": "Kernel version 4 completed without scores. The recovered summary has status=blocked, evaluation.returncode=1, result_files=[], use_4bit=false, runtime torch=2.2.2+cu118, and Tesla P100 capability 6.0. lm-eval failed because transformers==5.3.0 disables PyTorch when torch<2.4, so AutoModelForCausalLM reported PyTorch unavailable.",
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "kernel_version": 4,
+  "observed_at": "2026-06-14",
+  "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json",
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
+}
