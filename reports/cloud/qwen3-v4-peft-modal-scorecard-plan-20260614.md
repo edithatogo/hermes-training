@@ -35,6 +35,12 @@ Policy gate artifact:
 reports/cloud/modal-policy-gate-20260614.md
 ```
 
+Policy evidence template:
+
+```text
+reports/cloud/modal-policy-evidence-template-20260614.md
+```
+
 Staged config folder:
 
 ```text
@@ -48,7 +54,9 @@ reports/cloud/modal-qwen3-v4-peft-scorecard-20260614
 but that is only no-current-month-usage evidence. It does not prove free GPU
 credits, grant allowance, or accepted GPU policy. No Modal job was submitted.
 The policy gate report now records this fail-closed boundary and keeps
-`execution_allowed=false`.
+`execution_allowed=false`. To move the gate forward without an unsafe override,
+record non-secret free-credit/grant or paid-compute approval evidence in
+`reports/cloud/modal-policy-evidence-20260614.json` using the tracked template.
 
 ## Stop Conditions
 

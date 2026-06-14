@@ -27,3 +27,4 @@ An empty Modal billing report proves no current-month usage rows only. It does n
 | `dry_run_present` | `pass` | /Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json |
 | `dry_run_did_not_execute` | `pass` | False |
 | `dry_run_has_no_zero_cost_confirmation` | `pass` | False |
+| `policy_evidence_present` | `pass` | optional evidence file is absent; execution remains blocked |

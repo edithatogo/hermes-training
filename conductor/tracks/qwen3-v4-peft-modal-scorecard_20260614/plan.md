@@ -28,6 +28,10 @@
   - [x] Fail-closed policy gate added at
     `reports/cloud/modal-policy-gate-20260614.md`; it records
     `execution_allowed=false` because empty billing is not zero-cost proof.
+  - [x] Non-secret evidence template added at
+    `reports/cloud/modal-policy-evidence-template-20260614.md`; copy it to
+    `reports/cloud/modal-policy-evidence-20260614.json` only after free credit,
+    grant, or paid-compute approval is confirmed.
   - [ ] Still need free GPU credit/grant policy or explicit paid-compute
     approval before execution.
 - [ ] Task: Submit the Modal scorecard only after explicit approval.
@@ -42,7 +46,9 @@
   dry-run also records that the Modal policy gate is observed. Modal CLI is
   authenticated to workspace `d-a-mordaunt`, and the current-month billing
   report is empty. The fail-closed policy gate is tracked at
-  `reports/cloud/modal-policy-gate-20260614.md`, the Modal execution contract is tracked at
+  `reports/cloud/modal-policy-gate-20260614.md`, the non-secret evidence
+  template is tracked at
+  `reports/cloud/modal-policy-evidence-template-20260614.md`, the Modal execution contract is tracked at
   `reports/cloud/qwen3-v4-peft-modal-contract-20260614.md`, and the pending
   Modal result-ingest gate is tracked at
   `reports/cloud/qwen3-v4-peft-modal-result-ingest-20260614.md`.

@@ -1,0 +1,10 @@
+{
+  "allows_modal_gpu": true,
+  "confirmed_at": "YYYY-MM-DD",
+  "confirmed_by": "operator-name-or-initials",
+  "evidence_summary": "Non-secret summary of the Modal free credit, academic grant, or explicit paid-compute approval. Do not include tokens, billing card details, private account identifiers, or screenshots with secrets.",
+  "evidence_type": "academic_grant",
+  "max_gpu_hours": 1,
+  "spend_limit_usd": 0,
+  "workspace": "d-a-mordaunt"
+}

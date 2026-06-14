@@ -36,6 +36,11 @@
       "detail": "False",
       "name": "dry_run_has_no_zero_cost_confirmation",
       "passed": true
+    },
+    {
+      "detail": "optional evidence file is absent; execution remains blocked",
+      "name": "policy_evidence_present",
+      "passed": true
     }
   ],
   "claim_boundary": "An empty Modal billing report proves no current-month usage rows only. It does not prove free GPU credits, grant allowance, or accepted GPU policy.",
@@ -43,6 +48,8 @@
   "dry_run_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json",
   "execution_allowed": false,
   "paid_compute_approved": false,
+  "policy_evidence_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/modal-policy-evidence-20260614.json",
+  "policy_evidence_type": null,
   "preflight_report": "/Volumes/PortableSSD/GitHub/hermes-training/reports/cloud/backend-preflight-20260613.json",
   "promotion_allowed": false,
   "required_gates": [
