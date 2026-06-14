@@ -81,7 +81,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `nvidia/Gemma-4-26B-A4B-NVFP4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3.5-0.8B` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/qwen3-5-0-8b-local-bfcl-pilot-20260613.md` |
 | hermes | `Qwen/Qwen3.5-2B` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/qwen3-5-2b-local-bfcl-pilot-20260613.md` |
-| hermes | `Qwen/Qwen3.5-9B` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `Qwen/Qwen3.5-9B` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/qwen35-9b-transformers-local-size-blocked-20260614.md` |
 | hermes | `Qwen/Qwen3-4B-Instruct-2507` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3-4B-Thinking-2507` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3.5-27B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -236,7 +236,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Qwen/Qwen3-4B-MLX-4bit` | local-finetune | `needs-auth` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
 | hermes | `Qwen/Qwen3.5-0.8B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `Qwen/Qwen3.5-2B` | local-finetune | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
-| hermes | `Qwen/Qwen3.5-9B` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `Qwen/Qwen3.5-9B` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | hermes | `Qwen/Qwen3-4B-Instruct-2507` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3-4B-Thinking-2507` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3.5-27B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |

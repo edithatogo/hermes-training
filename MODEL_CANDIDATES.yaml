@@ -602,12 +602,13 @@ candidates:
     role: local-finetune
     environment: hf-transformers
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "9B"
     architecture: "Dense transformer, mid-size open-weight Qwen3.5"
     license: "check model card"
-    first_runtime: "Transformers or MLX/GGUF smoke"
+    first_runtime: "cloud Transformers proof or smaller quantized sibling proof"
     first_finetune: "PEFT/MLX-LM LoRA after runtime proof"
-    notes: "New mid-size Qwen3.5 candidate that sits between the tiny helper lanes and the larger Qwen3.6 frontier. Useful for Colab-assisted experiments and stronger tool-use comparison if it proves stable on the target runtime stack."
+    notes: "New mid-size Qwen3.5 candidate that sits between the tiny helper lanes and the larger Qwen3.6 frontier. Useful for Colab-assisted experiments and stronger tool-use comparison if it proves stable on the target runtime stack. A 2026-06-14 dry-run found four safetensor shards totaling about 19.3G before runtime overhead, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/qwen35-9b-transformers-local-size-blocked-20260614.md`. Prefer smaller helper lanes, quantized packaging, or cloud proof."
 
   - id: Qwen/Qwen3-4B-Instruct-2507
     family: qwen
