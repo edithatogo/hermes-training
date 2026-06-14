@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-14T12:23:36.192898+00:00`
+Created: `2026-06-14T12:25:51.783638+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -24,7 +24,7 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | 14 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | 15 | `unsloth/gemma-4-12B-it-qat-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
-| 16 | `unsloth/gemma-4-12b-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 16 | `unsloth/gemma-4-12b-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 17 | `bartowski/google_gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 18 | `ggml-org/gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 19 | `google/gemma-4-31B-it-qat-q4_0-gguf` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |

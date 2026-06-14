@@ -58,7 +58,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mkadrlik/Hermes-27B-SFT-v7` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-12B-it` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/gemma4-12b-it-transformers-local-size-blocked-20260614.md` |
 | hermes | `google/gemma-4-12B` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/gemma4-12b-transformers-local-size-blocked-20260614.md` |
-| hermes | `unsloth/gemma-4-12b-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `unsloth/gemma-4-12b-it-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/unsloth-gemma4-12b-it-gguf-acquisition-blocked-20260614.md` |
 | hermes | `unsloth/gemma-4-12B-it-qat-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/unsloth-gemma4-12b-it-qat-gguf-acquisition-blocked-20260614.md` |
 | hermes | `batiai/gemma-4-12B-it-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/batiai-gemma4-12b-gguf-acquisition-blocked-20260614.md` |
 | hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/duoneural-openyourmind-gemma4-12b-gguf-acquisition-blocked-20260614.md` |
@@ -211,7 +211,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `mkadrlik/Hermes-27B-SFT-v7` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-12B-it` | local-finetune | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | hermes | `google/gemma-4-12B` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
-| hermes | `unsloth/gemma-4-12b-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `unsloth/gemma-4-12b-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `unsloth/gemma-4-12B-it-qat-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `batiai/gemma-4-12B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
