@@ -1,6 +1,6 @@
 # Qwen3 V4 PEFT Kaggle P100 Rerun V5 Status
 
-Status: `KernelWorkerStatus.RUNNING`
+Status: `KernelWorkerStatus.COMPLETE`
 
 Kernel: `edithatogo/qwen3-v4-peft-lm-eval-selected-full`
 
@@ -8,24 +8,27 @@ Kernel version: `5`
 
 Artifact directory: `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614`
 
-Downloaded files: `0`
+Downloaded files: `15`
+
+Recovered summary:
+`/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-000150-summary.json`
 
 ## Claim Boundary
 
-No benchmark claim while Kaggle kernel version 5 is still running. Scores
-require SSD artifact recovery plus no-pending ingest validation after
-completion.
+No benchmark claim: Kaggle kernel version 5 completed, but the recovered summary
+is blocked and has no lm-eval result files.
 
-## Running Summary
+## Failure Summary
 
-Kernel version 5 is running after the staged runner changed to
-`transformers==4.57.6` plus `tokenizers==0.22.2`. The next gates are to poll for
-completion, recover `/kaggle/working` artifacts to the SSD path above, and run
-the no-pending ingest validator before any benchmark claim.
+The recovered summary has `status=blocked`, `evaluation.returncode=1`,
+`result_files=[]`, `use_4bit=false`, runtime `torch=2.2.2+cu118`, and Tesla
+P100 capability `6.0`. The runtime pin fixed the PyTorch-disabled failure, but
+`transformers==4.57.6` still could not resolve `Qwen3ForCausalLM` in the Kaggle
+runtime.
 
 ## Evidence
 
 `kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full`
 reported:
 
-`edithatogo/qwen3-v4-peft-lm-eval-selected-full has status "KernelWorkerStatus.RUNNING"`
+`edithatogo/qwen3-v4-peft-lm-eval-selected-full has status "KernelWorkerStatus.COMPLETE"`

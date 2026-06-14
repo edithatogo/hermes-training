@@ -1,6 +1,6 @@
 {
   "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614",
-  "claim_boundary": "No benchmark claim while Kaggle kernel version 5 is still running; scores require SSD artifact recovery plus no-pending ingest validation after completion.",
+  "claim_boundary": "No benchmark claim: Kaggle kernel version 5 completed, but the recovered summary is blocked and has no lm-eval result files.",
   "command": [
     "kaggle",
     "kernels",
@@ -15,11 +15,12 @@
     "--path",
     "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614"
   ],
-  "downloaded_file_count": 0,
+  "downloaded_file_count": 15,
+  "failure_summary": "Kernel version 5 completed without scores. The recovered summary has status=blocked, evaluation.returncode=1, result_files=[], use_4bit=false, runtime torch=2.2.2+cu118, and Tesla P100 capability 6.0. The runtime pin fixed the PyTorch-disabled failure, but transformers==4.57.6 still could not resolve Qwen3ForCausalLM in the Kaggle runtime.",
   "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
   "kernel_version": 5,
   "observed_at": "2026-06-14",
-  "running_summary": "Kernel version 5 is running after the staged runner changed to transformers==4.57.6 plus tokenizers==0.22.2; remaining gates are artifact recovery and no-pending ingest validation before any benchmark claim.",
-  "status": "KernelWorkerStatus.RUNNING",
-  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.RUNNING\""
+  "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-000150-summary.json",
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
 }

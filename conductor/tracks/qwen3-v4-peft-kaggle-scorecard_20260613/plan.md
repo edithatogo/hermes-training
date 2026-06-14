@@ -37,9 +37,10 @@
 - [x] Task: Change the Kaggle runner/runtime strategy before any further rerun.
 - [x] Task: Record existing Kaggle kernel version 5 submission and live status
   without claiming benchmark coverage.
-- [ ] Task: Recover SSD artifacts from Kaggle kernel version 5 after
-  completion and run the no-pending ingest gate, or route the scorecard to a
-  different backend if it fails.
+- [x] Task: Recover SSD artifacts from Kaggle kernel version 5 after
+  completion and run the no-pending ingest gate.
+- [ ] Task: Route the scorecard to a different backend, or replace the Kaggle
+  model-loading strategy before any further rerun.
 
 ## Health Check
 
@@ -98,8 +99,11 @@
   `transformers==4.57.6` plus `tokenizers==0.22.2`, and the contract validator
   proves that Qwen3 class support remains available while keeping Torch 2.2
   compatibility. Kernel version 5 was submitted from that staged runner and is
-  currently `KernelWorkerStatus.RUNNING`, recorded in
-  `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v5-20260614.md`.
-- Decision: keep Kaggle non-promotional while version 5 is running; no
-  benchmark claim until SSD artifact recovery and no-pending ingest validation
-  pass.
+  now complete. Artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614`;
+  the no-pending ingest gate failed in
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v5-20260614.md`
+  because `transformers==4.57.6` still could not resolve `Qwen3ForCausalLM` in
+  the Kaggle runtime.
+- Decision: keep Kaggle blocked and non-promotional; do not submit another
+  unchanged P100/CUDA Kaggle rerun.
