@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-14T09:15:12.883501+00:00`
+Created: `2026-06-14T09:16:17.008759+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -21,8 +21,8 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | 10 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 11 | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 12 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
-| 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 14 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
+| 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
+| 14 | `google/gemma-4-12B-it` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | 15 | `unsloth/gemma-4-12B-it-qat-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 16 | `unsloth/gemma-4-12b-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 17 | `bartowski/google_gemma-4-31B-it-GGUF` | `mac-runtime-proof` | 31B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |

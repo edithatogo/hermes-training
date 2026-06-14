@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-14T09:15:12.883501+00:00",
+  "created_at": "2026-06-14T09:16:17.008759+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -193,11 +193,11 @@
       "size_bucket": "large-local",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or MLX/GGUF smoke",
+      "first_runtime": "cloud/offloaded Transformers smoke or quantized packaging proof",
       "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model google/gemma-4-12B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-12b-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Base 12B Gemma 4 candidate. Keep as a runtime/packaging comparison point until a concrete Mac or Colab path is proven."
+      "notes": "Base 12B Gemma 4 candidate. Keep as a runtime/packaging comparison point until a concrete Mac or Colab path is proven. A 2026-06-14 dry-run found a single `model.safetensors` artifact at 23.9G, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/gemma4-12b-transformers-local-size-blocked-20260614.md`. Prefer quantized packaging or cloud/offload proof."
     },
     {
       "id": "google/gemma-4-12B-it",
@@ -208,11 +208,11 @@
       "size_bucket": "large-local",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or MLX/GGUF smoke",
+      "first_runtime": "cloud/offloaded Transformers smoke or quantized packaging proof",
       "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model google/gemma-4-12B-it \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-12b-it-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "New mid-size Gemma 4 candidate surfaced in the current Hugging Face search. More plausible than 26B/31B for burst-colab or quantized local experimentation, but it still needs a runtime proof before any promotion."
+      "notes": "New mid-size Gemma 4 candidate surfaced in the current Hugging Face search. More plausible than 26B/31B for burst-colab or quantized local experimentation, but it still needs a runtime proof before any promotion. A 2026-06-14 dry-run found a single `model.safetensors` artifact at 23.9G, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/gemma4-12b-it-transformers-local-size-blocked-20260614.md`. Prefer quantized packaging or cloud/offload proof."
     },
     {
       "id": "unsloth/gemma-4-12B-it-qat-GGUF",
