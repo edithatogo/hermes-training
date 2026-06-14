@@ -126,6 +126,8 @@ def blocked_reason(item: dict[str, Any], notes: str, project: str) -> str:
         return "blocked on gated/authenticated model access"
     if status == "acquisition-blocked":
         return "blocked until runtime artifact acquisition succeeds"
+    if status == "local-size-blocked":
+        return "blocked from local Mac benchmark by model size; route to quantized sibling or cloud"
     if status == "runtime-blocked":
         return "blocked by current local runtime support"
     if ("403" in text or feasibility == "needs-auth") and not has_positive_evidence:

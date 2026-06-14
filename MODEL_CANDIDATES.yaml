@@ -145,12 +145,13 @@ candidates:
     role: cloud-teacher
     environment: hf-transformers
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "9B"
     architecture: "Reasoning-focused fine-tune of Qwen 3.5 9B"
     license: apache-2.0
-    first_runtime: "Transformers or GGUF smoke"
+    first_runtime: "cloud Transformers proof or local GGUF sibling smoke"
     first_finetune: "defer"
-    notes: "Reasoning backbone for the Harmonic-Hermes stage 2 agentic fine-tune. Treat this as the base teacher/backbone for local Hermes-style comparisons."
+    notes: "Reasoning backbone for the Harmonic-Hermes stage 2 agentic fine-tune. Treat this as the base teacher/backbone for local Hermes-style comparisons. A 2026-06-14 dry-run found four safetensor shards totaling about 19.3G before runtime overhead, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/harmonic-9b-transformers-local-size-blocked-20260614.md`. Prefer the GGUF Harmonic-Hermes packages for local proof, or use this model as a cloud-teacher/runtime proof when capacity gates are open."
 
   - id: DJLougen/Harmonic-Hermes-9B-GGUF
     family: hermes
