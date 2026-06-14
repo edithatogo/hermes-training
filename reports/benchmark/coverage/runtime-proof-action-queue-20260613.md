@@ -1,7 +1,7 @@
 # Runtime Proof Action Queue
 
 Run ID: `runtime-proof-action-queue-20260613`
-Created: `2026-06-13T07:25:00+00:00`
+Created: `2026-06-14T09:10:48.555516+00:00`
 
 Purpose: convert the broad Hermes candidate radar into an executable queue. This file does not promote models; it identifies the next proof needed before spending local SSD space, Colab quota, or Azure hours.
 
@@ -10,15 +10,15 @@ Purpose: convert the broad Hermes candidate radar into an executable queue. This
 | Priority | Candidate | Lane | Params | Environment | Coverage | Next proof |
 |---:|---|---|---|---|---|---|
 | 1 | `google/gemma-4-E4B-it-qat-mobile-transformers` | `mac-runtime-proof` | 3B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 2 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 3 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 4 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 5 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
-| 6 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 7 | `nex-agi/Nex-N2-mini` | `mac-runtime-proof` | 9B | `mac-mlx` | `blocked` | blocked until runtime artifact/load proof exists |
-| 8 | `openbmb/AgentCPM-Report-GGUF` | `mac-runtime-proof` | 8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 9 | `openbmb/MiniCPM-V-4.6-GPTQ` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
-| 10 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
+| 2 | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `mac-runtime-proof` | 4B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 3 | `DJLougen/Harmonic-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
+| 4 | `DJLougen/Harmonic-Hermes-9B-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 5 | `Qwen/Qwen3.5-9B` | `mac-runtime-proof` | 9B | `hf-transformers` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
+| 6 | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 7 | `nex-agi/Nex-N2-mini` | `mac-runtime-proof` | 9B | `mac-mlx` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
+| 8 | `openbmb/AgentCPM-Report-GGUF` | `mac-runtime-proof` | 8B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 9 | `openbmb/MiniCPM-V-4.6-GPTQ` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
+| 10 | `openbmb/MiniCPM-o-4_5-gguf` | `mac-runtime-proof` | 9B | `mac-lmstudio` | `blocked` | blocked until runtime artifact acquisition succeeds |
 | 11 | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 12 | `batiai/gemma-4-12B-it-GGUF` | `mac-runtime-proof` | 12B | `mac-lmstudio` | `blocked` | blocked until runtime artifact/load proof exists |
 | 13 | `google/gemma-4-12B` | `mac-runtime-proof` | 12B | `hf-transformers` | `blocked` | blocked until runtime artifact/load proof exists |
@@ -71,7 +71,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh
@@ -88,7 +88,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked from local Mac benchmark by model size; route to quantized sibling or cloud
 
 ```bash
 source scripts/env.sh
@@ -106,7 +106,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh
@@ -123,7 +123,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked from local Mac benchmark by model size; route to quantized sibling or cloud
 
 ```bash
 source scripts/env.sh
@@ -141,7 +141,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh
@@ -158,7 +158,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked from local Mac benchmark by model size; route to quantized sibling or cloud
 
 ```bash
 source scripts/env.sh
@@ -174,7 +174,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh
@@ -191,7 +191,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh
@@ -208,7 +208,7 @@ source scripts/env.sh
 
 - Lane: `mac-runtime-proof`
 - Coverage: `blocked`
-- Blocker: blocked until runtime artifact/load proof exists
+- Blocker: blocked until runtime artifact acquisition succeeds
 
 ```bash
 source scripts/env.sh

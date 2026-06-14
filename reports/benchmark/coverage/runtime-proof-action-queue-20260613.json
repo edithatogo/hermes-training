@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-13T07:25:00+00:00",
+  "created_at": "2026-06-14T09:10:48.555516+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -15,9 +15,9 @@
       "coverage_state": "blocked",
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or MLX smoke",
+      "first_runtime": "retry after Transformers gemma4 architecture support improves",
       "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model google/gemma-4-E4B-it-qat-mobile-transformers \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-e4b-it-qat-mobile-transformers-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a slightly larger mobile/runtime comparison point only."
+      "notes": "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. The first runtime-proof queue attempt on 2026-06-14 loaded the tokenizer but failed before weights or generation because the installed Transformers stack does not recognize `model_type: gemma4`; see `reports/runtime/google-gemma-4-e4b-it-qat-mobile-transformers-load-failure-20260614.md`. Use as a runtime-support retry candidate only, not as benchmark or promotion evidence."
     },
     {
       "id": "unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF",
@@ -28,11 +28,11 @@
       "size_bucket": "small",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio",
+      "first_runtime": "retry artifact acquisition before llama.cpp or LM Studio proof",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-nvidia-nemotron-3-nano-4b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-nvidia-nemotron-3-nano-4b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Community GGUF packaging with higher download volume than some alternative packs. Useful as a runtime comparison point against the official GGUF tree."
+      "notes": "Community GGUF packaging with higher download volume than some alternative packs. Useful as a runtime comparison point against the official GGUF tree. A 2026-06-14 dry-run identified `NVIDIA-Nemotron-3-Nano-4B-Q4_K_M.gguf` at 2.9G, but the live SSD-cache download stalled with a zero-byte `.incomplete` blob and was cancelled cleanly; see `reports/runtime/unsloth-nemotron3-nano-4b-gguf-acquisition-blocked-20260614.md`. Keep as acquisition-blocked until the exact package is available. The official sibling GGUF remains runtime-proven but not promoted."
     },
     {
       "id": "DJLougen/Harmonic-9B",
@@ -43,11 +43,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or GGUF smoke",
+      "first_runtime": "cloud Transformers proof or local GGUF sibling smoke",
       "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model DJLougen/Harmonic-9B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id djlougen-harmonic-9b-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Reasoning backbone for the Harmonic-Hermes stage 2 agentic fine-tune. Treat this as the base teacher/backbone for local Hermes-style comparisons."
+      "notes": "Reasoning backbone for the Harmonic-Hermes stage 2 agentic fine-tune. Treat this as the base teacher/backbone for local Hermes-style comparisons. A 2026-06-14 dry-run found four safetensor shards totaling about 19.3G before runtime overhead, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/harmonic-9b-transformers-local-size-blocked-20260614.md`. Prefer the GGUF Harmonic-Hermes packages for local proof, or use this model as a cloud-teacher/runtime proof when capacity gates are open."
     },
     {
       "id": "DJLougen/Harmonic-Hermes-9B-GGUF",
@@ -58,11 +58,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
+      "first_runtime": "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model djlougen-harmonic-hermes-9b-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id djlougen-harmonic-hermes-9b-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Stage 2 agentic tool-calling model built on Harmonic-9B. This is the most direct Hermes-style local runtime lane from the current search and is suitable for Ollama/LM Studio validation."
+      "notes": "Stage 2 agentic tool-calling model built on Harmonic-9B. This is the most direct Hermes-style local runtime lane from the current search and is suitable for Ollama/LM Studio validation. A 2026-06-14 dry-run identified `Harmonic-Hermes-9B-Q2_K.gguf` as the smallest text-model artifact at 3.8G. The live SSD-cache download made partial progress to about 36M but was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/harmonic-hermes-9b-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
     },
     {
       "id": "Qwen/Qwen3.5-9B",
@@ -73,11 +73,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or MLX/GGUF smoke",
+      "first_runtime": "cloud Transformers proof or smaller quantized sibling proof",
       "next_command": "source scripts/env.sh\n# Uses SSD-backed Hugging Face cache from scripts/env.sh; add --local-files-only after acquisition.\n./.venv/bin/python scripts/run_transformers_pilot_benchmark.py \\\n  --model Qwen/Qwen3.5-9B \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --device auto \\\n  --dtype float16 \\\n  --require-no-extra-tool-text \\\n  --run-id qwen-qwen3-5-9b-transformers-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "New mid-size Qwen3.5 candidate that sits between the tiny helper lanes and the larger Qwen3.6 frontier. Useful for Colab-assisted experiments and stronger tool-use comparison if it proves stable on the target runtime stack."
+      "notes": "New mid-size Qwen3.5 candidate that sits between the tiny helper lanes and the larger Qwen3.6 frontier. Useful for Colab-assisted experiments and stronger tool-use comparison if it proves stable on the target runtime stack. A 2026-06-14 dry-run found four safetensor shards totaling about 19.3G before runtime overhead, so direct Mac-local Transformers proof is size-blocked on the 32GB lane; see `reports/runtime/qwen35-9b-transformers-local-size-blocked-20260614.md`. Prefer smaller helper lanes, quantized packaging, or cloud proof."
     },
     {
       "id": "mradermacher/Harmonic-Hermes-9B-i1-GGUF",
@@ -88,11 +88,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
+      "first_runtime": "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model mradermacher-harmonic-hermes-9b-i1-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id mradermacher-harmonic-hermes-9b-i1-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Alternative GGUF packaging for the Harmonic-Hermes agentic fine-tune. Use it as a Mac runtime comparison point and keep it runtime-only until a smoke passes."
+      "notes": "Alternative GGUF packaging for the Harmonic-Hermes agentic fine-tune. Use it as a Mac runtime comparison point and keep it runtime-only until a smoke passes. A 2026-06-14 dry-run found the smallest GGUF artifact as `Harmonic-Hermes-9B.i1-IQ1_S.gguf` at 2.7G. A live SSD-cache download made partial progress to about 15M after roughly one minute and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/harmonic-hermes-9b-i1-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
     },
     {
       "id": "nex-agi/Nex-N2-mini",
@@ -103,11 +103,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "MLX community conversion or Transformers smoke",
+      "first_runtime": "cloud/offloaded smoke, or smaller quantized MLX artifact if one appears",
       "next_command": "source scripts/env.sh\n# Acquire the MLX model to the SSD Hugging Face cache first.\n./.venv/bin/python scripts/run_local_pilot_benchmark.py \\\n  --model nex-agi/Nex-N2-mini \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id nex-agi-nex-n2-mini-local-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "New agentic small model with published MLX conversion paths such as `mlx-community/Nex-N2-mini-nvfp4` and `mlx-community/Nex-N2-mini-8bit`. It is a plausible Mac or Colab runtime candidate, but it still needs explicit proof before promotion."
+      "notes": "New agentic small model with published MLX conversion paths such as `mlx-community/Nex-N2-mini-nvfp4` and `mlx-community/Nex-N2-mini-8bit`. MLX is installed locally (`mlx_lm 0.31.3`), but a 2026-06-14 dry-run found the base repo has 16 safetensor shards totaling roughly 70G, `mlx-community/Nex-N2-mini-nvfp4` has four shards totaling about 20.5G, and `mlx-community/Nex-N2-mini-8bit` is larger. This is blocked from the current 32GB Mac-local proof lane; see `reports/runtime/nex-n2-mini-mlx-local-size-blocked-20260614.md`. Keep as cloud/offload or smaller-quant watch until a bounded artifact is available."
     },
     {
       "id": "openbmb/AgentCPM-Report-GGUF",
@@ -118,11 +118,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio smoke",
+      "first_runtime": "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-agentcpm-report-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-agentcpm-report-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only."
+      "notes": "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only. A 2026-06-14 dry-run found one GGUF artifact, `AgentCPM-Report-Q4_K_M.gguf`, at 5.0G. A bounded live SSD-cache download stalled at a zero-byte incomplete blob and was cancelled cleanly; see `reports/runtime/agentcpm-report-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
     },
     {
       "id": "openbmb/MiniCPM-V-4.6-GPTQ",
@@ -133,11 +133,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "Transformers or local quantized smoke",
+      "first_runtime": "resume artifact acquisition, then install/verify GPTQ-capable runtime",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible local artifact to /Volumes/PortableSSD first, then expose it through a bounded OpenAI-compatible endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-v-4-6-gptq \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm-v-4-6-gptq-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh GPTQ packaging surfaced in the current Hugging Face search. Keep it as a local runtime comparison point against the base and GGUF trees."
+      "notes": "Fresh GPTQ packaging surfaced in the current Hugging Face search. Keep it as a local runtime comparison point against the base and GGUF trees. A 2026-06-14 dry-run found one main artifact, `model.safetensors`, at 1.9G. A bounded live SSD-cache download stalled at a zero-byte incomplete blob and was cancelled cleanly. The current Hermes venv also lacks `auto_gptq` and `optimum`, so a GPTQ-capable runtime must be installed or selected after acquisition; see `reports/runtime/minicpm-v46-gptq-acquisition-runtime-blocked-20260614.md`."
     },
     {
       "id": "openbmb/MiniCPM-o-4_5-gguf",
@@ -148,11 +148,11 @@
       "size_bucket": "medium",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp or LM Studio multimodal smoke",
+      "first_runtime": "resume main text GGUF acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model openbmb-minicpm-o-4-5-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id openbmb-minicpm-o-4-5-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point."
+      "notes": "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point. A 2026-06-14 dry-run found the smallest main text-model GGUF artifacts at 4.8G (`MiniCPM-o-4_5-Q4_0.gguf` and `MiniCPM-o-4_5-Q4_K_S.gguf`) plus smaller modality components. A bounded live SSD-cache download of `MiniCPM-o-4_5-Q4_0.gguf` made partial progress to about 16M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/minicpm-o-45-gguf-acquisition-blocked-20260614.md`. Resume the main text GGUF acquisition before endpoint scoring."
     },
     {
       "id": "DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF",
