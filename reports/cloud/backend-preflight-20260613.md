@@ -1,6 +1,6 @@
 # Cloud Backend Preflight Registry
 
-Date: 2026-06-13T08:43:03.308762+00:00
+Date: 2026-06-14T00:36:35.854414+00:00
 Storage root: `/Volumes/PortableSSD`
 Storage root exists: `True`
 
