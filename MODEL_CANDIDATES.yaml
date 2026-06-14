@@ -1373,12 +1373,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "8B"
     architecture: "Deep research agent, GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio smoke"
+    first_runtime: "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only."
+    notes: "GGUF packaging for AgentCPM-Report. Treat as a packaging/runtime comparison point only. A 2026-06-14 dry-run found one GGUF artifact, `AgentCPM-Report-Q4_K_M.gguf`, at 5.0G. A bounded live SSD-cache download stalled at a zero-byte incomplete blob and was cancelled cleanly; see `reports/runtime/agentcpm-report-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
 
   - id: openbmb/MiniCPM-V-4.6
     family: minicpm
