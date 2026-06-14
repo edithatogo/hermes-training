@@ -51,7 +51,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `NousResearch/Hermes-4.3-36B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `DJLougen/Harmonic-9B` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/harmonic-9b-transformers-local-size-blocked-20260614.md` |
 | hermes | `DJLougen/Harmonic-Hermes-9B-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/harmonic-hermes-9b-gguf-acquisition-blocked-20260614.md` |
-| hermes | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/harmonic-hermes-9b-i1-gguf-acquisition-blocked-20260614.md` |
 | hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/hermes-qwen35-9b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/hermes-qwen35-4b-sft-v7-q8-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `mkadrlik/hermes-Qwen3.5-0.8B-SFT-v7-fresh` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/hermes-qwen35-08b-sft-v7-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
@@ -203,7 +203,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `NousResearch/Hermes-4.3-36B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `DJLougen/Harmonic-9B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | hermes | `DJLougen/Harmonic-Hermes-9B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
-| hermes | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `mradermacher/Harmonic-Hermes-9B-i1-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `mkadrlik/Hermes-Qwen3.5-9B-SFT-v7` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `mkadrlik/Hermes-Qwen3.5-4B-SFT-v7` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `mkadrlik/hermes-Qwen3.5-2B-SFT-v7` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `smoke-or-pilot-only` | smoke/pilot evidence is useful for liveness but not sufficiently discriminating for promotion |
