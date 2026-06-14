@@ -518,12 +518,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "31B"
     architecture: "Gemma 4 31B instruction model, community GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_runtime: "resume GGUF artifact acquisition before LM Studio / llama.cpp smoke"
     first_finetune: "defer"
-    notes: "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes."
+    notes: "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes. A 2026-06-14 dry-run found `google_gemma-4-31B-it-IQ1_M.gguf` as the smallest main GGUF artifact at 10.1G. A bounded live SSD-cache download of that artifact made partial progress to about 15M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/bartowski-gemma4-31b-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
 
   - id: google/gemma-4-31B-it-qat-q4_0-gguf
     family: gemma

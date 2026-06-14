@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-14T12:25:51.783638+00:00",
+  "created_at": "2026-06-14T12:28:27.565053+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -253,11 +253,11 @@
       "size_bucket": "cloud-or-quant",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "LM Studio or llama.cpp GGUF smoke",
+      "first_runtime": "resume GGUF artifact acquisition before LM Studio / llama.cpp smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model bartowski-google-gemma-4-31b-it-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id bartowski-google-gemma-4-31b-it-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes."
+      "notes": "Fresh community packaging published today. Use as a local packaging/runtime comparison point alongside the official QAT and LM Studio lanes. A 2026-06-14 dry-run found `google_gemma-4-31B-it-IQ1_M.gguf` as the smallest main GGUF artifact at 10.1G. A bounded live SSD-cache download of that artifact made partial progress to about 15M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/bartowski-gemma4-31b-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
     },
     {
       "id": "ggml-org/gemma-4-31B-it-GGUF",

@@ -75,7 +75,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `lmstudio-community/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `unsloth/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `ggml-org/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `bartowski/google_gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `bartowski/google_gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/bartowski-gemma4-31b-gguf-acquisition-blocked-20260614.md` |
 | hermes | `google/gemma-4-31B-it-qat-q4_0-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/Gemma-4-31B-IT-NVFP4` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/Gemma-4-26B-A4B-NVFP4` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -229,7 +229,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `lmstudio-community/gemma-4-31B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `unsloth/gemma-4-31B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `ggml-org/gemma-4-31B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `bartowski/google_gemma-4-31B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `bartowski/google_gemma-4-31B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `google/gemma-4-31B-it-qat-q4_0-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/Gemma-4-31B-IT-NVFP4` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/Gemma-4-26B-A4B-NVFP4` | research-runtime | `needs-runtime-proof` | specialist runtime proof | `blocked` | blocked until runtime artifact/load proof exists |
