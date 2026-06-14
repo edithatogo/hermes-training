@@ -142,7 +142,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/AgentCPM-Report` | `blocked` | blocked until runtime artifact/load proof exists | `reports/runtime/agentcpm-report-gguf-acquisition-blocked-20260614.md` |
 | hermes | `openbmb/AgentCPM-Report-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/agentcpm-report-gguf-acquisition-blocked-20260614.md` |
 | hermes | `openbmb/MiniCPM-V-4.6` | `blocked` | blocked until runtime artifact/load proof exists | `reports/runtime/minicpm-v-4-6-bnb-transformers-load-failure-20260613.md` |
-| hermes | `openbmb/MiniCPM-V-4.6-GPTQ` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `openbmb/MiniCPM-V-4.6-GPTQ` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/minicpm-v46-gptq-acquisition-runtime-blocked-20260614.md` |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -297,7 +297,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `openbmb/AgentCPM-Report` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/AgentCPM-Report-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `openbmb/MiniCPM-V-4.6` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `openbmb/MiniCPM-V-4.6-GPTQ` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `openbmb/MiniCPM-V-4.6-GPTQ` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

@@ -1400,12 +1400,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "9B"
     architecture: "MiniCPM-V 4.6 GPTQ quantized package"
     license: "check model card"
-    first_runtime: "Transformers or local quantized smoke"
+    first_runtime: "resume artifact acquisition, then install/verify GPTQ-capable runtime"
     first_finetune: "defer"
-    notes: "Fresh GPTQ packaging surfaced in the current Hugging Face search. Keep it as a local runtime comparison point against the base and GGUF trees."
+    notes: "Fresh GPTQ packaging surfaced in the current Hugging Face search. Keep it as a local runtime comparison point against the base and GGUF trees. A 2026-06-14 dry-run found one main artifact, `model.safetensors`, at 1.9G. A bounded live SSD-cache download stalled at a zero-byte incomplete blob and was cancelled cleanly. The current Hermes venv also lacks `auto_gptq` and `optimum`, so a GPTQ-capable runtime must be installed or selected after acquisition; see `reports/runtime/minicpm-v46-gptq-acquisition-runtime-blocked-20260614.md`."
 
   - id: openbmb/MiniCPM-V-4.6-Thinking
     family: minicpm
