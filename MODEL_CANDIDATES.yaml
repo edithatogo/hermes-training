@@ -317,12 +317,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "12B"
     architecture: "Abliterated Gemma 4 12B instruct model, community GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp / LM Studio / Ollama GGUF smoke"
+    first_runtime: "resume GGUF artifact acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "Community GGUF packaging for the OpenYourMind abliterated Gemma 4 12B lane. Keep it as a runtime comparison point only."
+    notes: "Community GGUF packaging for the OpenYourMind abliterated Gemma 4 12B lane. Keep it as a runtime comparison point only. A 2026-06-14 dry-run found `oym_ablit-Q3_K_L.gguf` as the smallest GGUF artifact at 6.6G. A bounded live SSD-cache download made partial progress to about 5.1M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/duoneural-openyourmind-gemma4-12b-gguf-acquisition-blocked-20260614.md`. Resume acquisition before endpoint scoring."
 
   - id: google/gemma-4-26B-A4B-it
     family: gemma

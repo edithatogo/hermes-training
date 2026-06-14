@@ -61,7 +61,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/gemma-4-12b-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `unsloth/gemma-4-12B-it-qat-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `batiai/gemma-4-12B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/duoneural-openyourmind-gemma4-12b-gguf-acquisition-blocked-20260614.md` |
 | hermes | `google/gemma-4-26B-A4B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-31B-it` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `google/gemma-4-31B` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -214,7 +214,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `unsloth/gemma-4-12b-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `unsloth/gemma-4-12B-it-qat-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `batiai/gemma-4-12B-it-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `DuoNeural/OpenYourMind-Gemma4-12B-IT-Abliterated-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `google/gemma-4-26B-A4B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B-it` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `google/gemma-4-31B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
