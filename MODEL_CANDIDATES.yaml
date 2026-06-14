@@ -533,12 +533,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "31B"
     architecture: "Gemma 4 31B instruction model, QAT q4_0 GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_runtime: "cloud/offloaded proof or smaller low-bit packaging"
     first_finetune: "defer"
-    notes: "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only."
+    notes: "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only. A 2026-06-14 dry-run found the main model artifact `gemma-4-31B_q4_0-it.gguf` at 17.7G plus a 1.2G mmproj file. This is blocked from the current 32GB Mac-local proof lane; see `reports/runtime/google-gemma4-31b-qat-q40-gguf-local-size-blocked-20260614.md`. Prefer cloud/offload or a smaller low-bit packaging lane."
 
   - id: nvidia/Gemma-4-31B-IT-NVFP4
     family: gemma

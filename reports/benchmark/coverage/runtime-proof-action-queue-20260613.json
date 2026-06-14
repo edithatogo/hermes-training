@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-14T12:29:24.036111+00:00",
+  "created_at": "2026-06-14T12:30:29.189050+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -283,11 +283,11 @@
       "size_bucket": "cloud-or-quant",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked from local Mac benchmark by model size; route to quantized sibling or cloud",
       "lane": "mac-runtime-proof",
-      "first_runtime": "LM Studio or llama.cpp GGUF smoke",
+      "first_runtime": "cloud/offloaded proof or smaller low-bit packaging",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model google-gemma-4-31b-it-qat-q4-0-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id google-gemma-4-31b-it-qat-q4-0-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only."
+      "notes": "Official QAT q4_0 Gemma 4 31B packaging surfaced in the live Hugging Face search. Use as a local packaging/runtime comparison point only. A 2026-06-14 dry-run found the main model artifact `gemma-4-31B_q4_0-it.gguf` at 17.7G plus a 1.2G mmproj file. This is blocked from the current 32GB Mac-local proof lane; see `reports/runtime/google-gemma4-31b-qat-q40-gguf-local-size-blocked-20260614.md`. Prefer cloud/offload or a smaller low-bit packaging lane."
     },
     {
       "id": "lmstudio-community/gemma-4-31B-it-GGUF",
