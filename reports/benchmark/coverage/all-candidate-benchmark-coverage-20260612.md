@@ -153,9 +153,9 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `bosonai/higgs-audio-v3-tts-4b` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3.6-27B` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `Qwen/Qwen3.6-27B-FP8` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `unsloth/Qwen3.6-27B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `unsloth/Qwen3.6-27B-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `unsloth/Qwen3.6-27B-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/unsloth-qwen36-27b-gguf-acquisition-blocked-20260614.md` |
+| hermes | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/unsloth-qwen36-27b-mlx-local-size-blocked-20260614.md` |
+| hermes | `unsloth/Qwen3.6-27B-MTP-GGUF` | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud | `reports/runtime/unsloth-qwen36-27b-mtp-gguf-local-size-blocked-20260614.md` |
 | hermes | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -308,9 +308,9 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `bosonai/higgs-audio-v3-tts-4b` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3.6-27B` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `Qwen/Qwen3.6-27B-FP8` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `unsloth/Qwen3.6-27B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `unsloth/Qwen3.6-27B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `unsloth/Qwen3.6-27B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
+| hermes | `unsloth/Qwen3.6-27B-UD-MLX-4bit` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
+| hermes | `unsloth/Qwen3.6-27B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked from local Mac benchmark by model size; route to quantized sibling or cloud |
 | hermes | `unsloth/Qwen3.6-35B-A3B-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `mudler/Qwen3.6-35B-A3B-APEX-MTP-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `localweights/Qwen3.6-35B-A3B-MTP-IQ4_XS-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |

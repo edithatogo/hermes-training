@@ -1555,12 +1555,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "27B"
     architecture: "Qwen3.6 multimodal family, GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_runtime: "resume main GGUF artifact acquisition before LM Studio / llama.cpp smoke"
     first_finetune: "defer"
-    notes: "Unsloth GGUF packaging surfaced alongside the official 27B repo. Use as a local runtime comparison point if the already-present Qwen3.6 35B-A3B lane needs a denser baseline."
+    notes: "Unsloth GGUF packaging surfaced alongside the official 27B repo. Use as a local runtime comparison point if the already-present Qwen3.6 35B-A3B lane needs a denser baseline. A 2026-06-14 dry-run found the smallest main model artifact as `Qwen3.6-27B-UD-IQ2_XXS.gguf` at 9.4G. A bounded live SSD-cache download made partial progress to about 10M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/unsloth-qwen36-27b-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
 
   - id: unsloth/Qwen3.6-27B-UD-MLX-4bit
     family: qwen
@@ -1568,12 +1569,13 @@ candidates:
     role: local-runtime
     environment: mac-mlx
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "27B"
     architecture: "Qwen3.6, MLX 4-bit packaging"
     license: apache-2.0
-    first_runtime: "MLX server smoke with Hermes Agent/OpenAI-compatible endpoint"
+    first_runtime: "cloud/offloaded MLX proof or smaller MLX artifact"
     first_finetune: "defer"
-    notes: "Model card includes MLX and Hermes Agent setup examples. Size is tight for a 32GB Mac; runtime proof only before any benchmark claims."
+    notes: "Model card includes MLX and Hermes Agent setup examples. Size is tight for a 32GB Mac; runtime proof only before any benchmark claims. A 2026-06-14 dry-run found five safetensor shards totaling about 25.8G before runtime overhead, so this is blocked from the current 32GB Mac-local MLX proof lane despite MLX being installed; see `reports/runtime/unsloth-qwen36-27b-mlx-local-size-blocked-20260614.md`. Prefer cloud/offload or a smaller MLX artifact."
 
   - id: unsloth/Qwen3.6-27B-MTP-GGUF
     family: qwen
@@ -1581,12 +1583,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "27B"
     architecture: "Qwen3.6, GGUF with multi-token prediction packaging"
     license: "check model card"
-    first_runtime: "LM Studio or Ollama GGUF smoke"
+    first_runtime: "cloud/offloaded proof or smaller low-bit packaging"
     first_finetune: "defer"
-    notes: "Recent Unsloth MTP GGUF packaging. Candidate for runtime latency and tool-call smoke, not local training."
+    notes: "Recent Unsloth MTP GGUF packaging. Candidate for runtime latency and tool-call smoke, not local training. A 2026-06-14 dry-run found the smallest main model artifact as `Qwen3.6-27B-UD-IQ2_XXS.gguf` at 9.6G. This remains a large 27B GGUF lane, and the sibling non-MTP repo's 9.4G artifact made only partial progress in a bounded acquisition attempt; see `reports/runtime/unsloth-qwen36-27b-mtp-gguf-local-size-blocked-20260614.md`. Prefer cloud/offload or a smaller low-bit packaging lane before endpoint scoring."
 
   - id: unsloth/Qwen3.6-35B-A3B-MTP-GGUF
     family: qwen
