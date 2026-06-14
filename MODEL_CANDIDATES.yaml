@@ -808,12 +808,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "4B"
     architecture: "Nemotron 3 Nano 4B community GGUF packaging"
     license: "other"
-    first_runtime: "llama.cpp or LM Studio"
+    first_runtime: "retry artifact acquisition before llama.cpp or LM Studio proof"
     first_finetune: "defer"
-    notes: "Community GGUF packaging with higher download volume than some alternative packs. Useful as a runtime comparison point against the official GGUF tree."
+    notes: "Community GGUF packaging with higher download volume than some alternative packs. Useful as a runtime comparison point against the official GGUF tree. A 2026-06-14 dry-run identified `NVIDIA-Nemotron-3-Nano-4B-Q4_K_M.gguf` at 2.9G, but the live SSD-cache download stalled with a zero-byte `.incomplete` blob and was cancelled cleanly; see `reports/runtime/unsloth-nemotron3-nano-4b-gguf-acquisition-blocked-20260614.md`. Keep as acquisition-blocked until the exact package is available. The official sibling GGUF remains runtime-proven but not promoted."
 
   - id: mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit
     family: nvidia

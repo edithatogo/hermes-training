@@ -97,7 +97,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/nemotron3-nano-4b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
-| hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/unsloth-nemotron3-nano-4b-gguf-acquisition-blocked-20260614.md` |
 | hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/nemotron3-nano-4b-optiq-mlx-strict-bfcl-pilot-20260613.md` |
 | hermes | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -252,7 +252,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
-| hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `unsloth/NVIDIA-Nemotron-3-Nano-4B-GGUF` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `mlx-community/NVIDIA-Nemotron-3-Nano-4B-OptiQ-4bit` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `nvidia/Qwen3-Nemotron-235B-A22B-GenRM-2603` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16` | cloud-teacher | `needs-runtime-proof` | cloud teacher/runtime smoke plus Hermes strict tool-call sample | `blocked` | blocked until runtime artifact/load proof exists |
