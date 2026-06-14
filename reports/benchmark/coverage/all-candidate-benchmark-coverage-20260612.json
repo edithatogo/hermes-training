@@ -491,7 +491,9 @@
       "coverage_state": "blocked",
       "blocked_reason": "blocked until runtime artifact/load proof exists",
       "benchmark_appropriateness": "not benchmarkable until blocker is cleared",
-      "evidence": []
+      "evidence": [
+        "reports/runtime/google-gemma-4-e4b-it-qat-mobile-transformers-load-failure-20260614.md"
+      ]
     },
     {
       "project": "hermes",

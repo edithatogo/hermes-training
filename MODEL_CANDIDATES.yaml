@@ -447,9 +447,9 @@ candidates:
     parameters: "3B"
     architecture: "Gemma 4 QAT Mobile any-to-any package"
     license: "check model card"
-    first_runtime: "Transformers or MLX smoke"
+    first_runtime: "retry after Transformers gemma4 architecture support improves"
     first_finetune: "defer"
-    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. Use as a slightly larger mobile/runtime comparison point only."
+    notes: "Fresh Gemma 4 QAT Mobile packaging surfaced in the live search. The first runtime-proof queue attempt on 2026-06-14 loaded the tokenizer but failed before weights or generation because the installed Transformers stack does not recognize `model_type: gemma4`; see `reports/runtime/google-gemma-4-e4b-it-qat-mobile-transformers-load-failure-20260614.md`. Use as a runtime-support retry candidate only, not as benchmark or promotion evidence."
 
   - id: unsloth/gemma-4-26B-A4B-it-GGUF
     family: gemma

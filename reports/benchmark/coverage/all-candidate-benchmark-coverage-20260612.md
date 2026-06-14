@@ -71,7 +71,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `litert-community/gemma-4-E2B-it-litert-lm` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `mlx-community/gemma-4-e2b-it-4bit` | `blocked` | blocked by current local runtime support | `reports/runtime/gemma4-e2b-mlx-4bit-load-failure-20260613.md` |
 | hermes | `mlx-community/gemma-4-E4B-it-qat-4bit` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/gemma4-e4b-native-normalized-pilot-20260612.md`<br>`reports/benchmark/local-pilots/gemma4-e4b-native-normalizer-analysis-repair-20260614.md`<br>`reports/benchmark/local-pilots/gemma4-e4b-strict-profile-no-extra-pilot-20260612.md` |
-| hermes | `google/gemma-4-E4B-it-qat-mobile-transformers` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `google/gemma-4-E4B-it-qat-mobile-transformers` | `blocked` | blocked until runtime artifact/load proof exists | `reports/runtime/google-gemma-4-e4b-it-qat-mobile-transformers-load-failure-20260614.md` |
 | hermes | `lmstudio-community/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `unsloth/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `ggml-org/gemma-4-31B-it-GGUF` | `blocked` | blocked until runtime artifact/load proof exists |  |
