@@ -1295,12 +1295,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "9B"
     architecture: "MiniCPM-o 4.5 multimodal model, GGUF packaging"
     license: "check model card"
-    first_runtime: "llama.cpp or LM Studio multimodal smoke"
+    first_runtime: "resume main text GGUF acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point."
+    notes: "Explicit GGUF packaging lane for MiniCPM-o 4.5. Use as a local helper/runtime comparison point. A 2026-06-14 dry-run found the smallest main text-model GGUF artifacts at 4.8G (`MiniCPM-o-4_5-Q4_0.gguf` and `MiniCPM-o-4_5-Q4_K_S.gguf`) plus smaller modality components. A bounded live SSD-cache download of `MiniCPM-o-4_5-Q4_0.gguf` made partial progress to about 16M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/minicpm-o-45-gguf-acquisition-blocked-20260614.md`. Resume the main text GGUF acquisition before endpoint scoring."
 
   - id: openbmb/MiniCPM-V-4.6-Thinking
     family: minicpm

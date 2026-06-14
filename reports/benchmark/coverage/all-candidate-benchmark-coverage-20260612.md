@@ -134,7 +134,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Nanbeige/Nanbeige4.1-3B` | `blocked` | blocked by strict Hermes tool-call formatting failure | `reports/benchmark/local-pilots/nanbeige41-3b-transformers-mps-fp16-strict-bfcl-pilot-20260613.md` |
 | hermes | `Mungert/Nanbeige4.1-3B-GGUF` | `blocked` | blocked by empty/no-content generation under the strict prompt | `reports/benchmark/local-pilots/nanbeige41-3b-q4km-llamacpp-strict-bfcl-pilot-20260613.md` |
 | hermes | `openbmb/MiniCPM-o-4_5` | `blocked` | blocked until runtime artifact/load proof exists |  |
-| hermes | `openbmb/MiniCPM-o-4_5-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
+| hermes | `openbmb/MiniCPM-o-4_5-gguf` | `blocked` | blocked until runtime artifact acquisition succeeds | `reports/runtime/minicpm-o-45-gguf-acquisition-blocked-20260614.md` |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | `blocked` | blocked until runtime artifact/load proof exists |  |
 | hermes | `openbmb/MiniCPM-V-4.6-BNB` | `blocked` | blocked by current local runtime support | `reports/runtime/minicpm-v-4-6-bnb-transformers-load-failure-20260613.md` |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | `blocked` | blocked until runtime artifact/load proof exists |  |
@@ -289,7 +289,7 @@ The executable follow-up queue is generated at [`runtime-proof-action-queue-2026
 | hermes | `Nanbeige/Nanbeige4.1-3B` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by strict Hermes tool-call formatting failure |
 | hermes | `Mungert/Nanbeige4.1-3B-GGUF` | local-runtime | `ready` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by empty/no-content generation under the strict prompt |
 | hermes | `openbmb/MiniCPM-o-4_5` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
-| hermes | `openbmb/MiniCPM-o-4_5-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
+| hermes | `openbmb/MiniCPM-o-4_5-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact acquisition succeeds |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
 | hermes | `openbmb/MiniCPM-V-4.6-BNB` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked by current local runtime support |
 | hermes | `openbmb/MiniCPM-V-4.6-Thinking-gguf` | local-runtime | `needs-runtime-proof` | Hermes strict tool-call, local pilots, runtime smoke, selected lm-eval | `blocked` | blocked until runtime artifact/load proof exists |
