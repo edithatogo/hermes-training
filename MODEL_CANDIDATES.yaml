@@ -505,12 +505,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: local-size-blocked
     parameters: "31B"
     architecture: "Gemma 4 31B instruction model, ggml-org GGUF packaging"
     license: "check model card"
-    first_runtime: "LM Studio or llama.cpp GGUF smoke"
+    first_runtime: "cloud/offloaded proof or smaller low-bit packaging"
     first_finetune: "defer"
-    notes: "Fresh ggml-org Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only."
+    notes: "Fresh ggml-org Gemma 4 31B GGUF pack surfaced in the live search. Use as a packaging/runtime comparison point only. A 2026-06-14 dry-run found the smallest main model artifact as `gemma-4-31B-it-Q4_K_M.gguf` at 18.7G, with Q8_0 at 32.6G and bf16 at 61.4G. This is blocked from the current 32GB Mac-local proof lane; see `reports/runtime/ggml-org-gemma4-31b-gguf-local-size-blocked-20260614.md`. Prefer cloud/offload or a smaller low-bit packaging lane."
 
   - id: bartowski/google_gemma-4-31B-it-GGUF
     family: gemma
