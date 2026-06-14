@@ -293,12 +293,13 @@ candidates:
     role: local-runtime
     environment: mac-lmstudio
     feasibility: needs-runtime-proof
+    status: acquisition-blocked
     parameters: "12B"
     architecture: "Gemma 4 12B QAT model, GGUF packaging"
     license: apache-2.0
-    first_runtime: "llama.cpp / LM Studio / Ollama GGUF smoke"
+    first_runtime: "resume main GGUF artifact acquisition before llama.cpp / LM Studio smoke"
     first_finetune: "defer"
-    notes: "Fresh Unsloth QAT GGUF packaging for Gemma 4 12B. Use as the stricter packaging comparison point for Mac local use."
+    notes: "Fresh Unsloth QAT GGUF packaging for Gemma 4 12B. Use as the stricter packaging comparison point for Mac local use. A 2026-06-14 dry-run found the main model artifact `gemma-4-12B-it-qat-UD-Q4_K_XL.gguf` at 6.7G plus smaller MTP/mmproj files. A bounded live SSD-cache download of the main artifact made partial progress to about 15M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/unsloth-gemma4-12b-it-qat-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
 
   - id: batiai/gemma-4-12B-it-GGUF
     family: gemma

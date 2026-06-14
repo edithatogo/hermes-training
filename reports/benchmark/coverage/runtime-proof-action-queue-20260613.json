@@ -1,6 +1,6 @@
 {
   "run_id": "runtime-proof-action-queue-20260613",
-  "created_at": "2026-06-14T09:16:17.008759+00:00",
+  "created_at": "2026-06-14T12:23:36.192898+00:00",
   "source_candidates": "/Volumes/PortableSSD/GitHub/hermes-training/MODEL_CANDIDATES.yaml",
   "source_coverage": "/Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/coverage/all-candidate-benchmark-coverage-20260612.json",
   "rows": [
@@ -223,11 +223,11 @@
       "size_bucket": "large-local",
       "feasibility": "needs-runtime-proof",
       "coverage_state": "blocked",
-      "blocked_reason": "blocked until runtime artifact/load proof exists",
+      "blocked_reason": "blocked until runtime artifact acquisition succeeds",
       "lane": "mac-runtime-proof",
-      "first_runtime": "llama.cpp / LM Studio / Ollama GGUF smoke",
+      "first_runtime": "resume main GGUF artifact acquisition before llama.cpp / LM Studio smoke",
       "next_command": "source scripts/env.sh\n# Acquire the smallest compatible GGUF to /Volumes/PortableSSD first, then run a bounded endpoint pilot.\n./.venv/bin/python scripts/run_endpoint_pilot_benchmark.py \\\n  --model unsloth-gemma-4-12b-it-qat-gguf \\\n  --base-url http://127.0.0.1:<port>/v1 \\\n  --suite benchmarks/endpoint_pilots/bfcl_pilot.json \\\n  --require-no-extra-tool-text \\\n  --run-id unsloth-gemma-4-12b-it-qat-gguf-bfcl-pilot-$(date +%Y%m%d-%H%M%S)",
-      "notes": "Fresh Unsloth QAT GGUF packaging for Gemma 4 12B. Use as the stricter packaging comparison point for Mac local use."
+      "notes": "Fresh Unsloth QAT GGUF packaging for Gemma 4 12B. Use as the stricter packaging comparison point for Mac local use. A 2026-06-14 dry-run found the main model artifact `gemma-4-12B-it-qat-UD-Q4_K_XL.gguf` at 6.7G plus smaller MTP/mmproj files. A bounded live SSD-cache download of the main artifact made partial progress to about 15M and was cancelled because it would not complete in a bounded runtime-proof pass; see `reports/runtime/unsloth-gemma4-12b-it-qat-gguf-acquisition-blocked-20260614.md`. Resume main artifact acquisition before endpoint scoring."
     },
     {
       "id": "unsloth/gemma-4-12b-it-GGUF",
