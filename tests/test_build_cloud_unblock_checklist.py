@@ -69,8 +69,8 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
             kaggle_contract_report={"status": "pass"},
             kaggle_ingest_report={"status": "pending_artifacts"},
             kaggle_rerun_status_report={
-                "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
-                "kernel_version": 4,
+                "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614",
+                "kernel_version": 5,
                 "status": "KernelWorkerStatus.RUNNING",
             },
         )
@@ -78,12 +78,12 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
 
         self.assertEqual(by_backend["kaggle"]["status"], "running-needs-artifact-recovery")
         self.assertIn("artifact recovery", by_backend["kaggle"]["blocker"])
-        self.assertIn("version 4", by_backend["kaggle"]["blocker"])
+        self.assertIn("version 5", by_backend["kaggle"]["blocker"])
         self.assertIn(
             "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
             by_backend["kaggle"]["commands"],
         )
-        self.assertTrue(any("p100-v4" in command for command in by_backend["kaggle"]["commands"]))
+        self.assertTrue(any("p100-v5" in command for command in by_backend["kaggle"]["commands"]))
 
     def test_kaggle_completed_failed_rerun_derives_runner_fix_status(self) -> None:
         items = checklist_items(

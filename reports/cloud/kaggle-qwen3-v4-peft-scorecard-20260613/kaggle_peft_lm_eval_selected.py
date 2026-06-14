@@ -77,7 +77,8 @@ def dependency_packages(use_4bit: bool) -> list[str]:
     packages = [
         "numpy<2",
         "lm_eval[hf]",
-        "transformers==5.3.0",
+        "transformers==4.57.6",
+        "tokenizers==0.22.2",
         "peft",
         "safetensors",
         "accelerate",

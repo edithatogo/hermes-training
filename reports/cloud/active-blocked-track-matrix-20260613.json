@@ -69,15 +69,14 @@
     },
     {
       "backend": "kaggle",
-      "backend_status": "completed-failed-needs-kaggle-runner-fix",
-      "blocker": "Kaggle kernel version 4 completed without scores; the recovered summary is blocked, and this P100 path now needs a runner/runtime change or a different backend.",
+      "backend_status": "running-needs-artifact-recovery",
+      "blocker": "Kaggle kernel version 5 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.",
       "commands": [
-        "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json --no-allow-pending",
-        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614",
-        "./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py"
+        "kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+        "kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
       ],
-      "next_task": "Route the full scorecard to a different backend or change the Kaggle runner/runtime strategy before any further rerun.",
+      "next_task": "Recover SSD artifacts from Kaggle kernel version 5 after completion and run the no-pending ingest gate, or route the scorecard to a different backend if it fails.",
       "title": "Qwen3 v4 PEFT Kaggle scorecard",
       "track_id": "qwen3-v4-peft-kaggle-scorecard_20260613",
       "track_path": "conductor/tracks/qwen3-v4-peft-kaggle-scorecard_20260613"

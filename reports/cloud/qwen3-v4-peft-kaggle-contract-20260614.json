@@ -131,7 +131,7 @@
       "passed": true
     },
     {
-      "detail": "local import probe confirmed transformers 5.3.0 exposes Qwen3ForCausalLM",
+      "detail": "wheel inspection confirmed transformers 4.57.6 exposes Qwen3ForCausalLM while supporting torch>=2.2",
       "name": "runner_pins_qwen3_transformers",
       "passed": true
     },

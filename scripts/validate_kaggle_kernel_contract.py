@@ -118,8 +118,8 @@ def validate_contract(staging_dir: Path, dry_run_path: Path, preflight_path: Pat
     add_check(
         checks,
         "runner_pins_qwen3_transformers",
-        '"transformers==5.3.0"' in runner_text,
-        "local import probe confirmed transformers 5.3.0 exposes Qwen3ForCausalLM",
+        '"transformers==4.57.6"' in runner_text and '"tokenizers==0.22.2"' in runner_text,
+        "wheel inspection confirmed transformers 4.57.6 exposes Qwen3ForCausalLM while supporting torch>=2.2",
     )
     dependency_install_index = runner_text.find("install = run_command(dependency_install_command(use_4bit, torch_policy)")
     torch_install_index = runner_text.find("torch_install = run_command(torch_install_command")
@@ -169,7 +169,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "- The runner embeds `LM_EVAL_USE_4BIT=0` as its default because Kaggle did not expose the JSON sidecar beside the executed script in the live rerun.",
         "- The dependency install omits `--upgrade` while the P100 torch policy is active, so `lm_eval[hf]` cannot overwrite `torch==2.2.2+cu118` with a newer unsupported CUDA build.",
         "- The runner pins `numpy<2` because the P100-compatible Torch 2.2 wheel is not compatible with Kaggle's NumPy 2 default.",
-        "- The runner pins `transformers==5.3.0`; a local import probe confirmed that version exposes `Qwen3ForCausalLM`.",
+        "- The runner pins `transformers==4.57.6` and `tokenizers==0.22.2`; wheel inspection confirmed Qwen3 class availability while keeping Torch 2.2 compatibility.",
         "",
         "## Checks",
         "",

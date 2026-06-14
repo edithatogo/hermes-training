@@ -51,7 +51,8 @@ class ValidateKaggleKernelContractTests(unittest.TestCase):
             'use_4bit = parse_bool(setting("use_4bit", "LM_EVAL_USE_4BIT", "0"))\n'
             "install = run_command(dependency_install_command(use_4bit, torch_policy), timeout_s=1200)\n"
             "torch_install = run_command(torch_install_command, timeout_s=1200)\n"
-            '"transformers==5.3.0"\n'
+            '"transformers==4.57.6"\n'
+            '"tokenizers==0.22.2"\n'
             'command.append("--upgrade")\n',
             encoding="utf-8",
         )

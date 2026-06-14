@@ -86,19 +86,18 @@ ngc cloud-function task create --help
 
 ## kaggle
 
-- Status: `completed-failed-needs-kaggle-runner-fix`
-- Blocker: Kaggle kernel version 4 completed without scores; the recovered summary is blocked, and this P100 path now needs a runner/runtime change or a different backend.
+- Status: `running-needs-artifact-recovery`
+- Blocker: Kaggle kernel version 5 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.
 - Operator actions:
-  - Keep the recovered version 4 failed summary on the SSD as non-promotional evidence.
-  - Do not submit another unchanged P100/CUDA Kaggle rerun.
-  - Prefer a persistent backend such as Modal if cost/credit policy is cleared.
+  - Poll the Kaggle kernel status until it is complete.
+  - Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.
+  - Run the result ingest validator with `--no-allow-pending` before any benchmark claim.
 - Commands:
 
 ```bash
-./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py
-./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614/qwen3-v4-peft-kaggle-lm-eval-20260613-235158-summary.json --no-allow-pending
-kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614
-./.venv/bin/python scripts/submit_kaggle_peft_scorecard.py
+kaggle kernels status edithatogo/qwen3-v4-peft-lm-eval-selected-full
+kaggle kernels output edithatogo/qwen3-v4-peft-lm-eval-selected-full --path /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614
+./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending
 ```
 
 ## modal

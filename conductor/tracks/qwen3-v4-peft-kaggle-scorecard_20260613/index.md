@@ -16,6 +16,7 @@ with no lm-eval results. The staged runner has been hardened and kernel version
 3 has also completed without scores. The staged runner now pins `numpy<2`;
 the fixed contract passes. Kernel version 4 completed and artifacts were
 recovered to the SSD, but the no-pending ingest gate failed because
-`transformers==5.3.0` disabled PyTorch under `torch=2.2.2+cu118`. No benchmark
-claim is allowed; this P100 Kaggle path now needs a runner/runtime change or a
-different backend.
+`transformers==5.3.0` disabled PyTorch under `torch=2.2.2+cu118`. The staged
+runner now pins `transformers==4.57.6` plus `tokenizers==0.22.2`, and kernel
+version 5 is running. No benchmark claim is allowed until version 5 artifacts
+are recovered to the SSD and the no-pending ingest gate passes.

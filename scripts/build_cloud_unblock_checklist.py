@@ -13,7 +13,7 @@ DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
 DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
-DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v4-20260614.json")
+DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v5-20260614.json")
 
 
 def load_preflight(path: Path) -> dict[str, Any]:

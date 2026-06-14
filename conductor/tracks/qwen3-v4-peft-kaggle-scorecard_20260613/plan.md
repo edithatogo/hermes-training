@@ -34,8 +34,12 @@
   without claiming benchmark coverage.
 - [x] Task: Recover SSD artifacts from Kaggle kernel version 4 after
   completion and run the no-pending ingest gate.
-- [ ] Task: Route the full scorecard to a different backend or change the
-  Kaggle runner/runtime strategy before any further rerun.
+- [x] Task: Change the Kaggle runner/runtime strategy before any further rerun.
+- [x] Task: Record existing Kaggle kernel version 5 submission and live status
+  without claiming benchmark coverage.
+- [ ] Task: Recover SSD artifacts from Kaggle kernel version 5 after
+  completion and run the no-pending ingest gate, or route the scorecard to a
+  different backend if it fails.
 
 ## Health Check
 
@@ -90,6 +94,12 @@
   `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v4-20260614.md`
   because lm-eval returned 1 with no result files after `transformers==5.3.0`
   disabled PyTorch under `torch=2.2.2+cu118`; the P100 path now needs a
-  runner/runtime change or a different backend.
-- Decision: keep Kaggle blocked and non-promotional; do not submit another
-  unchanged P100/CUDA Kaggle rerun.
+  runner/runtime change or a different backend. The staged runner now pins
+  `transformers==4.57.6` plus `tokenizers==0.22.2`, and the contract validator
+  proves that Qwen3 class support remains available while keeping Torch 2.2
+  compatibility. Kernel version 5 was submitted from that staged runner and is
+  currently `KernelWorkerStatus.RUNNING`, recorded in
+  `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v5-20260614.md`.
+- Decision: keep Kaggle non-promotional while version 5 is running; no
+  benchmark claim until SSD artifact recovery and no-pending ingest validation
+  pass.

@@ -1,0 +1,25 @@
+{
+  "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614",
+  "claim_boundary": "No benchmark claim while Kaggle kernel version 5 is still running; scores require SSD artifact recovery plus no-pending ingest validation after completion.",
+  "command": [
+    "kaggle",
+    "kernels",
+    "status",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full"
+  ],
+  "download_command": [
+    "kaggle",
+    "kernels",
+    "output",
+    "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+    "--path",
+    "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614"
+  ],
+  "downloaded_file_count": 0,
+  "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+  "kernel_version": 5,
+  "observed_at": "2026-06-14",
+  "running_summary": "Kernel version 5 is running after the staged runner changed to transformers==4.57.6 plus tokenizers==0.22.2; remaining gates are artifact recovery and no-pending ingest validation before any benchmark claim.",
+  "status": "KernelWorkerStatus.RUNNING",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.RUNNING\""
+}
