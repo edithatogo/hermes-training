@@ -453,12 +453,13 @@ Current gaps:
   `reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.md`; it uses public
   inputs only, no private data upload, no `--limit`, and preserves the explicit
   `--execute --confirm-kaggle-run` operator boundary. The post-run ingest gate
-  in `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.md` is ready
-  and currently `pending_artifacts`; after an approved run, download the
-  `/kaggle/working` summary/results to the SSD and run
-  `./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending`
-  before any benchmark claim. Kaggle still needs explicit run approval and
-  artifact recovery. Modal is authenticated and now
+  in `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.md` is ready as
+  the generic pending-artifact gate. The approved no-limit Kaggle rerun has now
+  completed as kernel version 7, artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614`,
+  and the strict no-pending ingest report
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.md`
+  passes. Modal is authenticated and now
   has a guarded dry-run submitter at `scripts/submit_modal_peft_scorecard.py`
   plus `reports/cloud/qwen3-v4-peft-modal-submit-dry-run-20260614.json`, but
   still needs free-credit/GPU-policy proof and explicit run approval. Lightning
@@ -485,44 +486,18 @@ Current gaps:
   cost gates pass.
 - The Qwen3 v4 PEFT scorecard backend selector is now generated and tracked at
   `reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md`. It
-  now ranks Modal ahead of Kaggle after the live Kaggle kernel failed on a Tesla
-  P100 / PyTorch `sm_60` compatibility issue. It remains fail-closed:
-  `execute=false`, `promotion_allowed=false`, and it still requires explicit
-  run approval, cost or zero-cost policy confirmation, and recovered SSD
-  artifacts before any benchmark claim. The Kaggle rerun path is staged with
-  `torch_compatibility_policy=p100-cu118` and `use_4bit=false`, but no new
-  benchmark claim is allowed. Pinned CPython 3.12 Linux wheel availability is
+  now selects Kaggle as `completed-validated-scorecard` from the recovered
+  kernel version 7 artifacts. It remains fail-closed for new execution:
+  `execute=false` and `promotion_allowed=false`; use the recovered v7 evidence
+  as the selected no-limit scorecard and keep any future remote execution behind
+  the listed operator gates. Pinned CPython 3.12 Linux wheel availability is
   recorded in
-  `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`. The
-  P100-compatible rerun was submitted as Kaggle kernel version 2; submission
-  evidence is tracked at
-  `reports/cloud/qwen3-v4-peft-kaggle-submit-rerun-p100-20260614.json`, and
-  `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-20260614.md` records
-  that the kernel completed but produced no valid lm-eval results. Artifacts
-  were recovered to the SSD, and the no-pending ingest report
-  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-20260614.md`
-  fails closed. The staged runner has been hardened to avoid 4-bit fallback and
-  to apply the P100 torch policy after dependencies; the fixed contract now
-  passes. Kaggle kernel version 3 was submitted with that staged runner and
-  completed, but its no-pending ingest report
-  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v3-20260614.md`
-  also fails closed: it reached `torch=2.2.2+cu118` and `use_4bit=false`, then
-  failed on NumPy 2 / `Qwen3ForCausalLM` resolution. The staged runner now pins
-  `numpy<2`, and the contract validator passes. Kaggle kernel version 4
-  completed, artifacts were recovered to
-  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v4-20260614`,
-  and `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v4-20260614.md`
-  fails closed. The new blocker is that `transformers==5.3.0` disables PyTorch
-  under `torch=2.2.2+cu118`, so this P100 path needs a runner/runtime change or
-  a different backend before any further rerun. The staged runner now pins
-  `transformers==4.57.6` plus `tokenizers==0.22.2`, and the contract validator
-  passes with Torch 2.2 compatibility. Kaggle kernel version 5 completed,
-  artifacts were recovered to
-  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v5-20260614`,
-  and `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v5-20260614.md`
-  fails closed because the Kaggle runtime still could not resolve
-  `Qwen3ForCausalLM`. No benchmark claim is allowed; the next move is a
-  different backend or a different model-loading strategy.
+  `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`. Earlier
+  P100 reruns failed closed across versions 2-5 due to P100 Torch, NumPy,
+  Transformers, and `Qwen3ForCausalLM` resolution issues. Version 7 fixed the
+  path with the P100-compatible Torch policy, `numpy<2`,
+  `transformers==4.57.6`, `tokenizers==0.22.2`, no 4-bit fallback, and removal
+  of incompatible preinstalled `torchao`.
 - Modal now has both a fail-closed execution contract and a result-ingest gate:
   `reports/cloud/qwen3-v4-peft-modal-contract-20260614.md` verifies the dry-run
   command, T4 app, no-limit five-task config, Modal volume persistence, and
@@ -535,10 +510,11 @@ Current gaps:
 2. Use Colab first for sanitized bounded benchmark or smoke jobs via `scripts/colab_dispatch.py`; only attempt Azure after `az login`, `scripts/azure_preflight.py --check-quota`, and explicit cost approval pass.
    For the Qwen3 v4 PEFT no-limit scorecard specifically, do not retry Colab
    while keepalive/session-pruning blockers remain; use the backend-selection
-   report. Modal is currently ranked first pending zero-cost/credit policy and
-   explicit run approval; Kaggle version 5 completed without scores and should
-   not be retried unchanged on the P100/CUDA path.
-3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling and repo-native pilots; the coverage gate lists missing official BFCL, full selected-task lm-eval, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The next full-scorecard step is a PEFT/Transformers adapter export or equivalent portable artifact, or an explicitly long Mac/MLX resume window. The proxy bridge alone is not enough for valid endpoint scores.
+   report. Kaggle version 7 is now the selected completed no-limit
+   selected-task scorecard evidence; Modal remains a fallback only if future
+   scorecard scope changes and zero-cost/credit policy plus explicit run
+   approval are recorded.
+3. Run broader official benchmark score cards for the v4 adapter only if the claim needs to go beyond local strict Hermes tool-calling, repo-native pilots, and the completed Kaggle selected-task scorecard; the coverage gate still lists missing official BFCL, coding, safety, and RULER candidate suites. The no-limit local MLX full selected-task attempt is recorded in `reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md` and was stopped after 731.827 seconds with 0/5 tasks complete. A live T4 Colab portability probe is recorded in `reports/colab/qwen3-v4-colab-mlx-portability-20260613.md`; CUDA was available, but `mlx`/`mlx_lm` imports failed, so the exact MLX adapter cannot be scored on Colab as-is. The completed Kaggle v7 PEFT/Transformers scorecard is the current valid no-limit selected-task evidence.
 4. Publish no additional datasets until the exact artifact scope is explicitly approved and audited; the cleaned synthetic-only Qwen3 v4 dataset is already published and should not be republished unless its contents change.
 5. The local prompt-only repair queue is exhausted, and the first Nanbeige
    constrained-envelope held-out proof is complete but failed promotion
@@ -598,13 +574,12 @@ Current gaps:
     `qwen3-v4-peft-colab-scorecard-shards_20260613`,
     `qwen3-v4-peft-hf-jobs-scorecard_20260613`,
     `qwen3-v4-peft-azure-scorecard_20260613`,
-    `qwen3-v4-peft-kaggle-scorecard_20260613`,
     `qwen3-v4-peft-modal-scorecard_20260614`,
     `qwen3-v4-peft-lightning-scorecard_20260614`, and
     `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613`. The next live
     execution step is whichever backend becomes unblocked first: HF credits,
-    Kaggle run approval, Azure login/quota, NGC auth/container/quota,
-    a stable Colab no-limit session, or Modal credit/GPU policy approval. The
+    Azure login/quota, NGC auth/container/quota, a stable Colab no-limit
+    session, or Modal credit/GPU policy approval. The
     next new local track should be selected
     deliberately from remaining role gaps: prompt/profile repair for a specific
     local candidate or a fresh model-radar/runtime proof if a newly verified
