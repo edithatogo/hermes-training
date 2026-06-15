@@ -54,6 +54,17 @@ def extract_result_tasks(result_path: Path | None) -> set[str]:
     return set()
 
 
+def resolve_recovered_output_dir(summary_json: Path, output_dir_value: Any) -> Path:
+    output_dir = Path(str(output_dir_value or ""))
+    if output_dir.is_absolute() and str(output_dir).startswith("/kaggle/working/"):
+        recovered = summary_json.parent / output_dir.name
+        if recovered.exists():
+            return recovered
+    if not output_dir.is_absolute():
+        return summary_json.parent / output_dir
+    return output_dir
+
+
 def add_check(checks: list[dict[str, Any]], name: str, passed: bool, detail: str) -> None:
     checks.append({"name": name, "passed": passed, "detail": detail})
 
@@ -77,9 +88,7 @@ def validate_ingest(summary_json: Path, storage_root: Path, allow_pending: bool)
         }
 
     summary = load_json(summary_json)
-    output_dir = Path(str(summary.get("output_dir", "")))
-    if not output_dir.is_absolute():
-        output_dir = summary_json.parent / output_dir
+    output_dir = resolve_recovered_output_dir(summary_json, summary.get("output_dir", ""))
     result_path = find_lm_eval_result(output_dir)
     found_tasks = extract_result_tasks(result_path)
     command = summary.get("evaluation", {}).get("command", [])

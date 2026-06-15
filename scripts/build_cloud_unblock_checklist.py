@@ -12,7 +12,7 @@ DEFAULT_PREFLIGHT = Path("reports/cloud/backend-preflight-20260613.json")
 DEFAULT_MARKDOWN = Path("reports/cloud/backend-unblock-checklist-20260613.md")
 DEFAULT_JSON = Path("reports/cloud/backend-unblock-checklist-20260613.json")
 DEFAULT_KAGGLE_CONTRACT = Path("reports/cloud/qwen3-v4-peft-kaggle-contract-20260614.json")
-DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-20260614.json")
+DEFAULT_KAGGLE_INGEST = Path("reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.json")
 DEFAULT_KAGGLE_RERUN_STATUS = Path("reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v7-20260614.json")
 
 
@@ -42,6 +42,8 @@ def derive_kaggle_status(
     ingest_ready = ingest_report is not None and ingest_report.get("status") in {"pass", "pending_artifacts"}
     rerun_status = str(rerun_status_report.get("status", "")) if rerun_status_report else ""
     rerun_submitted = rerun_status.startswith("KernelWorkerStatus.")
+    if contract_passed and ingest_report is not None and ingest_report.get("status") == "pass":
+        return "completed-validated-scorecard"
     if contract_passed and ingest_ready and rerun_status == "KernelWorkerStatus.COMPLETE":
         return "completed-failed-needs-kaggle-runner-fix"
     if contract_passed and ingest_ready and rerun_submitted:
@@ -207,6 +209,42 @@ def kaggle_completed_failed_unblock_item(rerun_status_report: dict[str, Any]) ->
     }
 
 
+def kaggle_completed_validated_unblock_item(rerun_status_report: dict[str, Any] | None) -> dict[str, Any]:
+    version = rerun_status_report.get("kernel_version", 7) if rerun_status_report else 7
+    artifact_dir = (
+        rerun_status_report.get(
+            "artifact_dir",
+            "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614",
+        )
+        if rerun_status_report
+        else "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614"
+    )
+    summary_path = rerun_status_report.get("recovered_summary") if rerun_status_report else None
+    ingest_command = (
+        f"./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json {summary_path} --no-allow-pending"
+        if summary_path
+        else "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
+    )
+    return {
+        "backend": "kaggle",
+        "status": "completed-validated-scorecard",
+        "blocker": (
+            f"Kaggle kernel version {version} completed a no-limit five-task PEFT lm-eval scorecard; "
+            "the SSD artifacts passed the no-pending ingest gate. No further Kaggle execution is required for this scorecard."
+        ),
+        "operator_actions": [
+            f"Keep the recovered version {version} artifacts on the SSD as benchmark evidence.",
+            "Use the ingest report for benchmark documentation and comparison.",
+            "Do not submit another Kaggle rerun unless the benchmark scope changes.",
+        ],
+        "commands": [
+            "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
+            ingest_command,
+            f"ls -la {artifact_dir}",
+        ],
+    }
+
+
 def modal_unblock_item(status: str) -> dict[str, Any]:
     if status == "prepared-needs-credit-and-gpu-policy-check":
         return {
@@ -243,6 +281,19 @@ def modal_unblock_item(status: str) -> dict[str, Any]:
             "modal billing",
         ],
     }
+
+
+def kaggle_item_for_status(
+    kaggle_status: str,
+    kaggle_rerun_status_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    if kaggle_status == "running-needs-artifact-recovery" and kaggle_rerun_status_report:
+        return kaggle_running_unblock_item(kaggle_rerun_status_report)
+    if kaggle_status == "completed-failed-needs-kaggle-runner-fix" and kaggle_rerun_status_report:
+        return kaggle_completed_failed_unblock_item(kaggle_rerun_status_report)
+    if kaggle_status == "completed-validated-scorecard":
+        return kaggle_completed_validated_unblock_item(kaggle_rerun_status_report)
+    return kaggle_unblock_item(kaggle_status)
 
 
 def checklist_items(
@@ -339,15 +390,7 @@ def checklist_items(
                 "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run",
             ],
         },
-        (
-            kaggle_running_unblock_item(kaggle_rerun_status_report)
-            if kaggle_status == "running-needs-artifact-recovery" and kaggle_rerun_status_report
-            else (
-                kaggle_completed_failed_unblock_item(kaggle_rerun_status_report)
-                if kaggle_status == "completed-failed-needs-kaggle-runner-fix" and kaggle_rerun_status_report
-                else kaggle_unblock_item(kaggle_status)
-            )
-        ),
+        kaggle_item_for_status(kaggle_status, kaggle_rerun_status_report),
         modal_unblock_item(backends.get("modal", {}).get("status", "unknown")),
         {
             "backend": "lightning",

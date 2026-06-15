@@ -13,7 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKLIST = ROOT / "reports/cloud/backend-unblock-checklist-20260613.json"
-DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.json"
+DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.json"
 DEFAULT_JSON = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.json"
 DEFAULT_MD = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md"
 

@@ -96,10 +96,10 @@ ngc cloud-function task create --help
 
 ## kaggle
 
-- Status: `running-needs-artifact-recovery`
+- Status: `completed-validated-scorecard`
 - Execution allowed: `False`
 - Promotion allowed: `False`
-- Blocker: Kaggle kernel version 7 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation.
+- Blocker: Kaggle kernel version 7 completed a no-limit five-task PEFT lm-eval scorecard; the SSD artifacts passed the no-pending ingest gate. No further Kaggle execution is required for this scorecard.
 - External evidence required:
   - Kernel completed
   - Artifacts recovered to /Volumes/PortableSSD
@@ -107,9 +107,9 @@ ngc cloud-function task create --help
 - Safe commands:
 
 ```bash
-./.venv/bin/python scripts/sync_kaggle_rerun_status.py
-./.venv/bin/python scripts/sync_kaggle_rerun_status.py --recover-artifacts --artifact-dir /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614
-./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending
+./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py
+./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-001433-summary.json --no-allow-pending
+ls -la /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614
 ```
 
 - Secret policy: Do not commit tokens, secrets, payment card details, private account IDs, or screenshots containing secrets.

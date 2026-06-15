@@ -51,6 +51,30 @@ class SelectScorecardBackendTests(unittest.TestCase):
         self.assertEqual(payload["selected_backend"], "modal")
         self.assertIn("Live Kaggle ingest failed", payload["ranked_backends"][1]["blocker"])
 
+    def test_passed_kaggle_ingest_selects_validated_scorecard_without_execution(self) -> None:
+        payload = select_backends(
+            {
+                "items": [
+                    {
+                        "backend": "kaggle",
+                        "status": "completed-validated-scorecard",
+                        "blocker": "Validated scorecard available.",
+                    },
+                    {
+                        "backend": "modal",
+                        "status": "prepared-needs-credit-and-gpu-policy-check",
+                        "blocker": "Needs GPU policy.",
+                    },
+                ],
+            },
+            {"status": "pass"},
+        )
+
+        self.assertEqual(payload["selected_backend"], "kaggle")
+        self.assertFalse(payload["execute"])
+        self.assertFalse(payload["promotion_allowed"])
+        self.assertIn("Validated scorecard available", payload["ranked_backends"][0]["blocker"])
+
 
 if __name__ == "__main__":
     unittest.main()

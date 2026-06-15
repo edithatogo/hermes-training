@@ -67,6 +67,22 @@ class ValidateKaggleResultIngestTests(unittest.TestCase):
         self.assertEqual(report["status"], "pass")
         self.assertEqual(set(report["found_tasks"]), {"arc_challenge", "hellaswag", "truthfulqa_mc2", "gsm8k", "winogrande"})
 
+    def test_recovered_kaggle_working_output_dir_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary = self.make_successful_run(root)
+            payload = json.loads(summary.read_text(encoding="utf-8"))
+            recovered = summary.parent / "qwen3-v4-peft-kaggle-lm-eval-output"
+            original_output = Path(payload["output_dir"])
+            original_output.rename(recovered)
+            payload["output_dir"] = "/kaggle/working/qwen3-v4-peft-kaggle-lm-eval-output"
+            summary.write_text(json.dumps(payload), encoding="utf-8")
+
+            report = validate_ingest(summary, root.resolve(), allow_pending=False)
+
+        self.assertEqual(report["status"], "pass")
+        self.assertEqual(Path(report["output_dir"]).name, "qwen3-v4-peft-kaggle-lm-eval-output")
+
     def test_limited_run_fails_claim_gate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

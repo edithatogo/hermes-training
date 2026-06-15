@@ -47,6 +47,19 @@ def find_summary(path: Path) -> str | None:
     return str(candidates[0]) if candidates else None
 
 
+def read_summary_status(path: str | None) -> str | None:
+    if not path:
+        return None
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if isinstance(data, dict):
+        status = data.get("status")
+        return str(status) if status is not None else None
+    return None
+
+
 def build_status_report(
     *,
     kernel_id: str,
@@ -58,6 +71,7 @@ def build_status_report(
     status = parse_status(str(status_result.get("stdout", "")))
     downloaded_file_count = count_files(artifact_dir)
     recovered_summary = find_summary(artifact_dir)
+    recovered_summary_status = read_summary_status(recovered_summary)
     base = {
         "kernel_id": kernel_id,
         "kernel_version": kernel_version,
@@ -68,20 +82,33 @@ def build_status_report(
         "download_command": ["kaggle", "kernels", "output", kernel_id, "--path", str(artifact_dir)],
         "downloaded_file_count": downloaded_file_count,
         "recovered_summary": recovered_summary,
+        "recovered_summary_status": recovered_summary_status,
         "download_result": download_result,
     }
     if status == "KernelWorkerStatus.COMPLETE":
+        if recovered_summary_status == "scored":
+            outcome_summary = (
+                "Kernel completed with status=scored; recovered artifacts must still pass the no-pending ingest "
+                "validator before any benchmark claim."
+            )
+        elif recovered_summary_status:
+            outcome_summary = (
+                f"Kernel completed with status={recovered_summary_status}; run no-pending ingest validation "
+                "before any claim."
+            )
+        elif recovered_summary is not None:
+            outcome_summary = "Kernel completed and a summary was recovered; run no-pending ingest validation before any claim."
+        else:
+            outcome_summary = (
+                "Kernel completed. Artifacts must be recovered to the SSD and validated before any scored or "
+                "blocked outcome can be promoted."
+            )
         base.update(
             {
                 "claim_boundary": (
                     "No benchmark claim until recovered artifacts pass the no-pending Kaggle result ingest validator."
                 ),
-                "failure_summary": (
-                    "Kernel completed. Artifacts must be recovered to the SSD and validated before any scored or "
-                    "blocked outcome can be promoted."
-                )
-                if recovered_summary is None
-                else "Kernel completed and a summary was recovered; run no-pending ingest validation before any claim.",
+                "failure_summary": outcome_summary,
             }
         )
     elif status == "KernelWorkerStatus.RUNNING":

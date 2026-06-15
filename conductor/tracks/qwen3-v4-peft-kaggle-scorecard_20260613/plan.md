@@ -39,13 +39,15 @@
   without claiming benchmark coverage.
 - [x] Task: Recover SSD artifacts from Kaggle kernel version 5 after
   completion and run the no-pending ingest gate.
-- [ ] Task: Route the scorecard to a different backend, or replace the Kaggle
-  model-loading strategy before any further rerun.
+- [x] Task: Recover SSD artifacts from Kaggle kernel version 7 and run the
+  no-pending ingest gate.
+- [x] Task: Close the Kaggle route without another rerun because kernel version
+  7 completed the no-limit selected-task scorecard.
 
 ## Health Check
 
-- Target: >= 9.0 / 10
-- Current estimate: 9.6 / 10 as a live-tested but blocked backend track.
+- Target: >= 9.5 / 10
+- Current estimate: 10.0 / 10 as a completed no-limit selected-task scorecard track.
 - Evidence: `scripts/submit_kaggle_peft_scorecard.py` generated
   `reports/cloud/qwen3-v4-peft-kaggle-submit-dry-run-20260613.json` and staged
   the kernel folder under `reports/cloud/kaggle-qwen3-v4-peft-scorecard-20260613`.
@@ -67,9 +69,9 @@
   `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.md` because
   lm-eval returned `1` before scoring. The concrete blocker is a Kaggle Tesla
   P100 (`sm_60`) assigned under a PyTorch CUDA build that supports `sm_70+`.
-- Gaps: No scored Kaggle result exists. A retry must avoid P100, pin a
-  compatible PyTorch/CUDA stack, use CPU fallback if acceptable, or route the
-  scorecard to another persistent backend. The staged rerun path now pins a
+- Iteration notes: Earlier retries had to avoid P100/CUDA incompatibilities,
+  pin compatible PyTorch/CUDA packages, use CPU fallback if acceptable, or route
+  the scorecard to another persistent backend. The staged rerun path pins a
   `p100-cu118` PyTorch policy, disables 4-bit/bitsandbytes for the P100 path,
   records wheel availability in
   `reports/cloud/kaggle-p100-torch-policy-wheel-proof-20260614.md`, and keeps
@@ -109,11 +111,19 @@
   tracked in
   `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v6-20260614.md`.
   The probe isolated the next blocker to Kaggle's preinstalled `torchao`, which
-  expects newer Torch internals than `torch==2.2.2+cu118`. The staged runner now
-  removes `torchao` on the non-4-bit P100 path, but Kaggle remains lower
-  priority than Modal because repeated live P100 runs have produced no scored
-  result. Kernel version 7 was submitted from the torchao-cleanup runner and was
-  still `KernelWorkerStatus.RUNNING` at the last poll; current state is tracked
-  in `reports/cloud/qwen3-v4-peft-kaggle-status-rerun-p100-v7-20260614.md`.
-- Decision: keep Kaggle blocked and non-promotional; do not submit another
-  unchanged P100/CUDA Kaggle rerun.
+  expects newer Torch internals than `torch==2.2.2+cu118`. The staged runner
+  now removes `torchao` on the non-4-bit P100 path. Kernel version 7 completed,
+  artifacts were recovered to
+  `/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614`,
+  and the no-pending ingest gate passed in
+  `reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.md`.
+  The recovered no-limit five-task scorecard produced:
+  ARC-Challenge acc_norm `0.5350`, HellaSwag acc_norm `0.6902`,
+  TruthfulQA MC2 acc `0.5455`, GSM8K strict exact_match `0.8514`, and
+  Winogrande acc `0.6654`.
+- Gaps: The Kaggle route is complete for the current Qwen3 v4 PEFT selected-task
+  scorecard. Other backend tracks remain open only for cross-provider resilience
+  and account/credit-policy proof, not because the Kaggle scorecard is missing.
+- Decision: use the recovered Kaggle v7 artifacts as the selected no-limit
+  scorecard evidence. Do not submit another Kaggle rerun unless the benchmark
+  scope changes.

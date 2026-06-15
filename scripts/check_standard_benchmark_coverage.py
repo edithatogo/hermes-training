@@ -51,6 +51,10 @@ CANDIDATE_CONFIGS = {
         / "benchmark"
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md",
+        "lm_eval_full_kaggle_ingest": ROOT
+        / "reports"
+        / "cloud"
+        / "qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.md",
         "lm_eval_endpoint_attempt": ROOT
         / "reports"
         / "benchmark"
@@ -98,6 +102,10 @@ CANDIDATE_CONFIGS = {
         / "benchmark"
         / "lm-eval"
         / "qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md",
+        "lm_eval_full_kaggle_ingest": ROOT
+        / "reports"
+        / "cloud"
+        / "qwen3-v6-free-text-copy-lm-eval-selected-full-missing.md",
         "lm_eval_endpoint_attempt": ROOT
         / "reports"
         / "benchmark"
@@ -177,6 +185,7 @@ def build_items(candidate: str) -> list[CoverageItem]:
     lm_eval_direct_candidate_pilot = config["lm_eval_direct_candidate_pilot"]
     lm_eval_direct_partial_full = config["lm_eval_direct_partial_full"]
     lm_eval_direct_full_attempt = config["lm_eval_direct_full_attempt"]
+    lm_eval_full_kaggle_ingest = config["lm_eval_full_kaggle_ingest"]
     bundle = config["bundle"]
     readiness = bundle / "publish-readiness-checklist.md"
 
@@ -262,8 +271,10 @@ def build_items(candidate: str) -> list[CoverageItem]:
         CoverageItem(
             suite="lm-eval-selected",
             tier="official-candidate",
-            status="missing",
-            evidence=(
+            status="present" if lm_eval_full_kaggle_ingest.exists() else "missing",
+            evidence=str(lm_eval_full_kaggle_ingest.relative_to(ROOT))
+            if lm_eval_full_kaggle_ingest.exists()
+            else (
                 str(lm_eval_direct_full_attempt.relative_to(ROOT))
                 if lm_eval_direct_full_attempt.exists()
                 else (
@@ -278,8 +289,20 @@ def build_items(candidate: str) -> list[CoverageItem]:
                     )
                 )
             ),
-            metric="",
-            notes="Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. The 2026-06-13 no-limit local MLX run recorded a blocker after 731.827s with 0/5 tasks completed, so full selected-task coverage is still missing and should move to Colab/Azure/offload or an explicit resume lane.",
+            metric=(
+                "Kaggle P100 no-limit selected-task scorecard: ARC-C acc_norm 0.5350, "
+                "HellaSwag acc_norm 0.6902, TruthfulQA MC2 acc 0.5455, "
+                "GSM8K strict exact 0.8514, Winogrande acc 0.6654"
+            )
+            if lm_eval_full_kaggle_ingest.exists()
+            else "",
+            notes=(
+                "Full no-limit selected-task lm-eval scorecard completed on Kaggle P100 with the public PEFT adapter "
+                "and passed the no-pending ingest gate. Earlier endpoint and local MLX full attempts remain useful "
+                "failure evidence only."
+            )
+            if lm_eval_full_kaggle_ingest.exists()
+            else "Endpoint-based lm-eval remains blocked on legacy prompt token_logprobs. The direct MLX adapter has bounded selected-task candidate-pilot evidence. The 2026-06-13 no-limit local MLX run recorded a blocker after 731.827s with 0/5 tasks completed, so full selected-task coverage is still missing and should move to Colab/Azure/offload or an explicit resume lane.",
             required_for="general benchmark claim",
         ),
         CoverageItem(

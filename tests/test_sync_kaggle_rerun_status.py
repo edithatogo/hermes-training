@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -37,7 +38,7 @@ class SyncKaggleRerunStatusTests(unittest.TestCase):
             artifact_dir = Path(tmp) / "artifacts"
             artifact_dir.mkdir()
             summary = artifact_dir / "run-summary.json"
-            summary.write_text("{}", encoding="utf-8")
+            summary.write_text(json.dumps({"status": "scored"}), encoding="utf-8")
 
             report = build_status_report(
                 kernel_id="owner/kernel",
@@ -54,7 +55,9 @@ class SyncKaggleRerunStatusTests(unittest.TestCase):
         self.assertEqual(report["status"], "KernelWorkerStatus.COMPLETE")
         self.assertEqual(report["downloaded_file_count"], 1)
         self.assertEqual(report["recovered_summary"], str(summary))
+        self.assertEqual(report["recovered_summary_status"], "scored")
         self.assertIn("no-pending", report["claim_boundary"])
+        self.assertIn("status=scored", report["failure_summary"])
 
 
 if __name__ == "__main__":

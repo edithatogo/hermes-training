@@ -10,7 +10,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CHECKLIST = ROOT / "reports/cloud/backend-unblock-checklist-20260613.json"
-DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-live-20260614.json"
+DEFAULT_KAGGLE_INGEST = ROOT / "reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.json"
 DEFAULT_JSON = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.json"
 DEFAULT_MD = ROOT / "reports/cloud/qwen3-v4-peft-scorecard-backend-selection-20260614.md"
 
@@ -19,6 +19,7 @@ PRIORITY = {
     "prepared-needs-credit-and-gpu-policy-check": 70,
     "prepared-needs-quota-check": 65,
     "prepared-needs-paid-compute-approval": 60,
+    "completed-validated-scorecard": 55,
     "ready": 40,
     "blocked-insufficient-hf-credits": 20,
 }
@@ -44,17 +45,24 @@ def backend_score(item: dict[str, Any], kaggle_ingest: dict[str, Any] | None = N
     blocker = str(item.get("blocker", "")).lower()
     if backend == "colab" and ("prune" in blocker or "keepalive" in blocker):
         score -= 35
-    if backend == "kaggle" and kaggle_ingest and kaggle_ingest.get("status") == "fail":
-        score -= 80
+    if backend == "kaggle" and kaggle_ingest:
+        if kaggle_ingest.get("status") == "fail":
+            score -= 80
+        elif kaggle_ingest.get("status") == "pass":
+            score += 45
     if backend in {"kaggle", "azure", "hf_jobs", "modal", "lightning", "ngc"}:
         score += 5
     return score
 
 
 def kaggle_blocker_suffix(kaggle_ingest: dict[str, Any] | None) -> str:
-    if not kaggle_ingest or kaggle_ingest.get("status") != "fail":
+    if not kaggle_ingest:
         return ""
-    return " Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path."
+    if kaggle_ingest.get("status") == "fail":
+        return " Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path."
+    if kaggle_ingest.get("status") == "pass":
+        return " Kaggle v7 recovered a no-limit five-task scorecard and passed the no-pending ingest gate."
+    return ""
 
 
 def select_backends(checklist: dict[str, Any], kaggle_ingest: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -65,17 +73,34 @@ def select_backends(checklist: dict[str, Any], kaggle_ingest: dict[str, Any] | N
     for item in items:
         if not isinstance(item, dict):
             continue
+        blocker = str(item.get("blocker", ""))
+        suffix = kaggle_blocker_suffix(kaggle_ingest) if item.get("backend") == "kaggle" else ""
+        if item.get("status") == "completed-validated-scorecard":
+            suffix = ""
+        if suffix and suffix.strip() in blocker:
+            suffix = ""
         row = {
             "backend": item.get("backend"),
             "status": item.get("status"),
             "score": backend_score(item, kaggle_ingest),
-            "blocker": f"{item.get('blocker', '')}{kaggle_blocker_suffix(kaggle_ingest) if item.get('backend') == 'kaggle' else ''}",
+            "blocker": f"{blocker}{suffix}",
             "operator_actions": item.get("operator_actions", []),
             "commands": item.get("commands", []),
         }
         candidates.append(row)
     candidates.sort(key=lambda row: (-int(row["score"]), str(row["backend"])))
     selected = candidates[0] if candidates else None
+    if selected and selected.get("status") == "completed-validated-scorecard":
+        decision = (
+            "Use the recovered Kaggle v7 artifacts as the selected no-limit scorecard evidence. "
+            "Keep any future remote execution behind the listed operator gates."
+        )
+    else:
+        decision = (
+            "Use the selected backend only after the listed operator gates pass. "
+            "Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain."
+            " Do not retry Kaggle unchanged after a failed live ingest."
+        )
     return {
         "status": "blocked-pending-operator-gates",
         "execute": False,
@@ -85,11 +110,7 @@ def select_backends(checklist: dict[str, Any], kaggle_ingest: dict[str, Any] | N
         "selected_status": selected["status"] if selected else None,
         "selected_score": selected["score"] if selected else None,
         "required_before_execution": sorted(REMOTE_EXECUTION_BLOCKERS),
-        "decision": (
-            "Use the selected backend only after the listed operator gates pass. "
-            "Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain."
-            " Do not retry Kaggle unchanged after a failed live ingest."
-        ),
+        "decision": decision,
         "ranked_backends": candidates,
     }
 

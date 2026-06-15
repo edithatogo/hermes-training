@@ -111,6 +111,29 @@ class BuildCloudUnblockChecklistTests(unittest.TestCase):
         self.assertTrue(any("p100-v4" in command for command in by_backend["kaggle"]["commands"]))
         self.assertIn("./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py", by_backend["kaggle"]["commands"])
 
+    def test_kaggle_passed_ingest_derives_validated_scorecard_status(self) -> None:
+        items = checklist_items(
+            {
+                "backends": {
+                    "kaggle": {"status": "prepared-needs-notebook-contract"},
+                }
+            },
+            kaggle_contract_report={"status": "pass"},
+            kaggle_ingest_report={"status": "pass"},
+            kaggle_rerun_status_report={
+                "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614",
+                "kernel_version": 7,
+                "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-001433-summary.json",
+                "status": "KernelWorkerStatus.COMPLETE",
+            },
+        )
+        by_backend = {item["backend"]: item for item in items}
+
+        self.assertEqual(by_backend["kaggle"]["status"], "completed-validated-scorecard")
+        self.assertIn("no-limit five-task", by_backend["kaggle"]["blocker"])
+        self.assertIn("No further Kaggle execution is required", by_backend["kaggle"]["blocker"])
+        self.assertTrue(any("p100-v7" in command for command in by_backend["kaggle"]["commands"]))
+
     def test_lightning_includes_guarded_submitter_commands(self) -> None:
         items = checklist_items({"backends": {"lightning": {"status": "blocked-needs-teamspace-owner"}}})
         by_backend = {item["backend"]: item for item in items}

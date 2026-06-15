@@ -1,8 +1,24 @@
 {
-  "decision": "Use the selected backend only after the listed operator gates pass. Do not retry Colab no-limit shards while keepalive/session-pruning blockers remain. Do not retry Kaggle unchanged after a failed live ingest.",
+  "decision": "Use the recovered Kaggle v7 artifacts as the selected no-limit scorecard evidence. Keep any future remote execution behind the listed operator gates.",
   "execute": false,
   "promotion_allowed": false,
   "ranked_backends": [
+    {
+      "backend": "kaggle",
+      "blocker": "Kaggle kernel version 7 completed a no-limit five-task PEFT lm-eval scorecard; the SSD artifacts passed the no-pending ingest gate. No further Kaggle execution is required for this scorecard.",
+      "commands": [
+        "./.venv/bin/python scripts/validate_kaggle_rerun_submit_report.py",
+        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-001433-summary.json --no-allow-pending",
+        "ls -la /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614"
+      ],
+      "operator_actions": [
+        "Keep the recovered version 7 artifacts on the SSD as benchmark evidence.",
+        "Use the ingest report for benchmark documentation and comparison.",
+        "Do not submit another Kaggle rerun unless the benchmark scope changes."
+      ],
+      "score": 105,
+      "status": "completed-validated-scorecard"
+    },
     {
       "backend": "modal",
       "blocker": "Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and fail-closed result persistence.",
@@ -115,22 +131,6 @@
       ],
       "score": 5,
       "status": "blocked"
-    },
-    {
-      "backend": "kaggle",
-      "blocker": "Kaggle kernel version 7 has been submitted and is running; remaining gate is SSD artifact recovery plus no-pending ingest validation. Live Kaggle ingest failed after a completed kernel run; do not retry unchanged P100/CUDA path.",
-      "commands": [
-        "./.venv/bin/python scripts/sync_kaggle_rerun_status.py",
-        "./.venv/bin/python scripts/sync_kaggle_rerun_status.py --recover-artifacts --artifact-dir /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614",
-        "./.venv/bin/python scripts/validate_kaggle_result_ingest.py --summary-json <downloaded-summary> --no-allow-pending"
-      ],
-      "operator_actions": [
-        "Poll the Kaggle kernel status until it is complete.",
-        "Download `/kaggle/working` summary and lm-eval outputs to the SSD artifact directory.",
-        "Run the result ingest validator with `--no-allow-pending` before any benchmark claim."
-      ],
-      "score": -75,
-      "status": "running-needs-artifact-recovery"
     }
   ],
   "required_before_execution": [
@@ -138,9 +138,9 @@
     "cost or zero-cost policy confirmation",
     "explicit run approval"
   ],
-  "selected_backend": "modal",
-  "selected_score": 75,
-  "selected_status": "prepared-needs-credit-and-gpu-policy-check",
+  "selected_backend": "kaggle",
+  "selected_score": 105,
+  "selected_status": "completed-validated-scorecard",
   "source_checklist": "reports/cloud/backend-preflight-20260613.json",
   "status": "blocked-pending-operator-gates"
 }

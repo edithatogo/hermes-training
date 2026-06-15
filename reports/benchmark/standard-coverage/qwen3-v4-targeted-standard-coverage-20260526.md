@@ -17,7 +17,7 @@ Public release blocked: `true`
 | `publication-bundle` | release-gate | `blocked` | local quality gates checked; public release gates remain blocked | reports/publication/qwen3-4b-strict-toolcall-v4-targeted/publish-readiness-checklist.md | public Hugging Face release |
 | `official-bfcl` | official-candidate | `missing` |  | none | broad tool-calling benchmark claim |
 | `lm-eval-selected-smoke` | official-pilot | `present` | limit 10 selected MLX direct smoke scored | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit10-20260526.md | official harness readiness |
-| `lm-eval-selected` | official-candidate | `missing` |  | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-full-20260613.md | general benchmark claim |
+| `lm-eval-selected` | official-candidate | `present` | Kaggle P100 no-limit selected-task scorecard: ARC-C acc_norm 0.5350, HellaSwag acc_norm 0.6902, TruthfulQA MC2 acc 0.5455, GSM8K strict exact 0.8514, Winogrande acc 0.6654 | reports/cloud/qwen3-v4-peft-kaggle-result-ingest-rerun-p100-v7-20260614.md | general benchmark claim |
 | `lm-eval-selected-candidate-pilot` | official-pilot | `present` | limit 25 selected MLX direct candidate-pilot scored | reports/benchmark/lm-eval/qwen3-4b-v4-targeted-mlx-direct-lm-eval-selected-limit25-20260526.md | candidate-pilot benchmark positioning |
 | `official-coding` | official-candidate | `missing` |  | none | coding benchmark claim |
 | `safety-refusal` | official-candidate | `missing` |  | none | safety/refusal claim |

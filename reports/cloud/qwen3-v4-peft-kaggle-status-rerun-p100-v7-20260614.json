@@ -1,6 +1,6 @@
 {
   "artifact_dir": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614",
-  "claim_boundary": "No benchmark claim: Kaggle kernel is still running, and no complete artifact set has been validated.",
+  "claim_boundary": "No benchmark claim until recovered artifacts pass the no-pending Kaggle result ingest validator.",
   "command": [
     "kaggle",
     "kernels",
@@ -15,12 +15,25 @@
     "--path",
     "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614"
   ],
-  "download_result": null,
-  "downloaded_file_count": 0,
+  "download_result": {
+    "command": [
+      "kaggle",
+      "kernels",
+      "output",
+      "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
+      "--path",
+      "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ".gitignore: Skipping, found more recently modified local copy (use --force to force download)\n.gitattributes.metadata: Skipping, found more recently modified local copy (use --force to force download)\nREADME.md.metadata: Skipping, found more recently modified local copy (use --force to force download)\nadapter_config.json.metadata: Skipping, found more recently modified local copy (use --force to force download)\nadapter_model.safetensors.metadata: Skipping, found more recently modified local copy (use --force to force download)\nconversion-manifest.json.metadata: Skipping, found more recently modified local copy (use --force to force download)\nconversion-report.json.metadata: Skipping, found more recently modified local copy (use --force to force download)\n.gitattributes: Skipping, found more recently modified local copy (use --force to force download)\nREADME.md: Skipping, found more recently modified local copy (use --force to force download)\nadapter_config.json: Skipping, found more recently modified local copy (use --force to force download)\nadapter_model.safetensors: Skipping, found more recently modified local copy (use --force to force download)\nconversion-manifest.json: Skipping, found more recently modified local copy (use --force to force download)\nconversion-report.json: Skipping, found more recently modified local copy (use --force to force download)\nresults_2026-06-14T05-41-12.192345.json: Skipping, found more recently modified local copy (use --force to force download)\nqwen3-v4-peft-kaggle-lm-eval-20260614-001433-summary.json: Skipping, found more recently modified local copy (use --force to force download)\nKernel log downloaded to /Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614/qwen3-v4-peft-lm-eval-selected-full.log"
+  },
+  "downloaded_file_count": 16,
+  "failure_summary": "Kernel completed with status=scored; recovered artifacts must still pass the no-pending ingest validator before any benchmark claim.",
   "kernel_id": "edithatogo/qwen3-v4-peft-lm-eval-selected-full",
   "kernel_version": 7,
-  "recovered_summary": null,
-  "running_summary": "Kernel is running. Remaining gates are artifact recovery to the SSD and no-pending ingest validation before any benchmark claim.",
-  "status": "KernelWorkerStatus.RUNNING",
-  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.RUNNING\""
+  "recovered_summary": "/Volumes/PortableSSD/hermes-evals/kaggle/qwen3-v4-peft-lm-eval-selected-full-p100-v7-20260614/qwen3-v4-peft-kaggle-lm-eval-20260614-001433-summary.json",
+  "recovered_summary_status": "scored",
+  "status": "KernelWorkerStatus.COMPLETE",
+  "status_stdout": "edithatogo/qwen3-v4-peft-lm-eval-selected-full has status \"KernelWorkerStatus.COMPLETE\""
 }
