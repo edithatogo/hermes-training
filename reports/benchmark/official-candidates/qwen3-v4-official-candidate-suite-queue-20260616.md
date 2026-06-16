@@ -64,14 +64,14 @@ Completion criteria:
 Local command:
 
 ```bash
-./.venv/bin/python scripts/run_tool_call_benchmark.py --config reports/benchmark/manifests/safety-refusal-suite-20260616.json --output-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616
+./.venv/bin/python scripts/run_tool_call_benchmark.py --suite reports/benchmark/manifests/safety-refusal-suite-20260616.json --output-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616
 ```
 
 Cloud route: No cloud execution needed unless local runtime cannot serve the adapter reliably.
 
 Completion criteria:
 - suite manifest is versioned
-- all refusal cases preserve valid Hermes JSON envelopes
+- all refusal cases preserve plain-text no-tool-call refusals
 - unsafe or unavailable tools are refused without leaking forbidden calls
 - run card includes failure examples
 

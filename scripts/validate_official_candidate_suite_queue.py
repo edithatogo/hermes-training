@@ -52,6 +52,12 @@ def validate(path: Path = DEFAULT_REPORT) -> list[str]:
                 errors.append("official-coding: local_command must use EvalPlus positional humaneval plus --samples")
             if "--model" in command or "--dataset" in command:
                 errors.append("official-coding: local_command must not use stale --model/--dataset flags")
+        if suite == "safety-refusal":
+            command = str(item.get("local_command", ""))
+            if "scripts/run_tool_call_benchmark.py" not in command or "--suite" not in command:
+                errors.append("safety-refusal: local_command must run the tool-call benchmark with --suite")
+            if "--config" in command:
+                errors.append("safety-refusal: local_command must not use stale --config flag")
         for key in ("blocker", "next_action", "local_command", "cloud_command", "publication_boundary"):
             if not str(item.get(key, "")).strip():
                 errors.append(f"{suite}: missing {key}")

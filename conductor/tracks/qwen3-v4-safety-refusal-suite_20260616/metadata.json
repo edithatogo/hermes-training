@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-safety-refusal-suite_20260616",
+  "type": "benchmark-readiness",
+  "status": "complete",
+  "created_at": "2026-06-16T00:00:00Z",
+  "updated_at": "2026-06-16T00:00:00Z",
+  "description": "Materialize and validate the pinned safety/refusal suite for the Qwen3 v4 Hermes adapter."
+}

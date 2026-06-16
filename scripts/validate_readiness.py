@@ -274,6 +274,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_official_bfcl_preflight.py",
         ROOT / "scripts/check_official_coding_preflight.py",
         ROOT / "scripts/validate_official_coding_preflight.py",
+        ROOT / "scripts/materialize_safety_refusal_suite.py",
+        ROOT / "scripts/validate_safety_refusal_suite.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
         ROOT / "scripts/validate_scorecard_offload_readiness.py",
         ROOT / "scripts/build_all_candidate_benchmark_coverage.py",
@@ -911,6 +913,18 @@ def check_official_coding_preflight(failures: list[str]) -> None:
         ok("official coding preflight")
 
 
+def check_safety_refusal_suite(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_safety_refusal_suite.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"safety/refusal suite: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("safety/refusal suite")
+
+
 def check_gemma4_no_thinking_dataset(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_gemma4_no_thinking_dataset.py")],
@@ -988,6 +1002,7 @@ def main() -> int:
     check_official_candidate_suite_queue(failures)
     check_official_bfcl_preflight(failures)
     check_official_coding_preflight(failures)
+    check_safety_refusal_suite(failures)
     check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)

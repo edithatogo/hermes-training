@@ -39,6 +39,8 @@ class OfficialCandidateSuiteQueueTests(unittest.TestCase):
         self.assertNotIn("--model", by_suite["official-coding"]["local_command"])
         self.assertNotIn("--dataset", by_suite["official-coding"]["local_command"])
         self.assertIn("safety-refusal-suite", by_suite["safety-refusal"]["local_command"])
+        self.assertIn("--suite", by_suite["safety-refusal"]["local_command"])
+        self.assertNotIn("--config", by_suite["safety-refusal"]["local_command"])
         self.assertIn("ruler.run", by_suite["ruler-long-context"]["local_command"])
 
     def test_generated_report_validates(self) -> None:
