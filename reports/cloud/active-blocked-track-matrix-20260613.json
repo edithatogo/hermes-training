@@ -3,23 +3,6 @@
   "registry": "conductor/tracks.md",
   "rows": [
     {
-      "backend": "lightning",
-      "backend_status": "blocked-needs-teamspace-owner",
-      "blocker": "Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.",
-      "commands": [
-        "lightning login",
-        "lightning studio list",
-        "lightning machine list",
-        "lightning job list",
-        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_lightning_peft_scorecard.py --teamspace <owner>/<teamspace> --execute --confirm-lightning-run --confirm-zero-cost-compute"
-      ],
-      "next_task": "Run Lightning login and identify a real Teamspace only after explicit user approval.",
-      "title": "Qwen3 v4 PEFT Lightning scorecard",
-      "track_id": "qwen3-v4-peft-lightning-scorecard_20260614",
-      "track_path": "conductor/tracks/qwen3-v4-peft-lightning-scorecard_20260614"
-    },
-    {
       "backend": "ngc",
       "backend_status": "blocked",
       "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",

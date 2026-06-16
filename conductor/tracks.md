@@ -906,7 +906,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Qwen3 v4 PEFT Lightning scorecard
+## [x] Track: Qwen3 v4 PEFT Lightning scorecard
 *Link: [./tracks/qwen3-v4-peft-lightning-scorecard_20260614/](./tracks/qwen3-v4-peft-lightning-scorecard_20260614/)*
 
 ---
