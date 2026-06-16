@@ -278,6 +278,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_safety_refusal_suite.py",
         ROOT / "scripts/check_ruler_long_context_preflight.py",
         ROOT / "scripts/validate_ruler_long_context_preflight.py",
+        ROOT / "scripts/build_official_candidate_execution_matrix.py",
+        ROOT / "scripts/validate_official_candidate_execution_matrix.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
         ROOT / "scripts/validate_scorecard_offload_readiness.py",
         ROOT / "scripts/build_all_candidate_benchmark_coverage.py",
@@ -939,6 +941,18 @@ def check_ruler_long_context_preflight(failures: list[str]) -> None:
         ok("RULER long-context preflight")
 
 
+def check_official_candidate_execution_matrix(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_official_candidate_execution_matrix.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"official candidate execution matrix: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("official candidate execution matrix")
+
+
 def check_gemma4_no_thinking_dataset(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_gemma4_no_thinking_dataset.py")],
@@ -1018,6 +1032,7 @@ def main() -> int:
     check_official_coding_preflight(failures)
     check_safety_refusal_suite(failures)
     check_ruler_long_context_preflight(failures)
+    check_official_candidate_execution_matrix(failures)
     check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)
