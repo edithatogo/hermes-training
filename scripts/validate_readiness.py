@@ -278,6 +278,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_safety_refusal_suite.py",
         ROOT / "scripts/build_safety_refusal_result_report.py",
         ROOT / "scripts/validate_safety_refusal_result_report.py",
+        ROOT / "scripts/build_safety_refusal_repair_queue.py",
+        ROOT / "scripts/validate_safety_refusal_repair_queue.py",
         ROOT / "scripts/check_ruler_long_context_preflight.py",
         ROOT / "scripts/validate_ruler_long_context_preflight.py",
         ROOT / "scripts/build_official_candidate_execution_matrix.py",
@@ -943,6 +945,18 @@ def check_safety_refusal_result_report(failures: list[str]) -> None:
         ok("safety/refusal result report")
 
 
+def check_safety_refusal_repair_queue(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_safety_refusal_repair_queue.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"safety/refusal repair queue: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("safety/refusal repair queue")
+
+
 def check_ruler_long_context_preflight(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_ruler_long_context_preflight.py")],
@@ -1046,6 +1060,7 @@ def main() -> int:
     check_official_coding_preflight(failures)
     check_safety_refusal_suite(failures)
     check_safety_refusal_result_report(failures)
+    check_safety_refusal_repair_queue(failures)
     check_ruler_long_context_preflight(failures)
     check_official_candidate_execution_matrix(failures)
     check_gemma4_no_thinking_dataset(failures)

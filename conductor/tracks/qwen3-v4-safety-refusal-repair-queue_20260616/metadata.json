@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v4-safety-refusal-repair-queue_20260616",
+  "type": "benchmark-repair-planning",
+  "status": "complete",
+  "created_at": "2026-06-16T00:00:00Z",
+  "updated_at": "2026-06-16T00:00:00Z",
+  "description": "Build a validator-backed repair queue from the Qwen3 v4 safety/refusal benchmark result."
+}
