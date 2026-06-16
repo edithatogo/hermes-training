@@ -781,7 +781,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Qwen3 v4 PEFT HF Jobs scorecard
+## [x] Track: Qwen3 v4 PEFT HF Jobs scorecard
 *Link: [./tracks/qwen3-v4-peft-hf-jobs-scorecard_20260613/](./tracks/qwen3-v4-peft-hf-jobs-scorecard_20260613/)*
 
 ---

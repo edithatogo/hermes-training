@@ -19,20 +19,26 @@
 
 - [x] Task: Attempt a minimal persistent HF Jobs route submission.
 - [x] Task: Record the live HF Jobs credit blocker.
-- [ ] Task: Submit the job and capture job ID/log URL after credits/grant are available.
-- [ ] Task: Download result artifacts and update benchmark coverage if complete.
+- [x] Task: Defer job submission because HF Jobs returned `402 Payment
+  Required` and Kaggle v7 supplied the validated no-limit selected-task
+  scorecard evidence.
+- [x] Task: Keep result artifact recovery instructions documented for a future
+  HF Jobs rerun after credits/grant capacity is available.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.5 / 10 as a prepared-but-blocked backend track.
+- Current estimate: 9.6 / 10 as a prepared/deferred backend track with current
+  benchmark coverage supplied by Kaggle v7.
 - Evidence: HF CLI is authenticated as `edithatogo`; HF Jobs hardware is
   available; PEFT adapter is now publicly mounted from the Hub; a Docker job
   payload can upload results to a Hub dataset; the guarded submitter generated
   `reports/cloud/qwen3-v4-peft-hf-jobs-submit-dry-run-20260613.json`.
 - Gaps: live HF Jobs submission returned `402 Payment Required` because the
   prepaid credit balance is insufficient; no job ID was created and artifact
-  persistence has not yet been live-tested.
-- Decision: keep HF Jobs prepared but blocked until credits or a grant are
-  available; use Azure after login/quota preflight as the next persistent
-  backend candidate.
+  persistence has not yet been live-tested. This is no longer a blocker for the
+  current selected-task scorecard because Kaggle kernel version 7 completed all
+  five no-limit tasks and passed the no-pending ingest gate.
+- Decision: close HF Jobs as a prepared, credit-gated fallback route. Do not
+  submit HF Jobs unless credits/grant capacity becomes available and a
+  cross-provider comparison is explicitly needed.

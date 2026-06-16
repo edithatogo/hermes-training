@@ -19,7 +19,6 @@ DEFAULT_MATRIX_JSON = ROOT / "reports/cloud/active-blocked-track-matrix-20260613
 DEFAULT_MATRIX_MD = ROOT / "reports/cloud/active-blocked-track-matrix-20260613.md"
 
 REQUIRED_TRACKS = {
-    "qwen3-v4-peft-hf-jobs-scorecard_20260613",
     "qwen3-v4-peft-azure-scorecard_20260613",
     "qwen3-v4-peft-modal-scorecard_20260614",
     "qwen3-v4-peft-lightning-scorecard_20260614",

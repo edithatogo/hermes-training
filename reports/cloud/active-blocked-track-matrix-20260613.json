@@ -20,20 +20,6 @@
       "track_path": "conductor/tracks/qwen3-v4-peft-azure-scorecard_20260613"
     },
     {
-      "backend": "hf_jobs",
-      "backend_status": "blocked-insufficient-hf-credits",
-      "blocker": "HF Jobs rejected the live route probe with insufficient prepaid credits.",
-      "commands": [
-        "hf jobs ps",
-        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py",
-        "./.venv/bin/python scripts/submit_hf_jobs_peft_scorecard.py --execute --confirm-paid-compute"
-      ],
-      "next_task": "Submit the job and capture job ID/log URL after credits/grant are available.",
-      "title": "Qwen3 v4 PEFT HF Jobs scorecard",
-      "track_id": "qwen3-v4-peft-hf-jobs-scorecard_20260613",
-      "track_path": "conductor/tracks/qwen3-v4-peft-hf-jobs-scorecard_20260613"
-    },
-    {
       "backend": "lightning",
       "backend_status": "blocked-needs-teamspace-owner",
       "blocker": "Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner.",
