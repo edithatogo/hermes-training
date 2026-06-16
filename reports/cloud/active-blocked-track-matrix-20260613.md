@@ -6,7 +6,6 @@ Unblock checklist: `reports/cloud/backend-unblock-checklist-20260613.json`
 | Track | Backend | Backend status | Blocker | Next unchecked task |
 |---|---|---|---|---|
 | `qwen3-v4-peft-azure-scorecard_20260613` | `azure` | `blocked` | Azure CLI is installed but not currently logged in. | Complete `az login --use-device-code` for the student account. |
-| `qwen3-v4-peft-colab-scorecard-shards_20260613` | `colab` | `ready` | No-limit PEFT scorecards repeatedly prune or terminate after the Colab keepalive helper hits HTTP 403 for project 1014160490159. | Re-run `truthfulqa_mc2` only after Colab keepalive permission is fixed or a persistent backend is selected. |
 | `qwen3-v4-peft-hf-jobs-scorecard_20260613` | `hf_jobs` | `blocked-insufficient-hf-credits` | HF Jobs rejected the live route probe with insufficient prepaid credits. | Submit the job and capture job ID/log URL after credits/grant are available. |
 | `qwen3-v4-peft-lightning-scorecard_20260614` | `lightning` | `blocked-needs-teamspace-owner` | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. | Run Lightning login and identify a real Teamspace only after explicit user approval. |
 | `qwen3-v4-peft-modal-scorecard_20260614` | `modal` | `prepared-needs-credit-and-gpu-policy-check` | Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and fail-closed result persistence. | Confirm free credit/grant or zero-cost GPU policy. |
@@ -23,17 +22,6 @@ az account set --subscription "Azure for Students"
 ./.venv/bin/python scripts/azure_status.py
 ./.venv/bin/python scripts/submit_azure_peft_scorecard.py
 ./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run
-```
-
-### qwen3-v4-peft-colab-scorecard-shards_20260613
-
-```bash
-PATH="$HOME/.local/bin:$PATH" colab sessions
-./.venv/bin/python scripts/cloud_backend_preflight.py
-# bounded GPU/TPU adaptive smoke, no scorecard claim:
-./.venv/bin/python scripts/colab_dispatch.py --accelerators gpu:T4,gpu:L4,gpu:A100,tpu:v5e1 --allow-tpu --run-id colab-gpu-tpu-adaptive-smoke scripts/colab_adaptive_train_smoke.py
-# after permission is fixed:
-./.venv/bin/python scripts/colab_lm_eval_shard.py launch --config reports/benchmark/manifests/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-config-20260613.json --session qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-20260613-retry3 --gpu T4
 ```
 
 ### qwen3-v4-peft-hf-jobs-scorecard_20260613

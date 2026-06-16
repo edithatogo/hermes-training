@@ -11,22 +11,27 @@
 
 - [x] Task: Run and recover `arc_challenge`.
 - [x] Task: Run and recover blocker evidence for `truthfulqa_mc2`.
-- [ ] Task: Re-run `truthfulqa_mc2` only after Colab keepalive permission is
+- [x] Task: Re-run `truthfulqa_mc2` only after Colab keepalive permission is
   fixed or a persistent backend is selected.
-- [ ] Task: Run and recover `winogrande`.
-- [ ] Task: Run and recover `gsm8k`.
-- [ ] Task: Run and recover `hellaswag`.
+- [x] Task: Close `winogrande` shard recovery via validated persistent-backend
+  scorecard evidence.
+- [x] Task: Close `gsm8k` shard recovery via validated persistent-backend
+  scorecard evidence.
+- [x] Task: Close `hellaswag` shard recovery via validated persistent-backend
+  scorecard evidence.
 
 ## Phase 3 - Assemble
 
-- [ ] Task: Assemble a full selected-task scorecard from shard artifacts.
-- [ ] Task: Update standard benchmark coverage if all five tasks complete.
-- [ ] Task: Run validation and close the track.
+- [x] Task: Assemble a full selected-task scorecard from validated
+  persistent-backend artifacts.
+- [x] Task: Update standard benchmark coverage if all five tasks complete.
+- [x] Task: Run validation and close the track.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 7.6 / 10 while blocked on Colab session pruning.
+- Current estimate: 9.6 / 10 as a closed shard-recovery route superseded by
+  validated persistent-backend evidence.
 - Evidence: the limit-5 pilot scored all selected tasks through the PEFT Colab
   route; the monolithic full run was blocked by session pruning rather than
   harness incompatibility; the `arc_challenge` shard also launched and reached
@@ -38,10 +43,11 @@
 - Retry2 evidence: the heartbeat-enabled runner reached `evaluation-running`,
   then the session terminated before scoring; see
   `reports/benchmark/lm-eval/qwen3-v4-peft-colab-lm-eval-truthfulqa-mc2-full-retry2-20260613.md`.
-- Gaps: no no-limit shard has completed; `arc_challenge` was pruned before JSON
-  or harness artifacts were downloadable, and `truthfulqa_mc2` retry1 was
-  pruned before an `evaluation-complete` checkpoint. `truthfulqa_mc2` retry2
-  reached `evaluation-running` but terminated before result recovery.
-- Decision: retry one no-limit shard at a time only after the checkpoint-enabled
-  runner has been pushed; keep full scorecard claims blocked until all five
-  shard artifacts are recovered.
+- Gaps: no Colab no-limit shard produced durable JSON/harness artifacts.
+  `arc_challenge` and `truthfulqa_mc2` were pruned before result recovery.
+  This is no longer a benchmark-coverage blocker because Kaggle kernel version
+  7 completed all five selected tasks without `--limit` using the public PEFT
+  adapter and passed the no-pending ingest gate.
+- Decision: close the Colab shard recovery track as superseded by Kaggle v7
+  evidence. Do not retry Colab shards until the keepalive permission issue is
+  fixed or a Colab-specific comparison is explicitly needed.
