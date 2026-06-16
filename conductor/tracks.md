@@ -901,7 +901,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Qwen3 v4 PEFT Modal scorecard
+## [x] Track: Qwen3 v4 PEFT Modal scorecard
 *Link: [./tracks/qwen3-v4-peft-modal-scorecard_20260614/](./tracks/qwen3-v4-peft-modal-scorecard_20260614/)*
 
 ---

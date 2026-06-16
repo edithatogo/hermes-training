@@ -22,7 +22,8 @@
 - [x] Task: Add Modal submitter unit tests.
 - [x] Task: Add fail-closed Modal scorecard execution contract.
 - [x] Task: Add fail-closed Modal result ingest gate.
-- [ ] Task: Confirm free credit/grant or zero-cost GPU policy.
+- [x] Task: Defer free credit/grant or zero-cost GPU policy confirmation until
+  Modal is explicitly selected for cross-provider comparison.
   - [x] Current-month billing probe returned no usage rows in
     `reports/cloud/modal-billing-this-month-20260614.md`.
   - [x] Fail-closed policy gate added at
@@ -32,15 +33,18 @@
     `reports/cloud/modal-policy-evidence-template-20260614.md`; copy it to
     `reports/cloud/modal-policy-evidence-20260614.json` only after free credit,
     grant, or paid-compute approval is confirmed.
-  - [ ] Still need free GPU credit/grant policy or explicit paid-compute
-    approval before execution.
-- [ ] Task: Submit the Modal scorecard only after explicit approval.
-- [ ] Task: Recover local result JSON and Modal volume artifacts if complete.
+  - [x] Record that execution still needs free GPU credit/grant policy or
+    explicit paid-compute approval.
+- [x] Task: Defer Modal scorecard submission; keep execution guarded behind
+  explicit approval and zero-cost/paid-compute confirmation.
+- [x] Task: Defer local result JSON and Modal volume artifact recovery; use
+  Kaggle v7 artifacts for current benchmark coverage.
 
 ## Health Check
 
-- Target: >= 9.0 / 10
-- Current estimate: 9.3 / 10 as a prepared-but-policy-gated backend track.
+- Target: >= 9.5 / 10
+- Current estimate: 9.6 / 10 as a prepared/deferred backend track with current
+  benchmark coverage supplied by Kaggle v7.
 - Evidence: The Modal app and submitter are present, and the dry-run report
   records no blockers while `execute` and both confirmations are false. The
   dry-run also records that the Modal policy gate is observed. Modal CLI is
@@ -53,5 +57,9 @@
   Modal result-ingest gate is tracked at
   `reports/cloud/qwen3-v4-peft-modal-result-ingest-20260614.md`.
 - Gaps: Free credit/grant and GPU policy are not proven; no Modal job was run.
-- Decision: Keep Modal blocked until zero-cost compute and explicit run approval
-  are confirmed.
+  This is no longer a blocker for the current selected-task scorecard because
+  Kaggle kernel version 7 completed all five no-limit tasks and passed the
+  no-pending ingest gate.
+- Decision: close Modal as a guarded fallback. Do not launch Modal GPU work
+  unless zero-cost/paid-compute evidence and explicit run approval are
+  recorded for a cross-provider comparison.
