@@ -58,6 +58,14 @@ def validate(path: Path = DEFAULT_REPORT) -> list[str]:
                 errors.append("safety-refusal: local_command must run the tool-call benchmark with --suite")
             if "--config" in command:
                 errors.append("safety-refusal: local_command must not use stale --config flag")
+        if suite == "ruler-long-context":
+            command = str(item.get("local_command", ""))
+            if "python -m ruler.run" not in command:
+                errors.append("ruler-long-context: local_command must use the RULER module entrypoint")
+            if "<context>" in command:
+                errors.append("ruler-long-context: local_command must use a concrete staged max_seq_length")
+            if "--max_seq_length 4096" not in command or "ctx4096" not in command:
+                errors.append("ruler-long-context: local_command must start with the ctx4096 stage")
         for key in ("blocker", "next_action", "local_command", "cloud_command", "publication_boundary"):
             if not str(item.get(key, "")).strip():
                 errors.append(f"{suite}: missing {key}")

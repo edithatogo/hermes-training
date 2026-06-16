@@ -136,8 +136,8 @@ def build_items(coverage_path: Path) -> list[SuiteQueueItem]:
             output_root=f"{SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616",
             local_command=(
                 f"{GENERAL_ENV}/bin/python -m ruler.run --model {BASE_MODEL} --adapter {ADAPTER} "
-                "--tasks niah_single_1 --max_seq_length <context> "
-                f"--output_dir {SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616"
+                "--tasks niah_single_1 --max_seq_length 4096 "
+                f"--output_dir {SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096"
             ),
             cloud_command="Prefer Kaggle/Modal/Azure only after a persistent backend gate passes and the context length fits GPU memory.",
             completion_criteria=[

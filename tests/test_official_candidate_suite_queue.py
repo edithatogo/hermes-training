@@ -42,6 +42,9 @@ class OfficialCandidateSuiteQueueTests(unittest.TestCase):
         self.assertIn("--suite", by_suite["safety-refusal"]["local_command"])
         self.assertNotIn("--config", by_suite["safety-refusal"]["local_command"])
         self.assertIn("ruler.run", by_suite["ruler-long-context"]["local_command"])
+        self.assertIn("--max_seq_length 4096", by_suite["ruler-long-context"]["local_command"])
+        self.assertIn("ctx4096", by_suite["ruler-long-context"]["local_command"])
+        self.assertNotIn("<context>", by_suite["ruler-long-context"]["local_command"])
 
     def test_generated_report_validates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
