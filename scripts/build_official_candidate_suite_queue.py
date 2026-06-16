@@ -91,8 +91,9 @@ def build_items(coverage_path: Path) -> list[SuiteQueueItem]:
             run_id="qwen3-v4-peft-official-coding-20260616",
             output_root=f"{SSD_ROOT}/coding/qwen3-v4-peft-official-coding-20260616",
             local_command=(
-                f"{GENERAL_ENV}/bin/python -m evalplus.evaluate --model <generated-solutions-jsonl> "
-                f"--dataset humaneval --samples {SSD_ROOT}/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl"
+                f"{GENERAL_ENV}/bin/python -m evalplus.evaluate humaneval "
+                f"--samples {SSD_ROOT}/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl "
+                "--test-details"
             ),
             cloud_command=(
                 "Use a persistent GPU/CPU container only after sandbox, result persistence, and cost gates are recorded."

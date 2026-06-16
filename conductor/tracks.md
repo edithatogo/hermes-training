@@ -918,3 +918,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 Official BFCL Preflight
 *Link: [./tracks/qwen3-v4-official-bfcl-preflight_20260616/](./tracks/qwen3-v4-official-bfcl-preflight_20260616/)*
+
+---
+
+## [x] Track: Qwen3 v4 Official Coding Preflight
+*Link: [./tracks/qwen3-v4-official-coding-preflight_20260616/](./tracks/qwen3-v4-official-coding-preflight_20260616/)*

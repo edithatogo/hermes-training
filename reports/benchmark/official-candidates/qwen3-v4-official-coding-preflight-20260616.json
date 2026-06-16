@@ -1,0 +1,44 @@
+{
+  "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+  "base_model": "Qwen/Qwen3-4B",
+  "blockers": [
+    "generated solutions JSONL is missing"
+  ],
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "checks": {
+    "command_omits_stale_model_flag": true,
+    "command_uses_evalplus_module": true,
+    "command_uses_positional_humaneval": true,
+    "command_uses_samples": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
+    "evalplus_cli_executable": true,
+    "evalplus_module_present": true,
+    "generated_solutions_present": false,
+    "human_eval_module_present": true,
+    "output_root_ssd_backed": true,
+    "queue_item_present": true,
+    "run_id_matches": true,
+    "suite_status_missing": true
+  },
+  "created_at": "2026-06-16T00:00:00+00:00",
+  "decision": "Generate solutions first, then run EvalPlus with execution enabled; this preflight is not scored benchmark evidence.",
+  "evalplus_cli": {
+    "executable": true,
+    "help_output": "INFO: Showing help with the command 'evalplus.evaluate -- --help'.",
+    "path": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/evalplus.evaluate",
+    "present": true
+  },
+  "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details",
+  "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616",
+  "publication_boundary": "No public broad benchmark claim until this suite has scored artifacts and review sign-off.",
+  "queue_path": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
+  "run_id": "qwen3-v4-peft-official-coding-20260616",
+  "samples": {
+    "error": "generated solutions JSONL is missing",
+    "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
+    "present": false,
+    "rows": 0,
+    "valid_jsonl": false
+  },
+  "status": "blocked-coding-preflight",
+  "suite": "official-coding"
+}

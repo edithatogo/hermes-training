@@ -46,6 +46,12 @@ def validate(path: Path = DEFAULT_REPORT) -> list[str]:
             errors.append(f"{suite}: run_id must be qwen3-v4-peft scoped")
         if "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/" not in str(item.get("output_root", "")):
             errors.append(f"{suite}: output_root must be SSD-backed standard-benchmarks")
+        if suite == "official-coding":
+            command = str(item.get("local_command", ""))
+            if "evalplus.evaluate humaneval" not in command or "--samples" not in command:
+                errors.append("official-coding: local_command must use EvalPlus positional humaneval plus --samples")
+            if "--model" in command or "--dataset" in command:
+                errors.append("official-coding: local_command must not use stale --model/--dataset flags")
         for key in ("blocker", "next_action", "local_command", "cloud_command", "publication_boundary"):
             if not str(item.get(key, "")).strip():
                 errors.append(f"{suite}: missing {key}")

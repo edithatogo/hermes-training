@@ -44,7 +44,7 @@ Completion criteria:
 Local command:
 
 ```bash
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate --model <generated-solutions-jsonl> --dataset humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details
 ```
 
 Cloud route: Use a persistent GPU/CPU container only after sandbox, result persistence, and cost gates are recorded.

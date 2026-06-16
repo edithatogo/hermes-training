@@ -34,6 +34,10 @@ class OfficialCandidateSuiteQueueTests(unittest.TestCase):
         by_suite = {item["suite"]: item for item in report["items"]}
         self.assertIn("bfcl generate", by_suite["official-bfcl"]["local_command"])
         self.assertIn("evalplus.evaluate", by_suite["official-coding"]["local_command"])
+        self.assertIn("evalplus.evaluate humaneval", by_suite["official-coding"]["local_command"])
+        self.assertIn("--samples", by_suite["official-coding"]["local_command"])
+        self.assertNotIn("--model", by_suite["official-coding"]["local_command"])
+        self.assertNotIn("--dataset", by_suite["official-coding"]["local_command"])
         self.assertIn("safety-refusal-suite", by_suite["safety-refusal"]["local_command"])
         self.assertIn("ruler.run", by_suite["ruler-long-context"]["local_command"])
 

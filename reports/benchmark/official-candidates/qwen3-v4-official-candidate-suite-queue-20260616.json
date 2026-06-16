@@ -31,7 +31,7 @@
         "pass@1, compile errors, and timeouts are summarized",
         "run card records sandbox and raw generated solution paths"
       ],
-      "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate --model <generated-solutions-jsonl> --dataset humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
+      "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details",
       "next_action": "Use EvalPlus/HumanEval/MBPP from the general benchmark env with execution enabled, or record the sandbox blocker explicitly.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616",
       "priority": 20,
