@@ -1,0 +1,39 @@
+{
+  "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+  "base_model": "Qwen/Qwen3-4B",
+  "bfcl_cli": {
+    "executable": true,
+    "path": "/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl",
+    "present": true,
+    "version_output": "Usage: bfcl [OPTIONS] COMMAND [ARGS]..."
+  },
+  "blockers": [
+    "OpenAI-compatible endpoint is not reachable/configured"
+  ],
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "checks": {
+    "bfcl_cli_executable": true,
+    "endpoint_reachable": false,
+    "local_command_uses_bfcl_evaluate": true,
+    "local_command_uses_bfcl_generate": true,
+    "output_root_ssd_backed": true,
+    "queue_item_present": true,
+    "run_id_matches": true,
+    "suite_status_missing": true
+  },
+  "created_at": "2026-06-16T00:00:00+00:00",
+  "decision": "Run official BFCL generate/evaluate only after endpoint_reachable is true; this preflight is not scored benchmark evidence.",
+  "endpoint": {
+    "base_url": "",
+    "detail": "REMOTE_OPENAI_BASE_URL was not set.",
+    "models": [],
+    "status": "not-configured"
+  },
+  "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --include-input-log && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores --partial-eval",
+  "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616",
+  "publication_boundary": "No public broad benchmark claim until this suite has scored artifacts and review sign-off.",
+  "queue_path": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
+  "run_id": "qwen3-v4-peft-official-bfcl-20260616",
+  "status": "blocked-endpoint-preflight",
+  "suite": "official-bfcl"
+}

@@ -913,3 +913,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 PEFT NGC Cloud Function scorecard
 *Link: [./tracks/qwen3-v4-peft-ngc-cloud-function-scorecard_20260613/](./tracks/qwen3-v4-peft-ngc-cloud-function-scorecard_20260613/)*
+
+---
+
+## [x] Track: Qwen3 v4 Official BFCL Preflight
+*Link: [./tracks/qwen3-v4-official-bfcl-preflight_20260616/](./tracks/qwen3-v4-official-bfcl-preflight_20260616/)*
