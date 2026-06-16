@@ -948,3 +948,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v4 Safety/Refusal Repair Queue
 *Link: [./tracks/qwen3-v4-safety-refusal-repair-queue_20260616/](./tracks/qwen3-v4-safety-refusal-repair-queue_20260616/)*
+
+---
+
+## [x] Track: Qwen3 v4 Safety/Refusal Repair Dataset
+*Link: [./tracks/qwen3-v4-safety-refusal-repair-dataset_20260617/](./tracks/qwen3-v4-safety-refusal-repair-dataset_20260617/)*

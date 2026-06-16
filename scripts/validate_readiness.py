@@ -280,6 +280,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_safety_refusal_result_report.py",
         ROOT / "scripts/build_safety_refusal_repair_queue.py",
         ROOT / "scripts/validate_safety_refusal_repair_queue.py",
+        ROOT / "scripts/validate_safety_refusal_repair_dataset.py",
         ROOT / "scripts/check_ruler_long_context_preflight.py",
         ROOT / "scripts/validate_ruler_long_context_preflight.py",
         ROOT / "scripts/build_official_candidate_execution_matrix.py",
@@ -338,6 +339,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/run_colbert_read_stack_smoke.py",
         ROOT / "scripts/colab_lm_eval_shard.py",
         ROOT / "gemma4/data/strict_tool_call/tools/materialize_free_text_copy_splits_v6.py",
+        ROOT / "gemma4/data/strict_tool_call/tools/materialize_safety_refusal_repair_splits_v7.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],
@@ -957,6 +959,18 @@ def check_safety_refusal_repair_queue(failures: list[str]) -> None:
         ok("safety/refusal repair queue")
 
 
+def check_safety_refusal_repair_dataset(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_safety_refusal_repair_dataset.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"safety/refusal repair dataset: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("safety/refusal repair dataset")
+
+
 def check_ruler_long_context_preflight(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_ruler_long_context_preflight.py")],
@@ -1061,6 +1075,7 @@ def main() -> int:
     check_safety_refusal_suite(failures)
     check_safety_refusal_result_report(failures)
     check_safety_refusal_repair_queue(failures)
+    check_safety_refusal_repair_dataset(failures)
     check_ruler_long_context_preflight(failures)
     check_official_candidate_execution_matrix(failures)
     check_gemma4_no_thinking_dataset(failures)
