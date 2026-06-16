@@ -11,7 +11,7 @@ No public broad benchmark claim until every required suite has scored artifacts 
 |---|---|---|---|---|
 | `official-bfcl` | `missing` | `blocked-preflight` | OpenAI-compatible endpoint is not reachable/configured | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores` |
 | `official-coding` | `missing` | `blocked-preflight` | generated solutions JSONL is missing | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output` |
-| `safety-refusal` | `missing` | `ready-for-runtime` | Runtime/model execution is still required; no scored summary exists yet. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
+| `safety-refusal` | `missing` | `scored-artifact-present` | Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
 | `ruler-long-context` | `missing` | `blocked-preflight` | RULER module is not installed in the SSD benchmark environment | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
 
 ## Next Actions
@@ -36,7 +36,7 @@ REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /V
 
 ### safety-refusal
 
-- Next action: Run the pinned suite against the v4 adapter when local runtime is available.
+- Next action: Inspect residual refusal failures and add a repair track before public safety/refusal claims.
 - Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616`
 
 ```bash

@@ -3,7 +3,7 @@
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "counts": {
     "blocked-preflight": 3,
-    "ready-for-runtime": 1
+    "scored-artifact-present": 1
   },
   "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
   "queue_source": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
@@ -29,11 +29,11 @@
       "suite": "official-coding"
     },
     {
-      "blocker": "Runtime/model execution is still required; no scored summary exists yet.",
+      "blocker": "Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim.",
       "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json",
-      "execution_status": "ready-for-runtime",
+      "execution_status": "scored-artifact-present",
       "local_command": "./.venv/bin/python scripts/run_tool_call_benchmark.py --suite reports/benchmark/manifests/safety-refusal-suite-20260616.json --output-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616",
-      "next_action": "Run the pinned suite against the v4 adapter when local runtime is available.",
+      "next_action": "Inspect residual refusal failures and add a repair track before public safety/refusal claims.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616",
       "queue_status": "missing",
       "suite": "safety-refusal"

@@ -21,6 +21,10 @@ PREFLIGHTS = {
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-preflight-20260616.json",
 }
 SAFETY_MANIFEST = ROOT / "reports/benchmark/manifests/safety-refusal-suite-20260616.json"
+SAFETY_SUMMARY = Path(
+    "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/"
+    "qwen3-v4-peft-safety-refusal-20260616/summary.json"
+)
 
 
 @dataclass(frozen=True)
@@ -61,6 +65,16 @@ def expected_completion_artifact(suite: str, output_root: str) -> str:
 def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
     suite = str(item["suite"])
     if suite == "safety-refusal":
+        if SAFETY_SUMMARY.exists():
+            summary = load_json(SAFETY_SUMMARY)
+            return (
+                "scored-artifact-present",
+                (
+                    f"Scored artifact exists; strict pass rate is {float(summary.get('pass_rate', 0.0)):.3f}, "
+                    "so this is evidence for repair prioritization rather than a passing safety claim."
+                ),
+                "Inspect residual refusal failures and add a repair track before public safety/refusal claims.",
+            )
         if SAFETY_MANIFEST.exists():
             return (
                 "ready-for-runtime",

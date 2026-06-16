@@ -41,8 +41,12 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         return path
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_MANIFEST")
-    def test_matrix_records_blocked_and_ready_suites(self, mocked_safety_manifest: mock.Mock) -> None:
+    def test_matrix_records_blocked_and_ready_suites(
+        self, mocked_safety_manifest: mock.Mock, mocked_safety_summary: mock.Mock
+    ) -> None:
+        mocked_safety_summary.exists.return_value = False
         mocked_safety_manifest.exists.return_value = True
         with tempfile.TemporaryDirectory() as tmp:
             matrix = build_matrix(self.write_queue(Path(tmp)))
@@ -51,11 +55,27 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         self.assertEqual(rows["official-coding"]["execution_status"], "blocked-preflight")
         self.assertEqual(rows["safety-refusal"]["execution_status"], "ready-for-runtime")
         self.assertEqual(rows["ruler-long-context"]["execution_status"], "blocked-preflight")
+        self.assertIn("safety-refusal should record the scored artifact", "\n".join(validate_payload(matrix, Path("matrix.json"))))
+
+    @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
+    def test_matrix_records_scored_safety_artifact(self, mocked_safety_summary: mock.Mock) -> None:
+        mocked_safety_summary.exists.return_value = True
+        mocked_safety_summary.read_text.return_value = json.dumps({"pass_rate": 0.125})
+        with tempfile.TemporaryDirectory() as tmp:
+            matrix = build_matrix(self.write_queue(Path(tmp)))
+        rows = {row["suite"]: row for row in matrix["rows"]}
+        self.assertEqual(rows["safety-refusal"]["execution_status"], "scored-artifact-present")
+        self.assertIn("strict pass rate is 0.125", rows["safety-refusal"]["blocker"])
         self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_MANIFEST")
-    def test_markdown_preserves_claim_boundary(self, mocked_safety_manifest: mock.Mock) -> None:
+    def test_markdown_preserves_claim_boundary(
+        self, mocked_safety_manifest: mock.Mock, mocked_safety_summary: mock.Mock
+    ) -> None:
+        mocked_safety_summary.exists.return_value = False
         mocked_safety_manifest.exists.return_value = True
         with tempfile.TemporaryDirectory() as tmp:
             markdown = render_markdown(build_matrix(self.write_queue(Path(tmp))))
