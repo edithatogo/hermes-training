@@ -5,23 +5,11 @@ Unblock checklist: `reports/cloud/backend-unblock-checklist-20260613.json`
 
 | Track | Backend | Backend status | Blocker | Next unchecked task |
 |---|---|---|---|---|
-| `qwen3-v4-peft-azure-scorecard_20260613` | `azure` | `blocked` | Azure CLI is installed but not currently logged in. | Complete `az login --use-device-code` for the student account. |
 | `qwen3-v4-peft-lightning-scorecard_20260614` | `lightning` | `blocked-needs-teamspace-owner` | Lightning SDK is installed, but Studio/Job commands need login and a configured Teamspace owner. | Run Lightning login and identify a real Teamspace only after explicit user approval. |
 | `qwen3-v4-peft-modal-scorecard_20260614` | `modal` | `prepared-needs-credit-and-gpu-policy-check` | Modal CLI is authenticated; remaining gates are free credit/grant proof, GPU policy, and fail-closed result persistence. | Confirm free credit/grant or zero-cost GPU policy. |
 | `qwen3-v4-peft-ngc-cloud-function-scorecard_20260613` | `ngc` | `blocked` | NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container. | Configure NGC auth only after the user supplies keys or completes SSO. |
 
 ## Commands
-
-### qwen3-v4-peft-azure-scorecard_20260613
-
-```bash
-az login --use-device-code
-az account set --subscription "Azure for Students"
-./.venv/bin/python scripts/azure_preflight.py --check-quota --region australiaeast
-./.venv/bin/python scripts/azure_status.py
-./.venv/bin/python scripts/submit_azure_peft_scorecard.py
-./.venv/bin/python scripts/submit_azure_peft_scorecard.py --execute --confirm-azure-run
-```
 
 ### qwen3-v4-peft-lightning-scorecard_20260614
 

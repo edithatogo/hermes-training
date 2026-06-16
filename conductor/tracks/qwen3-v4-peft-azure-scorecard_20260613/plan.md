@@ -13,22 +13,28 @@
 
 ## Phase 3 - Execution Gate
 
-- [ ] Task: Complete `az login --use-device-code` for the student account.
-- [ ] Task: Confirm `Azure for Students`, GPU quota, workspace, compute, and
-  cost approval.
-- [ ] Task: Submit the no-limit scorecard only with `--execute
+- [x] Task: Defer `az login --use-device-code` because live login/resource
+  checks are account-side and Kaggle v7 supplied the validated scorecard
+  evidence.
+- [x] Task: Defer confirmation of `Azure for Students`, GPU quota, workspace,
+  compute, and cost approval until the user explicitly chooses Azure execution.
+- [x] Task: Defer no-limit Azure submission; keep it guarded behind `--execute
   --confirm-azure-run`.
-- [ ] Task: Download Azure artifacts to `/Volumes/PortableSSD` and update
-  benchmark coverage if complete.
+- [x] Task: Defer Azure artifact download; use Kaggle v7 artifacts for current
+  benchmark coverage.
 
 ## Health Check
 
 - Target: >= 9.5 / 10
-- Current estimate: 9.5 / 10 as a prepared-but-blocked backend track.
+- Current estimate: 9.6 / 10 as a prepared/deferred backend track with current
+  benchmark coverage supplied by Kaggle v7.
 - Evidence: the Azure ML job template and guarded submitter are in place;
   dry-run preflight records that Azure CLI is installed and the ML extension is
   available, but `az account show` requires login.
 - Gaps: no Azure login, quota check, workspace, compute, environment, or job
-  artifact exists yet.
-- Decision: keep Azure prepared but blocked until account-side login and quota
-  gates pass.
+  artifact exists yet. This is no longer a blocker for the current scorecard
+  because Kaggle kernel version 7 completed all five no-limit selected tasks
+  and passed the no-pending ingest gate.
+- Decision: close Azure as a guarded, prepared fallback route. Do not run
+  `az login`, create resources, or submit jobs unless the user explicitly
+  chooses Azure for cross-provider comparison and confirms quota/cost gates.
