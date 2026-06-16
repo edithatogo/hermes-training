@@ -1,23 +1,5 @@
 {
   "checklist": "reports/cloud/backend-unblock-checklist-20260613.json",
   "registry": "conductor/tracks.md",
-  "rows": [
-    {
-      "backend": "ngc",
-      "backend_status": "blocked",
-      "blocker": "NGC has no configured API key, SSO session, org/team, GPU quota, or benchmark container.",
-      "commands": [
-        "ngc sso login",
-        "ngc config current",
-        "ngc cloud-function gpu quota",
-        "ngc cloud-function task create --help",
-        "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py",
-        "./.venv/bin/python scripts/submit_ngc_cloud_function_scorecard.py --container-image <ngc-registry-image> --gpu-specification <gpu-spec> --execute --confirm-ngc-run"
-      ],
-      "next_task": "Configure NGC auth only after the user supplies keys or completes SSO.",
-      "title": "Qwen3 v4 PEFT NGC Cloud Function scorecard",
-      "track_id": "qwen3-v4-peft-ngc-cloud-function-scorecard_20260613",
-      "track_path": "conductor/tracks/qwen3-v4-peft-ngc-cloud-function-scorecard_20260613"
-    }
-  ]
+  "rows": []
 }

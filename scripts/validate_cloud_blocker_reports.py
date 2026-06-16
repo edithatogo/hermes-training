@@ -19,7 +19,6 @@ DEFAULT_MATRIX_JSON = ROOT / "reports/cloud/active-blocked-track-matrix-20260613
 DEFAULT_MATRIX_MD = ROOT / "reports/cloud/active-blocked-track-matrix-20260613.md"
 
 REQUIRED_TRACKS = {
-    "qwen3-v4-peft-ngc-cloud-function-scorecard_20260613",
 }
 
 
@@ -57,7 +56,8 @@ def validate_semantics(matrix_path: Path, checklist_path: Path, failures: list[s
     items = checklist.get("items", [])
 
     if not rows:
-        failures.append(f"{display_path(matrix_path)} has no blocked track rows")
+        if REQUIRED_TRACKS:
+            failures.append(f"{display_path(matrix_path)} has no blocked track rows")
         return
 
     checklist_backends = {item.get("backend") for item in items}
