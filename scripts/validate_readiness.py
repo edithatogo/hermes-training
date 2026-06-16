@@ -268,6 +268,8 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/check_specialist_runtime_preflight.py",
         ROOT / "scripts/validate_specialist_runtime_preflight_report.py",
         ROOT / "scripts/validate_official_benchmark_manifests.py",
+        ROOT / "scripts/build_official_candidate_suite_queue.py",
+        ROOT / "scripts/validate_official_candidate_suite_queue.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
         ROOT / "scripts/validate_scorecard_offload_readiness.py",
         ROOT / "scripts/build_all_candidate_benchmark_coverage.py",
@@ -869,6 +871,18 @@ def check_official_benchmark_manifests(failures: list[str]) -> None:
         ok("official benchmark manifests")
 
 
+def check_official_candidate_suite_queue(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_official_candidate_suite_queue.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"official candidate suite queue: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("official candidate suite queue")
+
+
 def check_gemma4_no_thinking_dataset(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_gemma4_no_thinking_dataset.py")],
@@ -943,6 +957,7 @@ def main() -> int:
     check_runtime_format_lanes(failures)
     check_publication_bundles(failures)
     check_official_benchmark_manifests(failures)
+    check_official_candidate_suite_queue(failures)
     check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)
     check_mem0_benchmark_evidence(failures)

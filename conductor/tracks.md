@@ -771,7 +771,7 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ---
 
-## [~] Track: Qwen3 v4 PEFT Colab full scorecard
+## [x] Track: Qwen3 v4 PEFT Colab full scorecard
 *Link: [./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/](./tracks/qwen3-v4-peft-colab-full-scorecard_20260613/)*
 
 ---
