@@ -84,13 +84,13 @@ Completion criteria:
 Local command:
 
 ```bash
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m ruler.run --model Qwen/Qwen3-4B --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter --tasks niah_single_1 --max_seq_length 4096 --output_dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,device=mps --tasks niah_single_1 --batch_size 1 --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
 ```
 
 Cloud route: Prefer Kaggle/Modal/Azure only after a persistent backend gate passes and the context length fits GPU memory.
 
 Completion criteria:
-- context length and tokenizer settings are recorded
+- context length/task and tokenizer settings are recorded
 - RULER task outputs are saved
 - score summary includes task accuracy and context length
 - run card records memory/runtime failures if blocked

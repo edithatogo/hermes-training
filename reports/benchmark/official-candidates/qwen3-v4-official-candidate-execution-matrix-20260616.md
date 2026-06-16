@@ -12,7 +12,7 @@ No public broad benchmark claim until every required suite has scored artifacts 
 | `official-bfcl` | `missing` | `blocked-preflight` | OpenAI-compatible endpoint is not reachable/configured | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores` |
 | `official-coding` | `missing` | `blocked-preflight` | generated solutions JSONL is missing | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output` |
 | `safety-refusal` | `missing` | `scored-artifact-present` | Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
-| `ruler-long-context` | `missing` | `blocked-preflight` | RULER module is not installed in the SSD benchmark environment | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
+| `ruler-long-context` | `missing` | `ready-for-runtime` | Preflight is ready; scored artifacts are still missing. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
 
 ## Next Actions
 
@@ -49,5 +49,5 @@ REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /V
 - Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616`
 
 ```bash
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m ruler.run --model Qwen/Qwen3-4B --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter --tasks niah_single_1 --max_seq_length 4096 --output_dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,device=mps --tasks niah_single_1 --batch_size 1 --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
 ```

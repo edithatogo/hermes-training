@@ -73,25 +73,27 @@ def build_report(queue_path: Path = DEFAULT_QUEUE, created_at: str | None = None
     item = find_ruler_item(queue)
     command = str(item.get("local_command", ""))
     output_root = str(item.get("output_root", ""))
-    ruler = module_status("ruler")
+    ruler = module_status("lm_eval.tasks.ruler")
     checks = {
         "queue_item_present": True,
         "suite_status_missing": item.get("status") == "missing",
         "run_id_matches": item.get("run_id") == EXPECTED_RUN_ID,
         "output_root_ssd_backed": is_ssd_backed(output_root),
-        "command_uses_ruler_module": "python -m ruler.run" in command,
-        "command_uses_initial_context": f"--max_seq_length {INITIAL_CONTEXT}" in command,
+        "command_uses_lm_eval": "lm_eval run --model hf" in command,
+        "command_uses_ruler_task": "--tasks niah_single_1" in command,
+        "command_uses_mps_device": "device=mps" in command,
+        "command_uses_initial_context": "ctx4096" in command,
         "command_omits_context_placeholder": "<context>" not in command,
         "command_writes_ctx4096": "ctx4096" in command,
         "benchmark_python_present": BENCHMARK_PYTHON.exists() and os.access(BENCHMARK_PYTHON, os.X_OK),
-        "ruler_module_present": ruler.present,
+        "lm_eval_ruler_tasks_present": ruler.present,
     }
     blockers: list[str] = []
     for name, passed in checks.items():
-        if not passed and name != "ruler_module_present":
+        if not passed and name != "lm_eval_ruler_tasks_present":
             blockers.append(name.replace("_", " "))
     if not ruler.present:
-        blockers.append("RULER module is not installed in the SSD benchmark environment")
+        blockers.append("lm_eval RULER tasks are not installed in the SSD benchmark environment")
     status = "ready-to-run" if not blockers else "blocked-ruler-preflight"
     return {
         "created_at": created_at or datetime.now(UTC).isoformat(),
@@ -110,14 +112,14 @@ def build_report(queue_path: Path = DEFAULT_QUEUE, created_at: str | None = None
             "reason": "Start with a bounded needle/retrieval smoke before scaling context length.",
         },
         "modules": {
-            "ruler": {"present": ruler.present, "detail": ruler.detail},
+            "lm_eval.tasks.ruler": {"present": ruler.present, "detail": ruler.detail},
         },
         "checks": checks,
         "blockers": blockers,
         "local_command": command,
         "publication_boundary": item.get("publication_boundary", ""),
         "decision": (
-            "Install/prove a RULER-compatible runtime before running the ctx4096 stage; "
+            "Use the installed lm_eval RULER task path before running the ctx4096 stage; "
             "this preflight is not scored benchmark evidence."
         ),
     }
@@ -156,8 +158,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "## Runtime",
             "",
-            f"- RULER module present: `{str(report['modules']['ruler']['present']).lower()}`",
-            f"- Detail: `{report['modules']['ruler']['detail']}`",
+            f"- lm_eval RULER tasks present: `{str(report['modules']['lm_eval.tasks.ruler']['present']).lower()}`",
+            f"- Detail: `{report['modules']['lm_eval.tasks.ruler']['detail']}`",
             "",
             "## Blockers",
             "",

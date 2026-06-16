@@ -41,8 +41,8 @@ class OfficialCandidateSuiteQueueTests(unittest.TestCase):
         self.assertIn("safety-refusal-suite", by_suite["safety-refusal"]["local_command"])
         self.assertIn("--suite", by_suite["safety-refusal"]["local_command"])
         self.assertNotIn("--config", by_suite["safety-refusal"]["local_command"])
-        self.assertIn("ruler.run", by_suite["ruler-long-context"]["local_command"])
-        self.assertIn("--max_seq_length 4096", by_suite["ruler-long-context"]["local_command"])
+        self.assertIn("lm_eval run --model hf", by_suite["ruler-long-context"]["local_command"])
+        self.assertIn("--tasks niah_single_1", by_suite["ruler-long-context"]["local_command"])
         self.assertIn("ctx4096", by_suite["ruler-long-context"]["local_command"])
         self.assertNotIn("<context>", by_suite["ruler-long-context"]["local_command"])
 

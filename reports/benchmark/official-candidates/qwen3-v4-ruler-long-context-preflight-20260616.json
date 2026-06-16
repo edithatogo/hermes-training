@@ -1,19 +1,19 @@
 {
   "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
   "base_model": "Qwen/Qwen3-4B",
-  "blockers": [
-    "RULER module is not installed in the SSD benchmark environment"
-  ],
+  "blockers": [],
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "checks": {
     "benchmark_python_present": true,
     "command_omits_context_placeholder": true,
     "command_uses_initial_context": true,
-    "command_uses_ruler_module": true,
+    "command_uses_lm_eval": true,
+    "command_uses_mps_device": true,
+    "command_uses_ruler_task": true,
     "command_writes_ctx4096": true,
+    "lm_eval_ruler_tasks_present": true,
     "output_root_ssd_backed": true,
     "queue_item_present": true,
-    "ruler_module_present": false,
     "run_id_matches": true,
     "suite_status_missing": true
   },
@@ -27,19 +27,19 @@
     "reason": "Start with a bounded needle/retrieval smoke before scaling context length.",
     "task": "niah_single_1"
   },
-  "created_at": "2026-06-16T00:00:00+00:00",
-  "decision": "Install/prove a RULER-compatible runtime before running the ctx4096 stage; this preflight is not scored benchmark evidence.",
-  "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m ruler.run --model Qwen/Qwen3-4B --adapter gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter --tasks niah_single_1 --max_seq_length 4096 --output_dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096",
+  "created_at": "2026-06-16T14:33:36.309630+00:00",
+  "decision": "Use the installed lm_eval RULER task path before running the ctx4096 stage; this preflight is not scored benchmark evidence.",
+  "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,device=mps --tasks niah_single_1 --batch_size 1 --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096",
   "modules": {
-    "ruler": {
+    "lm_eval.tasks.ruler": {
       "detail": "",
-      "present": false
+      "present": true
     }
   },
   "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616",
   "publication_boundary": "No public broad benchmark claim until this suite has scored artifacts and review sign-off.",
   "queue_path": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
   "run_id": "qwen3-v4-peft-ruler-long-context-20260616",
-  "status": "blocked-ruler-preflight",
+  "status": "ready-to-run",
   "suite": "ruler-long-context"
 }

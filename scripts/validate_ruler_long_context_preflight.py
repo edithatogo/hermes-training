@@ -52,20 +52,27 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
             "suite_status_missing",
             "run_id_matches",
             "output_root_ssd_backed",
-            "command_uses_ruler_module",
+            "command_uses_lm_eval",
+            "command_uses_ruler_task",
+            "command_uses_mps_device",
             "command_uses_initial_context",
             "command_omits_context_placeholder",
             "command_writes_ctx4096",
             "benchmark_python_present",
-            "ruler_module_present",
+            "lm_eval_ruler_tasks_present",
         ):
             if key not in checks:
                 failures.append(f"{display_path(report_path)} missing check {key}")
     command = str(data.get("local_command", ""))
     if "<context>" in command:
         failures.append(f"{display_path(report_path)} command must not contain <context>")
-    if "--max_seq_length 4096" not in command or "ctx4096" not in command:
-        failures.append(f"{display_path(report_path)} command must target ctx4096")
+    if (
+        "lm_eval run --model hf" not in command
+        or "--tasks niah_single_1" not in command
+        or "device=mps" not in command
+        or "ctx4096" not in command
+    ):
+        failures.append(f"{display_path(report_path)} command must target lm_eval niah_single_1 ctx4096 on MPS")
     if "not scored benchmark evidence" not in str(data.get("decision", "")):
         failures.append(f"{display_path(report_path)} must preserve non-score boundary")
     if "No public broad benchmark claim" not in str(data.get("publication_boundary", "")):

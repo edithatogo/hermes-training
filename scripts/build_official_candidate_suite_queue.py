@@ -135,13 +135,14 @@ def build_items(coverage_path: Path) -> list[SuiteQueueItem]:
             run_id="qwen3-v4-peft-ruler-long-context-20260616",
             output_root=f"{SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616",
             local_command=(
-                f"{GENERAL_ENV}/bin/python -m ruler.run --model {BASE_MODEL} --adapter {ADAPTER} "
-                "--tasks niah_single_1 --max_seq_length 4096 "
-                f"--output_dir {SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096"
+                f"{GENERAL_ENV}/bin/lm_eval run --model hf "
+                f"--model_args pretrained={BASE_MODEL},peft={PEFT_REPO},trust_remote_code=True,dtype=float16,device=mps "
+                "--tasks niah_single_1 --batch_size 1 "
+                f"--output_path {SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096"
             ),
             cloud_command="Prefer Kaggle/Modal/Azure only after a persistent backend gate passes and the context length fits GPU memory.",
             completion_criteria=[
-                "context length and tokenizer settings are recorded",
+                "context length/task and tokenizer settings are recorded",
                 "RULER task outputs are saved",
                 "score summary includes task accuracy and context length",
                 "run card records memory/runtime failures if blocked",

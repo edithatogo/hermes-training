@@ -55,8 +55,8 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
         failures.append("official-coding should remain blocked until generated solutions exist")
     if by_suite.get("safety-refusal", {}).get("execution_status") != "scored-artifact-present":
         failures.append("safety-refusal should record the scored artifact after local runtime completion")
-    if by_suite.get("ruler-long-context", {}).get("execution_status") != "blocked-preflight":
-        failures.append("ruler-long-context should remain blocked until the RULER module is installed")
+    if by_suite.get("ruler-long-context", {}).get("execution_status") not in {"blocked-preflight", "ready-for-runtime"}:
+        failures.append("ruler-long-context should be blocked or ready until scored RULER artifacts exist")
     if "No public broad benchmark claim" not in str(data.get("publication_boundary", "")):
         failures.append("publication boundary must block broad claims")
     return failures
