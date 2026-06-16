@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v7-safety-refusal-repair-run_20260617",
+  "type": "benchmark-repair-run",
+  "status": "complete",
+  "created_at": "2026-06-17T00:00:00Z",
+  "updated_at": "2026-06-17T00:00:00Z",
+  "description": "Train the Qwen3 v7 safety/refusal repair adapter and ingest the pinned-suite rerun result."
+}

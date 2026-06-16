@@ -136,8 +136,10 @@ def build_items(coverage_path: Path) -> list[SuiteQueueItem]:
             output_root=f"{SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616",
             local_command=(
                 f"{GENERAL_ENV}/bin/lm_eval run --model hf "
-                f"--model_args pretrained={BASE_MODEL},peft={PEFT_REPO},trust_remote_code=True,dtype=float16,device=mps "
+                f"--model_args pretrained={BASE_MODEL},peft={PEFT_REPO},trust_remote_code=True,dtype=float16,max_length=4096 "
+                "--device mps "
                 "--tasks niah_single_1 --batch_size 1 "
+                '--metadata \'{"max_seq_lengths":[4096]}\' '
                 f"--output_path {SSD_ROOT}/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096"
             ),
             cloud_command="Prefer Kaggle/Modal/Azure only after a persistent backend gate passes and the context length fits GPU memory.",

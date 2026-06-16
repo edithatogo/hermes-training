@@ -1,6 +1,6 @@
 # Qwen3 v4 RULER Long-Context Preflight
 
-Date: 2026-06-16T14:33:36.309630+00:00
+Date: 2026-06-16T14:37:57.555015+00:00
 Status: `ready-to-run`
 Suite: `ruler-long-context`
 Run ID: `qwen3-v4-peft-ruler-long-context-20260616`
@@ -28,6 +28,8 @@ This report is a launch gate for the RULER long-context slice. It does not conta
 | `command_uses_lm_eval` | `true` |
 | `command_uses_ruler_task` | `true` |
 | `command_uses_mps_device` | `true` |
+| `command_sets_model_max_length` | `true` |
+| `command_sets_ruler_metadata` | `true` |
 | `command_uses_initial_context` | `true` |
 | `command_omits_context_placeholder` | `true` |
 | `command_writes_ctx4096` | `true` |
@@ -46,7 +48,7 @@ This report is a launch gate for the RULER long-context slice. It does not conta
 ## Command
 
 ```bash
-/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,device=mps --tasks niah_single_1 --batch_size 1 --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
+/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,max_length=4096 --device mps --tasks niah_single_1 --batch_size 1 --metadata '{"max_seq_lengths":[4096]}' --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096
 ```
 
 ## Decision

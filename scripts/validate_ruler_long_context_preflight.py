@@ -55,6 +55,8 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
             "command_uses_lm_eval",
             "command_uses_ruler_task",
             "command_uses_mps_device",
+            "command_sets_model_max_length",
+            "command_sets_ruler_metadata",
             "command_uses_initial_context",
             "command_omits_context_placeholder",
             "command_writes_ctx4096",
@@ -69,7 +71,9 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
     if (
         "lm_eval run --model hf" not in command
         or "--tasks niah_single_1" not in command
-        or "device=mps" not in command
+        or "--device mps" not in command
+        or "max_length=4096" not in command
+        or "max_seq_lengths" not in command
         or "ctx4096" not in command
     ):
         failures.append(f"{display_path(report_path)} command must target lm_eval niah_single_1 ctx4096 on MPS")
