@@ -1,0 +1,18 @@
+{
+  "artifact_type": "private-benchmark-evidence",
+  "candidate": "qwen3-4b-strict-toolcall-v7-safety-refusal-repair",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/29d7660d51c83db0f8d1f141adbe6e3c352691db",
+  "hf_dataset_repo": "edithatogo/hermes-training-artifacts",
+  "hf_private": true,
+  "hf_revision": "29d7660d51c83db0f8d1f141adbe6e3c352691db",
+  "path_prefix": "qwen3-v7-safety-refusal-repair-run-20260617/",
+  "publication_boundary": "Evidence-only private artifact. Do not publish v7 model weights or public safety/refusal claims because the target gates were not met.",
+  "uploaded_files": [
+    "qwen3-v7-safety-refusal-repair-run-20260617/report.json",
+    "qwen3-v7-safety-refusal-repair-run-20260617/report.md",
+    "qwen3-v7-safety-refusal-repair-run-20260617/summary.json",
+    "qwen3-v7-safety-refusal-repair-run-20260617/summary.md",
+    "qwen3-v7-safety-refusal-repair-run-20260617/results.jsonl",
+    "qwen3-v7-safety-refusal-repair-run-20260617/responses.jsonl"
+  ]
+}
