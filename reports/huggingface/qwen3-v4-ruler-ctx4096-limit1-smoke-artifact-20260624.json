@@ -1,0 +1,15 @@
+{
+  "artifact_type": "private-benchmark-evidence",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/9e99216f89c69a938c5eb0dab2940f313c29da01",
+  "hf_dataset_repo": "edithatogo/hermes-training-artifacts",
+  "hf_private": true,
+  "hf_revision": "9e99216f89c69a938c5eb0dab2940f313c29da01",
+  "path_prefix": "qwen3-v4-ruler-ctx4096-limit1-smoke-20260624/",
+  "publication_boundary": "Evidence-only private artifact. This is a limit-1 RULER ctx4096 smoke and must not be described as a full official RULER score.",
+  "uploaded_files": [
+    "qwen3-v4-ruler-ctx4096-limit1-smoke-20260624/report.json",
+    "qwen3-v4-ruler-ctx4096-limit1-smoke-20260624/report.md",
+    "qwen3-v4-ruler-ctx4096-limit1-smoke-20260624/raw-result.json"
+  ]
+}
