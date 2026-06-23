@@ -3,7 +3,7 @@
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "counts": {
     "blocked-preflight": 2,
-    "ready-for-runtime": 1,
+    "blocked-runtime": 1,
     "scored-artifact-present": 1
   },
   "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
@@ -40,11 +40,11 @@
       "suite": "safety-refusal"
     },
     {
-      "blocker": "Preflight is ready; scored artifacts are still missing.",
+      "blocker": "The local lm_eval RULER path reached model initialization on MPS but did not reach inference. The active shell is not authenticated with Hugging Face, the Qwen/Qwen3-4B cache is incomplete, and the PEFT-converted adapter repo is not present in the active HF cache. The attempted download also used /Users/doughnut/.cache/huggingface instead of an SSD-backed Hugging Face cache path.",
       "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary",
-      "execution_status": "ready-for-runtime",
+      "execution_status": "blocked-runtime",
       "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,max_length=4096 --device mps --tasks niah_single_1 --batch_size 1 --metadata '{\"max_seq_lengths\":[4096]}' --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096",
-      "next_action": "Start with a small RULER needle/retrieval slice at the actual supported context length, then scale only if the runtime is stable.",
+      "next_action": "Set HF_HOME, HUGGINGFACE_HUB_CACHE, HF_XET_CACHE, and TRANSFORMERS_CACHE to /Volumes/PortableSSD-backed paths; authenticate or provide HF_TOKEN for the PEFT-converted adapter; prefetch Qwen/Qwen3-4B and the adapter; then rerun the same smoke before launching the full ctx4096 RULER slice.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616",
       "queue_status": "missing",
       "suite": "ruler-long-context"

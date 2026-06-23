@@ -12,7 +12,7 @@ No public broad benchmark claim until every required suite has scored artifacts 
 | `official-bfcl` | `missing` | `blocked-preflight` | OpenAI-compatible endpoint is not reachable/configured | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores` |
 | `official-coding` | `missing` | `blocked-preflight` | generated solutions JSONL is missing | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output` |
 | `safety-refusal` | `missing` | `scored-artifact-present` | Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
-| `ruler-long-context` | `missing` | `ready-for-runtime` | Preflight is ready; scored artifacts are still missing. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
+| `ruler-long-context` | `missing` | `blocked-runtime` | The local lm_eval RULER path reached model initialization on MPS but did not reach inference. The active shell is not authenticated with Hugging Face, the Qwen/Qwen3-4B cache is incomplete, and the PEFT-converted adapter repo is not present in the active HF cache. The attempted download also used /Users/doughnut/.cache/huggingface instead of an SSD-backed Hugging Face cache path. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
 
 ## Next Actions
 
@@ -45,7 +45,7 @@ REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /V
 
 ### ruler-long-context
 
-- Next action: Start with a small RULER needle/retrieval slice at the actual supported context length, then scale only if the runtime is stable.
+- Next action: Set HF_HOME, HUGGINGFACE_HUB_CACHE, HF_XET_CACHE, and TRANSFORMERS_CACHE to /Volumes/PortableSSD-backed paths; authenticate or provide HF_TOKEN for the PEFT-converted adapter; prefetch Qwen/Qwen3-4B and the adapter; then rerun the same smoke before launching the full ctx4096 RULER slice.
 - Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616`
 
 ```bash

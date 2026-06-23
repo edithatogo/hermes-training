@@ -41,7 +41,12 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
             continue
         if row.get("queue_status") != "missing":
             failures.append(f"{suite}: queue_status must remain missing until scored evidence exists")
-        if row.get("execution_status") not in {"blocked-preflight", "ready-for-runtime", "scored-artifact-present"}:
+        if row.get("execution_status") not in {
+            "blocked-preflight",
+            "blocked-runtime",
+            "ready-for-runtime",
+            "scored-artifact-present",
+        }:
             failures.append(f"{suite}: invalid execution_status {row.get('execution_status')!r}")
         if not str(row.get("output_root", "")).startswith("/Volumes/PortableSSD/hermes-evals/standard-benchmarks/"):
             failures.append(f"{suite}: output_root must be SSD-backed")
@@ -55,7 +60,11 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
         failures.append("official-coding should remain blocked until generated solutions exist")
     if by_suite.get("safety-refusal", {}).get("execution_status") != "scored-artifact-present":
         failures.append("safety-refusal should record the scored artifact after local runtime completion")
-    if by_suite.get("ruler-long-context", {}).get("execution_status") not in {"blocked-preflight", "ready-for-runtime"}:
+    if by_suite.get("ruler-long-context", {}).get("execution_status") not in {
+        "blocked-preflight",
+        "blocked-runtime",
+        "ready-for-runtime",
+    }:
         failures.append("ruler-long-context should be blocked or ready until scored RULER artifacts exist")
     if "No public broad benchmark claim" not in str(data.get("publication_boundary", "")):
         failures.append("publication boundary must block broad claims")

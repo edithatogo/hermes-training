@@ -41,10 +41,13 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         return path
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {})
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_MANIFEST")
     def test_matrix_records_blocked_and_ready_suites(
-        self, mocked_safety_manifest: mock.Mock, mocked_safety_summary: mock.Mock
+        self,
+        mocked_safety_manifest: mock.Mock,
+        mocked_safety_summary: mock.Mock,
     ) -> None:
         mocked_safety_summary.exists.return_value = False
         mocked_safety_manifest.exists.return_value = True
@@ -58,6 +61,7 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         self.assertIn("safety-refusal should record the scored artifact", "\n".join(validate_payload(matrix, Path("matrix.json"))))
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {})
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
     def test_matrix_records_scored_safety_artifact(self, mocked_safety_summary: mock.Mock) -> None:
         mocked_safety_summary.exists.return_value = True
@@ -69,11 +73,52 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         self.assertIn("strict pass rate is 0.125", rows["safety-refusal"]["blocker"])
         self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
 
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
+    def test_matrix_records_ruler_runtime_attempt_blocker(
+        self,
+        mocked_safety_summary: mock.Mock,
+    ) -> None:
+        mocked_safety_summary.exists.return_value = True
+        mocked_safety_summary.read_text.return_value = json.dumps({"pass_rate": 0.125})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            preflight_path = root / "ruler-preflight.json"
+            preflight_path.write_text(json.dumps({"status": "ready-to-run", "blockers": []}), encoding="utf-8")
+            attempt_path = root / "ruler-runtime-attempt.json"
+            attempt_path.write_text(
+                json.dumps(
+                    {
+                        "status": "blocked-runtime",
+                        "blocker": "HF/Xet model acquisition stalled",
+                        "next_action": "Move Hugging Face caches to the SSD and prefetch before retry.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with (
+                mock.patch(
+                    "scripts.build_official_candidate_execution_matrix.PREFLIGHTS",
+                    {"ruler-long-context": preflight_path},
+                ),
+                mock.patch(
+                    "scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS",
+                    {"ruler-long-context": attempt_path},
+                ),
+            ):
+                matrix = build_matrix(self.write_queue(root))
+        rows = {row["suite"]: row for row in matrix["rows"]}
+        self.assertEqual(rows["ruler-long-context"]["execution_status"], "blocked-runtime")
+        self.assertIn("HF/Xet model acquisition", rows["ruler-long-context"]["blocker"])
+        self.assertIn("SSD", rows["ruler-long-context"]["next_action"])
+
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
+    @mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {})
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_MANIFEST")
     def test_markdown_preserves_claim_boundary(
-        self, mocked_safety_manifest: mock.Mock, mocked_safety_summary: mock.Mock
+        self,
+        mocked_safety_manifest: mock.Mock,
+        mocked_safety_summary: mock.Mock,
     ) -> None:
         mocked_safety_summary.exists.return_value = False
         mocked_safety_manifest.exists.return_value = True
