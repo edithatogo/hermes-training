@@ -27,6 +27,7 @@ RUNTIME_ATTEMPTS = {
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
 CODING_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json"
+RULER_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx4096-full-result-20260624.json"
 SAFETY_MANIFEST = ROOT / "reports/benchmark/manifests/safety-refusal-suite-20260616.json"
 SAFETY_SUMMARY = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/"
@@ -105,6 +106,19 @@ def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
                     f"{float(result['evalplus_printed_scores']['humaneval_plus_pass_at_1']):.3f}."
                 ),
                 "Inspect failed HumanEval tasks before making any broad coding claim.",
+            )
+    if suite == "ruler-long-context" and RULER_RESULT.exists():
+        result = load_json(RULER_RESULT)
+        if result.get("status") == "scored-artifact-present":
+            metric = result["metric"]
+            return (
+                "scored-artifact-present",
+                (
+                    "Full RULER ctx4096 artifact exists; "
+                    f"{metric['task']} {metric['name']} score is {float(metric['value']):.3f} "
+                    f"over {int(result['sample_len'])} samples."
+                ),
+                "Add longer-context RULER slices before making claims beyond ctx4096 needle retrieval.",
             )
 
     runtime_attempt_path = RUNTIME_ATTEMPTS.get(suite)

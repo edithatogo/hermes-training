@@ -68,8 +68,9 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
         "blocked-preflight",
         "blocked-runtime",
         "ready-for-runtime",
+        "scored-artifact-present",
     }:
-        failures.append("ruler-long-context should be blocked or ready until scored RULER artifacts exist")
+        failures.append("ruler-long-context should be blocked, ready, or scored when RULER artifacts exist")
     if "No public broad benchmark claim" not in str(data.get("publication_boundary", "")):
         failures.append("publication boundary must block broad claims")
     return failures

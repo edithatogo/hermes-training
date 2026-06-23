@@ -1,7 +1,7 @@
 # Qwen3 v4 Official Coding Preflight
 
-Date: 2026-06-23T17:23:02.506008+00:00
-Status: `blocked-coding-preflight`
+Date: 2026-06-23T23:03:24.210826+00:00
+Status: `ready-to-evaluate`
 Suite: `official-coding`
 Run ID: `qwen3-v4-peft-official-coding-20260616`
 Candidate: `qwen3-4b-strict-toolcall-v4-targeted`
@@ -25,15 +25,15 @@ This report is a launch gate for HumanEval/EvalPlus execution. It does not conta
 | `evalplus_cli_executable` | `true` |
 | `evalplus_module_present` | `true` |
 | `human_eval_module_present` | `true` |
-| `generated_solutions_present` | `false` |
+| `generated_solutions_present` | `true` |
 
 ## Generated Solutions
 
 - Path: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl`
-- Present: `false`
-- Rows: `0`
-- Valid JSONL: `false`
-- Error: generated solutions JSONL is missing
+- Present: `true`
+- Rows: `164`
+- Valid JSONL: `true`
+- Error: none
 
 ## EvalPlus
 
@@ -44,7 +44,7 @@ This report is a launch gate for HumanEval/EvalPlus execution. It does not conta
 
 ## Blockers
 
-- generated solutions JSONL is missing
+- none
 
 ## Command
 

@@ -1,9 +1,7 @@
 {
   "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
   "base_model": "Qwen/Qwen3-4B",
-  "blockers": [
-    "generated solutions JSONL is missing"
-  ],
+  "blockers": [],
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "checks": {
     "command_omits_stale_model_flag": true,
@@ -12,14 +10,14 @@
     "command_uses_samples": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
     "evalplus_cli_executable": true,
     "evalplus_module_present": true,
-    "generated_solutions_present": false,
+    "generated_solutions_present": true,
     "human_eval_module_present": true,
     "output_root_ssd_backed": true,
     "queue_item_present": true,
     "run_id_matches": true,
     "suite_status_missing": true
   },
-  "created_at": "2026-06-23T17:23:02.506008+00:00",
+  "created_at": "2026-06-23T23:03:24.210826+00:00",
   "decision": "Generate solutions first, then run EvalPlus with execution enabled; this preflight is not scored benchmark evidence.",
   "evalplus_cli": {
     "executable": true,
@@ -33,12 +31,12 @@
   "queue_path": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
   "run_id": "qwen3-v4-peft-official-coding-20260616",
   "samples": {
-    "error": "generated solutions JSONL is missing",
+    "error": "",
     "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
-    "present": false,
-    "rows": 0,
-    "valid_jsonl": false
+    "present": true,
+    "rows": 164,
+    "valid_jsonl": true
   },
-  "status": "blocked-coding-preflight",
+  "status": "ready-to-evaluate",
   "suite": "official-coding"
 }

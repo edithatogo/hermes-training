@@ -52,7 +52,12 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         mocked_safety_summary.exists.return_value = False
         mocked_safety_manifest.exists.return_value = True
         with tempfile.TemporaryDirectory() as tmp:
-            matrix = build_matrix(self.write_queue(Path(tmp)))
+            root = Path(tmp)
+            with (
+                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULT", root / "missing-coding.json"),
+                mock.patch("scripts.build_official_candidate_execution_matrix.RULER_RESULT", root / "missing-ruler.json"),
+            ):
+                matrix = build_matrix(self.write_queue(root))
         rows = {row["suite"]: row for row in matrix["rows"]}
         self.assertEqual(rows["official-bfcl"]["execution_status"], "blocked-preflight")
         self.assertEqual(rows["official-coding"]["execution_status"], "blocked-preflight")
@@ -104,6 +109,7 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
                     "scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS",
                     {"ruler-long-context": attempt_path},
                 ),
+                mock.patch("scripts.build_official_candidate_execution_matrix.RULER_RESULT", root / "missing-ruler.json"),
             ):
                 matrix = build_matrix(self.write_queue(root))
         rows = {row["suite"]: row for row in matrix["rows"]}
@@ -134,11 +140,44 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
                     "scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS",
                     {"official-coding": coding_attempt},
                 ),
+                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULT", root / "missing-coding.json"),
             ):
                 matrix = build_matrix(self.write_queue(root))
         rows = {row["suite"]: row for row in matrix["rows"]}
         self.assertEqual(rows["official-coding"]["execution_status"], "blocked-runtime")
         self.assertIn("MLX model acquisition", rows["official-coding"]["blocker"])
+        self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
+
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
+    def test_matrix_records_ruler_scored_artifact(self, mocked_safety_summary: mock.Mock) -> None:
+        mocked_safety_summary.exists.return_value = True
+        mocked_safety_summary.read_text.return_value = json.dumps({"pass_rate": 0.125})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            ruler_result = root / "ruler-result.json"
+            ruler_result.write_text(
+                json.dumps(
+                    {
+                        "status": "scored-artifact-present",
+                        "sample_len": 500,
+                        "metric": {
+                            "task": "niah_single_1",
+                            "name": "4096",
+                            "value": 1.0,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with (
+                mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {}),
+                mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {}),
+                mock.patch("scripts.build_official_candidate_execution_matrix.RULER_RESULT", ruler_result),
+            ):
+                matrix = build_matrix(self.write_queue(root))
+        rows = {row["suite"]: row for row in matrix["rows"]}
+        self.assertEqual(rows["ruler-long-context"]["execution_status"], "scored-artifact-present")
+        self.assertIn("score is 1.000 over 500 samples", rows["ruler-long-context"]["blocker"])
         self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
