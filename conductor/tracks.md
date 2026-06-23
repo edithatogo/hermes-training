@@ -958,3 +958,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [x] Track: Qwen3 v7 Safety/Refusal Repair Run
 *Link: [./tracks/qwen3-v7-safety-refusal-repair-run_20260617/](./tracks/qwen3-v7-safety-refusal-repair-run_20260617/)*
+
+---
+
+## [ ] Track: Qwen3 v8 Safety/Refusal Wrapper + Contrastive Repair
+*Link: [./tracks/qwen3-v8-safety-refusal-wrapper-contrastive-repair_20260624/](./tracks/qwen3-v8-safety-refusal-wrapper-contrastive-repair_20260624/)*
