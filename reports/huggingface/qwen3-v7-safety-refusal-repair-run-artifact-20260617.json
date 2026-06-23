@@ -7,6 +7,8 @@
   "hf_revision": "29d7660d51c83db0f8d1f141adbe6e3c352691db",
   "path_prefix": "qwen3-v7-safety-refusal-repair-run-20260617/",
   "publication_boundary": "Evidence-only private artifact. Do not publish v7 model weights or public safety/refusal claims because the target gates were not met.",
+  "public_model_publication_status": "blocked",
+  "public_model_publication_reason": "Private HF dataset upload is evidence-only; v7 failed target gates with strict pass 0.375, empty-think wrappers on all 8 responses, and 3 residual failures.",
   "uploaded_files": [
     "qwen3-v7-safety-refusal-repair-run-20260617/report.json",
     "qwen3-v7-safety-refusal-repair-run-20260617/report.md",
