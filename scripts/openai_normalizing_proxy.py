@@ -72,6 +72,17 @@ def coerce_mlx_logprobs_request(payload: dict[str, Any]) -> tuple[dict[str, Any]
     return payload, 0
 
 
+def override_request_model(payload: dict[str, Any], model_override: str) -> tuple[dict[str, Any], int]:
+    """Replace the request model id before forwarding to a local runtime."""
+    if not model_override or not isinstance(payload.get("model"), str):
+        return payload, 0
+    if payload["model"] == model_override:
+        return payload, 0
+    updated = dict(payload)
+    updated["model"] = model_override
+    return updated, 1
+
+
 def upstream_url(upstream_base: str, request_path: str) -> str:
     """Map incoming OpenAI-compatible paths onto the upstream base URL."""
     route = request_path.split("?", 1)[0]
@@ -114,13 +125,21 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         if request_payload.get("stream") is True:
             self.send_error(HTTPStatus.BAD_REQUEST, "streaming responses are not normalized by this proxy")
             return
+        request_payload, overridden_count = override_request_model(request_payload, self.server.model_override)
+        body = json.dumps(request_payload).encode("utf-8")
         coerced_count = 0
         if route in {"/v1/completions", "/completions"}:
             request_payload, coerced_count = coerce_mlx_logprobs_request(request_payload)
             body = json.dumps(request_payload).encode("utf-8")
-        self.proxy_request("POST", body, coerced_logprobs_count=coerced_count)
+        self.proxy_request("POST", body, coerced_logprobs_count=coerced_count, overridden_model_count=overridden_count)
 
-    def proxy_request(self, method: str, body: bytes | None = None, coerced_logprobs_count: int = 0) -> None:
+    def proxy_request(
+        self,
+        method: str,
+        body: bytes | None = None,
+        coerced_logprobs_count: int = 0,
+        overridden_model_count: int = 0,
+    ) -> None:
         headers = {
             key: value
             for key, value in self.headers.items()
@@ -162,6 +181,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(content)))
         self.send_header("X-Hermes-Normalized-Empty-Think-Count", str(normalized_count))
         self.send_header("X-Hermes-Coerced-Logprobs-Count", str(coerced_logprobs_count))
+        self.send_header("X-Hermes-Overridden-Model-Count", str(overridden_model_count))
         self.end_headers()
         self.wfile.write(content)
 
@@ -181,11 +201,13 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         upstream_base: str,
         timeout_s: float,
         quiet: bool,
+        model_override: str = "",
     ) -> None:
         super().__init__(server_address, NormalizingProxyHandler)
         self.upstream_base = upstream_base
         self.timeout_s = timeout_s
         self.quiet = quiet
+        self.model_override = model_override
 
 
 class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
@@ -262,7 +284,13 @@ def run_self_test() -> None:
     upstream_thread = start_threaded_server(upstream)
     upstream_base = f"http://127.0.0.1:{upstream.server_port}/v1"
 
-    proxy = NormalizingProxyServer(("127.0.0.1", 0), upstream_base, timeout_s=5.0, quiet=True)
+    proxy = NormalizingProxyServer(
+        ("127.0.0.1", 0),
+        upstream_base,
+        timeout_s=5.0,
+        quiet=True,
+        model_override="qwen-override",
+    )
     proxy_thread = start_threaded_server(proxy)
     proxy_base = f"http://127.0.0.1:{proxy.server_port}/v1"
 
@@ -281,11 +309,14 @@ def run_self_test() -> None:
         with urllib.request.urlopen(request, timeout=5) as response:
             chat = json.loads(response.read().decode("utf-8"))
             normalized_header = response.headers["X-Hermes-Normalized-Empty-Think-Count"]
+            override_header = response.headers["X-Hermes-Overridden-Model-Count"]
         content = chat["choices"][0]["message"]["content"]
         if content != "<tool_call>{}</tool_call>":
             raise AssertionError(f"unexpected normalized content: {content!r}")
         if normalized_header != "1":
             raise AssertionError(f"unexpected normalization count: {normalized_header!r}")
+        if override_header != "1":
+            raise AssertionError(f"unexpected model override count: {override_header!r}")
 
         completions_request = urllib.request.Request(
             f"{proxy_base}/completions",
@@ -327,6 +358,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--listen-host", default="127.0.0.1", help="Proxy listen host.")
     parser.add_argument("--listen-port", type=int, default=8099, help="Proxy listen port.")
     parser.add_argument("--timeout-s", type=float, default=120.0, help="Upstream request timeout.")
+    parser.add_argument("--model-override", default="", help="Optional model id to forward to the upstream runtime.")
     parser.add_argument("--quiet", action="store_true", help="Suppress request logs.")
     parser.add_argument("--self-test", action="store_true", help="Run proxy self-tests and exit.")
     return parser.parse_args()
@@ -344,6 +376,7 @@ def main() -> int:
         upstream_base=args.upstream,
         timeout_s=args.timeout_s,
         quiet=args.quiet,
+        model_override=args.model_override,
     )
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")
     print(f"upstream: {args.upstream}")

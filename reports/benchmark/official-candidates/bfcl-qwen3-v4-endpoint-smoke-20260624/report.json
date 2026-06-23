@@ -1,0 +1,67 @@
+{
+  "adapter_path": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+  "bfcl_model_id": "Qwen/Qwen3-4B-Instruct-2507-FC",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "created_at": "2026-06-24T04:05:00+10:00",
+  "endpoint": {
+    "proxy": "scripts/openai_normalizing_proxy.py",
+    "proxy_model_override": "Qwen/Qwen3-4B-MLX-4bit",
+    "runtime": "mlx_lm.server",
+    "runtime_model_id": "Qwen/Qwen3-4B-MLX-4bit"
+  },
+  "full_official_claim": false,
+  "full_run_attempt": {
+    "attempted_cases": 800,
+    "partial_rows_written": 3,
+    "result_file": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+    "status": "interrupted-after-local-concurrency-overload"
+  },
+  "publication_boundary": "Endpoint and partial-evaluation evidence only. This is not a full official BFCL score and must not be used as a leaderboard claim.",
+  "run_ids": {
+    "multiple": [
+      "multiple_0"
+    ],
+    "parallel": [
+      "parallel_0"
+    ],
+    "simple_python": [
+      "simple_python_0"
+    ]
+  },
+  "smoke_artifact_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260624-smoke",
+  "status": "passed-endpoint-and-partial-eval",
+  "summary": {
+    "latency_mean_seconds": 11.08,
+    "overall_partial_accuracy": "0.00%",
+    "total_cases": 3
+  },
+  "tests": [
+    {
+      "accuracy": "0.00%",
+      "category": "simple_python",
+      "correct_count": 0,
+      "error_type": "simple_function_checker:wrong_count",
+      "latency_seconds": 12.522822141647339,
+      "model_result_raw": "\\n\\n",
+      "total_count": 1
+    },
+    {
+      "accuracy": "0.00%",
+      "category": "multiple",
+      "correct_count": 0,
+      "error_type": "multiple_function_checker:wrong_count",
+      "latency_seconds": 12.536326169967651,
+      "model_result_raw": "\\n\\n",
+      "total_count": 1
+    },
+    {
+      "accuracy": "0.00%",
+      "category": "parallel",
+      "correct_count": 0,
+      "error_type": "parallel_function_checker_no_order:wrong_count",
+      "latency_seconds": 8.181947946548462,
+      "model_result_raw": "\\n\\n\\n",
+      "total_count": 1
+    }
+  ]
+}
