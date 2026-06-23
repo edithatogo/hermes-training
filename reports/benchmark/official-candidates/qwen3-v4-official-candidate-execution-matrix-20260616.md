@@ -10,7 +10,7 @@ No public broad benchmark claim until every required suite has scored artifacts 
 | Suite | Queue | Execution | Blocker | Completion artifact |
 |---|---|---|---|---|
 | `official-bfcl` | `missing` | `blocked-preflight` | OpenAI-compatible endpoint is not reachable/configured | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores` |
-| `official-coding` | `missing` | `blocked-runtime` | The MLX HumanEval generator is wired and HumanEval data is available, but model acquisition stalled before the local Qwen/Qwen3-4B-MLX-4bit runtime loaded. No EvalPlus-shaped generated sample was produced. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output` |
+| `official-coding` | `missing` | `scored-artifact-present` | EvalPlus scored artifact exists; HumanEval base pass@1 is 0.518 and HumanEval+ pass@1 is 0.482. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output` |
 | `safety-refusal` | `missing` | `scored-artifact-present` | Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
 | `ruler-long-context` | `missing` | `blocked-runtime` | The local lm_eval RULER path reached model initialization on MPS but did not reach inference. The active shell is not authenticated with Hugging Face, the Qwen/Qwen3-4B cache is incomplete, and the PEFT-converted adapter repo is not present in the active HF cache. The attempted download also used /Users/doughnut/.cache/huggingface instead of an SSD-backed Hugging Face cache path. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
 
@@ -27,7 +27,7 @@ REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /V
 
 ### official-coding
 
-- Next action: Set HF_HOME, HUGGINGFACE_HUB_CACHE, HF_XET_CACHE, and TRANSFORMERS_CACHE to /Volumes/PortableSSD-backed paths; authenticate or provide HF_TOKEN; prefetch Qwen/Qwen3-4B-MLX-4bit and the local adapter dependencies; rerun the one-problem generation smoke; then generate all 164 HumanEval rows before EvalPlus execution.
+- Next action: Inspect failed HumanEval tasks before making any broad coding claim.
 - Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616`
 
 ```bash

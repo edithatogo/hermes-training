@@ -26,6 +26,7 @@ RUNTIME_ATTEMPTS = {
     "ruler-long-context": ROOT
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
+CODING_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json"
 SAFETY_MANIFEST = ROOT / "reports/benchmark/manifests/safety-refusal-suite-20260616.json"
 SAFETY_SUMMARY = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/"
@@ -92,6 +93,19 @@ def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
             "Pinned safety/refusal manifest is missing.",
             "Regenerate the safety/refusal suite manifest.",
         )
+    if suite == "official-coding" and CODING_RESULT.exists():
+        result = load_json(CODING_RESULT)
+        if result.get("status") == "scored-artifact-present":
+            return (
+                "scored-artifact-present",
+                (
+                    "EvalPlus scored artifact exists; HumanEval base pass@1 is "
+                    f"{float(result['evalplus_printed_scores']['humaneval_base_pass_at_1']):.3f} and "
+                    "HumanEval+ pass@1 is "
+                    f"{float(result['evalplus_printed_scores']['humaneval_plus_pass_at_1']):.3f}."
+                ),
+                "Inspect failed HumanEval tasks before making any broad coding claim.",
+            )
 
     runtime_attempt_path = RUNTIME_ATTEMPTS.get(suite)
     if runtime_attempt_path and runtime_attempt_path.exists():

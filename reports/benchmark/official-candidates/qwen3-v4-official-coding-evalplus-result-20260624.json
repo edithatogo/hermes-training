@@ -1,0 +1,30 @@
+{
+  "base_pass_count": 85,
+  "base_pass_rate_from_result_json": 0.5182926829268293,
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "command": "source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details --parallel 8 --i-just-wanna-run",
+  "created_at": "2026-06-24T04:46:00+10:00",
+  "dataset": "humaneval",
+  "evalplus_printed_scores": {
+    "humaneval_base_pass_at_1": 0.518,
+    "humaneval_plus_pass_at_1": 0.482
+  },
+  "full_official_claim": false,
+  "generated_samples": {
+    "max_tokens": 256,
+    "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl",
+    "prompt_mode": "completion",
+    "rows": 164,
+    "unique_task_ids": 164
+  },
+  "generation_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generation-summary.json",
+  "plus_pass_count": 80,
+  "plus_pass_rate_from_result_json": 0.4878048780487805,
+  "publication_boundary": "Coding benchmark evidence only. Do not make a broad model quality claim until the other required official-candidate suites are scored or explicitly excluded.",
+  "result_json": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated_eval_results.json",
+  "run_id": "qwen3-v4-peft-official-coding-20260616",
+  "score_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/evalplus-humaneval-no-memlimit.log",
+  "status": "scored-artifact-present",
+  "suite": "official-coding",
+  "task_count": 164
+}
