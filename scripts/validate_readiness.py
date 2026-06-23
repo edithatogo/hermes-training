@@ -274,6 +274,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_official_bfcl_preflight.py",
         ROOT / "scripts/check_official_coding_preflight.py",
         ROOT / "scripts/validate_official_coding_preflight.py",
+        ROOT / "scripts/generate_humaneval_mlx_solutions.py",
         ROOT / "scripts/materialize_safety_refusal_suite.py",
         ROOT / "scripts/validate_safety_refusal_suite.py",
         ROOT / "scripts/build_safety_refusal_result_report.py",

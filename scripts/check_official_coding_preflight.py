@@ -21,6 +21,7 @@ BENCHMARK_PYTHON = Path("/Volumes/PortableSSD/hermes-training-envs/benchmarks-py
 EVALPLUS_CLI = Path("/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/evalplus.evaluate")
 EXPECTED_SUITE = "official-coding"
 EXPECTED_RUN_ID = "qwen3-v4-peft-official-coding-20260616"
+EXPECTED_HUMANEVAL_ROWS = 164
 
 
 @dataclass(frozen=True)
@@ -84,7 +85,15 @@ def generated_jsonl_status(path: Path) -> JsonlStatus:
                     return JsonlStatus(path=str(path), present=True, rows=rows, valid_jsonl=False, error=f"line {rows} is not an object")
     except Exception as exc:  # noqa: BLE001
         return JsonlStatus(path=str(path), present=True, rows=rows, valid_jsonl=False, error=f"{type(exc).__name__}: {exc}")
-    return JsonlStatus(path=str(path), present=True, rows=rows, valid_jsonl=rows > 0, error="" if rows > 0 else "file is empty")
+    if rows != EXPECTED_HUMANEVAL_ROWS:
+        return JsonlStatus(
+            path=str(path),
+            present=True,
+            rows=rows,
+            valid_jsonl=False,
+            error=f"expected {EXPECTED_HUMANEVAL_ROWS} HumanEval rows, found {rows}",
+        )
+    return JsonlStatus(path=str(path), present=True, rows=rows, valid_jsonl=True, error="")
 
 
 def parse_samples_path(command: str) -> Path:

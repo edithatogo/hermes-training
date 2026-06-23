@@ -111,6 +111,36 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         self.assertIn("HF/Xet model acquisition", rows["ruler-long-context"]["blocker"])
         self.assertIn("SSD", rows["ruler-long-context"]["next_action"])
 
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
+    def test_matrix_records_coding_runtime_attempt_blocker(self, mocked_safety_summary: mock.Mock) -> None:
+        mocked_safety_summary.exists.return_value = True
+        mocked_safety_summary.read_text.return_value = json.dumps({"pass_rate": 0.125})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            coding_attempt = root / "coding-attempt.json"
+            coding_attempt.write_text(
+                json.dumps(
+                    {
+                        "status": "blocked-runtime-fetch",
+                        "diagnosis": "MLX model acquisition stalled.",
+                        "next_action": "Prefetch the MLX model.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with (
+                mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {}),
+                mock.patch(
+                    "scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS",
+                    {"official-coding": coding_attempt},
+                ),
+            ):
+                matrix = build_matrix(self.write_queue(root))
+        rows = {row["suite"]: row for row in matrix["rows"]}
+        self.assertEqual(rows["official-coding"]["execution_status"], "blocked-runtime")
+        self.assertIn("MLX model acquisition", rows["official-coding"]["blocker"])
+        self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
+
     @mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {})
     @mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {})
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")

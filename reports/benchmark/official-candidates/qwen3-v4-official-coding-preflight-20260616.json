@@ -19,7 +19,7 @@
     "run_id_matches": true,
     "suite_status_missing": true
   },
-  "created_at": "2026-06-16T00:00:00+00:00",
+  "created_at": "2026-06-23T17:23:02.506008+00:00",
   "decision": "Generate solutions first, then run EvalPlus with execution enabled; this preflight is not scored benchmark evidence.",
   "evalplus_cli": {
     "executable": true,

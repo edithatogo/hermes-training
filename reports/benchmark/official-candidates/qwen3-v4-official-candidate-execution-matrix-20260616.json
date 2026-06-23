@@ -2,8 +2,8 @@
   "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "counts": {
-    "blocked-preflight": 2,
-    "blocked-runtime": 1,
+    "blocked-preflight": 1,
+    "blocked-runtime": 2,
     "scored-artifact-present": 1
   },
   "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
@@ -20,11 +20,11 @@
       "suite": "official-bfcl"
     },
     {
-      "blocker": "generated solutions JSONL is missing",
+      "blocker": "The MLX HumanEval generator is wired and HumanEval data is available, but model acquisition stalled before the local Qwen/Qwen3-4B-MLX-4bit runtime loaded. No EvalPlus-shaped generated sample was produced.",
       "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output",
-      "execution_status": "blocked-preflight",
+      "execution_status": "blocked-runtime",
       "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details",
-      "next_action": "Use EvalPlus/HumanEval/MBPP from the general benchmark env with execution enabled, or record the sandbox blocker explicitly.",
+      "next_action": "Set HF_HOME, HUGGINGFACE_HUB_CACHE, HF_XET_CACHE, and TRANSFORMERS_CACHE to /Volumes/PortableSSD-backed paths; authenticate or provide HF_TOKEN; prefetch Qwen/Qwen3-4B-MLX-4bit and the local adapter dependencies; rerun the one-problem generation smoke; then generate all 164 HumanEval rows before EvalPlus execution.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616",
       "queue_status": "missing",
       "suite": "official-coding"

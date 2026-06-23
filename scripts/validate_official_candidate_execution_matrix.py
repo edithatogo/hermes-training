@@ -56,7 +56,7 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
             failures.append(f"{suite}: local_command is missing")
     if by_suite.get("official-bfcl", {}).get("execution_status") != "blocked-preflight":
         failures.append("official-bfcl should remain blocked until endpoint preflight is reachable")
-    if by_suite.get("official-coding", {}).get("execution_status") != "blocked-preflight":
+    if by_suite.get("official-coding", {}).get("execution_status") not in {"blocked-preflight", "blocked-runtime"}:
         failures.append("official-coding should remain blocked until generated solutions exist")
     if by_suite.get("safety-refusal", {}).get("execution_status") != "scored-artifact-present":
         failures.append("safety-refusal should record the scored artifact after local runtime completion")

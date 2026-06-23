@@ -75,10 +75,36 @@ class OfficialCodingPreflightTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             samples = root / "generated.jsonl"
-            samples.write_text('{"task_id":"HumanEval/0","solution":"def f():\\n    pass"}\n', encoding="utf-8")
+            samples.write_text(
+                "".join(
+                    json.dumps({"task_id": f"HumanEval/{index}", "solution": "def f():\n    pass"}) + "\n"
+                    for index in range(164)
+                ),
+                encoding="utf-8",
+            )
             report = build_report(queue_path=self.write_queue(root, samples), created_at="2026-06-16T00:00:00Z")
         self.assertEqual(report["status"], "ready-to-evaluate")
         self.assertEqual(report["blockers"], [])
+
+    @mock.patch("scripts.check_official_coding_preflight.command_status")
+    @mock.patch("scripts.check_official_coding_preflight.module_present")
+    def test_partial_generated_jsonl_still_blocks(
+        self, mocked_module_present: mock.Mock, mocked_command_status: mock.Mock
+    ) -> None:
+        mocked_command_status.return_value = {
+            "path": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/evalplus.evaluate",
+            "present": True,
+            "executable": True,
+            "help_output": "NAME evaluate.py",
+        }
+        mocked_module_present.return_value = True
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            samples = root / "generated.jsonl"
+            samples.write_text('{"task_id":"HumanEval/0","solution":"def f():\\n    pass"}\n', encoding="utf-8")
+            report = build_report(queue_path=self.write_queue(root, samples), created_at="2026-06-16T00:00:00Z")
+        self.assertEqual(report["status"], "blocked-coding-preflight")
+        self.assertIn("expected 164 HumanEval rows", "\n".join(report["blockers"]))
 
     @mock.patch("scripts.check_official_coding_preflight.command_status")
     @mock.patch("scripts.check_official_coding_preflight.module_present")

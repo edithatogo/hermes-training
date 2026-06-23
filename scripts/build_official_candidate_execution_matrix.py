@@ -21,6 +21,8 @@ PREFLIGHTS = {
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-preflight-20260616.json",
 }
 RUNTIME_ATTEMPTS = {
+    "official-coding": ROOT
+    / "reports/benchmark/official-candidates/qwen3-v4-official-coding-generation-attempt-20260624.json",
     "ruler-long-context": ROOT
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
