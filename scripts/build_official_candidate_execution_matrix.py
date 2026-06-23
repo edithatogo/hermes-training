@@ -26,7 +26,10 @@ RUNTIME_ATTEMPTS = {
     "ruler-long-context": ROOT
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
-CODING_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json"
+CODING_RESULTS = (
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
+)
 RULER_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx4096-full-result-20260624.json"
 SAFETY_MANIFEST = ROOT / "reports/benchmark/manifests/safety-refusal-suite-20260616.json"
 SAFETY_SUMMARY = Path(
@@ -49,6 +52,10 @@ class SuiteExecution:
 
 def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def first_existing(paths: tuple[Path, ...]) -> Path | None:
+    return next((path for path in paths if path.exists()), None)
 
 
 def display_path(path: Path) -> str:
@@ -94,8 +101,9 @@ def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
             "Pinned safety/refusal manifest is missing.",
             "Regenerate the safety/refusal suite manifest.",
         )
-    if suite == "official-coding" and CODING_RESULT.exists():
-        result = load_json(CODING_RESULT)
+    coding_result = first_existing(CODING_RESULTS)
+    if suite == "official-coding" and coding_result:
+        result = load_json(coding_result)
         if result.get("status") == "scored-artifact-present":
             return (
                 "scored-artifact-present",
@@ -146,9 +154,17 @@ def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
 def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
     queue = load_json(queue_path)
     rows: list[SuiteExecution] = []
+    coding_result = first_existing(CODING_RESULTS)
     for item in queue["items"]:
         execution_status, blocker, next_action = suite_status(item)
         output_root = str(item["output_root"])
+        completion_artifact = expected_completion_artifact(str(item["suite"]), output_root)
+        local_command = str(item["local_command"])
+        if str(item["suite"]) == "official-coding" and coding_result:
+            result = load_json(coding_result)
+            output_root = str(Path(str(result["generated_samples"]["path"])).parent)
+            completion_artifact = f"{result['generated_samples']['path']} and {result['result_json']}"
+            local_command = str(result["command"])
         rows.append(
             SuiteExecution(
                 suite=str(item["suite"]),
@@ -157,8 +173,8 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
                 blocker=blocker,
                 next_action=next_action,
                 output_root=output_root,
-                completion_artifact=expected_completion_artifact(str(item["suite"]), output_root),
-                local_command=str(item["local_command"]),
+                completion_artifact=completion_artifact,
+                local_command=local_command,
             )
         )
     counts: dict[str, int] = {}

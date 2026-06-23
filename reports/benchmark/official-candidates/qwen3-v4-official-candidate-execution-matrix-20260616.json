@@ -20,11 +20,11 @@
     },
     {
       "blocker": "EvalPlus scored artifact exists; HumanEval base pass@1 is 0.518 and HumanEval+ pass@1 is 0.482.",
-      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl and EvalPlus score output",
+      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated.jsonl and /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated_eval_results.json",
       "execution_status": "scored-artifact-present",
-      "local_command": "/Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616/generated.jsonl --test-details",
+      "local_command": "source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/python -m evalplus.evaluate humaneval --samples /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated.jsonl --test-details --parallel 8 --i-just-wanna-run",
       "next_action": "Inspect failed HumanEval tasks before making any broad coding claim.",
-      "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-20260616",
+      "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624",
       "queue_status": "missing",
       "suite": "official-coding"
     },

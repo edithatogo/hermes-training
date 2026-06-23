@@ -1,0 +1,24 @@
+{
+  "artifact_type": "private-benchmark-evidence",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "hf_dataset_repo": "edithatogo/hermes-training-artifacts",
+  "hf_private": true,
+  "path_prefix": "qwen3-v4-official-coding-evalplus-rerun-20260624/",
+  "publication_boundary": "Evidence-only private artifact target for completed EvalPlus coding rerun scoring. Do not use as a broad model quality claim.",
+  "staged_local_path": "/tmp/qwen3-v4-official-coding-evalplus-rerun-20260624",
+  "status": "blocked-auth",
+  "upload_attempt": {
+    "command": "hf upload edithatogo/hermes-training-artifacts /tmp/qwen3-v4-official-coding-evalplus-rerun-20260624 qwen3-v4-official-coding-evalplus-rerun-20260624 --repo-type dataset --private --commit-message 'Add Qwen3 v4 EvalPlus rerun evidence' --json",
+    "error": "401 Unauthorized",
+    "token_env_present": false
+  },
+  "uploaded_files": [],
+  "staged_files": [
+    "report.json",
+    "report.md",
+    "generated.jsonl",
+    "generated_eval_results.json",
+    "generation-summary.json",
+    "evalplus-humaneval-no-memlimit.log"
+  ]
+}
