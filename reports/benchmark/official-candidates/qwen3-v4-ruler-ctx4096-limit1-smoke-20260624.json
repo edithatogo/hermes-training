@@ -1,0 +1,28 @@
+{
+  "adapter": "edithatogo/qwen3-4b-hermes-lora-peft-converted",
+  "base_model": "Qwen/Qwen3-4B",
+  "command": "source scripts/env.sh && HF_HUB_DOWNLOAD_TIMEOUT=300 HF_HUB_ETAG_TIMEOUT=60 /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312/bin/lm_eval run --model hf --model_args pretrained=Qwen/Qwen3-4B,peft=edithatogo/qwen3-4b-hermes-lora-peft-converted,trust_remote_code=True,dtype=float16,max_length=4096 --device mps --tasks niah_single_1 --limit 1 --batch_size 1 --metadata '{\"max_seq_lengths\":[4096],\"smoke_limit\":1,\"rerun\":\"env-pinned-after-ruler-extras\"}' --output_path /Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096-limit1-smoke-20260624-envpinned",
+  "context_length": 4096,
+  "created_at": "2026-06-24T03:44:26+10:00",
+  "device": "mps",
+  "full_official_claim": false,
+  "limit": 1,
+  "metric": {
+    "name": "4096",
+    "stderr": "N/A",
+    "task": "niah_single_1",
+    "value": 1.0
+  },
+  "model_sha": "1cfa9a7208912126459214e8b04321603b3df60c",
+  "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096-limit1-smoke-20260624-envpinned",
+  "peft_sha": "97c969fdcc92e7b25eb79f57e12d87a5da1761ee",
+  "raw_result_json": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096-limit1-smoke-20260624-envpinned/edithatogo__qwen3-4b-hermes-lora-peft-converted/results_2026-06-24T03-44-26.349752.json",
+  "status": "passed-limit1-smoke",
+  "task": "niah_single_1",
+  "total_evaluation_time_seconds": 111.41076754103415,
+  "unblocks": [
+    "Qwen/Qwen3-4B was pre-downloaded into the PortableSSD HF cache with HF_HUB_DOWNLOAD_TIMEOUT=300 and max_workers=1 after read timeouts in the direct lm-eval run.",
+    "wonderwords was installed into /Volumes/PortableSSD/hermes-training-envs/benchmarks-py312; nltk was already present."
+  ],
+  "warning": "This is a RULER launch smoke with --limit 1. It proves the ctx4096 path can load and score one niah_single_1 example on MPS, but it is not a full official RULER benchmark result."
+}
