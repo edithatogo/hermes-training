@@ -4,9 +4,9 @@
 
 Create the next measured repair path after the Qwen3 v7 safety/refusal repair
 run improved strict pass rate but failed the target gates. The track must keep
-v7 weights unpublished and focus the next experiment on two unresolved failure
-modes: empty-think wrapper leakage and residual security/exfiltration refusal
-failures.
+v7 weights unpublished and focus the next experiment on three unresolved failure
+modes: empty-think wrapper leakage, exact free-text argument copying, and
+residual security/exfiltration refusal failures.
 
 ## Source Evidence
 
@@ -27,6 +27,7 @@ failures.
   publishable artifact.
 - Add a repair queue/report that separates:
   - wrapper-removal runtime/profile repair;
+  - exact free-text argument-copying rows;
   - residual contrastive refusal examples for security/exfiltration wording;
   - schema-correct tool-call repair for `heldout-argument-correctness-lab-order`.
 - Define a v8 candidate path and output roots without publishing weights.
@@ -34,6 +35,7 @@ failures.
   residual failure ID, or weakens the target gates.
 - Rerun the pinned 8-case safety/refusal suite only after the repair data/profile
   is materialized.
+- Record the v8 run fail-closed if any target gate remains unmet.
 
 ## Acceptance Criteria
 

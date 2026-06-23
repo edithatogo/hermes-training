@@ -1,8 +1,8 @@
 {
   "track_id": "qwen3-v8-safety-refusal-wrapper-contrastive-repair_20260624",
   "type": "chore",
-  "status": "new",
+  "status": "completed",
   "created_at": "2026-06-23T18:50:50Z",
-  "updated_at": "2026-06-23T18:50:50Z",
-  "description": "Create the next Qwen3 safety/refusal repair track after v7 improved but failed target gates; keep v7 unpublished."
+  "updated_at": "2026-06-24T09:20:00+10:00",
+  "description": "Created the Qwen3 v8 wrapper/copy/refusal repair run, recorded the failed pinned-suite gate, and kept v8 unpublished."
 }
