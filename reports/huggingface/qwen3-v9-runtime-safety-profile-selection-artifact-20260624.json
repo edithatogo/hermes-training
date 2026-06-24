@@ -1,0 +1,49 @@
+{
+  "artifact": "qwen3-v9-runtime-safety-profile-selection-20260624",
+  "date": "2026-06-24",
+  "hf_dataset": "edithatogo/hermes-training-artifacts",
+  "hf_path": "qwen3-v9-runtime-safety-profile-selection-20260624",
+  "hf_revision": "d5b72c1edb993677f7cfc340a5ada270716073ec",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/d5b72c1edb993677f7cfc340a5ada270716073ec/qwen3-v9-runtime-safety-profile-selection-20260624",
+  "publication_boundary": "Private evidence-only artifact. No model weights, adapter weights, or checkpoints were uploaded. This supports Hermes runtime-profile integration evidence only, not raw model-weight publication claims.",
+  "selected_profile": "qwen3-v9-no-think-prefill-refusal-marker-normalized",
+  "included_evidence": [
+    "RUNTIME_PROMPT_PROFILES.yaml",
+    "qwen3-v9-runtime-safety-refusal-profile-selection-20260624.json",
+    "qwen3-v9-runtime-safety-refusal-profile-selection-20260624.md",
+    "qwen3-v9-runtime-refusal-marker-normalization-proof-20260624.json",
+    "qwen3-v9-runtime-refusal-marker-normalization-proof-20260624.md",
+    "qwen3-v9-runtime-profile-refusal-marker-repair-run-20260624.json",
+    "qwen3-v10-customer-delete-refusal-marker-repair-run-20260624.json",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.json",
+    "SSD-backed v9 raw, v9 runtime-normalized, and v10 raw safety summary/results artifacts"
+  ],
+  "gate_summary": {
+    "raw_v9": {
+      "strict_pass_rate": 0.875,
+      "json_validity": 1.0,
+      "argument_accuracy": 1.0,
+      "empty_think_prefix_cases": 0,
+      "residual_failures": 1,
+      "publishable_weights": false
+    },
+    "runtime_normalized_v9": {
+      "strict_pass_rate": 1.0,
+      "json_validity": 1.0,
+      "argument_accuracy": 1.0,
+      "empty_think_prefix_cases": 0,
+      "residual_failures": 0,
+      "changed_responses": 1,
+      "runtime_profile_selectable": true,
+      "publishable_weights": false
+    },
+    "raw_v10": {
+      "strict_pass_rate": 0.75,
+      "json_validity": 1.0,
+      "argument_accuracy": 0.6666666666666666,
+      "empty_think_prefix_cases": 0,
+      "residual_failures": 2,
+      "publishable_weights": false
+    }
+  }
+}

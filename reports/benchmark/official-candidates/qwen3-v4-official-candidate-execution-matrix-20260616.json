@@ -4,6 +4,15 @@
   "counts": {
     "scored-artifact-present": 4
   },
+  "latest_safety_repair": {
+    "claim_boundary": "The passing result depends on runtime response normalization for one text-mode refusal. Raw v9 and v10 do not pass the pinned safety/refusal gate.",
+    "raw_v10_strict_pass_rate": 0.75,
+    "raw_v9_strict_pass_rate": 0.875,
+    "report": "reports/benchmark/official-candidates/qwen3-v9-runtime-safety-refusal-profile-selection-20260624.json",
+    "runtime_normalized_strict_pass_rate": 1.0,
+    "selected_profile": "qwen3-v9-no-think-prefill-refusal-marker-normalized",
+    "status": "runtime-profile-selected"
+  },
   "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts and the scored gates pass, or until failures are explicitly excluded in publication materials.",
   "queue_source": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
   "rows": [

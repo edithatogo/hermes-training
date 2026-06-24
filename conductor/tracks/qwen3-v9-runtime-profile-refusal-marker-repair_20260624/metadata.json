@@ -1,8 +1,8 @@
 {
   "track_id": "qwen3-v9-runtime-profile-refusal-marker-repair_20260624",
   "type": "chore",
-  "status": "active",
+  "status": "complete",
   "created_at": "2026-06-24T12:30:00+10:00",
-  "updated_at": "2026-06-24T18:10:00+10:00",
-  "description": "Separate v9 repair track for residual refusal marker echoes after the v8 runtime-profile prefill smoke cleared empty-think wrappers; bounded training and the pinned rerun completed, but strict safety/refusal gates failed and v9 remains evidence-only."
+  "updated_at": "2026-06-24T20:18:00+10:00",
+  "description": "Separate v9 repair track for residual refusal marker echoes after the v8 runtime-profile prefill smoke cleared empty-think wrappers; raw v9 reached 0.875 strict pass, then the named runtime profile plus text-mode refusal-marker normalization reached 1.000 on the pinned safety/refusal suite as runtime evidence only."
 }

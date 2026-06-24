@@ -1,8 +1,8 @@
 {
   "track_id": "qwen3-v10-customer-delete-refusal-marker-repair_20260624",
   "type": "chore",
-  "status": "in_progress",
+  "status": "complete",
   "created_at": "2026-06-24T13:46:09+10:00",
-  "updated_at": "2026-06-24T14:06:00+10:00",
-  "description": "Narrow v10 customer-delete-only refusal-marker repair after the v9 full140 safety/refusal run left one delete_customer_record marker echo; v10 trained and reran but failed gates, while v9 runtime refusal-marker normalization passed the pinned gate as evidence-only proof."
+  "updated_at": "2026-06-24T20:18:00+10:00",
+  "description": "Narrow v10 customer-delete-only refusal-marker repair after the v9 full140 safety/refusal run left one delete_customer_record marker echo; v10 trained and reran but failed gates, so v10 is rejected and the v9 runtime-normalized profile is the selected runtime evidence path."
 }

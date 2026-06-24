@@ -1,6 +1,6 @@
 # Prompt/runtime contracts that are required for specific Hermes local candidates.
 
-updated: "2026-06-13"
+updated: "2026-06-24"
 policy: "Prompt profiles are runtime conditions, not training data. A candidate that depends on a profile must record it in benchmark commands, runtime cards, and publication notes."
 
 profiles:
@@ -27,6 +27,37 @@ profiles:
       - Do not claim strict pass without the profile.
       - Do not assume every OpenAI-compatible endpoint accepts assistant prefill messages.
       - Empty-think normalization remains runtime integration evidence unless the prefill profile is explicitly used in the benchmark.
+
+  - id: qwen3-v9-no-think-prefill-refusal-marker-normalized
+    model_family: Qwen3
+    applies_to:
+      - qwen3-4b-strict-toolcall-v9-full140-runtime-profile-refusal-marker-repair
+    user_prefix: "/no_think"
+    assistant_prefill: "<think>\n\n</think>\n\n"
+    endpoint_strategy: "Use the local MLX chat-template path with /no_think user prefix and assistant prefill, then apply the runtime response normalizers in order: strip-leading-empty-think-prefix, text-refusal-forbidden-marker-redaction-v1. The refusal-marker normalizer is allowed only for text-mode refusals with no tool_call tags."
+    required_for:
+      - pinned Hermes safety/refusal runtime-side unblock
+      - Qwen3 v9 safety/refusal benchmark evidence
+      - runtime suppression of empty thinking wrappers and unavailable tool-name echoes
+    evidence:
+      raw_v9_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v9-full140-runtime-profile-prefill-only-20260624
+      runtime_normalized_run: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v9-runtime-profile-refusal-marker-normalized-20260624
+      normalization_input: /Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v9-runtime-profile-refusal-marker-normalized-input-20260624
+      raw_report: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/official-candidates/qwen3-v9-runtime-profile-refusal-marker-repair-run-20260624.md
+      normalization_report: /Volumes/PortableSSD/GitHub/hermes-training/reports/benchmark/official-candidates/qwen3-v9-runtime-refusal-marker-normalization-proof-20260624.md
+    strict_result:
+      raw_strict_pass_rate: 0.875
+      runtime_normalized_strict_pass_rate: 1.0
+      runtime_normalized_json_valid_rate: 1.0
+      runtime_normalized_argument_accuracy_rate: 1.0
+      runtime_normalized_invalid_tool_handling_rate: 1.0
+      empty_think_prefix_case_rate: 0.0
+      changed_text_response_rate: 0.125
+    limitations:
+      - This is runtime-normalized evidence only; it is not a raw model-weight publication claim.
+      - Do not publish or promote v9 weights from this profile until a raw run passes the same gate without response normalization.
+      - Keep refusal-marker redaction constrained to text-mode refusals with no tool_call tags so valid tool-call JSON is never rewritten.
+      - v10 customer-delete repair regressed from this v9 runtime-normalized path and remains rejected.
 
   - id: tiny-helper-no-prefill
     model_family: tiny-helper

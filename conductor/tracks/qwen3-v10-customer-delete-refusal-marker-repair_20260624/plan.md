@@ -47,8 +47,9 @@
 ## Health Check
 
 - Target: >= 9.5 / 10.
-- Current estimate: 9.2 / 10.
-- Current blocker: v10 trained and reran, but failed target gates and regressed
-  from v9 full140. Do not publish v10 weights. Runtime-side safety/refusal
-  normalization unblocks the pinned v9 gate as evidence-only proof; raw model
-  promotion remains blocked until a raw run passes without normalization.
+- Current estimate: 9.6 / 10.
+- Current blocker: none for the v10 decision. v10 trained and reran, failed the
+  target gates, and regressed from v9 full140, so the correct outcome is
+  rejection rather than further promotion. Do not publish v10 weights. The
+  selected runtime-side safety/refusal path is the v9 normalized profile; raw
+  model promotion remains blocked until a raw run passes without normalization.

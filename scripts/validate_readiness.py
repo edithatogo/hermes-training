@@ -302,6 +302,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/normalize_refusal_marker_echoes.py",
         ROOT / "scripts/build_qwen3_v9_runtime_refusal_normalization_report.py",
         ROOT / "scripts/validate_qwen3_v9_runtime_refusal_normalization_report.py",
+        ROOT / "scripts/validate_qwen3_v9_runtime_safety_profile_selection.py",
         ROOT / "scripts/check_ruler_long_context_preflight.py",
         ROOT / "scripts/validate_ruler_long_context_preflight.py",
         ROOT / "scripts/build_official_candidate_execution_matrix.py",
@@ -1131,6 +1132,22 @@ def check_qwen3_v9_runtime_refusal_normalization_report(failures: list[str]) -> 
         ok("qwen3 v9 runtime refusal-marker normalization report")
 
 
+def check_qwen3_v9_runtime_safety_profile_selection(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_qwen3_v9_runtime_safety_profile_selection.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(
+            "qwen3 v9 runtime safety profile selection: "
+            f"{result.stdout.strip()} {result.stderr.strip()}".strip(),
+            failures,
+        )
+    else:
+        ok("qwen3 v9 runtime safety profile selection")
+
+
 def check_ruler_long_context_preflight(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_ruler_long_context_preflight.py")],
@@ -1244,6 +1261,7 @@ def main() -> int:
     check_qwen3_v9_repair_run_report(failures)
     check_qwen3_v10_repair_run_report(failures)
     check_qwen3_v9_runtime_refusal_normalization_report(failures)
+    check_qwen3_v9_runtime_safety_profile_selection(failures)
     check_ruler_long_context_preflight(failures)
     check_bfcl_zero_score_failure_analysis(failures)
     check_bfcl_clean_rerun_report(failures)

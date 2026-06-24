@@ -37,6 +37,10 @@ SAFETY_SUMMARY = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/"
     "qwen3-v4-peft-safety-refusal-20260616/summary.json"
 )
+SAFETY_REPAIR_SELECTION = (
+    ROOT
+    / "reports/benchmark/official-candidates/qwen3-v9-runtime-safety-refusal-profile-selection-20260624.json"
+)
 
 
 @dataclass(frozen=True)
@@ -199,7 +203,7 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
     for row in rows:
         counts[row.execution_status] = counts.get(row.execution_status, 0) + 1
     all_scored = counts.get("scored-artifact-present", 0) == len(rows)
-    return {
+    matrix = {
         "candidate": queue["candidate"],
         "adapter": queue["adapter"],
         "queue_source": display_path(queue_path),
@@ -211,6 +215,18 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             "or until failures are explicitly excluded in publication materials."
         ),
     }
+    if SAFETY_REPAIR_SELECTION.exists():
+        selection = load_json(SAFETY_REPAIR_SELECTION)
+        matrix["latest_safety_repair"] = {
+            "selected_profile": selection["selected_profile"],
+            "status": selection["status"],
+            "report": display_path(SAFETY_REPAIR_SELECTION),
+            "runtime_normalized_strict_pass_rate": selection["metrics"]["runtime_normalized_v9"]["strict_pass_rate"],
+            "raw_v9_strict_pass_rate": selection["metrics"]["raw_v9"]["strict_pass_rate"],
+            "raw_v10_strict_pass_rate": selection["metrics"]["raw_v10"]["strict_pass_rate"],
+            "claim_boundary": selection["claim_boundary"]["reason"],
+        }
+    return matrix
 
 
 def render_markdown(matrix: dict[str, Any]) -> str:
@@ -244,6 +260,22 @@ def render_markdown(matrix: dict[str, Any]) -> str:
                 "```bash",
                 row["local_command"],
                 "```",
+                "",
+            ]
+        )
+    repair = matrix.get("latest_safety_repair")
+    if isinstance(repair, dict):
+        lines.extend(
+            [
+                "## Latest Safety Repair",
+                "",
+                f"- Selected runtime profile: `{repair['selected_profile']}`",
+                f"- Status: `{repair['status']}`",
+                f"- Runtime-normalized v9 strict pass: `{float(repair['runtime_normalized_strict_pass_rate']):.3f}`",
+                f"- Raw v9 strict pass: `{float(repair['raw_v9_strict_pass_rate']):.3f}`",
+                f"- Raw v10 strict pass: `{float(repair['raw_v10_strict_pass_rate']):.3f}`",
+                f"- Report: `{repair['report']}`",
+                f"- Claim boundary: {repair['claim_boundary']}",
                 "",
             ]
         )
