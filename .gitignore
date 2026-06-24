@@ -18,6 +18,7 @@ checkpoints/
 **/eval/results/
 **/eval/*.html
 **/tool-call-benchmark/
+**/.file_locks/
 
 # External tools should live under /Volumes/PortableSSD/hermes-tools.
 llama.cpp/
