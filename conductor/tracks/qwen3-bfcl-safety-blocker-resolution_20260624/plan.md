@@ -67,12 +67,14 @@
     - [x] Run `scripts/validate_official_candidate_execution_matrix.py`.
     - [x] Run `scripts/validate_readiness.py` after focused checks passed.
 - [ ] Task: Commit and push.
-    - [ ] Commit/push nested `gemma4` first.
-    - [ ] Commit/push hub root after nested repo state is reproducible.
-- [ ] Task: Upload private HF evidence-only artifact.
-    - [ ] Include reports/log manifests.
-    - [ ] Exclude weights unless a separate publication review approves.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4 - Evidence Publication + Push' (Protocol in workflow.md)
+    - [x] Confirm nested `gemma4` is clean; no nested commit was required.
+    - [x] Commit/push hub root after nested repo state was reproducible.
+- [x] Task: Upload private HF evidence-only artifact.
+    - [x] Include reports, scored-output evidence, and log manifests.
+    - [x] Exclude weights unless a separate publication review approves.
+    - [x] Artifact record: `reports/huggingface/qwen3-bfcl-safety-blocker-resolution-artifact-20260624.md`.
+- [x] Task: Conductor - User Manual Verification 'Phase 4 - Evidence Publication + Push' (Protocol in workflow.md)
+    - [x] GitHub pushed and HF private evidence artifact uploaded; public publication remains blocked by failed gates.
 
 ## Health Check
 

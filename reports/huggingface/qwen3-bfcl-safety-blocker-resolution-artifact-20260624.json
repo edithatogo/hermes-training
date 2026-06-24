@@ -1,0 +1,26 @@
+{
+  "artifact_id": "qwen3-bfcl-safety-blocker-resolution-20260624",
+  "artifact_type": "private-benchmark-evidence",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/11cc7396051091fb9213b872185ef86f166bbeab",
+  "github_commit": "62af092d2d97b096ede4cfeaa9d416b9f5995453",
+  "hf_dataset_repo": "edithatogo/hermes-training-artifacts",
+  "hf_private": true,
+  "hf_revision": "11cc7396051091fb9213b872185ef86f166bbeab",
+  "path_prefix": "qwen3-bfcl-safety-blocker-resolution-20260624/",
+  "publication_boundary": "Evidence-only private artifact. No adapter weights were uploaded. Public v9 weights, BFCL claims, and safety/refusal claims remain blocked by failed gates.",
+  "status": "uploaded",
+  "uploaded_files": [
+    "qwen3-bfcl-safety-blocker-resolution-20260624/README.md",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/manifests/evidence-manifest.json",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/conductor/tracks/qwen3-bfcl-safety-blocker-resolution_20260624/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/conductor/tracks/qwen3-v4-bfcl-zero-score-repair_20260624/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/conductor/tracks/qwen3-v9-runtime-profile-refusal-marker-repair_20260624/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/reports/benchmark/official-candidates/qwen3-v4-bfcl-zero-score-failure-analysis-20260624.json",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/reports/benchmark/official-candidates/qwen3-v4-bfcl-clean-rerun-20260624.json",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/reports/benchmark/official-candidates/qwen3-v9-runtime-profile-refusal-marker-repair-run-20260624.json",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/ssd-artifacts/bfcl-clean-rerun/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/ssd-artifacts/v9-safety-full140-prefill-only/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/ssd-artifacts/v9-safety-full140-refusal-prefix/",
+    "qwen3-bfcl-safety-blocker-resolution-20260624/ssd-artifacts/v9-safety-bounded80/"
+  ]
+}
