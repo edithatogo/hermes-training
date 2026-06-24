@@ -38,8 +38,9 @@
     - [x] Record runtime-normalized strict pass `1.000`, JSON validity `1.000`, argument accuracy `1.000`, empty-think prefix cases `0`, residual failures `0`, and changed responses `1`.
     - [x] Wire runtime proof validator into readiness.
 - [x] Task: Run focused checks and readiness.
-- [~] Task: Commit/push nested `gemma4` if dirty, then hub root.
-- [~] Task: Upload private HF evidence-only artifact if v10 produces new run evidence.
+- [x] Task: Commit/push nested `gemma4` if dirty, then hub root.
+- [ ] Task: Upload private HF evidence-only artifact if v10 produces new run evidence.
+    - [ ] Deferred: no v10 weights are publishable; failed-gate evidence and the v9 runtime-normalized proof are recorded in GitHub.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3 - Report, Validate, Push' (Protocol in workflow.md)
 
 ## Health Check
