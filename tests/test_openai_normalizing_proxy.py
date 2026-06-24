@@ -7,6 +7,7 @@ from scripts.openai_normalizing_proxy import (
     add_completions_prompt_suffix,
     cap_completions_max_tokens,
     normalize_completions_reasoning_content,
+    prefix_completions_text,
 )
 
 
@@ -43,6 +44,14 @@ class OpenAINormalizingProxyTests(unittest.TestCase):
         payload, count = cap_completions_max_tokens({"max_tokens": 128}, 512)
         self.assertEqual(count, 0)
         self.assertEqual(payload["max_tokens"], 128)
+
+    def test_completion_text_prefix_prepends_visible_text_once(self) -> None:
+        payload = {"choices": [{"text": "{\"name\":\"demo.tool\"}"}, {"text": ""}]}
+        updated, count = prefix_completions_text(payload, "<tool_call>\n")
+        self.assertEqual(count, 1)
+        self.assertEqual(updated["choices"][0]["text"], "<tool_call>\n{\"name\":\"demo.tool\"}")
+        updated, count = prefix_completions_text(updated, "<tool_call>\n")
+        self.assertEqual(count, 0)
 
 
 if __name__ == "__main__":

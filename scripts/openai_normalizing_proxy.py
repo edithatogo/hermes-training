@@ -257,6 +257,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         content = response.content
         normalized_count = 0
         reasoning_text_count = 0
+        text_prefix_count = 0
         content_type = response.headers.get("Content-Type", "")
         if (
             self.path.split("?", 1)[0] in {"/v1/chat/completions", "/chat/completions"}
@@ -272,7 +273,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                 pass
         if (
             self.path.split("?", 1)[0] in {"/v1/completions", "/completions"}
-            and self.server.completion_reasoning_prefix
+            and (self.server.completion_reasoning_prefix or self.server.completion_text_prefix)
             and "json" in content_type.lower()
             and content
         ):
@@ -282,6 +283,10 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                     payload, reasoning_text_count = normalize_completions_reasoning_content(
                         payload,
                         self.server.completion_reasoning_prefix,
+                    )
+                    payload, text_prefix_count = prefix_completions_text(
+                        payload,
+                        self.server.completion_text_prefix,
                     )
                     content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
             except ValueError:
@@ -298,6 +303,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         self.send_header("X-Hermes-Capped-Max-Tokens-Count", str(capped_max_tokens_count))
         self.send_header("X-Hermes-Completion-Prompt-Suffix-Count", str(self.server.last_completion_prompt_suffix_count))
         self.send_header("X-Hermes-Completion-Reasoning-Text-Count", str(reasoning_text_count))
+        self.send_header("X-Hermes-Completion-Text-Prefix-Count", str(text_prefix_count))
         self.server.last_completion_prompt_suffix_count = 0
         self.end_headers()
         self.wfile.write(content)
@@ -321,6 +327,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         model_override: str = "",
         completion_prompt_suffix: str = "",
         completion_reasoning_prefix: str = "",
+        completion_text_prefix: str = "",
         completion_max_tokens_cap: int = 0,
     ) -> None:
         super().__init__(server_address, NormalizingProxyHandler)
@@ -330,6 +337,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         self.model_override = model_override
         self.completion_prompt_suffix = completion_prompt_suffix
         self.completion_reasoning_prefix = completion_reasoning_prefix
+        self.completion_text_prefix = completion_text_prefix
         self.completion_max_tokens_cap = completion_max_tokens_cap
         self.last_completion_prompt_suffix_count = 0
 
@@ -428,6 +436,7 @@ def run_self_test() -> None:
         model_override="qwen-override",
         completion_prompt_suffix="<think>\n\n</think>\n\n",
         completion_reasoning_prefix="<tool_call>\n",
+        completion_text_prefix="",
         completion_max_tokens_cap=512,
     )
     proxy_thread = start_threaded_server(proxy)
@@ -504,6 +513,35 @@ def run_self_test() -> None:
         if reasoning_header != "1":
             raise AssertionError(f"unexpected reasoning text count: {reasoning_header!r}")
 
+        prefixed_proxy = NormalizingProxyServer(
+            ("127.0.0.1", 0),
+            upstream_base,
+            timeout_s=5.0,
+            quiet=True,
+            completion_text_prefix="<tool_call>\n",
+        )
+        prefixed_thread = start_threaded_server(prefixed_proxy)
+        try:
+            prefixed_base = f"http://127.0.0.1:{prefixed_proxy.server_port}/v1"
+            prefixed_request = urllib.request.Request(
+                f"{prefixed_base}/completions",
+                data=json.dumps({"model": "qwen-test", "prompt": "The capital of France is", "logprobs": False}).encode(
+                    "utf-8"
+                ),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(prefixed_request, timeout=5) as response:
+                prefixed_completion = json.loads(response.read().decode("utf-8"))
+                text_prefix_header = response.headers["X-Hermes-Completion-Text-Prefix-Count"]
+            if not prefixed_completion["choices"][0]["text"].startswith("<tool_call>"):
+                raise AssertionError(f"unexpected prefixed completion: {prefixed_completion!r}")
+            if text_prefix_header != "1":
+                raise AssertionError(f"unexpected text prefix count: {text_prefix_header!r}")
+        finally:
+            prefixed_proxy.shutdown()
+            prefixed_thread.join(timeout=5)
+
         stream_request = urllib.request.Request(
             f"{proxy_base}/chat/completions",
             data=json.dumps({"model": "qwen-test", "messages": [], "stream": True}).encode("utf-8"),
@@ -542,6 +580,11 @@ def parse_args() -> argparse.Namespace:
         help="Optional prefix used when moving non-empty completions reasoning_content into a blank text field.",
     )
     parser.add_argument(
+        "--completion-text-prefix",
+        default="",
+        help="Optional prefix prepended to non-empty /v1/completions text when the runtime consumed it as prompt prefill.",
+    )
+    parser.add_argument(
         "--completion-max-tokens-cap",
         type=int,
         default=0,
@@ -567,6 +610,7 @@ def main() -> int:
         model_override=args.model_override,
         completion_prompt_suffix=args.completion_prompt_suffix,
         completion_reasoning_prefix=args.completion_reasoning_prefix,
+        completion_text_prefix=args.completion_text_prefix,
         completion_max_tokens_cap=args.completion_max_tokens_cap,
     )
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")

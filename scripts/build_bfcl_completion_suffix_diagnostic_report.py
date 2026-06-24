@@ -18,6 +18,18 @@ SERIAL_RUN_ROOT = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
     "qwen3-v4-peft-official-bfcl-serial-20260624"
 )
+TOOLCALL_PREFIX_RUN_ROOT = Path(
+    "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
+    "qwen3-v4-peft-bfcl-toolcall-prefix-multiple1-20260624"
+)
+REASONING_BRIDGE_RUN_ROOT = Path(
+    "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
+    "qwen3-v4-peft-bfcl-toolcall-reasoning-bridge-multiple1-20260624"
+)
+CAPPED_RUN_ROOT = Path(
+    "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
+    "qwen3-v4-peft-official-bfcl-capped512-20260624"
+)
 DEFAULT_JSON = ROOT / "reports/benchmark/official-candidates/qwen3-v4-bfcl-completion-suffix-diagnostic-20260624.json"
 DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
 PROXY_SCRIPT = ROOT / "scripts/openai_normalizing_proxy.py"
@@ -84,9 +96,18 @@ def proxy_supports_completion_suffix(proxy_script: Path = PROXY_SCRIPT) -> bool:
     return "--completion-prompt-suffix" in text and "add_completions_prompt_suffix" in text
 
 
-def build_report(clean_run_root: Path = CLEAN_RUN_ROOT, serial_run_root: Path = SERIAL_RUN_ROOT) -> dict[str, Any]:
+def build_report(
+    clean_run_root: Path = CLEAN_RUN_ROOT,
+    serial_run_root: Path = SERIAL_RUN_ROOT,
+    toolcall_prefix_run_root: Path = TOOLCALL_PREFIX_RUN_ROOT,
+    reasoning_bridge_run_root: Path = REASONING_BRIDGE_RUN_ROOT,
+    capped_run_root: Path = CAPPED_RUN_ROOT,
+) -> dict[str, Any]:
     clean = summarize_run(clean_run_root)
     serial = summarize_run(serial_run_root)
+    toolcall_prefix = summarize_run(toolcall_prefix_run_root)
+    reasoning_bridge = summarize_run(reasoning_bridge_run_root)
+    capped = summarize_run(capped_run_root)
     proxy_support = proxy_supports_completion_suffix()
     gate_ready = (
         proxy_support
@@ -103,14 +124,18 @@ def build_report(clean_run_root: Path = CLEAN_RUN_ROOT, serial_run_root: Path = 
         "completion_prompt_suffix": "<tool_call>",
         "clean_rerun": clean,
         "serial_partial_without_suffix": serial,
+        "toolcall_prefix_micro_gate": toolcall_prefix,
+        "reasoning_bridge_micro_gate": reasoning_bridge,
+        "capped512_partial_without_suffix": capped,
         "decision": (
             "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only "
-            "when the completion prompt ends at the assistant marker. The next bounded rerun should route /v1/completions "
-            "through the proxy with --completion-prompt-suffix '<tool_call>' and stop after a small gate if outputs remain blank."
+            "when the completion prompt ends at the assistant marker. One-case prompt-prefix/reasoning bridge attempts and "
+            "a capped512 partial still failed the blank gate, so the next bounded rerun must stop early unless the first "
+            "10-case suffix/profile gate produces nonblank tool-like rows."
         ),
         "gate": {
             "passed": False,
-            "reason": "Runtime bridge is ready for a bounded rerun, but no completion-suffix BFCL score is recorded yet.",
+            "reason": "Runtime bridge is available, but the recorded micro-gates still fail blank-output checks.",
             "next_rerun_gate": [
                 "upstream_error_rows == 0",
                 "blank_output_rows == 0 on the gated 10-case slice",
@@ -126,6 +151,9 @@ def build_report(clean_run_root: Path = CLEAN_RUN_ROOT, serial_run_root: Path = 
 def render_markdown(report: dict[str, Any]) -> str:
     clean = report["clean_rerun"]
     serial = report["serial_partial_without_suffix"]
+    toolcall_prefix = report["toolcall_prefix_micro_gate"]
+    reasoning_bridge = report["reasoning_bridge_micro_gate"]
+    capped = report["capped512_partial_without_suffix"]
     lines = [
         "# Qwen3 v4 BFCL Completion-Suffix Diagnostic",
         "",
@@ -148,6 +176,24 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"{serial['tool_like_rows']} | {serial['blank_rate']:.3f} |"
             if serial["blank_rate"] is not None
             else "| Serial partial without suffix | 0 | 0 | 0 | N/A |"
+        ),
+        (
+            f"| Tool-call prefix one-case gate | {toolcall_prefix['total_rows']} | {toolcall_prefix['blank_rows']} | "
+            f"{toolcall_prefix['tool_like_rows']} | {toolcall_prefix['blank_rate']:.3f} |"
+            if toolcall_prefix["blank_rate"] is not None
+            else "| Tool-call prefix one-case gate | 0 | 0 | 0 | N/A |"
+        ),
+        (
+            f"| Reasoning bridge one-case gate | {reasoning_bridge['total_rows']} | {reasoning_bridge['blank_rows']} | "
+            f"{reasoning_bridge['tool_like_rows']} | {reasoning_bridge['blank_rate']:.3f} |"
+            if reasoning_bridge["blank_rate"] is not None
+            else "| Reasoning bridge one-case gate | 0 | 0 | 0 | N/A |"
+        ),
+        (
+            f"| Capped512 partial | {capped['total_rows']} | {capped['blank_rows']} | "
+            f"{capped['tool_like_rows']} | {capped['blank_rate']:.3f} |"
+            if capped["blank_rate"] is not None
+            else "| Capped512 partial | 0 | 0 | 0 | N/A |"
         ),
         "",
         "## Decision",

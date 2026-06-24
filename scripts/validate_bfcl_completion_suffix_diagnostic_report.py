@@ -24,7 +24,13 @@ def validate_payload(data: dict) -> list[str]:
         failures.append("proxy must support completion prompt suffix")
     if data.get("completion_prompt_suffix") != "<tool_call>":
         failures.append("completion suffix must be <tool_call> for the next BFCL gate")
-    for key in ("clean_rerun", "serial_partial_without_suffix"):
+    for key in (
+        "clean_rerun",
+        "serial_partial_without_suffix",
+        "toolcall_prefix_micro_gate",
+        "reasoning_bridge_micro_gate",
+        "capped512_partial_without_suffix",
+    ):
         run = data.get(key, {})
         if not str(run.get("run_root", "")).startswith(SSD_PREFIX):
             failures.append(f"{key} root must be SSD-backed")
@@ -32,6 +38,8 @@ def validate_payload(data: dict) -> list[str]:
             failures.append(f"{key} must include generated rows")
         if int(run.get("blank_rows", 0)) <= 0:
             failures.append(f"{key} must record blank rows")
+        if int(run.get("tool_like_rows", -1)) != 0:
+            failures.append(f"{key} should not contain tool-like rows until a passing gate is recorded")
     serial = data.get("serial_partial_without_suffix", {})
     if int(serial.get("tool_like_rows", -1)) != 0:
         failures.append("serial partial without suffix should not contain tool-like rows")

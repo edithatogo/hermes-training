@@ -1,5 +1,28 @@
 {
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "capped512_partial_without_suffix": {
+    "blank_rate": 0.058823529411764705,
+    "blank_rows": 7,
+    "categories": {
+      "multiple": {
+        "blank_rows": 7,
+        "other_nonblank_rows": 112,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-capped512-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+        "rows": 119,
+        "sample_outputs": [
+          "\\n\\n",
+          "\\n\\n",
+          "\\n\\n"
+        ],
+        "tool_like_rows": 0
+      }
+    },
+    "other_nonblank_rows": 112,
+    "result_files": 1,
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-capped512-20260624",
+    "tool_like_rows": 0,
+    "total_rows": 119
+  },
   "clean_rerun": {
     "blank_rate": 1.0,
     "blank_rows": 10,
@@ -24,7 +47,7 @@
     "total_rows": 10
   },
   "completion_prompt_suffix": "<tool_call>",
-  "decision": "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. The next bounded rerun should route /v1/completions through the proxy with --completion-prompt-suffix '<tool_call>' and stop after a small gate if outputs remain blank.",
+  "decision": "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. One-case prompt-prefix/reasoning bridge attempts and a capped512 partial still failed the blank gate, so the next bounded rerun must stop early unless the first 10-case suffix/profile gate produces nonblank tool-like rows.",
   "gate": {
     "next_rerun_gate": [
       "upstream_error_rows == 0",
@@ -32,10 +55,31 @@
       "tool-like completion rows > 0 before expanding beyond the gated slice"
     ],
     "passed": false,
-    "reason": "Runtime bridge is ready for a bounded rerun, but no completion-suffix BFCL score is recorded yet."
+    "reason": "Runtime bridge is available, but the recorded micro-gates still fail blank-output checks."
   },
   "proxy_supports_completion_prompt_suffix": true,
   "publication_boundary": "Diagnostic/runtime-bridge evidence only. This does not create a BFCL score claim and does not change model weights.",
+  "reasoning_bridge_micro_gate": {
+    "blank_rate": 1.0,
+    "blank_rows": 1,
+    "categories": {
+      "multiple": {
+        "blank_rows": 1,
+        "other_nonblank_rows": 0,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-bfcl-toolcall-reasoning-bridge-multiple1-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+        "rows": 1,
+        "sample_outputs": [
+          ""
+        ],
+        "tool_like_rows": 0
+      }
+    },
+    "other_nonblank_rows": 0,
+    "result_files": 1,
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-bfcl-toolcall-reasoning-bridge-multiple1-20260624",
+    "tool_like_rows": 0,
+    "total_rows": 1
+  },
   "report_id": "qwen3-v4-bfcl-completion-suffix-diagnostic-20260624",
   "serial_partial_without_suffix": {
     "blank_rate": 0.835509138381201,
@@ -73,5 +117,26 @@
     "total_rows": 383
   },
   "status": "runtime-bridge-ready-for-bounded-rerun",
-  "suite": "official-bfcl-selected-slice"
+  "suite": "official-bfcl-selected-slice",
+  "toolcall_prefix_micro_gate": {
+    "blank_rate": 1.0,
+    "blank_rows": 1,
+    "categories": {
+      "multiple": {
+        "blank_rows": 1,
+        "other_nonblank_rows": 0,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-bfcl-toolcall-prefix-multiple1-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+        "rows": 1,
+        "sample_outputs": [
+          ""
+        ],
+        "tool_like_rows": 0
+      }
+    },
+    "other_nonblank_rows": 0,
+    "result_files": 1,
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-bfcl-toolcall-prefix-multiple1-20260624",
+    "tool_like_rows": 0,
+    "total_rows": 1
+  }
 }
