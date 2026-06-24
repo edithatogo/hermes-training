@@ -3,6 +3,7 @@
 - Status: `runtime-bridge-ready-for-bounded-rerun`
 - Proxy supports completion prompt suffix: `true`
 - Proposed suffix: `<tool_call>`
+- Direct proxy probe starts with tool call: `true`
 
 ## Evidence
 
@@ -12,16 +13,17 @@
 | Serial partial without suffix | 383 | 320 | 0 | 0.836 |
 | Tool-call prefix one-case gate | 1 | 1 | 0 | 1.000 |
 | Reasoning bridge one-case gate | 1 | 1 | 0 | 1.000 |
+| Direct proxy text-prefix probe | 1 | 0 | 1 | 0.000 |
 | Capped512 partial | 119 | 7 | 0 | 0.059 |
 
 ## Decision
 
-The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. One-case prompt-prefix/reasoning bridge attempts and a capped512 partial still failed the blank gate, so the next bounded rerun must stop early unless the first 10-case suffix/profile gate produces nonblank tool-like rows.
+The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. A direct BFCL-shaped completions probe now proves the proxy can restore a consumed <tool_call> prefix into visible choices[].text; the remaining gate is to rerun BFCL itself with this bridge and stop early unless generated result files contain nonblank tool-like rows.
 
 ## Gate
 
 - Passed: `false`
-- Reason: Runtime bridge is available, but the recorded micro-gates still fail blank-output checks.
+- Reason: Runtime bridge is available and directly proven, but no bounded BFCL result file has passed the blank-output and parser gates yet.
 
 ## Boundary
 

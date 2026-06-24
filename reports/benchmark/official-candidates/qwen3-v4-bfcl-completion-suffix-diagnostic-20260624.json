@@ -47,7 +47,7 @@
     "total_rows": 10
   },
   "completion_prompt_suffix": "<tool_call>",
-  "decision": "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. One-case prompt-prefix/reasoning bridge attempts and a capped512 partial still failed the blank gate, so the next bounded rerun must stop early unless the first 10-case suffix/profile gate produces nonblank tool-like rows.",
+  "decision": "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. A direct BFCL-shaped completions probe now proves the proxy can restore a consumed <tool_call> prefix into visible choices[].text; the remaining gate is to rerun BFCL itself with this bridge and stop early unless generated result files contain nonblank tool-like rows.",
   "gate": {
     "next_rerun_gate": [
       "upstream_error_rows == 0",
@@ -55,7 +55,7 @@
       "tool-like completion rows > 0 before expanding beyond the gated slice"
     ],
     "passed": false,
-    "reason": "Runtime bridge is available, but the recorded micro-gates still fail blank-output checks."
+    "reason": "Runtime bridge is available and directly proven, but no bounded BFCL result file has passed the blank-output and parser gates yet."
   },
   "proxy_supports_completion_prompt_suffix": true,
   "publication_boundary": "Diagnostic/runtime-bridge evidence only. This does not create a BFCL score claim and does not change model weights.",
@@ -118,6 +118,16 @@
   },
   "status": "runtime-bridge-ready-for-bounded-rerun",
   "suite": "official-bfcl-selected-slice",
+  "text_prefix_direct_probe": {
+    "completion_prompt_suffix_count": 1,
+    "completion_reasoning_text_count": 0,
+    "completion_text_prefix_count": 1,
+    "exists": true,
+    "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-bfcl-toolcall-text-prefix-direct-probe-20260624/probe.json",
+    "text_contains_json_name": true,
+    "text_prefix": "<tool_call>\n{\"name\": \"triangle_properties.get\", \"arguments\": {\"side1\": 5, \"side2\": 4, \"side3\": 3}}\n</tool_call>\n</think>\n\n</think>\n\nThe triangle with sides 5 units, 4 units, and 3 units is a valid triangle. Here are its properties:\n\n1. **Type of Triangle**: It is a **scalene triangle** because all sides are of different lengths.\n\n2. **Perimeter**: The perime",
+    "text_starts_tool_call": true
+  },
   "toolcall_prefix_micro_gate": {
     "blank_rate": 1.0,
     "blank_rows": 1,

@@ -26,6 +26,10 @@ REASONING_BRIDGE_RUN_ROOT = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
     "qwen3-v4-peft-bfcl-toolcall-reasoning-bridge-multiple1-20260624"
 )
+TEXT_PREFIX_DIRECT_PROBE = Path(
+    "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
+    "qwen3-v4-peft-bfcl-toolcall-text-prefix-direct-probe-20260624/probe.json"
+)
 CAPPED_RUN_ROOT = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/"
     "qwen3-v4-peft-official-bfcl-capped512-20260624"
@@ -93,7 +97,35 @@ def summarize_run(run_root: Path) -> dict[str, Any]:
 
 def proxy_supports_completion_suffix(proxy_script: Path = PROXY_SCRIPT) -> bool:
     text = proxy_script.read_text(encoding="utf-8")
-    return "--completion-prompt-suffix" in text and "add_completions_prompt_suffix" in text
+    return (
+        "--completion-prompt-suffix" in text
+        and "add_completions_prompt_suffix" in text
+        and "--completion-text-prefix" in text
+        and "prefix_completions_text" in text
+    )
+
+
+def summarize_direct_probe(path: Path = TEXT_PREFIX_DIRECT_PROBE) -> dict[str, Any]:
+    if not path.exists():
+        return {
+            "path": str(path),
+            "exists": False,
+            "text_starts_tool_call": False,
+            "text_contains_json_name": False,
+            "completion_text_prefix_count": 0,
+        }
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    headers = payload.get("headers", {}) if isinstance(payload.get("headers"), dict) else {}
+    return {
+        "path": str(path),
+        "exists": True,
+        "text_starts_tool_call": bool(payload.get("text_starts_tool_call")),
+        "text_contains_json_name": bool(payload.get("text_contains_json_name")),
+        "completion_prompt_suffix_count": int(headers.get("X-Hermes-Completion-Prompt-Suffix-Count", 0)),
+        "completion_text_prefix_count": int(headers.get("X-Hermes-Completion-Text-Prefix-Count", 0)),
+        "completion_reasoning_text_count": int(headers.get("X-Hermes-Completion-Reasoning-Text-Count", 0)),
+        "text_prefix": str(payload.get("text_prefix", "")),
+    }
 
 
 def build_report(
@@ -108,12 +140,13 @@ def build_report(
     toolcall_prefix = summarize_run(toolcall_prefix_run_root)
     reasoning_bridge = summarize_run(reasoning_bridge_run_root)
     capped = summarize_run(capped_run_root)
+    direct_probe = summarize_direct_probe()
     proxy_support = proxy_supports_completion_suffix()
     gate_ready = (
         proxy_support
-        and serial["total_rows"] > 0
-        and serial["blank_rows"] > 0
-        and serial["tool_like_rows"] == 0
+        and direct_probe["exists"]
+        and direct_probe["text_starts_tool_call"]
+        and direct_probe["completion_text_prefix_count"] > 0
     )
     return {
         "report_id": "qwen3-v4-bfcl-completion-suffix-diagnostic-20260624",
@@ -126,16 +159,17 @@ def build_report(
         "serial_partial_without_suffix": serial,
         "toolcall_prefix_micro_gate": toolcall_prefix,
         "reasoning_bridge_micro_gate": reasoning_bridge,
+        "text_prefix_direct_probe": direct_probe,
         "capped512_partial_without_suffix": capped,
         "decision": (
             "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only "
-            "when the completion prompt ends at the assistant marker. One-case prompt-prefix/reasoning bridge attempts and "
-            "a capped512 partial still failed the blank gate, so the next bounded rerun must stop early unless the first "
-            "10-case suffix/profile gate produces nonblank tool-like rows."
+            "when the completion prompt ends at the assistant marker. A direct BFCL-shaped completions probe now proves "
+            "the proxy can restore a consumed <tool_call> prefix into visible choices[].text; the remaining gate is to "
+            "rerun BFCL itself with this bridge and stop early unless generated result files contain nonblank tool-like rows."
         ),
         "gate": {
             "passed": False,
-            "reason": "Runtime bridge is available, but the recorded micro-gates still fail blank-output checks.",
+            "reason": "Runtime bridge is available and directly proven, but no bounded BFCL result file has passed the blank-output and parser gates yet.",
             "next_rerun_gate": [
                 "upstream_error_rows == 0",
                 "blank_output_rows == 0 on the gated 10-case slice",
@@ -153,6 +187,7 @@ def render_markdown(report: dict[str, Any]) -> str:
     serial = report["serial_partial_without_suffix"]
     toolcall_prefix = report["toolcall_prefix_micro_gate"]
     reasoning_bridge = report["reasoning_bridge_micro_gate"]
+    direct_probe = report["text_prefix_direct_probe"]
     capped = report["capped512_partial_without_suffix"]
     lines = [
         "# Qwen3 v4 BFCL Completion-Suffix Diagnostic",
@@ -160,6 +195,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Status: `{report['status']}`",
         f"- Proxy supports completion prompt suffix: `{str(report['proxy_supports_completion_prompt_suffix']).lower()}`",
         f"- Proposed suffix: `{report['completion_prompt_suffix']}`",
+        f"- Direct proxy probe starts with tool call: `{str(direct_probe['text_starts_tool_call']).lower()}`",
         "",
         "## Evidence",
         "",
@@ -184,10 +220,14 @@ def render_markdown(report: dict[str, Any]) -> str:
             else "| Tool-call prefix one-case gate | 0 | 0 | 0 | N/A |"
         ),
         (
-            f"| Reasoning bridge one-case gate | {reasoning_bridge['total_rows']} | {reasoning_bridge['blank_rows']} | "
+        f"| Reasoning bridge one-case gate | {reasoning_bridge['total_rows']} | {reasoning_bridge['blank_rows']} | "
             f"{reasoning_bridge['tool_like_rows']} | {reasoning_bridge['blank_rate']:.3f} |"
             if reasoning_bridge["blank_rate"] is not None
             else "| Reasoning bridge one-case gate | 0 | 0 | 0 | N/A |"
+        ),
+        (
+            f"| Direct proxy text-prefix probe | 1 | {0 if direct_probe['text_starts_tool_call'] else 1} | "
+            f"{1 if direct_probe['text_contains_json_name'] else 0} | {0.0 if direct_probe['text_starts_tool_call'] else 1.0:.3f} |"
         ),
         (
             f"| Capped512 partial | {capped['total_rows']} | {capped['blank_rows']} | "

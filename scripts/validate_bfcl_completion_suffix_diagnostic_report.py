@@ -40,6 +40,17 @@ def validate_payload(data: dict) -> list[str]:
             failures.append(f"{key} must record blank rows")
         if int(run.get("tool_like_rows", -1)) != 0:
             failures.append(f"{key} should not contain tool-like rows until a passing gate is recorded")
+    direct_probe = data.get("text_prefix_direct_probe", {})
+    if not str(direct_probe.get("path", "")).startswith(SSD_PREFIX):
+        failures.append("text prefix direct probe path must be SSD-backed")
+    if direct_probe.get("exists") is not True:
+        failures.append("text prefix direct probe must exist")
+    if direct_probe.get("text_starts_tool_call") is not True:
+        failures.append("text prefix direct probe must start with <tool_call>")
+    if direct_probe.get("text_contains_json_name") is not True:
+        failures.append("text prefix direct probe must contain a JSON function name")
+    if int(direct_probe.get("completion_text_prefix_count", 0)) <= 0:
+        failures.append("text prefix direct probe must record completion text prefixing")
     serial = data.get("serial_partial_without_suffix", {})
     if int(serial.get("tool_like_rows", -1)) != 0:
         failures.append("serial partial without suffix should not contain tool-like rows")
