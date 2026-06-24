@@ -978,3 +978,8 @@ Each track index should surface its spec, plan, and the hub-level requirements/d
 
 ## [~] Track: Qwen3 BFCL + Safety Blocker Resolution
 *Link: [./tracks/qwen3-bfcl-safety-blocker-resolution_20260624/](./tracks/qwen3-bfcl-safety-blocker-resolution_20260624/)*
+
+---
+
+## [~] Track: Qwen3 v10 Customer-Delete Refusal Marker Repair
+*Link: [./tracks/qwen3-v10-customer-delete-refusal-marker-repair_20260624/](./tracks/qwen3-v10-customer-delete-refusal-marker-repair_20260624/)*
