@@ -61,3 +61,12 @@ source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/herme
 - Raw v10 strict pass: `0.750`
 - Report: `reports/benchmark/official-candidates/qwen3-v9-runtime-safety-refusal-profile-selection-20260624.json`
 - Claim boundary: The passing result depends on runtime response normalization for one text-mode refusal. Raw v9 and v10 do not pass the pinned safety/refusal gate.
+
+## Latest RULER Expansion
+
+- Status: `blocked-runtime-generation-stall`
+- Context length: `8192`
+- Limit: `20`
+- Progress: model loaded `true`, contexts built `20`, generation completed `0`
+- Report: `reports/benchmark/official-candidates/qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.json`
+- Claim boundary: This is a runtime-blocker artifact, not a RULER score. The only scored long-context evidence remains ctx4096 niah_single_1 = 1.000 over 500 samples. Do not claim broader long-context capability from this ctx8192 attempt.

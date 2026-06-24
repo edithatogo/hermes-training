@@ -305,6 +305,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_qwen3_v9_runtime_safety_profile_selection.py",
         ROOT / "scripts/check_ruler_long_context_preflight.py",
         ROOT / "scripts/validate_ruler_long_context_preflight.py",
+        ROOT / "scripts/validate_ruler_ctx8192_runtime_blocker.py",
         ROOT / "scripts/build_official_candidate_execution_matrix.py",
         ROOT / "scripts/validate_official_candidate_execution_matrix.py",
         ROOT / "scripts/check_scorecard_offload_readiness.py",
@@ -1160,6 +1161,18 @@ def check_ruler_long_context_preflight(failures: list[str]) -> None:
         ok("RULER long-context preflight")
 
 
+def check_ruler_ctx8192_runtime_blocker(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_ruler_ctx8192_runtime_blocker.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"RULER ctx8192 runtime blocker: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("RULER ctx8192 runtime blocker")
+
+
 def check_official_candidate_execution_matrix(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_official_candidate_execution_matrix.py")],
@@ -1263,6 +1276,7 @@ def main() -> int:
     check_qwen3_v9_runtime_refusal_normalization_report(failures)
     check_qwen3_v9_runtime_safety_profile_selection(failures)
     check_ruler_long_context_preflight(failures)
+    check_ruler_ctx8192_runtime_blocker(failures)
     check_bfcl_zero_score_failure_analysis(failures)
     check_bfcl_clean_rerun_report(failures)
     check_bfcl_completion_suffix_diagnostic_report(failures)

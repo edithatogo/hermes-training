@@ -1,0 +1,34 @@
+{
+  "artifact": "qwen3-v4-ruler-ctx8192-runtime-blocker-20260624",
+  "date": "2026-06-24",
+  "hf_dataset": "edithatogo/hermes-training-artifacts",
+  "hf_path": "qwen3-v4-ruler-ctx8192-runtime-blocker-20260624",
+  "hf_revision": "641d7f3641ef688371a34c3754ece854a5de84e1",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/641d7f3641ef688371a34c3754ece854a5de84e1/qwen3-v4-ruler-ctx8192-runtime-blocker-20260624",
+  "publication_boundary": "Evidence-only private artifact. This is a ctx8192 runtime-blocker artifact, not a RULER score and not a broader long-context capability claim.",
+  "included_evidence": [
+    "qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.json",
+    "qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.md",
+    "qwen3-v4-ruler-ctx4096-full-result-20260624.json",
+    "qwen3-v4-ruler-ctx4096-full-result-20260624.md",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.json",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.md",
+    "SSD-backed ctx8192 stdout/stderr logs"
+  ],
+  "gate_summary": {
+    "ctx4096_scored": {
+      "task": "niah_single_1",
+      "sample_len": 500,
+      "score": 1.0,
+      "claim_scope": "ctx4096 needle retrieval only"
+    },
+    "ctx8192_attempt": {
+      "task": "niah_single_1",
+      "limit": 20,
+      "status": "blocked-runtime-generation-stall",
+      "score_produced": false,
+      "generation_completed": 0,
+      "terminated_after_seconds": 524
+    }
+  }
+}

@@ -32,6 +32,9 @@ CODING_RESULTS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
 )
 RULER_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx4096-full-result-20260624.json"
+RULER_CTX8192_BLOCKER = (
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.json"
+)
 SAFETY_MANIFEST = ROOT / "reports/benchmark/manifests/safety-refusal-suite-20260616.json"
 SAFETY_SUMMARY = Path(
     "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/"
@@ -226,6 +229,16 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             "raw_v10_strict_pass_rate": selection["metrics"]["raw_v10"]["strict_pass_rate"],
             "claim_boundary": selection["claim_boundary"]["reason"],
         }
+    if RULER_CTX8192_BLOCKER.exists():
+        blocker = load_json(RULER_CTX8192_BLOCKER)
+        matrix["latest_ruler_expansion"] = {
+            "status": blocker["status"],
+            "context_length": blocker["context_length"],
+            "limit": blocker["limit"],
+            "report": display_path(RULER_CTX8192_BLOCKER),
+            "observed_progress": blocker["observed_progress"],
+            "claim_boundary": blocker["publication_boundary"],
+        }
     return matrix
 
 
@@ -276,6 +289,22 @@ def render_markdown(matrix: dict[str, Any]) -> str:
                 f"- Raw v10 strict pass: `{float(repair['raw_v10_strict_pass_rate']):.3f}`",
                 f"- Report: `{repair['report']}`",
                 f"- Claim boundary: {repair['claim_boundary']}",
+                "",
+            ]
+        )
+    ruler_expansion = matrix.get("latest_ruler_expansion")
+    if isinstance(ruler_expansion, dict):
+        progress = ruler_expansion["observed_progress"]
+        lines.extend(
+            [
+                "## Latest RULER Expansion",
+                "",
+                f"- Status: `{ruler_expansion['status']}`",
+                f"- Context length: `{int(ruler_expansion['context_length'])}`",
+                f"- Limit: `{int(ruler_expansion['limit'])}`",
+                f"- Progress: model loaded `{str(progress['model_loaded']).lower()}`, contexts built `{progress['contexts_built']}`, generation completed `{progress['generate_until_completed']}`",
+                f"- Report: `{ruler_expansion['report']}`",
+                f"- Claim boundary: {ruler_expansion['claim_boundary']}",
                 "",
             ]
         )
