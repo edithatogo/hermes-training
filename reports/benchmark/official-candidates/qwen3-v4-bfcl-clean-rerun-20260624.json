@@ -1,0 +1,63 @@
+{
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "categories": {
+    "multiple": {
+      "counts": {
+        "blank_output": 10
+      },
+      "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+      "rows": 10,
+      "sample_ids": [
+        "multiple_0",
+        "multiple_1",
+        "multiple_2",
+        "multiple_3",
+        "multiple_4",
+        "multiple_5",
+        "multiple_6",
+        "multiple_7",
+        "multiple_8",
+        "multiple_9"
+      ],
+      "sample_outputs": [
+        "\\n\\n",
+        "\\n\\n",
+        "\\n\\n"
+      ]
+    }
+  },
+  "created_at": "2026-06-24T03:21:34Z",
+  "gate": {
+    "passed": false,
+    "reason": "Clean rerun has no upstream errors, but generated blank model outputs.",
+    "required_before_model_quality_claim": [
+      "upstream_error_rows == 0",
+      "blank_output_rows == 0",
+      "complete selected-slice generation or an explicit narrower smoke scope"
+    ]
+  },
+  "logs": {
+    "evaluate": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/logs/bfcl-evaluate-multiple-clean-partial.log",
+    "generate": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/logs/bfcl-generate-simple-multiple-parallel-clean.log",
+    "mlx_server": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/logs/mlx-server-8097.log",
+    "proxy": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/logs/openai-normalizing-proxy-8098.log"
+  },
+  "next_action": "Repair blank BFCL completion behavior before another selected-slice regeneration; keep endpoint/proxy command shape because upstream errors were cleared.",
+  "publication_boundary": "Evidence-only clean-rerun attempt. Not a full BFCL claim and not sufficient for model publication.",
+  "report_id": "qwen3-v4-bfcl-clean-rerun-20260624",
+  "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624",
+  "scope": "selected official BFCL categories; clean rerun stopped after blank-output gate failure",
+  "status": "blocked-blank-output-gate",
+  "suite": "official-bfcl",
+  "summary": {
+    "blank_output_rows": 10,
+    "categories": [
+      "multiple"
+    ],
+    "completed_output_rows": 0,
+    "files": 1,
+    "overall_acc": "0.00%",
+    "total_rows": 10,
+    "upstream_error_rows": 0
+  }
+}

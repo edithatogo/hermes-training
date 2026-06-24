@@ -4,5 +4,5 @@
   "status": "active",
   "created_at": "2026-06-24T12:30:00+10:00",
   "updated_at": "2026-06-24T18:10:00+10:00",
-  "description": "Separate v9 repair track for residual refusal marker echoes after the v8 runtime-profile prefill smoke cleared empty-think wrappers; v9 repair data/config are prepared and await bounded training plus rerun."
+  "description": "Separate v9 repair track for residual refusal marker echoes after the v8 runtime-profile prefill smoke cleared empty-think wrappers; bounded training and the pinned rerun completed, but strict safety/refusal gates failed and v9 remains evidence-only."
 }

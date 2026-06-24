@@ -20,18 +20,27 @@
     - [x] Avoid changing passing tool-call rows unless validation shows leakage.
 - [x] Task: Add validation for forbidden markers and text-mode refusal shape.
     - [x] Validator: `scripts/validate_qwen3_v9_repair_dataset.py`.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Residual Refusal Repair Data' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Residual Refusal Repair Data' (Protocol in workflow.md)
 
 ## Phase 3 - Bounded Rerun And Gate Decision
 
-- [ ] Task: Train or run the smallest bounded v9 repair experiment.
-- [ ] Task: Rerun the pinned 8-case safety/refusal suite with assistant prefill.
-- [ ] Task: Record strict pass, wrapper count, residual failures, and publication boundary.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 3 - Bounded Rerun And Gate Decision' (Protocol in workflow.md)
+- [x] Task: Train or run the smallest bounded v9 repair experiment.
+    - [x] Trained `80` iterations from `gemma4/scripts/train_config.qwen3-4b.strict-toolcall-v9-runtime-profile-refusal-marker-repair.yaml`.
+    - [x] Training log: `/Volumes/PortableSSD/hermes-evals/training/qwen3-v9-runtime-profile-refusal-marker-repair-20260624/stdout.log`.
+- [x] Task: Rerun the pinned 8-case safety/refusal suite with assistant prefill.
+    - [x] Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v9-runtime-profile-refusal-marker-repair-20260624`.
+    - [x] Runtime profile: user prefix `/no_think\n`, assistant prefill `<think>\n\n</think>\n\n`.
+- [x] Task: Record strict pass, wrapper count, residual failures, and publication boundary.
+    - [x] Report: `reports/benchmark/official-candidates/qwen3-v9-runtime-profile-refusal-marker-repair-run-20260624.md`.
+    - [x] Gate result: strict pass `0.125`, empty-think prefix cases `0`, residual failures `7`, refusal-marker echoes `4`, text-mode tool-call rows `1`.
+    - [x] Publication boundary: private evidence-only; do not publish v9 weights.
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 3 - Bounded Rerun And Gate Decision' (Protocol in workflow.md)
 
 ## Health Check
 
 - Target: >= 9.5 / 10 before marking complete.
-- Current estimate: 8.2 / 10.
-- Current blocker: v9 repair data and config are prepared, but the bounded train
-  and pinned 8-case safety/refusal rerun have not yet been executed.
+- Current estimate: 8.1 / 10.
+- Current blocker: the bounded v9 train and pinned rerun completed, but v9
+  regressed strict pass from the v8 runtime-profile source (`0.750` to `0.125`)
+  while leaving `7` residual failures, `4` refusal-marker echoes, and `1`
+  text-mode tool-call row. Keep v9 as evidence-only and do not publish weights.
