@@ -283,6 +283,9 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_safety_refusal_repair_queue.py",
         ROOT / "scripts/validate_safety_refusal_repair_dataset.py",
         ROOT / "scripts/validate_qwen3_v8_repair_dataset.py",
+        ROOT / "scripts/validate_qwen3_v9_repair_dataset.py",
+        ROOT / "scripts/build_bfcl_zero_score_failure_analysis.py",
+        ROOT / "scripts/validate_bfcl_zero_score_failure_analysis.py",
         ROOT / "scripts/build_safety_refusal_repair_run_report.py",
         ROOT / "scripts/validate_safety_refusal_repair_run_report.py",
         ROOT / "scripts/build_qwen3_v8_repair_run_report.py",
@@ -347,6 +350,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "gemma4/data/strict_tool_call/tools/materialize_free_text_copy_splits_v6.py",
         ROOT / "gemma4/data/strict_tool_call/tools/materialize_safety_refusal_repair_splits_v7.py",
         ROOT / "gemma4/data/strict_tool_call/tools/materialize_safety_refusal_repair_splits_v8.py",
+        ROOT / "gemma4/data/strict_tool_call/tools/materialize_safety_refusal_repair_splits_v9.py",
     ]
     result = subprocess.run(
         [sys.executable, "-m", "py_compile", *map(str, py_scripts)],
@@ -990,6 +994,30 @@ def check_qwen3_v8_repair_dataset(failures: list[str]) -> None:
         ok("qwen3 v8 repair dataset")
 
 
+def check_qwen3_v9_repair_dataset(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_qwen3_v9_repair_dataset.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"qwen3 v9 repair dataset: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("qwen3 v9 repair dataset")
+
+
+def check_bfcl_zero_score_failure_analysis(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_bfcl_zero_score_failure_analysis.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"BFCL zero-score failure analysis: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("BFCL zero-score failure analysis")
+
+
 def check_safety_refusal_repair_run_report(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_safety_refusal_repair_run_report.py")],
@@ -1120,9 +1148,11 @@ def main() -> int:
     check_safety_refusal_repair_queue(failures)
     check_safety_refusal_repair_dataset(failures)
     check_qwen3_v8_repair_dataset(failures)
+    check_qwen3_v9_repair_dataset(failures)
     check_safety_refusal_repair_run_report(failures)
     check_qwen3_v8_repair_run_report(failures)
     check_ruler_long_context_preflight(failures)
+    check_bfcl_zero_score_failure_analysis(failures)
     check_official_candidate_execution_matrix(failures)
     check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)

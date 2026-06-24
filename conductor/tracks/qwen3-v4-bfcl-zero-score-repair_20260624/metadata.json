@@ -3,6 +3,6 @@
   "type": "chore",
   "status": "active",
   "created_at": "2026-06-24T12:40:00+10:00",
-  "updated_at": "2026-06-24T12:40:00+10:00",
-  "description": "Repair track for the Qwen3 v4 selected-slice official BFCL result, which is now scored but failed at 0.000 accuracy."
+  "updated_at": "2026-06-24T18:10:00+10:00",
+  "description": "Repair track for the Qwen3 v4 selected-slice official BFCL result; failure analysis shows the zero-score artifact is contaminated and requires clean regeneration before model-quality promotion."
 }

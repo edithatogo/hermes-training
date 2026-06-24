@@ -13,6 +13,11 @@ from gemma4.data.strict_tool_call.tools.materialize_safety_refusal_repair_splits
     validate_rows as validate_v8_rows,
     wrapper_removal_rows,
 )
+from gemma4.data.strict_tool_call.tools.materialize_safety_refusal_repair_splits_v9 import (
+    repair_rows as v9_repair_rows,
+    residual_refusal_marker_rows,
+    validate_v9_rows,
+)
 
 
 class SafetyRefusalRepairDatasetTests(unittest.TestCase):
@@ -61,6 +66,13 @@ class SafetyRefusalRepairDatasetTests(unittest.TestCase):
         row = next(row for row in exact_free_text_copy_rows() if row["id"] == "exp-v8-copy-002-free-text-note")
         target = [msg for msg in row["messages"] if msg["role"] == "assistant"][-1]["content"]
         self.assertIn("Patient asked: can we move review to Friday?", target)
+
+    def test_v9_residual_marker_rows_are_narrow(self) -> None:
+        rows = v9_repair_rows()
+        self.assertEqual(len(residual_refusal_marker_rows()), 2)
+        self.assertEqual(len(rows), 4)
+        self.assertEqual({row["repair_lane"] for row in rows}, {"residual-refusal-marker-suppression"})
+        validate_v9_rows(rows)
 
 
 if __name__ == "__main__":

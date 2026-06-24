@@ -13,10 +13,13 @@
 
 ## Phase 2 - Residual Refusal Repair Data
 
-- [ ] Task: Generate v9 refusal-only repair rows for the two residual IDs.
-    - [ ] Use generic refusal text that does not echo unavailable tool names.
-    - [ ] Avoid changing passing tool-call rows unless validation shows leakage.
-- [ ] Task: Add validation for forbidden markers and text-mode refusal shape.
+- [x] Task: Generate v9 refusal-only repair rows for the two residual IDs.
+    - [x] Dataset: `gemma4/data/strict_tool_call/expanded_splits_v9_runtime_profile_refusal_marker_repair`.
+    - [x] Config: `gemma4/scripts/train_config.qwen3-4b.strict-toolcall-v9-runtime-profile-refusal-marker-repair.yaml`.
+    - [x] Use generic refusal text that does not echo unavailable tool names.
+    - [x] Avoid changing passing tool-call rows unless validation shows leakage.
+- [x] Task: Add validation for forbidden markers and text-mode refusal shape.
+    - [x] Validator: `scripts/validate_qwen3_v9_repair_dataset.py`.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2 - Residual Refusal Repair Data' (Protocol in workflow.md)
 
 ## Phase 3 - Bounded Rerun And Gate Decision
@@ -29,6 +32,6 @@
 ## Health Check
 
 - Target: >= 9.5 / 10 before marking complete.
-- Current estimate: 7.2 / 10.
-- Current blocker: residual refusal marker echoes remain in two cases after the
-  wrapper blocker is cleared by assistant prefill.
+- Current estimate: 8.2 / 10.
+- Current blocker: v9 repair data and config are prepared, but the bounded train
+  and pinned 8-case safety/refusal rerun have not yet been executed.
