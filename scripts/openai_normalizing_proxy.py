@@ -83,6 +83,85 @@ def override_request_model(payload: dict[str, Any], model_override: str) -> tupl
     return updated, 1
 
 
+def add_completions_prompt_suffix(payload: dict[str, Any], suffix: str) -> tuple[dict[str, Any], int]:
+    """Append a generation-only suffix to OpenAI completions prompts."""
+    if not suffix or "prompt" not in payload:
+        return payload, 0
+
+    def update_prompt(prompt: Any) -> tuple[Any, int]:
+        if isinstance(prompt, str) and not prompt.endswith(suffix):
+            return prompt + suffix, 1
+        if isinstance(prompt, list):
+            changed = 0
+            updated: list[Any] = []
+            for item in prompt:
+                if isinstance(item, str) and not item.endswith(suffix):
+                    updated.append(item + suffix)
+                    changed += 1
+                else:
+                    updated.append(item)
+            return updated, changed
+        return prompt, 0
+
+    updated_prompt, changed_count = update_prompt(payload.get("prompt"))
+    if not changed_count:
+        return payload, 0
+    updated = dict(payload)
+    updated["prompt"] = updated_prompt
+    return updated, changed_count
+
+
+def cap_completions_max_tokens(payload: dict[str, Any], max_tokens_cap: int) -> tuple[dict[str, Any], int]:
+    """Cap runaway completion requests for local runtimes when explicitly enabled."""
+    if max_tokens_cap <= 0:
+        return payload, 0
+    max_tokens = payload.get("max_tokens")
+    if not isinstance(max_tokens, int) or max_tokens <= max_tokens_cap:
+        return payload, 0
+    updated = dict(payload)
+    updated["max_tokens"] = max_tokens_cap
+    return updated, 1
+
+
+def normalize_completions_reasoning_content(payload: dict[str, Any], prefix: str) -> tuple[dict[str, Any], int]:
+    """Move non-empty reasoning_content into blank completions text fields."""
+    choices = payload.get("choices")
+    if not isinstance(choices, list):
+        return payload, 0
+    updated_count = 0
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        text = choice.get("text")
+        reasoning = choice.get("reasoning_content")
+        if isinstance(text, str) and text.strip():
+            continue
+        if not isinstance(reasoning, str) or not reasoning.strip():
+            continue
+        choice["text"] = prefix + reasoning
+        updated_count += 1
+    return payload, updated_count
+
+
+def prefix_completions_text(payload: dict[str, Any], prefix: str) -> tuple[dict[str, Any], int]:
+    """Prepend a prefix to non-empty completions text fields when missing."""
+    if not prefix:
+        return payload, 0
+    choices = payload.get("choices")
+    if not isinstance(choices, list):
+        return payload, 0
+    updated_count = 0
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        text = choice.get("text")
+        if not isinstance(text, str) or not text.strip() or text.startswith(prefix):
+            continue
+        choice["text"] = prefix + text
+        updated_count += 1
+    return payload, updated_count
+
+
 def upstream_url(upstream_base: str, request_path: str) -> str:
     """Map incoming OpenAI-compatible paths onto the upstream base URL."""
     route = request_path.split("?", 1)[0]
@@ -128,10 +207,26 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         request_payload, overridden_count = override_request_model(request_payload, self.server.model_override)
         body = json.dumps(request_payload).encode("utf-8")
         coerced_count = 0
+        capped_max_tokens_count = 0
         if route in {"/v1/completions", "/completions"}:
             request_payload, coerced_count = coerce_mlx_logprobs_request(request_payload)
+            request_payload, capped_max_tokens_count = cap_completions_max_tokens(
+                request_payload,
+                self.server.completion_max_tokens_cap,
+            )
+            request_payload, suffixed_count = add_completions_prompt_suffix(
+                request_payload,
+                self.server.completion_prompt_suffix,
+            )
+            self.server.last_completion_prompt_suffix_count += suffixed_count
             body = json.dumps(request_payload).encode("utf-8")
-        self.proxy_request("POST", body, coerced_logprobs_count=coerced_count, overridden_model_count=overridden_count)
+        self.proxy_request(
+            "POST",
+            body,
+            coerced_logprobs_count=coerced_count,
+            overridden_model_count=overridden_count,
+            capped_max_tokens_count=capped_max_tokens_count,
+        )
 
     def proxy_request(
         self,
@@ -139,6 +234,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         body: bytes | None = None,
         coerced_logprobs_count: int = 0,
         overridden_model_count: int = 0,
+        capped_max_tokens_count: int = 0,
     ) -> None:
         headers = {
             key: value
@@ -160,6 +256,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
 
         content = response.content
         normalized_count = 0
+        reasoning_text_count = 0
         content_type = response.headers.get("Content-Type", "")
         if (
             self.path.split("?", 1)[0] in {"/v1/chat/completions", "/chat/completions"}
@@ -173,6 +270,22 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                     content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
             except ValueError:
                 pass
+        if (
+            self.path.split("?", 1)[0] in {"/v1/completions", "/completions"}
+            and self.server.completion_reasoning_prefix
+            and "json" in content_type.lower()
+            and content
+        ):
+            try:
+                payload = response.json()
+                if isinstance(payload, dict):
+                    payload, reasoning_text_count = normalize_completions_reasoning_content(
+                        payload,
+                        self.server.completion_reasoning_prefix,
+                    )
+                    content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+            except ValueError:
+                pass
 
         self.send_response(response.status_code)
         for key, value in response.headers.items():
@@ -182,6 +295,10 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         self.send_header("X-Hermes-Normalized-Empty-Think-Count", str(normalized_count))
         self.send_header("X-Hermes-Coerced-Logprobs-Count", str(coerced_logprobs_count))
         self.send_header("X-Hermes-Overridden-Model-Count", str(overridden_model_count))
+        self.send_header("X-Hermes-Capped-Max-Tokens-Count", str(capped_max_tokens_count))
+        self.send_header("X-Hermes-Completion-Prompt-Suffix-Count", str(self.server.last_completion_prompt_suffix_count))
+        self.send_header("X-Hermes-Completion-Reasoning-Text-Count", str(reasoning_text_count))
+        self.server.last_completion_prompt_suffix_count = 0
         self.end_headers()
         self.wfile.write(content)
 
@@ -202,12 +319,19 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         timeout_s: float,
         quiet: bool,
         model_override: str = "",
+        completion_prompt_suffix: str = "",
+        completion_reasoning_prefix: str = "",
+        completion_max_tokens_cap: int = 0,
     ) -> None:
         super().__init__(server_address, NormalizingProxyHandler)
         self.upstream_base = upstream_base
         self.timeout_s = timeout_s
         self.quiet = quiet
         self.model_override = model_override
+        self.completion_prompt_suffix = completion_prompt_suffix
+        self.completion_reasoning_prefix = completion_reasoning_prefix
+        self.completion_max_tokens_cap = completion_max_tokens_cap
+        self.last_completion_prompt_suffix_count = 0
 
 
 class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
@@ -226,6 +350,18 @@ class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
             request_payload = json.loads(self.rfile.read(length).decode("utf-8"))
             if not isinstance(request_payload.get("logprobs"), bool):
                 self.send_payload({"error": "logprobs must be boolean"}, status=HTTPStatus.BAD_REQUEST)
+                return
+            if isinstance(request_payload.get("prompt"), str) and "blank reasoning" in str(request_payload["prompt"]):
+                self.send_payload(
+                    {
+                        "choices": [
+                            {
+                                "text": "",
+                                "reasoning_content": "{\"name\":\"demo.tool\",\"arguments\":{}}\n</tool_call>",
+                            }
+                        ]
+                    }
+                )
                 return
             self.send_payload(
                 {
@@ -290,6 +426,9 @@ def run_self_test() -> None:
         timeout_s=5.0,
         quiet=True,
         model_override="qwen-override",
+        completion_prompt_suffix="<think>\n\n</think>\n\n",
+        completion_reasoning_prefix="<tool_call>\n",
+        completion_max_tokens_cap=512,
     )
     proxy_thread = start_threaded_server(proxy)
     proxy_base = f"http://127.0.0.1:{proxy.server_port}/v1"
@@ -327,10 +466,43 @@ def run_self_test() -> None:
         with urllib.request.urlopen(completions_request, timeout=5) as response:
             completion = json.loads(response.read().decode("utf-8"))
             coerced_header = response.headers["X-Hermes-Coerced-Logprobs-Count"]
+            suffix_header = response.headers["X-Hermes-Completion-Prompt-Suffix-Count"]
+            cap_header = response.headers["X-Hermes-Capped-Max-Tokens-Count"]
         if completion["choices"][0]["text"] != " Paris":
             raise AssertionError(f"unexpected completions response: {completion!r}")
         if coerced_header != "1":
             raise AssertionError(f"unexpected logprobs coercion count: {coerced_header!r}")
+        if suffix_header != "1":
+            raise AssertionError(f"unexpected prompt suffix count: {suffix_header!r}")
+        if cap_header != "0":
+            raise AssertionError(f"unexpected max token cap count: {cap_header!r}")
+
+        capped_request = urllib.request.Request(
+            f"{proxy_base}/completions",
+            data=json.dumps(
+                {"model": "qwen-test", "prompt": "The capital of France is", "max_tokens": 4096, "logprobs": False}
+            ).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(capped_request, timeout=5) as response:
+            cap_header = response.headers["X-Hermes-Capped-Max-Tokens-Count"]
+        if cap_header != "1":
+            raise AssertionError(f"unexpected max token cap count: {cap_header!r}")
+
+        reasoning_request = urllib.request.Request(
+            f"{proxy_base}/completions",
+            data=json.dumps({"model": "qwen-test", "prompt": "blank reasoning", "logprobs": 0}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(reasoning_request, timeout=5) as response:
+            reasoning_completion = json.loads(response.read().decode("utf-8"))
+            reasoning_header = response.headers["X-Hermes-Completion-Reasoning-Text-Count"]
+        if not reasoning_completion["choices"][0]["text"].startswith("<tool_call>"):
+            raise AssertionError(f"unexpected reasoning completion: {reasoning_completion!r}")
+        if reasoning_header != "1":
+            raise AssertionError(f"unexpected reasoning text count: {reasoning_header!r}")
 
         stream_request = urllib.request.Request(
             f"{proxy_base}/chat/completions",
@@ -359,6 +531,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--listen-port", type=int, default=8099, help="Proxy listen port.")
     parser.add_argument("--timeout-s", type=float, default=120.0, help="Upstream request timeout.")
     parser.add_argument("--model-override", default="", help="Optional model id to forward to the upstream runtime.")
+    parser.add_argument(
+        "--completion-prompt-suffix",
+        default="",
+        help="Optional suffix appended to /v1/completions prompts before forwarding, e.g. a Qwen assistant prefill.",
+    )
+    parser.add_argument(
+        "--completion-reasoning-prefix",
+        default="",
+        help="Optional prefix used when moving non-empty completions reasoning_content into a blank text field.",
+    )
+    parser.add_argument(
+        "--completion-max-tokens-cap",
+        type=int,
+        default=0,
+        help="Optional cap for /v1/completions max_tokens before forwarding. Disabled when 0.",
+    )
     parser.add_argument("--quiet", action="store_true", help="Suppress request logs.")
     parser.add_argument("--self-test", action="store_true", help="Run proxy self-tests and exit.")
     return parser.parse_args()
@@ -377,11 +565,16 @@ def main() -> int:
         timeout_s=args.timeout_s,
         quiet=args.quiet,
         model_override=args.model_override,
+        completion_prompt_suffix=args.completion_prompt_suffix,
+        completion_reasoning_prefix=args.completion_reasoning_prefix,
+        completion_max_tokens_cap=args.completion_max_tokens_cap,
     )
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")
     print(f"upstream: {args.upstream}")
     print("streaming chat completions are rejected because SSE normalization is not implemented")
     print("integer completions logprobs are coerced to boolean for mlx_lm.server compatibility")
+    if args.completion_max_tokens_cap > 0:
+        print(f"completion max_tokens are capped at {args.completion_max_tokens_cap}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

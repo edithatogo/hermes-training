@@ -1,0 +1,49 @@
+import unittest
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from scripts.openai_normalizing_proxy import (
+    add_completions_prompt_suffix,
+    cap_completions_max_tokens,
+    normalize_completions_reasoning_content,
+)
+
+
+class OpenAINormalizingProxyTests(unittest.TestCase):
+    def test_completion_prompt_suffix_appends_to_string_prompt_once(self) -> None:
+        payload, count = add_completions_prompt_suffix({"prompt": "assistant\n"}, "<tool_call>")
+        self.assertEqual(count, 1)
+        self.assertEqual(payload["prompt"], "assistant\n<tool_call>")
+        payload, count = add_completions_prompt_suffix(payload, "<tool_call>")
+        self.assertEqual(count, 0)
+        self.assertEqual(payload["prompt"], "assistant\n<tool_call>")
+
+    def test_completion_prompt_suffix_appends_to_prompt_list(self) -> None:
+        payload, count = add_completions_prompt_suffix({"prompt": ["a", "b<tool_call>", 3]}, "<tool_call>")
+        self.assertEqual(count, 1)
+        self.assertEqual(payload["prompt"], ["a<tool_call>", "b<tool_call>", 3])
+
+    def test_completion_reasoning_content_fills_blank_text_only(self) -> None:
+        payload = {
+            "choices": [
+                {"text": "", "reasoning_content": "{\"name\":\"demo.tool\"}"},
+                {"text": "already visible", "reasoning_content": "hidden"},
+            ]
+        }
+        updated, count = normalize_completions_reasoning_content(payload, "<tool_call>\n")
+        self.assertEqual(count, 1)
+        self.assertEqual(updated["choices"][0]["text"], "<tool_call>\n{\"name\":\"demo.tool\"}")
+        self.assertEqual(updated["choices"][1]["text"], "already visible")
+
+    def test_completion_max_tokens_cap_is_opt_in(self) -> None:
+        payload, count = cap_completions_max_tokens({"max_tokens": 4096}, 512)
+        self.assertEqual(count, 1)
+        self.assertEqual(payload["max_tokens"], 512)
+        payload, count = cap_completions_max_tokens({"max_tokens": 128}, 512)
+        self.assertEqual(count, 0)
+        self.assertEqual(payload["max_tokens"], 128)
+
+
+if __name__ == "__main__":
+    unittest.main()

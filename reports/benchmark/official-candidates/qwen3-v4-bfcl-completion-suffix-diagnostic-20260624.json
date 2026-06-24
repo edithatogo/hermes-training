@@ -1,0 +1,77 @@
+{
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "clean_rerun": {
+    "blank_rate": 1.0,
+    "blank_rows": 10,
+    "categories": {
+      "multiple": {
+        "blank_rows": 10,
+        "other_nonblank_rows": 0,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+        "rows": 10,
+        "sample_outputs": [
+          "\\n\\n",
+          "\\n\\n",
+          "\\n\\n"
+        ],
+        "tool_like_rows": 0
+      }
+    },
+    "other_nonblank_rows": 0,
+    "result_files": 1,
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-clean-rerun-20260624",
+    "tool_like_rows": 0,
+    "total_rows": 10
+  },
+  "completion_prompt_suffix": "<tool_call>",
+  "decision": "The clean endpoint/proxy path no longer shows upstream errors, but BFCL completions are whitespace-only when the completion prompt ends at the assistant marker. The next bounded rerun should route /v1/completions through the proxy with --completion-prompt-suffix '<tool_call>' and stop after a small gate if outputs remain blank.",
+  "gate": {
+    "next_rerun_gate": [
+      "upstream_error_rows == 0",
+      "blank_output_rows == 0 on the gated 10-case slice",
+      "tool-like completion rows > 0 before expanding beyond the gated slice"
+    ],
+    "passed": false,
+    "reason": "Runtime bridge is ready for a bounded rerun, but no completion-suffix BFCL score is recorded yet."
+  },
+  "proxy_supports_completion_prompt_suffix": true,
+  "publication_boundary": "Diagnostic/runtime-bridge evidence only. This does not create a BFCL score claim and does not change model weights.",
+  "report_id": "qwen3-v4-bfcl-completion-suffix-diagnostic-20260624",
+  "serial_partial_without_suffix": {
+    "blank_rate": 0.835509138381201,
+    "blank_rows": 320,
+    "categories": {
+      "multiple": {
+        "blank_rows": 199,
+        "other_nonblank_rows": 1,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-serial-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_multiple_result.json",
+        "rows": 200,
+        "sample_outputs": [
+          "\\n\\n",
+          "\\n\\n",
+          "\\n\\n"
+        ],
+        "tool_like_rows": 0
+      },
+      "parallel": {
+        "blank_rows": 121,
+        "other_nonblank_rows": 62,
+        "path": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-serial-20260624/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/BFCL_v4_parallel_result.json",
+        "rows": 183,
+        "sample_outputs": [
+          "\\n\\n\\n",
+          "\\n\\n\\n",
+          "\\n\\n\\n"
+        ],
+        "tool_like_rows": 0
+      }
+    },
+    "other_nonblank_rows": 63,
+    "result_files": 2,
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-serial-20260624",
+    "tool_like_rows": 0,
+    "total_rows": 383
+  },
+  "status": "runtime-bridge-ready-for-bounded-rerun",
+  "suite": "official-bfcl-selected-slice"
+}
