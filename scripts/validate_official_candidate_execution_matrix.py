@@ -27,8 +27,11 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
     failures: list[str] = []
     if data.get("candidate") != "qwen3-4b-strict-toolcall-v4-targeted":
         failures.append(f"{display_path(report_path)} candidate is wrong")
-    if data.get("status") != "blocked-pending-scored-artifacts":
-        failures.append(f"{display_path(report_path)} status must remain blocked until scores exist")
+    if data.get("status") not in {
+        "blocked-pending-scored-artifacts",
+        "scored-artifacts-present-repair-required",
+    }:
+        failures.append(f"{display_path(report_path)} status is invalid")
     rows = data.get("rows")
     if not isinstance(rows, list):
         return failures + [f"{display_path(report_path)} rows must be a list"]
@@ -73,6 +76,9 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
         failures.append("ruler-long-context should be blocked, ready, or scored when RULER artifacts exist")
     if "No public broad benchmark claim" not in str(data.get("publication_boundary", "")):
         failures.append("publication boundary must block broad claims")
+    if data.get("status") == "scored-artifacts-present-repair-required":
+        if any(row.get("execution_status") != "scored-artifact-present" for row in rows if isinstance(row, dict)):
+            failures.append("repair-required status requires scored artifacts for every suite")
     return failures
 
 

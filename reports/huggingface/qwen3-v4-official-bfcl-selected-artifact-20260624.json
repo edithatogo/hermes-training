@@ -1,0 +1,9 @@
+{
+  "artifact": "qwen3-v4-official-bfcl-selected-20260624",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/fe664f4d73837d694c19b4b248afdc9500f255f0",
+  "dataset_repo": "edithatogo/hermes-training-artifacts",
+  "local_stage": "/Volumes/PortableSSD/hermes-evals/hf-upload/qwen3-v4-official-bfcl-selected-20260624",
+  "path_prefix": "qwen3-v4-official-bfcl-selected-20260624/",
+  "publication_boundary": "Evidence-only selected BFCL slice. This is not a full BFCL leaderboard claim and not a passing Hermes tool-call claim.",
+  "uploaded_files": 20
+}

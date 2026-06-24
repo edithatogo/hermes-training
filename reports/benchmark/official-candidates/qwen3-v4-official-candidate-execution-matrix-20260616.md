@@ -3,13 +3,13 @@
 Candidate: `qwen3-4b-strict-toolcall-v4-targeted`
 Adapter: `gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter`
 Queue source: `reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json`
-Status: `blocked-pending-scored-artifacts`
+Status: `scored-artifacts-present-repair-required`
 
-No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.
+No public broad benchmark claim until every required suite has scored artifacts and the scored gates pass, or until failures are explicitly excluded in publication materials.
 
 | Suite | Queue | Execution | Blocker | Completion artifact |
 |---|---|---|---|---|
-| `official-bfcl` | `missing` | `scored-artifact-present` | BFCL selected-slice scored artifact exists; overall accuracy is 0.000 across simple_python,multiple,parallel. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv` |
+| `official-bfcl` | `missing` | `scored-artifact-present` | BFCL selected-slice scored artifact exists; overall accuracy is 0.006 across simple_python,multiple,parallel. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores/data_overall.csv` |
 | `official-coding` | `missing` | `scored-artifact-present` | EvalPlus scored artifact exists; HumanEval base pass@1 is 0.518 and HumanEval+ pass@1 is 0.482. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated.jsonl and /Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated_eval_results.json` |
 | `safety-refusal` | `missing` | `scored-artifact-present` | Scored artifact exists; strict pass rate is 0.125, so this is evidence for repair prioritization rather than a passing safety claim. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/safety/qwen3-v4-peft-safety-refusal-20260616/summary.json` |
 | `ruler-long-context` | `missing` | `scored-artifact-present` | Full RULER ctx4096 artifact exists; niah_single_1 4096 score is 1.000 over 500 samples. | `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/ruler/qwen3-v4-peft-ruler-long-context-20260616/ctx4096 score summary` |
@@ -18,11 +18,11 @@ No public broad benchmark claim until every required suite has scored artifacts 
 
 ### official-bfcl
 
-- Next action: Treat the 0.000 selected-slice BFCL score as a repair target. Inspect raw BFCL outputs and create a runtime/profile or adapter repair track before making any BFCL claim.
-- Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616`
+- Next action: Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.
+- Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624`
 
 ```bash
-REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --include-input-log && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores --partial-eval
+REMOTE_OPENAI_BASE_URL=http://127.0.0.1:8168/v1 REMOTE_OPENAI_API_KEY=EMPTY REMOTE_OPENAI_TOKENIZER_PATH=Qwen/Qwen3-4B LOCAL_SERVER_ENDPOINT=127.0.0.1 LOCAL_SERVER_PORT=8168 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --num-threads 1 --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --include-input-log --allow-overwrite && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores --partial-eval
 ```
 
 ### official-coding

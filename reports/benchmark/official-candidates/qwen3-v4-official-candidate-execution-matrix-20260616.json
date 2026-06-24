@@ -4,16 +4,16 @@
   "counts": {
     "scored-artifact-present": 4
   },
-  "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
+  "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts and the scored gates pass, or until failures are explicitly excluded in publication materials.",
   "queue_source": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
   "rows": [
     {
-      "blocker": "BFCL selected-slice scored artifact exists; overall accuracy is 0.000 across simple_python,multiple,parallel.",
-      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv",
+      "blocker": "BFCL selected-slice scored artifact exists; overall accuracy is 0.006 across simple_python,multiple,parallel.",
+      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores/data_overall.csv",
       "execution_status": "scored-artifact-present",
-      "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --include-input-log && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores --partial-eval",
-      "next_action": "Treat the 0.000 selected-slice BFCL score as a repair target. Inspect raw BFCL outputs and create a runtime/profile or adapter repair track before making any BFCL claim.",
-      "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616",
+      "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:8168/v1 REMOTE_OPENAI_API_KEY=EMPTY REMOTE_OPENAI_TOKENIZER_PATH=Qwen/Qwen3-4B LOCAL_SERVER_ENDPOINT=127.0.0.1 LOCAL_SERVER_PORT=8168 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --num-threads 1 --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --include-input-log --allow-overwrite && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores --partial-eval",
+      "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.",
+      "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624",
       "queue_status": "missing",
       "suite": "official-bfcl"
     },
@@ -48,5 +48,5 @@
       "suite": "ruler-long-context"
     }
   ],
-  "status": "blocked-pending-scored-artifacts"
+  "status": "scored-artifacts-present-repair-required"
 }

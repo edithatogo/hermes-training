@@ -1,40 +1,68 @@
 {
-  "run_id": "qwen3-v4-peft-official-bfcl-20260616",
-  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
-  "suite": "official-bfcl",
-  "status": "scored-artifact-present",
-  "scope": "selected official BFCL categories: simple_python,multiple,parallel with partial evaluation enabled",
-  "bfcl_model_id": "Qwen/Qwen3-4B-Instruct-2507-FC",
-  "runtime": {
-    "server": "mlx_lm.server",
-    "runtime_model_id": "Qwen/Qwen3-4B-MLX-4bit",
-    "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
-    "proxy": "scripts/openai_normalizing_proxy.py",
-    "proxy_model_override": "Qwen/Qwen3-4B-MLX-4bit",
-    "base_url": "http://127.0.0.1:18081/v1"
-  },
   "artifacts": {
-    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results",
-    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores",
-    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv",
-    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_non_live.csv",
-    "generate_log": "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-generate-20260624.log",
-    "evaluate_log": "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-evaluate-20260624.log"
+    "evaluate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/logs/bfcl-evaluate-text-prefix-selected.log",
+    "generate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/logs/bfcl-generate-text-prefix-selected.log",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores/data_non_live.csv",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores/data_overall.csv",
+    "proxy_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/logs/openai-normalizing-proxy-8168.log",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores",
+    "server_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/logs/mlx-server-8167.log"
   },
-  "metrics": {
-    "overall_acc": 0.0,
-    "non_live_python_simple_ast": 0.0,
-    "non_live_multiple_ast": 0.0,
-    "non_live_parallel_ast": 0.0,
-    "latency_mean_s": 95.24,
-    "latency_p95_s": 101.33
-  },
+  "bfcl_model_id": "Qwen/Qwen3-4B-Instruct-2507-FC",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "category_accuracy": {
-    "simple_python": 0.0,
-    "multiple": 0.0,
-    "parallel": 0.0
+    "multiple": 0.17,
+    "parallel": 0.0,
+    "simple_python": 0.265
   },
-  "generation_note": "BFCL reported that all selected test cases had been previously generated for Qwen/Qwen3-4B-Instruct-2507-FC; this run refreshed evaluation against the score files under the 20260616 official-candidate root.",
-  "next_action": "Treat the 0.000 selected-slice BFCL score as a repair target. Inspect raw BFCL outputs and create a runtime/profile or adapter repair track before making any BFCL claim.",
-  "publication_boundary": "Scored evidence for the selected local official-candidate BFCL slice only. This is not a full BFCL leaderboard claim and must not be reported as broad BFCL capability."
+  "generation_note": "Full selected BFCL generation completed for 800/800 rows with serialized local runtime access. Earlier endpoint reachability and concurrency blockers were cleared by serving the v4 MLX adapter behind the normalizing proxy, capping prompt cache, and running BFCL with --num-threads 1.",
+  "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:8168/v1 REMOTE_OPENAI_API_KEY=EMPTY REMOTE_OPENAI_TOKENIZER_PATH=Qwen/Qwen3-4B LOCAL_SERVER_ENDPOINT=127.0.0.1 LOCAL_SERVER_PORT=8168 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --num-threads 1 --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --include-input-log --allow-overwrite && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores --partial-eval",
+  "metrics": {
+    "latency_mean_s": 2.9,
+    "latency_p95_s": 4.35,
+    "non_live_multiple_ast": 0.17,
+    "non_live_overall_acc": 0.0646,
+    "non_live_parallel_ast": 0.0,
+    "non_live_python_simple_ast": 0.265,
+    "overall_acc": 0.0065
+  },
+  "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.",
+  "publication_boundary": "Scored evidence for the selected local official-candidate BFCL slice only. This is not a full BFCL leaderboard claim, not a broad BFCL capability claim, and not a passing Hermes tool-call result.",
+  "result_row_audit": {
+    "multiple": {
+      "blank_rows": 92,
+      "endpoint_error_like_rows": 0,
+      "rows": 200,
+      "tool_call_rows": 38
+    },
+    "parallel": {
+      "blank_rows": 33,
+      "endpoint_error_like_rows": 0,
+      "rows": 200,
+      "tool_call_rows": 61
+    },
+    "simple_python": {
+      "blank_rows": 116,
+      "endpoint_error_like_rows": 0,
+      "rows": 400,
+      "tool_call_rows": 113
+    }
+  },
+  "run_id": "qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624",
+  "runtime": {
+    "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+    "bfcl_threads": 1,
+    "completion_max_tokens_cap": 128,
+    "completion_prompt_suffix": "<tool_call>\\n",
+    "completion_text_prefix": "<tool_call>\\n",
+    "proxy": "scripts/openai_normalizing_proxy.py",
+    "proxy_base_url": "http://127.0.0.1:8168/v1",
+    "proxy_model_override": "Qwen/Qwen3-4B-MLX-4bit",
+    "runtime_model_id": "Qwen/Qwen3-4B-MLX-4bit",
+    "server": "mlx_lm.server"
+  },
+  "scope": "selected official BFCL categories: simple_python,multiple,parallel with partial evaluation enabled",
+  "status": "scored-artifact-present",
+  "suite": "official-bfcl"
 }

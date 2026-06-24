@@ -182,6 +182,7 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             result = load_json(BFCL_RESULT)
             output_root = str(Path(str(result["artifacts"]["score_root"])).parent)
             completion_artifact = str(result["artifacts"]["overall_csv"])
+            local_command = str(result.get("local_command") or local_command)
         rows.append(
             SuiteExecution(
                 suite=str(item["suite"]),
@@ -197,14 +198,18 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
     counts: dict[str, int] = {}
     for row in rows:
         counts[row.execution_status] = counts.get(row.execution_status, 0) + 1
+    all_scored = counts.get("scored-artifact-present", 0) == len(rows)
     return {
         "candidate": queue["candidate"],
         "adapter": queue["adapter"],
         "queue_source": display_path(queue_path),
-        "status": "blocked-pending-scored-artifacts",
+        "status": "scored-artifacts-present-repair-required" if all_scored else "blocked-pending-scored-artifacts",
         "counts": counts,
         "rows": [row.__dict__ for row in rows],
-        "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
+        "publication_boundary": (
+            "No public broad benchmark claim until every required suite has scored artifacts and the scored gates pass, "
+            "or until failures are explicitly excluded in publication materials."
+        ),
     }
 
 
