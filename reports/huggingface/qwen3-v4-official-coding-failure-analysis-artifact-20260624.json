@@ -1,0 +1,31 @@
+{
+  "artifact": "qwen3-v4-official-coding-failure-analysis-20260624",
+  "date": "2026-06-24",
+  "hf_dataset": "edithatogo/hermes-training-artifacts",
+  "hf_path": "qwen3-v4-official-coding-failure-analysis-20260624",
+  "hf_revision": "a6b40d3f61cbe80b18b861884d72ee5d578492e4",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/a6b40d3f61cbe80b18b861884d72ee5d578492e4/qwen3-v4-official-coding-failure-analysis-20260624",
+  "publication_boundary": "Evidence-only private artifact. This is diagnostic failure analysis for the scored EvalPlus rerun, not a new coding score or model-quality claim.",
+  "included_evidence": [
+    "qwen3-v4-official-coding-failure-analysis-20260624.json",
+    "qwen3-v4-official-coding-failure-analysis-20260624.md",
+    "qwen3-v4-official-coding-evalplus-rerun-20260624.json",
+    "qwen3-v4-official-coding-evalplus-rerun-20260624.md",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.json",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.md",
+    "SSD-backed generated_eval_results.json",
+    "SSD-backed generation-summary.json",
+    "SSD-backed EvalPlus scoring log"
+  ],
+  "gate_summary": {
+    "humaneval_base_pass_at_1": 0.518,
+    "humaneval_plus_pass_at_1": 0.482,
+    "pass_both": 79,
+    "base_fail": 79,
+    "plus_only_fail": 6,
+    "empty_completion": 23,
+    "syntax_or_pre_test_failure": 13,
+    "targeted_repair_worthwhile": true,
+    "fine_tune_immediately": false
+  }
+}

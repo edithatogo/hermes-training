@@ -70,3 +70,15 @@ source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/herme
 - Progress: model loaded `true`, contexts built `20`, generation completed `0`
 - Report: `reports/benchmark/official-candidates/qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.json`
 - Claim boundary: This is a runtime-blocker artifact, not a RULER score. The only scored long-context evidence remains ctx4096 niah_single_1 = 1.000 over 500 samples. Do not claim broader long-context capability from this ctx8192 attempt.
+
+## Latest Coding Failure Analysis
+
+- Pass both: `79`
+- Base failures: `79`
+- Plus-only failures: `6`
+- Empty completions: `23`
+- Syntax/pre-test failures: `13`
+- Targeted repair worthwhile: `true`
+- Fine-tune immediately: `false`
+- Report: `reports/benchmark/official-candidates/qwen3-v4-official-coding-failure-analysis-20260624.json`
+- Claim boundary: This analysis is diagnostic. The scored coding claim remains HumanEval pass@1 0.518 and HumanEval+ pass@1 0.482/0.488 depending on printed versus JSON precision.

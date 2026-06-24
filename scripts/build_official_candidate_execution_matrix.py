@@ -31,6 +31,9 @@ CODING_RESULTS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
 )
+CODING_FAILURE_ANALYSIS = (
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-failure-analysis-20260624.json"
+)
 RULER_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx4096-full-result-20260624.json"
 RULER_CTX8192_BLOCKER = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-ruler-ctx8192-runtime-blocker-20260624.json"
@@ -239,6 +242,18 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             "observed_progress": blocker["observed_progress"],
             "claim_boundary": blocker["publication_boundary"],
         }
+    if CODING_FAILURE_ANALYSIS.exists():
+        analysis = load_json(CODING_FAILURE_ANALYSIS)
+        matrix["latest_coding_analysis"] = {
+            "status_counts": analysis["status_counts"],
+            "empty_completion_count": analysis["failure_categories"]["empty_completion"]["count"],
+            "syntax_or_pre_test_failure_count": analysis["failure_categories"]["syntax_or_pre_test_failure"]["count"],
+            "plus_only_fail_count": analysis["status_counts"]["plus_only_fail"],
+            "targeted_repair_worthwhile": analysis["repair_decision"]["targeted_coding_repair_worthwhile"],
+            "fine_tune_immediately": analysis["repair_decision"]["fine_tune_immediately"],
+            "report": display_path(CODING_FAILURE_ANALYSIS),
+            "claim_boundary": analysis["repair_decision"]["claim_boundary"],
+        }
     return matrix
 
 
@@ -305,6 +320,24 @@ def render_markdown(matrix: dict[str, Any]) -> str:
                 f"- Progress: model loaded `{str(progress['model_loaded']).lower()}`, contexts built `{progress['contexts_built']}`, generation completed `{progress['generate_until_completed']}`",
                 f"- Report: `{ruler_expansion['report']}`",
                 f"- Claim boundary: {ruler_expansion['claim_boundary']}",
+                "",
+            ]
+        )
+    coding = matrix.get("latest_coding_analysis")
+    if isinstance(coding, dict):
+        lines.extend(
+            [
+                "## Latest Coding Failure Analysis",
+                "",
+                f"- Pass both: `{coding['status_counts']['pass_both']}`",
+                f"- Base failures: `{coding['status_counts']['base_fail']}`",
+                f"- Plus-only failures: `{coding['plus_only_fail_count']}`",
+                f"- Empty completions: `{coding['empty_completion_count']}`",
+                f"- Syntax/pre-test failures: `{coding['syntax_or_pre_test_failure_count']}`",
+                f"- Targeted repair worthwhile: `{str(coding['targeted_repair_worthwhile']).lower()}`",
+                f"- Fine-tune immediately: `{str(coding['fine_tune_immediately']).lower()}`",
+                f"- Report: `{coding['report']}`",
+                f"- Claim boundary: {coding['claim_boundary']}",
                 "",
             ]
         )

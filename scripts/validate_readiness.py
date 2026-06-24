@@ -274,6 +274,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_official_bfcl_preflight.py",
         ROOT / "scripts/check_official_coding_preflight.py",
         ROOT / "scripts/validate_official_coding_preflight.py",
+        ROOT / "scripts/validate_official_coding_failure_analysis.py",
         ROOT / "scripts/generate_humaneval_mlx_solutions.py",
         ROOT / "scripts/materialize_safety_refusal_suite.py",
         ROOT / "scripts/validate_safety_refusal_suite.py",
@@ -949,6 +950,18 @@ def check_official_coding_preflight(failures: list[str]) -> None:
         ok("official coding preflight")
 
 
+def check_official_coding_failure_analysis(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_official_coding_failure_analysis.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"official coding failure analysis: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("official coding failure analysis")
+
+
 def check_safety_refusal_suite(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_safety_refusal_suite.py")],
@@ -1262,6 +1275,7 @@ def main() -> int:
     check_official_candidate_suite_queue(failures)
     check_official_bfcl_preflight(failures)
     check_official_coding_preflight(failures)
+    check_official_coding_failure_analysis(failures)
     check_safety_refusal_suite(failures)
     check_safety_refusal_result_report(failures)
     check_safety_refusal_repair_queue(failures)

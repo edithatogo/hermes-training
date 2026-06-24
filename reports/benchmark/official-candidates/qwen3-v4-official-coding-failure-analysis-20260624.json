@@ -1,0 +1,203 @@
+{
+  "artifact": "qwen3-v4-official-coding-failure-analysis-20260624",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "suite": "official-coding",
+  "dataset": "humaneval",
+  "source_result": "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
+  "generated_samples": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated.jsonl",
+  "evalplus_result_json": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generated_eval_results.json",
+  "generation_summary": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/coding/qwen3-v4-peft-official-coding-rerun-20260624/generation-summary.json",
+  "scores": {
+    "humaneval_base_pass_at_1": 0.5182926829268293,
+    "humaneval_plus_pass_at_1": 0.4878048780487805,
+    "printed_humaneval_base_pass_at_1": 0.518,
+    "printed_humaneval_plus_pass_at_1": 0.482,
+    "task_count": 164,
+    "base_pass_count": 85,
+    "plus_pass_count": 80
+  },
+  "status_counts": {
+    "pass_both": 79,
+    "base_fail": 79,
+    "plus_only_fail": 6
+  },
+  "failure_categories": {
+    "algorithmic_base_failure": {
+      "count": 66,
+      "task_ids": [
+        "HumanEval/1",
+        "HumanEval/2",
+        "HumanEval/6",
+        "HumanEval/10",
+        "HumanEval/20",
+        "HumanEval/26",
+        "HumanEval/32",
+        "HumanEval/39",
+        "HumanEval/54",
+        "HumanEval/59",
+        "HumanEval/63",
+        "HumanEval/64",
+        "HumanEval/65",
+        "HumanEval/67",
+        "HumanEval/69",
+        "HumanEval/71",
+        "HumanEval/72",
+        "HumanEval/75",
+        "HumanEval/77",
+        "HumanEval/80",
+        "HumanEval/81",
+        "HumanEval/82",
+        "HumanEval/83",
+        "HumanEval/88",
+        "HumanEval/89",
+        "HumanEval/90",
+        "HumanEval/92",
+        "HumanEval/95",
+        "HumanEval/99",
+        "HumanEval/101",
+        "HumanEval/102",
+        "HumanEval/104",
+        "HumanEval/105",
+        "HumanEval/106",
+        "HumanEval/109",
+        "HumanEval/110",
+        "HumanEval/114",
+        "HumanEval/120",
+        "HumanEval/121",
+        "HumanEval/124",
+        "HumanEval/126",
+        "HumanEval/128",
+        "HumanEval/129",
+        "HumanEval/130",
+        "HumanEval/131",
+        "HumanEval/132",
+        "HumanEval/133",
+        "HumanEval/134",
+        "HumanEval/135",
+        "HumanEval/137"
+      ],
+      "notes": "At least one base test failed, so these cannot be treated as EvalPlus edge-case-only misses."
+    },
+    "empty_completion": {
+      "count": 23,
+      "task_ids": [
+        "HumanEval/32",
+        "HumanEval/39",
+        "HumanEval/54",
+        "HumanEval/63",
+        "HumanEval/71",
+        "HumanEval/72",
+        "HumanEval/75",
+        "HumanEval/80",
+        "HumanEval/82",
+        "HumanEval/88",
+        "HumanEval/102",
+        "HumanEval/110",
+        "HumanEval/124",
+        "HumanEval/128",
+        "HumanEval/132",
+        "HumanEval/134",
+        "HumanEval/137",
+        "HumanEval/138",
+        "HumanEval/141",
+        "HumanEval/143",
+        "HumanEval/144",
+        "HumanEval/154",
+        "HumanEval/159"
+      ],
+      "notes": "Empty or whitespace-only completions are generation/protocol failures and should be addressed before fine-tuning."
+    },
+    "syntax_or_pre_test_failure": {
+      "count": 13,
+      "task_ids": [
+        "HumanEval/11",
+        "HumanEval/50",
+        "HumanEval/91",
+        "HumanEval/93",
+        "HumanEval/94",
+        "HumanEval/96",
+        "HumanEval/118",
+        "HumanEval/119",
+        "HumanEval/122",
+        "HumanEval/123",
+        "HumanEval/125",
+        "HumanEval/127",
+        "HumanEval/156"
+      ],
+      "notes": "EvalPlus recorded fail status without concrete failing tests; static parsing of the full solution indicates syntax/pre-test failure."
+    },
+    "likely_truncated_or_runaway": {
+      "count": 12,
+      "task_ids": [
+        "HumanEval/6",
+        "HumanEval/11",
+        "HumanEval/12",
+        "HumanEval/13",
+        "HumanEval/31",
+        "HumanEval/42",
+        "HumanEval/50",
+        "HumanEval/81",
+        "HumanEval/94",
+        "HumanEval/96",
+        "HumanEval/129",
+        "HumanEval/163"
+      ],
+      "notes": "Long completions or unterminated generated code suggest max-token/stop-sequence or prompt-boundary issues."
+    },
+    "edge_case_generalization": {
+      "count": 6,
+      "task_ids": [
+        "HumanEval/22",
+        "HumanEval/25",
+        "HumanEval/46",
+        "HumanEval/55",
+        "HumanEval/76",
+        "HumanEval/97"
+      ],
+      "notes": "These pass HumanEval base tests but fail EvalPlus extras, so they are the cleanest candidates for targeted data repair."
+    },
+    "debug_print_or_examples": {
+      "count": 5,
+      "task_ids": [
+        "HumanEval/3",
+        "HumanEval/6",
+        "HumanEval/17",
+        "HumanEval/55",
+        "HumanEval/152"
+      ],
+      "notes": "Generated examples or debug prints leak into completion bodies."
+    },
+    "missing_return": {
+      "count": 14,
+      "task_ids": [
+        "HumanEval/59",
+        "HumanEval/90",
+        "HumanEval/91",
+        "HumanEval/93",
+        "HumanEval/99",
+        "HumanEval/114",
+        "HumanEval/118",
+        "HumanEval/119",
+        "HumanEval/122",
+        "HumanEval/123",
+        "HumanEval/129",
+        "HumanEval/130",
+        "HumanEval/156",
+        "HumanEval/163"
+      ],
+      "notes": "Some generated bodies start plausible computations but never return a value."
+    }
+  },
+  "repair_decision": {
+    "targeted_coding_repair_worthwhile": true,
+    "fine_tune_immediately": false,
+    "reason": "A large fraction of failures are generation/protocol failures: 23 empty completions, 13 syntax/pre-test failures, and 12 likely truncation/runaway cases. These should be attacked with a coding generation repair pass before creating new SFT data. Only 6 tasks are clean plus-only edge-case failures.",
+    "recommended_order": [
+      "Run a coding-generation repair experiment with stricter completion stop rules, no examples/debug text, non-empty body validation, and a larger token budget only where truncation is detected.",
+      "Regenerate and re-score the failed-only set before retraining.",
+      "If empty/syntax/truncation failures persist, create a narrow repair dataset focused on empty-body avoidance, valid indented Python bodies, exact function-body completion, and the 6 plus-only edge cases.",
+      "Do not make a broad coding claim until a full EvalPlus rerun improves and the other official-candidate suites remain fail-closed."
+    ],
+    "claim_boundary": "This analysis is diagnostic. The scored coding claim remains HumanEval pass@1 0.518 and HumanEval+ pass@1 0.482/0.488 depending on printed versus JSON precision."
+  }
+}
