@@ -26,6 +26,7 @@ RUNTIME_ATTEMPTS = {
     "ruler-long-context": ROOT
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
+BFCL_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-result-20260624.json"
 CODING_RESULTS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
@@ -101,6 +102,18 @@ def suite_status(item: dict[str, Any]) -> tuple[str, str, str]:
             "Pinned safety/refusal manifest is missing.",
             "Regenerate the safety/refusal suite manifest.",
         )
+    if suite == "official-bfcl" and BFCL_RESULT.exists():
+        result = load_json(BFCL_RESULT)
+        if result.get("status") == "scored-artifact-present":
+            metrics = result["metrics"]
+            return (
+                "scored-artifact-present",
+                (
+                    "BFCL selected-slice scored artifact exists; "
+                    f"overall accuracy is {float(metrics['overall_acc']):.3f} across simple_python,multiple,parallel."
+                ),
+                str(result["next_action"]),
+            )
     coding_result = first_existing(CODING_RESULTS)
     if suite == "official-coding" and coding_result:
         result = load_json(coding_result)
@@ -165,6 +178,10 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             output_root = str(Path(str(result["generated_samples"]["path"])).parent)
             completion_artifact = f"{result['generated_samples']['path']} and {result['result_json']}"
             local_command = str(result["command"])
+        if str(item["suite"]) == "official-bfcl" and BFCL_RESULT.exists():
+            result = load_json(BFCL_RESULT)
+            output_root = str(Path(str(result["artifacts"]["score_root"])).parent)
+            completion_artifact = str(result["artifacts"]["overall_csv"])
         rows.append(
             SuiteExecution(
                 suite=str(item["suite"]),

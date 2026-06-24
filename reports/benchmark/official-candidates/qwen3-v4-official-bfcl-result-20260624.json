@@ -1,0 +1,40 @@
+{
+  "run_id": "qwen3-v4-peft-official-bfcl-20260616",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "suite": "official-bfcl",
+  "status": "scored-artifact-present",
+  "scope": "selected official BFCL categories: simple_python,multiple,parallel with partial evaluation enabled",
+  "bfcl_model_id": "Qwen/Qwen3-4B-Instruct-2507-FC",
+  "runtime": {
+    "server": "mlx_lm.server",
+    "runtime_model_id": "Qwen/Qwen3-4B-MLX-4bit",
+    "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+    "proxy": "scripts/openai_normalizing_proxy.py",
+    "proxy_model_override": "Qwen/Qwen3-4B-MLX-4bit",
+    "base_url": "http://127.0.0.1:18081/v1"
+  },
+  "artifacts": {
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_non_live.csv",
+    "generate_log": "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-generate-20260624.log",
+    "evaluate_log": "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-evaluate-20260624.log"
+  },
+  "metrics": {
+    "overall_acc": 0.0,
+    "non_live_python_simple_ast": 0.0,
+    "non_live_multiple_ast": 0.0,
+    "non_live_parallel_ast": 0.0,
+    "latency_mean_s": 95.24,
+    "latency_p95_s": 101.33
+  },
+  "category_accuracy": {
+    "simple_python": 0.0,
+    "multiple": 0.0,
+    "parallel": 0.0
+  },
+  "generation_note": "BFCL reported that all selected test cases had been previously generated for Qwen/Qwen3-4B-Instruct-2507-FC; this run refreshed evaluation against the score files under the 20260616 official-candidate root.",
+  "next_action": "Treat the 0.000 selected-slice BFCL score as a repair target. Inspect raw BFCL outputs and create a runtime/profile or adapter repair track before making any BFCL claim.",
+  "publication_boundary": "Scored evidence for the selected local official-candidate BFCL slice only. This is not a full BFCL leaderboard claim and must not be reported as broad BFCL capability."
+}

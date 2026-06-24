@@ -54,7 +54,8 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             with (
-                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULT", root / "missing-coding.json"),
+                mock.patch("scripts.build_official_candidate_execution_matrix.BFCL_RESULT", root / "missing-bfcl.json"),
+                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULTS", (root / "missing-coding.json",)),
                 mock.patch("scripts.build_official_candidate_execution_matrix.RULER_RESULT", root / "missing-ruler.json"),
             ):
                 matrix = build_matrix(self.write_queue(root))
@@ -140,12 +141,44 @@ class OfficialCandidateExecutionMatrixTests(unittest.TestCase):
                     "scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS",
                     {"official-coding": coding_attempt},
                 ),
-                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULT", root / "missing-coding.json"),
+                mock.patch("scripts.build_official_candidate_execution_matrix.CODING_RESULTS", (root / "missing-coding.json",)),
             ):
                 matrix = build_matrix(self.write_queue(root))
         rows = {row["suite"]: row for row in matrix["rows"]}
         self.assertEqual(rows["official-coding"]["execution_status"], "blocked-runtime")
         self.assertIn("MLX model acquisition", rows["official-coding"]["blocker"])
+        self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
+
+    @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")
+    def test_matrix_records_bfcl_scored_artifact(self, mocked_safety_summary: mock.Mock) -> None:
+        mocked_safety_summary.exists.return_value = True
+        mocked_safety_summary.read_text.return_value = json.dumps({"pass_rate": 0.125})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bfcl_result = root / "bfcl-result.json"
+            bfcl_result.write_text(
+                json.dumps(
+                    {
+                        "status": "scored-artifact-present",
+                        "metrics": {"overall_acc": 0.0},
+                        "artifacts": {
+                            "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores",
+                            "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv",
+                        },
+                        "next_action": "Inspect raw BFCL outputs.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with (
+                mock.patch("scripts.build_official_candidate_execution_matrix.PREFLIGHTS", {}),
+                mock.patch("scripts.build_official_candidate_execution_matrix.RUNTIME_ATTEMPTS", {}),
+                mock.patch("scripts.build_official_candidate_execution_matrix.BFCL_RESULT", bfcl_result),
+            ):
+                matrix = build_matrix(self.write_queue(root))
+        rows = {row["suite"]: row for row in matrix["rows"]}
+        self.assertEqual(rows["official-bfcl"]["execution_status"], "scored-artifact-present")
+        self.assertIn("overall accuracy is 0.000", rows["official-bfcl"]["blocker"])
         self.assertEqual(validate_payload(matrix, Path("matrix.json")), [])
 
     @mock.patch("scripts.build_official_candidate_execution_matrix.SAFETY_SUMMARY")

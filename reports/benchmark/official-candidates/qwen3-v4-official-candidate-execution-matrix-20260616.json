@@ -2,18 +2,17 @@
   "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
   "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
   "counts": {
-    "blocked-preflight": 1,
-    "scored-artifact-present": 3
+    "scored-artifact-present": 4
   },
   "publication_boundary": "No public broad benchmark claim until every required suite has scored artifacts or an explicit exclusion.",
   "queue_source": "reports/benchmark/official-candidates/qwen3-v4-official-candidate-suite-queue-20260616.json",
   "rows": [
     {
-      "blocker": "OpenAI-compatible endpoint is not reachable/configured",
-      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores",
-      "execution_status": "blocked-preflight",
+      "blocker": "BFCL selected-slice scored artifact exists; overall accuracy is 0.000 across simple_python,multiple,parallel.",
+      "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores/data_overall.csv",
+      "execution_status": "scored-artifact-present",
       "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:<port>/v1 REMOTE_OPENAI_API_KEY=EMPTY /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --include-input-log && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616/scores --partial-eval",
-      "next_action": "Start the v4 adapter endpoint, then run the isolated BFCL env against simple_python,multiple,parallel before broad BFCL categories.",
+      "next_action": "Treat the 0.000 selected-slice BFCL score as a repair target. Inspect raw BFCL outputs and create a runtime/profile or adapter repair track before making any BFCL claim.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-20260616",
       "queue_status": "missing",
       "suite": "official-bfcl"

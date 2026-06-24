@@ -17,7 +17,12 @@ class GenerateHumanEvalMlxSolutionsTests(unittest.TestCase):
         self.assertEqual([task_id for task_id, _ in ordered_problem_items(problems)], ["HumanEval/1", "HumanEval/2", "HumanEval/10"])
 
     def test_build_prompt_preserves_problem_prefix(self) -> None:
-        prompt = build_prompt({"prompt": "def add(a, b):\n    \"\"\"Return sum.\"\"\""})
+        prompt = build_prompt({"prompt": "def add(a, b):\n    \"\"\"Return sum.\"\"\""}, "completion")
+        self.assertTrue(prompt.startswith("def add"))
+        self.assertNotIn("Return only the code", prompt)
+
+    def test_build_instruction_prompt_adds_generation_guidance(self) -> None:
+        prompt = build_prompt({"prompt": "def add(a, b):\n    \"\"\"Return sum.\"\"\""}, "instruction")
         self.assertTrue(prompt.startswith("def add"))
         self.assertIn("Return only the code", prompt)
 

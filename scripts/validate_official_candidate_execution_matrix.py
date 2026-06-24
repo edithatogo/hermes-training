@@ -54,8 +54,8 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
             failures.append(f"{suite}: completion_artifact must be SSD-backed")
         if not str(row.get("local_command", "")).strip():
             failures.append(f"{suite}: local_command is missing")
-    if by_suite.get("official-bfcl", {}).get("execution_status") != "blocked-preflight":
-        failures.append("official-bfcl should remain blocked until endpoint preflight is reachable")
+    if by_suite.get("official-bfcl", {}).get("execution_status") not in {"blocked-preflight", "ready-for-runtime", "scored-artifact-present"}:
+        failures.append("official-bfcl should remain blocked, ready, or scored when BFCL artifacts exist")
     if by_suite.get("official-coding", {}).get("execution_status") not in {
         "blocked-preflight",
         "blocked-runtime",
