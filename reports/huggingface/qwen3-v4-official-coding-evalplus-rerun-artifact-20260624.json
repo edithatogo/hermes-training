@@ -6,13 +6,21 @@
   "path_prefix": "qwen3-v4-official-coding-evalplus-rerun-20260624/",
   "publication_boundary": "Evidence-only private artifact target for completed EvalPlus coding rerun scoring. Do not use as a broad model quality claim.",
   "staged_local_path": "/tmp/qwen3-v4-official-coding-evalplus-rerun-20260624",
-  "status": "blocked-auth",
+  "status": "uploaded",
   "upload_attempt": {
     "command": "hf upload edithatogo/hermes-training-artifacts /tmp/qwen3-v4-official-coding-evalplus-rerun-20260624 qwen3-v4-official-coding-evalplus-rerun-20260624 --repo-type dataset --private --commit-message 'Add Qwen3 v4 EvalPlus rerun evidence' --json",
-    "error": "401 Unauthorized",
-    "token_env_present": false
+    "error": "",
+    "token_env_present": true,
+    "url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/79d1189f7a11e54efb0408922d470c2d76eb23dd"
   },
-  "uploaded_files": [],
+  "uploaded_files": [
+    "report.json",
+    "report.md",
+    "generated.jsonl",
+    "generated_eval_results.json",
+    "generation-summary.json",
+    "evalplus-humaneval-no-memlimit.log"
+  ],
   "staged_files": [
     "report.json",
     "report.md",

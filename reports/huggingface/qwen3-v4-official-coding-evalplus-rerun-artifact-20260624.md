@@ -2,13 +2,12 @@
 
 HF dataset repo: `edithatogo/hermes-training-artifacts`
 Visibility target: `private`
-Status: `blocked-auth`
+Status: `uploaded`
 Path prefix target: `qwen3-v4-official-coding-evalplus-rerun-20260624/`
 
 The raw EvalPlus rerun evidence was staged locally at
-`/tmp/qwen3-v4-official-coding-evalplus-rerun-20260624`, but the upload could
-not be completed because the active shell is not authenticated with Hugging
-Face.
+`/tmp/qwen3-v4-official-coding-evalplus-rerun-20260624` and uploaded to the
+private Hugging Face dataset artifact repo.
 
 ## Upload Attempt
 
@@ -22,7 +21,8 @@ hf upload edithatogo/hermes-training-artifacts \
   --json
 ```
 
-Result: `401 Unauthorized`.
+Result:
+`https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/79d1189f7a11e54efb0408922d470c2d76eb23dd`
 
 ## Staged Files
 
