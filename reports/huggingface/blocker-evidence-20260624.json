@@ -1,0 +1,20 @@
+{
+  "artifact_id": "blocker-evidence-20260624",
+  "repo": "edithatogo/hermes-training-artifacts",
+  "repo_type": "dataset",
+  "visibility": "private",
+  "status": "uploaded",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/a6f5626a5b3e157395622530b1b1b192a61f4592",
+  "path_prefix": "blocker-evidence-20260624/",
+  "publication_boundary": "Evidence-only reports/logs for BFCL zero-score and Qwen3 v8 runtime-profile smoke blockers. No weights were uploaded and no public benchmark/safety claim is made.",
+  "included_paths": [
+    "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-result-20260624.json",
+    "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-result-20260624.md",
+    "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-generate-20260624.log",
+    "reports/benchmark/official-candidates/logs/qwen3-v4-official-bfcl-evaluate-20260624.log",
+    "reports/benchmark/official-candidates/qwen3-v8-runtime-profile-prefill-smoke-20260624.json",
+    "reports/benchmark/official-candidates/qwen3-v8-runtime-profile-prefill-smoke-20260624.md",
+    "conductor/tracks/qwen3-v4-bfcl-zero-score-repair_20260624/",
+    "conductor/tracks/qwen3-v9-runtime-profile-refusal-marker-repair_20260624/"
+  ]
+}
