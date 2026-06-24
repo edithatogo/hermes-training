@@ -2,8 +2,8 @@
 
 HF dataset repo: `edithatogo/hermes-training-artifacts`
 Visibility: `private`
-Revision: `11cc7396051091fb9213b872185ef86f166bbeab`
-Commit: `https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/11cc7396051091fb9213b872185ef86f166bbeab`
+Revision: `f86aa4c9c90deccc4eafb72dfa5f0d775e51d0cb`
+Commit: `https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/f86aa4c9c90deccc4eafb72dfa5f0d775e51d0cb`
 Path prefix: `qwen3-bfcl-safety-blocker-resolution-20260624/`
 GitHub source commit: `62af092d2d97b096ede4cfeaa9d416b9f5995453`
 

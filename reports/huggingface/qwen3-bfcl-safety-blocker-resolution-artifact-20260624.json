@@ -1,11 +1,11 @@
 {
   "artifact_id": "qwen3-bfcl-safety-blocker-resolution-20260624",
   "artifact_type": "private-benchmark-evidence",
-  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/11cc7396051091fb9213b872185ef86f166bbeab",
+  "commit_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/commit/f86aa4c9c90deccc4eafb72dfa5f0d775e51d0cb",
   "github_commit": "62af092d2d97b096ede4cfeaa9d416b9f5995453",
   "hf_dataset_repo": "edithatogo/hermes-training-artifacts",
   "hf_private": true,
-  "hf_revision": "11cc7396051091fb9213b872185ef86f166bbeab",
+  "hf_revision": "f86aa4c9c90deccc4eafb72dfa5f0d775e51d0cb",
   "path_prefix": "qwen3-bfcl-safety-blocker-resolution-20260624/",
   "publication_boundary": "Evidence-only private artifact. No adapter weights were uploaded. Public v9 weights, BFCL claims, and safety/refusal claims remain blocked by failed gates.",
   "status": "uploaded",
