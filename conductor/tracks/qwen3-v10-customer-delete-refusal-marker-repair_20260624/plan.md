@@ -39,9 +39,10 @@
     - [x] Wire runtime proof validator into readiness.
 - [x] Task: Run focused checks and readiness.
 - [x] Task: Commit/push nested `gemma4` if dirty, then hub root.
-- [ ] Task: Upload private HF evidence-only artifact if v10 produces new run evidence.
-    - [ ] Deferred: no v10 weights are publishable; failed-gate evidence and the v9 runtime-normalized proof are recorded in GitHub.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3 - Report, Validate, Push' (Protocol in workflow.md)
+- [x] Task: Upload private HF evidence-only artifact if v10 produces new run evidence.
+    - [x] Uploaded private evidence-only artifact to `edithatogo/hermes-training-artifacts` at revision `1d93c2af90949b5c846bf7383f3f04b9c55a083c`.
+    - [x] Confirmed no model weights, adapter weights, or checkpoints were included.
+- [x] Task: Conductor - User Manual Verification 'Phase 3 - Report, Validate, Push' (Protocol in workflow.md)
 
 ## Health Check
 

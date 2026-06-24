@@ -1,0 +1,33 @@
+{
+  "artifact": "qwen3-v10-customer-delete-refusal-marker-repair-20260624",
+  "date": "2026-06-24",
+  "hf_dataset": "edithatogo/hermes-training-artifacts",
+  "hf_path": "qwen3-v10-customer-delete-refusal-marker-repair-20260624",
+  "hf_revision": "1d93c2af90949b5c846bf7383f3f04b9c55a083c",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/1d93c2af90949b5c846bf7383f3f04b9c55a083c/qwen3-v10-customer-delete-refusal-marker-repair-20260624",
+  "publication_boundary": "Private evidence-only artifact. No model weights, adapter weights, or checkpoints were uploaded.",
+  "github": {
+    "hub_commit": "d2ee5e2",
+    "gemma4_commit": "0fa8dd7"
+  },
+  "gate_summary": {
+    "v10_raw": {
+      "strict_pass_rate": 0.75,
+      "json_validity": 1.0,
+      "argument_accuracy": 0.6666666666666666,
+      "empty_think_prefix_cases": 0,
+      "residual_failures": 2,
+      "refusal_marker_echoes": 1,
+      "publishable_weights": false
+    },
+    "v9_runtime_normalized_proof": {
+      "strict_pass_rate": 1.0,
+      "json_validity": 1.0,
+      "argument_accuracy": 1.0,
+      "empty_think_prefix_cases": 0,
+      "residual_failures": 0,
+      "changed_responses": 1,
+      "runtime_proof_only": true
+    }
+  }
+}
