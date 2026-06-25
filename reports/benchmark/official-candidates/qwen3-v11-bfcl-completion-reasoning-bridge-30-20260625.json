@@ -1,0 +1,64 @@
+{
+  "artifacts": {
+    "evaluate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/logs/bfcl-evaluate-v11-completion-reasoning-bridge-30.log",
+    "generate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/logs/bfcl-generate-v11-completion-reasoning-bridge-30.log",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/scores/data_non_live.csv",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/scores/data_overall.csv",
+    "proxy_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/logs/openai-normalizing-proxy-8180.log",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/scores",
+    "server_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625/logs/mlx-server-8179.log"
+  },
+  "candidate": "qwen3-4b-strict-toolcall-v11-bfcl-selected-repair",
+  "decision": {
+    "bfcl_claim_allowed": false,
+    "next_action": "Instrument the BFCL OpenAI handler or MLX completions response mapping directly. The proxy-level completions reasoning promotion is implemented and unit-tested, but the 30-case BFCL output shape did not change.",
+    "target_met": false
+  },
+  "implementation": {
+    "flag": "--completion-reasoning-tool-call-text",
+    "script": "scripts/openai_normalizing_proxy.py",
+    "tests": [
+      "tests/test_openai_normalizing_proxy.py::OpenAINormalizingProxyTests.test_completion_reasoning_tool_call_text_promotes_over_prose",
+      "scripts/openai_normalizing_proxy.py --self-test"
+    ]
+  },
+  "publication_boundary": "Private fail-closed runtime repair evidence only. This is not a BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+  "row_audit": {
+    "multiple": {
+      "blank_result": 3,
+      "decoded_empty": 10,
+      "prose_no_tool": 7,
+      "reasoning_tool": 10,
+      "rows": 10,
+      "visible_tool": 0
+    },
+    "parallel": {
+      "blank_result": 1,
+      "decoded_empty": 7,
+      "decoded_one_call_invalid": 3,
+      "prose_no_tool": 6,
+      "reasoning_tool": 7,
+      "rows": 10,
+      "visible_tool": 3
+    },
+    "simple_python": {
+      "blank_result": 1,
+      "decoded_empty": 9,
+      "prose_no_tool": 8,
+      "reasoning_tool": 9,
+      "rows": 10,
+      "visible_tool": 1
+    }
+  },
+  "run_id": "qwen3-v11-bfcl-completion-reasoning-bridge-30-20260625",
+  "scores": {
+    "multiple_ast": 0.0,
+    "non_live_overall_acc": 0.0083,
+    "overall_acc": 0.0008,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 0.1
+  },
+  "status": "proxy-implemented-output-unchanged",
+  "unchanged_from_v11_bridge": true
+}

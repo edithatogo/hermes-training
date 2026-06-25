@@ -10,6 +10,7 @@ from scripts.openai_normalizing_proxy import (
     normalize_completions_reasoning_content,
     prefix_completions_text,
     promote_chat_reasoning_tool_call_content,
+    promote_completions_reasoning_tool_call_text,
 )
 
 
@@ -54,6 +55,27 @@ class OpenAINormalizingProxyTests(unittest.TestCase):
         self.assertEqual(updated["choices"][0]["text"], "<tool_call>\n{\"name\":\"demo.tool\"}")
         updated, count = prefix_completions_text(updated, "<tool_call>\n")
         self.assertEqual(count, 0)
+
+    def test_completion_reasoning_tool_call_text_promotes_over_prose(self) -> None:
+        payload = {
+            "choices": [
+                {
+                    "text": "The requested action is complete.",
+                    "reasoning_content": '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>',
+                },
+                {
+                    "text": '<tool_call>\n{"name":"already.visible","arguments":{}}\n</tool_call>',
+                    "reasoning_content": '<tool_call>\n{"name":"hidden.tool","arguments":{}}\n</tool_call>',
+                },
+            ]
+        }
+        updated, count = promote_completions_reasoning_tool_call_text(payload)
+        self.assertEqual(count, 1)
+        self.assertEqual(
+            updated["choices"][0]["text"],
+            '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>',
+        )
+        self.assertIn("already.visible", updated["choices"][1]["text"])
 
     def test_extract_first_tool_call_block(self) -> None:
         text = 'prefix <tool_call>\n{"name":"demo.one"}\n</tool_call> suffix <tool_call>{}</tool_call>'

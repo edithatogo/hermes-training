@@ -182,6 +182,29 @@ def normalize_completions_reasoning_content(payload: dict[str, Any], prefix: str
     return payload, updated_count
 
 
+def promote_completions_reasoning_tool_call_text(payload: dict[str, Any]) -> tuple[dict[str, Any], int]:
+    """Promote a complete completions reasoning_content tool call into scored text."""
+    choices = payload.get("choices")
+    if not isinstance(choices, list):
+        return payload, 0
+    updated_count = 0
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        text = choice.get("text")
+        if isinstance(text, str) and "<tool_call>" in text and "</tool_call>" in text:
+            continue
+        reasoning = choice.get("reasoning_content")
+        if not isinstance(reasoning, str):
+            continue
+        tool_call = extract_first_tool_call_block(reasoning)
+        if not tool_call:
+            continue
+        choice["text"] = tool_call
+        updated_count += 1
+    return payload, updated_count
+
+
 def prefix_completions_text(payload: dict[str, Any], prefix: str) -> tuple[dict[str, Any], int]:
     """Prepend a prefix to non-empty completions text fields when missing."""
     if not prefix:
@@ -297,6 +320,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         normalized_count = 0
         chat_reasoning_tool_call_count = 0
         reasoning_text_count = 0
+        completion_reasoning_tool_call_count = 0
         text_prefix_count = 0
         content_type = response.headers.get("Content-Type", "")
         if (
@@ -326,6 +350,10 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                         payload,
                         self.server.completion_reasoning_prefix,
                     )
+                    if self.server.completion_reasoning_tool_call_text:
+                        payload, completion_reasoning_tool_call_count = promote_completions_reasoning_tool_call_text(
+                            payload
+                        )
                     payload, text_prefix_count = prefix_completions_text(
                         payload,
                         self.server.completion_text_prefix,
@@ -346,6 +374,10 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
         self.send_header("X-Hermes-Capped-Max-Tokens-Count", str(capped_max_tokens_count))
         self.send_header("X-Hermes-Completion-Prompt-Suffix-Count", str(self.server.last_completion_prompt_suffix_count))
         self.send_header("X-Hermes-Completion-Reasoning-Text-Count", str(reasoning_text_count))
+        self.send_header(
+            "X-Hermes-Completion-Reasoning-Tool-Call-Text-Count",
+            str(completion_reasoning_tool_call_count),
+        )
         self.send_header("X-Hermes-Completion-Text-Prefix-Count", str(text_prefix_count))
         self.server.last_completion_prompt_suffix_count = 0
         self.end_headers()
@@ -372,6 +404,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         completion_reasoning_prefix: str = "",
         completion_text_prefix: str = "",
         completion_max_tokens_cap: int = 0,
+        completion_reasoning_tool_call_text: bool = False,
         chat_reasoning_tool_call_content: bool = False,
     ) -> None:
         super().__init__(server_address, NormalizingProxyHandler)
@@ -383,6 +416,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         self.completion_reasoning_prefix = completion_reasoning_prefix
         self.completion_text_prefix = completion_text_prefix
         self.completion_max_tokens_cap = completion_max_tokens_cap
+        self.completion_reasoning_tool_call_text = completion_reasoning_tool_call_text
         self.chat_reasoning_tool_call_content = chat_reasoning_tool_call_content
         self.last_completion_prompt_suffix_count = 0
 
@@ -411,6 +445,20 @@ class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
                             {
                                 "text": "",
                                 "reasoning_content": "{\"name\":\"demo.tool\",\"arguments\":{}}\n</tool_call>",
+                            }
+                        ]
+                    }
+                )
+                return
+            if isinstance(request_payload.get("prompt"), str) and "prose reasoning tool call" in str(
+                request_payload["prompt"]
+            ):
+                self.send_payload(
+                    {
+                        "choices": [
+                            {
+                                "text": "The requested action is complete.",
+                                "reasoning_content": '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>',
                             }
                         ]
                     }
@@ -490,6 +538,7 @@ def run_self_test() -> None:
         completion_reasoning_prefix="<tool_call>\n",
         completion_text_prefix="",
         completion_max_tokens_cap=512,
+        completion_reasoning_tool_call_text=True,
         chat_reasoning_tool_call_content=True,
     )
     proxy_thread = start_threaded_server(proxy)
@@ -572,6 +621,22 @@ def run_self_test() -> None:
         if reasoning_header != "1":
             raise AssertionError(f"unexpected reasoning text count: {reasoning_header!r}")
 
+        reasoning_tool_call_request = urllib.request.Request(
+            f"{proxy_base}/completions",
+            data=json.dumps({"model": "qwen-test", "prompt": "prose reasoning tool call", "logprobs": 0}).encode(
+                "utf-8"
+            ),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(reasoning_tool_call_request, timeout=5) as response:
+            reasoning_tool_call_completion = json.loads(response.read().decode("utf-8"))
+            reasoning_tool_call_header = response.headers["X-Hermes-Completion-Reasoning-Tool-Call-Text-Count"]
+        if reasoning_tool_call_completion["choices"][0]["text"] != '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>':
+            raise AssertionError(f"unexpected reasoning tool-call completion: {reasoning_tool_call_completion!r}")
+        if reasoning_tool_call_header != "1":
+            raise AssertionError(f"unexpected reasoning tool-call text count: {reasoning_tool_call_header!r}")
+
         prefixed_proxy = NormalizingProxyServer(
             ("127.0.0.1", 0),
             upstream_base,
@@ -650,6 +715,14 @@ def parse_args() -> argparse.Namespace:
         help="Optional cap for /v1/completions max_tokens before forwarding. Disabled when 0.",
     )
     parser.add_argument(
+        "--completion-reasoning-tool-call-text",
+        action="store_true",
+        help=(
+            "For /v1/completions, promote a complete tool_call block from reasoning_content into text "
+            "when text is blank or prose."
+        ),
+    )
+    parser.add_argument(
         "--chat-reasoning-tool-call-content",
         action="store_true",
         help="For /v1/chat/completions, promote a complete tool_call block from reasoning_content into message.content.",
@@ -676,6 +749,7 @@ def main() -> int:
         completion_reasoning_prefix=args.completion_reasoning_prefix,
         completion_text_prefix=args.completion_text_prefix,
         completion_max_tokens_cap=args.completion_max_tokens_cap,
+        completion_reasoning_tool_call_text=args.completion_reasoning_tool_call_text,
         chat_reasoning_tool_call_content=args.chat_reasoning_tool_call_content,
     )
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")
@@ -684,6 +758,8 @@ def main() -> int:
     print("integer completions logprobs are coerced to boolean for mlx_lm.server compatibility")
     if args.completion_max_tokens_cap > 0:
         print(f"completion max_tokens are capped at {args.completion_max_tokens_cap}")
+    if args.completion_reasoning_tool_call_text:
+        print("completion reasoning_content tool-call blocks are promoted into text")
     if args.chat_reasoning_tool_call_content:
         print("chat reasoning_content tool-call blocks are promoted into message.content")
     try:
