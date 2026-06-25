@@ -79,6 +79,23 @@ def validate_payload(data: dict, report_path: Path) -> list[str]:
     if data.get("status") == "scored-artifacts-present-repair-required":
         if any(row.get("execution_status") != "scored-artifact-present" for row in rows if isinstance(row, dict)):
             failures.append("repair-required status requires scored artifacts for every suite")
+    bridge = data.get("latest_bfcl_bridge_smoke")
+    if not isinstance(bridge, dict):
+        failures.append("latest_bfcl_bridge_smoke is missing")
+    else:
+        scores = bridge.get("scores", {})
+        if abs(float(scores.get("overall_acc", -1.0)) - 0.0033) > 0.0001:
+            failures.append("latest BFCL bridge smoke overall_acc must be 0.0033")
+        if abs(float(scores.get("simple_python_ast", -1.0)) - 0.1) > 0.0001:
+            failures.append("latest BFCL bridge smoke simple_python_ast must be 0.1")
+        if abs(float(scores.get("multiple_ast", -1.0)) - 0.1) > 0.0001:
+            failures.append("latest BFCL bridge smoke multiple_ast must be 0.1")
+        if abs(float(scores.get("parallel_ast", -1.0)) - 0.0) > 0.0001:
+            failures.append("latest BFCL bridge smoke parallel_ast must be 0.0")
+        if bridge.get("bfcl_claim_allowed") is not False:
+            failures.append("latest BFCL bridge smoke must keep BFCL claims blocked")
+        if not str(bridge.get("run_root", "")).startswith("/Volumes/PortableSSD/hermes-evals/standard-benchmarks/"):
+            failures.append("latest BFCL bridge smoke run_root must be SSD-backed")
     return failures
 
 

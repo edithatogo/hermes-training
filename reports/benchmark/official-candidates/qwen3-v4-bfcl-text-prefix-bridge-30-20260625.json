@@ -1,0 +1,73 @@
+{
+  "report_id": "qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+  "status": "scored-repair-evidence-fail-closed",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "model": "Qwen/Qwen3-4B-Instruct-2507-FC",
+  "runtime": {
+    "server": "mlx_lm.server",
+    "local_model": "Qwen/Qwen3-4B-MLX-4bit",
+    "adapter_path": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",
+    "proxy": "scripts/openai_normalizing_proxy.py",
+    "proxy_flags": [
+      "--model-override Qwen/Qwen3-4B-MLX-4bit",
+      "--completion-prompt-suffix <tool_call>",
+      "--completion-reasoning-prefix <tool_call>",
+      "--completion-text-prefix <tool_call>",
+      "--chat-reasoning-tool-call-content"
+    ],
+    "endpoint_observation": "BFCL used /v1/completions for generation. The direct chat probe returned native OpenAI tool_calls and did not exercise chat reasoning_content promotion."
+  },
+  "run": {
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+    "project_root": "reports/benchmark/official-candidates/bfcl-qwen3-v4-text-prefix-bridge-30-20260625",
+    "test_case_ids": {
+      "simple_python": 10,
+      "multiple": 10,
+      "parallel": 10
+    },
+    "partial_eval": true
+  },
+  "scores": {
+    "overall_acc": 0.0033,
+    "non_live_overall_acc": 0.0333,
+    "simple_python_ast": 0.1,
+    "multiple_ast": 0.1,
+    "parallel_ast": 0.0
+  },
+  "row_audit": {
+    "simple_python": {
+      "rows": 10,
+      "blank": 1,
+      "visible_tool": 1,
+      "reasoning_content": 9,
+      "prose_no_tool": 8
+    },
+    "multiple": {
+      "rows": 10,
+      "blank": 4,
+      "visible_tool": 1,
+      "reasoning_content": 9,
+      "prose_no_tool": 5
+    },
+    "parallel": {
+      "rows": 10,
+      "blank": 2,
+      "visible_tool": 1,
+      "reasoning_content": 9,
+      "prose_no_tool": 7
+    }
+  },
+  "decision": {
+    "runtime_bridge_helped": true,
+    "bfcl_claim_allowed": false,
+    "targeted_training_still_required": true,
+    "next_action": "Use the text-prefix bridge for any further BFCL diagnostics, but prioritize targeted BFCL SFT or prompt-profile repair for visible XML tool-call completion, multi-call ordering, and refusal/prose suppression before running another full selected slice."
+  },
+  "artifacts": {
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625/scores/data_overall.csv",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625/scores/data_non_live.csv",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625/scores"
+  },
+  "publication_boundary": "Selected 30-case BFCL repair evidence only. This is not a full BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass."
+}

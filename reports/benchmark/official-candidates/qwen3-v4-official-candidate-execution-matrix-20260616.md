@@ -98,3 +98,18 @@ source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/herme
 - Primary repair lane: `runtime/proxy extraction and generation contract repair before new SFT`
 - Report: `reports/benchmark/official-candidates/qwen3-v4-official-bfcl-failure-analysis-20260625.json`
 - Claim boundary: This is diagnostic repair planning only. The current scored BFCL selected-slice result remains overall 0.0065, non-live 0.0646, simple_python 0.265, multiple 0.17, and parallel 0.0.
+
+## Latest BFCL Bridge Smoke
+
+- Status: `scored-repair-evidence-fail-closed`
+- Overall 30-case accuracy: `0.0033`
+- Non-live 30-case accuracy: `0.0333`
+- simple_python AST: `0.100`
+- multiple AST: `0.100`
+- parallel AST: `0.000`
+- Runtime bridge helped: `true`
+- BFCL claim allowed: `false`
+- Targeted training still required: `true`
+- Run root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625`
+- Report: `reports/benchmark/official-candidates/qwen3-v4-bfcl-text-prefix-bridge-30-20260625.json`
+- Claim boundary: Selected 30-case BFCL repair evidence only. This is not a full BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.

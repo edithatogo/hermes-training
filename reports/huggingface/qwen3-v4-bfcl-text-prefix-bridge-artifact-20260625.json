@@ -1,0 +1,31 @@
+{
+  "artifact": "qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+  "repo": "edithatogo/hermes-training-artifacts",
+  "repo_type": "dataset",
+  "path_prefix": "qwen3-v4-bfcl-text-prefix-bridge-30-20260625/",
+  "local_stage": "/Volumes/PortableSSD/hermes-evals/hf-upload/qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+  "hf_revision": "807d4ce396208313cfe244ecd785054445092a49",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/807d4ce396208313cfe244ecd785054445092a49/qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+  "upload_commit": "5fab1aa2f314574bc46d2848ce25af1120f11540",
+  "cleanup_commit": "807d4ce396208313cfe244ecd785054445092a49",
+  "cleanup_note": "Removed accidental BFCL project-root .file_locks from the uploaded artifact prefix.",
+  "publication_boundary": "Evidence-only private artifact. This is a selected 30-case BFCL repair smoke, not a full BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+  "included": [
+    "reports/qwen3-v4-bfcl-text-prefix-bridge-30-20260625.json",
+    "reports/qwen3-v4-bfcl-text-prefix-bridge-30-20260625.md",
+    "reports/qwen3-v4-official-candidate-execution-matrix-20260616.json",
+    "reports/qwen3-v4-official-candidate-execution-matrix-20260616.md",
+    "raw/results/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/*.json",
+    "raw/scores/Qwen_Qwen3-4B-Instruct-2507-FC/non_live/*.json",
+    "raw/scores/data_*.csv",
+    "project-root/test_case_ids_to_generate.json"
+  ],
+  "scores": {
+    "overall_acc": 0.0033,
+    "non_live_overall_acc": 0.0333,
+    "simple_python_ast": 0.1,
+    "multiple_ast": 0.1,
+    "parallel_ast": 0.0
+  },
+  "claim_allowed": false
+}

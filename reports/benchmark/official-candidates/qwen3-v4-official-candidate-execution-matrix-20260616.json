@@ -22,6 +22,45 @@
     "targeted_repair_worthwhile": true,
     "visible_wrong_call_count": 61
   },
+  "latest_bfcl_bridge_smoke": {
+    "bfcl_claim_allowed": false,
+    "claim_boundary": "Selected 30-case BFCL repair evidence only. This is not a full BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+    "report": "reports/benchmark/official-candidates/qwen3-v4-bfcl-text-prefix-bridge-30-20260625.json",
+    "row_audit": {
+      "multiple": {
+        "blank": 4,
+        "prose_no_tool": 5,
+        "reasoning_content": 9,
+        "rows": 10,
+        "visible_tool": 1
+      },
+      "parallel": {
+        "blank": 2,
+        "prose_no_tool": 7,
+        "reasoning_content": 9,
+        "rows": 10,
+        "visible_tool": 1
+      },
+      "simple_python": {
+        "blank": 1,
+        "prose_no_tool": 8,
+        "reasoning_content": 9,
+        "rows": 10,
+        "visible_tool": 1
+      }
+    },
+    "run_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-bfcl-text-prefix-bridge-30-20260625",
+    "runtime_bridge_helped": true,
+    "scores": {
+      "multiple_ast": 0.1,
+      "non_live_overall_acc": 0.0333,
+      "overall_acc": 0.0033,
+      "parallel_ast": 0.0,
+      "simple_python_ast": 0.1
+    },
+    "status": "scored-repair-evidence-fail-closed",
+    "targeted_training_still_required": true
+  },
   "latest_coding_analysis": {
     "claim_boundary": "This analysis is diagnostic. The scored coding claim remains HumanEval pass@1 0.518 and HumanEval+ pass@1 0.482/0.488 depending on printed versus JSON precision.",
     "empty_completion_count": 23,

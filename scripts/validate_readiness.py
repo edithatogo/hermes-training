@@ -293,6 +293,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_bfcl_clean_rerun_report.py",
         ROOT / "scripts/build_bfcl_completion_suffix_diagnostic_report.py",
         ROOT / "scripts/validate_bfcl_completion_suffix_diagnostic_report.py",
+        ROOT / "scripts/validate_bfcl_text_prefix_bridge_report.py",
         ROOT / "scripts/build_safety_refusal_repair_run_report.py",
         ROOT / "scripts/validate_safety_refusal_repair_run_report.py",
         ROOT / "scripts/build_qwen3_v8_repair_run_report.py",
@@ -1095,6 +1096,18 @@ def check_bfcl_completion_suffix_diagnostic_report(failures: list[str]) -> None:
         ok("BFCL completion-suffix diagnostic report")
 
 
+def check_bfcl_text_prefix_bridge_report(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_bfcl_text_prefix_bridge_report.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"BFCL text-prefix bridge report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("BFCL text-prefix bridge report")
+
+
 def check_safety_refusal_repair_run_report(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_safety_refusal_repair_run_report.py")],
@@ -1308,6 +1321,7 @@ def main() -> int:
     check_bfcl_zero_score_failure_analysis(failures)
     check_bfcl_clean_rerun_report(failures)
     check_bfcl_completion_suffix_diagnostic_report(failures)
+    check_bfcl_text_prefix_bridge_report(failures)
     check_official_candidate_execution_matrix(failures)
     check_gemma4_no_thinking_dataset(failures)
     check_storage_layout(failures)

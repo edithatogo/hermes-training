@@ -30,6 +30,9 @@ BFCL_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-bf
 BFCL_FAILURE_ANALYSIS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-failure-analysis-20260625.json"
 )
+BFCL_TEXT_PREFIX_BRIDGE = (
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-bfcl-text-prefix-bridge-30-20260625.json"
+)
 CODING_RESULTS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
@@ -275,6 +278,19 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             "report": display_path(BFCL_FAILURE_ANALYSIS),
             "claim_boundary": analysis["repair_decision"]["claim_boundary"],
         }
+    if BFCL_TEXT_PREFIX_BRIDGE.exists():
+        bridge = load_json(BFCL_TEXT_PREFIX_BRIDGE)
+        matrix["latest_bfcl_bridge_smoke"] = {
+            "status": bridge["status"],
+            "scores": bridge["scores"],
+            "row_audit": bridge["row_audit"],
+            "runtime_bridge_helped": bridge["decision"]["runtime_bridge_helped"],
+            "bfcl_claim_allowed": bridge["decision"]["bfcl_claim_allowed"],
+            "targeted_training_still_required": bridge["decision"]["targeted_training_still_required"],
+            "report": display_path(BFCL_TEXT_PREFIX_BRIDGE),
+            "run_root": bridge["run"]["run_root"],
+            "claim_boundary": bridge["publication_boundary"],
+        }
     return matrix
 
 
@@ -381,6 +397,28 @@ def render_markdown(matrix: dict[str, Any]) -> str:
                 f"- Primary repair lane: `{bfcl['primary_repair_lane']}`",
                 f"- Report: `{bfcl['report']}`",
                 f"- Claim boundary: {bfcl['claim_boundary']}",
+                "",
+            ]
+        )
+    bfcl_bridge = matrix.get("latest_bfcl_bridge_smoke")
+    if isinstance(bfcl_bridge, dict):
+        scores = bfcl_bridge["scores"]
+        lines.extend(
+            [
+                "## Latest BFCL Bridge Smoke",
+                "",
+                f"- Status: `{bfcl_bridge['status']}`",
+                f"- Overall 30-case accuracy: `{float(scores['overall_acc']):.4f}`",
+                f"- Non-live 30-case accuracy: `{float(scores['non_live_overall_acc']):.4f}`",
+                f"- simple_python AST: `{float(scores['simple_python_ast']):.3f}`",
+                f"- multiple AST: `{float(scores['multiple_ast']):.3f}`",
+                f"- parallel AST: `{float(scores['parallel_ast']):.3f}`",
+                f"- Runtime bridge helped: `{str(bfcl_bridge['runtime_bridge_helped']).lower()}`",
+                f"- BFCL claim allowed: `{str(bfcl_bridge['bfcl_claim_allowed']).lower()}`",
+                f"- Targeted training still required: `{str(bfcl_bridge['targeted_training_still_required']).lower()}`",
+                f"- Run root: `{bfcl_bridge['run_root']}`",
+                f"- Report: `{bfcl_bridge['report']}`",
+                f"- Claim boundary: {bfcl_bridge['claim_boundary']}",
                 "",
             ]
         )
