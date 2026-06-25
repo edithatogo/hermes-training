@@ -1,0 +1,71 @@
+{
+  "artifacts": {
+    "evaluate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/logs/bfcl-evaluate-v11-handler-reasoning-bridge-30.log",
+    "generate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/logs/bfcl-generate-v11-handler-reasoning-bridge-30.log",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/scores/data_non_live.csv",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/scores/data_overall.csv",
+    "proxy_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/logs/openai-normalizing-proxy-8182.log",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/scores",
+    "server_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625/logs/mlx-server-8181.log"
+  },
+  "candidate": "qwen3-4b-strict-toolcall-v11-bfcl-selected-repair",
+  "decision": {
+    "bfcl_claim_allowed": false,
+    "next_action": "Build a narrow v12 parallel-call repair dataset and runtime smoke. Handler-level promotion fixed blank/prose result shape for the selected smoke, but selected parallel cases still score 0.00%.",
+    "target_met": false
+  },
+  "implementation": {
+    "local_bfcl_patch": "scripts/patch_bfcl_qwen_reasoning_bridge.py",
+    "patched_handler": "/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/lib/python3.12/site-packages/bfcl_eval/model_handler/local_inference/qwen_fc.py",
+    "patch_marker": "HERMES_REASONING_TOOL_CALL_BRIDGE",
+    "proxy_flags": [
+      "--completion-reasoning-tool-call-text",
+      "--completion-reasoning-prefix <tool_call>",
+      "--completion-text-prefix <tool_call>",
+      "--completion-max-tokens-cap 128"
+    ],
+    "runtime": {
+      "bfcl_python": "/Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/python",
+      "mlx_server_port": 8181,
+      "proxy_port": 8182
+    }
+  },
+  "publication_boundary": "Private fail-closed runtime repair evidence only. This is not a BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+  "row_audit": {
+    "multiple": {
+      "blank_result": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 10,
+      "rows": 10,
+      "visible_tool": 10
+    },
+    "parallel": {
+      "blank_result": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 7,
+      "rows": 10,
+      "visible_tool": 10
+    },
+    "simple_python": {
+      "blank_result": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 9,
+      "rows": 10,
+      "visible_tool": 10
+    }
+  },
+  "run_id": "qwen3-v11-bfcl-handler-reasoning-bridge-30-20260625",
+  "scores": {
+    "multiple_ast": 1.0,
+    "non_live_overall_acc": 0.3333,
+    "overall_acc": 0.0333,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 1.0
+  },
+  "status": "handler-bridge-output-shape-fixed-parallel-still-blocked",
+  "strict_gate": {
+    "allowed": false,
+    "reason": "selected parallel AST remains 0.00%; full official BFCL scoring remains unproven"
+  }
+}
