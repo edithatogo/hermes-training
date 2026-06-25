@@ -27,6 +27,9 @@ RUNTIME_ATTEMPTS = {
     / "reports/benchmark/official-candidates/qwen3-v4-ruler-long-context-runtime-attempt-20260624.json",
 }
 BFCL_RESULT = ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-result-20260624.json"
+BFCL_FAILURE_ANALYSIS = (
+    ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-failure-analysis-20260625.json"
+)
 CODING_RESULTS = (
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-rerun-20260624.json",
     ROOT / "reports/benchmark/official-candidates/qwen3-v4-official-coding-evalplus-result-20260624.json",
@@ -254,6 +257,24 @@ def build_matrix(queue_path: Path = DEFAULT_QUEUE) -> dict[str, Any]:
             "report": display_path(CODING_FAILURE_ANALYSIS),
             "claim_boundary": analysis["repair_decision"]["claim_boundary"],
         }
+    if BFCL_FAILURE_ANALYSIS.exists():
+        analysis = load_json(BFCL_FAILURE_ANALYSIS)
+        matrix["latest_bfcl_analysis"] = {
+            "scores": analysis["scores"],
+            "blank_final_result_count": analysis["failure_taxonomy"]["blank_final_result"]["count"],
+            "final_answer_instead_of_tool_call_count": analysis["failure_taxonomy"][
+                "final_answer_instead_of_tool_call"
+            ]["count"],
+            "hidden_reasoning_tool_call_not_scored_count": analysis["failure_taxonomy"][
+                "hidden_reasoning_tool_call_not_scored"
+            ]["count"],
+            "visible_wrong_call_count": analysis["failure_taxonomy"]["visible_wrong_call_count"]["count"],
+            "targeted_repair_worthwhile": analysis["repair_decision"]["targeted_repair_worthwhile"],
+            "fine_tune_immediately": analysis["repair_decision"]["fine_tune_immediately"],
+            "primary_repair_lane": analysis["repair_decision"]["primary_repair_lane"],
+            "report": display_path(BFCL_FAILURE_ANALYSIS),
+            "claim_boundary": analysis["repair_decision"]["claim_boundary"],
+        }
     return matrix
 
 
@@ -338,6 +359,28 @@ def render_markdown(matrix: dict[str, Any]) -> str:
                 f"- Fine-tune immediately: `{str(coding['fine_tune_immediately']).lower()}`",
                 f"- Report: `{coding['report']}`",
                 f"- Claim boundary: {coding['claim_boundary']}",
+                "",
+            ]
+        )
+    bfcl = matrix.get("latest_bfcl_analysis")
+    if isinstance(bfcl, dict):
+        lines.extend(
+            [
+                "## Latest BFCL Failure Analysis",
+                "",
+                f"- Overall selected accuracy: `{float(bfcl['scores']['overall_acc']):.4f}`",
+                f"- simple_python AST: `{float(bfcl['scores']['simple_python_ast']):.3f}`",
+                f"- multiple AST: `{float(bfcl['scores']['multiple_ast']):.3f}`",
+                f"- parallel AST: `{float(bfcl['scores']['parallel_ast']):.3f}`",
+                f"- Blank final results: `{bfcl['blank_final_result_count']}`",
+                f"- Final answers without tool calls: `{bfcl['final_answer_instead_of_tool_call_count']}`",
+                f"- Hidden reasoning tool calls not scored: `{bfcl['hidden_reasoning_tool_call_not_scored_count']}`",
+                f"- Visible wrong-call-count rows: `{bfcl['visible_wrong_call_count']}`",
+                f"- Targeted repair worthwhile: `{str(bfcl['targeted_repair_worthwhile']).lower()}`",
+                f"- Fine-tune immediately: `{str(bfcl['fine_tune_immediately']).lower()}`",
+                f"- Primary repair lane: `{bfcl['primary_repair_lane']}`",
+                f"- Report: `{bfcl['report']}`",
+                f"- Claim boundary: {bfcl['claim_boundary']}",
                 "",
             ]
         )

@@ -4,6 +4,24 @@
   "counts": {
     "scored-artifact-present": 4
   },
+  "latest_bfcl_analysis": {
+    "blank_final_result_count": 241,
+    "claim_boundary": "This is diagnostic repair planning only. The current scored BFCL selected-slice result remains overall 0.0065, non-live 0.0646, simple_python 0.265, multiple 0.17, and parallel 0.0.",
+    "final_answer_instead_of_tool_call_count": 347,
+    "fine_tune_immediately": false,
+    "hidden_reasoning_tool_call_not_scored_count": 588,
+    "primary_repair_lane": "runtime/proxy extraction and generation contract repair before new SFT",
+    "report": "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-failure-analysis-20260625.json",
+    "scores": {
+      "multiple_ast": 0.17,
+      "non_live_overall_acc": 0.0646,
+      "overall_acc": 0.0065,
+      "parallel_ast": 0.0,
+      "simple_python_ast": 0.265
+    },
+    "targeted_repair_worthwhile": true,
+    "visible_wrong_call_count": 61
+  },
   "latest_coding_analysis": {
     "claim_boundary": "This analysis is diagnostic. The scored coding claim remains HumanEval pass@1 0.518 and HumanEval+ pass@1 0.482/0.488 depending on printed versus JSON precision.",
     "empty_completion_count": 23,
@@ -50,7 +68,7 @@
       "completion_artifact": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores/data_overall.csv",
       "execution_status": "scored-artifact-present",
       "local_command": "REMOTE_OPENAI_BASE_URL=http://127.0.0.1:8168/v1 REMOTE_OPENAI_API_KEY=EMPTY REMOTE_OPENAI_TOKENIZER_PATH=Qwen/Qwen3-4B LOCAL_SERVER_ENDPOINT=127.0.0.1 LOCAL_SERVER_PORT=8168 /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl generate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --temperature 0 --skip-server-setup --num-threads 1 --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --include-input-log --allow-overwrite && /Volumes/PortableSSD/hermes-training-envs/bfcl-py312/bin/bfcl evaluate --model Qwen/Qwen3-4B-Instruct-2507-FC --test-category simple_python,multiple,parallel --result-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results --score-dir /Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores --partial-eval",
-      "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.",
+      "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. First run a bounded BFCL slice through scripts/openai_normalizing_proxy.py --chat-reasoning-tool-call-content to test whether complete reasoning_content tool calls can be promoted into scored message content without hiding wrong-function failures, then prioritize parallel multi-call training before making any BFCL or Hermes tool-call capability claim.",
       "output_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624",
       "queue_status": "missing",
       "suite": "official-bfcl"

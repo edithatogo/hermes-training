@@ -272,6 +272,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_official_candidate_suite_queue.py",
         ROOT / "scripts/check_official_bfcl_preflight.py",
         ROOT / "scripts/validate_official_bfcl_preflight.py",
+        ROOT / "scripts/validate_official_bfcl_failure_analysis.py",
         ROOT / "scripts/check_official_coding_preflight.py",
         ROOT / "scripts/validate_official_coding_preflight.py",
         ROOT / "scripts/validate_official_coding_failure_analysis.py",
@@ -938,6 +939,18 @@ def check_official_bfcl_preflight(failures: list[str]) -> None:
         ok("official BFCL preflight")
 
 
+def check_official_bfcl_failure_analysis(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_official_bfcl_failure_analysis.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"official BFCL failure analysis: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("official BFCL failure analysis")
+
+
 def check_official_coding_preflight(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_official_coding_preflight.py")],
@@ -1274,6 +1287,7 @@ def main() -> int:
     check_official_benchmark_manifests(failures)
     check_official_candidate_suite_queue(failures)
     check_official_bfcl_preflight(failures)
+    check_official_bfcl_failure_analysis(failures)
     check_official_coding_preflight(failures)
     check_official_coding_failure_analysis(failures)
     check_safety_refusal_suite(failures)

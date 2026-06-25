@@ -61,6 +61,45 @@ def normalize_chat_completion_payload(payload: dict[str, Any]) -> tuple[dict[str
     return payload, normalized_count
 
 
+def extract_first_tool_call_block(text: str) -> str:
+    """Return the first complete tool-call XML block from text, or an empty string."""
+    start = text.find("<tool_call>")
+    if start < 0:
+        return ""
+    end = text.find("</tool_call>", start)
+    if end < 0:
+        return ""
+    end += len("</tool_call>")
+    return text[start:end].strip()
+
+
+def promote_chat_reasoning_tool_call_content(payload: dict[str, Any]) -> tuple[dict[str, Any], int]:
+    """Promote a tool call from chat reasoning_content into scored message content."""
+    promoted_count = 0
+    choices = payload.get("choices")
+    if not isinstance(choices, list):
+        return payload, promoted_count
+
+    for choice in choices:
+        if not isinstance(choice, dict):
+            continue
+        message = choice.get("message")
+        if not isinstance(message, dict):
+            continue
+        content = message.get("content")
+        if isinstance(content, str) and "<tool_call>" in content:
+            continue
+        reasoning = message.get("reasoning_content")
+        if not isinstance(reasoning, str):
+            continue
+        tool_call = extract_first_tool_call_block(reasoning)
+        if not tool_call:
+            continue
+        message["content"] = tool_call
+        promoted_count += 1
+    return payload, promoted_count
+
+
 def coerce_mlx_logprobs_request(payload: dict[str, Any]) -> tuple[dict[str, Any], int]:
     """Coerce OpenAI-style integer logprobs to mlx_lm.server's boolean shape."""
     if "logprobs" not in payload or isinstance(payload.get("logprobs"), bool):
@@ -256,6 +295,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
 
         content = response.content
         normalized_count = 0
+        chat_reasoning_tool_call_count = 0
         reasoning_text_count = 0
         text_prefix_count = 0
         content_type = response.headers.get("Content-Type", "")
@@ -268,6 +308,8 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                 payload = response.json()
                 if isinstance(payload, dict):
                     payload, normalized_count = normalize_chat_completion_payload(payload)
+                    if self.server.chat_reasoning_tool_call_content:
+                        payload, chat_reasoning_tool_call_count = promote_chat_reasoning_tool_call_content(payload)
                     content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
             except ValueError:
                 pass
@@ -298,6 +340,7 @@ class NormalizingProxyHandler(BaseHTTPRequestHandler):
                 self.send_header(key, value)
         self.send_header("Content-Length", str(len(content)))
         self.send_header("X-Hermes-Normalized-Empty-Think-Count", str(normalized_count))
+        self.send_header("X-Hermes-Chat-Reasoning-Tool-Call-Content-Count", str(chat_reasoning_tool_call_count))
         self.send_header("X-Hermes-Coerced-Logprobs-Count", str(coerced_logprobs_count))
         self.send_header("X-Hermes-Overridden-Model-Count", str(overridden_model_count))
         self.send_header("X-Hermes-Capped-Max-Tokens-Count", str(capped_max_tokens_count))
@@ -329,6 +372,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         completion_reasoning_prefix: str = "",
         completion_text_prefix: str = "",
         completion_max_tokens_cap: int = 0,
+        chat_reasoning_tool_call_content: bool = False,
     ) -> None:
         super().__init__(server_address, NormalizingProxyHandler)
         self.upstream_base = upstream_base
@@ -339,6 +383,7 @@ class NormalizingProxyServer(ThreadingHTTPServer):
         self.completion_reasoning_prefix = completion_reasoning_prefix
         self.completion_text_prefix = completion_text_prefix
         self.completion_max_tokens_cap = completion_max_tokens_cap
+        self.chat_reasoning_tool_call_content = chat_reasoning_tool_call_content
         self.last_completion_prompt_suffix_count = 0
 
 
@@ -403,6 +448,13 @@ class SelfTestUpstreamHandler(BaseHTTPRequestHandler):
                             "role": "assistant",
                             "content": "<think>\n\n</think>\n<tool_call>{}</tool_call>",
                         }
+                    },
+                    {
+                        "message": {
+                            "role": "assistant",
+                            "content": "The answer is ready.",
+                            "reasoning_content": "<tool_call>\n{\"name\":\"demo.tool\",\"arguments\":{}}\n</tool_call>\nDone.",
+                        }
                     }
                 ]
             }
@@ -438,6 +490,7 @@ def run_self_test() -> None:
         completion_reasoning_prefix="<tool_call>\n",
         completion_text_prefix="",
         completion_max_tokens_cap=512,
+        chat_reasoning_tool_call_content=True,
     )
     proxy_thread = start_threaded_server(proxy)
     proxy_base = f"http://127.0.0.1:{proxy.server_port}/v1"
@@ -457,12 +510,18 @@ def run_self_test() -> None:
         with urllib.request.urlopen(request, timeout=5) as response:
             chat = json.loads(response.read().decode("utf-8"))
             normalized_header = response.headers["X-Hermes-Normalized-Empty-Think-Count"]
+            promoted_header = response.headers["X-Hermes-Chat-Reasoning-Tool-Call-Content-Count"]
             override_header = response.headers["X-Hermes-Overridden-Model-Count"]
         content = chat["choices"][0]["message"]["content"]
         if content != "<tool_call>{}</tool_call>":
             raise AssertionError(f"unexpected normalized content: {content!r}")
+        promoted_content = chat["choices"][1]["message"]["content"]
+        if promoted_content != '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>':
+            raise AssertionError(f"unexpected promoted content: {promoted_content!r}")
         if normalized_header != "1":
             raise AssertionError(f"unexpected normalization count: {normalized_header!r}")
+        if promoted_header != "1":
+            raise AssertionError(f"unexpected reasoning tool-call promotion count: {promoted_header!r}")
         if override_header != "1":
             raise AssertionError(f"unexpected model override count: {override_header!r}")
 
@@ -590,6 +649,11 @@ def parse_args() -> argparse.Namespace:
         default=0,
         help="Optional cap for /v1/completions max_tokens before forwarding. Disabled when 0.",
     )
+    parser.add_argument(
+        "--chat-reasoning-tool-call-content",
+        action="store_true",
+        help="For /v1/chat/completions, promote a complete tool_call block from reasoning_content into message.content.",
+    )
     parser.add_argument("--quiet", action="store_true", help="Suppress request logs.")
     parser.add_argument("--self-test", action="store_true", help="Run proxy self-tests and exit.")
     return parser.parse_args()
@@ -612,6 +676,7 @@ def main() -> int:
         completion_reasoning_prefix=args.completion_reasoning_prefix,
         completion_text_prefix=args.completion_text_prefix,
         completion_max_tokens_cap=args.completion_max_tokens_cap,
+        chat_reasoning_tool_call_content=args.chat_reasoning_tool_call_content,
     )
     print(f"proxy listening on http://{args.listen_host}:{args.listen_port}/v1")
     print(f"upstream: {args.upstream}")
@@ -619,6 +684,8 @@ def main() -> int:
     print("integer completions logprobs are coerced to boolean for mlx_lm.server compatibility")
     if args.completion_max_tokens_cap > 0:
         print(f"completion max_tokens are capped at {args.completion_max_tokens_cap}")
+    if args.chat_reasoning_tool_call_content:
+        print("chat reasoning_content tool-call blocks are promoted into message.content")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

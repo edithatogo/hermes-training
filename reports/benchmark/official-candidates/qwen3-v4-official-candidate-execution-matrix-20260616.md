@@ -18,7 +18,7 @@ No public broad benchmark claim until every required suite has scored artifacts 
 
 ### official-bfcl
 
-- Next action: Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.
+- Next action: Treat the selected-slice BFCL result as scored-but-failing repair evidence. First run a bounded BFCL slice through scripts/openai_normalizing_proxy.py --chat-reasoning-tool-call-content to test whether complete reasoning_content tool calls can be promoted into scored message content without hiding wrong-function failures, then prioritize parallel multi-call training before making any BFCL or Hermes tool-call capability claim.
 - Output root: `/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624`
 
 ```bash
@@ -82,3 +82,19 @@ source scripts/env.sh && EVALPLUS_MAX_MEMORY_BYTES=-1 /Volumes/PortableSSD/herme
 - Fine-tune immediately: `false`
 - Report: `reports/benchmark/official-candidates/qwen3-v4-official-coding-failure-analysis-20260624.json`
 - Claim boundary: This analysis is diagnostic. The scored coding claim remains HumanEval pass@1 0.518 and HumanEval+ pass@1 0.482/0.488 depending on printed versus JSON precision.
+
+## Latest BFCL Failure Analysis
+
+- Overall selected accuracy: `0.0065`
+- simple_python AST: `0.265`
+- multiple AST: `0.170`
+- parallel AST: `0.000`
+- Blank final results: `241`
+- Final answers without tool calls: `347`
+- Hidden reasoning tool calls not scored: `588`
+- Visible wrong-call-count rows: `61`
+- Targeted repair worthwhile: `true`
+- Fine-tune immediately: `false`
+- Primary repair lane: `runtime/proxy extraction and generation contract repair before new SFT`
+- Report: `reports/benchmark/official-candidates/qwen3-v4-official-bfcl-failure-analysis-20260625.json`
+- Claim boundary: This is diagnostic repair planning only. The current scored BFCL selected-slice result remains overall 0.0065, non-live 0.0646, simple_python 0.265, multiple 0.17, and parallel 0.0.

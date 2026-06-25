@@ -6,8 +6,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from scripts.openai_normalizing_proxy import (
     add_completions_prompt_suffix,
     cap_completions_max_tokens,
+    extract_first_tool_call_block,
     normalize_completions_reasoning_content,
     prefix_completions_text,
+    promote_chat_reasoning_tool_call_content,
 )
 
 
@@ -52,6 +54,36 @@ class OpenAINormalizingProxyTests(unittest.TestCase):
         self.assertEqual(updated["choices"][0]["text"], "<tool_call>\n{\"name\":\"demo.tool\"}")
         updated, count = prefix_completions_text(updated, "<tool_call>\n")
         self.assertEqual(count, 0)
+
+    def test_extract_first_tool_call_block(self) -> None:
+        text = 'prefix <tool_call>\n{"name":"demo.one"}\n</tool_call> suffix <tool_call>{}</tool_call>'
+        self.assertEqual(extract_first_tool_call_block(text), '<tool_call>\n{"name":"demo.one"}\n</tool_call>')
+        self.assertEqual(extract_first_tool_call_block("<tool_call>{}"), "")
+
+    def test_chat_reasoning_tool_call_content_promotes_when_content_is_not_tool_call(self) -> None:
+        payload = {
+            "choices": [
+                {
+                    "message": {
+                        "content": "The answer is ready.",
+                        "reasoning_content": '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>\nDone.',
+                    }
+                },
+                {
+                    "message": {
+                        "content": '<tool_call>\n{"name":"already.visible","arguments":{}}\n</tool_call>',
+                        "reasoning_content": '<tool_call>\n{"name":"hidden.tool","arguments":{}}\n</tool_call>',
+                    }
+                },
+            ]
+        }
+        updated, count = promote_chat_reasoning_tool_call_content(payload)
+        self.assertEqual(count, 1)
+        self.assertEqual(
+            updated["choices"][0]["message"]["content"],
+            '<tool_call>\n{"name":"demo.tool","arguments":{}}\n</tool_call>',
+        )
+        self.assertIn("already.visible", updated["choices"][1]["message"]["content"])
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@
     "non_live_python_simple_ast": 0.265,
     "overall_acc": 0.0065
   },
-  "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.",
+  "next_action": "Treat the selected-slice BFCL result as scored-but-failing repair evidence. First run a bounded BFCL slice through scripts/openai_normalizing_proxy.py --chat-reasoning-tool-call-content to test whether complete reasoning_content tool calls can be promoted into scored message content without hiding wrong-function failures, then prioritize parallel multi-call training before making any BFCL or Hermes tool-call capability claim.",
   "publication_boundary": "Scored evidence for the selected local official-candidate BFCL slice only. This is not a full BFCL leaderboard claim, not a broad BFCL capability claim, and not a passing Hermes tool-call result.",
   "result_row_audit": {
     "multiple": {
@@ -49,6 +49,7 @@
       "tool_call_rows": 113
     }
   },
+  "result_row_audit_note": "Counts refer to the BFCL-scored assistant content field. The selected failure analysis separately counts tool_call blocks emitted in reasoning_content.",
   "run_id": "qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624",
   "runtime": {
     "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v4-targeted/lora_adapter",

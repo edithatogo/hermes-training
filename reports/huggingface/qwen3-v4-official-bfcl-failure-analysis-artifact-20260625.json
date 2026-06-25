@@ -1,0 +1,32 @@
+{
+  "artifact": "qwen3-v4-official-bfcl-failure-analysis-20260625",
+  "date": "2026-06-25",
+  "hf_dataset": "edithatogo/hermes-training-artifacts",
+  "hf_path": "qwen3-v4-official-bfcl-failure-analysis-20260625",
+  "hf_revision": "1d3f724ea93e258fc821789605cbeff5c533e291",
+  "hf_url": "https://huggingface.co/datasets/edithatogo/hermes-training-artifacts/tree/1d3f724ea93e258fc821789605cbeff5c533e291/qwen3-v4-official-bfcl-failure-analysis-20260625",
+  "publication_boundary": "Evidence-only private artifact. This is diagnostic BFCL failure analysis for the scored selected-slice rerun, not a new BFCL score or tool-calling capability claim.",
+  "included_evidence": [
+    "qwen3-v4-official-bfcl-failure-analysis-20260625.json",
+    "qwen3-v4-official-bfcl-failure-analysis-20260625.md",
+    "qwen3-v4-official-bfcl-result-20260624.json",
+    "qwen3-v4-official-bfcl-result-20260624.md",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.json",
+    "qwen3-v4-official-candidate-execution-matrix-20260616.md",
+    "SSD-backed BFCL selected-slice result JSONL files",
+    "SSD-backed BFCL selected-slice score JSON/CSV files"
+  ],
+  "gate_summary": {
+    "overall_acc": 0.0065,
+    "non_live_overall_acc": 0.0646,
+    "simple_python_ast": 0.265,
+    "multiple_ast": 0.17,
+    "parallel_ast": 0.0,
+    "blank_final_result": 241,
+    "final_answer_instead_of_tool_call": 347,
+    "hidden_reasoning_tool_call_not_scored": 588,
+    "visible_wrong_call_count": 61,
+    "targeted_repair_worthwhile": true,
+    "fine_tune_immediately": false
+  }
+}

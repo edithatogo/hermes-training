@@ -32,7 +32,12 @@ This is scored evidence for the selected local official-candidate BFCL slice onl
 
 The selected run completed generation for all `800/800` rows with no endpoint-error pattern. Earlier reachability and local concurrency blockers were cleared by serving the v4 MLX adapter behind `/v1`, bounding the prompt cache, and running BFCL with `--num-threads 1`.
 
-## Row Audit
+## Visible Content Row Audit
+
+This audit counts the BFCL-scored assistant `content` field. A follow-up
+failure-shape audit found many rows where the local MLX runtime placed a
+`<tool_call>` block in `reasoning_content` while leaving prose or blank text in
+the scored `content` field.
 
 | Category | Rows | Blank rows | Tool-call rows | Endpoint-error-like rows |
 |---|---:|---:|---:|---:|
@@ -51,4 +56,9 @@ The selected run completed generation for all `800/800` rows with no endpoint-er
 
 ## Next Action
 
-Treat this as scored-but-failing repair evidence. Prioritize parallel tool-call training and blank-output reduction before making any BFCL or Hermes tool-call capability claim.
+Treat this as scored-but-failing repair evidence. First rerun a bounded slice
+through `scripts/openai_normalizing_proxy.py --chat-reasoning-tool-call-content`
+to test whether promoting complete `reasoning_content` tool calls into scored
+message content improves decoded call counts without hiding wrong-function
+failures. Then prioritize parallel multi-call training before making any BFCL
+or Hermes tool-call capability claim.

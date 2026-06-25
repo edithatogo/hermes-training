@@ -1,0 +1,170 @@
+{
+  "artifact": "qwen3-v4-official-bfcl-failure-analysis-20260625",
+  "candidate": "qwen3-4b-strict-toolcall-v4-targeted",
+  "category_analysis": {
+    "multiple": {
+      "accuracy": 0.17,
+      "correct": 34,
+      "decoded_empty_rows": 162,
+      "decoded_one_call_invalid_rows": 4,
+      "dominant_error_count": 162,
+      "dominant_error_type": "multiple_function_checker:wrong_count",
+      "invalid_rows": 166,
+      "raw_blank_rows": 92,
+      "raw_text_no_tool_call_rows": 70,
+      "reasoning_tool_call_rows": 162,
+      "repair_note": "The same reasoning/final-channel split dominates. Multiple-choice function selection is not the first-order issue until visible tool-call extraction is fixed.",
+      "rows": 200
+    },
+    "parallel": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "decoded_empty_rows": 139,
+      "decoded_one_call_invalid_rows": 61,
+      "dominant_error_count": 200,
+      "dominant_error_type": "parallel_function_checker_no_order:wrong_count",
+      "invalid_rows": 200,
+      "raw_blank_rows": 33,
+      "raw_text_no_tool_call_rows": 106,
+      "reasoning_tool_call_rows": 139,
+      "repair_note": "Parallel calls fail both because many rows decode zero calls and because visible tool-call rows usually emit only one call when BFCL expects multiple calls.",
+      "rows": 200
+    },
+    "simple_python": {
+      "accuracy": 0.265,
+      "correct": 106,
+      "decoded_empty_rows": 287,
+      "decoded_one_call_invalid_rows": 7,
+      "dominant_error_count": 287,
+      "dominant_error_type": "simple_function_checker:wrong_count",
+      "invalid_rows": 294,
+      "raw_blank_rows": 116,
+      "raw_text_no_tool_call_rows": 171,
+      "reasoning_tool_call_rows": 287,
+      "repair_note": "Most failures are not argument-level errors. The model often places a tool call in hidden/reasoning content while the final scored result is blank or natural language, causing BFCL to decode zero calls.",
+      "rows": 400
+    }
+  },
+  "failure_taxonomy": {
+    "blank_final_result": {
+      "categories": {
+        "multiple": 92,
+        "parallel": 33,
+        "simple_python": 116
+      },
+      "count": 241,
+      "definition": "Final result is blank or whitespace. BFCL decodes zero calls."
+    },
+    "final_answer_instead_of_tool_call": {
+      "categories": {
+        "multiple": 70,
+        "parallel": 106,
+        "simple_python": 171
+      },
+      "count": 347,
+      "definition": "Final result is non-empty natural language without <tool_call> tags. BFCL decodes zero calls."
+    },
+    "hidden_reasoning_tool_call_not_scored": {
+      "categories": {
+        "multiple": 162,
+        "parallel": 139,
+        "simple_python": 287
+      },
+      "count": 588,
+      "definition": "A <tool_call> appears in reasoning_content for rows where the final result is often blank or natural language; BFCL scores model_result_raw/final result, not hidden reasoning content."
+    },
+    "visible_argument_or_value_error": {
+      "categories": {
+        "multiple": 4,
+        "parallel": 0,
+        "simple_python": 7
+      },
+      "count": 11,
+      "definition": "Final result decodes at least one call but fails value/type/missing-required checks."
+    },
+    "visible_wrong_call_count": {
+      "categories": {
+        "multiple": 0,
+        "parallel": 61,
+        "simple_python": 0
+      },
+      "count": 61,
+      "definition": "Final result contains a visible decodable tool call, but BFCL still fails wrong_count. This is concentrated in parallel cases that require multiple calls."
+    }
+  },
+  "repair_decision": {
+    "claim_boundary": "This is diagnostic repair planning only. The current scored BFCL selected-slice result remains overall 0.0065, non-live 0.0646, simple_python 0.265, multiple 0.17, and parallel 0.0.",
+    "fine_tune_immediately": false,
+    "implemented_runtime_repair": {
+      "behavior": "Promotes one complete reasoning_content <tool_call> block into message.content when message.content is not already tool-call shaped.",
+      "default_enabled": false,
+      "flag": "--chat-reasoning-tool-call-content",
+      "script": "scripts/openai_normalizing_proxy.py"
+    },
+    "primary_repair_lane": "runtime/proxy extraction and generation contract repair before new SFT",
+    "reason": "The dominant BFCL failure is not subtle schema or argument quality. It is the mismatch between hidden reasoning_content tool calls and scored final result, plus final natural-language answers and blank final results. A narrow proxy bridge now exists for bounded rerun proof; parallel then needs an additional multi-call generation repair.",
+    "recommended_order": [
+      "Use scripts/openai_normalizing_proxy.py --chat-reasoning-tool-call-content for a bounded BFCL runtime bridge experiment that promotes a single valid reasoning_content <tool_call> into final result only when final result is blank or natural language.",
+      "Rerun a small BFCL simple_python/multiple smoke to measure how many decoded-empty rows become visible tool calls.",
+      "Add a parallel-specific prompt/runtime profile that explicitly requires one <tool_call> block per requested action and forbids summarizing actions in text.",
+      "Only after runtime extraction is measured, materialize SFT repair data for parallel multi-call count and for visible value/type errors.",
+      "Keep all BFCL claims fail-closed until selected-slice accuracy improves on scored BFCL artifacts."
+    ],
+    "targeted_repair_worthwhile": true
+  },
+  "representative_examples": {
+    "multiple_blank": {
+      "decoded": [],
+      "error_type": "multiple_function_checker:wrong_count",
+      "id": "multiple_0",
+      "raw": ""
+    },
+    "parallel_single_call_for_multi_call_request": {
+      "decoded": [
+        {
+          "calculate_resistance": {
+            "area": 0.01,
+            "length": 5,
+            "resistivity": "copper"
+          }
+        }
+      ],
+      "error_type": "parallel_function_checker_no_order:wrong_count",
+      "id": "parallel_2",
+      "raw": "<tool_call>\n{\"name\": \"calculate_resistance\", \"arguments\": {\"length\": 5, \"area\": 0.01, \"resistivity\": \"copper\"}}\n</tool_call>"
+    },
+    "simple_python_final_answer": {
+      "decoded": [],
+      "error_type": "simple_function_checker:wrong_count",
+      "id": "simple_python_1",
+      "raw": "The factorial of 5 is 120."
+    },
+    "simple_python_value_error": {
+      "decoded": [
+        {
+          "estimate_population": {
+            "country": "China",
+            "species": "panda",
+            "year": 2023
+          }
+        }
+      ],
+      "error_type": "value_error:others",
+      "id": "simple_python_201",
+      "raw": "<tool_call>\n{\"name\": \"estimate_population\", \"arguments\": {\"species\": \"panda\", \"country\": \"China\", \"year\": 2023}}\n</tool_call>"
+    }
+  },
+  "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/results",
+  "run_id": "qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624",
+  "scope": "selected official BFCL categories: simple_python,multiple,parallel with partial evaluation enabled",
+  "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v4-peft-official-bfcl-text-prefix-selected-20260624/scores",
+  "scores": {
+    "multiple_ast": 0.17,
+    "non_live_overall_acc": 0.0646,
+    "overall_acc": 0.0065,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 0.265
+  },
+  "source_result": "reports/benchmark/official-candidates/qwen3-v4-official-bfcl-result-20260624.json",
+  "suite": "official-bfcl"
+}
