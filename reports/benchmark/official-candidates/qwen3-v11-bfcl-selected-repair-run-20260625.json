@@ -1,0 +1,83 @@
+{
+  "adapter": "gemma4/experiments/qwen3-4b-strict-toolcall-v11-bfcl-selected-repair/lora_adapter",
+  "artifacts": {
+    "evaluate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/logs/bfcl-evaluate-v11-bridge-30.log",
+    "generate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/logs/bfcl-generate-v11-bridge-30.log",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/scores/data_non_live.csv",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/scores/data_overall.csv",
+    "proxy_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/logs/openai-normalizing-proxy-8178.log",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/scores",
+    "server_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v11-bfcl-text-prefix-bridge-30-20260625/logs/mlx-server-8177.log",
+    "training_log": "gemma4/experiments/qwen3-4b-strict-toolcall-v11-bfcl-selected-repair/logs/train-20260625.log"
+  },
+  "base_bridge_scores": {
+    "multiple_ast": 0.1,
+    "non_live_overall_acc": 0.0333,
+    "overall_acc": 0.0033,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 0.1
+  },
+  "candidate": "qwen3-4b-strict-toolcall-v11-bfcl-selected-repair",
+  "data": "gemma4/data/strict_tool_call/expanded_splits_v11_bfcl_selected_repair",
+  "decision": {
+    "bfcl_claim_allowed": false,
+    "next_action": "Do not expand v11 to the full selected BFCL slice. The adapter trained successfully but did not repair the scored visible-content channel; prioritize runtime/content-channel extraction or a generation-template fix before further SFT.",
+    "publication_allowed": false,
+    "target_met": false
+  },
+  "delta_from_base_bridge": {
+    "multiple_ast": -0.1,
+    "non_live_overall_acc": -0.025,
+    "overall_acc": -0.0025,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 0.0
+  },
+  "publication_boundary": "Private fail-closed evidence only. This is not a BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+  "row_audit": {
+    "multiple": {
+      "blank_result": 3,
+      "decoded_empty": 10,
+      "prose_no_tool": 7,
+      "reasoning_tool": 10,
+      "rows": 10,
+      "visible_tool": 0
+    },
+    "parallel": {
+      "blank_result": 1,
+      "decoded_empty": 7,
+      "decoded_one_call_invalid": 3,
+      "prose_no_tool": 6,
+      "reasoning_tool": 7,
+      "rows": 10,
+      "visible_tool": 3
+    },
+    "simple_python": {
+      "blank_result": 1,
+      "decoded_empty": 9,
+      "prose_no_tool": 8,
+      "reasoning_tool": 9,
+      "rows": 10,
+      "visible_tool": 1
+    }
+  },
+  "run_id": "qwen3-v11-bfcl-text-prefix-bridge-30-20260625",
+  "scores": {
+    "multiple_ast": 0.0,
+    "non_live_overall_acc": 0.0083,
+    "overall_acc": 0.0008,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 0.1
+  },
+  "status": "trained-but-bfcl-bridge-regressed",
+  "training_observation": {
+    "duration_s": 475.1,
+    "final_train_loss": 0.596,
+    "final_val_loss": 0.791,
+    "iters": 180,
+    "peak_memory_gb": 3.794,
+    "train_samples": 820,
+    "trained_tokens": 53898,
+    "valid_samples": 5
+  }
+}

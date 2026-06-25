@@ -303,6 +303,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_qwen3_v9_repair_run_report.py",
         ROOT / "scripts/build_qwen3_v10_repair_run_report.py",
         ROOT / "scripts/validate_qwen3_v10_repair_run_report.py",
+        ROOT / "scripts/validate_qwen3_v11_bfcl_repair_run_report.py",
         ROOT / "scripts/normalize_refusal_marker_echoes.py",
         ROOT / "scripts/build_qwen3_v9_runtime_refusal_normalization_report.py",
         ROOT / "scripts/validate_qwen3_v9_runtime_refusal_normalization_report.py",
@@ -1169,6 +1170,18 @@ def check_qwen3_v10_repair_run_report(failures: list[str]) -> None:
         ok("qwen3 v10 repair-run report")
 
 
+def check_qwen3_v11_bfcl_repair_run_report(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_qwen3_v11_bfcl_repair_run_report.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"qwen3 v11 BFCL repair-run report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("qwen3 v11 BFCL repair-run report")
+
+
 def check_qwen3_v9_runtime_refusal_normalization_report(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_qwen3_v9_runtime_refusal_normalization_report.py")],
@@ -1328,6 +1341,7 @@ def main() -> int:
     check_qwen3_v8_repair_run_report(failures)
     check_qwen3_v9_repair_run_report(failures)
     check_qwen3_v10_repair_run_report(failures)
+    check_qwen3_v11_bfcl_repair_run_report(failures)
     check_qwen3_v9_runtime_refusal_normalization_report(failures)
     check_qwen3_v9_runtime_safety_profile_selection(failures)
     check_ruler_long_context_preflight(failures)
