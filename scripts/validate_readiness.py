@@ -288,6 +288,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/validate_qwen3_v9_repair_dataset.py",
         ROOT / "scripts/validate_qwen3_v10_repair_dataset.py",
         ROOT / "scripts/validate_qwen3_v11_bfcl_repair_dataset.py",
+        ROOT / "scripts/validate_qwen3_v12_bfcl_parallel_repair_dataset.py",
         ROOT / "scripts/build_bfcl_zero_score_failure_analysis.py",
         ROOT / "scripts/validate_bfcl_zero_score_failure_analysis.py",
         ROOT / "scripts/build_bfcl_clean_rerun_report.py",
@@ -306,6 +307,7 @@ def check_shell_syntax(failures: list[str]) -> None:
         ROOT / "scripts/build_qwen3_v10_repair_run_report.py",
         ROOT / "scripts/validate_qwen3_v10_repair_run_report.py",
         ROOT / "scripts/validate_qwen3_v11_bfcl_repair_run_report.py",
+        ROOT / "scripts/validate_qwen3_v12_bfcl_parallel_repair_run_report.py",
         ROOT / "scripts/normalize_refusal_marker_echoes.py",
         ROOT / "scripts/build_qwen3_v9_runtime_refusal_normalization_report.py",
         ROOT / "scripts/validate_qwen3_v9_runtime_refusal_normalization_report.py",
@@ -1076,6 +1078,18 @@ def check_qwen3_v11_bfcl_repair_dataset(failures: list[str]) -> None:
         ok("qwen3 v11 BFCL repair dataset")
 
 
+def check_qwen3_v12_bfcl_parallel_repair_dataset(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_qwen3_v12_bfcl_parallel_repair_dataset.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"qwen3 v12 BFCL parallel repair dataset: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("qwen3 v12 BFCL parallel repair dataset")
+
+
 def check_bfcl_zero_score_failure_analysis(failures: list[str]) -> None:
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts/validate_bfcl_zero_score_failure_analysis.py")],
@@ -1212,6 +1226,18 @@ def check_qwen3_v11_bfcl_repair_run_report(failures: list[str]) -> None:
         fail(f"qwen3 v11 BFCL repair-run report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
     else:
         ok("qwen3 v11 BFCL repair-run report")
+
+
+def check_qwen3_v12_bfcl_parallel_repair_run_report(failures: list[str]) -> None:
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/validate_qwen3_v12_bfcl_parallel_repair_run_report.py")],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        fail(f"qwen3 v12 BFCL parallel repair-run report: {result.stdout.strip()} {result.stderr.strip()}".strip(), failures)
+    else:
+        ok("qwen3 v12 BFCL parallel repair-run report")
 
 
 def check_qwen3_v9_runtime_refusal_normalization_report(failures: list[str]) -> None:
@@ -1369,11 +1395,13 @@ def main() -> int:
     check_qwen3_v9_repair_dataset(failures)
     check_qwen3_v10_repair_dataset(failures)
     check_qwen3_v11_bfcl_repair_dataset(failures)
+    check_qwen3_v12_bfcl_parallel_repair_dataset(failures)
     check_safety_refusal_repair_run_report(failures)
     check_qwen3_v8_repair_run_report(failures)
     check_qwen3_v9_repair_run_report(failures)
     check_qwen3_v10_repair_run_report(failures)
     check_qwen3_v11_bfcl_repair_run_report(failures)
+    check_qwen3_v12_bfcl_parallel_repair_run_report(failures)
     check_qwen3_v9_runtime_refusal_normalization_report(failures)
     check_qwen3_v9_runtime_safety_profile_selection(failures)
     check_ruler_long_context_preflight(failures)

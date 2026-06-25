@@ -1,0 +1,80 @@
+{
+  "artifacts": {
+    "adapter_config": "/Volumes/PortableSSD/GitHub/hermes-training/gemma4/experiments/qwen3-4b-strict-toolcall-v12-bfcl-parallel-repair/lora_adapter/adapter_config.json",
+    "adapter_path": "/Volumes/PortableSSD/GitHub/hermes-training/gemma4/experiments/qwen3-4b-strict-toolcall-v12-bfcl-parallel-repair/lora_adapter",
+    "evaluate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/logs/bfcl-evaluate-v12-parallel-repair-30.log",
+    "generate_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/logs/bfcl-generate-v12-parallel-repair-30.log",
+    "non_live_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/scores/data_non_live.csv",
+    "overall_csv": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/scores/data_overall.csv",
+    "proxy_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/logs/openai-normalizing-proxy-8184.log",
+    "result_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/results",
+    "score_root": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/scores",
+    "server_log": "/Volumes/PortableSSD/hermes-evals/standard-benchmarks/bfcl/qwen3-v12-bfcl-parallel-repair-30-20260626/logs/mlx-server-8183.log",
+    "training_log": "/Volumes/PortableSSD/hermes-evals/training/qwen3-v12-bfcl-parallel-repair-20260626/train.log"
+  },
+  "candidate": "qwen3-4b-strict-toolcall-v12-bfcl-parallel-repair",
+  "decision": {
+    "bfcl_claim_allowed": false,
+    "next_action": "Treat v12 as completed-no-promotion. The next repair should test runtime continuation or a stronger parallel-only curriculum because the model still emits exactly one call for every selected parallel prompt.",
+    "target_met": false
+  },
+  "implementation": {
+    "dataset": "gemma4/data/strict_tool_call/expanded_splits_v12_bfcl_parallel_repair",
+    "local_bfcl_patch": "scripts/patch_bfcl_qwen_reasoning_bridge.py",
+    "materializer": "gemma4/data/strict_tool_call/tools/materialize_bfcl_parallel_repair_splits_v12.py",
+    "repair_rows": 10,
+    "train_config": "gemma4/scripts/train_config.qwen3-4b.strict-toolcall-v12-bfcl-parallel-repair.yaml",
+    "training": {
+      "final_train_loss": 0.947,
+      "final_val_loss": 0.993,
+      "iters": 80,
+      "learning_rate": 1e-05,
+      "peak_mem_gb": 3.77,
+      "trainable_parameters": 3670016
+    }
+  },
+  "publication_boundary": "Private fail-closed runtime repair evidence only. This is not a BFCL leaderboard score, not a passing Hermes tool-call claim, and not a model publication gate pass.",
+  "row_audit": {
+    "multiple": {
+      "blank_result": 0,
+      "multi_tool_block": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 10,
+      "rows": 10,
+      "single_tool_block": 10,
+      "visible_tool": 10
+    },
+    "parallel": {
+      "blank_result": 0,
+      "bfcl_error": "Wrong number of functions.",
+      "multi_tool_block": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 7,
+      "rows": 10,
+      "single_tool_block": 10,
+      "visible_tool": 10
+    },
+    "simple_python": {
+      "blank_result": 0,
+      "multi_tool_block": 0,
+      "prose_no_tool": 0,
+      "reasoning_tool": 9,
+      "rows": 10,
+      "single_tool_block": 10,
+      "visible_tool": 10
+    }
+  },
+  "run_id": "qwen3-v12-bfcl-parallel-repair-30-20260626",
+  "scores": {
+    "multiple_ast": 1.0,
+    "non_live_overall_acc": 0.3333,
+    "overall_acc": 0.0333,
+    "parallel_ast": 0.0,
+    "simple_python_ast": 1.0
+  },
+  "status": "completed-no-promotion-parallel-single-call-collapse",
+  "strict_gate": {
+    "allowed": false,
+    "reason": "selected parallel AST remains 0.00%; all selected parallel rows still emit exactly one tool call"
+  }
+}
