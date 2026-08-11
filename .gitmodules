@@ -7,3 +7,9 @@
 [submodule "ollama-pack"]
 	path = ollama-pack
 	url = https://github.com/edithatogo/hermes-ollama-pack.git
+
+[submodule ".agents/plugins/conductor"]
+	path = .agents/plugins/conductor
+	url = https://github.com/gemini-cli-extensions/conductor.git
+	branch = main
+
